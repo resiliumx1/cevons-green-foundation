@@ -29,7 +29,7 @@ export function TrustStrip() {
               </span>
               <div className="min-w-0">
                 <p className="text-sm md:text-base font-bold text-cevons-dark leading-tight">{title}</p>
-                <p className="text-xs md:text-sm text-cevons-dark/75 truncate">{sub}</p>
+                <p className="text-xs md:text-sm text-cevons-dark/75 leading-snug">{sub}</p>
               </div>
             </li>
           ))}
