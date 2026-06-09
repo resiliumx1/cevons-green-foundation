@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Droplet, Home, Building, AlertTriangle, Wrench, ClipboardCheck, Trash2, Waves } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-septic.jpg";
-import imgRel0 from "@/assets/garbage.jpg";
-import imgRel1 from "@/assets/toilet.jpg";
-import imgRel2 from "@/assets/septic.jpg";
+import imgRel0 from "@/assets/svc-garbage.jpg";
+import imgRel1 from "@/assets/svc-toilet.jpg";
+import imgRel2 from "@/assets/svc-grease.jpg";
 
 const PAGE_TITLE = "Septic Services in Guyana | CEVON'S";
 const PAGE_DESC = "Septic tank pumping, clearance, and maintenance for homes across Guyana — safe handling and responsible disposal every visit.";
