@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { TrustStrip } from "./TrustStrip";
 import { PageTransition } from "./motion/PageTransition";
+import { ServiceAssistant } from "./chat/ServiceAssistant";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       </main>
       <TrustStrip />
       <Footer />
+      <ServiceAssistant />
     </div>
   );
 }
