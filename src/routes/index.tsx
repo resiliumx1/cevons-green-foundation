@@ -26,6 +26,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 const heroHomepage = "/assets/heroes/hero-homepage.webp";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
+import { HomeHero } from "@/components/home/HomeHero";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -102,82 +103,8 @@ function HeroSwoosh() {
 function HomePage() {
   return (
     <SiteLayout>
-      {/* HERO */}
-      <section className="relative overflow-hidden min-h-[78vh] flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src={heroHomepage}
-            alt="CEVON'S environmental services fleet and team in Guyana"
-            className="size-full object-cover hero-img"
-            width={1920}
-            height={1080}
-            fetchPriority="high"
-            decoding="sync"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/90 via-cevons-deep-green/65 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-cevons-deep-green/40 via-transparent to-transparent" />
-          <BrandedImageBadge
-            position="bottom-right"
-            tone="glass"
-            size="md"
-            variant="mark"
-            label="Since 1997"
-            className="hidden md:inline-flex bottom-6 right-6"
-          />
-        </div>
+      <HomeHero />
 
-        <div className="container-cevons relative py-24 md:py-32 lg:py-36 z-20">
-          <div className="max-w-2xl">
-            <Reveal variant="up" as="p" className="text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
-              <Leaf className="size-4" /> Environmental Services Inc.
-            </Reveal>
-            <Reveal variant="up" delay={0.08} as="h1" className="text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight">
-              Environmental services built for Guyana's homes, businesses &amp; industries.
-            </Reveal>
-            <Reveal variant="up" delay={0.2} as="p" className="mt-6 text-white/85 text-base md:text-lg max-w-xl">
-              From residential collection and portable toilets to skip bins, septic services, waste oil, scrap metal, wastewater, and industrial disposal — Cevons helps Guyana manage waste safely, reliably, and responsibly.
-            </Reveal>
-            <Reveal variant="up" delay={0.32} className="mt-8 flex flex-wrap gap-3">
-              <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
-                <WhatsApp className="size-5" />
-                WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5">
-                <Calendar className="size-5" />
-                Schedule a Service
-              </a>
-            </Reveal>
-            <Reveal variant="up" delay={0.44} className="mt-5">
-              <a href="/request-service" className="inline-flex items-center gap-1 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors">
-                Request a Quote <ArrowRight className="size-4" />
-              </a>
-            </Reveal>
-
-          </div>
-        </div>
-
-
-        <HeroSwoosh />
-      </section>
-
-      {/* TRUST BAR */}
-      <section className="bg-white border-b border-cevons-border">
-        <div className="container-cevons">
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-cevons-border">
-            {trust.map(({ icon: Icon, t, s }) => (
-              <li key={t} className="flex items-center gap-3 px-2 py-5 lg:py-6 lg:px-5">
-                <span className="shrink-0 size-11 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
-                  <Icon className="size-5" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-wider text-cevons-muted font-bold">{t}</p>
-                  <p className="text-sm text-cevons-dark font-semibold leading-tight">{s}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
 
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />
