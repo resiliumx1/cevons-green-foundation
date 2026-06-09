@@ -1,71 +1,173 @@
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type HTMLMotionProps,
+  type Variants,
+} from "framer-motion";
+import type { ElementType, ReactNode } from "react";
 
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-};
+/**
+ * Cohesive scroll-reveal system for the public site.
+ *
+ * - <Reveal variant="..."> wraps a block in a single motion element that
+ *   reveals once when it enters the viewport.
+ * - <Stagger> + <StaggerItem> wrap a grid/list so children cascade in.
+ * - Respects prefers-reduced-motion: reduces to a short opacity fade with
+ *   no translate/scale and effectively no stagger delay.
+ */
 
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+const EASE = [0.16, 1, 0.3, 1] as const;
+const VIEWPORT = { once: true, amount: 0.2, margin: "0px 0px -80px 0px" } as const;
 
-const reducedItem: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
-};
+type RevealVariant = "up" | "fade" | "scale" | "left" | "right";
 
-type Props = {
+function getRevealVariants(variant: RevealVariant, reduce: boolean): Variants {
+  if (reduce) {
+    return {
+      hidden: { opacity: 0 },
+      show: { opacity: 1, transition: { duration: 0.2, ease: EASE } },
+    };
+  }
+
+  switch (variant) {
+    case "fade":
+      return {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { duration: 0.6, ease: EASE } },
+      };
+    case "scale":
+      return {
+        hidden: { opacity: 0, scale: 1.04 },
+        show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: EASE } },
+      };
+    case "left":
+      return {
+        hidden: { opacity: 0, x: -24 },
+        show: { opacity: 1, x: 0, transition: { duration: 0.65, ease: EASE } },
+      };
+    case "right":
+      return {
+        hidden: { opacity: 0, x: 24 },
+        show: { opacity: 1, x: 0, transition: { duration: 0.65, ease: EASE } },
+      };
+    case "up":
+    default:
+      return {
+        hidden: { opacity: 0, y: 24 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+      };
+  }
+}
+
+type AnyMotionProps = HTMLMotionProps<"div">;
+
+type RevealProps = {
   children: ReactNode;
+  variant?: RevealVariant;
+  delay?: number;
   className?: string;
-  as?: "div" | "section" | "ul" | "header";
-  amount?: number;
-  once?: boolean;
-};
+  as?: ElementType;
+} & Omit<AnyMotionProps, "children" | "className" | "variants" | "initial" | "whileInView" | "viewport">;
 
-export function Reveal({ children, className, as = "div", amount = 0.2, once = true }: Props) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as];
+export function Reveal({
+  children,
+  variant = "up",
+  delay = 0,
+  className,
+  as = "div",
+  ...rest
+}: RevealProps) {
+  const reduce = useReducedMotion() ?? false;
+  const base = getRevealVariants(variant, reduce);
+  const variants: Variants = {
+    hidden: base.hidden,
+    show: {
+      ...(base.show as object),
+      transition: {
+        ...((base.show as { transition?: object }).transition ?? {}),
+        delay: reduce ? 0 : delay,
+      },
+    },
+  };
+
+  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
+
   return (
     <Comp
       className={className}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount }}
-      variants={container}
+      whileInView="show"
+      viewport={VIEWPORT}
+      variants={variants}
+      {...rest}
     >
-      {Array.isArray(children) ? (
-        children.map((child, i) => (
-          <motion.div key={i} variants={reduce ? reducedItem : item} style={{ willChange: "transform, opacity" }}>
-            {child}
-          </motion.div>
-        ))
-      ) : (
-        <motion.div variants={reduce ? reducedItem : item} style={{ willChange: "transform, opacity" }}>
-          {children}
-        </motion.div>
-      )}
+      {children}
     </Comp>
   );
 }
 
-export function RevealItem({ children, className }: { children: ReactNode; className?: string }) {
-  const reduce = useReducedMotion();
+const STAGGER_CONTAINER: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const STAGGER_CONTAINER_REDUCED: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0, delayChildren: 0 } },
+};
+
+const STAGGER_ITEM: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+
+const STAGGER_ITEM_REDUCED: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.2, ease: EASE } },
+};
+
+type StaggerProps = {
+  children: ReactNode;
+  className?: string;
+  as?: ElementType;
+} & Omit<AnyMotionProps, "children" | "className" | "variants" | "initial" | "whileInView" | "viewport">;
+
+export function Stagger({ children, className, as = "div", ...rest }: StaggerProps) {
+  const reduce = useReducedMotion() ?? false;
+  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
   return (
-    <motion.div
+    <Comp
       className={className}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={reduce ? reducedItem : item}
-      style={{ willChange: "transform, opacity" }}
+      whileInView="show"
+      viewport={VIEWPORT}
+      variants={reduce ? STAGGER_CONTAINER_REDUCED : STAGGER_CONTAINER}
+      {...rest}
     >
       {children}
-    </motion.div>
+    </Comp>
   );
 }
+
+type StaggerItemProps = {
+  children: ReactNode;
+  className?: string;
+  as?: ElementType;
+} & Omit<AnyMotionProps, "children" | "className" | "variants">;
+
+export function StaggerItem({ children, className, as = "div", ...rest }: StaggerItemProps) {
+  const reduce = useReducedMotion() ?? false;
+  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
+  return (
+    <Comp
+      className={className}
+      variants={reduce ? STAGGER_ITEM_REDUCED : STAGGER_ITEM}
+      {...rest}
+    >
+      {children}
+    </Comp>
+  );
+}
+
+// Backward-compat alias for the previous helper used elsewhere.
+export const RevealItem = StaggerItem;
