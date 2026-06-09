@@ -271,12 +271,12 @@ export function ServicePageTemplate(props: ServicePageProps) {
               View all services <ArrowRight className="size-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {related.map(({ title, body, img, to, icon: Icon }, i) => (
-              <article
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {related.map(({ title, body, img, to, icon: Icon }) => (
+              <StaggerItem
+                as="article"
                 key={title}
-                className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift reveal"
-                style={{ animationDelay: `${i * 70}ms` }}
+                className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
                   <img src={img} alt={title} loading="lazy" decoding="async" width={640} height={400} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -291,9 +291,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
                     Learn More <ArrowRight className="size-4" />
                   </Link>
                 </div>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
+
         </div>
       </section>
     </SiteLayout>
