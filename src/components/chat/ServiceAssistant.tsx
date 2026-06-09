@@ -12,6 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { cevonsIcons } from "@/data/cevonsIconRegistry";
+import { cevonsContact, hasConfirmedWhatsApp, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
 const ASSISTANT_AVATAR = cevonsIcons.ui.contactSupport.src;
 
@@ -29,8 +30,10 @@ const ASSISTANT_AVATAR = cevonsIcons.ui.contactSupport.src;
  *   - askAiKnowledgeBase(query)     → real model fallback for FLOW 15
  */
 
-const WHATSAPP_URL = "https://wa.me/"; // Replace with real CEVON'S number when available
-const PHONE_HREF = "tel:+5920000000";
+// Confirm official WhatsApp number with CEVON'S before launch.
+const WHATSAPP_URL = whatsappHref;
+const PHONE_HREF = primaryTelHref;
+const EMAIL_HREF = primaryMailtoHref;
 
 type CtaKind = "link" | "external" | "intent";
 type Cta = {
