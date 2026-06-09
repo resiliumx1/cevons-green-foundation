@@ -32,9 +32,18 @@ import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.du
 import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
 import { Route as ServicesCommercialGarbageCollectionRouteImport } from './routes/services.commercial-garbage-collection'
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
+import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
+import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
+import { Route as CrmQuotesRouteImport } from './routes/crm.quotes'
 import { Route as CrmMarketingRouteImport } from './routes/crm.marketing'
 import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
+import { Route as CrmJobsRouteImport } from './routes/crm.jobs'
+import { Route as CrmInvoicesRouteImport } from './routes/crm.invoices'
+import { Route as CrmCustomersRouteImport } from './routes/crm.customers'
+import { Route as CrmConversationsRouteImport } from './routes/crm.conversations'
+import { Route as CrmCalendarRouteImport } from './routes/crm.calendar'
+import { Route as CrmBookingsRouteImport } from './routes/crm.bookings'
 import { Route as CrmLeadsIdRouteImport } from './routes/crm.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
@@ -162,9 +171,24 @@ const RequestServiceConfirmationRoute =
     path: '/confirmation',
     getParentRoute: () => RequestServiceRoute,
   } as any)
+const CrmSettingsRoute = CrmSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmReviewsRoute = CrmReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => CrmRoute,
+} as any)
 const CrmReportsRoute = CrmReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmQuotesRoute = CrmQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
   getParentRoute: () => CrmRoute,
 } as any)
 const CrmMarketingRoute = CrmMarketingRouteImport.update({
@@ -175,6 +199,36 @@ const CrmMarketingRoute = CrmMarketingRouteImport.update({
 const CrmLeadsRoute = CrmLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmJobsRoute = CrmJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmInvoicesRoute = CrmInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmCustomersRoute = CrmCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmConversationsRoute = CrmConversationsRouteImport.update({
+  id: '/conversations',
+  path: '/conversations',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmCalendarRoute = CrmCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmBookingsRoute = CrmBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => CrmRoute,
 } as any)
 const CrmLeadsIdRoute = CrmLeadsIdRouteImport.update({
@@ -194,9 +248,18 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/calendar': typeof CrmCalendarRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/invoices': typeof CrmInvoicesRoute
+  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
+  '/crm/reviews': typeof CrmReviewsRoute
+  '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -222,9 +285,18 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/calendar': typeof CrmCalendarRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/invoices': typeof CrmInvoicesRoute
+  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
+  '/crm/reviews': typeof CrmReviewsRoute
+  '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -252,9 +324,18 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/calendar': typeof CrmCalendarRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/invoices': typeof CrmInvoicesRoute
+  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
+  '/crm/reviews': typeof CrmReviewsRoute
+  '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -283,9 +364,18 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
+    | '/crm/bookings'
+    | '/crm/calendar'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/invoices'
+    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/marketing'
+    | '/crm/quotes'
     | '/crm/reports'
+    | '/crm/reviews'
+    | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -311,9 +401,18 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
+    | '/crm/bookings'
+    | '/crm/calendar'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/invoices'
+    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/marketing'
+    | '/crm/quotes'
     | '/crm/reports'
+    | '/crm/reviews'
+    | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -340,9 +439,18 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
+    | '/crm/bookings'
+    | '/crm/calendar'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/invoices'
+    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/marketing'
+    | '/crm/quotes'
     | '/crm/reports'
+    | '/crm/reviews'
+    | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -535,11 +643,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestServiceConfirmationRouteImport
       parentRoute: typeof RequestServiceRoute
     }
+    '/crm/settings': {
+      id: '/crm/settings'
+      path: '/settings'
+      fullPath: '/crm/settings'
+      preLoaderRoute: typeof CrmSettingsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/reviews': {
+      id: '/crm/reviews'
+      path: '/reviews'
+      fullPath: '/crm/reviews'
+      preLoaderRoute: typeof CrmReviewsRouteImport
+      parentRoute: typeof CrmRoute
+    }
     '/crm/reports': {
       id: '/crm/reports'
       path: '/reports'
       fullPath: '/crm/reports'
       preLoaderRoute: typeof CrmReportsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/quotes': {
+      id: '/crm/quotes'
+      path: '/quotes'
+      fullPath: '/crm/quotes'
+      preLoaderRoute: typeof CrmQuotesRouteImport
       parentRoute: typeof CrmRoute
     }
     '/crm/marketing': {
@@ -554,6 +683,48 @@ declare module '@tanstack/react-router' {
       path: '/leads'
       fullPath: '/crm/leads'
       preLoaderRoute: typeof CrmLeadsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/jobs': {
+      id: '/crm/jobs'
+      path: '/jobs'
+      fullPath: '/crm/jobs'
+      preLoaderRoute: typeof CrmJobsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/invoices': {
+      id: '/crm/invoices'
+      path: '/invoices'
+      fullPath: '/crm/invoices'
+      preLoaderRoute: typeof CrmInvoicesRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/customers': {
+      id: '/crm/customers'
+      path: '/customers'
+      fullPath: '/crm/customers'
+      preLoaderRoute: typeof CrmCustomersRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/conversations': {
+      id: '/crm/conversations'
+      path: '/conversations'
+      fullPath: '/crm/conversations'
+      preLoaderRoute: typeof CrmConversationsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/calendar': {
+      id: '/crm/calendar'
+      path: '/calendar'
+      fullPath: '/crm/calendar'
+      preLoaderRoute: typeof CrmCalendarRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/bookings': {
+      id: '/crm/bookings'
+      path: '/bookings'
+      fullPath: '/crm/bookings'
+      preLoaderRoute: typeof CrmBookingsRouteImport
       parentRoute: typeof CrmRoute
     }
     '/crm/leads/$id': {
@@ -579,16 +750,34 @@ const CrmLeadsRouteWithChildren = CrmLeadsRoute._addFileChildren(
 )
 
 interface CrmRouteChildren {
+  CrmBookingsRoute: typeof CrmBookingsRoute
+  CrmCalendarRoute: typeof CrmCalendarRoute
+  CrmConversationsRoute: typeof CrmConversationsRoute
+  CrmCustomersRoute: typeof CrmCustomersRoute
+  CrmInvoicesRoute: typeof CrmInvoicesRoute
+  CrmJobsRoute: typeof CrmJobsRoute
   CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
   CrmMarketingRoute: typeof CrmMarketingRoute
+  CrmQuotesRoute: typeof CrmQuotesRoute
   CrmReportsRoute: typeof CrmReportsRoute
+  CrmReviewsRoute: typeof CrmReviewsRoute
+  CrmSettingsRoute: typeof CrmSettingsRoute
   CrmIndexRoute: typeof CrmIndexRoute
 }
 
 const CrmRouteChildren: CrmRouteChildren = {
+  CrmBookingsRoute: CrmBookingsRoute,
+  CrmCalendarRoute: CrmCalendarRoute,
+  CrmConversationsRoute: CrmConversationsRoute,
+  CrmCustomersRoute: CrmCustomersRoute,
+  CrmInvoicesRoute: CrmInvoicesRoute,
+  CrmJobsRoute: CrmJobsRoute,
   CrmLeadsRoute: CrmLeadsRouteWithChildren,
   CrmMarketingRoute: CrmMarketingRoute,
+  CrmQuotesRoute: CrmQuotesRoute,
   CrmReportsRoute: CrmReportsRoute,
+  CrmReviewsRoute: CrmReviewsRoute,
+  CrmSettingsRoute: CrmSettingsRoute,
   CrmIndexRoute: CrmIndexRoute,
 }
 
