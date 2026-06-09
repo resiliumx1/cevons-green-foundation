@@ -61,7 +61,7 @@
   --cevons-dark: #101820;
   --cevons-cream: #F7F5ED;
   --cevons-border: #E5E7EB;
-  --cevons-muted: #64748B;
+  --cevons-muted: #525C6B;
 
   /* shadcn semantic tokens mapped to CEVON'S */
   --background: #FFFFFF;
@@ -75,7 +75,7 @@
   --secondary: #F7F5ED;
   --secondary-foreground: #003F27;
   --muted: #F3F4F6;
-  --muted-foreground: #64748B;
+  --muted-foreground: #525C6B;
   --accent: #FFD200;
   --accent-foreground: #101820;
   --destructive: #E31B23;
@@ -104,6 +104,27 @@
     letter-spacing: -0.02em;
     font-weight: 800;
     color: inherit;
+  }
+}
+
+@layer base {
+  /* Global accessible focus ring for keyboard users.
+     Applies to all interactive elements unless a component opts out. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [role="button"]:focus-visible,
+  [role="link"]:focus-visible,
+  [role="menuitem"]:focus-visible,
+  [role="tab"]:focus-visible,
+  [role="option"]:focus-visible,
+  [tabindex]:not([tabindex="-1"]):focus-visible {
+    outline: 2px solid var(--cevons-green);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
