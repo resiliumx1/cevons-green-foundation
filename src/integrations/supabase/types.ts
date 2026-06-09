@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          body: string | null
+          created_at: string
+          created_by: string | null
+          direction: string | null
+          id: string
+          related_id: string
+          related_type: string
+          type: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          direction?: string | null
+          id?: string
+          related_id: string
+          related_type: string
+          type: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          direction?: string | null
+          id?: string
+          related_id?: string
+          related_type?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          channel: string | null
+          cost: number
+          created_at: string
+          end_date: string | null
+          id: string
+          name: string
+          start_date: string | null
+          status: string
+          updated_at: string
+          utm_campaign: string | null
+        }
+        Insert: {
+          channel?: string | null
+          cost?: number
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          utm_campaign?: string | null
+        }
+        Update: {
+          channel?: string | null
+          cost?: number
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          utm_campaign?: string | null
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -68,18 +140,287 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          address: string | null
+          contact_name: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          region: string | null
+          status: string
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          region?: string | null
+          status?: string
+          type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          region?: string | null
+          status?: string
+          type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      invoices: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          due_date: string | null
+          id: string
+          issued_date: string | null
+          job_id: string | null
+          line_items: Json
+          notes: string | null
+          number: string
+          paid_date: string | null
+          status: string
+          subtotal: number | null
+          tax: number | null
+          total: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          due_date?: string | null
+          id?: string
+          issued_date?: string | null
+          job_id?: string | null
+          line_items?: Json
+          notes?: string | null
+          number: string
+          paid_date?: string | null
+          status?: string
+          subtotal?: number | null
+          tax?: number | null
+          total?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          due_date?: string | null
+          id?: string
+          issued_date?: string | null
+          job_id?: string | null
+          line_items?: Json
+          notes?: string | null
+          number?: string
+          paid_date?: string | null
+          status?: string
+          subtotal?: number | null
+          tax?: number | null
+          total?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          address: string | null
+          assigned_to: string | null
+          created_at: string
+          customer_id: string | null
+          id: string
+          notes: string | null
+          number: string
+          quote_id: string | null
+          region: string | null
+          scheduled_end: string | null
+          scheduled_start: string | null
+          service: string | null
+          service_request_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          number: string
+          quote_id?: string | null
+          region?: string | null
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          service?: string | null
+          service_request_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          notes?: string | null
+          number?: string
+          quote_id?: string | null
+          region?: string | null
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          service?: string | null
+          service_request_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quotes: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          id: string
+          line_items: Json
+          notes: string | null
+          number: string
+          service_request_id: string | null
+          status: string
+          subtotal: number | null
+          tax: number | null
+          title: string | null
+          total: number | null
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          line_items?: Json
+          notes?: string | null
+          number: string
+          service_request_id?: string | null
+          status?: string
+          subtotal?: number | null
+          tax?: number | null
+          title?: string | null
+          total?: number | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          line_items?: Json
+          notes?: string | null
+          number?: string
+          service_request_id?: string | null
+          status?: string
+          subtotal?: number | null
+          tax?: number | null
+          title?: string | null
+          total?: number | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          body: string | null
+          created_at: string
+          customer_id: string | null
+          id: string
+          rating: number | null
+          response: string | null
+          review_date: string | null
+          reviewer_name: string | null
+          source: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          rating?: number | null
+          response?: string | null
+          review_date?: string | null
+          reviewer_name?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          rating?: number | null
+          response?: string | null
+          review_date?: string | null
+          reviewer_name?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       service_requests: {
         Row: {
+          assigned_to: string | null
           category: string | null
           company: string | null
           contact_method: string | null
           created_at: string
+          customer_id: string | null
           customer_type: string | null
           details: Json
           email: string | null
+          estimated_value: number | null
           file_urls: string[]
           id: string
           landing_page: string | null
+          last_contacted_at: string | null
+          lost_reason: string | null
           message: string | null
           name: string | null
           phone: string | null
@@ -90,6 +431,7 @@ export type Database = {
           region: string | null
           service: string | null
           status: string
+          updated_at: string
           utm_campaign: string | null
           utm_content: string | null
           utm_medium: string | null
@@ -97,16 +439,21 @@ export type Database = {
           utm_term: string | null
         }
         Insert: {
+          assigned_to?: string | null
           category?: string | null
           company?: string | null
           contact_method?: string | null
           created_at?: string
+          customer_id?: string | null
           customer_type?: string | null
           details?: Json
           email?: string | null
+          estimated_value?: number | null
           file_urls?: string[]
           id?: string
           landing_page?: string | null
+          last_contacted_at?: string | null
+          lost_reason?: string | null
           message?: string | null
           name?: string | null
           phone?: string | null
@@ -117,6 +464,7 @@ export type Database = {
           region?: string | null
           service?: string | null
           status?: string
+          updated_at?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -124,16 +472,21 @@ export type Database = {
           utm_term?: string | null
         }
         Update: {
+          assigned_to?: string | null
           category?: string | null
           company?: string | null
           contact_method?: string | null
           created_at?: string
+          customer_id?: string | null
           customer_type?: string | null
           details?: Json
           email?: string | null
+          estimated_value?: number | null
           file_urls?: string[]
           id?: string
           landing_page?: string | null
+          last_contacted_at?: string | null
+          lost_reason?: string | null
           message?: string | null
           name?: string | null
           phone?: string | null
@@ -144,6 +497,7 @@ export type Database = {
           region?: string | null
           service?: string | null
           status?: string
+          updated_at?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
