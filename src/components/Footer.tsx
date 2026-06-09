@@ -5,11 +5,11 @@ import { WhatsApp } from "./icons/WhatsApp";
 
 const col = (title: string, items: string[]) => (
   <div>
-    <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">{title}</h4>
-    <ul className="space-y-2.5">
+    <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-5">{title}</h4>
+    <ul className="space-y-3">
       {items.map((i) => (
         <li key={i}>
-          <Link to="/services" className="text-white/70 hover:text-cevons-yellow text-sm transition-colors">
+          <Link to="/services" className="text-white/75 hover:text-cevons-yellow text-[14px] leading-relaxed transition-colors">
             {i}
           </Link>
         </li>
