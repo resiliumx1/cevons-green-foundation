@@ -203,8 +203,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
     return (
       <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
         <div className="flex items-start gap-4">
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/95 ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
-            <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
+          <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+            <CevonsIcon group="services" name={s.iconKey} fill decorative />
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
