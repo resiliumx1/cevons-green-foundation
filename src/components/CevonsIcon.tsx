@@ -25,6 +25,8 @@ export interface CevonsIconProps {
   decorative?: boolean;
   /** Hero / above-the-fold icons should set eager */
   priority?: boolean;
+  /** Fill the parent container edge-to-edge (object-cover) */
+  fill?: boolean;
   className?: string;
 }
 
