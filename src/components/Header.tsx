@@ -38,15 +38,13 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b transition-all ${
-        scrolled
-          ? "bg-white/85 backdrop-blur-md border-cevons-border shadow-[0_1px_0_rgba(0,0,0,0.04)]"
-          : "bg-white border-transparent"
+      className={`sticky top-0 z-50 w-full border-b border-cevons-border transition-shadow ${
+        scrolled ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "bg-white"
       }`}
     >
-      <div className="container-cevons flex h-20 items-center justify-between gap-4">
+      <div className="container-cevons flex h-[72px] items-center justify-between gap-4">
         <Link to="/" className="flex items-center" aria-label="CEVON'S Environmental Services home">
-          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 md:h-12 w-auto" />
+          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 md:h-11 w-auto" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" aria-label="Primary">

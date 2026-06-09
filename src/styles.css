@@ -111,20 +111,20 @@
 @utility container-cevons {
   width: 100%;
   margin-inline: auto;
-  max-width: 1280px;
+  max-width: 1200px;
   padding-inline: 1.25rem;
 }
 @media (min-width: 768px) {
   .container-cevons { padding-inline: 2rem; }
 }
 
-/* Section padding */
+/* Section padding — 56px mobile / 80px desktop */
 @utility section-y {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
 }
 @media (min-width: 768px) {
-  .section-y { padding-top: 6rem; padding-bottom: 6rem; }
+  .section-y { padding-top: 5rem; padding-bottom: 5rem; }
 }
 
 /* Buttons */
@@ -195,11 +195,34 @@
   transform: scale(1.04);
 }
 
-/* Decorative swoosh ribbon (red+yellow under hero) */
+/* Decorative brand swoosh — curved red band over yellow band, logo-inspired */
 @utility brand-ribbon {
-  position: relative;
-  height: 14px;
-  background: linear-gradient(90deg, var(--cevons-red) 0%, var(--cevons-red) 50%, var(--cevons-yellow) 50%, var(--cevons-yellow) 100%);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  pointer-events: none;
+  z-index: 2;
+}
+@utility brand-ribbon::before,
+@utility brand-ribbon::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  height: 100%;
+}
+@utility brand-ribbon::before {
+  bottom: -14px;
+  background: var(--cevons-yellow);
+  clip-path: ellipse(60% 100% at 50% 100%);
+}
+@utility brand-ribbon::after {
+  bottom: 4px;
+  background: var(--cevons-red);
+  clip-path: ellipse(58% 90% at 52% 100%);
+  height: 80%;
 }
 
 /* Reveal animations */
