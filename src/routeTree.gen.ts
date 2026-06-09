@@ -37,6 +37,7 @@ import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
 import { Route as CrmQuotesRouteImport } from './routes/crm.quotes'
 import { Route as CrmMarketingRouteImport } from './routes/crm.marketing'
+import { Route as CrmLoginRouteImport } from './routes/crm.login'
 import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
 import { Route as CrmJobsRouteImport } from './routes/crm.jobs'
 import { Route as CrmInvoicesRouteImport } from './routes/crm.invoices'
@@ -196,6 +197,11 @@ const CrmMarketingRoute = CrmMarketingRouteImport.update({
   path: '/marketing',
   getParentRoute: () => CrmRoute,
 } as any)
+const CrmLoginRoute = CrmLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => CrmRoute,
+} as any)
 const CrmLeadsRoute = CrmLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -255,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/crm/invoices': typeof CrmInvoicesRoute
   '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
+  '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
   '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
@@ -292,6 +299,7 @@ export interface FileRoutesByTo {
   '/crm/invoices': typeof CrmInvoicesRoute
   '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
+  '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
   '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
@@ -331,6 +339,7 @@ export interface FileRoutesById {
   '/crm/invoices': typeof CrmInvoicesRoute
   '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
+  '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
   '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
@@ -371,6 +380,7 @@ export interface FileRouteTypes {
     | '/crm/invoices'
     | '/crm/jobs'
     | '/crm/leads'
+    | '/crm/login'
     | '/crm/marketing'
     | '/crm/quotes'
     | '/crm/reports'
@@ -408,6 +418,7 @@ export interface FileRouteTypes {
     | '/crm/invoices'
     | '/crm/jobs'
     | '/crm/leads'
+    | '/crm/login'
     | '/crm/marketing'
     | '/crm/quotes'
     | '/crm/reports'
@@ -446,6 +457,7 @@ export interface FileRouteTypes {
     | '/crm/invoices'
     | '/crm/jobs'
     | '/crm/leads'
+    | '/crm/login'
     | '/crm/marketing'
     | '/crm/quotes'
     | '/crm/reports'
@@ -678,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmMarketingRouteImport
       parentRoute: typeof CrmRoute
     }
+    '/crm/login': {
+      id: '/crm/login'
+      path: '/login'
+      fullPath: '/crm/login'
+      preLoaderRoute: typeof CrmLoginRouteImport
+      parentRoute: typeof CrmRoute
+    }
     '/crm/leads': {
       id: '/crm/leads'
       path: '/leads'
@@ -757,6 +776,7 @@ interface CrmRouteChildren {
   CrmInvoicesRoute: typeof CrmInvoicesRoute
   CrmJobsRoute: typeof CrmJobsRoute
   CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
+  CrmLoginRoute: typeof CrmLoginRoute
   CrmMarketingRoute: typeof CrmMarketingRoute
   CrmQuotesRoute: typeof CrmQuotesRoute
   CrmReportsRoute: typeof CrmReportsRoute
@@ -773,6 +793,7 @@ const CrmRouteChildren: CrmRouteChildren = {
   CrmInvoicesRoute: CrmInvoicesRoute,
   CrmJobsRoute: CrmJobsRoute,
   CrmLeadsRoute: CrmLeadsRouteWithChildren,
+  CrmLoginRoute: CrmLoginRoute,
   CrmMarketingRoute: CrmMarketingRoute,
   CrmQuotesRoute: CrmQuotesRoute,
   CrmReportsRoute: CrmReportsRoute,
