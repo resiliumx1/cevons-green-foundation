@@ -4,28 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
+/* CEVON'S Environmental Services — Design System */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -45,100 +35,186 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* CEVON'S brand tokens */
+  --color-cevons-green: var(--cevons-green);
+  --color-cevons-deep-green: var(--cevons-deep-green);
+  --color-cevons-yellow: var(--cevons-yellow);
+  --color-cevons-red: var(--cevons-red);
+  --color-cevons-dark: var(--cevons-dark);
+  --color-cevons-cream: var(--cevons-cream);
+  --color-cevons-border: var(--cevons-border);
+  --color-cevons-muted: var(--cevons-muted);
+
+  --shadow-soft: 0 1px 2px rgba(16, 24, 32, 0.04), 0 4px 12px rgba(16, 24, 32, 0.05);
+  --shadow-lift: 0 4px 10px rgba(16, 24, 32, 0.06), 0 12px 32px rgba(16, 24, 32, 0.08);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
+  --radius: 0.75rem;
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* CEVON'S brand palette */
+  --cevons-green: #006B35;
+  --cevons-deep-green: #003F27;
+  --cevons-yellow: #FFD200;
+  --cevons-red: #E31B23;
+  --cevons-dark: #101820;
+  --cevons-cream: #F7F5ED;
+  --cevons-border: #E5E7EB;
+  --cevons-muted: #64748B;
+
+  /* shadcn semantic tokens mapped to CEVON'S */
+  --background: #FFFFFF;
+  --foreground: #101820;
+  --card: #FFFFFF;
+  --card-foreground: #101820;
+  --popover: #FFFFFF;
+  --popover-foreground: #101820;
+  --primary: #006B35;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F7F5ED;
+  --secondary-foreground: #003F27;
+  --muted: #F3F4F6;
+  --muted-foreground: #64748B;
+  --accent: #FFD200;
+  --accent-foreground: #101820;
+  --destructive: #E31B23;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #006B35;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
-
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    color: var(--cevons-dark);
+  }
+}
+
+/* Container */
+@utility container-cevons {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 1280px;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-cevons { padding-inline: 2rem; }
+}
+
+/* Section padding */
+@utility section-y {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+@media (min-width: 768px) {
+  .section-y { padding-top: 6rem; padding-bottom: 6rem; }
+}
+
+/* Buttons */
+@utility btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+}
+@utility btn-base:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+}
+@utility btn-green {
+  background-color: var(--cevons-green);
+  color: #fff;
+}
+@utility btn-green:hover {
+  background-color: var(--cevons-deep-green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 107, 53, 0.25);
+}
+@utility btn-yellow {
+  background-color: var(--cevons-yellow);
+  color: var(--cevons-dark);
+}
+@utility btn-yellow:hover {
+  background-color: #f0c500;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 210, 0, 0.4);
+}
+@utility btn-outline-green {
+  border: 1.5px solid var(--cevons-green);
+  color: var(--cevons-green);
+  background: transparent;
+}
+@utility btn-outline-green:hover {
+  background-color: var(--cevons-green);
+  color: #fff;
+}
+@utility btn-ghost-dark {
+  color: var(--cevons-dark);
+}
+@utility btn-ghost-dark:hover {
+  background-color: rgba(0, 107, 53, 0.08);
+  color: var(--cevons-green);
+}
+
+/* Service / content card */
+@utility card-cevons {
+  background-color: #fff;
+  border: 1px solid var(--cevons-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+@utility card-cevons:hover {
+  border-color: var(--cevons-green);
+  box-shadow: 0 8px 24px rgba(0, 63, 39, 0.08);
+}
+@utility card-cevons:hover img {
+  transform: scale(1.04);
+}
+
+/* Decorative swoosh ribbon (red+yellow under hero) */
+@utility brand-ribbon {
+  position: relative;
+  height: 14px;
+  background: linear-gradient(90deg, var(--cevons-red) 0%, var(--cevons-red) 50%, var(--cevons-yellow) 50%, var(--cevons-yellow) 100%);
+}
+
+/* Reveal animations */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-scale {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+@utility reveal {
+  opacity: 0;
+  animation: reveal-up 0.7s ease forwards;
+}
+@utility hero-img {
+  animation: hero-scale 1.8s ease-out forwards;
 }
