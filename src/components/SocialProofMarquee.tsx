@@ -178,7 +178,10 @@ export function SocialProofMarquee({
               <Award className="size-4" />
               Request a Service
             </Link>
-            <Link to="/services" className="btn-base btn-green-outline px-5 py-3 text-sm">
+            <Link
+              to="/services"
+              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#003F27)] border border-[var(--cevons-deep-green,#003F27)]/25 hover:border-[var(--cevons-green,#006B35)] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
+            >
               <Package className="size-4" />
               View Services
             </Link>
