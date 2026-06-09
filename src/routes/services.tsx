@@ -60,6 +60,20 @@ const services: Service[] = [
   { title: "Incineration", body: "Safe incineration for regulated waste streams.", icon: Flame, img: imgWastewater, alt: "Industrial incineration facility", cats: ["Industrial", "Recycling & Facilities"] },
 ];
 
+const SERVICE_SLUGS: Record<string, string> = {
+  "Residential Garbage Collection": "/services/residential-garbage-collection",
+  "Commercial Garbage Collection": "/services/commercial-garbage-collection",
+  "Skip Bin Rental": "/services/skip-bin-rental",
+  "Dumpster Rental": "/services/dumpster-rental",
+  "Portable Toilet Rental": "/services/portable-toilet-rental",
+  "Septic Tank Clearance": "/services/septic-tank-clearance",
+  "Waste Oil Recycling": "/services/waste-oil-recycling",
+  "Wastewater Treatment": "/services/wastewater-treatment",
+  "Scrap Metal": "/services/scrap-metal-collection",
+  "Document Shredding": "/services/document-shredding",
+  "Product Destruction": "/services/product-destruction",
+};
+
 function ServicesPage() {
   const [active, setActive] = useState<Category>("All Services");
   const filtered = active === "All Services" ? services : services.filter((s) => s.cats.includes(active));
