@@ -22,7 +22,7 @@ const spark = (vals: number[]) => vals.map((v, i) => ({ i, v }));
 const metrics = [
   {
     label: "New Leads", value: 24, change: "+12%", up: true,
-    icon: Users, accent: "#10b981",
+    icon: Users, accent: "#006B35",
     spark: spark([10, 14, 12, 18, 16, 21, 24]),
   },
   {
@@ -37,13 +37,13 @@ const metrics = [
   },
   {
     label: "Completed Jobs", value: 15, change: "+5%", up: true,
-    icon: CheckCircle2, accent: "#10b981",
+    icon: CheckCircle2, accent: "#006B35",
     spark: spark([8, 9, 10, 12, 13, 14, 15]),
   },
 ];
 
 const sources = [
-  { name: "Website", value: 42, color: "#10b981", icon: Globe },
+  { name: "Website", value: 42, color: "#006B35", icon: Globe },
   { name: "WhatsApp", value: 28, color: "#25D366", icon: MessageCircle },
   { name: "Google Ads", value: 15, color: "#FFD200", icon: Megaphone },
   { name: "Facebook", value: 8, color: "#3b82f6", icon: Facebook },
@@ -52,7 +52,7 @@ const sources = [
 ];
 
 const regions = [
-  { name: "Georgetown", value: 55, color: "#10b981" },
+  { name: "Georgetown", value: 55, color: "#006B35" },
   { name: "Linden", value: 25, color: "#FFD200" },
   { name: "Berbice", value: 18, color: "#E31B23" },
   { name: "Other", value: 2, color: "#64748b" },
@@ -88,9 +88,9 @@ const bookings = [
 ];
 
 const activity = [
-  { icon: UserPlus, color: "#10b981", title: "New lead from Website", detail: "ABC Construction Ltd.", time: "2 min ago" },
+  { icon: UserPlus, color: "#006B35", title: "New lead from Website", detail: "ABC Construction Ltd.", time: "2 min ago" },
   { icon: FileText, color: "#FFD200", title: "Quote sent", detail: "CEV-1240 — Skip Bin Rental", time: "15 min ago" },
-  { icon: CheckCircle2, color: "#10b981", title: "Job completed", detail: "CEV-1236 — Septic Tank", time: "1 hour ago" },
+  { icon: CheckCircle2, color: "#006B35", title: "Job completed", detail: "CEV-1236 — Septic Tank", time: "1 hour ago" },
   { icon: Download, color: "#3b82f6", title: "Payment received", detail: "INV-2031 — $18,750", time: "2 hours ago" },
 ];
 
@@ -262,15 +262,15 @@ function Dashboard() {
               <LineChart data={revenue} margin={{ left: -10, right: 8, top: 4 }}>
                 <defs>
                   <linearGradient id="rev-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#006B35" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#006B35" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
-                <Line type="monotone" dataKey="v" stroke="#10b981" strokeWidth={2.5} dot={{ fill: "#10b981", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
+                <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

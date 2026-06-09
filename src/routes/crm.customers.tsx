@@ -12,14 +12,14 @@ type Status = "Active" | "Lead" | "Inactive";
 
 const TYPE_STYLES: Record<CustomerType, string> = {
   Residential: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-  Commercial: "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  Commercial: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   Industrial: "bg-purple-500/15 text-purple-300 border-purple-500/30",
   "Government / Municipal": "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
   Institution: "bg-orange-500/15 text-orange-300 border-orange-500/30",
 };
 
 const STATUS_STYLES: Record<Status, string> = {
-  Active: "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  Active: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   Lead: "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
   Inactive: "bg-white/[0.06] text-white/50 border-white/[0.1]",
 };
@@ -53,7 +53,7 @@ const CUSTOMERS: Customer[] = [
 const KPIS = [
   { label: "Total Customers", value: "248", tone: "text-white/80", bg: "bg-white/[0.05]", icon: Users },
   { label: "New This Month", value: "17", tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10", icon: UserPlus },
-  { label: "Commercial Accounts", value: "94", tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10", icon: Building2 },
+  { label: "Commercial Accounts", value: "94", tone: "text-[#006B35]", bg: "bg-[#006B35]/10", icon: Building2 },
   { label: "Repeat Customers", value: "162", tone: "text-purple-300", bg: "bg-purple-500/10", icon: Repeat },
 ];
 
@@ -211,7 +211,7 @@ function CustomersPage() {
               <section className="border-t border-white/[0.06] pt-5">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40">Assigned Owner</h3>
                 <div className="mt-3 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00A85A]/20 text-xs font-semibold text-[#00A85A]">{selected.owner.split(" ").map((x) => x[0]).join("")}</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#006B35]/20 text-xs font-semibold text-[#006B35]">{selected.owner.split(" ").map((x) => x[0]).join("")}</div>
                   <span className="text-sm text-white">{selected.owner}</span>
                 </div>
               </section>

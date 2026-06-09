@@ -83,10 +83,10 @@ const files = [
 ];
 
 const timeline = [
-  { title: "Form submitted", time: "May 15, 10:24 AM", color: "#10b981", icon: ClipboardCheck },
+  { title: "Form submitted", time: "May 15, 10:24 AM", color: "#006B35", icon: ClipboardCheck },
   { title: "Auto confirmation sent", time: "May 15, 10:25 AM", color: "#64748b", icon: Send },
   { title: "WhatsApp message sent", time: "May 15, 10:26 AM", color: "#25D366", icon: WhatsApp },
-  { title: "Customer confirmed details", time: "May 15, 11:05 AM", color: "#10b981", icon: CheckCircle2 },
+  { title: "Customer confirmed details", time: "May 15, 11:05 AM", color: "#006B35", icon: CheckCircle2 },
   { title: "Quote requested internally", time: "May 15, 11:20 AM", color: "#FFD200", icon: FileText },
 ];
 

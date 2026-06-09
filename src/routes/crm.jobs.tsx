@@ -10,7 +10,7 @@ export const Route = createFileRoute("/crm/jobs")({
 type Status = "Dispatch Ready" | "In Progress" | "Completed" | "Delayed" | "Needs Review" | "Cancelled";
 
 const STATUS_STYLES: Record<Status, string> = {
-  "Dispatch Ready": "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  "Dispatch Ready": "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   "In Progress": "bg-purple-500/15 text-purple-300 border-purple-500/30",
   Completed: "bg-white/[0.06] text-white/60 border-white/[0.1]",
   Delayed: "bg-orange-500/15 text-orange-300 border-orange-500/30",
@@ -35,7 +35,7 @@ const JOBS: Job[] = [
 ];
 
 const KPIS = [
-  { label: "Dispatch Ready", value: "8", tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10", icon: Truck },
+  { label: "Dispatch Ready", value: "8", tone: "text-[#006B35]", bg: "bg-[#006B35]/10", icon: Truck },
   { label: "In Progress", value: "5", tone: "text-purple-300", bg: "bg-purple-500/10", icon: Activity },
   { label: "Completed Today", value: "11", tone: "text-white/70", bg: "bg-white/[0.05]", icon: CheckCircle2 },
   { label: "Needs Attention", value: "3", tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10", icon: AlertTriangle },

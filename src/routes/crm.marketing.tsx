@@ -15,10 +15,10 @@ export const Route = createFileRoute("/crm/marketing")({
 const KPIS = [
   { label: "Total Leads", value: "428", trend: 18, up: true, icon: Users, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
   { label: "Website Requests", value: "164", trend: 22, up: true, icon: Globe, tone: "text-blue-300", bg: "bg-blue-500/10" },
-  { label: "WhatsApp Clicks", value: "312", trend: 31, up: true, icon: MessageCircle, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { label: "WhatsApp Clicks", value: "312", trend: 31, up: true, icon: MessageCircle, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
   { label: "Calls", value: "96", trend: 9, up: true, icon: Phone, tone: "text-purple-300", bg: "bg-purple-500/10" },
   { label: "Cost Per Lead", value: "$14.20", trend: -8, up: true, icon: DollarSign, tone: "text-orange-300", bg: "bg-orange-500/10" },
-  { label: "Estimated ROI", value: "4.2x", trend: 16, up: true, icon: TrendingUp, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { label: "Estimated ROI", value: "4.2x", trend: 16, up: true, icon: TrendingUp, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
 ];
 
 const CHANNELS = [
@@ -42,7 +42,7 @@ const CAMPAIGNS = [
 
 const SERVICES = [
   { name: "Dumpster Rental", value: 32, color: "#FFD200" },
-  { name: "Skip Bin Rental", value: 18, color: "#00A85A" },
+  { name: "Skip Bin Rental", value: 18, color: "#006B35" },
   { name: "Septic Tank", value: 14, color: "#E31B23" },
   { name: "Portable Toilet", value: 16, color: "#3B82F6" },
   { name: "Waste Oil", value: 10, color: "#A855F7" },
@@ -69,7 +69,7 @@ const FUNNEL = [
 
 const INSIGHTS = [
   { icon: TrendingUp, text: "Dumpster Rental has the strongest lead volume this month.", tone: "text-[#FFD200]" },
-  { icon: MessageCircle, text: "WhatsApp clicks increased by 31%.", tone: "text-[#00A85A]" },
+  { icon: MessageCircle, text: "WhatsApp clicks increased by 31%.", tone: "text-[#006B35]" },
   { icon: MapPin, text: "Georgetown is generating the highest number of requests.", tone: "text-blue-300" },
   { icon: Lightbulb, text: "Waste Oil leads show high commercial value but need faster follow-up.", tone: "text-orange-300" },
 ];
@@ -98,7 +98,7 @@ function MarketingPage() {
                 </div>
               </div>
               <p className="mt-2 text-2xl font-semibold text-white">{k.value}</p>
-              <div className={`mt-1 inline-flex items-center gap-1 text-xs ${good ? "text-[#00A85A]" : "text-[#E31B23]"}`}>
+              <div className={`mt-1 inline-flex items-center gap-1 text-xs ${good ? "text-[#006B35]" : "text-[#E31B23]"}`}>
                 <TrendIcon className="h-3 w-3" />
                 {Math.abs(k.trend)}%
               </div>
@@ -174,7 +174,7 @@ function MarketingPage() {
                   <td className="px-4 py-3 text-white/80">{c.jobs}</td>
                   <td className="px-4 py-3 font-semibold text-[#FFD200]">${c.revenue.toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#00A85A]/30 bg-[#00A85A]/10 text-[#00A85A]" : c.roi >= 3 ? "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]" : "border-orange-500/30 bg-orange-500/10 text-orange-300"}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]" : "border-orange-500/30 bg-orange-500/10 text-orange-300"}`}>
                       <ArrowUpRight className="h-3 w-3" />{c.roi.toFixed(1)}x
                     </span>
                   </td>
@@ -198,7 +198,7 @@ function MarketingPage() {
                   <span className="text-white/70">{r.leads} <span className="text-white/40">({r.pct}%)</span></span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.05]">
-                  <div className="h-full rounded-full bg-gradient-to-r from-[#00A85A] to-[#FFD200]" style={{ width: `${r.pct}%` }} />
+                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#FFD200]" style={{ width: `${r.pct}%` }} />
                 </div>
               </div>
             ))}
@@ -217,7 +217,7 @@ function MarketingPage() {
                 </div>
                 <div className="mt-1 h-7 overflow-hidden rounded-md bg-white/[0.03]">
                   <div
-                    className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#00A85A]/40 to-[#FFD200]/40 px-2 text-[10px] text-white/80"
+                    className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/40 to-[#FFD200]/40 px-2 text-[10px] text-white/80"
                     style={{ width: `${Math.max(10, 100 - i * 13)}%` }}
                   />
                 </div>
