@@ -21,6 +21,7 @@ import {
   PanelLeftOpen,
   Menu,
   X,
+  Globe,
 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
@@ -191,6 +192,15 @@ function CrmLayout() {
             >
               <HelpCircle className="h-4 w-4" />
             </button>
+            <Link
+              to="/"
+              className="hidden sm:grid h-9 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
+              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+              title="Back to website"
+            >
+              <Globe className="h-4 w-4 mr-1.5" />
+              <span>Back to site</span>
+            </Link>
             <div className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l" style={{ borderColor: "var(--crm-border)" }}>
               <div className="text-right leading-tight">
                 <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
