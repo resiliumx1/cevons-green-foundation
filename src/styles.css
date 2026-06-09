@@ -140,9 +140,9 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
   outline: none;
   white-space: nowrap;
-}
-@utility btn-base:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+  }
 }
 @utility btn-green {
   background-color: var(--cevons-green);
