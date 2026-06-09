@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, FileText, HeartPulse, Landmark, PackageX, School, ShieldCheck, Trash2 } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgRel0 from "@/assets/svc-shred.jpg";
+import imgHero from "@/assets/svc-shred.jpg";
 import imgRel0 from "@/assets/svc-destruction.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
-import imgRel2 from "@/assets/svc-shred.jpg";
+import imgRel2 from "@/assets/svc-commercial.jpg";
 
 const TITLE = "Document Shredding in Guyana | CEVON'S Environmental Services";
 const DESC = "Secure document shredding from CEVON'S for businesses, offices, institutions, and organizations handling sensitive information across Guyana.";

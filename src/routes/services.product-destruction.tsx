@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, FileText, Factory, PackageX, ShoppingBag, Store, Trash2, Truck, Warehouse } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgRel0 from "@/assets/svc-destruction.jpg";
+import imgHero from "@/assets/svc-destruction.jpg";
 import imgRel0 from "@/assets/svc-shred.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
-import imgRel2 from "@/assets/svc-destruction.jpg";
+import imgRel2 from "@/assets/svc-commercial.jpg";
 
 const TITLE = "Product Destruction in Guyana | CEVON'S Environmental Services";
 const DESC = "Controlled product destruction from CEVON'S for businesses that need secure, documented disposal across Guyana.";
