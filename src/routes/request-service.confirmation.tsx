@@ -153,19 +153,19 @@ function ConfirmationPage() {
                 <Search className="size-4" />
                 Track Your Request
               </Link>
+              <a
+                href="/contact"
+                className="btn-base btn-outline-green w-full sm:w-auto"
+              >
+                <MessageCircle className="size-4" />
+                WhatsApp Us
+              </a>
               <Link
                 to="/request-service"
                 className="btn-base btn-yellow w-full sm:w-auto"
               >
                 <RefreshCw className="size-4" />
                 Submit Another Request
-              </Link>
-              <Link
-                to="/"
-                className="btn-base btn-outline-green w-full sm:w-auto"
-              >
-                <Home className="size-4" />
-                Back to Home
               </Link>
             </div>
           </div>
