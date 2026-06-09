@@ -12,6 +12,7 @@ const nav: NavItem[] = [
   { to: "/locations", label: "Locations" },
   { to: "/resources", label: "Resources" },
   { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ];
 
 const servicesDropdown = [
