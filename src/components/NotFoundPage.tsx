@@ -40,7 +40,7 @@ export function NotFoundPage() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-cevons-cream">
         <div className="container-cevons relative grid lg:grid-cols-2 gap-10 lg:gap-8 items-center pt-12 md:pt-16 pb-24 md:pb-32">
-          <div className="reveal">
+          <Reveal variant="up">
             <div className="flex items-center gap-2 md:gap-4 leading-none">
               <span className="text-[120px] md:text-[180px] font-black text-cevons-dark tracking-tighter">4</span>
               <span className="relative inline-block size-[110px] md:size-[170px] shrink-0 animate-[hero-scale_1.2s_ease-out]">
