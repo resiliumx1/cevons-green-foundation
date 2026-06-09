@@ -23,6 +23,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import heroTruck from "@/assets/hero-truck.jpg";
+import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
