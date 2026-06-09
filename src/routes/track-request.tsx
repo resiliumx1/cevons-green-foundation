@@ -6,6 +6,7 @@ import {
   ChevronRight, ClipboardList, PhoneCall, ClipboardCheck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { CevonsIcon } from "@/components/CevonsIcon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -108,6 +109,11 @@ function TrackRequestPage() {
             <span className="mx-2 text-[var(--cevons-border)]">/</span>
             <span className="text-[var(--cevons-dark)]">Track Request</span>
           </nav>
+          <div className="flex justify-center mb-5">
+            <span className="inline-flex items-center justify-center size-20 md:size-24 rounded-2xl bg-white border border-[var(--cevons-border)] shadow-[0_8px_24px_rgba(16,24,32,0.06)]">
+              <CevonsIcon group="ui" name="trackRequest" size="lg" decorative priority />
+            </span>
+          </div>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[var(--cevons-dark)]">
             Track Your Request
           </h1>
