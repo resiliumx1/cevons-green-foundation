@@ -76,10 +76,10 @@ const complianceBadges = [
 ];
 
 const operationsImages = [
-  { src: imgGarbage, alt: "CEVON’S waste collection fleet in operation across Guyana" },
-  { src: imgIndustrial, alt: "Industrial waste management team at work" },
-  { src: imgDumpster, alt: "Dumpster rental services for commercial clients" },
-  { src: imgOil, alt: "Waste oil recycling and environmental services" },
+  { src: imgGarbage, alt: "CEVON’S waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
+  { src: imgIndustrial, alt: "Industrial waste management team at work", caption: "Industrial Crews", sub: "Trained, safety-first teams" },
+  { src: imgDumpster, alt: "Dumpster rental services for commercial clients", caption: "Rental Equipment", sub: "Dumpsters, skips & portable units" },
+  { src: imgOil, alt: "Waste oil recycling and environmental services", caption: "Specialist Services", sub: "Oil, wastewater & recovery" },
 ];
 
 function HeroSwoosh() {
