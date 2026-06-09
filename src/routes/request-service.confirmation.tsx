@@ -176,7 +176,7 @@ function ConfirmationPage() {
               Chat with our team on WhatsApp for urgent support or real-time updates.
             </p>
             <a
-              href="#contact"
+              href="/contact"
               className="mt-5 inline-flex btn-base btn-green"
             >
               <MessageCircle className="size-4" />

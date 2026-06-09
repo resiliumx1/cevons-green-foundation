@@ -2,7 +2,7 @@ import { Clock, Leaf, ShieldCheck } from "lucide-react";
 import { WhatsApp } from "./icons/WhatsApp";
 
 const items = [
-  { icon: WhatsApp, title: "WhatsApp Us Anytime", sub: "(592) 623-CEVON (2386)" },
+  { icon: WhatsApp, title: "WhatsApp Us Anytime", sub: "Fastest way to reach us" },
   { icon: Clock, title: "Fast Response", sub: "Same business day follow-up" },
   { icon: ShieldCheck, title: "Trusted & Certified", sub: "EPA Certified & Compliant" },
   { icon: Leaf, title: "Eco-Focused", sub: "Sustainable for a better Guyana" },

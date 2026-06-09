@@ -51,7 +51,7 @@ export function Footer() {
 
           <div>
             <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">Get In Touch</h4>
-            <a href="#contact" className="flex items-start gap-3 group">
+            <a href="/contact" className="flex items-start gap-3 group">
               <span className="shrink-0 size-10 rounded-full bg-cevons-green flex items-center justify-center group-hover:bg-cevons-yellow group-hover:text-cevons-dark transition-colors">
                 <WhatsApp className="size-4" />
               </span>
@@ -60,14 +60,14 @@ export function Footer() {
                 <p className="text-white font-semibold text-sm">WhatsApp Us</p>
               </div>
             </a>
-            <a href="#schedule" className="flex items-start gap-3 mt-4">
+            <a href="/request-service" className="flex items-start gap-3 mt-4">
               <Phone className="size-4 mt-1 text-cevons-yellow" />
               <div>
                 <p className="text-xs uppercase tracking-wider text-white/60">Secondary</p>
                 <p className="text-white text-sm">Schedule a Service</p>
               </div>
             </a>
-            <a href="#contact" className="flex items-start gap-3 mt-3">
+            <a href="/contact" className="flex items-start gap-3 mt-3">
               <Mail className="size-4 mt-1 text-cevons-yellow" />
               <div>
                 <p className="text-xs uppercase tracking-wider text-white/60">Contact</p>

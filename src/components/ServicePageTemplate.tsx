@@ -109,10 +109,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
               ))}
             </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href="#contact" className="btn-base btn-green px-6 py-3.5 text-base">
+              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
-              <a href="#quote" className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
                 <FileText className="size-5" /> Request a Quote
               </a>
             </div>
@@ -204,10 +204,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href="#contact" className="btn-base btn-green px-6 py-3.5 text-base">
+              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
-              <a href="#quote-form" className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
                 <FileText className="size-5" /> Request a Quote
               </a>
             </div>

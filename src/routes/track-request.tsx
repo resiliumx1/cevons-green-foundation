@@ -301,11 +301,11 @@ function TrackRequestPage() {
               Contact our support team for assistance with your request.
             </p>
             <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a href="#contact" className="btn-base btn-green w-full sm:w-auto">
+              <a href="/contact" className="btn-base btn-green w-full sm:w-auto">
                 <MessageCircle className="size-4" />
                 WhatsApp Us
               </a>
-              <a href="#contact" className="btn-base btn-outline-green w-full sm:w-auto">
+              <a href="/contact" className="btn-base btn-outline-green w-full sm:w-auto">
                 <Phone className="size-4" />
                 Call Us
               </a>

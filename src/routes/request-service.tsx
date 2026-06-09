@@ -184,7 +184,7 @@ function RequestServicePage() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Chat with us on WhatsApp for immediate assistance from our team.
               </p>
-              <a href="#contact" className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#006B35] text-white hover:bg-[#003F27] font-semibold transition-colors">
+              <a href="/contact" className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#006B35] text-white hover:bg-[#003F27] font-semibold transition-colors">
                 <MessageCircle className="size-4" /> WhatsApp Us
               </a>
             </div>
