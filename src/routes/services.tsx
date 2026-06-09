@@ -37,7 +37,7 @@ import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
-import forestBg from "@/assets/forest-bg.jpg";
+const heroServices = "/assets/heroes/hero-services.webp";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -274,12 +274,12 @@ function ServicesPage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={forestBg}
-            alt=""
-            aria-hidden="true"
+            src={heroServices}
+            alt="CEVON’S waste management trucks, equipment, and environmental service team"
             className="size-full object-cover"
             width={1920}
             height={800}
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green)]/95 via-[var(--cevons-deep-green)]/85 to-[var(--cevons-deep-green)]/60" />
         </div>
