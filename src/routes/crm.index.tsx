@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { CrmPage } from "@/components/motion/CrmMotion";
 export const Route = createFileRoute("/crm/")({
   component: Dashboard,
 });
@@ -155,7 +156,7 @@ const TOOLTIP_STYLE = { background: "#0a1414", border: "1px solid rgba(255,255,2
 
 function Dashboard() {
   return (
-    <div className="space-y-6">
+    <CrmPage className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-fade-in">
         <div>
@@ -400,6 +401,6 @@ function Dashboard() {
           </button>
         </Card>
       </div>
-    </div>
+    </CrmPage>
   );
 }

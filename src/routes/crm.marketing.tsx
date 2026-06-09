@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CrmPage } from "@/components/motion/CrmMotion";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, CartesianGrid,
 } from "recharts";
@@ -76,7 +77,7 @@ const INSIGHTS = [
 
 function MarketingPage() {
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold text-white md:text-3xl">Marketing Performance</h1>
@@ -250,6 +251,6 @@ function MarketingPage() {
           })}
         </div>
       </div>
-    </div>
+    </CrmPage>
   );
 }
