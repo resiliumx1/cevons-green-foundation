@@ -277,22 +277,28 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {operationsImages.map(({ src, alt }, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {operationsImages.map(({ src, alt, caption, sub }, i) => (
               <div
                 key={alt}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden group ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`group rounded-2xl overflow-hidden bg-white border border-[var(--cevons-deep-green,#006B35)]/10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <img
-                  src={src}
-                  alt={alt}
-                  loading="lazy"
-                  width={600}
-                  height={450}
-                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#006B35)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={src}
+                    alt={alt}
+                    loading="lazy"
+                    width={600}
+                    height={450}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#006B35)]/45 to-transparent" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,#006B35)]">{caption}</h3>
+                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)]">{sub}</p>
+                </div>
               </div>
             ))}
           </div>
