@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
+import { CrmAssistant } from "@/components/crm/Assistant";
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
