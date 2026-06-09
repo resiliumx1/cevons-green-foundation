@@ -34,44 +34,54 @@ function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#001a10] text-white">
-      {/* Background image */}
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#020f08] text-white">
+      {/* Background image — softly blurred so the glass card stays the hero */}
       <div
-        className="absolute inset-0 animate-[bgZoom_18s_ease-out_forwards] bg-cover bg-center"
-        style={{ backgroundImage: `url(${bg})` }}
+        className="absolute inset-0 scale-[1.08] animate-[bgZoom_22s_ease-out_forwards] bg-cover bg-center"
+        style={{ backgroundImage: `url(${bg})`, filter: "blur(6px) saturate(110%) brightness(0.7)" }}
         aria-hidden
       />
-      {/* Gradient overlay */}
+      {/* Cinematic dark green vignette */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 40%, rgba(0,46,31,0.45) 0%, rgba(0,20,12,0.85) 75%, rgba(0,12,8,0.95) 100%)",
+            "radial-gradient(ellipse at 50% 42%, rgba(0,46,28,0.35) 0%, rgba(0,18,11,0.85) 65%, rgba(0,10,6,0.97) 100%)",
+        }}
+        aria-hidden
+      />
+      {/* Subtle film grain via noise gradient */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundSize: "3px 3px",
         }}
         aria-hidden
       />
 
-      {/* Atmospheric brand accent rings */}
+      {/* Atmospheric brand accent glows — green / yellow / red ambient behind card */}
       <div
-        className="pointer-events-none absolute -left-40 top-1/3 h-[480px] w-[480px] rounded-full opacity-40 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(255,210,0,0.35), transparent 70%)" }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -right-40 bottom-0 h-[520px] w-[520px] rounded-full opacity-40 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
         style={{ background: "radial-gradient(circle, rgba(0,168,90,0.45), transparent 70%)" }}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[200px] w-[120%] -translate-x-1/2 opacity-30 blur-2xl"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(227,27,35,0.4), rgba(255,210,0,0.4), transparent)" }}
+        className="pointer-events-none absolute -left-32 top-1/4 h-[460px] w-[460px] rounded-full opacity-50 blur-[100px]"
+        style={{ background: "radial-gradient(circle, rgba(255,210,0,0.35), transparent 70%)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-32 bottom-1/4 h-[460px] w-[460px] rounded-full opacity-40 blur-[110px]"
+        style={{ background: "radial-gradient(circle, rgba(227,27,35,0.28), transparent 70%)" }}
         aria-hidden
       />
 
       {/* Top-left brand */}
       <Link
         to="/"
-        className="absolute left-6 top-6 z-10 flex items-center gap-2 text-white/85 transition hover:text-white"
+        className="absolute left-6 top-6 z-10 flex items-center gap-2 text-white/90 transition hover:text-white"
       >
         <div className="grid h-9 w-9 place-items-center rounded-lg bg-white shadow-md">
           <img src={logo} alt="CEVON'S" className="h-7 w-7 object-contain" />
@@ -83,22 +93,33 @@ function LoginPage() {
       <main className="relative z-10 flex min-h-screen items-center justify-center p-4">
         <form
           onSubmit={handleSubmit}
-          className="glass-card relative w-[460px] max-w-[92vw] animate-[cardIn_0.8s_cubic-bezier(0.2,0.8,0.2,1)_forwards] p-7 md:p-11"
-          style={{
-            background: "rgba(255, 255, 255, 0.12)",
-            backdropFilter: "blur(24px) saturate(160%)",
-            border: "1px solid rgba(255, 255, 255, 0.35)",
-            borderRadius: "32px",
-            boxShadow:
-              "0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08)",
-          }}
+          className="liquid-glass relative w-[460px] max-w-[92vw] animate-[cardIn_0.9s_cubic-bezier(0.2,0.8,0.2,1)_forwards] p-7 md:p-11"
         >
-          {/* Top highlight reflection */}
+          {/* Liquid sheen — diagonal light reflection across the card */}
           <div
-            className="pointer-events-none absolute inset-x-6 top-0 h-px rounded-full"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)" }}
+            className="pointer-events-none absolute inset-0 overflow-hidden rounded-[32px]"
             aria-hidden
-          />
+          >
+            <div
+              className="absolute -inset-[1px] rounded-[32px]"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 35%, transparent 55%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.18) 100%)",
+                mixBlendMode: "overlay",
+              }}
+            />
+            {/* Top highlight */}
+            <div
+              className="absolute inset-x-8 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent)" }}
+            />
+            {/* Side highlight */}
+            <div
+              className="absolute left-0 inset-y-10 w-px"
+              style={{ background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.35), transparent)" }}
+            />
+          </div>
+
 
           {/* Logo */}
           <div className="flex flex-col items-center text-center">
@@ -245,25 +266,47 @@ function LoginPage() {
           0%, 100% { opacity: 0.6; transform: scale(1); }
           50% { opacity: 1; transform: scale(1.08); }
         }
+        .liquid-glass {
+          position: relative;
+          background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06) 55%, rgba(255,255,255,0.10));
+          backdrop-filter: blur(40px) saturate(180%);
+          -webkit-backdrop-filter: blur(40px) saturate(180%);
+          border: 1px solid rgba(255,255,255,0.22);
+          border-radius: 32px;
+          box-shadow:
+            0 40px 120px -20px rgba(0,0,0,0.55),
+            0 0 0 1px rgba(255,255,255,0.06),
+            0 0 60px -10px rgba(0,168,90,0.25),
+            inset 0 1px 0 rgba(255,255,255,0.5),
+            inset 0 -1px 0 rgba(255,255,255,0.08),
+            inset 0 0 40px rgba(255,255,255,0.04);
+        }
         .glass-input {
           width: 100%;
           height: 56px;
           border-radius: 18px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.35);
+          background: rgba(255,255,255,0.10);
+          border: 1px solid rgba(255,255,255,0.25);
           color: #fff;
           padding-left: 48px;
           padding-right: 16px;
           font-size: 15px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.15);
           transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
           outline: none;
         }
-        .glass-input::placeholder { color: rgba(255,255,255,0.75); }
+        .glass-input::placeholder { color: rgba(255,255,255,0.7); }
         .glass-input:focus {
-          border-color: #00A85A;
-          background: rgba(255,255,255,0.14);
-          box-shadow: 0 0 0 3px rgba(255,210,0,0.35), 0 0 24px rgba(0,168,90,0.25);
+          border-color: rgba(0,168,90,0.85);
+          background: rgba(255,255,255,0.16);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            0 0 0 3px rgba(255,210,0,0.25),
+            0 0 28px rgba(0,168,90,0.3);
         }
+
       `}</style>
     </div>
   );
