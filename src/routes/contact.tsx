@@ -18,6 +18,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import forestBg from "@/assets/forest-bg.jpg";
+import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -39,29 +40,29 @@ const contactMethods = [
     title: "WhatsApp",
     body: "Message us directly on WhatsApp.",
     action: "WhatsApp Us",
-    href: "https://wa.me/",
+    href: whatsappHref,
     primary: true,
   },
   {
     icon: Phone,
     title: "Call Us",
-    body: "Speak with our team.",
+    body: `Speak with our team at ${cevonsContact.primaryPhone}.`,
     action: "Call Now",
-    href: "tel:",
+    href: primaryTelHref,
     primary: false,
   },
   {
     icon: Mail,
     title: "Email Us",
-    body: "Send your inquiry by email.",
-    action: "Email CEVON’S",
-    href: "mailto:info@cevonsgy.com",
+    body: `Send your inquiry to ${cevonsContact.email}.`,
+    action: "Email CEVON\u2019S",
+    href: primaryMailtoHref,
     primary: false,
   },
   {
     icon: MapPin,
     title: "Head Office",
-    body: "Visit or contact our main office.",
+    body: `${cevonsContact.regions[0].addressLine1}, ${cevonsContact.regions[0].addressLine2}.`,
     action: "View Locations",
     href: "/locations",
     primary: false,
@@ -77,29 +78,14 @@ const subjects = [
   "Other",
 ];
 
-const branches = [
-  {
-    name: "Georgetown",
-    label: "Head Office",
-    address: "Address to be confirmed, Georgetown, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-  {
-    name: "Linden",
-    label: "Branch Office",
-    address: "Address to be confirmed, Linden, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-  {
-    name: "Berbice",
-    label: "Branch Office",
-    address: "Address to be confirmed, Berbice, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-];
+const branches = cevonsContact.regions.map((r) => ({
+  name: r.name,
+  label: r.officeType,
+  address: `${r.addressLine1}, ${r.addressLine2}`,
+  phones: r.phones,
+  email: r.email,
+  hours: r.hours,
+}));
 
 function ContactPage() {
   const [mounted, setMounted] = useState(false);
