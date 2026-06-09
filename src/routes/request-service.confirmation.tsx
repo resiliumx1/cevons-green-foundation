@@ -96,7 +96,7 @@ function ConfirmationPage() {
               Request Received!
             </h1>
             <p className="mt-3 text-[var(--cevons-muted)] text-lg max-w-lg mx-auto">
-              Thank you. Your service request has been received successfully.
+              Your CEVON'S service request has been submitted successfully.
             </p>
 
             {/* Reference Number */}
