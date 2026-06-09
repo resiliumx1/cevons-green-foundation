@@ -16,6 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { CevonsIcon } from "@/components/CevonsIcon";
 import forestBg from "@/assets/forest-bg.jpg";
 
 export const Route = createFileRoute("/contact")({
