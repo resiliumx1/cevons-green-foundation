@@ -235,7 +235,16 @@ function LocationsPage() {
 
                 <ul className="mt-5 space-y-2 text-sm text-cevons-muted">
                   <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.address}</li>
-                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.phone}</li>
+                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                    <span className="flex flex-wrap gap-x-2 gap-y-0.5">
+                      {r.phone.split(" / ").map((p) => (
+                        <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{p}</a>
+                      ))}
+                    </span>
+                  </li>
+                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                    <a href={mailtoHref()} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{cevonsContact.email}</a>
+                  </li>
                   <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.hours}</li>
                 </ul>
 
@@ -327,9 +336,8 @@ function LocationsPage() {
           </p>
           <div className="mt-7 flex flex-col sm:flex-row justify-center gap-3">
             <a
-              href="https://wa.me/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C518] text-[var(--cevons-deep-green,#006B35)] font-bold px-6 py-3.5 hover:brightness-105 transition"
             >
               <MessageCircle className="w-5 h-5" /> WhatsApp Us
