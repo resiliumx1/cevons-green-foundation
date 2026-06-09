@@ -75,8 +75,22 @@ export function Header() {
     >
       <div className="container-cevons flex h-[72px] items-center gap-4">
         {/* Logo (left) */}
-        <Link to="/" className="flex items-center shrink-0" aria-label="CEVON'S Environmental Services home">
-          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 lg:h-12 w-auto" />
+        <Link
+          to="/"
+          className="flex items-center shrink-0 group"
+          aria-label="CEVON'S Environmental Services home"
+        >
+          <span className="relative inline-flex items-center justify-center">
+            <span
+              aria-hidden
+              className="absolute inset-0 -m-2 rounded-full bg-[radial-gradient(closest-side,rgba(0,107,53,0.18),transparent_70%)] blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            />
+            <img
+              src={logo}
+              alt="CEVON'S Environmental Services"
+              className="relative h-12 lg:h-14 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-[1.04]"
+            />
+          </span>
         </Link>
 
         {/* Nav (center, flex-1) */}
