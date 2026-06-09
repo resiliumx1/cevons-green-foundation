@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { User, Users, Bell, GitBranch, Palette, MoreHorizontal } from "lucide-react";
+import { User, Users, Bell, GitBranch, Palette, MoreHorizontal, Check, Sparkles, Sun } from "lucide-react";
+import { useCrmTheme, type CrmTheme } from "@/components/crm/theme";
 
 export const Route = createFileRoute("/crm/settings")({
   head: () => ({ meta: [{ title: "Settings | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
@@ -43,6 +44,7 @@ const SECTIONS = [
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "pipeline", label: "Pipeline", icon: GitBranch },
   { id: "branding", label: "Branding", icon: Palette },
+  { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
 ];
 
 function Toggle({ on }: { on: boolean }) {
@@ -202,6 +204,8 @@ function SettingsPage() {
               </div>
             </section>
           )}
+
+          {active === "appearance" && <AppearanceSection />}
         </div>
       </div>
     </div>
@@ -214,5 +218,150 @@ function Field({ label, value }: { label: string; value: string }) {
       <label className="text-xs text-white/50">{label}</label>
       <input defaultValue={value} className="mt-1 w-full rounded-lg border border-white/[0.08] bg-black/30 px-3 py-2 text-sm text-white focus:border-[#FFD200]/40 focus:outline-none" />
     </div>
+  );
+}
+
+const THEME_OPTIONS: Array<{
+  id: CrmTheme;
+  name: string;
+  description: string;
+  badge?: string;
+  swatches: string[];
+  preview: { bg: string; sidebar: string; sidebarText: string; accent: string; surface: string; text: string };
+}> = [
+  {
+    id: "emerald",
+    name: "Emerald Professional",
+    description: "Clean, executive, and easy to use for daily operations.",
+    badge: "Recommended",
+    swatches: ["#003F27", "#006B35", "#FFD200", "#E31B23", "#F7F8F5"],
+    preview: { bg: "#F7F8F5", sidebar: "#003F27", sidebarText: "#DFF5E9", accent: "#006B35", surface: "#FFFFFF", text: "#101820" },
+  },
+  {
+    id: "sunset",
+    name: "Sunset Marketing",
+    description: "Warm, modern, and energetic for marketing-focused teams.",
+    swatches: ["#FFF4EA", "#FF8A3D", "#FFD200", "#006B35", "#FF5A5F"],
+    preview: { bg: "#FFF8F1", sidebar: "#FFF4EA", sidebarText: "#334155", accent: "#FF8A3D", surface: "#FFFFFF", text: "#101820" },
+  },
+];
+
+function ThemePreview({ preview }: { preview: (typeof THEME_OPTIONS)[number]["preview"] }) {
+  return (
+    <div className="rounded-lg overflow-hidden border" style={{ borderColor: "var(--crm-border)", background: preview.bg }}>
+      <div className="flex h-28">
+        <div className="w-1/3 p-2 flex flex-col gap-1.5" style={{ background: preview.sidebar }}>
+          <div className="h-2 rounded" style={{ background: preview.sidebarText, opacity: 0.4, width: "70%" }} />
+          <div className="h-2 rounded" style={{ background: preview.sidebarText, opacity: 0.25, width: "55%" }} />
+          <div className="h-2 rounded" style={{ background: preview.sidebarText, opacity: 0.25, width: "60%" }} />
+          <div className="mt-1 h-3 rounded" style={{ background: preview.accent, width: "80%" }} />
+        </div>
+        <div className="flex-1 p-2 flex flex-col gap-1.5">
+          <div className="flex gap-1.5">
+            <div className="h-7 flex-1 rounded" style={{ background: preview.surface, border: "1px solid rgba(0,0,0,0.06)" }} />
+            <div className="h-7 flex-1 rounded" style={{ background: preview.surface, border: "1px solid rgba(0,0,0,0.06)" }} />
+            <div className="h-7 flex-1 rounded" style={{ background: preview.surface, border: "1px solid rgba(0,0,0,0.06)" }} />
+          </div>
+          <div className="flex-1 rounded" style={{ background: preview.surface, border: "1px solid rgba(0,0,0,0.06)" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AppearanceSection() {
+  const { theme, setTheme } = useCrmTheme();
+
+  return (
+    <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="font-semibold text-white text-lg">CRM Theme</h2>
+          <p className="mt-1 text-sm text-white/60">Choose how CEVONS Growth Command looks for your team.</p>
+        </div>
+        <Sun className="h-5 w-5 text-white/40" />
+      </div>
+
+      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {THEME_OPTIONS.map((opt) => {
+          const selected = theme === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setTheme(opt.id)}
+              className="text-left rounded-xl border p-4 transition focus:outline-none focus-visible:ring-2"
+              style={{
+                background: "var(--crm-surface)",
+                borderColor: selected ? "var(--crm-primary)" : "var(--crm-border)",
+                boxShadow: selected ? "0 0 0 2px var(--crm-primary)" : "var(--crm-card-shadow)",
+              }}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold" style={{ color: "var(--crm-text)" }}>{opt.name}</h3>
+                    {opt.badge && (
+                      <span
+                        className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
+                        style={{ background: "var(--crm-primary)", color: "#fff" }}
+                      >
+                        {opt.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-sm" style={{ color: "var(--crm-text-muted)" }}>{opt.description}</p>
+                </div>
+                <span
+                  aria-hidden
+                  className="grid place-items-center h-6 w-6 rounded-full border shrink-0"
+                  style={{
+                    borderColor: selected ? "var(--crm-primary)" : "var(--crm-border)",
+                    background: selected ? "var(--crm-primary)" : "transparent",
+                    color: "#fff",
+                  }}
+                >
+                  {selected && <Check className="h-3.5 w-3.5" />}
+                </span>
+              </div>
+
+              <div className="mt-4">
+                <ThemePreview preview={opt.preview} />
+              </div>
+
+              <div className="mt-3 flex items-center gap-1.5">
+                {opt.swatches.map((c) => (
+                  <span
+                    key={c}
+                    title={c}
+                    className="h-5 w-5 rounded-full border"
+                    style={{ background: c, borderColor: "rgba(0,0,0,0.08)" }}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+                  {selected ? "Currently applied" : "Click to apply"}
+                </span>
+                <span
+                  className="rounded-md px-3 py-1.5 text-xs font-semibold"
+                  style={{
+                    background: selected ? "var(--crm-surface-muted)" : "var(--crm-primary)",
+                    color: selected ? "var(--crm-text)" : "#fff",
+                  }}
+                >
+                  {selected ? "Applied" : "Apply Theme"}
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <p className="mt-4 text-xs" style={{ color: "var(--crm-text-muted)" }}>
+        Your theme preference is saved on this device.
+      </p>
+    </section>
   );
 }
