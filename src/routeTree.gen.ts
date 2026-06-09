@@ -15,6 +15,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -46,6 +47,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesDumpsterRentalRoute = ServicesDumpsterRentalRouteImport.update({
+  id: '/dumpster-rental',
+  path: '/dumpster-rental',
+  getParentRoute: () => ServicesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,7 +59,8 @@ export interface FileRoutesByFullPath {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +68,8 @@ export interface FileRoutesByTo {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,7 +78,8 @@ export interface FileRoutesById {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,8 +90,16 @@ export interface FileRouteTypes {
     | '/locations'
     | '/resources'
     | '/services'
+    | '/services/dumpster-rental'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/industries' | '/locations' | '/resources' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/industries'
+    | '/locations'
+    | '/resources'
+    | '/services'
+    | '/services/dumpster-rental'
   id:
     | '__root__'
     | '/'
@@ -91,6 +108,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/resources'
     | '/services'
+    | '/services/dumpster-rental'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -99,7 +117,7 @@ export interface RootRouteChildren {
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
   ResourcesRoute: typeof ResourcesRoute
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -146,8 +164,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/dumpster-rental': {
+      id: '/services/dumpster-rental'
+      path: '/dumpster-rental'
+      fullPath: '/services/dumpster-rental'
+      preLoaderRoute: typeof ServicesDumpsterRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
+
+interface ServicesRouteChildren {
+  ServicesDumpsterRentalRoute: typeof ServicesDumpsterRentalRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesDumpsterRentalRoute: ServicesDumpsterRentalRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -155,7 +192,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
   ResourcesRoute: ResourcesRoute,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
