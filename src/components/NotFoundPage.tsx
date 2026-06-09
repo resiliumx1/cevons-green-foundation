@@ -13,14 +13,16 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "./SiteLayout";
 import { WhatsApp } from "./icons/WhatsApp";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import { cevonsIcons } from "@/data/cevonsIconRegistry";
 import logo from "@/assets/cevons-logo.png";
 import truck from "@/assets/hero-truck.jpg";
 
 const helpfulLinks = [
-  { to: "/services", title: "Our Services", sub: "Explore all services", Icon: Truck },
-  { to: "/locations", title: "Locations", sub: "View our service areas", Icon: MapPin },
-  { to: "/request-service", title: "Request a Service", sub: "Let's take care of it", Icon: CalendarCheck },
-  { to: "/contact", title: "Contact Us", sub: "We're here to help", Icon: MessageCircle },
+  { to: "/services", title: "Our Services", sub: "Explore all services", Icon: Truck, branded: null },
+  { to: "/locations", title: "Locations", sub: "View our service areas", Icon: MapPin, branded: null },
+  { to: "/request-service", title: "Request a Service", sub: "Let's take care of it", Icon: CalendarCheck, branded: cevonsIcons.ui.requestService },
+  { to: "/contact", title: "Contact Us", sub: "We're here to help", Icon: MessageCircle, branded: cevonsIcons.ui.contactSupport },
 ] as const;
 
 const benefits = [
