@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Waves, Calendar, Hammer, Home, Building, Users, Truck, Trash2, Container, Droplet } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-toilet.jpg";
-import imgRel0 from "@/assets/garbage.jpg";
-import imgRel1 from "@/assets/dumpster.jpg";
-import imgRel2 from "@/assets/septic.jpg";
+import imgRel0 from "@/assets/svc-garbage.jpg";
+import imgRel1 from "@/assets/svc-dumpster.jpg";
+import imgRel2 from "@/assets/svc-septic.jpg";
 
 const PAGE_TITLE = "Portable Toilet Rental in Guyana | CEVON'S";
 const PAGE_DESC = "Clean, hygienic portable toilet rentals for events, residential projects, and commercial sites across Guyana.";

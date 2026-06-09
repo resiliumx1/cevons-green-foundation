@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Sprout, Factory, Flame, Wrench, Truck, Building2, ShieldAlert, Waves, Mountain } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-industrial.jpg";
-import imgRel0 from "@/assets/industrial.jpg";
-import imgRel1 from "@/assets/wastewater.jpg";
-import imgRel2 from "@/assets/industrial.jpg";
+import imgHero from "@/assets/svc-soil.jpg";
+import imgRel0 from "@/assets/svc-hazardous.jpg";
+import imgRel1 from "@/assets/svc-wastewater.jpg";
+import imgRel2 from "@/assets/svc-landfill.jpg";
 
 const PAGE_TITLE = "Contaminated Soil Services in Guyana | CEVON'S";
 const PAGE_DESC = "Excavation, transport, and treatment coordination for contaminated soil and solid waste across Guyana.";

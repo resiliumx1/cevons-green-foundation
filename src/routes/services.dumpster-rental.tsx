@@ -29,7 +29,7 @@ import logo from "@/assets/cevons-logo.png";
 import imgDumpster from "@/assets/svc-dumpster.jpg";
 import imgSkip from "@/assets/svc-skip.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
-import imgScrap from "@/assets/svc-scrap.jpg";
+import imgCommercial from "@/assets/svc-commercial.jpg";
 
 const PAGE_TITLE = "Dumpster Rental in Guyana | CEVON'S Environmental Services";
 const PAGE_DESC =
@@ -111,9 +111,9 @@ const faqs = [
 ];
 
 const related = [
-  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", img: imgSkip, to: "/services" },
-  { title: "Garbage Collection", body: "Reliable collection for homes and businesses across Guyana.", img: imgGarbage, to: "/services" },
-  { title: "Scrap Metal", body: "We buy and recycle all types of scrap metal.", img: imgScrap, to: "/services" },
+  { title: "Skip Bin & Dumpster Rental", body: "Commercial-grade skip bins for ongoing site needs.", img: imgSkip, to: "/services/skip-bin-dumpster-rental" },
+  { title: "General Trash Collection", body: "Reliable household pickup across Guyana.", img: imgGarbage, to: "/services/general-trash-collection" },
+  { title: "General Waste Management", body: "Scheduled commercial waste collection programs.", img: imgCommercial, to: "/services/general-waste-management" },
 ];
 
 function DumpsterRentalPage() {

@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Beaker, Flame, Droplet, Factory, Anchor, Wrench, Waves, ShieldAlert } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-industrial.jpg";
-import imgRel0 from "@/assets/oil.jpg";
-import imgRel1 from "@/assets/wastewater.jpg";
-import imgRel2 from "@/assets/industrial.jpg";
+import imgHero from "@/assets/svc-tank.jpg";
+import imgRel0 from "@/assets/svc-oil.jpg";
+import imgRel1 from "@/assets/svc-wastewater.jpg";
+import imgRel2 from "@/assets/svc-hazardous.jpg";
 
 const PAGE_TITLE = "Industrial Tank Cleaning in Guyana | CEVON'S";
 const PAGE_DESC = "Industrial tank cleaning with safety controls and proper disposal of recovered material across Guyana.";

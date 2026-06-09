@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Recycle, Trash2, Factory, Building2, Truck, Leaf, Mountain, Container } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-recovery.jpg";
-import imgRel0 from "@/assets/industrial.jpg";
-import imgRel1 from "@/assets/commercial.jpg";
-import imgRel2 from "@/assets/skip.jpg";
+import imgRel0 from "@/assets/svc-landfill.jpg";
+import imgRel1 from "@/assets/svc-commercial.jpg";
+import imgRel2 from "@/assets/svc-skip.jpg";
 
 const PAGE_TITLE = "Material Recovery Facility (MRF) | CEVON'S Guyana";
 const PAGE_DESC = "CEVON'S material recovery facility sorts, separates, and recovers materials from the waste stream — turning waste into resources.";

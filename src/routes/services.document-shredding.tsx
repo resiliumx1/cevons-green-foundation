@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, FileText, HeartPulse, Landmark, PackageX, School, ShieldCheck, Trash2 } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgShred from "@/assets/svc-shred.jpg";
-import imgCommercial from "@/assets/svc-commercial.jpg";
-import imgDumpster from "@/assets/svc-dumpster.jpg";
+import imgHero from "@/assets/svc-shred.jpg";
+import imgRel0 from "@/assets/svc-destruction.jpg";
+import imgRel1 from "@/assets/svc-dumpster.jpg";
+import imgRel2 from "@/assets/svc-commercial.jpg";
 
 const TITLE = "Document Shredding in Guyana | CEVON'S Environmental Services";
 const DESC = "Secure document shredding from CEVON'S for businesses, offices, institutions, and organizations handling sensitive information across Guyana.";
@@ -31,7 +32,7 @@ function ShreddingPage() {
       breadcrumb="Document Shredding"
       h1="Document Shredding"
       subhead="Secure document shredding for businesses, offices, institutions, and organizations handling sensitive information."
-      heroImage={imgShred}
+      heroImage={imgHero}
       heroAlt="Secure document shredding bins ready for collection"
       benefits={[
         "Secure document disposal",
@@ -55,9 +56,9 @@ function ShreddingPage() {
         { q: "How do I get started?", a: "WhatsApp us or use Request a Quote with the volume and frequency you need." },
       ]}
       related={[
-        { title: "Product Destruction", body: "Controlled destruction of expired or recalled products.", img: imgShred, to: "/services/product-destruction", icon: PackageX },
-        { title: "Commercial Garbage Collection", body: "Reliable waste collection for businesses.", img: imgCommercial, to: "/services/commercial-garbage-collection", icon: Trash2 },
-        { title: "Dumpster Rental", body: "Dumpster rental for cleanouts and projects.", img: imgDumpster, to: "/services/dumpster-rental", icon: ShieldCheck },
+        { title: "Product Destruction", body: "Controlled destruction of expired or recalled products.", img: imgRel0, to: "/services/product-destruction", icon: PackageX },
+        { title: "General Waste Management", body: "Reliable waste collection for businesses.", img: imgRel1, to: "/services/general-waste-management", icon: Trash2 },
+        { title: "Dumpster Rental", body: "Dumpster rental for cleanouts and projects.", img: imgRel2, to: "/services/dumpster-rental", icon: ShieldCheck },
       ]}
     />
   );

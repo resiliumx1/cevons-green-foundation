@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mountain, Truck, Factory, Trash2, Hammer, Building2, Leaf, Recycle, Container, Sprout } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-industrial.jpg";
-import imgRel0 from "@/assets/recovery.jpg";
-import imgRel1 from "@/assets/skip.jpg";
-import imgRel2 from "@/assets/industrial.jpg";
+import imgHero from "@/assets/svc-landfill.jpg";
+import imgRel0 from "@/assets/svc-recovery.jpg";
+import imgRel1 from "@/assets/svc-skip.jpg";
+import imgRel2 from "@/assets/svc-soil.jpg";
 
 const PAGE_TITLE = "Landfill Operations | CEVON'S Guyana";
 const PAGE_DESC = "Managed landfill operations with environmental safeguards and structured intake for commercial and industrial clients.";

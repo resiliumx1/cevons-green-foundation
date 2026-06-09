@@ -137,6 +137,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
                 width={960}
                 height={720}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
               <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
                 <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
@@ -272,7 +275,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 style={{ animationDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
-                  <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={img} alt={title} loading="lazy" decoding="async" width={640} height={400} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <span className="absolute -bottom-5 left-5 size-12 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
