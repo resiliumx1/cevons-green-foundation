@@ -26,6 +26,7 @@ import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
+import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
