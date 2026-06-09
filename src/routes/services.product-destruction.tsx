@@ -32,7 +32,7 @@ function ProductDestructionPage() {
       breadcrumb="Product Destruction"
       h1="Product Destruction"
       subhead="Controlled product destruction services for businesses that need secure, documented disposal."
-      heroImage={imgRel0}
+      heroImage={imgHero}
       heroAlt="Secure product destruction handled by CEVON'S"
       benefits={[
         "Secure destruction process",
@@ -57,7 +57,7 @@ function ProductDestructionPage() {
       ]}
       related={[
         { title: "Document Shredding", body: "Secure shredding of sensitive documents.", img: imgRel0, to: "/services/document-shredding", icon: FileText },
-        { title: "Commercial Garbage Collection", body: "Reliable waste collection for businesses.", img: imgRel1, to: "/services/commercial-garbage-collection", icon: Trash2 },
+        { title: "General Waste Management", body: "Reliable waste collection for businesses.", img: imgRel1, to: "/services/general-waste-management", icon: Trash2 },
         { title: "Dumpster Rental", body: "Dumpster rental for cleanouts and projects.", img: imgRel2, to: "/services/dumpster-rental", icon: Building2 },
       ]}
     />

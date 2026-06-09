@@ -32,7 +32,7 @@ function ShreddingPage() {
       breadcrumb="Document Shredding"
       h1="Document Shredding"
       subhead="Secure document shredding for businesses, offices, institutions, and organizations handling sensitive information."
-      heroImage={imgRel0}
+      heroImage={imgHero}
       heroAlt="Secure document shredding bins ready for collection"
       benefits={[
         "Secure document disposal",
@@ -57,7 +57,7 @@ function ShreddingPage() {
       ]}
       related={[
         { title: "Product Destruction", body: "Controlled destruction of expired or recalled products.", img: imgRel0, to: "/services/product-destruction", icon: PackageX },
-        { title: "Commercial Garbage Collection", body: "Reliable waste collection for businesses.", img: imgRel1, to: "/services/commercial-garbage-collection", icon: Trash2 },
+        { title: "General Waste Management", body: "Reliable waste collection for businesses.", img: imgRel1, to: "/services/general-waste-management", icon: Trash2 },
         { title: "Dumpster Rental", body: "Dumpster rental for cleanouts and projects.", img: imgRel2, to: "/services/dumpster-rental", icon: ShieldCheck },
       ]}
     />
