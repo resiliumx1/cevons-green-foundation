@@ -96,7 +96,7 @@ export function PageHero({
           alt={imageAlt}
           loading={priority ? "eager" : "lazy"}
           decoding={priority ? "sync" : "async"}
-          {...(priority ? { fetchpriority: "high" as const } : {})}
+          {...(priority ? { fetchPriority: "high" as const } : {})}
           width={1920}
           height={1080}
           className="size-full object-cover"

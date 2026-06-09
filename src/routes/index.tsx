@@ -109,7 +109,7 @@ function HomePage() {
             className="size-full object-cover hero-img"
             width={1920}
             height={1080}
-            fetchpriority="high"
+            fetchPriority="high"
             decoding="sync"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/90 via-cevons-deep-green/65 to-transparent" />
