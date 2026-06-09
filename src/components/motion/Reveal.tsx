@@ -4,7 +4,7 @@ import {
   type HTMLMotionProps,
   type Variants,
 } from "framer-motion";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" | "p" | "h1" | "h2" | "h3" | "span";
 
