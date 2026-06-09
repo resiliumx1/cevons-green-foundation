@@ -45,33 +45,33 @@ export function Footer() {
             </div>
           </div>
 
-          {col("Services", ["Garbage Collection", "Skip Bin Rental", "Dumpster Rental", "Portable Toilets", "Septic Clearance"])}
-          {col("Industries", ["Residential", "Commercial", "Industrial", "Construction", "Hospitality"])}
-          {col("Company", ["About Us", "Locations", "Careers", "News", "Contact"])}
+          {col("Services", ["Residential Garbage Collection", "Commercial Garbage Collection", "Skip Bin Rental", "Dumpster Rental", "Portable Toilet Rental", "Septic Tank Clearance"])}
+          {col("Categories", ["Residential", "Commercial", "Industrial", "Recycling & Facilities"])}
+          {col("Company", ["About Us", "Locations", "Resources", "Contact"])}
 
           <div>
-            <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">24/7 Support</h4>
+            <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">Get In Touch</h4>
             <a href="#contact" className="flex items-start gap-3 group">
               <span className="shrink-0 size-10 rounded-full bg-cevons-green flex items-center justify-center group-hover:bg-cevons-yellow group-hover:text-cevons-dark transition-colors">
                 <WhatsApp className="size-4" />
               </span>
               <div>
-                <p className="text-xs uppercase tracking-wider text-white/60">WhatsApp</p>
-                <p className="text-white font-semibold text-sm">(592) 625-CEVON</p>
+                <p className="text-xs uppercase tracking-wider text-white/60">Primary</p>
+                <p className="text-white font-semibold text-sm">WhatsApp Us</p>
               </div>
             </a>
-            <a href="tel:+5926252366" className="flex items-start gap-3 mt-4">
+            <a href="#schedule" className="flex items-start gap-3 mt-4">
               <Phone className="size-4 mt-1 text-cevons-yellow" />
               <div>
-                <p className="text-xs uppercase tracking-wider text-white/60">Call</p>
-                <p className="text-white text-sm">(592) 625-2366</p>
+                <p className="text-xs uppercase tracking-wider text-white/60">Secondary</p>
+                <p className="text-white text-sm">Schedule a Service</p>
               </div>
             </a>
-            <a href="mailto:info@cevons.gy" className="flex items-start gap-3 mt-3">
+            <a href="#contact" className="flex items-start gap-3 mt-3">
               <Mail className="size-4 mt-1 text-cevons-yellow" />
               <div>
-                <p className="text-xs uppercase tracking-wider text-white/60">Email</p>
-                <p className="text-white text-sm">info@cevons.gy</p>
+                <p className="text-xs uppercase tracking-wider text-white/60">Contact</p>
+                <p className="text-white text-sm">Reach out online</p>
               </div>
             </a>
           </div>
