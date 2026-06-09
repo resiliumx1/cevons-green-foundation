@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { CrmPage } from "@/components/motion/CrmMotion";
 import {
   Search, Filter, Plus, Download, ChevronDown, ArrowUpDown, Eye, Pencil, MoreHorizontal,
   X, MessageSquarePlus, ChevronLeft, ChevronRight, Trash2, UserPlus, Tag,
@@ -138,7 +139,7 @@ function LeadsList() {
   };
 
   return (
-    <div className="space-y-5">
+    <CrmPage className="space-y-5">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-fade-in">
         <div>
@@ -355,7 +356,7 @@ function LeadsList() {
           </aside>
         </>
       )}
-    </div>
+    </CrmPage>
   );
 }
 

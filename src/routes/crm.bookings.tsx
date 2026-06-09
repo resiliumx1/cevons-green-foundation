@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { CrmPage } from "@/components/motion/CrmMotion";
 import {
   Search,
   Filter,
@@ -80,7 +81,7 @@ function BookingsPage() {
   );
 
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -217,6 +218,6 @@ function BookingsPage() {
           </div>
         ))}
       </div>
-    </div>
+    </CrmPage>
   );
 }

@@ -26,6 +26,7 @@ import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
+import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
@@ -204,7 +205,9 @@ function CrmLayout() {
         </header>
 
         <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-8">
-          <Outlet />
+          <CrmSectionTransition>
+            <Outlet />
+          </CrmSectionTransition>
         </main>
 
         {/* Mobile bottom nav (primary items) */}

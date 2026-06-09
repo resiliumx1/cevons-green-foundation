@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { CrmPage } from "@/components/motion/CrmMotion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -82,7 +83,7 @@ function CalendarPage() {
   const today = EVENTS.filter((e) => e.day === 0).sort((a, b) => a.hour - b.hour);
 
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       {/* Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-semibold text-white md:text-3xl">Calendar</h1>
@@ -253,6 +254,6 @@ function CalendarPage() {
           </div>
         </aside>
       </div>
-    </div>
+    </CrmPage>
   );
 }

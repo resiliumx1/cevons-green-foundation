@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, Filter, Plus, MoreHorizontal, FileText, Send, CheckCircle2, AlertTriangle } from "lucide-react";
 
+import { CrmPage } from "@/components/motion/CrmMotion";
 export const Route = createFileRoute("/crm/invoices")({
   head: () => ({ meta: [{ title: "Invoices | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: InvoicesPage,
@@ -44,7 +45,7 @@ function InvoicesPage() {
   const filtered = INVOICES.filter((i) => !search || i.customer.toLowerCase().includes(search.toLowerCase()) || i.id.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-white md:text-3xl">Invoices</h1>
@@ -130,6 +131,6 @@ function InvoicesPage() {
           </div>
         ))}
       </div>
-    </div>
+    </CrmPage>
   );
 }

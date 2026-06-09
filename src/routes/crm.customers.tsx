@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, Filter, Plus, X, Users, UserPlus, Building2, Repeat, Phone, Mail, MapPin, FileText } from "lucide-react";
 
+import { CrmPage } from "@/components/motion/CrmMotion";
 export const Route = createFileRoute("/crm/customers")({
   head: () => ({ meta: [{ title: "Customers | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: CustomersPage,
@@ -64,7 +65,7 @@ function CustomersPage() {
   const filtered = CUSTOMERS.filter((c) => !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.contact.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-white md:text-3xl">Customers</h1>
@@ -232,6 +233,6 @@ function CustomersPage() {
           </div>
         </>
       )}
-    </div>
+    </CrmPage>
   );
 }
