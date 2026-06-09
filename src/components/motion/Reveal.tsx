@@ -4,7 +4,14 @@ import {
   type HTMLMotionProps,
   type Variants,
 } from "framer-motion";
-import type { ElementType, ReactNode } from "react";
+import type { ReactNode } from "react";
+
+type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" | "p" | "h1" | "h2" | "h3" | "span";
+
+function getMotionComponent(tag: MotionTag) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (motion as any)[tag] as React.ComponentType<HTMLMotionProps<"div">>;
+}
 
 /**
  * Cohesive scroll-reveal system for the public site.
