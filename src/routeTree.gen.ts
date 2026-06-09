@@ -15,6 +15,7 @@ import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RequestServiceRouteImport } from './routes/request-service'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesWastewaterTreatmentRouteImport } from './routes/services.wastewater-treatment'
@@ -58,6 +59,11 @@ const LocationsRoute = LocationsRouteImport.update({
 const IndustriesRoute = IndustriesRouteImport.update({
   id: '/industries',
   path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -144,6 +150,7 @@ const RequestServiceConfirmationRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/request-service': typeof RequestServiceRouteWithChildren
@@ -166,6 +173,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/request-service': typeof RequestServiceRouteWithChildren
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/request-service': typeof RequestServiceRouteWithChildren
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
     | '/industries'
     | '/locations'
     | '/request-service'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
     | '/industries'
     | '/locations'
     | '/request-service'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
     | '/industries'
     | '/locations'
     | '/request-service'
@@ -280,6 +292,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
   RequestServiceRoute: typeof RequestServiceRouteWithChildren
@@ -330,6 +343,13 @@ declare module '@tanstack/react-router' {
       path: '/industries'
       fullPath: '/industries'
       preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -482,6 +502,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
   RequestServiceRoute: RequestServiceRouteWithChildren,
