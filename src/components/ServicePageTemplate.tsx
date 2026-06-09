@@ -46,6 +46,8 @@ export type ServicePageProps = {
   related: RelatedService[];
   /** Optional extra section rendered between hero and Common Uses */
   optionsSection?: ReactNode;
+  /** "routine" → Request a Quote. "specialist" → Request Specialist Review. */
+  ctaVariant?: "routine" | "specialist";
 };
 
 const DEFAULT_STEPS = [
