@@ -209,17 +209,17 @@ export function ServicePageTemplate(props: ServicePageProps) {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> We're Here to Help
               </p>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-dark">Need Help Choosing?</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-dark">{helpHeading}</h2>
               <p className="mt-3 text-cevons-muted leading-relaxed">
-                Our team can help you select the right option for your project, timeline, and waste type.
+                {helpBody}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a href={primaryCtaHref} className="btn-base btn-yellow px-6 py-3.5 text-base">
+                <FileText className="size-5" /> {primaryCtaLabel}
+              </a>
               <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
-                <FileText className="size-5" /> Request a Quote
               </a>
             </div>
           </div>
