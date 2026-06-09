@@ -21,6 +21,7 @@ import {
   PanelLeftOpen,
   Menu,
   X,
+  Globe,
 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
