@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShieldAlert, Factory, Beaker, Wrench, Hospital, Flame, Building2, Waves, Sprout, Biohazard } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-industrial.jpg";
-import imgRel0 from "@/assets/wastewater.jpg";
-import imgRel1 from "@/assets/industrial.jpg";
-import imgRel2 from "@/assets/industrial.jpg";
+import imgHero from "@/assets/svc-hazardous.jpg";
+import imgRel0 from "@/assets/svc-wastewater.jpg";
+import imgRel1 from "@/assets/svc-soil.jpg";
+import imgRel2 from "@/assets/svc-biohazard.jpg";
 
 const PAGE_TITLE = "Hazardous Waste Disposal in Guyana | CEVON'S";
 const PAGE_DESC = "Regulated handling, transport, and disposal of hazardous waste streams for industrial clients across Guyana.";

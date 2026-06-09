@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Container, Hammer, Building2, Wrench, Factory, Trees, Trash2, Recycle } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-skip.jpg";
-import imgRel0 from "@/assets/dumpster.jpg";
-import imgRel1 from "@/assets/commercial.jpg";
-import imgRel2 from "@/assets/recovery.jpg";
+import imgRel0 from "@/assets/svc-dumpster.jpg";
+import imgRel1 from "@/assets/svc-commercial.jpg";
+import imgRel2 from "@/assets/svc-recovery.jpg";
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVON'S";
 const PAGE_DESC = "Skip bins and dumpsters for construction, renovation, and ongoing commercial site needs across Guyana.";

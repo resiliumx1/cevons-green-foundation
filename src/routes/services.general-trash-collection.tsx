@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Trash2, Home, Building, Users, Trees, Recycle, Container, Droplet, Waves } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-garbage.jpg";
-import imgRel0 from "@/assets/dumpster.jpg";
-import imgRel1 from "@/assets/septic.jpg";
-import imgRel2 from "@/assets/toilet.jpg";
+import imgRel0 from "@/assets/svc-dumpster.jpg";
+import imgRel1 from "@/assets/svc-septic.jpg";
+import imgRel2 from "@/assets/svc-toilet.jpg";
 
 const PAGE_TITLE = "General Trash Collection in Guyana | CEVON'S";
 const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean.";

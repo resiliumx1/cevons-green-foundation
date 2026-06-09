@@ -26,10 +26,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logo from "@/assets/cevons-logo.png";
-import imgDumpster from "@/assets/svc-dumpster.jpg";
-import imgSkip from "@/assets/svc-skip.jpg";
-import imgGarbage from "@/assets/svc-garbage.jpg";
-import imgScrap from "@/assets/svc-scrap.jpg";
+import imgHero from "@/assets/svc-dumpster.jpg";
+import imgRel0 from "@/assets/svc-dumpster.jpg";
+import imgRel1 from "@/assets/svc-dumpster.jpg";
+import imgRel2 from "@/assets/svc-dumpster.jpg";
 
 const PAGE_TITLE = "Dumpster Rental in Guyana | CEVON'S Environmental Services";
 const PAGE_DESC =
@@ -111,9 +111,9 @@ const faqs = [
 ];
 
 const related = [
-  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", img: imgSkip, to: "/services" },
-  { title: "Garbage Collection", body: "Reliable collection for homes and businesses across Guyana.", img: imgGarbage, to: "/services" },
-  { title: "Scrap Metal", body: "We buy and recycle all types of scrap metal.", img: imgScrap, to: "/services" },
+  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", img: imgRel0, to: "/services" },
+  { title: "Garbage Collection", body: "Reliable collection for homes and businesses across Guyana.", img: imgRel1, to: "/services" },
+  { title: "Scrap Metal", body: "We buy and recycle all types of scrap metal.", img: imgRel2, to: "/services" },
 ];
 
 function DumpsterRentalPage() {

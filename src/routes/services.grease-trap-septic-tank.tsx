@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Droplet, Utensils, Building, Building2, School, Hospital, Factory, Waves } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-septic.jpg";
-import imgRel0 from "@/assets/commercial.jpg";
-import imgRel1 from "@/assets/septic.jpg";
-import imgRel2 from "@/assets/wastewater.jpg";
+import imgHero from "@/assets/svc-grease.jpg";
+import imgRel0 from "@/assets/svc-commercial.jpg";
+import imgRel1 from "@/assets/svc-septic.jpg";
+import imgRel2 from "@/assets/svc-wastewater.jpg";
 
 const PAGE_TITLE = "Grease Trap & Septic Tank Services in Guyana | CEVON'S";
 const PAGE_DESC = "Grease trap cleaning and septic tank servicing for restaurants, hotels, and commercial facilities across Guyana.";

@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Biohazard, Hospital, Beaker, Building2, Pill, School, Wrench, ShieldAlert, PackageX, FileText } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-industrial.jpg";
-import imgRel0 from "@/assets/industrial.jpg";
-import imgRel1 from "@/assets/shred.jpg";
-import imgRel2 from "@/assets/shred.jpg";
+import imgHero from "@/assets/svc-biohazard.jpg";
+import imgRel0 from "@/assets/svc-hazardous.jpg";
+import imgRel1 from "@/assets/svc-destruction.jpg";
+import imgRel2 from "@/assets/svc-shred.jpg";
 
 const PAGE_TITLE = "Biohazardous Waste Disposal in Guyana | CEVON'S";
 const PAGE_DESC = "Safe biohazardous waste collection, transport, and compliant disposal for healthcare and laboratory clients in Guyana.";

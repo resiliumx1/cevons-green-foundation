@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Waves, Factory, Beaker, Droplet, Flame, Building2, Wrench, ShieldAlert } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-wastewater.jpg";
-import imgRel0 from "@/assets/industrial.jpg";
-import imgRel1 from "@/assets/industrial.jpg";
-import imgRel2 from "@/assets/oil.jpg";
+import imgRel0 from "@/assets/svc-hazardous.jpg";
+import imgRel1 from "@/assets/svc-tank.jpg";
+import imgRel2 from "@/assets/svc-oil.jpg";
 
 const PAGE_TITLE = "Industrial Wastewater Services in Guyana | CEVON'S";
 const PAGE_DESC = "Industrial wastewater collection, transport, and treatment coordination for facilities across Guyana.";

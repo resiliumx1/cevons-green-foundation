@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Building2, ShoppingBag, Utensils, School, Hospital, Warehouse, Container, FileText, Droplet } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-commercial.jpg";
-import imgRel0 from "@/assets/skip.jpg";
-import imgRel1 from "@/assets/shred.jpg";
-import imgRel2 from "@/assets/septic.jpg";
+import imgRel0 from "@/assets/svc-skip.jpg";
+import imgRel1 from "@/assets/svc-shred.jpg";
+import imgRel2 from "@/assets/svc-grease.jpg";
 
 const PAGE_TITLE = "Commercial Waste Management in Guyana | CEVON'S";
 const PAGE_DESC = "Scheduled waste management for businesses, offices, retail, and commercial properties across Guyana.";
