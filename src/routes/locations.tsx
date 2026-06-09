@@ -73,6 +73,7 @@ function LocationsPage() {
   const [activePin, setActivePin] = useState<Region>("Georgetown");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const jsonLd = JSON.stringify(buildLocalBusinessJsonLd());
 
   return (
     <SiteLayout>
