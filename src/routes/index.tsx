@@ -53,11 +53,11 @@ const trust = [
   { icon: WhatsApp, t: "Support", s: "WhatsApp Anytime" },
 ];
 
-const pillars = [
-  { img: imgResidential, title: "Residential", icon: Home, body: "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
-  { img: imgCommercial, title: "Commercial", icon: Trash2, body: "Smart waste solutions for businesses and commercial properties." },
-  { img: imgIndustrial, title: "Industrial", icon: Factory, body: "Specialized waste management and industrial environmental services." },
-  { img: imgRecovery, title: "Recycling & Facilities", icon: Recycle, body: "Turning waste into resources through recycling and facility services." },
+const pillars: { img: string; title: string; iconKey: CevonsCategoryKey; body: string }[] = [
+  { img: imgResidential, title: "Residential", iconKey: "residential", body: "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
+  { img: imgCommercial, title: "Commercial", iconKey: "commercial", body: "Smart waste solutions for businesses and commercial properties." },
+  { img: imgIndustrial, title: "Industrial", iconKey: "industrial", body: "Specialized waste management and industrial environmental services." },
+  { img: imgRecovery, title: "Recycling & Facilities", iconKey: "facilities", body: "Turning waste into resources through recycling and facility services." },
 ];
 
 const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
