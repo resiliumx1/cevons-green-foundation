@@ -133,7 +133,7 @@ function ResourcesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="resources-h1">
         <div className="absolute inset-0">
-          <img src={heroNewsroom} alt="CEVON’S newsroom and media announcements image" className="size-full object-cover" width={1920} height={800} loading="eager" />
+          <img src={heroNewsroom} alt="CEVON’S newsroom and media announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">

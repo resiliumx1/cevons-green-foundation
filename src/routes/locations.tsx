@@ -86,7 +86,7 @@ function LocationsPage() {
         subtitle="Proudly serving Georgetown, Linden, and Berbice."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Locations" }]}
         imageSrc="/assets/heroes/hero-locations.webp"
-        imageAlt="CEVON’S service coverage map for Georgetown, Linden, and Berbice"
+        imageAlt="CEVON’S service coverage across Georgetown, Linden, and Berbice"
         height="standard"
       />
 

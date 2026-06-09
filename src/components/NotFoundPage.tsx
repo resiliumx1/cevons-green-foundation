@@ -82,7 +82,7 @@ export function NotFoundPage() {
 
           <Reveal variant="scale" delay={0.1} className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lift aspect-[4/3]">
-              <img src={truck} alt="CEVON’S branded page not found image" className="w-full h-full object-cover hero-img" />
+              <img src={truck} alt="CEVON’S branded page not found background" className="w-full h-full object-cover hero-img" />
               <div className="absolute inset-0 bg-gradient-to-tr from-cevons-deep-green/30 via-transparent to-transparent" />
             </div>
           </Reveal>
