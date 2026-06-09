@@ -63,4 +63,3 @@ function ResidentialGarbagePage() {
   );
 }
 
-void Container;
