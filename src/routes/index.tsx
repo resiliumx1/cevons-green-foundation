@@ -147,9 +147,12 @@ function HomePage() {
                 Schedule a Service
               </a>
             </Reveal>
-            <Reveal variant="up" delay={0.44} as="a" {...({ href: "/request-service" } as any)} className="inline-flex items-center gap-1 mt-5 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors">
-              Request a Quote <ArrowRight className="size-4" />
+            <Reveal variant="up" delay={0.44} className="mt-5">
+              <a href="/request-service" className="inline-flex items-center gap-1 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors">
+                Request a Quote <ArrowRight className="size-4" />
+              </a>
             </Reveal>
+
           </div>
         </div>
 
