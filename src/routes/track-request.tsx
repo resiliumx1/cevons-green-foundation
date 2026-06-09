@@ -6,6 +6,7 @@ import {
   ChevronRight, ClipboardList, PhoneCall, ClipboardCheck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { PageHero } from "@/components/PageHero";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -103,26 +104,15 @@ function TrackRequestPage() {
   return (
     <SiteLayout>
       {/* Hero / Title */}
-      <section className="bg-[var(--cevons-cream)] border-b border-[var(--cevons-border)]">
-        <div className="container-cevons px-4 py-12 md:py-16 text-center">
-          <nav className="text-sm text-[var(--cevons-muted)] mb-3">
-            <Link to="/" className="hover:text-[var(--cevons-dark)] transition-colors">Home</Link>
-            <span className="mx-2 text-[var(--cevons-border)]">/</span>
-            <span className="text-[var(--cevons-dark)]">Track Request</span>
-          </nav>
-          <div className="flex justify-center mb-5">
-            <span className="inline-flex items-center justify-center size-20 md:size-24 rounded-2xl bg-white border border-[var(--cevons-border)] shadow-[0_8px_24px_rgba(16,24,32,0.06)]">
-              <CevonsIcon group="ui" name="trackRequest" size="lg" decorative priority />
-            </span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[var(--cevons-dark)]">
-            Track Your Request
-          </h1>
-          <p className="mt-3 text-lg text-[var(--cevons-muted)] max-w-xl mx-auto">
-            Enter your details to check the status of your service request.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Track Your Request"
+        subtitle="Enter your details to check the status of your service request."
+        breadcrumb={[{ label: "Home", href: "/" }, { label: "Track Request" }]}
+        imageSrc="/assets/heroes/hero-track-request.webp"
+        imageAlt="Customer tracking a CEVON’S service request online"
+        height="standard"
+        showLogoBadge
+      />
 
       {/* Tracking Form */}
       <section className="bg-white">
