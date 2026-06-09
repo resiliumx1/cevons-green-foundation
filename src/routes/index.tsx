@@ -185,15 +185,15 @@ function HomePage() {
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">What We Do</p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">
               Our Core <span className="text-cevons-green">Service</span> Pillars
             </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map(({ img, title, body, iconKey }, i) => (
-              <article key={title} className="card-cevons group reveal" style={{ animationDelay: `${i * 100}ms` }}>
+          </Reveal>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pillars.map(({ img, title, body, iconKey }) => (
+              <StaggerItem as="article" key={title} className="card-cevons group">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
@@ -208,9 +208,10 @@ function HomePage() {
                     Explore Services <ArrowRight className="size-4" />
                   </a>
                 </div>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
+
         </div>
       </section>
 
