@@ -326,7 +326,16 @@ function ContactPage() {
                     </div>
                     <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
                       <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.address}</li>
-                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.phone}</li>
+                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                        <span className="flex flex-wrap gap-x-2 gap-y-0.5">
+                          {b.phones.map((p) => (
+                            <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{p}</a>
+                          ))}
+                        </span>
+                      </li>
+                      <li className="flex gap-2"><Mail className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                        <a href={mailtoHref(b.email)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{b.email}</a>
+                      </li>
                       <li className="flex gap-2"><Clock3 className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.hours}</li>
                     </ul>
                   </div>
