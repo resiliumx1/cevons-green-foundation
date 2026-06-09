@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Trash2, Factory, FileText, Droplet, Recycle, Cylinder, Leaf, Container, Waves, ChevronRight } from "lucide-react";
+import { ArrowRight, Trash2, Factory, FileText, Droplet, Recycle, Cylinder, Leaf, Container, Waves, ChevronRight, Home, Building2, Flame, Brush, PackageX, Scissors } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
