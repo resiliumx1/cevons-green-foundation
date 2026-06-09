@@ -26,6 +26,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 const heroHomepage = "/assets/heroes/hero-homepage.webp";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
+import { HomeHero } from "@/components/home/HomeHero";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
