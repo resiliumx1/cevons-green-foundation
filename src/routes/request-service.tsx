@@ -6,6 +6,8 @@ import {
   Trash2, Container, Droplet, Waves, FileText, ShieldAlert, Flame, Sprout, Beaker, PackageX, Biohazard, Mountain,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import type { CevonsCategoryKey, CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,42 +46,42 @@ type ServiceKey =
   // facilities
   | "material-recovery-facility" | "landfill-operations";
 
-type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; detailType: DetailType; category: CategoryKey };
-
 type DetailType =
   | "dumpster" | "toilet" | "septic" | "trash" | "shred"
   | "industrial" | "facilities";
 
-const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any }[] = [
-  { key: "residential", name: "Residential", desc: "Homes, neighborhoods, and small properties.", icon: Home },
-  { key: "commercial", name: "Commercial", desc: "Offices, retail, hospitality, and businesses.", icon: Building2 },
-  { key: "industrial", name: "Industrial", desc: "Specialized and regulated waste streams.", icon: Factory },
-  { key: "facilities", name: "Facilities", desc: "Recovery and landfill operations.", icon: Recycle },
+type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; iconKey: CevonsServiceKey; detailType: DetailType; category: CategoryKey };
+
+const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; iconKey: CevonsCategoryKey }[] = [
+  { key: "residential", name: "Residential", desc: "Homes, neighborhoods, and small properties.", icon: Home, iconKey: "residential" },
+  { key: "commercial", name: "Commercial", desc: "Offices, retail, hospitality, and businesses.", icon: Building2, iconKey: "commercial" },
+  { key: "industrial", name: "Industrial", desc: "Specialized and regulated waste streams.", icon: Factory, iconKey: "industrial" },
+  { key: "facilities", name: "Facilities", desc: "Recovery and landfill operations.", icon: Recycle, iconKey: "facilities" },
 ];
 
 const SERVICES: ServiceMeta[] = [
   // residential
-  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, detailType: "trash", category: "residential" },
-  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, detailType: "dumpster", category: "residential" },
-  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, detailType: "septic", category: "residential" },
-  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, detailType: "toilet", category: "residential" },
+  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, iconKey: "general-trash-collection", detailType: "trash", category: "residential" },
+  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, iconKey: "dumpster-rental", detailType: "dumpster", category: "residential" },
+  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, iconKey: "septic-services", detailType: "septic", category: "residential" },
+  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "residential" },
   // commercial
-  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, detailType: "trash", category: "commercial" },
-  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, detailType: "dumpster", category: "commercial" },
-  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, detailType: "toilet", category: "commercial" },
-  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, detailType: "septic", category: "commercial" },
-  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, detailType: "shred", category: "commercial" },
+  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, iconKey: "general-waste-management", detailType: "trash", category: "commercial" },
+  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", category: "commercial" },
+  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "commercial" },
+  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, iconKey: "grease-trap", detailType: "septic", category: "commercial" },
+  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, iconKey: "document-shredding", detailType: "shred", category: "commercial" },
   // industrial
-  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, detailType: "industrial", category: "industrial" },
-  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, detailType: "industrial", category: "industrial" },
-  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, detailType: "industrial", category: "industrial" },
-  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, detailType: "industrial", category: "industrial" },
-  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, detailType: "industrial", category: "industrial" },
-  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, detailType: "industrial", category: "industrial" },
-  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, detailType: "industrial", category: "industrial" },
+  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, iconKey: "hazardous-waste", detailType: "industrial", category: "industrial" },
+  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, iconKey: "liquid-wastewater", detailType: "industrial", category: "industrial" },
+  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, iconKey: "used-waste-oil", detailType: "industrial", category: "industrial" },
+  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, iconKey: "contaminated-soil", detailType: "industrial", category: "industrial" },
+  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, iconKey: "tank-cleaning", detailType: "industrial", category: "industrial" },
+  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", category: "industrial" },
+  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, iconKey: "biohazardous-disposal", detailType: "industrial", category: "industrial" },
   // facilities
-  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, detailType: "facilities", category: "facilities" },
-  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, detailType: "facilities", category: "facilities" },
+  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, iconKey: "material-recovery", detailType: "facilities", category: "facilities" },
+  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, iconKey: "landfill-operations", detailType: "facilities", category: "facilities" },
 ];
 
 // Specialist review services
@@ -349,7 +351,6 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
 
       <div className="mt-6 grid sm:grid-cols-2 gap-4">
         {CATEGORIES.map((c) => {
-          const Icon = c.icon;
           const active = data.category === c.key;
           return (
             <button
@@ -357,13 +358,22 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
               type="button"
               onClick={() => setData({ ...data, category: c.key, service: null, details: {} })}
               className={cn(
-                "text-left rounded-2xl border-2 p-6 transition-all bg-card",
-                active ? "border-[#006B35] bg-[#006B35]/5" : "border-border hover:border-[#006B35]/40 hover:-translate-y-0.5",
+                "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
+                active
+                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
+                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between">
-                <div className={cn("size-14 rounded-xl flex items-center justify-center", active ? "bg-[#006B35] text-white" : "bg-muted text-[#006B35]")}>
-                  <Icon className="size-7" />
+                <div
+                  className={cn(
+                    "h-24 w-24 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    active
+                      ? "bg-white ring-[#006B35]/30"
+                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                  )}
+                >
+                  <CevonsIcon group="categories" name={c.iconKey} size="xl" decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>
@@ -389,7 +399,6 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
 
       <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {list.map((s) => {
-          const Icon = s.icon;
           const active = data.service === s.key;
           const specialist = SPECIALIST_KEYS.has(s.key);
           return (
@@ -398,13 +407,22 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
               type="button"
               onClick={() => setData({ ...data, service: s.key, details: {} })}
               className={cn(
-                "text-left rounded-xl border-2 p-4 transition-all bg-card",
-                active ? "border-[#006B35] bg-[#006B35]/5" : "border-border hover:border-[#006B35]/40",
+                "text-left rounded-xl border-2 p-4 transition-all bg-card group",
+                active
+                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
+                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between gap-2">
-                <div className={cn("size-10 rounded-lg flex items-center justify-center", active ? "bg-[#006B35] text-white" : "bg-muted text-[#006B35]")}>
-                  <Icon className="size-5" />
+                <div
+                  className={cn(
+                    "h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    active
+                      ? "bg-white ring-[#006B35]/30"
+                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                  )}
+                >
+                  <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>

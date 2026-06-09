@@ -13,14 +13,16 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "./SiteLayout";
 import { WhatsApp } from "./icons/WhatsApp";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import { cevonsIcons } from "@/data/cevonsIconRegistry";
 import logo from "@/assets/cevons-logo.png";
 import truck from "@/assets/hero-truck.jpg";
 
 const helpfulLinks = [
-  { to: "/services", title: "Our Services", sub: "Explore all services", Icon: Truck },
-  { to: "/locations", title: "Locations", sub: "View our service areas", Icon: MapPin },
-  { to: "/request-service", title: "Request a Service", sub: "Let's take care of it", Icon: CalendarCheck },
-  { to: "/contact", title: "Contact Us", sub: "We're here to help", Icon: MessageCircle },
+  { to: "/services", title: "Our Services", sub: "Explore all services", Icon: Truck, branded: null },
+  { to: "/locations", title: "Locations", sub: "View our service areas", Icon: MapPin, branded: null },
+  { to: "/request-service", title: "Request a Service", sub: "Let's take care of it", Icon: CalendarCheck, branded: cevonsIcons.ui.requestService },
+  { to: "/contact", title: "Contact Us", sub: "We're here to help", Icon: MessageCircle, branded: cevonsIcons.ui.contactSupport },
 ] as const;
 
 const benefits = [
@@ -95,16 +97,22 @@ export function NotFoundPage() {
             Here are some <span className="text-cevons-green">helpful links</span>
           </h2>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {helpfulLinks.map(({ to, title, sub, Icon }, i) => (
+            {helpfulLinks.map(({ to, title, sub, Icon, branded }, i) => (
               <Link
                 key={to}
                 to={to}
                 className="card-cevons p-6 group reveal block"
                 style={{ animationDelay: `${0.05 * i}s` }}
               >
-                <span className="inline-flex items-center justify-center size-12 rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
-                  <Icon className="size-6" />
-                </span>
+                {branded ? (
+                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cevons-cream to-cevons-green/10 ring-1 ring-cevons-green/15 shadow-sm transition-transform group-hover:scale-[1.04]">
+                    <CevonsIcon icon={branded} size="md" decorative />
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center justify-center size-12 rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
+                    <Icon className="size-6" />
+                  </span>
+                )}
                 <h3 className="mt-4 text-base font-bold text-cevons-dark">{title}</h3>
                 <p className="mt-1 text-sm text-cevons-muted">{sub}</p>
               </Link>

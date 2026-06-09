@@ -34,6 +34,8 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import forestBg from "@/assets/forest-bg.jpg";
 
 export const Route = createFileRoute("/services")({
@@ -66,36 +68,37 @@ type ServiceItem = {
   body: string;
   slug: string;
   icon: React.ComponentType<{ className?: string }>;
+  iconKey: CevonsServiceKey;
 };
 
 const residential: ServiceItem[] = [
-  { title: "General Trash Collection", slug: "/services/general-trash-collection", icon: Trash2, body: "Reliable household waste pickup on a schedule that fits your community." },
-  { title: "Dumpster Rental", slug: "/services/dumpster-rental", icon: Container, body: "Short or long term dumpster rentals for home projects and cleanouts." },
-  { title: "Septic Services", slug: "/services/septic-services", icon: Droplet, body: "Safe, efficient septic tank pumping and clearance for homes." },
-  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, body: "Clean, hygienic portable toilet rentals for residential events and projects." },
+  { title: "General Trash Collection", slug: "/services/general-trash-collection", icon: Trash2, iconKey: "general-trash-collection", body: "Reliable household waste pickup on a schedule that fits your community." },
+  { title: "Dumpster Rental", slug: "/services/dumpster-rental", icon: Container, iconKey: "dumpster-rental", body: "Short or long term dumpster rentals for home projects and cleanouts." },
+  { title: "Septic Services", slug: "/services/septic-services", icon: Droplet, iconKey: "septic-services", body: "Safe, efficient septic tank pumping and clearance for homes." },
+  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, iconKey: "portable-toilet", body: "Clean, hygienic portable toilet rentals for residential events and projects." },
 ];
 
 const commercial: ServiceItem[] = [
-  { title: "General Waste Management", slug: "/services/general-waste-management", icon: Trash2, body: "Scheduled collection and waste programs for businesses and properties." },
-  { title: "Skip Bin & Dumpster Rental", slug: "/services/skip-bin-dumpster-rental", icon: Container, body: "Multiple sizes for construction, renovation, and ongoing site needs." },
-  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, body: "Sanitation units for sites, events, and commercial properties." },
-  { title: "Grease Trap / Septic Tank", slug: "/services/grease-trap-septic-tank", icon: Droplet, body: "Grease trap and septic servicing for restaurants and facilities." },
-  { title: "Document Shredding", slug: "/services/document-shredding", icon: FileText, body: "Secure on-site or off-site document destruction with chain-of-custody." },
+  { title: "General Waste Management", slug: "/services/general-waste-management", icon: Trash2, iconKey: "general-waste-management", body: "Scheduled collection and waste programs for businesses and properties." },
+  { title: "Skip Bin & Dumpster Rental", slug: "/services/skip-bin-dumpster-rental", icon: Container, iconKey: "skip-bin", body: "Multiple sizes for construction, renovation, and ongoing site needs." },
+  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, iconKey: "portable-toilet", body: "Sanitation units for sites, events, and commercial properties." },
+  { title: "Grease Trap / Septic Tank", slug: "/services/grease-trap-septic-tank", icon: Droplet, iconKey: "grease-trap", body: "Grease trap and septic servicing for restaurants and facilities." },
+  { title: "Document Shredding", slug: "/services/document-shredding", icon: FileText, iconKey: "document-shredding", body: "Secure on-site or off-site document destruction with chain-of-custody." },
 ];
 
 const industrial: ServiceItem[] = [
-  { title: "Hazardous Waste", slug: "/services/hazardous-waste", icon: ShieldAlert, body: "Regulated handling, transport, and disposal of hazardous waste streams." },
-  { title: "Wastewater", slug: "/services/wastewater", icon: Waves, body: "Industrial wastewater collection and treatment coordination." },
-  { title: "Used Waste Oil", slug: "/services/used-waste-oil", icon: Flame, body: "Compliant collection and responsible recycling of used waste oil." },
-  { title: "Contaminated Soil", slug: "/services/contaminated-soil", icon: Sprout, body: "Excavation, transport, and treatment of contaminated solid waste." },
-  { title: "Tank Cleaning", slug: "/services/tank-cleaning", icon: Beaker, body: "Industrial tank cleaning with safety controls and proper waste disposal." },
-  { title: "Product Destruction", slug: "/services/product-destruction", icon: PackageX, body: "Certified product destruction with auditable documentation." },
-  { title: "Biohazardous Disposal", slug: "/services/biohazardous-disposal", icon: Biohazard, body: "Safe biohazardous waste collection and compliant disposal." },
+  { title: "Hazardous Waste", slug: "/services/hazardous-waste", icon: ShieldAlert, iconKey: "hazardous-waste", body: "Regulated handling, transport, and disposal of hazardous waste streams." },
+  { title: "Wastewater", slug: "/services/wastewater", icon: Waves, iconKey: "liquid-wastewater", body: "Industrial wastewater collection and treatment coordination." },
+  { title: "Used Waste Oil", slug: "/services/used-waste-oil", icon: Flame, iconKey: "used-waste-oil", body: "Compliant collection and responsible recycling of used waste oil." },
+  { title: "Contaminated Soil", slug: "/services/contaminated-soil", icon: Sprout, iconKey: "contaminated-soil", body: "Excavation, transport, and treatment of contaminated solid waste." },
+  { title: "Tank Cleaning", slug: "/services/tank-cleaning", icon: Beaker, iconKey: "tank-cleaning", body: "Industrial tank cleaning with safety controls and proper waste disposal." },
+  { title: "Product Destruction", slug: "/services/product-destruction", icon: PackageX, iconKey: "product-destruction", body: "Certified product destruction with auditable documentation." },
+  { title: "Biohazardous Disposal", slug: "/services/biohazardous-disposal", icon: Biohazard, iconKey: "biohazardous-disposal", body: "Safe biohazardous waste collection and compliant disposal." },
 ];
 
 const facilities: ServiceItem[] = [
-  { title: "Material Recovery Facility", slug: "/services/material-recovery-facility", icon: Recycle, body: "Sorting and recovery infrastructure that turns waste into resources." },
-  { title: "Landfill Operations", slug: "/services/landfill-operations", icon: Mountain, body: "Managed landfill operations with environmental safeguards." },
+  { title: "Material Recovery Facility", slug: "/services/material-recovery-facility", icon: Recycle, iconKey: "material-recovery", body: "Sorting and recovery infrastructure that turns waste into resources." },
+  { title: "Landfill Operations", slug: "/services/landfill-operations", icon: Mountain, iconKey: "landfill-operations", body: "Managed landfill operations with environmental safeguards." },
 ];
 
 const categoryOverview: {
@@ -195,13 +198,12 @@ function HeroSwoosh() {
 }
 
 function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
-  const Icon = s.icon;
   if (variant === "industrial") {
     return (
       <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
         <div className="flex items-start gap-4">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[var(--cevons-yellow)]/10 text-[var(--cevons-yellow)] ring-1 ring-[var(--cevons-yellow)]/30">
-            <Icon className="size-6" />
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/95 ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+            <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
@@ -224,8 +226,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
   }
   return (
     <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
-      <span className="flex size-12 items-center justify-center rounded-xl bg-[var(--cevons-green)]/10 text-[var(--cevons-deep-green)] mb-4">
-        <Icon className="size-6" />
+      <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/10 ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
+        <CevonsIcon group="services" name={s.iconKey} size="lg" decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
@@ -367,9 +369,9 @@ function ServicesPage() {
                     style={{ background: isYellow ? "rgba(16,24,32,0.15)" : "rgba(255,210,0,0.4)" }}
                   />
                   <div className="relative">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className={`flex size-12 items-center justify-center rounded-xl ${isYellow ? "bg-[var(--cevons-dark)] text-[var(--cevons-yellow)]" : "bg-white/15 text-[var(--cevons-yellow)]"}`}>
-                        <Icon className="size-6" />
+                    <div className="flex items-center gap-4 mb-3">
+                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-white/95 shadow-lg ring-1 ring-black/5">
+                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} size="xl" decorative />
                       </span>
                       <div>
                         <p className={`text-xs font-bold uppercase tracking-wider ${isYellow ? "text-[var(--cevons-dark)]/70" : "text-[var(--cevons-yellow)]"}`}>{label}</p>
@@ -521,7 +523,6 @@ function ServicesPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {facilities.map((s) => {
-                const Icon = s.icon;
                 return (
                   <article
                     key={s.title}
@@ -532,8 +533,8 @@ function ServicesPage() {
                       className="absolute -right-10 -bottom-10 size-40 rounded-full bg-[var(--cevons-deep-green)]/5"
                     />
                     <div className="relative flex items-start gap-5">
-                      <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-[var(--cevons-deep-green)] text-[var(--cevons-yellow)]">
-                        <Icon className="size-8" />
+                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/15 ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
+                        <CevonsIcon group="services" name={s.iconKey} size="xl" decorative />
                       </span>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
