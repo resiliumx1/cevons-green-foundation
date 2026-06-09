@@ -165,11 +165,11 @@ function RequestServicePage() {
                   <ChevronLeft className="size-4 mr-1" /> Back
                 </Button>
                 {step < STEPS.length - 1 ? (
-                  <Button onClick={next} className="h-12 bg-[hsl(var(--cevons-yellow))] text-[#101820] hover:bg-[hsl(var(--cevons-yellow))]/90 font-semibold">
+                  <Button onClick={next} className="h-12 bg-[var(--cevons-yellow)] text-[#101820] hover:bg-[var(--cevons-yellow)]/90 font-semibold">
                     Continue <ChevronRight className="size-4 ml-1" />
                   </Button>
                 ) : (
-                  <Button onClick={submit} className="h-12 bg-[hsl(var(--cevons-yellow))] text-[#101820] hover:bg-[hsl(var(--cevons-yellow))]/90 font-semibold">
+                  <Button onClick={submit} className="h-12 bg-[var(--cevons-yellow)] text-[#101820] hover:bg-[var(--cevons-yellow)]/90 font-semibold">
                     Submit Request
                   </Button>
                 )}
@@ -275,7 +275,7 @@ function Grid({ items, value, onSelect }: { items: typeof SERVICES; value: Servi
             </div>
             <div className="mt-3 font-semibold">{s.name}</div>
             <div className="text-sm text-muted-foreground">{s.desc}</div>
-            {s.specialist && <div className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-wide text-[hsl(var(--cevons-red))]">Specialist Review</div>}
+            {s.specialist && <div className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-wide text-[var(--cevons-red)]">Specialist Review</div>}
           </button>
         );
       })}
@@ -513,7 +513,7 @@ function StepSchedule({
       </p>
 
       {isSpecialist && (
-        <div className="mt-4 rounded-xl border border-[hsl(var(--cevons-yellow))]/40 bg-[hsl(var(--cevons-yellow))]/10 p-4 text-sm">
+        <div className="mt-4 rounded-xl border border-[var(--cevons-yellow)]/40 bg-[var(--cevons-yellow)]/10 p-4 text-sm">
           <strong className="font-semibold">Specialist Review Required.</strong> Submit your request and a CEVON'S team member will contact you by WhatsApp during the same business day.
         </div>
       )}
@@ -617,7 +617,7 @@ function StepReview({
       <div className="mt-6 space-y-4">
         <ReviewBlock title="Service">
           <div className="font-medium">{selected?.name ?? "—"}</div>
-          {selected?.specialist && <div className="text-sm text-[hsl(var(--cevons-red))] font-semibold mt-1">Specialist review required</div>}
+          {selected?.specialist && <div className="text-sm text-[var(--cevons-red)] font-semibold mt-1">Specialist review required</div>}
         </ReviewBlock>
         {detailEntries.length > 0 && (
           <ReviewBlock title="Details">
