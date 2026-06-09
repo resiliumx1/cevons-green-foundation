@@ -161,20 +161,21 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">Common Uses</p>
             <h2 id="uses-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Where this service helps</h2>
           </div>
-          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {commonUses.map(({ icon: Icon, title }, i) => (
-              <li
+          <Stagger as="ul" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {commonUses.map(({ icon: Icon, title }) => (
+              <StaggerItem
+                as="li"
                 key={title}
-                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5 reveal"
-                style={{ animationDelay: `${i * 50}ms` }}
+                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5"
               >
                 <span className="mx-auto mb-3 size-12 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
                   <Icon className="size-6" aria-hidden="true" />
                 </span>
                 <p className="text-sm font-semibold text-cevons-dark leading-snug">{title}</p>
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </Stagger>
+
         </div>
       </section>
 
