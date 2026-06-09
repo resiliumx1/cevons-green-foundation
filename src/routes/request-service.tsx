@@ -399,7 +399,6 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
 
       <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {list.map((s) => {
-          const Icon = s.icon;
           const active = data.service === s.key;
           const specialist = SPECIALIST_KEYS.has(s.key);
           return (
@@ -408,13 +407,22 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
               type="button"
               onClick={() => setData({ ...data, service: s.key, details: {} })}
               className={cn(
-                "text-left rounded-xl border-2 p-4 transition-all bg-card",
-                active ? "border-[#006B35] bg-[#006B35]/5" : "border-border hover:border-[#006B35]/40",
+                "text-left rounded-xl border-2 p-4 transition-all bg-card group",
+                active
+                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
+                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between gap-2">
-                <div className={cn("size-10 rounded-lg flex items-center justify-center", active ? "bg-[#006B35] text-white" : "bg-muted text-[#006B35]")}>
-                  <Icon className="size-5" />
+                <div
+                  className={cn(
+                    "h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    active
+                      ? "bg-white ring-[#006B35]/30"
+                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                  )}
+                >
+                  <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>
