@@ -18,7 +18,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { CountUp } from "@/components/CountUp";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
@@ -40,11 +39,11 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const stats = [
-  { value: 25, suffix: "+", label: "Years of Service", icon: Award },
-  { value: 50, suffix: "K+", label: "Happy Customers", icon: Heart },
-  { value: 120, suffix: "+", label: "Fleet & Equipment", icon: Shield },
-  { value: 3, suffix: "", label: "Regions Served", icon: TrendingUp },
+const stats: { label: string; value: string; icon: typeof Award }[] = [
+  { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
+  { value: "4", label: "Service Categories", icon: Recycle },
+  { value: "3", label: "Regions Served", icon: TrendingUp },
+  { value: "All Sectors", label: "Residential • Commercial • Industrial • Facilities", icon: Shield },
 ];
 
 const mvvcards = [
@@ -76,10 +75,10 @@ const complianceBadges = [
 ];
 
 const operationsImages = [
-  { src: imgGarbage, alt: "CEVON’S waste collection fleet in operation across Guyana" },
-  { src: imgIndustrial, alt: "Industrial waste management team at work" },
-  { src: imgDumpster, alt: "Dumpster rental services for commercial clients" },
-  { src: imgOil, alt: "Waste oil recycling and environmental services" },
+  { src: imgGarbage, alt: "CEVON’S waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
+  { src: imgIndustrial, alt: "Industrial waste management team at work", caption: "Industrial Crews", sub: "Trained, safety-first teams" },
+  { src: imgDumpster, alt: "Dumpster rental services for commercial clients", caption: "Rental Equipment", sub: "Dumpsters, skips & portable units" },
+  { src: imgOil, alt: "Waste oil recycling and environmental services", caption: "Specialist Services", sub: "Oil, wastewater & recovery" },
 ];
 
 function HeroSwoosh() {
@@ -252,12 +251,12 @@ function AboutPage() {
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
-            {stats.map(({ icon: Icon, value, suffix, label }) => (
+            {stats.map(({ icon: Icon, value, label }) => (
               <li key={label} className="flex items-center gap-4">
                 <Icon className="size-7 text-[var(--cevons-yellow,#FFD200)] shrink-0" />
                 <div>
-                  <p className="text-3xl md:text-4xl font-extrabold leading-none">
-                    <CountUp end={value} suffix={suffix} />
+                  <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
+                    {value}
                   </p>
                   <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
                 </div>
@@ -277,22 +276,28 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {operationsImages.map(({ src, alt }, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {operationsImages.map(({ src, alt, caption, sub }, i) => (
               <div
                 key={alt}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden group ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`group rounded-2xl overflow-hidden bg-white border border-[var(--cevons-deep-green,#006B35)]/10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <img
-                  src={src}
-                  alt={alt}
-                  loading="lazy"
-                  width={600}
-                  height={450}
-                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#006B35)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={src}
+                    alt={alt}
+                    loading="lazy"
+                    width={600}
+                    height={450}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#006B35)]/45 to-transparent" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,#006B35)]">{caption}</h3>
+                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)]">{sub}</p>
+                </div>
               </div>
             ))}
           </div>

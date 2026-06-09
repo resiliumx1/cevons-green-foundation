@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
+  Award,
   Calendar,
   CheckCircle,
   ClipboardCheck,
@@ -12,14 +13,12 @@ import {
   ShieldCheck,
   Trash2,
   Truck,
-  
   Factory,
   Target,
   Home,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { CountUp } from "@/components/CountUp";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
@@ -59,11 +58,11 @@ const pillars = [
   { img: imgRecovery, title: "Recycling & Facilities", icon: Recycle, body: "Turning waste into resources through recycling and facility services." },
 ];
 
-const stats = [
-  { value: 16, suffix: "", label: "Services Offered", icon: ClipboardCheck },
-  { value: 4, suffix: "", label: "Service Categories", icon: Recycle },
-  { value: 3, suffix: "", label: "Regions Served", icon: MapPin },
-  { value: 100, suffix: "%", label: "Guyana-Focused", icon: Leaf },
+const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
+  { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
+  { value: "4", label: "Service Categories", icon: Recycle },
+  { value: "3", label: "Regions Served", icon: MapPin },
+  { value: "All", label: "Residential • Commercial • Industrial • Facilities", icon: Leaf },
 ];
 
 
@@ -203,12 +202,12 @@ function HomePage() {
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
-            {stats.map(({ icon: Icon, value, suffix, label }) => (
+            {stats.map(({ icon: Icon, value, label }) => (
               <li key={label} className="flex items-center gap-4">
                 <Icon className="size-7 text-cevons-yellow shrink-0" />
                 <div>
-                  <p className="text-3xl md:text-4xl font-extrabold leading-none">
-                    <CountUp end={value} suffix={suffix} />
+                  <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
+                    {value}
                   </p>
                   <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
                 </div>
