@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Container, FileText, Home, Hotel, School, ShoppingBag, Store, Trash2, Utensils } from "lucide-react";
+import { Building2, FileText, Home, Hotel, School, ShoppingBag, Store, Trash2, Utensils } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
