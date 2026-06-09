@@ -7,7 +7,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence
+      mode="wait"
+      initial={false}
+      onExitComplete={() => window.scrollTo({ top: 0, left: 0, behavior: "auto" })}
+    >
       <motion.div
         key={pathname}
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
