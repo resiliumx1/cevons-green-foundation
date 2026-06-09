@@ -14,13 +14,160 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          landing_page: string | null
+          message: string
+          name: string
+          phone: string | null
+          referrer: string | null
+          status: string
+          subject: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          landing_page?: string | null
+          message: string
+          name: string
+          phone?: string | null
+          referrer?: string | null
+          status?: string
+          subject?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          landing_page?: string | null
+          message?: string
+          name?: string
+          phone?: string | null
+          referrer?: string | null
+          status?: string
+          subject?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
+      service_requests: {
+        Row: {
+          category: string | null
+          company: string | null
+          contact_method: string | null
+          created_at: string
+          customer_type: string | null
+          details: Json
+          email: string | null
+          file_urls: string[]
+          id: string
+          landing_page: string | null
+          message: string | null
+          name: string | null
+          phone: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          reference: string
+          referrer: string | null
+          region: string | null
+          service: string | null
+          status: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          category?: string | null
+          company?: string | null
+          contact_method?: string | null
+          created_at?: string
+          customer_type?: string | null
+          details?: Json
+          email?: string | null
+          file_urls?: string[]
+          id?: string
+          landing_page?: string | null
+          message?: string | null
+          name?: string | null
+          phone?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference?: string
+          referrer?: string | null
+          region?: string | null
+          service?: string | null
+          status?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          category?: string | null
+          company?: string | null
+          contact_method?: string | null
+          created_at?: string
+          customer_type?: string | null
+          details?: Json
+          email?: string | null
+          file_urls?: string[]
+          id?: string
+          landing_page?: string | null
+          message?: string | null
+          name?: string | null
+          phone?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reference?: string
+          referrer?: string | null
+          region?: string | null
+          service?: string | null
+          status?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_request_status: {
+        Args: { _reference: string }
+        Returns: {
+          created_at: string
+          reference: string
+          service: string
+          status: string
+        }[]
+      }
+      submit_contact_message: { Args: { payload: Json }; Returns: undefined }
+      submit_service_request: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
       [_ in never]: never
