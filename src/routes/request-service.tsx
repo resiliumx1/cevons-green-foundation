@@ -46,42 +46,38 @@ type ServiceKey =
   // facilities
   | "material-recovery-facility" | "landfill-operations";
 
-type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; detailType: DetailType; category: CategoryKey };
+type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; iconKey: CevonsServiceKey; detailType: DetailType; category: CategoryKey };
 
-type DetailType =
-  | "dumpster" | "toilet" | "septic" | "trash" | "shred"
-  | "industrial" | "facilities";
-
-const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any }[] = [
-  { key: "residential", name: "Residential", desc: "Homes, neighborhoods, and small properties.", icon: Home },
-  { key: "commercial", name: "Commercial", desc: "Offices, retail, hospitality, and businesses.", icon: Building2 },
-  { key: "industrial", name: "Industrial", desc: "Specialized and regulated waste streams.", icon: Factory },
-  { key: "facilities", name: "Facilities", desc: "Recovery and landfill operations.", icon: Recycle },
+const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; iconKey: CevonsCategoryKey }[] = [
+  { key: "residential", name: "Residential", desc: "Homes, neighborhoods, and small properties.", icon: Home, iconKey: "residential" },
+  { key: "commercial", name: "Commercial", desc: "Offices, retail, hospitality, and businesses.", icon: Building2, iconKey: "commercial" },
+  { key: "industrial", name: "Industrial", desc: "Specialized and regulated waste streams.", icon: Factory, iconKey: "industrial" },
+  { key: "facilities", name: "Facilities", desc: "Recovery and landfill operations.", icon: Recycle, iconKey: "facilities" },
 ];
 
 const SERVICES: ServiceMeta[] = [
   // residential
-  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, detailType: "trash", category: "residential" },
-  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, detailType: "dumpster", category: "residential" },
-  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, detailType: "septic", category: "residential" },
-  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, detailType: "toilet", category: "residential" },
+  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, iconKey: "general-trash-collection", detailType: "trash", category: "residential" },
+  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, iconKey: "dumpster-rental", detailType: "dumpster", category: "residential" },
+  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, iconKey: "septic-services", detailType: "septic", category: "residential" },
+  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "residential" },
   // commercial
-  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, detailType: "trash", category: "commercial" },
-  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, detailType: "dumpster", category: "commercial" },
-  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, detailType: "toilet", category: "commercial" },
-  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, detailType: "septic", category: "commercial" },
-  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, detailType: "shred", category: "commercial" },
+  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, iconKey: "general-waste-management", detailType: "trash", category: "commercial" },
+  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", category: "commercial" },
+  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "commercial" },
+  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, iconKey: "grease-trap", detailType: "septic", category: "commercial" },
+  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, iconKey: "document-shredding", detailType: "shred", category: "commercial" },
   // industrial
-  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, detailType: "industrial", category: "industrial" },
-  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, detailType: "industrial", category: "industrial" },
-  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, detailType: "industrial", category: "industrial" },
-  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, detailType: "industrial", category: "industrial" },
-  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, detailType: "industrial", category: "industrial" },
-  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, detailType: "industrial", category: "industrial" },
-  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, detailType: "industrial", category: "industrial" },
+  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, iconKey: "hazardous-waste", detailType: "industrial", category: "industrial" },
+  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, iconKey: "liquid-wastewater", detailType: "industrial", category: "industrial" },
+  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, iconKey: "used-waste-oil", detailType: "industrial", category: "industrial" },
+  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, iconKey: "contaminated-soil", detailType: "industrial", category: "industrial" },
+  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, iconKey: "tank-cleaning", detailType: "industrial", category: "industrial" },
+  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", category: "industrial" },
+  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, iconKey: "biohazardous-disposal", detailType: "industrial", category: "industrial" },
   // facilities
-  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, detailType: "facilities", category: "facilities" },
-  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, detailType: "facilities", category: "facilities" },
+  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, iconKey: "material-recovery", detailType: "facilities", category: "facilities" },
+  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, iconKey: "landfill-operations", detailType: "facilities", category: "facilities" },
 ];
 
 // Specialist review services
