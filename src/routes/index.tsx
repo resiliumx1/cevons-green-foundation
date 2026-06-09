@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { CountUp } from "@/components/CountUp";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";

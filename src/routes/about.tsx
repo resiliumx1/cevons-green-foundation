@@ -18,7 +18,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { CountUp } from "@/components/CountUp";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
