@@ -227,8 +227,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
   }
   return (
     <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
-      <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/10 ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
-        <CevonsIcon group="services" name={s.iconKey} size="lg" decorative />
+      <span className="relative flex h-20 w-20 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
+        <CevonsIcon group="services" name={s.iconKey} fill decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
