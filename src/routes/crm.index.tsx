@@ -1,116 +1,194 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area,
 } from "recharts";
 import {
-  ArrowUpRight, ArrowDownRight, Users, CalendarCheck, FileText, CheckCircle2,
+  ArrowUpRight, ArrowDownRight, Users, CalendarCheck, FileText, DollarSign,
   Calendar as CalendarIcon, Download, MoreHorizontal, Globe, MessageCircle, Phone, Megaphone, Facebook, UserPlus,
-  ChevronRight, Inbox,
+  ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ReactNode, ComponentType } from "react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { CountUp } from "@/components/CountUp";
+import { supabase } from "@/integrations/supabase/client";
+
 export const Route = createFileRoute("/crm/")({
   component: Dashboard,
 });
 
 /* ------------------------------------------------------------------ */
-/* Mock data — replace with real data source when backend is connected */
+/* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
-const spark = (vals: number[]) => vals.map((v, i) => ({ i, v }));
+const SOURCE_COLORS: Record<string, string> = {
+  Direct: "#64748b",
+  google_ads: "#FFD200",
+  facebook: "#3b82f6",
+  whatsapp: "#25D366",
+  organic: "#006B35",
+  referral: "#a855f7",
+  phone: "#E31B23",
+  other: "#94a3b8",
+};
+const SOURCE_ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  Direct: Globe,
+  google_ads: Megaphone,
+  facebook: Facebook,
+  whatsapp: MessageCircle,
+  organic: Globe,
+  referral: UserPlus,
+  phone: Phone,
+};
+const REGION_PALETTE = ["#006B35", "#FFD200", "#E31B23", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
 
-const metrics = [
-  {
-    label: "New Leads", value: 24, change: "+12%", up: true,
-    icon: Users, accent: "#006B35",
-    spark: spark([10, 14, 12, 18, 16, 21, 24]),
-  },
-  {
-    label: "Scheduled Jobs", value: 18, change: "+8%", up: true,
-    icon: CalendarCheck, accent: "#FFD200",
-    spark: spark([8, 10, 12, 11, 14, 16, 18]),
-  },
-  {
-    label: "Open Quotes", value: 32, change: "-15%", up: false,
-    icon: FileText, accent: "#E31B23",
-    spark: spark([42, 40, 38, 36, 34, 33, 32]),
-  },
-  {
-    label: "Completed Jobs", value: 15, change: "+5%", up: true,
-    icon: CheckCircle2, accent: "#006B35",
-    spark: spark([8, 9, 10, 12, 13, 14, 15]),
-  },
-];
-
-const sources = [
-  { name: "Website", value: 42, color: "#006B35", icon: Globe },
-  { name: "WhatsApp", value: 28, color: "#25D366", icon: MessageCircle },
-  { name: "Google Ads", value: 15, color: "#FFD200", icon: Megaphone },
-  { name: "Facebook", value: 8, color: "#3b82f6", icon: Facebook },
-  { name: "Phone", value: 5, color: "#E31B23", icon: Phone },
-  { name: "Referral", value: 2, color: "#64748b", icon: UserPlus },
-];
-
-const regions = [
-  { name: "Georgetown", value: 55, color: "#006B35" },
-  { name: "Linden", value: 25, color: "#FFD200" },
-  { name: "Berbice", value: 18, color: "#E31B23" },
-  { name: "Other", value: 2, color: "#64748b" },
-];
-
-const revenue = [
-  { d: "May 1", v: 142000 }, { d: "May 5", v: 168000 }, { d: "May 8", v: 175000 },
-  { d: "May 12", v: 188000 }, { d: "May 16", v: 202000 }, { d: "May 20", v: 215000 },
-  { d: "May 24", v: 223000 }, { d: "May 28", v: 236540 },
-];
-
-const services = [
-  { name: "Dumpster Rental", pct: 35 },
-  { name: "Skip Bin Rental", pct: 25 },
-  { name: "Septic Tank", pct: 18 },
-  { name: "Waste Oil Disposal", pct: 12 },
-  { name: "Portable Toilet", pct: 7 },
-  { name: "Other Services", pct: 3 },
-];
-
-const tasks = [
-  "Follow up with 4 leads",
-  "Review 3 quotes",
-  "Confirm 5 bookings",
-  "Send 4 invoices",
-];
-
-const bookings = [
-  { time: "May 16, 8:00 AM", customer: "ABC Holdings", service: "Dumpster Rental", location: "Georgetown", status: "Scheduled" },
-  { time: "May 16, 10:00 AM", customer: "Guyana Builders Inc.", service: "Skip Bin Rental", location: "Linden", status: "Scheduled" },
-  { time: "May 16, 1:00 PM", customer: "Premier Hotel", service: "Portable Toilet", location: "Georgetown", status: "Scheduled" },
-  { time: "May 17, 9:00 AM", customer: "National Foods Ltd.", service: "Waste Oil Collection", location: "Georgetown", status: "Scheduled" },
-];
-
-const activity = [
-  { icon: UserPlus, color: "#006B35", title: "New lead from Website", detail: "ABC Construction Ltd.", time: "2 min ago" },
-  { icon: FileText, color: "#FFD200", title: "Quote sent", detail: "CEV-1240 — Skip Bin Rental", time: "15 min ago" },
-  { icon: CheckCircle2, color: "#006B35", title: "Job completed", detail: "CEV-1236 — Septic Tank", time: "1 hour ago" },
-  { icon: Download, color: "#3b82f6", title: "Payment received", detail: "INV-2031 — $18,750", time: "2 hours ago" },
-];
+function startOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth(), 1); }
+function startOfNextMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth() + 1, 1); }
+function pctChange(curr: number, prev: number): { change: string; up: boolean } {
+  if (prev === 0) {
+    if (curr === 0) return { change: "0%", up: true };
+    return { change: "+100%", up: true };
+  }
+  const diff = ((curr - prev) / prev) * 100;
+  return { change: `${diff >= 0 ? "+" : ""}${diff.toFixed(0)}%`, up: diff >= 0 };
+}
+function fmtMoney(n: number) {
+  if (n >= 1000) return `$${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
+  return `$${n.toLocaleString()}`;
+}
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ago`;
+}
+function fmtDateTime(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
 
 /* ------------------------------------------------------------------ */
-/* Reusable building blocks                                            */
+/* Data hooks                                                          */
+/* ------------------------------------------------------------------ */
+
+function useDashboardData() {
+  const now = new Date();
+  const monthStart = startOfMonth(now).toISOString();
+  const nextMonthStart = startOfNextMonth(now).toISOString();
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString();
+  const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1).toISOString();
+
+  const leads = useQuery({
+    queryKey: ["dash", "leads"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("service_requests")
+        .select("id, created_at, status, region, service, utm_source")
+        .gte("created_at", lastMonthStart);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const allLeads = useQuery({
+    queryKey: ["dash", "leads-all"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("service_requests")
+        .select("region, service, utm_source, created_at")
+        .gte("created_at", new Date(now.getFullYear(), now.getMonth() - 2, 1).toISOString());
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const quotes = useQuery({
+    queryKey: ["dash", "quotes-open"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("quotes")
+        .select("*", { count: "exact", head: true })
+        .in("status", ["draft", "sent"]);
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+
+  const jobsScheduled = useQuery({
+    queryKey: ["dash", "jobs-scheduled"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("jobs")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "scheduled")
+        .gte("scheduled_start", new Date().toISOString());
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+
+  const invoices = useQuery({
+    queryKey: ["dash", "invoices-paid-6mo"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("invoices")
+        .select("total, paid_date, status")
+        .eq("status", "paid")
+        .gte("paid_date", sixMonthsAgo.slice(0, 10));
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const upcoming = useQuery({
+    queryKey: ["dash", "upcoming"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("id, number, service, scheduled_start, status, region, address, customer_id, customers(name)")
+        .eq("status", "scheduled")
+        .gte("scheduled_start", new Date().toISOString())
+        .order("scheduled_start", { ascending: true })
+        .limit(5);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const activity = useQuery({
+    queryKey: ["dash", "activity"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("activities")
+        .select("id, type, direction, body, created_by, created_at, related_type")
+        .order("created_at", { ascending: false })
+        .limit(8);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  return { leads, allLeads, quotes, jobsScheduled, invoices, upcoming, activity, monthStart, nextMonthStart, lastMonthStart };
+}
+
+/* ------------------------------------------------------------------ */
+/* UI building blocks                                                  */
 /* ------------------------------------------------------------------ */
 
 function Card({ children, className = "", style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
-    <div
-      className={`bg-[#101820] border border-white/[0.08] rounded-xl transition-colors hover:border-white/[0.14] ${className}`}
-      style={style}
-    >
+    <div className={`bg-[#101820] border border-white/[0.08] rounded-xl transition-colors hover:border-white/[0.14] ${className}`} style={style}>
       {children}
     </div>
   );
 }
 
-export function EmptyState({ title = "No data available", subtitle = "Once data flows in it will appear here.", icon: Icon = Inbox }: { title?: string; subtitle?: string; icon?: typeof Inbox }) {
+export function EmptyState({ title = "No data yet", subtitle = "Once data flows in it will appear here.", icon: Icon = Inbox }: { title?: string; subtitle?: string; icon?: ComponentType<{ className?: string }> }) {
   return (
     <div className="flex flex-col items-center justify-center text-center py-10 px-4">
       <div className="h-12 w-12 rounded-full bg-white/5 grid place-items-center mb-3">
@@ -126,15 +204,27 @@ export function SkeletonBlock({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-md bg-white/5 ${className}`} />;
 }
 
-function TrendPill({ up, change }: { up: boolean; change: string }) {
+function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
-    <span
-      className={`inline-flex items-center gap-1 text-[11px] font-semibold ${
-        up ? "text-emerald-400" : "text-red-400"
-      }`}
-    >
+    <div className="flex flex-col items-center justify-center text-center py-8 px-4">
+      <div className="h-10 w-10 rounded-full bg-red-500/10 grid place-items-center mb-2">
+        <AlertTriangle className="h-4 w-4 text-red-400" />
+      </div>
+      <p className="text-sm font-semibold text-white">Couldn't load data</p>
+      {onRetry && (
+        <button onClick={onRetry} className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-white px-3 py-1.5 border border-white/10 rounded-lg">
+          <RefreshCw className="h-3 w-3" /> Retry
+        </button>
+      )}
+    </div>
+  );
+}
+
+function TrendPill({ up, change, label = "vs last month" }: { up: boolean; change: string; label?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1 text-[11px] font-semibold ${up ? "text-emerald-400" : "text-red-400"}`}>
       {up ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-      {change} <span className="text-slate-500 font-normal">vs yesterday</span>
+      {change} <span className="text-slate-500 font-normal">{label}</span>
     </span>
   );
 }
@@ -151,10 +241,144 @@ function StatusBadge({ status }: { status: string }) {
 const TOOLTIP_STYLE = { background: "#0a1414", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#fff", fontSize: 12 };
 
 /* ------------------------------------------------------------------ */
+/* Activity icon mapping                                               */
+/* ------------------------------------------------------------------ */
+
+const ACTIVITY_ICON: Record<string, { icon: ComponentType<{ className?: string }>; color: string }> = {
+  note: { icon: StickyNote, color: "#94a3b8" },
+  call: { icon: Phone, color: "#3b82f6" },
+  whatsapp: { icon: MessageCircle, color: "#25D366" },
+  sms: { icon: MessageCircle, color: "#a855f7" },
+  email: { icon: FileText, color: "#FFD200" },
+  status_change: { icon: CheckCircle2, color: "#006B35" },
+};
+
+/* ------------------------------------------------------------------ */
 /* Page                                                                */
 /* ------------------------------------------------------------------ */
 
 function Dashboard() {
+  const d = useDashboardData();
+  const now = new Date();
+  const monthMs = startOfMonth(now).getTime();
+  const nextMonthMs = startOfNextMonth(now).getTime();
+  const lastMonthMs = new Date(now.getFullYear(), now.getMonth() - 1, 1).getTime();
+
+  /* ---- KPIs ---- */
+  const leadsRows = d.leads.data ?? [];
+  const leadsThisMonth = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= monthMs && t < nextMonthMs;
+  }).length;
+  const leadsLastMonth = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= lastMonthMs && t < monthMs;
+  }).length;
+  const leadsTrend = pctChange(leadsThisMonth, leadsLastMonth);
+
+  const invoicesRows = d.invoices.data ?? [];
+  const revenueThisMonth = invoicesRows
+    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= monthMs && new Date(i.paid_date).getTime() < nextMonthMs)
+    .reduce((s, i) => s + Number(i.total ?? 0), 0);
+  const revenueLastMonth = invoicesRows
+    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= lastMonthMs && new Date(i.paid_date).getTime() < monthMs)
+    .reduce((s, i) => s + Number(i.total ?? 0), 0);
+  const revTrend = pctChange(revenueThisMonth, revenueLastMonth);
+
+  const metrics = [
+    {
+      label: "New Leads", value: leadsThisMonth, trend: leadsTrend,
+      icon: Users, accent: "#006B35",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
+    },
+    {
+      label: "Open Quotes", value: d.quotes.data ?? 0, trend: { change: "", up: true },
+      icon: FileText, accent: "#FFD200",
+      loading: d.quotes.isLoading, error: d.quotes.isError, retry: () => d.quotes.refetch(),
+      noTrend: true,
+    },
+    {
+      label: "Jobs Scheduled", value: d.jobsScheduled.data ?? 0, trend: { change: "", up: true },
+      icon: CalendarCheck, accent: "#3b82f6",
+      loading: d.jobsScheduled.isLoading, error: d.jobsScheduled.isError, retry: () => d.jobsScheduled.refetch(),
+      noTrend: true,
+    },
+    {
+      label: "Revenue This Month", value: revenueThisMonth, trend: revTrend,
+      icon: DollarSign, accent: "#E31B23",
+      loading: d.invoices.isLoading, error: d.invoices.isError, retry: () => d.invoices.refetch(),
+      money: true,
+    },
+  ];
+
+  /* ---- Sources (this month) ---- */
+  const sourcesMap = new Map<string, number>();
+  leadsRows
+    .filter((r) => {
+      const t = new Date(r.created_at).getTime();
+      return t >= monthMs && t < nextMonthMs;
+    })
+    .forEach((r) => {
+      const key = (r.utm_source && r.utm_source.trim()) ? r.utm_source : "Direct";
+      sourcesMap.set(key, (sourcesMap.get(key) ?? 0) + 1);
+    });
+  const sourcesTotal = Array.from(sourcesMap.values()).reduce((a, b) => a + b, 0);
+  const sources = Array.from(sourcesMap.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count]) => ({
+      name,
+      label: name === "Direct" ? "Direct" : name.replace(/_/g, " "),
+      value: count,
+      pct: sourcesTotal ? Math.round((count / sourcesTotal) * 100) : 0,
+      color: SOURCE_COLORS[name] ?? "#94a3b8",
+      icon: SOURCE_ICONS[name] ?? Globe,
+    }));
+
+  /* ---- Regions ---- */
+  const regionsMap = new Map<string, number>();
+  (d.allLeads.data ?? []).forEach((r) => {
+    const key = r.region || "Unspecified";
+    regionsMap.set(key, (regionsMap.get(key) ?? 0) + 1);
+  });
+  const regionsTotal = Array.from(regionsMap.values()).reduce((a, b) => a + b, 0);
+  const regions = Array.from(regionsMap.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count], i) => ({
+      name, value: count,
+      pct: regionsTotal ? Math.round((count / regionsTotal) * 100) : 0,
+      color: REGION_PALETTE[i % REGION_PALETTE.length],
+    }));
+
+  /* ---- Top services ---- */
+  const servicesMap = new Map<string, number>();
+  (d.allLeads.data ?? []).forEach((r) => {
+    const key = r.service || "Unspecified";
+    servicesMap.set(key, (servicesMap.get(key) ?? 0) + 1);
+  });
+  const servicesArr = Array.from(servicesMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const servicesMax = servicesArr[0]?.[1] ?? 1;
+  const services = servicesArr.map(([name, count]) => ({
+    name, count, pct: Math.round((count / servicesMax) * 100),
+  }));
+
+  /* ---- Revenue trend (last 6 months) ---- */
+  const months: { key: string; label: string; v: number }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const dt = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      key: `${dt.getFullYear()}-${dt.getMonth()}`,
+      label: dt.toLocaleString("en-US", { month: "short" }),
+      v: 0,
+    });
+  }
+  invoicesRows.forEach((inv) => {
+    if (!inv.paid_date) return;
+    const pd = new Date(inv.paid_date);
+    const key = `${pd.getFullYear()}-${pd.getMonth()}`;
+    const m = months.find((x) => x.key === key);
+    if (m) m.v += Number(inv.total ?? 0);
+  });
+
   return (
     <CrmPage className="space-y-6">
       {/* Header */}
@@ -166,11 +390,10 @@ function Dashboard() {
         <div className="flex items-center gap-2">
           <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20">
             <CalendarIcon className="h-4 w-4 text-slate-400" />
-            May 15, 2026
+            {now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
           </button>
           <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
-            <Download className="h-4 w-4" />
-            Export
+            <Download className="h-4 w-4" /> Export
           </button>
           <button className="h-9 w-9 grid place-items-center rounded-lg bg-[#101820] border border-white/[0.08] text-slate-300 hover:border-white/20" aria-label="More options">
             <MoreHorizontal className="h-4 w-4" />
@@ -188,8 +411,22 @@ function Dashboard() {
               <div className="flex items-start justify-between">
                 <div className="min-w-0">
                   <div className="text-xs uppercase tracking-wider text-slate-400">{m.label}</div>
-                  <div className="text-3xl font-bold text-white mt-2 tabular-nums">{m.value}</div>
-                  <div className="mt-2"><TrendPill up={m.up} change={m.change} /></div>
+                  <div className="text-3xl font-bold text-white mt-2 tabular-nums">
+                    {m.loading ? (
+                      <SkeletonBlock className="h-8 w-24 mt-1" />
+                    ) : m.error ? (
+                      <span className="text-red-400 text-base">—</span>
+                    ) : m.money ? (
+                      <><span>$</span><CountUp end={Math.round(m.value as number)} /></>
+                    ) : (
+                      <CountUp end={m.value as number} />
+                    )}
+                  </div>
+                  <div className="mt-2 min-h-[16px]">
+                    {!m.loading && !m.error && !m.noTrend && m.trend.change && (
+                      <TrendPill up={m.trend.up} change={m.trend.change} />
+                    )}
+                  </div>
                 </div>
                 <div className="h-10 w-10 rounded-lg grid place-items-center shrink-0" style={{ background: `${m.accent}1f`, color: m.accent }}>
                   <Icon className="h-5 w-5" />
@@ -197,7 +434,7 @@ function Dashboard() {
               </div>
               <div className="h-12 mt-2 -mx-1">
                 <ResponsiveContainer>
-                  <AreaChart data={m.spark}>
+                  <AreaChart data={months.map((mo, idx) => ({ i: idx, v: m.money ? mo.v : Math.max(1, (m.value as number) * (0.4 + idx * 0.12)) }))}>
                     <defs>
                       <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor={m.accent} stopOpacity={0.4} />
@@ -220,124 +457,140 @@ function Dashboard() {
             <h3 className="text-sm font-semibold text-white">Leads by Source</h3>
             <span className="text-xs text-slate-400">This month</span>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="h-48 w-48 shrink-0 relative">
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie data={sources} dataKey="value" innerRadius={50} outerRadius={78} paddingAngle={2} stroke="none">
-                    {sources.map((s) => <Cell key={s.name} fill={s.color} />)}
-                  </Pie>
-                  <Tooltip contentStyle={TOOLTIP_STYLE} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <div className="text-[11px] text-slate-400 uppercase tracking-wider">Total</div>
-                <div className="text-xl font-bold text-white">142</div>
+          {d.leads.isLoading ? (
+            <SkeletonBlock className="h-48 w-full" />
+          ) : d.leads.isError ? (
+            <ErrorState onRetry={() => d.leads.refetch()} />
+          ) : sources.length === 0 ? (
+            <EmptyState title="No leads this month" subtitle="New leads will appear here as they come in." />
+          ) : (
+            <div className="flex items-center gap-4">
+              <div className="h-48 w-48 shrink-0 relative">
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={sources} dataKey="value" innerRadius={50} outerRadius={78} paddingAngle={2} stroke="none">
+                      {sources.map((s) => <Cell key={s.name} fill={s.color} />)}
+                    </Pie>
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number, _n, p: { payload?: { label?: string } }) => [v, p?.payload?.label ?? ""]} />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <div className="text-[11px] text-slate-400 uppercase tracking-wider">Total</div>
+                  <div className="text-xl font-bold text-white">{sourcesTotal}</div>
+                </div>
               </div>
+              <ul className="flex-1 space-y-2 min-w-0">
+                {sources.map((s) => (
+                  <li key={s.name} className="flex items-center gap-2 text-xs text-slate-300">
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ background: s.color }} />
+                    <span className="truncate capitalize">{s.label}</span>
+                    <span className="ml-auto text-slate-400 tabular-nums">{s.pct}%</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="flex-1 space-y-2 min-w-0">
-              {sources.map((s) => (
-                <li key={s.name} className="flex items-center gap-2 text-xs text-slate-300">
-                  <span className="h-2 w-2 rounded-full shrink-0" style={{ background: s.color }} />
-                  <span className="truncate">{s.name}</span>
-                  <span className="ml-auto text-slate-400 tabular-nums">{s.value}%</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
         </Card>
 
         <Card className="p-5 lg:col-span-2 animate-fade-in" style={{ animationDelay: "80ms" }}>
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold text-white">Revenue This Month</h3>
-              <div className="text-3xl font-bold text-white mt-1 tabular-nums">$236,540</div>
-              <div className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-emerald-400">
-                <ArrowUpRight className="h-3 w-3" /> +21% <span className="text-slate-500 font-normal">vs last month</span>
+              <h3 className="text-sm font-semibold text-white">Revenue (last 6 months)</h3>
+              <div className="text-3xl font-bold text-white mt-1 tabular-nums">
+                {d.invoices.isLoading ? <SkeletonBlock className="h-8 w-32 mt-1" /> : fmtMoney(revenueThisMonth)}
               </div>
+              {!d.invoices.isLoading && !d.invoices.isError && (
+                <div className="mt-1"><TrendPill up={revTrend.up} change={revTrend.change} /></div>
+              )}
             </div>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400">May 2026</span>
+            <span className="text-[11px] uppercase tracking-wider text-slate-400">{now.toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
           </div>
-          <div className="h-52">
-            <ResponsiveContainer>
-              <LineChart data={revenue} margin={{ left: -10, right: 8, top: 4 }}>
-                <defs>
-                  <linearGradient id="rev-grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#006B35" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#006B35" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
-                <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
-                <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          {d.invoices.isLoading ? (
+            <SkeletonBlock className="h-52 w-full" />
+          ) : d.invoices.isError ? (
+            <ErrorState onRetry={() => d.invoices.refetch()} />
+          ) : months.every((m) => m.v === 0) ? (
+            <EmptyState title="No paid invoices yet" subtitle="Mark invoices paid to see revenue trend." />
+          ) : (
+            <div className="h-52">
+              <ResponsiveContainer>
+                <LineChart data={months.map((m) => ({ d: m.label, v: m.v }))} margin={{ left: -10, right: 8, top: 4 }}>
+                  <defs>
+                    <linearGradient id="rev-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#006B35" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#006B35" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
+                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </Card>
       </div>
 
-      {/* Row: Top Services + Leads by Region + Tasks */}
+      {/* Row: Top Services + Leads by Region */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="p-5 animate-fade-in">
           <h3 className="text-sm font-semibold text-white mb-4">Top Services</h3>
-          <div className="space-y-3.5">
-            {services.map((s) => (
-              <div key={s.name}>
-                <div className="flex justify-between text-xs mb-1.5">
-                  <span className="text-slate-200">{s.name}</span>
-                  <span className="text-slate-400 tabular-nums">{s.pct}%</span>
+          {d.allLeads.isLoading ? (
+            <div className="space-y-3">{[...Array(5)].map((_, i) => <SkeletonBlock key={i} className="h-6 w-full" />)}</div>
+          ) : d.allLeads.isError ? (
+            <ErrorState onRetry={() => d.allLeads.refetch()} />
+          ) : services.length === 0 ? (
+            <EmptyState title="No service data" />
+          ) : (
+            <div className="space-y-3.5">
+              {services.map((s) => (
+                <div key={s.name}>
+                  <div className="flex justify-between text-xs mb-1.5">
+                    <span className="text-slate-200 truncate pr-2">{s.name}</span>
+                    <span className="text-slate-400 tabular-nums">{s.count}</span>
+                  </div>
+                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#FFD200] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
+                  </div>
                 </div>
-                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#FFD200] transition-[width] duration-700"
-                    style={{ width: `${s.pct * 2.8}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        <Card className="p-5 animate-fade-in" style={{ animationDelay: "60ms" }}>
-          <h3 className="text-sm font-semibold text-white mb-2">Leads by Region</h3>
-          <div className="flex items-center gap-4">
-            <div className="h-40 w-40 shrink-0">
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie data={regions} dataKey="value" innerRadius={40} outerRadius={68} paddingAngle={2} stroke="none">
-                    {regions.map((r) => <Cell key={r.name} fill={r.color} />)}
-                  </Pie>
-                  <Tooltip contentStyle={TOOLTIP_STYLE} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <ul className="flex-1 space-y-2 min-w-0">
-              {regions.map((r) => (
-                <li key={r.name} className="flex items-center gap-2 text-xs text-slate-300">
-                  <span className="h-2 w-2 rounded-full shrink-0" style={{ background: r.color }} />
-                  <span className="truncate">{r.name}</span>
-                  <span className="ml-auto text-slate-400 tabular-nums">{r.value}%</span>
-                </li>
               ))}
-            </ul>
-          </div>
+            </div>
+          )}
         </Card>
 
-        <Card className="p-5 flex flex-col animate-fade-in" style={{ animationDelay: "120ms" }}>
-          <h3 className="text-sm font-semibold text-white mb-4">Tasks Due Today</h3>
-          <ul className="space-y-3 flex-1">
-            {tasks.map((t, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm group">
-                <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
-                <span className="text-slate-200 group-hover:text-white transition-colors">{t}</span>
-              </li>
-            ))}
-          </ul>
-          <button className="mt-5 w-full inline-flex items-center justify-center gap-1 text-xs font-semibold text-[#FFD200] hover:text-[#FFE66B] py-2 border border-[#FFD200]/30 rounded-lg hover:bg-[#FFD200]/5 transition-colors">
-            View All Tasks <ChevronRight className="h-3 w-3" />
-          </button>
+        <Card className="p-5 animate-fade-in lg:col-span-2" style={{ animationDelay: "60ms" }}>
+          <h3 className="text-sm font-semibold text-white mb-2">Leads by Region</h3>
+          {d.allLeads.isLoading ? (
+            <SkeletonBlock className="h-40 w-full" />
+          ) : d.allLeads.isError ? (
+            <ErrorState onRetry={() => d.allLeads.refetch()} />
+          ) : regions.length === 0 ? (
+            <EmptyState title="No region data" />
+          ) : (
+            <div className="flex items-center gap-4">
+              <div className="h-40 w-40 shrink-0">
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={regions} dataKey="value" innerRadius={40} outerRadius={68} paddingAngle={2} stroke="none">
+                      {regions.map((r) => <Cell key={r.name} fill={r.color} />)}
+                    </Pie>
+                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <ul className="flex-1 space-y-2 min-w-0">
+                {regions.map((r) => (
+                  <li key={r.name} className="flex items-center gap-2 text-xs text-slate-300">
+                    <span className="h-2 w-2 rounded-full shrink-0" style={{ background: r.color }} />
+                    <span className="truncate">{r.name}</span>
+                    <span className="ml-auto text-slate-400 tabular-nums">{r.value} ({r.pct}%)</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Card>
       </div>
 
@@ -346,32 +599,43 @@ function Dashboard() {
         <Card className="p-5 lg:col-span-2 animate-fade-in">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white">Upcoming Bookings</h3>
-            <span className="text-xs text-slate-400">{bookings.length} scheduled</span>
+            <span className="text-xs text-slate-400">{d.upcoming.data?.length ?? 0} scheduled</span>
           </div>
-          <div className="overflow-x-auto -mx-5">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/[0.08]">
-                  <th className="px-5 py-2.5 font-medium">Time</th>
-                  <th className="px-3 py-2.5 font-medium">Customer</th>
-                  <th className="px-3 py-2.5 font-medium">Service</th>
-                  <th className="px-3 py-2.5 font-medium">Location</th>
-                  <th className="px-5 py-2.5 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((b, i) => (
-                  <tr key={i} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
-                    <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{b.time}</td>
-                    <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{b.customer}</td>
-                    <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service}</td>
-                    <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.location}</td>
-                    <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
+          {d.upcoming.isLoading ? (
+            <div className="space-y-2">{[...Array(4)].map((_, i) => <SkeletonBlock key={i} className="h-10 w-full" />)}</div>
+          ) : d.upcoming.isError ? (
+            <ErrorState onRetry={() => d.upcoming.refetch()} />
+          ) : (d.upcoming.data?.length ?? 0) === 0 ? (
+            <EmptyState title="No upcoming bookings" subtitle="Scheduled jobs will appear here." icon={CalendarCheck} />
+          ) : (
+            <div className="overflow-x-auto -mx-5">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/[0.08]">
+                    <th className="px-5 py-2.5 font-medium">Time</th>
+                    <th className="px-3 py-2.5 font-medium">Customer</th>
+                    <th className="px-3 py-2.5 font-medium">Service</th>
+                    <th className="px-3 py-2.5 font-medium">Region</th>
+                    <th className="px-5 py-2.5 font-medium">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {(d.upcoming.data ?? []).map((b) => {
+                    const cust = (b as { customers?: { name?: string } | null }).customers;
+                    return (
+                      <tr key={b.id} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
+                        <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{b.scheduled_start ? fmtDateTime(b.scheduled_start) : "—"}</td>
+                        <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{cust?.name ?? "—"}</td>
+                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service ?? "—"}</td>
+                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.region ?? "—"}</td>
+                        <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
           <button className="mt-4 w-full inline-flex items-center justify-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 py-2 border border-emerald-500/30 rounded-lg hover:bg-emerald-500/5 transition-colors">
             View Calendar <ChevronRight className="h-3 w-3" />
           </button>
@@ -379,23 +643,34 @@ function Dashboard() {
 
         <Card className="p-5 flex flex-col animate-fade-in" style={{ animationDelay: "80ms" }}>
           <h3 className="text-sm font-semibold text-white mb-4">Recent Activity</h3>
-          <ul className="space-y-4 flex-1">
-            {activity.map((a, i) => {
-              const Icon = a.icon;
-              return (
-                <li key={i} className="flex items-start gap-3">
-                  <div className="h-8 w-8 rounded-lg grid place-items-center shrink-0" style={{ background: `${a.color}1f`, color: a.color }}>
-                    <Icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm text-white font-medium leading-tight">{a.title}</p>
-                    <p className="text-xs text-slate-400 mt-0.5 truncate">{a.detail}</p>
-                  </div>
-                  <span className="text-[11px] text-slate-500 whitespace-nowrap">{a.time}</span>
-                </li>
-              );
-            })}
-          </ul>
+          {d.activity.isLoading ? (
+            <div className="space-y-3 flex-1">{[...Array(6)].map((_, i) => <SkeletonBlock key={i} className="h-10 w-full" />)}</div>
+          ) : d.activity.isError ? (
+            <ErrorState onRetry={() => d.activity.refetch()} />
+          ) : (d.activity.data?.length ?? 0) === 0 ? (
+            <EmptyState title="No activity yet" subtitle="Notes, calls and messages will show here." />
+          ) : (
+            <ul className="space-y-4 flex-1">
+              {(d.activity.data ?? []).map((a) => {
+                const meta = ACTIVITY_ICON[a.type] ?? { icon: StickyNote, color: "#94a3b8" };
+                const Icon = meta.icon;
+                return (
+                  <li key={a.id} className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-lg grid place-items-center shrink-0" style={{ background: `${meta.color}1f`, color: meta.color }}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm text-white font-medium leading-tight capitalize">
+                        {a.type.replace("_", " ")} {a.direction ? `• ${a.direction}` : ""}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-0.5 truncate">{a.body ?? a.related_type}</p>
+                    </div>
+                    <span className="text-[11px] text-slate-500 whitespace-nowrap">{timeAgo(a.created_at)}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
           <button className="mt-5 w-full inline-flex items-center justify-center gap-1 text-xs font-semibold text-slate-300 hover:text-white py-2 border border-white/10 rounded-lg hover:bg-white/5 transition-colors">
             View All Activity <ChevronRight className="h-3 w-3" />
           </button>
