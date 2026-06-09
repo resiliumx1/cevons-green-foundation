@@ -12,6 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "./SiteLayout";
+import { Reveal } from "./motion/Reveal";
 import { WhatsApp } from "./icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { cevonsIcons } from "@/data/cevonsIconRegistry";
