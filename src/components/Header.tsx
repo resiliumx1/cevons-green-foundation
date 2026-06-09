@@ -4,14 +4,15 @@ import { Calendar, ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { WhatsApp } from "./icons/WhatsApp";
 
-const nav = [
+type NavItem = { to: string; label: string; hasDropdown?: boolean };
+const nav: NavItem[] = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services", hasDropdown: true },
   { to: "/industries", label: "Industries" },
   { to: "/locations", label: "Locations" },
   { to: "/resources", label: "Resources" },
   { to: "/about", label: "About" },
-] as const;
+];
 
 const servicesDropdown = [
   "Garbage Collection",
