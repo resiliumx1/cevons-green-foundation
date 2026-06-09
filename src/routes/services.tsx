@@ -1,26 +1,56 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, Trash2, FileText, Droplet, Recycle, Cylinder, Leaf, Container, Waves, ChevronRight, Home, Building2, Flame, Brush, PackageX, Scissors } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  ChevronRight,
+  Home,
+  Building2,
+  Factory,
+  Recycle,
+  Trash2,
+  Container,
+  Droplet,
+  Waves,
+  FileText,
+  ShieldAlert,
+  Flame,
+  Beaker,
+  Sprout,
+  PackageX,
+  Biohazard,
+  Truck,
+  Mountain,
+  ShieldCheck,
+  Award,
+  Clock3,
+  Headphones,
+  Leaf,
+  MessageCircle,
+  HelpCircle,
+  Layers3,
+  Wrench,
+  Plus,
+  Minus,
+} from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 import forestBg from "@/assets/forest-bg.jpg";
-import imgGarbage from "@/assets/svc-garbage.jpg";
-import imgSkip from "@/assets/svc-skip.jpg";
-import imgDumpster from "@/assets/svc-dumpster.jpg";
-import imgToilet from "@/assets/svc-toilet.jpg";
-import imgSeptic from "@/assets/svc-septic.jpg";
-import imgOil from "@/assets/svc-oil.jpg";
-import imgWastewater from "@/assets/svc-wastewater.jpg";
-import imgScrap from "@/assets/svc-scrap.jpg";
-import imgShred from "@/assets/svc-shred.jpg";
-import imgRecovery from "@/assets/svc-recovery.jpg";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "CEVON'S Services | Waste Management & Environmental Services in Guyana" },
-      { name: "description", content: "Explore CEVON'S residential, commercial, industrial, recycling, and environmental services across Georgetown, Linden, and Berbice." },
-      { property: "og:title", content: "CEVON'S Services | Waste Management & Environmental Services in Guyana" },
-      { property: "og:description", content: "Explore CEVON'S residential, commercial, industrial, recycling, and environmental services across Georgetown, Linden, and Berbice." },
+      { title: "Services | CEVON’S Environmental Services — Guyana" },
+      {
+        name: "description",
+        content:
+          "Complete waste management and environmental services for homes, businesses, industries, and facilities across Georgetown, Linden, and Berbice.",
+      },
+      { property: "og:title", content: "CEVON’S Services — Waste Management Guyana" },
+      {
+        property: "og:description",
+        content:
+          "Residential, commercial, industrial, and facility waste services across Guyana.",
+      },
       { property: "og:url", content: "/services" },
     ],
     links: [{ rel: "canonical", href: "/services" }],
@@ -28,201 +58,597 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-type Category = "All Services" | "Residential" | "Commercial" | "Industrial" | "Recycling & Facilities";
-const categories: Category[] = ["All Services", "Residential", "Commercial", "Industrial", "Recycling & Facilities"];
+type CategoryKey = "residential" | "commercial" | "industrial" | "facilities";
+type FilterKey = "all" | CategoryKey;
 
-type Service = {
+type ServiceItem = {
   title: string;
   body: string;
+  slug: string;
   icon: React.ComponentType<{ className?: string }>;
-  img: string;
-  cats: Exclude<Category, "All Services">[];
-  alt: string;
 };
 
-const services: Service[] = [
-  { title: "Residential Garbage Collection", body: "Reliable household waste collection across Guyana.", icon: Home, img: imgGarbage, alt: "CEVON'S residential garbage collection truck on a Guyanese street", cats: ["Residential"] },
-  { title: "Commercial Garbage Collection", body: "Scheduled waste collection for businesses and properties.", icon: Building2, img: imgGarbage, alt: "Commercial garbage collection at a Guyana business", cats: ["Commercial"] },
-  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", icon: Container, img: imgSkip, alt: "Industrial skip bin on a construction site in Guyana", cats: ["Commercial", "Industrial"] },
-  { title: "Dumpster Rental", body: "Short or long term dumpster rental solutions.", icon: Trash2, img: imgDumpster, alt: "Green commercial dumpster ready for rental", cats: ["Residential", "Commercial"] },
-  { title: "Portable Toilet Rental", body: "Clean, reliable and hygienic portable toilets.", icon: Droplet, img: imgToilet, alt: "Row of clean portable toilets at an event site", cats: ["Commercial"] },
-  { title: "Septic Tank Clearance", body: "Safe and efficient septic tank pumping.", icon: Droplet, img: imgSeptic, alt: "Vacuum truck performing septic tank clearance", cats: ["Residential", "Commercial"] },
-  { title: "Waste Oil Recycling", body: "Environmentally responsible waste oil collection.", icon: Cylinder, img: imgOil, alt: "Stacked waste oil barrels at a recycling facility", cats: ["Industrial", "Recycling & Facilities"] },
-  { title: "Lube Oil Disposal", body: "Safe disposal of used lubricating oils for industry.", icon: Cylinder, img: imgOil, alt: "Used lube oil barrels prepared for safe disposal", cats: ["Industrial"] },
-  { title: "Cooking Oil Recycling", body: "Collection and recycling of used cooking oil.", icon: Droplet, img: imgOil, alt: "Used cooking oil containers ready for recycling", cats: ["Commercial", "Recycling & Facilities"] },
-  { title: "Wastewater Treatment", body: "Treatment and disposal of industrial wastewater.", icon: Waves, img: imgWastewater, alt: "Industrial wastewater treatment tanks", cats: ["Industrial"] },
-  { title: "Scrap Metal", body: "We buy and recycle all types of scrap metal.", icon: Recycle, img: imgScrap, alt: "Sorted scrap metal at a recycling yard", cats: ["Recycling & Facilities", "Industrial"] },
-  { title: "Document Shredding", body: "Secure shredding of sensitive documents.", icon: FileText, img: imgShred, alt: "Secure document shredding bins", cats: ["Commercial"] },
-  { title: "Product Destruction", body: "Certified destruction of expired or recalled products.", icon: PackageX, img: imgShred, alt: "Secure product destruction facility", cats: ["Commercial", "Industrial"] },
-  { title: "Plastic Shredding", body: "On-site plastic shredding to support recycling.", icon: Scissors, img: imgScrap, alt: "Plastic shredding equipment processing waste plastic", cats: ["Recycling & Facilities", "Industrial"] },
-  { title: "Road Sweeping", body: "Mechanical road and lot sweeping for clean roadways.", icon: Brush, img: imgGarbage, alt: "Road sweeping truck cleaning a Guyana roadway", cats: ["Commercial", "Industrial"] },
-  { title: "Compactor Rental", body: "Compactor rental for high-volume waste sites.", icon: Container, img: imgDumpster, alt: "Industrial waste compactor on site", cats: ["Commercial", "Industrial"] },
-  { title: "Incineration", body: "Safe incineration for regulated waste streams.", icon: Flame, img: imgWastewater, alt: "Industrial incineration facility", cats: ["Industrial", "Recycling & Facilities"] },
+const residential: ServiceItem[] = [
+  { title: "General Trash Collection", slug: "/services/general-trash-collection", icon: Trash2, body: "Reliable household waste pickup on a schedule that fits your community." },
+  { title: "Dumpster Rental", slug: "/services/dumpster-rental", icon: Container, body: "Short or long term dumpster rentals for home projects and cleanouts." },
+  { title: "Septic Services", slug: "/services/septic-services", icon: Droplet, body: "Safe, efficient septic tank pumping and clearance for homes." },
+  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, body: "Clean, hygienic portable toilet rentals for residential events and projects." },
 ];
 
-const SERVICE_SLUGS: Record<string, string> = {
-  "Residential Garbage Collection": "/services/residential-garbage-collection",
-  "Commercial Garbage Collection": "/services/commercial-garbage-collection",
-  "Skip Bin Rental": "/services/skip-bin-rental",
-  "Dumpster Rental": "/services/dumpster-rental",
-  "Portable Toilet Rental": "/services/portable-toilet-rental",
-  "Septic Tank Clearance": "/services/septic-tank-clearance",
-  "Waste Oil Recycling": "/services/waste-oil-recycling",
-  "Wastewater Treatment": "/services/wastewater-treatment",
-  "Scrap Metal": "/services/scrap-metal-collection",
-  "Document Shredding": "/services/document-shredding",
-  "Product Destruction": "/services/product-destruction",
-};
+const commercial: ServiceItem[] = [
+  { title: "General Waste Management", slug: "/services/general-waste-management", icon: Trash2, body: "Scheduled collection and waste programs for businesses and properties." },
+  { title: "Skip Bin & Dumpster Rental", slug: "/services/skip-bin-dumpster-rental", icon: Container, body: "Multiple sizes for construction, renovation, and ongoing site needs." },
+  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, body: "Sanitation units for sites, events, and commercial properties." },
+  { title: "Grease Trap / Septic Tank", slug: "/services/grease-trap-septic-tank", icon: Droplet, body: "Grease trap and septic servicing for restaurants and facilities." },
+  { title: "Document Shredding", slug: "/services/document-shredding", icon: FileText, body: "Secure on-site or off-site document destruction with chain-of-custody." },
+];
+
+const industrial: ServiceItem[] = [
+  { title: "Hazardous Waste", slug: "/services/hazardous-waste", icon: ShieldAlert, body: "Regulated handling, transport, and disposal of hazardous waste streams." },
+  { title: "Wastewater", slug: "/services/wastewater", icon: Waves, body: "Industrial wastewater collection and treatment coordination." },
+  { title: "Used Waste Oil", slug: "/services/used-waste-oil", icon: Flame, body: "Compliant collection and responsible recycling of used waste oil." },
+  { title: "Contaminated Soil", slug: "/services/contaminated-soil", icon: Sprout, body: "Excavation, transport, and treatment of contaminated solid waste." },
+  { title: "Tank Cleaning", slug: "/services/tank-cleaning", icon: Beaker, body: "Industrial tank cleaning with safety controls and proper waste disposal." },
+  { title: "Product Destruction", slug: "/services/product-destruction", icon: PackageX, body: "Certified product destruction with auditable documentation." },
+  { title: "Biohazardous Disposal", slug: "/services/biohazardous-disposal", icon: Biohazard, body: "Safe biohazardous waste collection and compliant disposal." },
+];
+
+const facilities: ServiceItem[] = [
+  { title: "Material Recovery Facility", slug: "/services/material-recovery-facility", icon: Recycle, body: "Sorting and recovery infrastructure that turns waste into resources." },
+  { title: "Landfill Operations", slug: "/services/landfill-operations", icon: Mountain, body: "Managed landfill operations with environmental safeguards." },
+];
+
+const categoryOverview: {
+  key: CategoryKey;
+  label: string;
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  blurb: string;
+  items: string[];
+  accent: string;
+}[] = [
+  {
+    key: "residential",
+    label: "Residential",
+    title: "Homes & Communities",
+    icon: Home,
+    blurb: "Reliable, neighbourly waste solutions for households across Guyana.",
+    items: residential.map((s) => s.title),
+    accent: "from-[#006B35] to-[#00713A]",
+  },
+  {
+    key: "commercial",
+    label: "Commercial",
+    title: "Businesses & Properties",
+    icon: Building2,
+    blurb: "Scheduled collection and sanitation for offices, retail, and institutions.",
+    items: commercial.map((s) => s.title),
+    accent: "from-[#FFD200] to-[#F0C500]",
+  },
+  {
+    key: "industrial",
+    label: "Industrial",
+    title: "Specialized & Regulated",
+    icon: Factory,
+    blurb: "Compliance-grade handling for hazardous, liquid, and solid industrial waste.",
+    items: industrial.map((s) => s.title),
+    accent: "from-[#003F27] to-[#002819]",
+  },
+  {
+    key: "facilities",
+    label: "Facilities",
+    title: "Environmental Infrastructure",
+    icon: Layers3,
+    blurb: "Large-scale recovery and landfill operations supporting cleaner Guyana.",
+    items: facilities.map((s) => s.title),
+    accent: "from-[#00563d] to-[#003F27]",
+  },
+];
+
+const tabs: { key: FilterKey; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "residential", label: "Residential" },
+  { key: "commercial", label: "Commercial" },
+  { key: "industrial", label: "Industrial" },
+  { key: "facilities", label: "Facilities" },
+];
+
+const faqs = [
+  {
+    q: "What types of waste does CEVON’S handle?",
+    a: "We handle residential trash, commercial waste, industrial and hazardous waste, liquid waste (wastewater and used waste oil), contaminated soil, biohazardous waste, and more across our facilities.",
+  },
+  {
+    q: "Do you provide commercial and industrial services?",
+    a: "Yes. CEVON’S supports businesses, properties, institutions, and industrial operators with scheduled collection, rentals, sanitation, and specialized waste programs.",
+  },
+  {
+    q: "Can I book online?",
+    a: "Most standard services can be requested through our Request a Service form. Specialized industrial services route to a specialist for review and confirmation before scheduling.",
+  },
+  {
+    q: "Which services require specialist review?",
+    a: "Hazardous waste, wastewater, used waste oil, contaminated soil, tank cleaning, product destruction, and biohazardous disposal are reviewed by a specialist to confirm scope, safety, and compliance.",
+  },
+  {
+    q: "Do you serve Georgetown, Linden, and Berbice?",
+    a: "Yes — CEVON’S operates across Georgetown, Linden, and Berbice, with regional teams supporting each area.",
+  },
+  {
+    q: "Can I upload photos or documents with my request?",
+    a: "Yes. The Request a Service form lets you attach photos, site details, or documents so our team can route the request and respond quickly.",
+  },
+];
+
+function HeroSwoosh() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="absolute bottom-0 left-0 w-full h-[70px] md:h-[100px] z-10 pointer-events-none"
+      viewBox="0 0 1440 110"
+      preserveAspectRatio="none"
+    >
+      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
+      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
+    </svg>
+  );
+}
+
+function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
+  const Icon = s.icon;
+  if (variant === "industrial") {
+    return (
+      <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
+        <div className="flex items-start gap-4">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[var(--cevons-yellow)]/10 text-[var(--cevons-yellow)] ring-1 ring-[var(--cevons-yellow)]/30">
+            <Icon className="size-6" />
+          </span>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-1.5">
+              <h3 className="text-lg font-bold text-white">{s.title}</h3>
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--cevons-yellow)]">
+                <ShieldCheck className="size-3" /> Specialist
+              </span>
+            </div>
+            <p className="text-sm text-white/70 leading-relaxed">{s.body}</p>
+          </div>
+        </div>
+        <a
+          href={s.slug}
+          className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-yellow)] hover:gap-2 transition-all"
+        >
+          Request Specialist Review <ArrowRight className="size-4" />
+        </a>
+      </article>
+    );
+  }
+  return (
+    <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
+      <span className="flex size-12 items-center justify-center rounded-xl bg-[var(--cevons-green)]/10 text-[var(--cevons-deep-green)] mb-4">
+        <Icon className="size-6" />
+      </span>
+      <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
+      <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
+      <div className="mt-5 flex items-center gap-4">
+        <a
+          href={s.slug}
+          className="inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
+        >
+          Learn More <ArrowRight className="size-4" />
+        </a>
+        <span className="text-[var(--cevons-border)]">•</span>
+        <Link
+          to="/request-service"
+          className="inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-green)] hover:gap-2 transition-all"
+        >
+          Request Service <ArrowRight className="size-4" />
+        </Link>
+      </div>
+    </article>
+  );
+}
 
 function ServicesPage() {
-  const [active, setActive] = useState<Category>("All Services");
-  const filtered = active === "All Services" ? services : services.filter((s) => s.cats.includes(active));
+  const [active, setActive] = useState<FilterKey>("all");
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [stuck, setStuck] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setStuck(window.scrollY > 320);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const showResidential = active === "all" || active === "residential";
+  const showCommercial = active === "all" || active === "commercial";
+  const showIndustrial = active === "all" || active === "industrial";
+  const showFacilities = active === "all" || active === "facilities";
 
   return (
     <SiteLayout>
-      {/* Hero */}
-      <section className="relative overflow-hidden" aria-labelledby="services-h1">
+      {/* HERO */}
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={forestBg} alt="" aria-hidden="true" className="size-full object-cover" width={1920} height={800} />
-          <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/95 via-cevons-deep-green/85 to-cevons-deep-green/60" />
+          <img
+            src={forestBg}
+            alt=""
+            aria-hidden="true"
+            className="size-full object-cover"
+            width={1920}
+            height={800}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green)]/95 via-[var(--cevons-deep-green)]/85 to-[var(--cevons-deep-green)]/60" />
         </div>
-        <div className="container-cevons relative min-h-[320px] md:min-h-[400px] flex flex-col justify-center py-16 md:py-20">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="reveal mb-5">
+        <div className="container-cevons relative min-h-[360px] md:min-h-[440px] flex flex-col justify-center py-20 md:py-24 z-10">
+          <nav aria-label="Breadcrumb" className="mb-5">
             <ol className="flex items-center gap-1.5 text-xs md:text-sm text-white/80">
-              <li><Link to="/" className="hover:text-cevons-yellow transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-[var(--cevons-yellow)] transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-cevons-yellow font-semibold">Services</li>
+              <li aria-current="page" className="text-[var(--cevons-yellow)] font-semibold">Services</li>
             </ol>
           </nav>
-          <h1 id="services-h1" className="reveal text-white text-4xl md:text-6xl font-extrabold tracking-tight" style={{ animationDelay: "80ms" }}>
+          <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
             Our Services
           </h1>
-          <p className="reveal mt-4 text-white/85 text-base md:text-xl max-w-2xl" style={{ animationDelay: "160ms" }}>
-            Complete waste management and environmental solutions.
+          <p className="mt-4 text-white/85 text-base md:text-xl max-w-2xl">
+            Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana.
           </p>
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <HeroSwoosh />
       </section>
 
-      {/* Filter tabs */}
-      <section aria-label="Filter services by category" className="border-b border-cevons-border bg-white sticky top-[72px] z-30">
-        <div className="container-cevons py-4 flex flex-wrap gap-2 reveal">
-          {categories.map((c) => {
-            const isActive = active === c;
-            return (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setActive(c)}
-                aria-pressed={isActive}
-                className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2 ${
-                  isActive
-                    ? "bg-cevons-green text-white border-cevons-green shadow-soft"
-                    : "bg-white text-cevons-dark border-cevons-border hover:border-cevons-green hover:text-cevons-green"
-                }`}
-              >
-                {c}
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Services grid */}
-      <section className="section-y bg-white" aria-label="Service offerings">
+      {/* CATEGORY TABS (sticky) */}
+      <div
+        className={`sticky top-[72px] z-40 transition-shadow ${stuck ? "shadow-[0_4px_16px_rgba(16,24,32,0.06)]" : ""} bg-white/95 backdrop-blur border-b border-[var(--cevons-border)]`}
+      >
         <div className="container-cevons">
-          <h2 className="sr-only">All CEVON'S Services</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filtered.map(({ title, body, icon: Icon, img, alt }, i) => (
-              <article
-                key={title}
-                className="group relative bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:border-cevons-green reveal"
-                style={{ animationDelay: `${i * 70}ms` }}
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
-                  <img
-                    src={img}
-                    alt={alt}
-                    loading="lazy"
-                    width={800}
-                    height={500}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute -bottom-5 left-5 size-12 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
-                    <Icon className="size-5" aria-hidden="true" />
-                  </span>
-                </div>
-                <div className="p-6 pt-8">
-                  <h3 className="text-lg font-bold text-cevons-dark">{title}</h3>
-                  <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                  {SERVICE_SLUGS[title] ? (
-                    <Link
-                      to={SERVICE_SLUGS[title]}
-                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green rounded"
-                      aria-label={`Learn more about ${title}`}
-                    >
-                      Learn More <ArrowRight className="size-4" />
-                    </Link>
-                  ) : (
-                    <a
-                      href="#"
-                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green rounded"
-                      aria-label={`Learn more about ${title}`}
-                    >
-                      Learn More <ArrowRight className="size-4" />
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
+          <div className="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+            {tabs.map((t) => {
+              const isActive = active === t.key;
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => {
+                    setActive(t.key);
+                    if (t.key !== "all") {
+                      const el = document.getElementById(`section-${t.key}`);
+                      if (el) {
+                        const y = el.getBoundingClientRect().top + window.scrollY - 130;
+                        window.scrollTo({ top: y, behavior: "smooth" });
+                      }
+                    } else {
+                      window.scrollTo({ top: 480, behavior: "smooth" });
+                    }
+                  }}
+                  className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                    isActive
+                      ? "bg-[var(--cevons-deep-green)] text-white shadow-sm"
+                      : "bg-[var(--cevons-cream)] text-[var(--cevons-deep-green)] hover:bg-[var(--cevons-green)]/10"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* CATEGORY OVERVIEW */}
+      <section className="section-y bg-white">
+        <div className="container-cevons">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">Service Categories</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green)]">
+              Explore by Category
+            </h2>
+            <p className="mt-4 text-[var(--cevons-muted)]">
+              Four service families covering every waste and environmental need across Guyana.
+            </p>
           </div>
 
-          <div className="text-center mt-12">
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold border-2 border-cevons-green text-cevons-green bg-white hover:bg-cevons-green hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2"
-            >
-              View All Services <ArrowRight className="size-4" />
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categoryOverview.map(({ key, label, title, icon: Icon, blurb, items, accent }) => {
+              const isIndustrial = key === "industrial";
+              const isYellow = key === "commercial";
+              return (
+                <article
+                  key={key}
+                  className={`relative overflow-hidden rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
+                    isYellow
+                      ? "bg-gradient-to-br from-[#FFD200] to-[#F0C500] text-[var(--cevons-dark)] border-[#E0B800]"
+                      : `bg-gradient-to-br ${accent} text-white border-white/10`
+                  }`}
+                >
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-12 -top-12 size-48 rounded-full opacity-20"
+                    style={{ background: isYellow ? "rgba(16,24,32,0.15)" : "rgba(255,210,0,0.4)" }}
+                  />
+                  <div className="relative">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className={`flex size-12 items-center justify-center rounded-xl ${isYellow ? "bg-[var(--cevons-dark)] text-[var(--cevons-yellow)]" : "bg-white/15 text-[var(--cevons-yellow)]"}`}>
+                        <Icon className="size-6" />
+                      </span>
+                      <div>
+                        <p className={`text-xs font-bold uppercase tracking-wider ${isYellow ? "text-[var(--cevons-dark)]/70" : "text-[var(--cevons-yellow)]"}`}>{label}</p>
+                        <h3 className={`text-2xl font-extrabold ${isYellow ? "text-[var(--cevons-dark)]" : "text-white"}`}>{title}</h3>
+                      </div>
+                    </div>
+                    <p className={`text-sm leading-relaxed ${isYellow ? "text-[var(--cevons-dark)]/85" : "text-white/85"}`}>
+                      {blurb}
+                    </p>
+                    <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+                      {items.map((it) => (
+                        <li
+                          key={it}
+                          className={`flex items-start gap-2 text-sm ${isYellow ? "text-[var(--cevons-dark)]/90" : "text-white/90"}`}
+                        >
+                          <span className={`mt-1.5 size-1.5 rounded-full shrink-0 ${isYellow ? "bg-[var(--cevons-dark)]" : "bg-[var(--cevons-yellow)]"}`} />
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => {
+                        setActive(key);
+                        const el = document.getElementById(`section-${key}`);
+                        if (el) {
+                          const y = el.getBoundingClientRect().top + window.scrollY - 130;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                        }
+                      }}
+                      className={`mt-6 inline-flex items-center gap-2 font-bold text-sm ${
+                        isYellow ? "text-[var(--cevons-dark)] hover:gap-3" : "text-[var(--cevons-yellow)] hover:gap-3"
+                      } transition-all ${isIndustrial ? "" : ""}`}
+                    >
+                      Explore {label} <ArrowRight className="size-4" />
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Sustainability / Brand story banner */}
-      <section className="bg-cevons-cream" aria-labelledby="sustainability-heading">
-        <div className="container-cevons py-12 md:py-20">
-          <div className="rounded-2xl overflow-hidden shadow-soft grid md:grid-cols-2 bg-white">
-            <div className="relative min-h-[280px] md:min-h-[420px] overflow-hidden group">
-              <img
-                src={imgRecovery}
-                alt="CEVON'S team supporting sustainable environmental recovery in Guyana"
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+      {/* RESIDENTIAL */}
+      {showResidential && (
+        <section id="section-residential" className="section-y bg-[var(--cevons-cream)] scroll-mt-32">
+          <div className="container-cevons">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
+                  <Home className="size-4" /> Residential
+                </p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
+                  Residential Waste Services
+                </h2>
+                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
+                  Reliable waste solutions for homes and residential communities.
+                </p>
+              </div>
             </div>
-            <div className="bg-cevons-deep-green text-white p-8 md:p-12 flex flex-col justify-center relative overflow-hidden">
-              <div aria-hidden="true" className="absolute -top-16 -right-16 size-56 rounded-full bg-cevons-green/30 blur-3xl" />
-              <p className="text-cevons-yellow text-xs font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 mb-3 relative">
-                <Leaf className="size-4" /> Sustainability
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {residential.map((s) => (
+                <ServiceCard key={s.title} s={s} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* COMMERCIAL */}
+      {showCommercial && (
+        <section id="section-commercial" className="section-y bg-white scroll-mt-32">
+          <div className="container-cevons">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
+                  <Building2 className="size-4" /> Commercial
+                </p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
+                  Commercial Waste Services
+                </h2>
+                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
+                  Waste management and sanitation solutions for businesses, properties, and institutions.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {commercial.map((s) => (
+                <ServiceCard key={s.title} s={s} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* INDUSTRIAL */}
+      {showIndustrial && (
+        <section
+          id="section-industrial"
+          className="section-y relative overflow-hidden scroll-mt-32 text-white"
+          style={{
+            background:
+              "radial-gradient(120% 100% at 0% 0%, #00432a 0%, #002b1b 60%, #00190f 100%)",
+          }}
+        >
+          <div aria-hidden="true" className="absolute -top-20 -right-20 size-64 rounded-full bg-[var(--cevons-green)]/20 blur-3xl" />
+          <div aria-hidden="true" className="absolute -bottom-20 -left-20 size-64 rounded-full bg-[var(--cevons-yellow)]/10 blur-3xl" />
+          <div className="container-cevons relative">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-yellow)] mb-2 inline-flex items-center gap-2">
+                  <ShieldAlert className="size-4" /> Industrial
+                </p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+                  Industrial & Specialized Waste
+                </h2>
+                <p className="mt-2 text-white/80 max-w-2xl">
+                  Professional handling for specialized, regulated, and high-risk waste streams.
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90 ring-1 ring-white/15">
+                <ShieldCheck className="size-3.5 text-[var(--cevons-yellow)]" />
+                Compliance-First Operations
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {industrial.map((s) => (
+                <ServiceCard key={s.title} s={s} variant="industrial" />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FACILITIES */}
+      {showFacilities && (
+        <section id="section-facilities" className="section-y bg-[var(--cevons-cream)] scroll-mt-32">
+          <div className="container-cevons">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2 justify-center">
+                <Layers3 className="size-4" /> Facilities
               </p>
-              <h2 id="sustainability-heading" className="text-3xl md:text-4xl font-extrabold leading-tight relative">
-                Sustainable Today,<br />Better Tomorrow
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
+                Facilities & Environmental Infrastructure
               </h2>
-              <p className="mt-4 text-white/85 leading-relaxed max-w-md relative">
-                We are committed to protecting our environment through responsible waste
-                management and sustainable practices across Guyana.
+              <p className="mt-2 text-[var(--cevons-muted)]">
+                Large-scale recovery and disposal infrastructure supporting Guyana’s waste ecosystem.
               </p>
-              <div className="mt-7 relative">
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {facilities.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <article
+                    key={s.title}
+                    className="group relative overflow-hidden rounded-2xl border border-[var(--cevons-deep-green)]/15 bg-white p-8 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+                  >
+                    <div
+                      aria-hidden="true"
+                      className="absolute -right-10 -bottom-10 size-40 rounded-full bg-[var(--cevons-deep-green)]/5"
+                    />
+                    <div className="relative flex items-start gap-5">
+                      <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-[var(--cevons-deep-green)] text-[var(--cevons-yellow)]">
+                        <Icon className="size-8" />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
+                        <h3 className="mt-1 text-2xl font-extrabold text-[var(--cevons-deep-green)]">{s.title}</h3>
+                        <p className="mt-3 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
+                        <a
+                          href={s.slug}
+                          className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
+                        >
+                          Learn More <ArrowRight className="size-4" />
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* "Not Sure" CTA */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container-cevons">
+          <div
+            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
+            style={{
+              background:
+                "radial-gradient(120% 100% at 0% 0%, #00713A 0%, #003F27 60%, #002819 100%)",
+            }}
+          >
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+            <div className="relative">
+              <p className="text-[var(--cevons-yellow)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
+                <HelpCircle className="size-4" /> Need Guidance?
+              </p>
+              <h2 className="text-white text-3xl md:text-5xl font-extrabold">
+                Not sure which service fits your request?
+              </h2>
+              <p className="mt-4 text-white/85 max-w-xl mx-auto">
+                Tell us what you need and our team will route your request to the right service.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5">
+                  <Wrench className="size-5" /> Request a Service
+                </Link>
                 <a
-                  href="#"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold bg-cevons-yellow text-cevons-dark hover:brightness-95 transition-all shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-cevons-deep-green"
+                  href="/contact"
+                  className="btn-base btn-green text-base px-6 py-3.5"
                 >
-                  Learn More <ArrowRight className="size-4" />
+                  <WhatsApp className="size-5" /> WhatsApp Us
                 </a>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-y bg-[var(--cevons-cream)]">
+        <div className="container-cevons">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">FAQ</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green)]">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="max-w-3xl mx-auto divide-y divide-[var(--cevons-deep-green)]/10 rounded-2xl bg-white border border-[var(--cevons-deep-green)]/10 shadow-sm">
+            {faqs.map((f, i) => {
+              const open = openFaq === i;
+              return (
+                <div key={f.q}>
+                  <button
+                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
+                    onClick={() => setOpenFaq(open ? null : i)}
+                    aria-expanded={open}
+                  >
+                    <span className="text-base md:text-lg font-bold text-[var(--cevons-deep-green)]">{f.q}</span>
+                    <span className={`shrink-0 flex size-8 items-center justify-center rounded-full bg-[var(--cevons-deep-green)]/10 text-[var(--cevons-deep-green)] transition-transform ${open ? "rotate-180" : ""}`}>
+                      {open ? <Minus className="size-4" /> : <Plus className="size-4" />}
+                    </span>
+                  </button>
+                  {open && (
+                    <div className="px-6 pb-5 -mt-1 text-sm md:text-base text-[var(--cevons-muted)] leading-relaxed">
+                      {f.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust strip */}
+      <section className="bg-white border-t border-[var(--cevons-deep-green)]/10">
+        <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { icon: ShieldCheck, label: "Licensed & Insured" },
+            { icon: Clock3, label: "Same-Day Response" },
+            { icon: Award, label: "Trusted Across Guyana" },
+            { icon: Headphones, label: "Responsive Support" },
+          ].map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-3 justify-center text-center">
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green)]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green)]">{label}</span>
+            </div>
+          ))}
         </div>
       </section>
     </SiteLayout>
