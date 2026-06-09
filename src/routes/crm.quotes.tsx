@@ -14,7 +14,7 @@ const STATUS_STYLES: Record<Status, string> = {
   "Needs Review": "bg-[#E31B23]/15 text-[#E31B23] border-[#E31B23]/30",
   Sent: "bg-blue-500/15 text-blue-300 border-blue-500/30",
   "Awaiting Approval": "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
-  Accepted: "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  Accepted: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   Declined: "bg-red-500/15 text-red-300 border-red-500/30",
   Expired: "bg-orange-500/15 text-orange-300 border-orange-500/30",
 };
@@ -38,7 +38,7 @@ const KPIS = [
   { label: "Quote Needed", value: "6", tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10", icon: AlertCircle },
   { label: "Quotes Sent", value: "18", tone: "text-blue-300", bg: "bg-blue-500/10", icon: FileText },
   { label: "Awaiting Approval", value: "9", tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10", icon: Clock },
-  { label: "Accepted This Month", value: "23", tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10", icon: CheckCircle2 },
+  { label: "Accepted This Month", value: "23", tone: "text-[#006B35]", bg: "bg-[#006B35]/10", icon: CheckCircle2 },
   { label: "Lost This Month", value: "4", tone: "text-white/60", bg: "bg-white/[0.05]", icon: XCircle },
 ];
 

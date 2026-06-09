@@ -51,9 +51,9 @@ const HOURS = Array.from({ length: 11 }, (_, i) => i + 7); // 7AM-5PM
 
 const TYPE_STYLES: Record<EventType, { bg: string; border: string; dot: string; label: string }> = {
   scheduled: {
-    bg: "bg-[#00A85A]/15",
-    border: "border-l-[#00A85A]",
-    dot: "bg-[#00A85A]",
+    bg: "bg-[#006B35]/15",
+    border: "border-l-[#006B35]",
+    dot: "bg-[#006B35]",
     label: "Scheduled",
   },
   review: {

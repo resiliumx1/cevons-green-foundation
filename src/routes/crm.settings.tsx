@@ -32,7 +32,7 @@ const STAGES = [
 ];
 
 const BRAND = [
-  { name: "Green", hex: "#00A85A" },
+  { name: "Green", hex: "#006B35" },
   { name: "Deep Green", hex: "#006837" },
   { name: "Yellow", hex: "#FFD200" },
   { name: "Red", hex: "#E31B23" },
@@ -52,7 +52,7 @@ function Toggle({ on }: { on: boolean }) {
   return (
     <button
       onClick={() => setActive(!active)}
-      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#00A85A]" : "bg-white/[0.1]"}`}
+      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#006B35]" : "bg-white/[0.1]"}`}
     >
       <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${active ? "left-[18px]" : "left-0.5"}`} />
     </button>
@@ -99,7 +99,7 @@ function SettingsPage() {
               <h2 className="font-semibold text-white">Profile</h2>
               <p className="text-xs text-white/50">Personal account information</p>
               <div className="mt-5 flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#00A85A]/20 text-xl font-semibold text-[#00A85A]">SK</div>
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#006B35]/20 text-xl font-semibold text-[#006B35]">SK</div>
                 <button className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-white/80 hover:bg-white/[0.06]">Change Avatar</button>
               </div>
               <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -131,7 +131,7 @@ function SettingsPage() {
                       <tr key={m.name} className="border-t border-white/[0.04] hover:bg-white/[0.02]">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#00A85A]/20 text-xs font-semibold text-[#00A85A]">
+                            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#006B35]/20 text-xs font-semibold text-[#006B35]">
                               {m.name.split(" ").map((p) => p[0]).join("")}
                             </div>
                             <span className="text-white">{m.name}</span>
@@ -141,7 +141,7 @@ function SettingsPage() {
                         <td className="px-4 py-3"><span className="rounded border border-white/[0.1] bg-white/[0.03] px-2 py-0.5 text-xs text-white/70">{m.access}</span></td>
                         <td className="px-4 py-3">
                           <span className={`inline-flex rounded-full border px-2 py-0.5 text-xs ${
-                            m.status === "Active" ? "border-[#00A85A]/30 bg-[#00A85A]/10 text-[#00A85A]" : "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]"
+                            m.status === "Active" ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]"
                           }`}>{m.status}</span>
                         </td>
                         <td className="px-4 py-3 text-right"><button className="rounded p-1 text-white/50 hover:bg-white/[0.06] hover:text-white"><MoreHorizontal className="h-4 w-4" /></button></td>

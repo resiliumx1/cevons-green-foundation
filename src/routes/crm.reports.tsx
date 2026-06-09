@@ -12,12 +12,12 @@ export const Route = createFileRoute("/crm/reports")({
 });
 
 const CARDS = [
-  { title: "Revenue Trends", desc: "Track monthly and yearly revenue performance.", icon: TrendingUp, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { title: "Revenue Trends", desc: "Track monthly and yearly revenue performance.", icon: TrendingUp, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
   { title: "ROI & Campaign Performance", desc: "Compare marketing spend with revenue impact.", icon: Target, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
   { title: "Area Performance", desc: "See which regions generate the most demand.", icon: MapPin, tone: "text-blue-300", bg: "bg-blue-500/10" },
   { title: "Service Demand", desc: "Lead and job distribution by service.", icon: PieChart, tone: "text-purple-300", bg: "bg-purple-500/10" },
   { title: "Response Times", desc: "Measure first-contact and follow-up speed.", icon: Clock, tone: "text-orange-300", bg: "bg-orange-500/10" },
-  { title: "Quote-to-Booking Rate", desc: "Conversion from quote sent to job booked.", icon: CheckSquare, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { title: "Quote-to-Booking Rate", desc: "Conversion from quote sent to job booked.", icon: CheckSquare, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
   { title: "Review Requests", desc: "Customer feedback response rates.", icon: Star, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
   { title: "Lost Opportunities", desc: "Declined or expired quotes and stalled leads.", icon: XCircle, tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10" },
 ];
@@ -79,7 +79,7 @@ function ReportsPage() {
                 <XAxis dataKey="m" stroke="rgba(255,255,255,0.4)" fontSize={11} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} tickFormatter={(v) => `$${(v/1000).toFixed(0)}k`} />
                 <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} formatter={(v: number) => `$${v.toLocaleString()}`} />
-                <Line type="monotone" dataKey="v" stroke="#00A85A" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} />
+                <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -109,7 +109,7 @@ function ReportsPage() {
                 <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={11} />
                 <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} />
                 <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
-                <Bar dataKey="jobs" fill="#00A85A" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="jobs" fill="#006B35" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

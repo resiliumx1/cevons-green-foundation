@@ -55,14 +55,14 @@ const BOOKINGS: Booking[] = [
 const STATUS_STYLES: Record<Status, string> = {
   "Pending Confirmation": "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
   Scheduled: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-  "Dispatch Ready": "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  "Dispatch Ready": "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   "In Progress": "bg-purple-500/15 text-purple-300 border-purple-500/30",
   Completed: "bg-white/[0.06] text-white/60 border-white/[0.1]",
   "Needs Review": "bg-[#E31B23]/15 text-[#E31B23] border-[#E31B23]/30",
 };
 
 const KPIS = [
-  { label: "Scheduled Today", value: "12", icon: CalendarCheck, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { label: "Scheduled Today", value: "12", icon: CalendarCheck, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
   { label: "Pending Confirmation", value: "8", icon: Clock, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
   { label: "Specialist Reviews", value: "3", icon: AlertTriangle, tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10" },
   { label: "Completed This Week", value: "27", icon: CheckCircle2, tone: "text-white/70", bg: "bg-white/[0.05]" },

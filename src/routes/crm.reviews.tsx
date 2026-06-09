@@ -11,13 +11,13 @@ type ReqStatus = "Sent" | "Opened" | "Reviewed" | "Needs Follow-Up";
 const STATUS_STYLES: Record<ReqStatus, string> = {
   Sent: "bg-blue-500/15 text-blue-300 border-blue-500/30",
   Opened: "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
-  Reviewed: "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  Reviewed: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   "Needs Follow-Up": "bg-[#E31B23]/15 text-[#E31B23] border-[#E31B23]/30",
 };
 
 const KPIS = [
   { label: "Review Requests Sent", value: "84", icon: Send, tone: "text-blue-300", bg: "bg-blue-500/10" },
-  { label: "Positive Feedback", value: "62", icon: ThumbsUp, tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10" },
+  { label: "Positive Feedback", value: "62", icon: ThumbsUp, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
   { label: "Needs Follow-Up", value: "5", icon: AlertCircle, tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10" },
   { label: "Average Rating", value: "4.7", icon: Star, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
 ];
@@ -39,7 +39,7 @@ const FEEDBACK: { type: "positive" | "neutral" | "negative"; customer: string; s
 ];
 
 const FEEDBACK_STYLES = {
-  positive: { bg: "bg-[#00A85A]/8", border: "border-[#00A85A]/30", tone: "text-[#00A85A]", label: "Positive" },
+  positive: { bg: "bg-[#006B35]/8", border: "border-[#006B35]/30", tone: "text-[#006B35]", label: "Positive" },
   neutral: { bg: "bg-[#FFD200]/8", border: "border-[#FFD200]/30", tone: "text-[#FFD200]", label: "Neutral" },
   negative: { bg: "bg-[#E31B23]/8", border: "border-[#E31B23]/30", tone: "text-[#E31B23]", label: "Needs Follow-Up" },
 };

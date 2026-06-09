@@ -12,7 +12,7 @@ type Status = "Draft" | "Sent" | "Paid" | "Overdue" | "Cancelled";
 const STATUS_STYLES: Record<Status, string> = {
   Draft: "bg-white/[0.06] text-white/60 border-white/[0.1]",
   Sent: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-  Paid: "bg-[#00A85A]/15 text-[#00A85A] border-[#00A85A]/30",
+  Paid: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
   Overdue: "bg-[#E31B23]/15 text-[#E31B23] border-[#E31B23]/30",
   Cancelled: "bg-red-500/10 text-red-300/70 border-red-500/20",
 };
@@ -35,7 +35,7 @@ const INVOICES: Invoice[] = [
 const KPIS = [
   { label: "Draft Invoices", value: "4", tone: "text-white/70", bg: "bg-white/[0.05]", icon: FileText },
   { label: "Sent Invoices", value: "17", tone: "text-blue-300", bg: "bg-blue-500/10", icon: Send },
-  { label: "Paid", value: "$184,250", tone: "text-[#00A85A]", bg: "bg-[#00A85A]/10", icon: CheckCircle2 },
+  { label: "Paid", value: "$184,250", tone: "text-[#006B35]", bg: "bg-[#006B35]/10", icon: CheckCircle2 },
   { label: "Overdue", value: "$36,500", tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10", icon: AlertTriangle },
 ];
 
