@@ -173,6 +173,7 @@ function CrmLayout() {
           </div>
 
           <div className="flex items-center gap-2 ml-auto">
+            <CrmAssistant />
             <button
               className="relative h-9 w-9 grid place-items-center rounded-lg border"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
