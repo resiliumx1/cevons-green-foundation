@@ -23,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
+import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
@@ -31,12 +32,9 @@ export const Route = createFileRoute("/crm")({
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
-  component: CrmLayout,
+  component: CrmRoot,
 });
 
-// NOTE: front-end only — all data on child pages is mock data.
-// Future integrations (lead intake, messaging, calendar sync, billing, reviews)
-// can be wired into the corresponding route components.
 const nav = [
   { to: "/crm", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/crm/leads", label: "Leads / Requests", icon: Users },
@@ -53,7 +51,16 @@ const nav = [
   { to: "/crm/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }>;
 
+function CrmRoot() {
+  return (
+    <CrmThemeProvider>
+      <CrmLayout />
+    </CrmThemeProvider>
+  );
+}
+
 function CrmLayout() {
+  const { theme } = useCrmTheme();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -66,8 +73,8 @@ function CrmLayout() {
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
-            <div className="text-sm font-bold text-white tracking-wide">CEVON'S</div>
-            <div className="text-[11px] uppercase tracking-widest text-emerald-200/70">Growth Command</div>
+            <div className="text-sm font-bold tracking-wide" style={{ color: "var(--crm-sidebar-text)" }}>CEVON'S</div>
+            <div className="text-[11px] uppercase tracking-widest opacity-70" style={{ color: "var(--crm-sidebar-text)" }}>Growth Command</div>
           </div>
         )}
       </div>
@@ -84,10 +91,8 @@ function CrmLayout() {
               to={item.to as "/crm"}
               onClick={() => setMobileOpen(false)}
               title={collapsed ? item.label : undefined}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                active
-                  ? "bg-[#FFD200] text-[#002E1F] font-semibold shadow-sm"
-                  : "text-emerald-50/80 hover:bg-white/5 hover:text-white"
+              className={`crm-nav-item flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                active ? "is-active shadow-sm" : ""
               } ${collapsed ? "justify-center" : ""}`}
             >
               <Icon className="h-[18px] w-[18px] shrink-0" />
@@ -99,7 +104,7 @@ function CrmLayout() {
 
       <button
         onClick={() => setCollapsed((c) => !c)}
-        className={`hidden md:flex items-center gap-3 mx-2 mb-3 mt-2 px-3 py-2.5 rounded-lg text-sm text-emerald-50/80 hover:bg-white/5 hover:text-white transition-colors ${
+        className={`crm-nav-item hidden md:flex items-center gap-3 mx-2 mb-3 mt-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${
           collapsed ? "justify-center" : ""
         }`}
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -111,10 +116,10 @@ function CrmLayout() {
   );
 
   return (
-    <div className="flex min-h-screen bg-[#071111] text-slate-100">
+    <div data-crm-theme={theme} className="flex min-h-screen">
       {/* Desktop sidebar */}
       <aside
-        className={`hidden md:flex flex-col bg-[#002E1F] border-r border-black/40 transition-[width] duration-200 ${
+        className={`crm-sidebar hidden md:flex flex-col transition-[width] duration-200 ${
           collapsed ? "w-[72px]" : "w-64 lg:w-72"
         }`}
       >
@@ -125,10 +130,11 @@ function CrmLayout() {
       {mobileOpen && (
         <>
           <div className="fixed inset-0 bg-black/60 z-40 md:hidden" onClick={() => setMobileOpen(false)} />
-          <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[#002E1F] border-r border-black/40 z-50 md:hidden flex flex-col">
+          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 md:hidden flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-4 text-white/70 hover:text-white"
+              className="absolute top-4 right-4 opacity-70 hover:opacity-100"
+              style={{ color: "var(--crm-sidebar-text)" }}
               aria-label="Close menu"
             >
               <X className="h-5 w-5" />
@@ -140,56 +146,65 @@ function CrmLayout() {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-[#0a1414] border-b border-white/5 flex items-center gap-3 px-4 md:px-6">
+        <header className="crm-header h-16 flex items-center gap-3 px-4 md:px-6">
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden h-9 w-9 grid place-items-center rounded-lg bg-[#101820] border border-white/5 text-slate-300"
+            className="md:hidden h-9 w-9 grid place-items-center rounded-lg border"
+            style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
             aria-label="Open menu"
           >
             <Menu className="h-4 w-4" />
           </button>
 
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "var(--crm-text-faint)" }} />
             <input
               type="search"
               placeholder="Search leads, services, customers..."
-              className="w-full rounded-lg bg-[#101820] border border-white/[0.08] pl-9 pr-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-emerald-500/50"
+              className="w-full rounded-lg border pl-9 pr-3 py-2 text-sm focus:outline-none"
+              style={{
+                background: "var(--crm-surface-muted)",
+                borderColor: "var(--crm-border)",
+                color: "var(--crm-text)",
+              }}
             />
           </div>
 
           <div className="flex items-center gap-2 ml-auto">
             <button
-              className="relative h-9 w-9 grid place-items-center rounded-lg bg-[#101820] border border-white/[0.08] hover:border-white/20 text-slate-300"
+              className="relative h-9 w-9 grid place-items-center rounded-lg border"
+              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               aria-label="Notifications"
             >
               <Bell className="h-4 w-4" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-[#E31B23]" />
+              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full" style={{ background: "var(--crm-red)" }} />
             </button>
             <button
-              className="h-9 w-9 grid place-items-center rounded-lg bg-[#101820] border border-white/[0.08] hover:border-white/20 text-slate-300"
+              className="h-9 w-9 grid place-items-center rounded-lg border"
+              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               aria-label="Help"
             >
               <HelpCircle className="h-4 w-4" />
             </button>
-            <div className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l border-white/[0.08]">
+            <div className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l" style={{ borderColor: "var(--crm-border)" }}>
               <div className="text-right leading-tight">
-                <div className="text-sm font-semibold text-white">Romina S.</div>
-                <div className="text-[11px] text-slate-400">Marketing Lead</div>
+                <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
+                <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
               </div>
-              <div className="h-9 w-9 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 grid place-items-center text-sm font-semibold text-white">
+              <div className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
+                   style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}>
                 R
               </div>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-8">
+        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-8">
           <Outlet />
         </main>
 
         {/* Mobile bottom nav (primary items) */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#002E1F] border-t border-black/40 grid grid-cols-5 z-30">
+        <nav className="crm-bottom-nav md:hidden fixed bottom-0 left-0 right-0 grid grid-cols-5 z-30">
           {nav.slice(0, 5).map((item) => {
             const active = item.exact
               ? pathname === item.to
@@ -199,9 +214,9 @@ function CrmLayout() {
               <Link
                 key={item.to}
                 to={item.to as "/crm"}
-                className={`flex flex-col items-center justify-center py-2.5 text-[10px] gap-1 ${
-                  active ? "text-[#FFD200]" : "text-emerald-50/70"
-                }`}
+                className="crm-nav-item flex flex-col items-center justify-center py-2.5 text-[10px] gap-1 rounded-none"
+                data-active={active}
+                style={active ? { color: "var(--crm-sidebar-text-active)", background: "var(--crm-sidebar-active)" } : undefined}
               >
                 <Icon className="h-[18px] w-[18px]" />
                 <span className="truncate max-w-[60px]">{item.label.split(" ")[0]}</span>
