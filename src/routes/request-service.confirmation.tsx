@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, MessageCircle, Home, RefreshCw, Search, FileText, Phone, ShieldCheck, Clock, Award } from "lucide-react";
+import confetti from "canvas-confetti";
+import { Check, MessageCircle, RefreshCw, Search, FileText, Phone, ShieldCheck, Clock, Award } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { cn } from "@/lib/utils";
 
@@ -18,10 +19,24 @@ export const Route = createFileRoute("/request-service/confirmation")({
 });
 
 function generateRef() {
-  const prefix = "CEV-";
   const year = new Date().getFullYear();
-  const num = Math.floor(100000 + Math.random() * 899999);
-  return `${prefix}${year}-${num}`;
+  const num = String(Math.floor(100000 + Math.random() * 899999)).padStart(6, "0");
+  return `CEV-${year}-${num}`;
+}
+
+const CEVONS_COLORS = ["#006B35", "#FFD200", "#E31B23", "#FFFFFF"];
+
+function fireConfetti() {
+  if (typeof window === "undefined") return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+  const defaults = {
+    spread: 70, ticks: 220, gravity: 0.9, scalar: 1,
+    colors: CEVONS_COLORS, disableForReducedMotion: true,
+  };
+  confetti({ ...defaults, particleCount: 80, startVelocity: 45, origin: { x: 0.5, y: 0.3 } });
+  setTimeout(() => confetti({ ...defaults, particleCount: 55, angle: 60, startVelocity: 55, origin: { x: 0, y: 0.6 } }), 180);
+  setTimeout(() => confetti({ ...defaults, particleCount: 55, angle: 120, startVelocity: 55, origin: { x: 1, y: 0.6 } }), 360);
 }
 
 function ConfirmationPage() {
@@ -30,7 +45,8 @@ function ConfirmationPage() {
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(t);
+    const c = setTimeout(() => fireConfetti(), 250);
+    return () => { clearTimeout(t); clearTimeout(c); };
   }, []);
 
   const steps = [
