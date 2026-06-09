@@ -26,6 +26,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
