@@ -197,7 +197,7 @@ export function HomeHero() {
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
             className="relative"
           >
             <InteractiveServiceHub />
