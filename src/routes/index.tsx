@@ -170,16 +170,16 @@ function HomePage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map(({ img, title, body, icon: Icon }, i) => (
+            {pillars.map(({ img, title, body, iconKey }, i) => (
               <article key={title} className="card-cevons group reveal" style={{ animationDelay: `${i * 100}ms` }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
-                  <span className="absolute -bottom-5 left-5 size-11 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
-                    <Icon className="size-5" />
+                  <span className="absolute -bottom-7 left-5 h-16 w-16 rounded-2xl bg-white border-4 border-white flex items-center justify-center shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
+                    <CevonsIcon group="categories" name={iconKey} size="md" decorative />
                   </span>
                 </div>
-                <div className="p-6 pt-8">
+                <div className="p-6 pt-10">
                   <h3 className="text-xl font-bold text-cevons-dark">{title}</h3>
                   <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
                   <a href="/services" className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-cevons-green hover:gap-2 transition-all">
