@@ -1,5 +1,5 @@
-import { ArrowRight, Award, BadgeCheck, Calendar, Leaf, MapPin, ShieldCheck, Target, Trophy, Users } from "lucide-react";
-import { motion } from "framer-motion";
+import { Award, BadgeCheck, Calendar, Leaf, MapPin, ShieldCheck, Target, Trophy, Users } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { InteractiveServiceHub } from "./InteractiveServiceHub";
 
