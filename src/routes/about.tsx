@@ -40,11 +40,11 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const stats = [
-  { value: 25, suffix: "+", label: "Years of Service", icon: Award },
-  { value: 50, suffix: "K+", label: "Happy Customers", icon: Heart },
-  { value: 120, suffix: "+", label: "Fleet & Equipment", icon: Shield },
-  { value: 3, suffix: "", label: "Regions Served", icon: TrendingUp },
+const stats: { label: string; value: string; icon: typeof Award }[] = [
+  { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
+  { value: "4", label: "Service Categories", icon: Recycle },
+  { value: "3", label: "Regions Served", icon: TrendingUp },
+  { value: "All Sectors", label: "Residential • Commercial • Industrial • Facilities", icon: Shield },
 ];
 
 const mvvcards = [
