@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as RequestServiceRouteImport } from './routes/request-service'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as AboutRouteImport } from './routes/about'
@@ -26,6 +27,7 @@ import { Route as ServicesPortableToiletRentalRouteImport } from './routes/servi
 import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
 import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
 import { Route as ServicesCommercialGarbageCollectionRouteImport } from './routes/services.commercial-garbage-collection'
+import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -35,6 +37,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestServiceRoute = RequestServiceRouteImport.update({
+  id: '/request-service',
+  path: '/request-service',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -121,14 +128,22 @@ const ServicesCommercialGarbageCollectionRoute =
     path: '/commercial-garbage-collection',
     getParentRoute: () => ServicesRoute,
   } as any)
+const RequestServiceConfirmationRoute =
+  RequestServiceConfirmationRouteImport.update({
+    id: '/confirmation',
+    path: '/confirmation',
+    getParentRoute: () => RequestServiceRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
@@ -146,8 +161,10 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
@@ -166,8 +183,10 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
@@ -187,8 +206,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/industries'
     | '/locations'
+    | '/request-service'
     | '/resources'
     | '/services'
+    | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
@@ -206,8 +227,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/industries'
     | '/locations'
+    | '/request-service'
     | '/resources'
     | '/services'
+    | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
@@ -225,8 +248,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/industries'
     | '/locations'
+    | '/request-service'
     | '/resources'
     | '/services'
+    | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
@@ -245,6 +270,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
+  RequestServiceRoute: typeof RequestServiceRouteWithChildren
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
 }
@@ -263,6 +289,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-service': {
+      id: '/request-service'
+      path: '/request-service'
+      fullPath: '/request-service'
+      preLoaderRoute: typeof RequestServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -370,8 +403,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesCommercialGarbageCollectionRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/request-service/confirmation': {
+      id: '/request-service/confirmation'
+      path: '/confirmation'
+      fullPath: '/request-service/confirmation'
+      preLoaderRoute: typeof RequestServiceConfirmationRouteImport
+      parentRoute: typeof RequestServiceRoute
+    }
   }
 }
+
+interface RequestServiceRouteChildren {
+  RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
+}
+
+const RequestServiceRouteChildren: RequestServiceRouteChildren = {
+  RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
+}
+
+const RequestServiceRouteWithChildren = RequestServiceRoute._addFileChildren(
+  RequestServiceRouteChildren,
+)
 
 interface ServicesRouteChildren {
   ServicesCommercialGarbageCollectionRoute: typeof ServicesCommercialGarbageCollectionRoute
@@ -412,6 +464,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
+  RequestServiceRoute: RequestServiceRouteWithChildren,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
 }
