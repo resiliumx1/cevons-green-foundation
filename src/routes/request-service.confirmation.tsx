@@ -50,9 +50,9 @@ function ConfirmationPage() {
   }, []);
 
   const steps = [
-    "Our team will review your request.",
-    "We will contact you by WhatsApp during the same business day.",
-    "We will provide a quote and schedule service where applicable.",
+    "Our team reviews your request.",
+    "We contact you by WhatsApp or phone.",
+    "We confirm service details and scheduling.",
   ];
 
   const trustItems = [
@@ -66,7 +66,7 @@ function ConfirmationPage() {
     <SiteLayout>
       {/* Main Confirmation Card */}
       <section className="bg-[var(--cevons-cream)]">
-        <div className="container-cevons px-4 py-12 md:py-20">
+        <div className="container-cevons px-4 pt-24 md:pt-28 pb-12 md:pb-20">
           <div
             className={cn(
               "max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-white p-8 md:p-12 shadow-[0_12px_40px_rgba(16,24,32,0.06)] text-center transition-all duration-700",
