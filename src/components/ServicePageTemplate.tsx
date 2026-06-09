@@ -102,7 +102,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       {/* Hero */}
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
         <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div className="reveal">
+          <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-4 inline-flex items-center gap-2">
               <Eyebrow className="size-4" /> {eyebrowLabel}
             </p>
@@ -128,9 +128,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="reveal" style={{ animationDelay: "120ms" }}>
+          <Reveal variant="scale" delay={0.1}>
             <div className="relative rounded-2xl overflow-hidden shadow-lift group">
               <img
                 src={heroImage}
@@ -147,7 +147,8 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVON'S</span>
               </div>
             </div>
-          </div>
+          </Reveal>
+
         </div>
       </section>
 
