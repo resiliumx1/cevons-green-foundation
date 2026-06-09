@@ -73,7 +73,7 @@ type RevealProps = {
   variant?: RevealVariant;
   delay?: number;
   className?: string;
-  as?: ElementType;
+  as?: MotionTag;
 } & Omit<AnyMotionProps, "children" | "className" | "variants" | "initial" | "whileInView" | "viewport">;
 
 export function Reveal({
@@ -97,7 +97,7 @@ export function Reveal({
     },
   };
 
-  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
+  const Comp = getMotionComponent(as);
 
   return (
     <Comp
@@ -136,12 +136,12 @@ const STAGGER_ITEM_REDUCED: Variants = {
 type StaggerProps = {
   children: ReactNode;
   className?: string;
-  as?: ElementType;
+  as?: MotionTag;
 } & Omit<AnyMotionProps, "children" | "className" | "variants" | "initial" | "whileInView" | "viewport">;
 
 export function Stagger({ children, className, as = "div", ...rest }: StaggerProps) {
   const reduce = useReducedMotion() ?? false;
-  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
+  const Comp = getMotionComponent(as);
   return (
     <Comp
       className={className}
@@ -159,12 +159,12 @@ export function Stagger({ children, className, as = "div", ...rest }: StaggerPro
 type StaggerItemProps = {
   children: ReactNode;
   className?: string;
-  as?: ElementType;
+  as?: MotionTag;
 } & Omit<AnyMotionProps, "children" | "className" | "variants">;
 
 export function StaggerItem({ children, className, as = "div", ...rest }: StaggerItemProps) {
   const reduce = useReducedMotion() ?? false;
-  const Comp = motion(as as ElementType) as unknown as React.ComponentType<AnyMotionProps>;
+  const Comp = getMotionComponent(as);
   return (
     <Comp
       className={className}
