@@ -156,9 +156,9 @@ function ServicesPage() {
                 <div className="p-6 pt-8">
                   <h3 className="text-lg font-bold text-cevons-dark">{title}</h3>
                   <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                  {title === "Dumpster Rental" ? (
+                  {SERVICE_SLUGS[title] ? (
                     <Link
-                      to="/services/dumpster-rental"
+                      to={SERVICE_SLUGS[title]}
                       className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green rounded"
                       aria-label={`Learn more about ${title}`}
                     >
