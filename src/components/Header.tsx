@@ -1,0 +1,131 @@
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Calendar, ChevronDown, Menu, X } from "lucide-react";
+import logo from "@/assets/cevons-logo.png";
+import { WhatsApp } from "./icons/WhatsApp";
+
+const nav = [
+  { to: "/", label: "Home" },
+  { to: "/services", label: "Services", hasDropdown: true },
+  { to: "/industries", label: "Industries" },
+  { to: "/locations", label: "Locations" },
+  { to: "/resources", label: "Resources" },
+  { to: "/about", label: "About" },
+] as const;
+
+const servicesDropdown = [
+  "Garbage Collection",
+  "Skip Bin Rental",
+  "Dumpster Rental",
+  "Portable Toilet Rental",
+  "Septic Tank Clearance",
+  "Waste Oil Recycling",
+  "Wastewater Treatment",
+  "Scrap Metal Collection",
+];
+
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={`sticky top-0 z-50 w-full border-b transition-all ${
+        scrolled
+          ? "bg-white/85 backdrop-blur-md border-cevons-border shadow-[0_1px_0_rgba(0,0,0,0.04)]"
+          : "bg-white border-transparent"
+      }`}
+    >
+      <div className="container-cevons flex h-20 items-center justify-between gap-4">
+        <Link to="/" className="flex items-center" aria-label="CEVON'S Environmental Services home">
+          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 md:h-12 w-auto" />
+        </Link>
+
+        <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" aria-label="Primary">
+          {nav.map((item) => (
+            <div key={item.to} className="relative group">
+              <Link
+                to={item.to}
+                className="px-3 py-2 text-sm font-semibold text-cevons-dark hover:text-cevons-green transition-colors inline-flex items-center gap-1"
+                activeProps={{ className: "text-cevons-green" }}
+                activeOptions={{ exact: item.to === "/" }}
+              >
+                {item.label}
+                {item.hasDropdown && <ChevronDown className="size-4" />}
+              </Link>
+              {item.hasDropdown && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_12px_32px_rgba(16,24,32,0.08)] py-2 min-w-[240px]">
+                    {servicesDropdown.map((s) => (
+                      <Link
+                        key={s}
+                        to="/services"
+                        className="block px-4 py-2 text-sm text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                      >
+                        {s}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
+
+        <div className="hidden md:flex items-center gap-2">
+          <a href="https://wa.me/5926252366" className="btn-base btn-green">
+            <WhatsApp className="size-4" />
+            WhatsApp Us
+          </a>
+          <a href="#schedule" className="btn-base btn-yellow">
+            <Calendar className="size-4" />
+            Schedule a Service
+          </a>
+        </div>
+
+        <button
+          className="lg:hidden p-2 -mr-2 text-cevons-dark"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+        </button>
+      </div>
+
+      {mobileOpen && (
+        <div className="lg:hidden border-t border-cevons-border bg-white">
+          <div className="container-cevons py-4 flex flex-col gap-1">
+            {nav.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="px-3 py-3 text-base font-semibold text-cevons-dark rounded-md hover:bg-cevons-cream"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-cevons-border">
+              <a href="https://wa.me/5926252366" className="btn-base btn-green w-full">
+                <WhatsApp className="size-4" />
+                WhatsApp Us
+              </a>
+              <a href="#schedule" className="btn-base btn-yellow w-full">
+                <Calendar className="size-4" />
+                Schedule a Service
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
