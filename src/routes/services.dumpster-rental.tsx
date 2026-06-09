@@ -18,6 +18,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { Reveal } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import {
   Accordion,
