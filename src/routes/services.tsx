@@ -34,6 +34,8 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import forestBg from "@/assets/forest-bg.jpg";
 
 export const Route = createFileRoute("/services")({
