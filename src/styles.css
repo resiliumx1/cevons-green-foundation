@@ -242,3 +242,61 @@
 @utility hero-img {
   animation: hero-scale 1.8s ease-out forwards;
 }
+
+/* ===== Premium motion system ===== */
+
+/* Card hover: lift + subtle shadow + green border on .motion-card */
+.motion-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+.motion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -12px rgba(0, 107, 53, 0.25),
+    0 4px 10px rgba(16, 24, 32, 0.06);
+  border-color: var(--cevons-green);
+}
+.motion-card .motion-card-image {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.motion-card:hover .motion-card-image {
+  transform: scale(1.04);
+}
+
+/* Button hover lift */
+.btn-motion {
+  transition: transform 0.2s ease, box-shadow 0.25s ease,
+    background-color 0.2s ease, filter 0.2s ease;
+  will-change: transform;
+}
+.btn-motion:hover {
+  transform: translateY(-2px);
+}
+.btn-motion-green:hover {
+  filter: brightness(0.94);
+  box-shadow: 0 8px 24px -8px rgba(0, 107, 53, 0.5),
+    0 0 0 1px rgba(0, 107, 53, 0.15);
+}
+.btn-motion-yellow:hover {
+  filter: brightness(0.95);
+  box-shadow: 0 8px 20px -8px rgba(255, 210, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-card,
+  .motion-card:hover,
+  .motion-card .motion-card-image,
+  .motion-card:hover .motion-card-image,
+  .btn-motion,
+  .btn-motion:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+  .reveal,
+  .hero-img {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
