@@ -140,43 +140,43 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
   outline: none;
   white-space: nowrap;
-}
-@utility btn-base:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+  }
 }
 @utility btn-green {
   background-color: var(--cevons-green);
   color: #fff;
-}
-@utility btn-green:hover {
-  background-color: var(--cevons-deep-green);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 107, 53, 0.25);
+  &:hover {
+    background-color: var(--cevons-deep-green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 107, 53, 0.25);
+  }
 }
 @utility btn-yellow {
   background-color: var(--cevons-yellow);
   color: var(--cevons-dark);
-}
-@utility btn-yellow:hover {
-  background-color: #f0c500;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 210, 0, 0.4);
+  &:hover {
+    background-color: #f0c500;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 210, 0, 0.4);
+  }
 }
 @utility btn-outline-green {
   border: 1.5px solid var(--cevons-green);
   color: var(--cevons-green);
   background: transparent;
-}
-@utility btn-outline-green:hover {
-  background-color: var(--cevons-green);
-  color: #fff;
+  &:hover {
+    background-color: var(--cevons-green);
+    color: #fff;
+  }
 }
 @utility btn-ghost-dark {
   color: var(--cevons-dark);
-}
-@utility btn-ghost-dark:hover {
-  background-color: rgba(0, 107, 53, 0.08);
-  color: var(--cevons-green);
+  &:hover {
+    background-color: rgba(0, 107, 53, 0.08);
+    color: var(--cevons-green);
+  }
 }
 
 /* Service / content card */
@@ -186,13 +186,13 @@
   border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-}
-@utility card-cevons:hover {
-  border-color: var(--cevons-green);
-  box-shadow: 0 8px 24px rgba(0, 63, 39, 0.08);
-}
-@utility card-cevons:hover img {
-  transform: scale(1.04);
+  &:hover {
+    border-color: var(--cevons-green);
+    box-shadow: 0 8px 24px rgba(0, 63, 39, 0.08);
+  }
+  &:hover img {
+    transform: scale(1.04);
+  }
 }
 
 /* Decorative brand swoosh — curved red band over yellow band, logo-inspired */
@@ -204,25 +204,26 @@
   height: 56px;
   pointer-events: none;
   z-index: 2;
-}
-@utility brand-ribbon::before,
-@utility brand-ribbon::after {
-  content: "";
-  position: absolute;
-  left: -2%;
-  right: -2%;
-  height: 100%;
-}
-@utility brand-ribbon::before {
-  bottom: -14px;
-  background: var(--cevons-yellow);
-  clip-path: ellipse(60% 100% at 50% 100%);
-}
-@utility brand-ribbon::after {
-  bottom: 4px;
-  background: var(--cevons-red);
-  clip-path: ellipse(58% 90% at 52% 100%);
-  height: 80%;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    height: 100%;
+    bottom: -14px;
+    background: var(--cevons-yellow);
+    clip-path: ellipse(60% 100% at 50% 100%);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    height: 80%;
+    bottom: 4px;
+    background: var(--cevons-red);
+    clip-path: ellipse(58% 90% at 52% 100%);
+  }
 }
 
 /* Reveal animations */
