@@ -44,6 +44,7 @@ const SECTIONS = [
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "pipeline", label: "Pipeline", icon: GitBranch },
   { id: "branding", label: "Branding", icon: Palette },
+  { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
 ];
 
 function Toggle({ on }: { on: boolean }) {
