@@ -197,8 +197,8 @@ function HomePage() {
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
-                  <span className="absolute -bottom-7 left-5 h-16 w-16 rounded-2xl bg-white border-4 border-white flex items-center justify-center shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
-                    <CevonsIcon group="categories" name={iconKey} size="md" decorative />
+                  <span className="absolute -bottom-7 left-5 h-16 w-16 rounded-2xl bg-[#101820] border-4 border-white overflow-hidden flex items-center justify-center shadow-lift transition-transform duration-300 group-hover:scale-[1.04] relative">
+                    <CevonsIcon group="categories" name={iconKey} fill decorative />
                   </span>
                 </div>
                 <div className="p-6 pt-10">
