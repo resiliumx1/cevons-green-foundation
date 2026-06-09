@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RequestServiceRouteImport } from './routes/request-service'
@@ -29,6 +30,11 @@ import { Route as ServicesDocumentShreddingRouteImport } from './routes/services
 import { Route as ServicesCommercialGarbageCollectionRouteImport } from './routes/services.commercial-garbage-collection'
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 
+const TrackRequestRoute = TrackRequestRouteImport.update({
+  id: '/track-request',
+  path: '/track-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/track-request': typeof TrackRequestRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/track-request': typeof TrackRequestRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/track-request': typeof TrackRequestRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/request-service'
     | '/resources'
     | '/services'
+    | '/track-request'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/request-service'
     | '/resources'
     | '/services'
+    | '/track-request'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/request-service'
     | '/resources'
     | '/services'
+    | '/track-request'
     | '/request-service/confirmation'
     | '/services/commercial-garbage-collection'
     | '/services/document-shredding'
@@ -273,10 +285,18 @@ export interface RootRouteChildren {
   RequestServiceRoute: typeof RequestServiceRouteWithChildren
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  TrackRequestRoute: typeof TrackRequestRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/track-request': {
+      id: '/track-request'
+      path: '/track-request'
+      fullPath: '/track-request'
+      preLoaderRoute: typeof TrackRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -467,17 +487,8 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceRoute: RequestServiceRouteWithChildren,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  TrackRequestRoute: TrackRequestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

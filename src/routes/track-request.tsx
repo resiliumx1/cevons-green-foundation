@@ -38,7 +38,7 @@ type StatusKey =
   | "Cancelled";
 
 interface TimelineItem {
-  status: StatusKey;
+  status: string;
   description: string;
   timestamp: string;
   icon: React.ComponentType<{ className?: string }>;
