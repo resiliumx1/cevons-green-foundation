@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
+  Award,
   Calendar,
   CheckCircle,
   ClipboardCheck,
@@ -12,7 +13,6 @@ import {
   ShieldCheck,
   Trash2,
   Truck,
-  
   Factory,
   Target,
   Home,
