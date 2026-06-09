@@ -11,6 +11,7 @@ import {
   Recycle,
   Shield,
   ShieldCheck,
+  BadgeCheck,
   Trash2,
   Truck,
   Factory,
@@ -51,11 +52,11 @@ export const Route = createFileRoute("/")({
 });
 
 const trust = [
-  { icon: MapPin, t: "Serving", s: "Georgetown, Linden & Berbice" },
-  { icon: Truck, t: "Coverage", s: "Across Guyana" },
-  { icon: Shield, t: "Safety", s: "First Priority" },
-  { icon: Leaf, t: "Environment", s: "Eco-Focused" },
-  { icon: WhatsApp, t: "Support", s: "WhatsApp Anytime" },
+  { icon: ShieldCheck, t: "EPA Certified", s: "Environmental Compliance" },
+  { icon: Award, t: "ISO 9001:2015", s: "Quality Management" },
+  { icon: BadgeCheck, t: "GCCI Member", s: "Guyana Chamber" },
+  { icon: BadgeCheck, t: "PSC Member", s: "Private Sector Commission" },
+  { icon: ShieldCheck, t: "Market Leader", s: "Since 1997" },
 ];
 
 const pillars: { img: string; title: string; iconKey: CevonsCategoryKey; body: string }[] = [
@@ -66,10 +67,10 @@ const pillars: { img: string; title: string; iconKey: CevonsCategoryKey; body: s
 ];
 
 const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
-  { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
-  { value: "4", label: "Service Categories", icon: Recycle },
-  { value: "3", label: "Regions Served", icon: MapPin },
-  { value: "All", label: "Residential • Commercial • Industrial • Facilities", icon: Leaf },
+  { value: "29+", label: "Years leading Guyana's waste industry (Since 1997)", icon: Award },
+  { value: "[REPLACE]", label: "Homes & businesses served every day", icon: Home },
+  { value: "[REPLACE]", label: "Tonnes of waste managed each year", icon: Recycle },
+  { value: "3", label: "Regions served (Georgetown · Linden · Berbice)", icon: MapPin },
 ];
 
 
@@ -130,12 +131,10 @@ function HomePage() {
               <Leaf className="size-4" /> Environmental Services Inc.
             </p>
             <h1 className="reveal text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight" style={{ animationDelay: "80ms" }}>
-              Environmental<br />
-              Solutions.<br />
-              <span className="text-cevons-yellow">Cleaner Tomorrow.</span>
+              Environmental services built for Guyana's homes, businesses &amp; industries.
             </h1>
             <p className="reveal mt-6 text-white/85 text-base md:text-lg max-w-xl" style={{ animationDelay: "200ms" }}>
-              Reliable waste management and environmental services for homes, businesses and industries across Guyana.
+              From residential collection and portable toilets to skip bins, septic services, waste oil, scrap metal, wastewater, and industrial disposal — Cevons helps Guyana manage waste safely, reliably, and responsibly.
             </p>
             <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "320ms" }}>
               <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
