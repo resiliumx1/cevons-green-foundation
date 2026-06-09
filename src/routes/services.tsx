@@ -375,8 +375,8 @@ function ServicesPage() {
                   />
                   <div className="relative">
                     <div className="flex items-center gap-4 mb-3">
-                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-white/95 shadow-lg ring-1 ring-black/5">
-                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} size="xl" decorative />
+                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] shadow-lg ring-1 ring-black/5">
+                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} fill decorative />
                       </span>
                       <div>
                         <p className={`text-xs font-bold uppercase tracking-wider ${isYellow ? "text-[var(--cevons-dark)]/70" : "text-[var(--cevons-yellow)]"}`}>{label}</p>
