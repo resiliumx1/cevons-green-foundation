@@ -72,7 +72,16 @@ export function ServicePageTemplate(props: ServicePageProps) {
     faqs,
     related,
     optionsSection,
+    ctaVariant = "routine",
   } = props;
+
+  const isSpecialist = ctaVariant === "specialist";
+  const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
+  const primaryCtaHref = isSpecialist ? "/request-service?type=specialist" : "/request-service";
+  const helpHeading = isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?";
+  const helpBody = isSpecialist
+    ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
+    : "Our team can help you select the right option for your project, timeline, and waste type.";
 
   return (
     <SiteLayout>
