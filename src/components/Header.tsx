@@ -80,11 +80,11 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <a href="#contact" className="btn-base btn-green">
+          <a href="/contact" className="btn-base btn-green">
             <WhatsApp className="size-4" />
             WhatsApp Us
           </a>
-          <a href="#schedule" className="btn-base btn-yellow">
+          <a href="/request-service" className="btn-base btn-yellow">
             <Calendar className="size-4" />
             Schedule a Service
           </a>
@@ -114,11 +114,11 @@ export function Header() {
               </Link>
             ))}
             <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-cevons-border">
-              <a href="#contact" className="btn-base btn-green w-full">
+              <a href="/contact" className="btn-base btn-green w-full">
                 <WhatsApp className="size-4" />
                 WhatsApp Us
               </a>
-              <a href="#schedule" className="btn-base btn-yellow w-full">
+              <a href="/request-service" className="btn-base btn-yellow w-full">
                 <Calendar className="size-4" />
                 Schedule a Service
               </a>

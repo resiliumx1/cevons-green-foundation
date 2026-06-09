@@ -158,10 +158,10 @@ function DumpsterRentalPage() {
               ))}
             </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href="#contact" className="btn-base btn-green px-6 py-3.5 text-base">
+              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
-              <a href="#quote" className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
                 <FileText className="size-5" /> Request a Quote
               </a>
             </div>
@@ -210,7 +210,7 @@ function DumpsterRentalPage() {
                 <h3 className="text-xl font-bold text-cevons-dark">{size}</h3>
                 <p className="mt-1.5 text-sm text-cevons-muted">{use}</p>
                 <a
-                  href="#contact"
+                  href="/contact"
                   className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all"
                   aria-label={`Ask about the ${size} dumpster`}
                 >
@@ -292,10 +292,10 @@ function DumpsterRentalPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href="#contact" className="btn-base btn-green px-6 py-3.5 text-base">
+              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
-              <a href="#quote-form" className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
                 <FileText className="size-5" /> Request a Quote
               </a>
             </div>
