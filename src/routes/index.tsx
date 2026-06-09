@@ -59,11 +59,11 @@ const pillars = [
   { img: imgRecovery, title: "Recycling & Facilities", icon: Recycle, body: "Turning waste into resources through recycling and facility services." },
 ];
 
-const stats = [
-  { value: 16, suffix: "", label: "Services Offered", icon: ClipboardCheck },
-  { value: 4, suffix: "", label: "Service Categories", icon: Recycle },
-  { value: 3, suffix: "", label: "Regions Served", icon: MapPin },
-  { value: 100, suffix: "%", label: "Guyana-Focused", icon: Leaf },
+const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
+  { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
+  { value: "4", label: "Service Categories", icon: Recycle },
+  { value: "3", label: "Regions Served", icon: MapPin },
+  { value: "All", label: "Residential • Commercial • Industrial • Facilities", icon: Leaf },
 ];
 
 
