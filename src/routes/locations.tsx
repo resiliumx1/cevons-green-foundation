@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { PageHero } from "@/components/PageHero";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/locations")({
@@ -79,35 +80,15 @@ function LocationsPage() {
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       {/* HERO */}
-      <section className="relative overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
-        <div
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, var(--cevons-deep-green, #006B35) 1px, transparent 0)",
-            backgroundSize: "24px 24px",
-          }}
-          aria-hidden
-        />
-        <div className="container-cevons relative py-20 md:py-28">
-          <div
-            className={`max-w-3xl transition-all duration-700 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full bg-[var(--cevons-deep-green,#006B35)]/10 text-[var(--cevons-deep-green,#006B35)] px-3 py-1 text-xs font-semibold tracking-wide uppercase">
-              <MapPin className="w-3.5 h-3.5" /> Guyana
-            </span>
-            <h1 className="mt-4 text-4xl md:text-6xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
-              Our Locations
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-cevons-muted max-w-2xl">
-              Proudly serving Georgetown, Linden, and Berbice.
-            </p>
-          </div>
-        </div>
-        <div className="brand-ribbon" />
-      </section>
+      <PageHero
+        title="Our Locations"
+        eyebrow="Guyana"
+        subtitle="Proudly serving Georgetown, Linden, and Berbice."
+        breadcrumb={[{ label: "Home", href: "/" }, { label: "Locations" }]}
+        imageSrc="/assets/heroes/hero-locations.webp"
+        imageAlt="CEVON’S service coverage map for Georgetown, Linden, and Berbice"
+        height="standard"
+      />
 
       {/* MAP SECTION */}
       <section className="section-y bg-white">

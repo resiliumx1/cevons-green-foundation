@@ -20,7 +20,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { whatsappHref } from "@/data/cevonsContact";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
-import heroTruck from "@/assets/hero-truck.jpg";
+const heroAbout = "/assets/heroes/hero-about.webp";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -107,11 +107,12 @@ function AboutPage() {
       <section className="relative overflow-hidden min-h-[60vh] md:min-h-[68vh] flex items-center" aria-labelledby="about-h1">
         <div className="absolute inset-0">
           <img
-            src={heroTruck}
-            alt="CEVON’S waste collection fleet serving communities across Guyana"
+            src={heroAbout}
+            alt="CEVON’S team outside company office"
             className="size-full object-cover hero-img"
             width={1920}
             height={1080}
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/90 via-[var(--cevons-deep-green,#006B35)]/65 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#006B35)]/40 via-transparent to-transparent" />

@@ -6,6 +6,7 @@ import {
   Trash2, Container, Droplet, Waves, FileText, ShieldAlert, Flame, Sprout, Beaker, PackageX, Biohazard, Mountain,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { PageHero } from "@/components/PageHero";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey, CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { Button } from "@/components/ui/button";
@@ -194,20 +195,16 @@ function RequestServicePage() {
 
   return (
     <SiteLayout>
-      {/* Header offset — sticky header is ~64–80px tall */}
-      <section className="border-b border-border bg-card pt-24 md:pt-28">
-        <div className="container mx-auto px-4 pb-10 md:pb-14">
-          <nav className="text-sm text-muted-foreground mb-3">
-            <Link to="/" className="hover:text-foreground">Home</Link>
-            <span className="mx-2">/</span>
-            <span className="text-foreground">Request a Service</span>
-          </nav>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Request a Service</h1>
-          <p className="mt-3 text-lg text-muted-foreground max-w-2xl">
-            Tell us what you need — our team will follow up by WhatsApp during the same business day.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Request a Service"
+        subtitle="Tell us what you need and we’ll take care of the rest."
+        breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
+        imageSrc="/assets/heroes/hero-request-service.webp"
+        imageAlt="Customer requesting CEVON’S service online"
+        height="standard"
+        showLogoBadge
+      />
+
 
       <section className="container mx-auto px-4 py-10 md:py-14">
         <div className="grid lg:grid-cols-[1fr_320px] gap-8">

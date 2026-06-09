@@ -28,7 +28,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { whatsappHref } from "@/data/cevonsContact";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
-import forestBg from "@/assets/forest-bg.jpg";
+const heroIndustries = "/assets/heroes/hero-industries.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
@@ -143,7 +143,7 @@ function IndustriesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="industries-h1">
         <div className="absolute inset-0">
-          <img src={forestBg} alt="" aria-hidden="true" className="size-full object-cover" width={1920} height={800} />
+          <img src={heroIndustries} alt="CEVON’S industrial environmental services team at facility" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
         </div>
         <div className="container-cevons relative min-h-[320px] md:min-h-[400px] flex flex-col justify-center py-16 md:py-20">

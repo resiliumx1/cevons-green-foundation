@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
-import forestBg from "@/assets/forest-bg.jpg";
+const heroContact = "/assets/heroes/hero-contact.webp";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/contact")({
@@ -115,7 +115,7 @@ function ContactPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="contact-h1">
         <div className="absolute inset-0">
-          <img src={forestBg} alt="" aria-hidden="true" className="size-full object-cover" width={1920} height={800} />
+          <img src={heroContact} alt="CEVON’S customer support representative" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
         </div>
         <div className="container-cevons relative min-h-[280px] md:min-h-[360px] flex flex-col justify-center py-16 md:py-20">

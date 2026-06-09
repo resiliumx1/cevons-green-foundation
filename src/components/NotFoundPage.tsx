@@ -16,7 +16,7 @@ import { WhatsApp } from "./icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { cevonsIcons } from "@/data/cevonsIconRegistry";
 import logo from "@/assets/cevons-logo.png";
-import truck from "@/assets/hero-truck.jpg";
+const truck = "/assets/heroes/hero-404.webp";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
 const helpfulLinks = [
@@ -81,7 +81,7 @@ export function NotFoundPage() {
 
           <div className="relative reveal" style={{ animationDelay: "0.15s" }}>
             <div className="relative rounded-2xl overflow-hidden shadow-lift aspect-[4/3]">
-              <img src={truck} alt="CEVON'S environmental services truck" className="w-full h-full object-cover hero-img" />
+              <img src={truck} alt="CEVON’S branded page not found image" className="w-full h-full object-cover hero-img" />
               <div className="absolute inset-0 bg-gradient-to-tr from-cevons-deep-green/30 via-transparent to-transparent" />
             </div>
           </div>

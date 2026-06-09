@@ -22,7 +22,7 @@ import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
-import heroTruck from "@/assets/hero-truck.jpg";
+const heroHomepage = "/assets/heroes/hero-homepage.webp";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
@@ -42,7 +42,10 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Reliable waste management and environmental solutions across Guyana." },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "/" },
+      { rel: "preload", as: "image", href: "/assets/heroes/hero-homepage.webp", fetchpriority: "high" },
+    ],
   }),
   component: HomePage,
 });
@@ -101,11 +104,13 @@ function HomePage() {
       <section className="relative overflow-hidden min-h-[78vh] flex items-center">
         <div className="absolute inset-0">
           <img
-            src={heroTruck}
-            alt="CEVON'S waste collection crew on a Guyanese street at sunrise"
+            src={heroHomepage}
+            alt="CEVON'S environmental services fleet and team in Guyana"
             className="size-full object-cover hero-img"
             width={1920}
             height={1080}
+            fetchPriority="high"
+            decoding="sync"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/90 via-cevons-deep-green/65 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-cevons-deep-green/40 via-transparent to-transparent" />
