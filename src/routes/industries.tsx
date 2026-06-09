@@ -309,8 +309,6 @@ function IndustriesPage() {
                 </Link>
                 <a
                   href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="btn-base btn-yellow text-base px-6 py-3.5"
                 >
                   WhatsApp Us
