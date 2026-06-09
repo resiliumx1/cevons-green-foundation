@@ -1,7 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle, ClipboardCheck, Factory, FileText, Leaf, MapPin, Recycle, ShieldCheck, Truck, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  CheckCircle,
+  ClipboardCheck,
+  FileText,
+  Leaf,
+  MapPin,
+  Recycle,
+  Shield,
+  ShieldCheck,
+  Trash2,
+  Truck,
+  Users,
+  Factory,
+  Target,
+  Home,
+} from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { CountUp } from "@/components/CountUp";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
@@ -12,7 +30,11 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "CEVON'S Environmental Services — Reliable Waste Management in Guyana" },
-      { name: "description", content: "Premium waste management, recycling and environmental services for homes, businesses and industries across Georgetown, Linden and Berbice." },
+      {
+        name: "description",
+        content:
+          "Premium waste management, recycling and environmental services for homes, businesses and industries across Georgetown, Linden and Berbice.",
+      },
       { property: "og:title", content: "CEVON'S Environmental Services" },
       { property: "og:description", content: "Reliable waste management and environmental solutions across Guyana." },
       { property: "og:type", content: "website" },
@@ -22,83 +44,113 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
+const trust = [
+  { icon: MapPin, t: "Serving", s: "Georgetown, Linden & Berbice" },
+  { icon: ShieldCheck, t: "EPA", s: "Certified" },
+  { icon: Calendar, t: "Since", s: "1997" },
+  { icon: Shield, t: "Safety", s: "First" },
+  { icon: Leaf, t: "Environment", s: "Focused" },
+];
+
 const pillars = [
-  { img: imgResidential, title: "Residential", body: "Reliable collection services for clean, safe and comfortable homes and communities." },
-  { img: imgCommercial, title: "Commercial", body: "Smart waste solutions for businesses and commercial properties." },
-  { img: imgIndustrial, title: "Industrial", body: "Specialized waste management and industrial services." },
-  { img: imgRecovery, title: "Facilities & Recovery", body: "Turning waste into resources through recycling and recovery." },
+  { img: imgResidential, title: "Residential", icon: Home, body: "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
+  { img: imgCommercial, title: "Commercial", icon: Trash2, body: "Smart waste solutions for businesses and commercial properties." },
+  { img: imgIndustrial, title: "Industrial", icon: Factory, body: "Specialized waste management and industrial environmental services." },
+  { img: imgRecovery, title: "Facilities & Recovery", icon: Recycle, body: "Turning waste into resources through recycling and recovery." },
 ];
 
 const stats = [
-  { value: "25+", label: "Years of Service" },
-  { value: "50K+", label: "Satisfied Customers" },
-  { value: "120+", label: "Fleet & Equipment" },
-  { value: "3", label: "Regions Served" },
+  { value: 25, suffix: "+", label: "Years of Service", icon: Calendar },
+  { value: 50, suffix: "K+", label: "Satisfied Customers", icon: Users },
+  { value: 120, suffix: "+", label: "Fleet & Equipment", icon: Truck },
+  { value: 3, suffix: "", label: "Regions Served", icon: MapPin },
 ];
 
 const steps = [
   { icon: FileText, title: "Request", body: "Send your service request or inquiry." },
   { icon: ClipboardCheck, title: "Confirm", body: "We confirm details and requirements." },
-  { icon: MapPin, title: "Schedule", body: "We schedule the best time for you." },
+  { icon: Calendar, title: "Schedule", body: "We schedule the best time for you." },
   { icon: Truck, title: "Dispatch", body: "Our team is dispatched." },
-  { icon: Recycle, title: "Service", body: "We deliver quality service." },
+  { icon: ShieldCheck, title: "Service", body: "We deliver quality service." },
   { icon: CheckCircle, title: "Complete", body: "Job complete and you're satisfied." },
 ];
+
+function HeroSwoosh() {
+  // Stacked curved brand swooshes at hero bottom: red above yellow, curving up on the right.
+  return (
+    <svg
+      aria-hidden="true"
+      className="absolute bottom-0 left-0 w-full h-[80px] md:h-[110px] z-10 pointer-events-none"
+      viewBox="0 0 1440 110"
+      preserveAspectRatio="none"
+    >
+      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
+      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
+    </svg>
+  );
+}
 
 function HomePage() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[78vh] flex items-center">
         <div className="absolute inset-0">
-          <img src={heroTruck} alt="CEVON'S waste collection truck and crew at sunrise" className="size-full object-cover hero-img" width={1920} height={1080} />
-          <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/85 via-cevons-deep-green/60 to-transparent" />
+          <img
+            src={heroTruck}
+            alt="CEVON'S waste collection crew on a Guyanese street at sunrise"
+            className="size-full object-cover hero-img"
+            width={1920}
+            height={1080}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/90 via-cevons-deep-green/65 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-cevons-deep-green/40 via-transparent to-transparent" />
         </div>
-        <div className="container-cevons relative py-24 md:py-36 lg:py-44">
-          <div className="max-w-2xl reveal">
-            <p className="text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-5">
-              <Leaf className="inline size-4 mr-1" /> Environmental Services Inc.
+
+        <div className="container-cevons relative py-24 md:py-32 lg:py-36 z-20">
+          <div className="max-w-2xl">
+            <p className="reveal text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
+              <Leaf className="size-4" /> Environmental Services Inc.
             </p>
-            <h1 className="text-white text-[34px] leading-[1.05] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight">
-              Environmental<br />Solutions.<br />
+            <h1 className="reveal text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight" style={{ animationDelay: "80ms" }}>
+              Environmental<br />
+              Solutions.<br />
               <span className="text-cevons-yellow">Cleaner Tomorrow.</span>
             </h1>
-            <p className="mt-6 text-white/85 text-base md:text-lg max-w-xl">
-              Reliable waste management and environmental services for homes, businesses
-              and industries across Guyana.
+            <p className="reveal mt-6 text-white/85 text-base md:text-lg max-w-xl" style={{ animationDelay: "200ms" }}>
+              Reliable waste management and environmental services for homes, businesses and industries across Guyana.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href="https://wa.me/5926252366" className="btn-base btn-green text-base px-6 py-3.5">
+            <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "320ms" }}>
+              <a href="https://wa.me/5926232366" className="btn-base btn-green text-base px-6 py-3.5">
                 <WhatsApp className="size-5" />
                 WhatsApp Us
               </a>
               <a href="#schedule" className="btn-base btn-yellow text-base px-6 py-3.5">
+                <Calendar className="size-5" />
                 Schedule a Service
-                <ArrowRight className="size-5" />
               </a>
             </div>
+            <a href="#quote" className="reveal inline-flex items-center gap-1 mt-5 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors" style={{ animationDelay: "440ms" }}>
+              Request a Quote <ArrowRight className="size-4" />
+            </a>
           </div>
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+
+        <HeroSwoosh />
       </section>
 
-      {/* Trust row */}
-      <section className="border-b border-cevons-border">
-        <div className="container-cevons py-8">
-          <ul className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: MapPin, t: "Serving", s: "Georgetown, Linden & Berbice" },
-              { icon: ShieldCheck, t: "EPA", s: "Certified" },
-              { icon: FileText, t: "Since", s: "1997" },
-              { icon: Leaf, t: "Environment", s: "Focused" },
-            ].map(({ icon: Icon, t, s }) => (
-              <li key={t} className="flex items-center gap-3">
-                <span className="size-10 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
+      {/* TRUST BAR */}
+      <section className="bg-white border-b border-cevons-border">
+        <div className="container-cevons">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-cevons-border">
+            {trust.map(({ icon: Icon, t, s }) => (
+              <li key={t} className="flex items-center gap-3 px-2 py-5 lg:py-6 lg:px-5">
+                <span className="shrink-0 size-11 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
                   <Icon className="size-5" />
                 </span>
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-cevons-muted font-semibold">{t}</p>
-                  <p className="text-sm text-cevons-dark font-semibold">{s}</p>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-cevons-muted font-bold">{t}</p>
+                  <p className="text-sm text-cevons-dark font-semibold leading-tight">{s}</p>
                 </div>
               </li>
             ))}
@@ -106,27 +158,29 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Service pillars */}
+      {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">What We Do</p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">
               Our Core <span className="text-cevons-green">Service</span> Pillars
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((p, i) => (
-              <article key={p.title} className="card-cevons group reveal" style={{ animationDelay: `${i * 80}ms` }}>
+            {pillars.map(({ img, title, body, icon: Icon }, i) => (
+              <article key={title} className="card-cevons group reveal" style={{ animationDelay: `${i * 100}ms` }}>
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={p.img} alt={p.title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
-                  <span className="absolute bottom-3 left-3 size-10 rounded-full bg-cevons-green text-white flex items-center justify-center shadow-soft">
-                    <Leaf className="size-5" />
+                  <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
+                  <span className="absolute -bottom-5 left-5 size-11 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
+                    <Icon className="size-5" />
                   </span>
                 </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-bold text-cevons-dark">{p.title}</h3>
-                  <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{p.body}</p>
-                  <a href="/services" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">
+                <div className="p-6 pt-8">
+                  <h3 className="text-xl font-bold text-cevons-dark">{title}</h3>
+                  <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
+                  <a href="/services" className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-cevons-green hover:gap-2 transition-all">
                     Explore Services <ArrowRight className="size-4" />
                   </a>
                 </div>
@@ -136,73 +190,110 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* IMPACT STATS BAND */}
       <section className="relative bg-cevons-deep-green overflow-hidden">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-cevons-green/80 [clip-path:polygon(20%_0,100%_0,100%_100%,0_100%)] hidden md:block" />
-        <div className="absolute right-0 top-0 bottom-0 w-[8%] bg-cevons-yellow [clip-path:polygon(40%_0,100%_0,100%_100%,0_100%)] hidden md:block" />
-        <div className="absolute right-0 top-0 bottom-0 w-[3%] bg-cevons-red [clip-path:polygon(60%_0,100%_0,100%_100%,0_100%)] hidden md:block" />
-        <div className="container-cevons py-12 md:py-14 relative">
+        {/* Decorative brand accent behind last stat */}
+        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
+            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#006B35" />
+            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#FFD200" />
+            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#E31B23" />
+          </svg>
+        </div>
+        <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
-            {stats.map((s) => (
-              <li key={s.label} className="flex items-center gap-4">
-                {s.label === "Years of Service" && <FileText className="size-7 text-cevons-yellow shrink-0" />}
-                {s.label === "Satisfied Customers" && <Users className="size-7 text-cevons-yellow shrink-0" />}
-                {s.label === "Fleet & Equipment" && <Truck className="size-7 text-cevons-yellow shrink-0" />}
-                {s.label === "Regions Served" && <MapPin className="size-7 text-cevons-yellow shrink-0" />}
+            {stats.map(({ icon: Icon, value, suffix, label }) => (
+              <li key={label} className="flex items-center gap-4">
+                <Icon className="size-7 text-cevons-yellow shrink-0" />
                 <div>
-                  <p className="text-3xl md:text-4xl font-extrabold leading-none">{s.value}</p>
-                  <p className="text-xs md:text-sm text-white/75 mt-1">{s.label}</p>
+                  <p className="text-3xl md:text-4xl font-extrabold leading-none">
+                    <CountUp end={value} suffix={suffix} />
+                  </p>
+                  <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
                 </div>
               </li>
             ))}
-            <li className="hidden md:flex items-center gap-4 relative z-10">
-              <CheckCircle className="size-7 text-white shrink-0" />
+            <li className="flex items-center gap-4 relative z-10">
+              <Target className="size-7 text-white shrink-0" />
               <div>
-                <p className="text-3xl md:text-4xl font-extrabold leading-none">1 Goal</p>
-                <p className="text-xs md:text-sm text-white/90 mt-1">A Cleaner Guyana</p>
+                <p className="text-3xl md:text-4xl font-extrabold leading-none text-white">1 Goal</p>
+                <p className="text-xs md:text-sm text-white/95 mt-1.5 font-semibold">A Cleaner Guyana</p>
               </div>
             </li>
           </ul>
         </div>
       </section>
 
-      {/* 6-step process */}
+      {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
             <h2 className="text-3xl md:text-5xl font-extrabold">
               Our Simple <span className="text-cevons-green">6-Step</span> Process
             </h2>
           </div>
-          <ol className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+
+          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
             {steps.map(({ icon: Icon, title, body }, i) => (
-              <li key={title} className="relative text-center">
-                <div className="mx-auto size-16 rounded-full bg-white border border-cevons-border flex items-center justify-center text-cevons-green shadow-soft">
+              <li key={title} className="relative text-center reveal" style={{ animationDelay: `${i * 70}ms` }}>
+                {/* Arrow */}
+                {i < steps.length - 1 && (
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="hidden lg:block absolute top-7 -right-3 size-5 text-cevons-green/40"
+                  />
+                )}
+                <div className="mx-auto size-16 rounded-full bg-white border-2 border-cevons-green/30 flex items-center justify-center text-cevons-green shadow-soft">
                   <Icon className="size-7" />
                 </div>
-                <p className="mt-1 text-xs font-bold text-cevons-green">STEP {i + 1}</p>
-                <h3 className="text-base font-bold mt-1">{title}</h3>
-                <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed">{body}</p>
+                <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">Step {i + 1}</p>
+                <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
+                <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      {/* CTA banner */}
-      <section id="schedule" className="bg-cevons-deep-green relative overflow-hidden">
-        <div className="container-cevons py-16 md:py-20 text-center">
-          <h2 className="text-white text-3xl md:text-5xl font-extrabold">Ready to Get Started?</h2>
-          <p className="mt-4 text-white/80 max-w-xl mx-auto">
-            Let's keep Guyana clean and our environment healthy together.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3 justify-center">
-            <a href="https://wa.me/5926252366" className="btn-base btn-green text-base px-6 py-3.5">
-              <WhatsApp className="size-5" /> WhatsApp Us
-            </a>
-            <a href="#quote" className="btn-base btn-yellow text-base px-6 py-3.5">
-              Request a Quote <ArrowRight className="size-5" />
-            </a>
+      {/* FINAL CTA */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="container-cevons">
+          <div
+            id="schedule"
+            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
+            style={{
+              background:
+                "radial-gradient(120% 100% at 0% 0%, #00713A 0%, #003F27 60%, #002819 100%)",
+            }}
+          >
+            {/* Subtle texture overlay */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+            <div className="relative">
+              <p className="text-cevons-yellow text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
+                <Leaf className="size-4" /> Let's Build a Greener Guyana
+              </p>
+              <h2 className="text-white text-3xl md:text-5xl font-extrabold">Ready to Get Started?</h2>
+              <p className="mt-4 text-white/80 max-w-xl mx-auto">
+                Let's keep Guyana clean and our environment healthy together.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="https://wa.me/5926232366" className="btn-base btn-green text-base px-6 py-3.5">
+                  <WhatsApp className="size-5" /> WhatsApp Us
+                </a>
+                <a href="#quote" className="btn-base btn-yellow text-base px-6 py-3.5">
+                  Request a Quote <ArrowRight className="size-5" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
