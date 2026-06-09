@@ -11,7 +11,9 @@ import {
   MapPin,
   CheckCircle2,
 } from "lucide-react";
-import logo from "@/assets/cevons-logo.png";
+import { cevonsIcons } from "@/data/cevonsIconRegistry";
+
+const ASSISTANT_AVATAR = cevonsIcons.ui.contactSupport.src;
 
 /**
  * Cevon's Service Assistant — public website chat widget
