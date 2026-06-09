@@ -547,7 +547,7 @@ export function ServiceAssistant() {
               style={{ background: "linear-gradient(135deg, #006B35, #003F27)" }}
             >
               <div className="h-10 w-10 rounded-full bg-white grid place-items-center overflow-hidden shrink-0">
-                <img src={logo} alt="CEVON'S" className="h-8 w-8 object-contain" />
+                <img src={ASSISTANT_AVATAR} alt="CEVON'S" className="h-8 w-8 object-contain" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
@@ -756,7 +756,7 @@ function MessageBubble({
   return (
     <div className="flex items-start gap-2">
       <div className="h-8 w-8 rounded-full bg-white border border-[#E5E7EB] grid place-items-center overflow-hidden shrink-0">
-        <img src={logo} alt="" className="h-6 w-6 object-contain" />
+        <img src={ASSISTANT_AVATAR} alt="" className="h-6 w-6 object-contain" />
       </div>
       <div className="max-w-[85%] space-y-2">
         <div
