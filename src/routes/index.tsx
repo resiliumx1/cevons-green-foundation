@@ -128,16 +128,16 @@ function HomePage() {
 
         <div className="container-cevons relative py-24 md:py-32 lg:py-36 z-20">
           <div className="max-w-2xl">
-            <p className="reveal text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
+            <Reveal variant="up" as="p" className="text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
               <Leaf className="size-4" /> Environmental Services Inc.
-            </p>
-            <h1 className="reveal text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight" style={{ animationDelay: "80ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.08} as="h1" className="text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight">
               Environmental services built for Guyana's homes, businesses &amp; industries.
-            </h1>
-            <p className="reveal mt-6 text-white/85 text-base md:text-lg max-w-xl" style={{ animationDelay: "200ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.2} as="p" className="mt-6 text-white/85 text-base md:text-lg max-w-xl">
               From residential collection and portable toilets to skip bins, septic services, waste oil, scrap metal, wastewater, and industrial disposal — Cevons helps Guyana manage waste safely, reliably, and responsibly.
-            </p>
-            <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "320ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.32} className="mt-8 flex flex-wrap gap-3">
               <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
                 <WhatsApp className="size-5" />
                 WhatsApp Us
@@ -146,12 +146,13 @@ function HomePage() {
                 <Calendar className="size-5" />
                 Schedule a Service
               </a>
-            </div>
-            <a href="/request-service" className="reveal inline-flex items-center gap-1 mt-5 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors" style={{ animationDelay: "440ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.44} as="a" {...({ href: "/request-service" } as any)} className="inline-flex items-center gap-1 mt-5 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors">
               Request a Quote <ArrowRight className="size-4" />
-            </a>
+            </Reveal>
           </div>
         </div>
+
 
         <HeroSwoosh />
       </section>
