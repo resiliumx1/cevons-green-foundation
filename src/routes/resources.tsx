@@ -14,6 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { whatsappHref } from "@/data/cevonsContact";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
@@ -319,9 +320,7 @@ function ResourcesPage() {
                   Request Service <ArrowRight className="size-5" />
                 </Link>
                 <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="btn-base btn-yellow text-base px-6 py-3.5"
                 >
                   <MessageCircle className="size-5" /> WhatsApp Us

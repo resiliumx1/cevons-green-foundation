@@ -4,6 +4,7 @@ import confetti from "canvas-confetti";
 import { Check, MessageCircle, RefreshCw, Search, FileText, Phone, ShieldCheck, Clock, Award } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { cn } from "@/lib/utils";
+import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/request-service/confirmation")({
   head: () => ({
@@ -186,13 +187,17 @@ function ConfirmationPage() {
               <MessageCircle className="size-6 text-[#006B35]" />
             </div>
             <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">
-              Need Immediate Assistance?
+              Need help with your request?
             </h2>
             <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Chat with our team on WhatsApp for urgent support or real-time updates.
+              Call <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>
+              {" "}or email{" "}
+              <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>.
             </p>
+            {/* Confirm official WhatsApp number with CEVON'S before launch. */}
             <a
-              href="/contact"
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="mt-5 inline-flex btn-base btn-green"
             >
               <MessageCircle className="size-4" />

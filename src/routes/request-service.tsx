@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/request-service")({
   head: () => ({
@@ -279,9 +280,18 @@ function RequestServicePage() {
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
               <h3 className="text-lg font-semibold">Need Help?</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Chat with us on WhatsApp for immediate assistance from our team.
+                Call our Georgetown Head Office at{" "}
+                <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+                or email{" "}
+                <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>.
+                Or contact the branch closest to you.
               </p>
-              <a href="/contact" className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#006B35] text-white hover:bg-[#003F27] font-semibold transition-colors">
+              {/* Confirm official WhatsApp number with CEVON'S before launch. */}
+              <a
+                href={whatsappHref}
+                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#006B35] text-white hover:bg-[#003F27] font-semibold transition-colors"
+              >
                 <MessageCircle className="size-4" /> WhatsApp Us
               </a>
             </div>

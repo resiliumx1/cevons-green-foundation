@@ -26,6 +26,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { whatsappHref } from "@/data/cevonsContact";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
@@ -307,9 +308,7 @@ function IndustriesPage() {
                   Request a Consultation <ArrowRight className="size-5" />
                 </Link>
                 <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="btn-base btn-yellow text-base px-6 py-3.5"
                 >
                   WhatsApp Us

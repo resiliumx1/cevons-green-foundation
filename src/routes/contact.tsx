@@ -18,6 +18,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import forestBg from "@/assets/forest-bg.jpg";
+import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -39,29 +40,29 @@ const contactMethods = [
     title: "WhatsApp",
     body: "Message us directly on WhatsApp.",
     action: "WhatsApp Us",
-    href: "https://wa.me/",
+    href: whatsappHref,
     primary: true,
   },
   {
     icon: Phone,
     title: "Call Us",
-    body: "Speak with our team.",
+    body: `Speak with our team at ${cevonsContact.primaryPhone}.`,
     action: "Call Now",
-    href: "tel:",
+    href: primaryTelHref,
     primary: false,
   },
   {
     icon: Mail,
     title: "Email Us",
-    body: "Send your inquiry by email.",
-    action: "Email CEVON’S",
-    href: "mailto:info@cevonsgy.com",
+    body: `Send your inquiry to ${cevonsContact.email}.`,
+    action: "Email CEVON\u2019S",
+    href: primaryMailtoHref,
     primary: false,
   },
   {
     icon: MapPin,
     title: "Head Office",
-    body: "Visit or contact our main office.",
+    body: `${cevonsContact.regions[0].addressLine1}, ${cevonsContact.regions[0].addressLine2}.`,
     action: "View Locations",
     href: "/locations",
     primary: false,
@@ -77,29 +78,14 @@ const subjects = [
   "Other",
 ];
 
-const branches = [
-  {
-    name: "Georgetown",
-    label: "Head Office",
-    address: "Address to be confirmed, Georgetown, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-  {
-    name: "Linden",
-    label: "Branch Office",
-    address: "Address to be confirmed, Linden, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-  {
-    name: "Berbice",
-    label: "Branch Office",
-    address: "Address to be confirmed, Berbice, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-  },
-];
+const branches = cevonsContact.regions.map((r) => ({
+  name: r.name,
+  label: r.officeType,
+  address: `${r.addressLine1}, ${r.addressLine2}`,
+  phones: r.phones,
+  email: r.email,
+  hours: r.hours,
+}));
 
 function ContactPage() {
   const [mounted, setMounted] = useState(false);
@@ -340,7 +326,16 @@ function ContactPage() {
                     </div>
                     <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
                       <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.address}</li>
-                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.phone}</li>
+                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                        <span className="flex flex-wrap gap-x-2 gap-y-0.5">
+                          {b.phones.map((p) => (
+                            <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{p}</a>
+                          ))}
+                        </span>
+                      </li>
+                      <li className="flex gap-2"><Mail className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                        <a href={mailtoHref(b.email)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{b.email}</a>
+                      </li>
                       <li className="flex gap-2"><Clock3 className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{b.hours}</li>
                     </ul>
                   </div>
@@ -417,18 +412,17 @@ function ContactPage() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                 <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={whatsappHref}
+                  {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="btn-base btn-green text-base px-6 py-3.5"
                 >
                   <MessageCircle className="size-5" /> WhatsApp Us
                 </a>
                 <a
-                  href="tel:"
+                  href={primaryTelHref}
                   className="btn-base btn-yellow text-base px-6 py-3.5"
                 >
-                  <Phone className="size-5" /> Call Us
+                  <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
                 </a>
               </div>
             </div>

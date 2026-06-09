@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones } from "lucide-react";
+import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -31,28 +32,28 @@ const regions: {
   {
     name: "Georgetown",
     label: "Head Office",
-    address: "Address to be confirmed, Georgetown, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Industrial", "Portable Toilet", "Skip Bin", "Dumpster", "Septic"],
+    address: `${cevonsContact.regions[0].addressLine1}, ${cevonsContact.regions[0].addressLine2}`,
+    phone: cevonsContact.regions[0].phones.join(" / "),
+    hours: cevonsContact.regions[0].hours,
+    services: cevonsContact.regions[0].services,
     pin: { top: "70%", left: "32%" },
   },
   {
     name: "Linden",
     label: "Branch Office",
-    address: "Address to be confirmed, Linden, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Skip Bin", "Portable Toilet", "Septic"],
+    address: `${cevonsContact.regions[1].addressLine1}, ${cevonsContact.regions[1].addressLine2}`,
+    phone: cevonsContact.regions[1].phones.join(" / "),
+    hours: cevonsContact.regions[1].hours,
+    services: cevonsContact.regions[1].services,
     pin: { top: "55%", left: "38%" },
   },
   {
     name: "Berbice",
     label: "Branch Office",
-    address: "Address to be confirmed, Berbice, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Skip Bin", "Portable Toilet", "Septic"],
+    address: `${cevonsContact.regions[2].addressLine1}, ${cevonsContact.regions[2].addressLine2}`,
+    phone: cevonsContact.regions[2].phones.join(" / "),
+    hours: cevonsContact.regions[2].hours,
+    services: cevonsContact.regions[2].services,
     pin: { top: "62%", left: "62%" },
   },
 ];
@@ -72,9 +73,11 @@ function LocationsPage() {
   const [activePin, setActivePin] = useState<Region>("Georgetown");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const jsonLd = JSON.stringify(buildLocalBusinessJsonLd());
 
   return (
     <SiteLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       {/* HERO */}
       <section className="relative overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
         <div
@@ -234,7 +237,16 @@ function LocationsPage() {
 
                 <ul className="mt-5 space-y-2 text-sm text-cevons-muted">
                   <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.address}</li>
-                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.phone}</li>
+                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                    <span className="flex flex-wrap gap-x-2 gap-y-0.5">
+                      {r.phone.split(" / ").map((p) => (
+                        <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{p}</a>
+                      ))}
+                    </span>
+                  </li>
+                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                    <a href={mailtoHref()} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{cevonsContact.email}</a>
+                  </li>
                   <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.hours}</li>
                 </ul>
 
@@ -326,9 +338,8 @@ function LocationsPage() {
           </p>
           <div className="mt-7 flex flex-col sm:flex-row justify-center gap-3">
             <a
-              href="https://wa.me/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C518] text-[var(--cevons-deep-green,#006B35)] font-bold px-6 py-3.5 hover:brightness-105 transition"
             >
               <MessageCircle className="w-5 h-5" /> WhatsApp Us

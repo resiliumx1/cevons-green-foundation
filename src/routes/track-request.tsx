@@ -10,6 +10,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/track-request")({
   head: () => ({
@@ -302,18 +303,26 @@ function TrackRequestPage() {
             <div className="mx-auto size-12 rounded-full bg-[#006B35]/10 flex items-center justify-center">
               <MessageCircle className="size-6 text-[#006B35]" />
             </div>
-            <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Need Help?</h2>
+            <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Having trouble finding your request?</h2>
             <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Contact our support team for assistance with your request.
+              Call <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>
+              {" "}or email{" "}
+              <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>{" "}
+              and our team will help you locate it.
             </p>
             <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a href="/contact" className="btn-base btn-green w-full sm:w-auto">
+              {/* Confirm official WhatsApp number with CEVON'S before launch. */}
+              <a
+                href={whatsappHref}
+                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="btn-base btn-green w-full sm:w-auto"
+              >
                 <MessageCircle className="size-4" />
                 WhatsApp Us
               </a>
-              <a href="/contact" className="btn-base btn-outline-green w-full sm:w-auto">
+              <a href={primaryTelHref} className="btn-base btn-outline-green w-full sm:w-auto">
                 <Phone className="size-4" />
-                Call Us
+                Call {cevonsContact.primaryPhone}
               </a>
             </div>
           </div>

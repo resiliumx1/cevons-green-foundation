@@ -17,6 +17,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import { cevonsIcons } from "@/data/cevonsIconRegistry";
 import logo from "@/assets/cevons-logo.png";
 import truck from "@/assets/hero-truck.jpg";
+import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
 const helpfulLinks = [
   { to: "/services", title: "Our Services", sub: "Explore all services", Icon: Truck, branded: null },
@@ -131,10 +132,19 @@ export function NotFoundPage() {
               </span>
               <div>
                 <h3 className="text-white text-lg md:text-xl font-bold">Need immediate assistance?</h3>
-                <p className="text-white/75 text-sm md:text-base">Chat with our team on WhatsApp right now.</p>
+                <p className="text-white/75 text-sm md:text-base">
+                  Call <a href={primaryTelHref} className="font-semibold text-cevons-yellow hover:underline">{cevonsContact.primaryPhone}</a>
+                  {" "}or email{" "}
+                  <a href={primaryMailtoHref} className="font-semibold text-cevons-yellow hover:underline">{cevonsContact.email}</a>.
+                </p>
               </div>
             </div>
-            <a href="/contact" className="btn-base btn-yellow w-full md:w-auto">
+            {/* Confirm official WhatsApp number with CEVON'S before launch. */}
+            <a
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="btn-base btn-yellow w-full md:w-auto"
+            >
               <WhatsApp className="size-4" />
               WhatsApp Us
             </a>
