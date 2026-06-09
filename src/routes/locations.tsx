@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones } from "lucide-react";
+import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -31,28 +32,28 @@ const regions: {
   {
     name: "Georgetown",
     label: "Head Office",
-    address: "Address to be confirmed, Georgetown, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Industrial", "Portable Toilet", "Skip Bin", "Dumpster", "Septic"],
+    address: `${cevonsContact.regions[0].addressLine1}, ${cevonsContact.regions[0].addressLine2}`,
+    phone: cevonsContact.regions[0].phones.join(" / "),
+    hours: cevonsContact.regions[0].hours,
+    services: cevonsContact.regions[0].services,
     pin: { top: "70%", left: "32%" },
   },
   {
     name: "Linden",
     label: "Branch Office",
-    address: "Address to be confirmed, Linden, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Skip Bin", "Portable Toilet", "Septic"],
+    address: `${cevonsContact.regions[1].addressLine1}, ${cevonsContact.regions[1].addressLine2}`,
+    phone: cevonsContact.regions[1].phones.join(" / "),
+    hours: cevonsContact.regions[1].hours,
+    services: cevonsContact.regions[1].services,
     pin: { top: "55%", left: "38%" },
   },
   {
     name: "Berbice",
     label: "Branch Office",
-    address: "Address to be confirmed, Berbice, Guyana",
-    phone: "Phone to be confirmed",
-    hours: "Mon–Sat • Hours to be confirmed",
-    services: ["Residential", "Commercial", "Skip Bin", "Portable Toilet", "Septic"],
+    address: `${cevonsContact.regions[2].addressLine1}, ${cevonsContact.regions[2].addressLine2}`,
+    phone: cevonsContact.regions[2].phones.join(" / "),
+    hours: cevonsContact.regions[2].hours,
+    services: cevonsContact.regions[2].services,
     pin: { top: "62%", left: "62%" },
   },
 ];
