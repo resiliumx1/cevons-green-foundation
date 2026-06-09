@@ -266,25 +266,47 @@ function LoginPage() {
           0%, 100% { opacity: 0.6; transform: scale(1); }
           50% { opacity: 1; transform: scale(1.08); }
         }
+        .liquid-glass {
+          position: relative;
+          background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06) 55%, rgba(255,255,255,0.10));
+          backdrop-filter: blur(40px) saturate(180%);
+          -webkit-backdrop-filter: blur(40px) saturate(180%);
+          border: 1px solid rgba(255,255,255,0.22);
+          border-radius: 32px;
+          box-shadow:
+            0 40px 120px -20px rgba(0,0,0,0.55),
+            0 0 0 1px rgba(255,255,255,0.06),
+            0 0 60px -10px rgba(0,168,90,0.25),
+            inset 0 1px 0 rgba(255,255,255,0.5),
+            inset 0 -1px 0 rgba(255,255,255,0.08),
+            inset 0 0 40px rgba(255,255,255,0.04);
+        }
         .glass-input {
           width: 100%;
           height: 56px;
           border-radius: 18px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.35);
+          background: rgba(255,255,255,0.10);
+          border: 1px solid rgba(255,255,255,0.25);
           color: #fff;
           padding-left: 48px;
           padding-right: 16px;
           font-size: 15px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.15);
           transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
           outline: none;
         }
-        .glass-input::placeholder { color: rgba(255,255,255,0.75); }
+        .glass-input::placeholder { color: rgba(255,255,255,0.7); }
         .glass-input:focus {
-          border-color: #00A85A;
-          background: rgba(255,255,255,0.14);
-          box-shadow: 0 0 0 3px rgba(255,210,0,0.35), 0 0 24px rgba(0,168,90,0.25);
+          border-color: rgba(0,168,90,0.85);
+          background: rgba(255,255,255,0.16);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            0 0 0 3px rgba(255,210,0,0.25),
+            0 0 28px rgba(0,168,90,0.3);
         }
+
       `}</style>
     </div>
   );
