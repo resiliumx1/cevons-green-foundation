@@ -42,7 +42,7 @@ const nav = [
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
   { to: "/crm/reviews", label: "Reviews", icon: Star },
   { to: "/crm/settings", label: "Settings", icon: Settings },
-] as const;
+] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }>;
 
 function CrmLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
