@@ -77,6 +77,7 @@ function LocationsPage() {
 
   return (
     <SiteLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       {/* HERO */}
       <section className="relative overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
         <div
