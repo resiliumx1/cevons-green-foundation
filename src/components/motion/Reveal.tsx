@@ -10,7 +10,7 @@ type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" |
 
 function getMotionComponent(tag: MotionTag) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (motion as any)[tag] as React.ComponentType<HTMLMotionProps<"div">>;
+  return (motion as any)[tag] as ComponentType<HTMLMotionProps<"div">>;
 }
 
 /**
