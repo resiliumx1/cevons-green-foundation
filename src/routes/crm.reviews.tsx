@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Star, Send, ThumbsUp, AlertCircle, MoreHorizontal, MessageSquare } from "lucide-react";
 
+import { CrmPage } from "@/components/motion/CrmMotion";
 export const Route = createFileRoute("/crm/reviews")({
   head: () => ({ meta: [{ title: "Reviews | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: ReviewsPage,
@@ -56,7 +57,7 @@ function Stars({ n }: { n: number }) {
 
 function ReviewsPage() {
   return (
-    <div className="flex flex-col gap-6 p-4 md:p-6">
+    <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-white md:text-3xl">Reviews & Reputation</h1>
@@ -148,6 +149,6 @@ function ReviewsPage() {
           })}
         </div>
       </div>
-    </div>
+    </CrmPage>
   );
 }
