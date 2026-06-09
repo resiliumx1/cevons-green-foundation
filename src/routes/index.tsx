@@ -252,16 +252,16 @@ function HomePage() {
       {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
             <h2 className="text-3xl md:text-5xl font-extrabold">
               Our Simple <span className="text-cevons-green">6-Step</span> Process
             </h2>
-          </div>
+          </Reveal>
 
-          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
+          <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
             {steps.map(({ icon: Icon, title, body }, i) => (
-              <li key={title} className="relative text-center reveal" style={{ animationDelay: `${i * 70}ms` }}>
+              <StaggerItem as="li" key={title} className="relative text-center">
                 {/* Arrow */}
                 {i < steps.length - 1 && (
                   <ArrowRight
@@ -275,9 +275,10 @@ function HomePage() {
                 <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">Step {i + 1}</p>
                 <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
                 <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
-              </li>
+              </StaggerItem>
             ))}
-          </ol>
+          </Stagger>
+
         </div>
       </section>
 
