@@ -412,18 +412,17 @@ function ContactPage() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                 <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={whatsappHref}
+                  {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="btn-base btn-green text-base px-6 py-3.5"
                 >
                   <MessageCircle className="size-5" /> WhatsApp Us
                 </a>
                 <a
-                  href="tel:"
+                  href={primaryTelHref}
                   className="btn-base btn-yellow text-base px-6 py-3.5"
                 >
-                  <Phone className="size-5" /> Call Us
+                  <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
                 </a>
               </div>
             </div>
