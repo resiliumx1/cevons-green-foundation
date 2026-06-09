@@ -538,8 +538,8 @@ function ServicesPage() {
                       className="absolute -right-10 -bottom-10 size-40 rounded-full bg-[var(--cevons-deep-green)]/5"
                     />
                     <div className="relative flex items-start gap-5">
-                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/15 ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
-                        <CevonsIcon group="services" name={s.iconKey} size="xl" decorative />
+                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
+                        <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
