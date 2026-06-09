@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
+import { CrmAssistant } from "@/components/crm/Assistant";
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
@@ -117,6 +119,7 @@ function CrmLayout() {
 
   return (
     <div data-crm-theme={theme} className="flex min-h-screen">
+      <Toaster richColors position="top-right" />
       {/* Desktop sidebar */}
       <aside
         className={`crm-sidebar hidden md:flex flex-col transition-[width] duration-200 ${
@@ -171,6 +174,7 @@ function CrmLayout() {
           </div>
 
           <div className="flex items-center gap-2 ml-auto">
+            <CrmAssistant />
             <button
               className="relative h-9 w-9 grid place-items-center rounded-lg border"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
