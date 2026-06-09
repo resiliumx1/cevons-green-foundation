@@ -198,13 +198,12 @@ function HeroSwoosh() {
 }
 
 function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
-  const Icon = s.icon;
   if (variant === "industrial") {
     return (
       <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
         <div className="flex items-start gap-4">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-[var(--cevons-yellow)]/10 text-[var(--cevons-yellow)] ring-1 ring-[var(--cevons-yellow)]/30">
-            <Icon className="size-6" />
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/95 ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+            <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
@@ -227,8 +226,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
   }
   return (
     <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
-      <span className="flex size-12 items-center justify-center rounded-xl bg-[var(--cevons-green)]/10 text-[var(--cevons-deep-green)] mb-4">
-        <Icon className="size-6" />
+      <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/10 ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
+        <CevonsIcon group="services" name={s.iconKey} size="lg" decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
