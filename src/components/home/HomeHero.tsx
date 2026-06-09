@@ -12,12 +12,12 @@ const stats = [
   { icon: Leaf, value: "1 Goal", label: "A Cleaner Guyana" },
 ];
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.05 * i },
+    transition: { duration: 0.6, ease: "easeOut", delay: 0.05 * i },
   }),
 };
 
