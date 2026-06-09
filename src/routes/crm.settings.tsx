@@ -123,7 +123,7 @@ function useSettings() {
 function useUpsertSetting() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ key, value }: { key: string; value: unknown }) => {
+    mutationFn: async ({ key, value }: { key: string; value: Record<string, unknown> }) => {
       const { error } = await supabase.from("crm_settings").upsert({ key, value }, { onConflict: "key" });
       if (error) throw error;
     },
