@@ -78,14 +78,15 @@ export function NotFoundPage() {
             >
               Browse Our Services →
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="relative reveal" style={{ animationDelay: "0.15s" }}>
+          <Reveal variant="scale" delay={0.1} className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lift aspect-[4/3]">
               <img src={truck} alt="CEVON’S branded page not found image" className="w-full h-full object-cover hero-img" />
               <div className="absolute inset-0 bg-gradient-to-tr from-cevons-deep-green/30 via-transparent to-transparent" />
             </div>
-          </div>
+          </Reveal>
+
         </div>
 
         {/* Swoosh accents */}
