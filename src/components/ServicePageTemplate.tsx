@@ -12,6 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import {
   Accordion,
@@ -101,7 +102,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       {/* Hero */}
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
         <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div className="reveal">
+          <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-4 inline-flex items-center gap-2">
               <Eyebrow className="size-4" /> {eyebrowLabel}
             </p>
@@ -127,9 +128,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="reveal" style={{ animationDelay: "120ms" }}>
+          <Reveal variant="scale" delay={0.1}>
             <div className="relative rounded-2xl overflow-hidden shadow-lift group">
               <img
                 src={heroImage}
@@ -146,7 +147,8 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVON'S</span>
               </div>
             </div>
-          </div>
+          </Reveal>
+
         </div>
       </section>
 
@@ -159,20 +161,21 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">Common Uses</p>
             <h2 id="uses-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Where this service helps</h2>
           </div>
-          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {commonUses.map(({ icon: Icon, title }, i) => (
-              <li
+          <Stagger as="ul" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {commonUses.map(({ icon: Icon, title }) => (
+              <StaggerItem
+                as="li"
                 key={title}
-                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5 reveal"
-                style={{ animationDelay: `${i * 50}ms` }}
+                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5"
               >
                 <span className="mx-auto mb-3 size-12 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
                   <Icon className="size-6" aria-hidden="true" />
                 </span>
                 <p className="text-sm font-semibold text-cevons-dark leading-snug">{title}</p>
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </Stagger>
+
         </div>
       </section>
 
@@ -183,12 +186,12 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
             <h2 id="how-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Simple, professional service</h2>
           </div>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map(({ icon: Icon, title, body }, i) => (
-              <li
+              <StaggerItem
+                as="li"
                 key={title}
-                className="relative bg-white rounded-xl border border-cevons-border p-6 shadow-soft reveal"
-                style={{ animationDelay: `${i * 70}ms` }}
+                className="relative bg-white rounded-xl border border-cevons-border p-6 shadow-soft"
               >
                 <span className="absolute -top-3 left-6 bg-cevons-yellow text-cevons-dark text-xs font-extrabold px-2.5 py-1 rounded-md shadow-soft">
                   Step {i + 1}
@@ -198,9 +201,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 </span>
                 <h3 className="mt-4 text-base font-bold text-cevons-dark">{title}</h3>
                 <p className="mt-1.5 text-sm text-cevons-muted leading-relaxed">{body}</p>
-              </li>
+              </StaggerItem>
             ))}
-          </ol>
+          </Stagger>
+
         </div>
       </section>
 
@@ -267,12 +271,12 @@ export function ServicePageTemplate(props: ServicePageProps) {
               View all services <ArrowRight className="size-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {related.map(({ title, body, img, to, icon: Icon }, i) => (
-              <article
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {related.map(({ title, body, img, to, icon: Icon }) => (
+              <StaggerItem
+                as="article"
                 key={title}
-                className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift reveal"
-                style={{ animationDelay: `${i * 70}ms` }}
+                className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
                   <img src={img} alt={title} loading="lazy" decoding="async" width={640} height={400} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -287,9 +291,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
                     Learn More <ArrowRight className="size-4" />
                   </Link>
                 </div>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
+
         </div>
       </section>
     </SiteLayout>

@@ -12,6 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "./SiteLayout";
+import { Reveal } from "./motion/Reveal";
 import { WhatsApp } from "./icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { cevonsIcons } from "@/data/cevonsIconRegistry";
@@ -39,7 +40,7 @@ export function NotFoundPage() {
       {/* HERO */}
       <section className="relative overflow-hidden bg-cevons-cream">
         <div className="container-cevons relative grid lg:grid-cols-2 gap-10 lg:gap-8 items-center pt-12 md:pt-16 pb-24 md:pb-32">
-          <div className="reveal">
+          <Reveal variant="up">
             <div className="flex items-center gap-2 md:gap-4 leading-none">
               <span className="text-[120px] md:text-[180px] font-black text-cevons-dark tracking-tighter">4</span>
               <span className="relative inline-block size-[110px] md:size-[170px] shrink-0 animate-[hero-scale_1.2s_ease-out]">
@@ -77,14 +78,15 @@ export function NotFoundPage() {
             >
               Browse Our Services →
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="relative reveal" style={{ animationDelay: "0.15s" }}>
+          <Reveal variant="scale" delay={0.1} className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lift aspect-[4/3]">
               <img src={truck} alt="CEVON’S branded page not found image" className="w-full h-full object-cover hero-img" />
               <div className="absolute inset-0 bg-gradient-to-tr from-cevons-deep-green/30 via-transparent to-transparent" />
             </div>
-          </div>
+          </Reveal>
+
         </div>
 
         {/* Swoosh accents */}
@@ -102,7 +104,7 @@ export function NotFoundPage() {
               <Link
                 key={to}
                 to={to}
-                className="card-cevons p-6 group reveal block"
+                className="card-cevons p-6 group block"
                 style={{ animationDelay: `${0.05 * i}s` }}
               >
                 {branded ? (
@@ -125,7 +127,7 @@ export function NotFoundPage() {
       {/* WHATSAPP BANNER */}
       <section className="pb-16 md:pb-20 bg-white">
         <div className="container-cevons">
-          <div className="reveal rounded-2xl bg-cevons-deep-green p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-lift">
+          <div className="rounded-2xl bg-cevons-deep-green p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-lift">
             <div className="flex items-start md:items-center gap-4">
               <span className="shrink-0 size-12 rounded-full bg-cevons-green flex items-center justify-center text-white">
                 <WhatsApp className="size-6" />

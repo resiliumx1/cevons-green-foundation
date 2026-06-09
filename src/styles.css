@@ -255,22 +255,15 @@
   }
 }
 
-/* Reveal animations */
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Hero image subtle scale-in (still used by hero <img> tags). */
 @keyframes hero-scale {
   from { transform: scale(1.08); }
   to { transform: scale(1); }
 }
-@utility reveal {
-  opacity: 0;
-  animation: reveal-up 0.7s ease forwards;
-}
 @utility hero-img {
   animation: hero-scale 1.8s ease-out forwards;
 }
+
 
 /* ===== Premium motion system ===== */
 
@@ -323,11 +316,11 @@
     transform: none !important;
     transition: none !important;
   }
-  .reveal,
   .hero-img {
     animation: none !important;
     opacity: 1 !important;
   }
+
 }
 
 /* ============================================================

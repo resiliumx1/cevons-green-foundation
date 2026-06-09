@@ -19,6 +19,7 @@ import {
   Home,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
@@ -127,16 +128,16 @@ function HomePage() {
 
         <div className="container-cevons relative py-24 md:py-32 lg:py-36 z-20">
           <div className="max-w-2xl">
-            <p className="reveal text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
+            <Reveal variant="up" as="p" className="text-cevons-yellow text-xs md:text-sm font-bold uppercase tracking-[0.22em] mb-5 inline-flex items-center gap-2">
               <Leaf className="size-4" /> Environmental Services Inc.
-            </p>
-            <h1 className="reveal text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight" style={{ animationDelay: "80ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.08} as="h1" className="text-white text-[34px] leading-[1.02] sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold tracking-tight">
               Environmental services built for Guyana's homes, businesses &amp; industries.
-            </h1>
-            <p className="reveal mt-6 text-white/85 text-base md:text-lg max-w-xl" style={{ animationDelay: "200ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.2} as="p" className="mt-6 text-white/85 text-base md:text-lg max-w-xl">
               From residential collection and portable toilets to skip bins, septic services, waste oil, scrap metal, wastewater, and industrial disposal — Cevons helps Guyana manage waste safely, reliably, and responsibly.
-            </p>
-            <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "320ms" }}>
+            </Reveal>
+            <Reveal variant="up" delay={0.32} className="mt-8 flex flex-wrap gap-3">
               <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
                 <WhatsApp className="size-5" />
                 WhatsApp Us
@@ -145,12 +146,16 @@ function HomePage() {
                 <Calendar className="size-5" />
                 Schedule a Service
               </a>
-            </div>
-            <a href="/request-service" className="reveal inline-flex items-center gap-1 mt-5 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors" style={{ animationDelay: "440ms" }}>
-              Request a Quote <ArrowRight className="size-4" />
-            </a>
+            </Reveal>
+            <Reveal variant="up" delay={0.44} className="mt-5">
+              <a href="/request-service" className="inline-flex items-center gap-1 text-sm font-semibold text-white/80 hover:text-cevons-yellow transition-colors">
+                Request a Quote <ArrowRight className="size-4" />
+              </a>
+            </Reveal>
+
           </div>
         </div>
+
 
         <HeroSwoosh />
       </section>
@@ -180,15 +185,15 @@ function HomePage() {
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">What We Do</p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">
               Our Core <span className="text-cevons-green">Service</span> Pillars
             </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map(({ img, title, body, iconKey }, i) => (
-              <article key={title} className="card-cevons group reveal" style={{ animationDelay: `${i * 100}ms` }}>
+          </Reveal>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pillars.map(({ img, title, body, iconKey }) => (
+              <StaggerItem as="article" key={title} className="card-cevons group">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
@@ -203,9 +208,10 @@ function HomePage() {
                     Explore Services <ArrowRight className="size-4" />
                   </a>
                 </div>
-              </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
+
         </div>
       </section>
 
@@ -246,16 +252,16 @@ function HomePage() {
       {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
             <h2 className="text-3xl md:text-5xl font-extrabold">
               Our Simple <span className="text-cevons-green">6-Step</span> Process
             </h2>
-          </div>
+          </Reveal>
 
-          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
+          <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
             {steps.map(({ icon: Icon, title, body }, i) => (
-              <li key={title} className="relative text-center reveal" style={{ animationDelay: `${i * 70}ms` }}>
+              <StaggerItem as="li" key={title} className="relative text-center">
                 {/* Arrow */}
                 {i < steps.length - 1 && (
                   <ArrowRight
@@ -269,9 +275,10 @@ function HomePage() {
                 <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">Step {i + 1}</p>
                 <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
                 <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
-              </li>
+              </StaggerItem>
             ))}
-          </ol>
+          </Stagger>
+
         </div>
       </section>
 
