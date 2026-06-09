@@ -15,15 +15,45 @@ const nav: NavItem[] = [
   { to: "/contact", label: "Contact" },
 ];
 
-const servicesDropdown = [
-  "Garbage Collection",
-  "Skip Bin Rental",
-  "Dumpster Rental",
-  "Portable Toilet Rental",
-  "Septic Tank Clearance",
-  "Waste Oil Recycling",
-  "Wastewater Treatment",
-  "Scrap Metal Collection",
+const servicesMenu: { group: string; items: { label: string; to: string }[] }[] = [
+  {
+    group: "Residential",
+    items: [
+      { label: "General Trash Collection", to: "/services/general-trash-collection" },
+      { label: "Dumpster Rental", to: "/services/dumpster-rental" },
+      { label: "Septic Services", to: "/services/septic-services" },
+      { label: "Portable Toilet", to: "/services/portable-toilet" },
+    ],
+  },
+  {
+    group: "Commercial",
+    items: [
+      { label: "General Waste Management", to: "/services/general-waste-management" },
+      { label: "Skip Bin & Dumpster Rental", to: "/services/skip-bin-dumpster-rental" },
+      { label: "Portable Toilet", to: "/services/portable-toilet" },
+      { label: "Grease Trap / Septic Tank", to: "/services/grease-trap-septic-tank" },
+      { label: "Document Shredding", to: "/services/document-shredding" },
+    ],
+  },
+  {
+    group: "Industrial",
+    items: [
+      { label: "Hazardous Waste", to: "/services/hazardous-waste" },
+      { label: "Wastewater", to: "/services/wastewater" },
+      { label: "Used Waste Oil", to: "/services/used-waste-oil" },
+      { label: "Contaminated Soil", to: "/services/contaminated-soil" },
+      { label: "Tank Cleaning", to: "/services/tank-cleaning" },
+      { label: "Product Destruction", to: "/services/product-destruction" },
+      { label: "Biohazardous Disposal", to: "/services/biohazardous-disposal" },
+    ],
+  },
+  {
+    group: "Facilities",
+    items: [
+      { label: "Material Recovery Facility", to: "/services/material-recovery-facility" },
+      { label: "Landfill Operations", to: "/services/landfill-operations" },
+    ],
+  },
 ];
 
 export function Header() {
@@ -64,15 +94,23 @@ export function Header() {
               </Link>
               {item.hasDropdown && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_12px_32px_rgba(16,24,32,0.08)] py-2 min-w-[240px]">
-                    {servicesDropdown.map((s) => (
-                      <Link
-                        key={s}
-                        to="/services"
-                        className="block px-4 py-2 text-sm text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green transition-colors"
-                      >
-                        {s}
-                      </Link>
+                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 grid grid-cols-4 gap-x-6 gap-y-2 min-w-[820px]">
+                    {servicesMenu.map((col) => (
+                      <div key={col.group}>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cevons-green mb-2">{col.group}</p>
+                        <ul className="space-y-1">
+                          {col.items.map((s) => (
+                            <li key={col.group + s.label}>
+                              <Link
+                                to={s.to}
+                                className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                              >
+                                {s.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
                   </div>
                 </div>
