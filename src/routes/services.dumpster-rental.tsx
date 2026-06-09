@@ -203,7 +203,7 @@ function DumpsterRentalPage() {
             {sizes.map(({ size, use }, i) => (
               <article
                 key={size}
-                className="group bg-white rounded-xl border border-cevons-border p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift reveal"
+                className="group bg-white rounded-xl border border-cevons-border p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
                 <div className="size-14 rounded-xl bg-cevons-green/10 text-cevons-green flex items-center justify-center mb-4">
@@ -237,7 +237,7 @@ function DumpsterRentalPage() {
             {uses.map(({ icon: Icon, title }, i) => (
               <li
                 key={title}
-                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5 reveal"
+                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5"
                 style={{ animationDelay: `${i * 50}ms` }}
               >
                 <span className="mx-auto mb-3 size-12 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
@@ -263,7 +263,7 @@ function DumpsterRentalPage() {
             {steps.map(({ icon: Icon, title, body }, i) => (
               <li
                 key={title}
-                className="relative bg-white rounded-xl border border-cevons-border p-6 shadow-soft reveal"
+                className="relative bg-white rounded-xl border border-cevons-border p-6 shadow-soft"
                 style={{ animationDelay: `${i * 70}ms` }}
               >
                 <span className="absolute -top-3 left-6 bg-cevons-yellow text-cevons-dark text-xs font-extrabold px-2.5 py-1 rounded-md shadow-soft">
@@ -351,7 +351,7 @@ function DumpsterRentalPage() {
               return (
                 <article
                   key={title}
-                  className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift reveal"
+                  className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
                   style={{ animationDelay: `${i * 70}ms` }}
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">

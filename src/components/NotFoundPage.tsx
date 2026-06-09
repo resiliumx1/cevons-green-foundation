@@ -104,7 +104,7 @@ export function NotFoundPage() {
               <Link
                 key={to}
                 to={to}
-                className="card-cevons p-6 group reveal block"
+                className="card-cevons p-6 group block"
                 style={{ animationDelay: `${0.05 * i}s` }}
               >
                 {branded ? (
@@ -127,7 +127,7 @@ export function NotFoundPage() {
       {/* WHATSAPP BANNER */}
       <section className="pb-16 md:pb-20 bg-white">
         <div className="container-cevons">
-          <div className="reveal rounded-2xl bg-cevons-deep-green p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-lift">
+          <div className="rounded-2xl bg-cevons-deep-green p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-lift">
             <div className="flex items-start md:items-center gap-4">
               <span className="shrink-0 size-12 rounded-full bg-cevons-green flex items-center justify-center text-white">
                 <WhatsApp className="size-6" />
