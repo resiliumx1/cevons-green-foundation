@@ -374,13 +374,13 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
               <div className="flex items-start justify-between">
                 <div
                   className={cn(
-                    "h-24 w-24 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    "relative h-24 w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
                     active
-                      ? "bg-white ring-[#006B35]/30"
-                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                      ? "ring-2 ring-[#006B35] ring-offset-2 ring-offset-card"
+                      : "ring-1 ring-black/5",
                   )}
                 >
-                  <CevonsIcon group="categories" name={c.iconKey} size="xl" decorative />
+                  <CevonsIcon group="categories" name={c.iconKey} fill decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>
@@ -423,13 +423,13 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
               <div className="flex items-start justify-between gap-2">
                 <div
                   className={cn(
-                    "h-16 w-16 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    "relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
                     active
-                      ? "bg-white ring-[#006B35]/30"
-                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                      ? "ring-2 ring-[#006B35] ring-offset-2 ring-offset-card"
+                      : "ring-1 ring-black/5",
                   )}
                 >
-                  <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
+                  <CevonsIcon group="services" name={s.iconKey} fill decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>

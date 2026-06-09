@@ -203,8 +203,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
     return (
       <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
         <div className="flex items-start gap-4">
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/95 ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
-            <CevonsIcon group="services" name={s.iconKey} size="md" decorative />
+          <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+            <CevonsIcon group="services" name={s.iconKey} fill decorative />
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
@@ -227,8 +227,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
   }
   return (
     <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
-      <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/10 ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
-        <CevonsIcon group="services" name={s.iconKey} size="lg" decorative />
+      <span className="relative flex h-20 w-20 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
+        <CevonsIcon group="services" name={s.iconKey} fill decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
@@ -375,8 +375,8 @@ function ServicesPage() {
                   />
                   <div className="relative">
                     <div className="flex items-center gap-4 mb-3">
-                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-white/95 shadow-lg ring-1 ring-black/5">
-                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} size="xl" decorative />
+                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] shadow-lg ring-1 ring-black/5">
+                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} fill decorative />
                       </span>
                       <div>
                         <p className={`text-xs font-bold uppercase tracking-wider ${isYellow ? "text-[var(--cevons-dark)]/70" : "text-[var(--cevons-yellow)]"}`}>{label}</p>
@@ -538,8 +538,8 @@ function ServicesPage() {
                       className="absolute -right-10 -bottom-10 size-40 rounded-full bg-[var(--cevons-deep-green)]/5"
                     />
                     <div className="relative flex items-start gap-5">
-                      <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--cevons-cream)] to-[var(--cevons-green)]/15 ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
-                        <CevonsIcon group="services" name={s.iconKey} size="xl" decorative />
+                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
+                        <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
                       <div className="min-w-0">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>

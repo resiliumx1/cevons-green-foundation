@@ -25,6 +25,8 @@ export interface CevonsIconProps {
   decorative?: boolean;
   /** Hero / above-the-fold icons should set eager */
   priority?: boolean;
+  /** Fill the parent container edge-to-edge (object-cover) */
+  fill?: boolean;
   className?: string;
 }
 
@@ -46,6 +48,7 @@ export function CevonsIcon({
   size = "md",
   decorative = false,
   priority = false,
+  fill = false,
   className,
 }: CevonsIconProps) {
   const resolved = resolveIcon(group, name, icon);
@@ -53,6 +56,18 @@ export function CevonsIcon({
   const baseClass = `object-contain inline-block ${className ?? ""}`.trim();
 
   if (!resolved) {
+    if (fill) {
+      return (
+        <span
+          role={decorative ? undefined : "img"}
+          aria-label={decorative ? undefined : "Service icon"}
+          aria-hidden={decorative || undefined}
+          className={`absolute inset-0 flex items-center justify-center bg-primary/10 text-primary ${className ?? ""}`}
+        >
+          <Leaf className="w-1/2 h-1/2" />
+        </span>
+      );
+    }
     return (
       <span
         role={decorative ? undefined : "img"}
@@ -63,6 +78,20 @@ export function CevonsIcon({
       >
         <Leaf style={{ width: px * 0.55, height: px * 0.55 }} />
       </span>
+    );
+  }
+
+  if (fill) {
+    return (
+      <img
+        src={resolved.src}
+        alt={decorative ? "" : resolved.alt}
+        aria-hidden={decorative || undefined}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        className={`absolute inset-0 w-full h-full object-cover ${className ?? ""}`.trim()}
+        draggable={false}
+      />
     );
   }
 
