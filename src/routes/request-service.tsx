@@ -6,6 +6,8 @@ import {
   Trash2, Container, Droplet, Waves, FileText, ShieldAlert, Flame, Sprout, Beaker, PackageX, Biohazard, Mountain,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import type { CevonsCategoryKey, CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
