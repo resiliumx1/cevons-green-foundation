@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/NotFoundPage";
+import { SmoothScrollProvider } from "../components/motion/SmoothScroll";
+
 
 function NotFoundComponent() {
   if (typeof document !== "undefined") {
