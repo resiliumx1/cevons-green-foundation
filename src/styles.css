@@ -111,20 +111,20 @@
 @utility container-cevons {
   width: 100%;
   margin-inline: auto;
-  max-width: 1280px;
+  max-width: 1200px;
   padding-inline: 1.25rem;
 }
 @media (min-width: 768px) {
   .container-cevons { padding-inline: 2rem; }
 }
 
-/* Section padding */
+/* Section padding — 56px mobile / 80px desktop */
 @utility section-y {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
 }
 @media (min-width: 768px) {
-  .section-y { padding-top: 6rem; padding-bottom: 6rem; }
+  .section-y { padding-top: 5rem; padding-bottom: 5rem; }
 }
 
 /* Buttons */
