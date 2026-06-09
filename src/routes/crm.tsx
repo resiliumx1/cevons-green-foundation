@@ -67,7 +67,7 @@ function CrmLayout() {
             return (
               <Link
                 key={item.to}
-                to={item.to}
+                to={item.to as "/crm"}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                   active
                     ? "bg-[#FFC629] text-[#0a3622] font-semibold shadow"
