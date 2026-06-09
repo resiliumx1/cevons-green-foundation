@@ -203,12 +203,12 @@ function HomePage() {
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
-            {stats.map(({ icon: Icon, value, suffix, label }) => (
+            {stats.map(({ icon: Icon, value, label }) => (
               <li key={label} className="flex items-center gap-4">
                 <Icon className="size-7 text-cevons-yellow shrink-0" />
                 <div>
-                  <p className="text-3xl md:text-4xl font-extrabold leading-none">
-                    <CountUp end={value} suffix={suffix} />
+                  <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
+                    {value}
                   </p>
                   <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
                 </div>
