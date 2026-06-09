@@ -76,11 +76,11 @@ export function Header() {
       <div className="container-cevons flex h-[72px] items-center gap-4">
         {/* Logo (left) */}
         <Link to="/" className="flex items-center shrink-0" aria-label="CEVON'S Environmental Services home">
-          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 xl:h-11 w-auto" />
+          <img src={logo} alt="CEVON'S Environmental Services" className="h-10 lg:h-12 w-auto" />
         </Link>
 
         {/* Nav (center, flex-1) */}
-        <nav className="hidden xl:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
+        <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
           {nav.map((item) => (
             <div key={item.to} className="relative group">
               <Link
@@ -120,7 +120,7 @@ export function Header() {
         </nav>
 
         {/* CTAs (right) */}
-        <div className="hidden xl:flex items-center gap-2 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
           <a href="/contact" className="btn-base btn-green text-[13.5px] px-3.5 py-2.5 shrink-0">
             <WhatsApp className="size-4" />
             WhatsApp
@@ -133,7 +133,7 @@ export function Header() {
 
         {/* Mobile toggle (everything below xl) */}
         <button
-          className="xl:hidden ml-auto p-2 -mr-2 text-cevons-dark shrink-0"
+          className="lg:hidden ml-auto p-2 -mr-2 text-cevons-dark shrink-0"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -143,7 +143,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="xl:hidden border-t border-cevons-border bg-white">
+        <div className="lg:hidden border-t border-cevons-border bg-white">
           <div className="container-cevons py-4 flex flex-col gap-1">
             {nav.map((item) => (
               <Link
