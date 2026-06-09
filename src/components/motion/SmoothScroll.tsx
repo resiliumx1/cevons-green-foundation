@@ -11,12 +11,13 @@ export function useSmoothScroll() {
 // Ease-out-expo: fast start, ultra-gentle deceleration
 const EASE_OUT_EXPO = (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-export function SmoothScrollProvider({ children }: { children: ReactNode }) {
+export function SmoothScrollProvider({ children, enabled = true }: { children: ReactNode; enabled?: boolean }) {
   const lenisRef = useRef<Lenis | null>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || !enabled) return;
+
 
     const lenis = new Lenis({
       duration: 1.1,
