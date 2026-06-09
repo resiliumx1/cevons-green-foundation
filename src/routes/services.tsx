@@ -84,7 +84,7 @@ function ServicesPage() {
       </section>
 
       {/* Filter tabs */}
-      <section aria-label="Filter services by category" className="border-b border-cevons-border bg-white sticky top-20 z-30">
+      <section aria-label="Filter services by category" className="border-b border-cevons-border bg-white sticky top-[72px] z-30">
         <div className="container-cevons py-4 flex flex-wrap gap-2 reveal">
           {categories.map((c) => {
             const isActive = active === c;
