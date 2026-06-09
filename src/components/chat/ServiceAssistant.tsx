@@ -92,6 +92,7 @@ type Intent =
   | "industrial"
   | "facilities"
   | "locations"
+  | "contact"
   | "pricing"
   | "track"
   | "urgent"
@@ -111,7 +112,9 @@ function detectIntent(text: string): Intent {
   if (has("complaint", "missed", "feedback", "issue", "problem with service")) return "feedback";
   if (has("track", "reference", "status of my", "where is my request")) return "track";
   if (has("price", "cost", "quote", "how much", "rate", "pricing")) return "pricing";
-  if (has("location", "where do you", "areas", "berbice", "linden", "georgetown", "coverage"))
+  if (has("phone", "call", "telephone", "email", "mail", "contact info", "hours", "open", "whatsapp number"))
+    return "contact";
+  if (has("location", "where do you", "areas", "berbice", "linden", "georgetown", "coverage", "address", "office"))
     return "locations";
   if (has("prepare", "what do i need", "what info", "before i book", "what to send"))
     return "prepare";
@@ -296,13 +299,41 @@ function botResponse(intent: Intent): Message {
         id: uid(),
         role: "bot",
         text:
-          "CEVON'S serves Georgetown, Linden, and Berbice. Availability may depend on the service and request type.",
+          `CEVON'S has three offices:\n` +
+          `\u2022 Georgetown Head Office \u2014 ${cevonsContact.regions[0].addressLine1}, ${cevonsContact.regions[0].addressLine2}.\n` +
+          `\u2022 Linden Branch Office \u2014 ${cevonsContact.regions[1].addressLine1}, ${cevonsContact.regions[1].addressLine2}.\n` +
+          `\u2022 Berbice Branch Office \u2014 ${cevonsContact.regions[2].addressLine1}, ${cevonsContact.regions[2].addressLine2}.\n` +
+          `All offices are open ${cevonsContact.hours}.`,
         ctas: [
           { label: "View Locations", kind: "link", to: "/locations", tone: "primary" },
           { label: "Request Service", kind: "link", to: "/request-service" },
           { label: "WhatsApp Us", kind: "external", href: WHATSAPP_URL, tone: "yellow" },
         ],
       };
+
+    case "contact": {
+      const waLine = hasConfirmedWhatsApp
+        ? `WhatsApp: tap the WhatsApp button below.`
+        : `WhatsApp: please use the WhatsApp button or contact page \u2014 the official WhatsApp number should be confirmed before launch.`;
+      return {
+        id: uid(),
+        role: "bot",
+        text:
+          `Here\u2019s how to reach CEVON'S:\n` +
+          `\u2022 Georgetown: ${cevonsContact.regions[0].phones.join(" / ")}\n` +
+          `\u2022 Linden: ${cevonsContact.regions[1].phones.join(" / ")}\n` +
+          `\u2022 Berbice: ${cevonsContact.regions[2].phones.join(" / ")}\n` +
+          `\u2022 Email: ${cevonsContact.email}\n` +
+          `\u2022 Hours: ${cevonsContact.hours}\n` +
+          waLine,
+        ctas: [
+          { label: `Call ${cevonsContact.primaryPhone}`, kind: "external", href: PHONE_HREF, tone: "primary" },
+          { label: "Email CEVON'S", kind: "external", href: EMAIL_HREF },
+          { label: "WhatsApp Us", kind: "external", href: WHATSAPP_URL, tone: "yellow" },
+          { label: "View Locations", kind: "link", to: "/locations" },
+        ],
+      };
+    }
 
     case "pricing":
       return {
