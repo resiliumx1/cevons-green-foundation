@@ -351,7 +351,6 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
 
       <div className="mt-6 grid sm:grid-cols-2 gap-4">
         {CATEGORIES.map((c) => {
-          const Icon = c.icon;
           const active = data.category === c.key;
           return (
             <button
@@ -359,13 +358,22 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
               type="button"
               onClick={() => setData({ ...data, category: c.key, service: null, details: {} })}
               className={cn(
-                "text-left rounded-2xl border-2 p-6 transition-all bg-card",
-                active ? "border-[#006B35] bg-[#006B35]/5" : "border-border hover:border-[#006B35]/40 hover:-translate-y-0.5",
+                "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
+                active
+                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
+                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between">
-                <div className={cn("size-14 rounded-xl flex items-center justify-center", active ? "bg-[#006B35] text-white" : "bg-muted text-[#006B35]")}>
-                  <Icon className="size-7" />
+                <div
+                  className={cn(
+                    "h-24 w-24 rounded-2xl flex items-center justify-center shadow-sm ring-1 transition-transform group-hover:scale-[1.04]",
+                    active
+                      ? "bg-white ring-[#006B35]/30"
+                      : "bg-gradient-to-br from-[#FAFBF9] to-[#006B35]/5 ring-black/5",
+                  )}
+                >
+                  <CevonsIcon group="categories" name={c.iconKey} size="xl" decorative />
                 </div>
                 {active && <Check className="size-5 text-[#006B35]" />}
               </div>
