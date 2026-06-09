@@ -134,7 +134,7 @@ function RequestServicePage() {
     <SiteLayout>
       {/* Title */}
       <section className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="container mx-auto px-4 pt-16 pb-10 md:pt-20 md:pb-14">
           <nav className="text-sm text-muted-foreground mb-3">
             <Link to="/" className="hover:text-foreground">Home</Link>
             <span className="mx-2">/</span>
