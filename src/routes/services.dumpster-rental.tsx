@@ -140,7 +140,7 @@ function DumpsterRentalPage() {
       {/* Hero */}
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
         <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <div className="reveal">
+          <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-4 inline-flex items-center gap-2">
               <Container className="size-4" /> Dumpster Rental
             </p>
@@ -166,9 +166,9 @@ function DumpsterRentalPage() {
                 <FileText className="size-5" /> Request a Quote
               </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="reveal" style={{ animationDelay: "120ms" }}>
+          <Reveal variant="scale" delay={0.1}>
             <div className="relative rounded-2xl overflow-hidden shadow-lift group">
               <img
                 src={imgDumpster}
@@ -182,9 +182,10 @@ function DumpsterRentalPage() {
                 <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVON'S</span>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
+
 
       {/* Sizes */}
       <section className="section-y bg-white" aria-labelledby="sizes-h">
