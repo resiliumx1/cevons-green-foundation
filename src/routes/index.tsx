@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Trash2,
   Truck,
-  Users,
+  
   Factory,
   Target,
   Home,
