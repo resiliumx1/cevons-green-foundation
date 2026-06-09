@@ -51,7 +51,7 @@ export function Footer() {
 
           <div>
             <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">24/7 Support</h4>
-            <a href="https://wa.me/5926252366" className="flex items-start gap-3 group">
+            <a href="#contact" className="flex items-start gap-3 group">
               <span className="shrink-0 size-10 rounded-full bg-cevons-green flex items-center justify-center group-hover:bg-cevons-yellow group-hover:text-cevons-dark transition-colors">
                 <WhatsApp className="size-4" />
               </span>

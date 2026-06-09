@@ -122,7 +122,7 @@ function HomePage() {
               Reliable waste management and environmental services for homes, businesses and industries across Guyana.
             </p>
             <div className="reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "320ms" }}>
-              <a href="https://wa.me/5926232366" className="btn-base btn-green text-base px-6 py-3.5">
+              <a href="#contact" className="btn-base btn-green text-base px-6 py-3.5">
                 <WhatsApp className="size-5" />
                 WhatsApp Us
               </a>
@@ -287,7 +287,7 @@ function HomePage() {
                 Let's keep Guyana clean and our environment healthy together.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="https://wa.me/5926232366" className="btn-base btn-green text-base px-6 py-3.5">
+                <a href="#contact" className="btn-base btn-green text-base px-6 py-3.5">
                   <WhatsApp className="size-5" /> WhatsApp Us
                 </a>
                 <a href="#quote" className="btn-base btn-yellow text-base px-6 py-3.5">
