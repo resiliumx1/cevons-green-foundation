@@ -46,6 +46,10 @@ type ServiceKey =
   // facilities
   | "material-recovery-facility" | "landfill-operations";
 
+type DetailType =
+  | "dumpster" | "toilet" | "septic" | "trash" | "shred"
+  | "industrial" | "facilities";
+
 type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; iconKey: CevonsServiceKey; detailType: DetailType; category: CategoryKey };
 
 const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; iconKey: CevonsCategoryKey }[] = [
