@@ -204,6 +204,8 @@ function SettingsPage() {
               </div>
             </section>
           )}
+
+          {active === "appearance" && <AppearanceSection />}
         </div>
       </div>
     </div>
