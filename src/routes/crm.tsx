@@ -119,6 +119,7 @@ function CrmLayout() {
 
   return (
     <div data-crm-theme={theme} className="flex min-h-screen">
+      <Toaster richColors position="top-right" />
       {/* Desktop sidebar */}
       <aside
         className={`crm-sidebar hidden md:flex flex-col transition-[width] duration-200 ${
