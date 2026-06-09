@@ -76,6 +76,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "theme-color", content: "#006B35" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "/assets/brand/cevons-og-default.jpg" },
+      { property: "og:image:width", content: "1216" },
+      { property: "og:image:height", content: "640" },
+      { name: "twitter:image", content: "/assets/brand/cevons-og-default.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

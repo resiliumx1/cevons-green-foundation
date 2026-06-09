@@ -23,6 +23,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import heroTruck from "@/assets/hero-truck.jpg";
+import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -108,6 +109,14 @@ function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-cevons-deep-green/90 via-cevons-deep-green/65 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-cevons-deep-green/40 via-transparent to-transparent" />
+          <BrandedImageBadge
+            position="bottom-right"
+            tone="glass"
+            size="md"
+            variant="mark"
+            label="Since 1997"
+            className="hidden md:inline-flex bottom-6 right-6"
+          />
         </div>
 
         <div className="container-cevons relative py-24 md:py-32 lg:py-36 z-20">
