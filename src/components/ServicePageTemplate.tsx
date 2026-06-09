@@ -120,11 +120,11 @@ export function ServicePageTemplate(props: ServicePageProps) {
               ))}
             </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <a href={primaryCtaHref} className="btn-base btn-yellow px-6 py-3.5 text-base">
+                <FileText className="size-5" /> {primaryCtaLabel}
+              </a>
               <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
                 <WhatsApp className="size-5" /> WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
-                <FileText className="size-5" /> Request a Quote
               </a>
             </div>
           </div>
