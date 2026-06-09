@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Trash2, Factory, FileText, Droplet, Recycle, Cylinder, Leaf, Container, Waves, ChevronRight } from "lucide-react";
+import { ArrowRight, Trash2, FileText, Droplet, Recycle, Cylinder, Leaf, Container, Waves, ChevronRight, Home, Building2, Flame, Brush, PackageX, Scissors } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
@@ -41,15 +41,23 @@ type Service = {
 };
 
 const services: Service[] = [
-  { title: "Garbage Collection", body: "Reliable collection for homes and businesses.", icon: Trash2, img: imgGarbage, alt: "CEVON'S garbage collection truck servicing a residential street", cats: ["Residential", "Commercial"] },
-  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", icon: Container, img: imgSkip, alt: "Industrial skip bin on a construction site", cats: ["Commercial"] },
+  { title: "Residential Garbage Collection", body: "Reliable household waste collection across Guyana.", icon: Home, img: imgGarbage, alt: "CEVON'S residential garbage collection truck on a Guyanese street", cats: ["Residential"] },
+  { title: "Commercial Garbage Collection", body: "Scheduled waste collection for businesses and properties.", icon: Building2, img: imgGarbage, alt: "Commercial garbage collection at a Guyana business", cats: ["Commercial"] },
+  { title: "Skip Bin Rental", body: "Various sizes for different types of projects.", icon: Container, img: imgSkip, alt: "Industrial skip bin on a construction site in Guyana", cats: ["Commercial", "Industrial"] },
   { title: "Dumpster Rental", body: "Short or long term dumpster rental solutions.", icon: Trash2, img: imgDumpster, alt: "Green commercial dumpster ready for rental", cats: ["Residential", "Commercial"] },
   { title: "Portable Toilet Rental", body: "Clean, reliable and hygienic portable toilets.", icon: Droplet, img: imgToilet, alt: "Row of clean portable toilets at an event site", cats: ["Commercial"] },
   { title: "Septic Tank Clearance", body: "Safe and efficient septic tank pumping.", icon: Droplet, img: imgSeptic, alt: "Vacuum truck performing septic tank clearance", cats: ["Residential", "Commercial"] },
   { title: "Waste Oil Recycling", body: "Environmentally responsible waste oil collection.", icon: Cylinder, img: imgOil, alt: "Stacked waste oil barrels at a recycling facility", cats: ["Industrial", "Recycling & Facilities"] },
+  { title: "Lube Oil Disposal", body: "Safe disposal of used lubricating oils for industry.", icon: Cylinder, img: imgOil, alt: "Used lube oil barrels prepared for safe disposal", cats: ["Industrial"] },
+  { title: "Cooking Oil Recycling", body: "Collection and recycling of used cooking oil.", icon: Droplet, img: imgOil, alt: "Used cooking oil containers ready for recycling", cats: ["Commercial", "Recycling & Facilities"] },
   { title: "Wastewater Treatment", body: "Treatment and disposal of industrial wastewater.", icon: Waves, img: imgWastewater, alt: "Industrial wastewater treatment tanks", cats: ["Industrial"] },
-  { title: "Scrap Metal Collection", body: "We buy and recycle all types of scrap metal.", icon: Recycle, img: imgScrap, alt: "Sorted scrap metal at a recycling yard", cats: ["Recycling & Facilities", "Industrial"] },
+  { title: "Scrap Metal", body: "We buy and recycle all types of scrap metal.", icon: Recycle, img: imgScrap, alt: "Sorted scrap metal at a recycling yard", cats: ["Recycling & Facilities", "Industrial"] },
   { title: "Document Shredding", body: "Secure shredding of sensitive documents.", icon: FileText, img: imgShred, alt: "Secure document shredding bins", cats: ["Commercial"] },
+  { title: "Product Destruction", body: "Certified destruction of expired or recalled products.", icon: PackageX, img: imgShred, alt: "Secure product destruction facility", cats: ["Commercial", "Industrial"] },
+  { title: "Plastic Shredding", body: "On-site plastic shredding to support recycling.", icon: Scissors, img: imgScrap, alt: "Plastic shredding equipment processing waste plastic", cats: ["Recycling & Facilities", "Industrial"] },
+  { title: "Road Sweeping", body: "Mechanical road and lot sweeping for clean roadways.", icon: Brush, img: imgGarbage, alt: "Road sweeping truck cleaning a Guyana roadway", cats: ["Commercial", "Industrial"] },
+  { title: "Compactor Rental", body: "Compactor rental for high-volume waste sites.", icon: Container, img: imgDumpster, alt: "Industrial waste compactor on site", cats: ["Commercial", "Industrial"] },
+  { title: "Incineration", body: "Safe incineration for regulated waste streams.", icon: Flame, img: imgWastewater, alt: "Industrial incineration facility", cats: ["Industrial", "Recycling & Facilities"] },
 ];
 
 function ServicesPage() {
