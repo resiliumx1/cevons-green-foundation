@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Container, Droplet, Home, MapPin, Trash2, Users } from "lucide-react";
+import { Building2, Droplet, Home, MapPin, Trash2, Users } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
