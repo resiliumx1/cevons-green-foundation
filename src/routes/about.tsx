@@ -18,6 +18,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import heroTruck from "@/assets/hero-truck.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
@@ -209,8 +210,12 @@ function AboutPage() {
         </div>
       </section>
 
+      {/* SOCIAL PROOF MARQUEE */}
+      <SocialProofMarquee variant="compact" />
+
       {/* COMPLIANCE SECTION */}
       <section className="section-y bg-white" aria-labelledby="compliance-heading">
+
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-3">Standards</p>

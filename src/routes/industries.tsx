@@ -26,6 +26,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import forestBg from "@/assets/forest-bg.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -163,8 +164,12 @@ function IndustriesPage() {
         <div className="brand-ribbon" aria-hidden="true" />
       </section>
 
+      {/* SOCIAL PROOF MARQUEE */}
+      <SocialProofMarquee variant="compact" />
+
       {/* INDUSTRY GRID */}
       <section className="section-y bg-white" aria-label="Industry sectors">
+
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-3">Sectors</p>

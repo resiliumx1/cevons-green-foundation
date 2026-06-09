@@ -33,6 +33,7 @@ import {
   Minus,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
@@ -337,8 +338,12 @@ function ServicesPage() {
         </div>
       </div>
 
+      {/* SOCIAL PROOF MARQUEE */}
+      <SocialProofMarquee variant="compact" />
+
       {/* CATEGORY OVERVIEW */}
       <section className="section-y bg-white">
+
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">Service Categories</p>

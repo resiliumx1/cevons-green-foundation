@@ -18,6 +18,7 @@ import {
   Home,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
@@ -159,6 +160,9 @@ function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* SOCIAL PROOF MARQUEE */}
+      <SocialProofMarquee variant="full" />
 
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
