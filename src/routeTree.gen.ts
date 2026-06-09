@@ -15,7 +15,17 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesWastewaterTreatmentRouteImport } from './routes/services.wastewater-treatment'
+import { Route as ServicesWasteOilRecyclingRouteImport } from './routes/services.waste-oil-recycling'
+import { Route as ServicesSkipBinRentalRouteImport } from './routes/services.skip-bin-rental'
+import { Route as ServicesSepticTankClearanceRouteImport } from './routes/services.septic-tank-clearance'
+import { Route as ServicesScrapMetalCollectionRouteImport } from './routes/services.scrap-metal-collection'
+import { Route as ServicesResidentialGarbageCollectionRouteImport } from './routes/services.residential-garbage-collection'
+import { Route as ServicesProductDestructionRouteImport } from './routes/services.product-destruction'
+import { Route as ServicesPortableToiletRentalRouteImport } from './routes/services.portable-toilet-rental'
 import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
+import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
+import { Route as ServicesCommercialGarbageCollectionRouteImport } from './routes/services.commercial-garbage-collection'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -47,11 +57,70 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesWastewaterTreatmentRoute =
+  ServicesWastewaterTreatmentRouteImport.update({
+    id: '/wastewater-treatment',
+    path: '/wastewater-treatment',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesWasteOilRecyclingRoute =
+  ServicesWasteOilRecyclingRouteImport.update({
+    id: '/waste-oil-recycling',
+    path: '/waste-oil-recycling',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesSkipBinRentalRoute = ServicesSkipBinRentalRouteImport.update({
+  id: '/skip-bin-rental',
+  path: '/skip-bin-rental',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesSepticTankClearanceRoute =
+  ServicesSepticTankClearanceRouteImport.update({
+    id: '/septic-tank-clearance',
+    path: '/septic-tank-clearance',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesScrapMetalCollectionRoute =
+  ServicesScrapMetalCollectionRouteImport.update({
+    id: '/scrap-metal-collection',
+    path: '/scrap-metal-collection',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesResidentialGarbageCollectionRoute =
+  ServicesResidentialGarbageCollectionRouteImport.update({
+    id: '/residential-garbage-collection',
+    path: '/residential-garbage-collection',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesProductDestructionRoute =
+  ServicesProductDestructionRouteImport.update({
+    id: '/product-destruction',
+    path: '/product-destruction',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesPortableToiletRentalRoute =
+  ServicesPortableToiletRentalRouteImport.update({
+    id: '/portable-toilet-rental',
+    path: '/portable-toilet-rental',
+    getParentRoute: () => ServicesRoute,
+  } as any)
 const ServicesDumpsterRentalRoute = ServicesDumpsterRentalRouteImport.update({
   id: '/dumpster-rental',
   path: '/dumpster-rental',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesDocumentShreddingRoute =
+  ServicesDocumentShreddingRouteImport.update({
+    id: '/document-shredding',
+    path: '/document-shredding',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesCommercialGarbageCollectionRoute =
+  ServicesCommercialGarbageCollectionRouteImport.update({
+    id: '/commercial-garbage-collection',
+    path: '/commercial-garbage-collection',
+    getParentRoute: () => ServicesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +129,17 @@ export interface FileRoutesByFullPath {
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
+  '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/portable-toilet-rental': typeof ServicesPortableToiletRentalRoute
+  '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/residential-garbage-collection': typeof ServicesResidentialGarbageCollectionRoute
+  '/services/scrap-metal-collection': typeof ServicesScrapMetalCollectionRoute
+  '/services/septic-tank-clearance': typeof ServicesSepticTankClearanceRoute
+  '/services/skip-bin-rental': typeof ServicesSkipBinRentalRoute
+  '/services/waste-oil-recycling': typeof ServicesWasteOilRecyclingRoute
+  '/services/wastewater-treatment': typeof ServicesWastewaterTreatmentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +148,17 @@ export interface FileRoutesByTo {
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
+  '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/portable-toilet-rental': typeof ServicesPortableToiletRentalRoute
+  '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/residential-garbage-collection': typeof ServicesResidentialGarbageCollectionRoute
+  '/services/scrap-metal-collection': typeof ServicesScrapMetalCollectionRoute
+  '/services/septic-tank-clearance': typeof ServicesSepticTankClearanceRoute
+  '/services/skip-bin-rental': typeof ServicesSkipBinRentalRoute
+  '/services/waste-oil-recycling': typeof ServicesWasteOilRecyclingRoute
+  '/services/wastewater-treatment': typeof ServicesWastewaterTreatmentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -79,7 +168,17 @@ export interface FileRoutesById {
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/services/commercial-garbage-collection': typeof ServicesCommercialGarbageCollectionRoute
+  '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/portable-toilet-rental': typeof ServicesPortableToiletRentalRoute
+  '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/residential-garbage-collection': typeof ServicesResidentialGarbageCollectionRoute
+  '/services/scrap-metal-collection': typeof ServicesScrapMetalCollectionRoute
+  '/services/septic-tank-clearance': typeof ServicesSepticTankClearanceRoute
+  '/services/skip-bin-rental': typeof ServicesSkipBinRentalRoute
+  '/services/waste-oil-recycling': typeof ServicesWasteOilRecyclingRoute
+  '/services/wastewater-treatment': typeof ServicesWastewaterTreatmentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,7 +189,17 @@ export interface FileRouteTypes {
     | '/locations'
     | '/resources'
     | '/services'
+    | '/services/commercial-garbage-collection'
+    | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/portable-toilet-rental'
+    | '/services/product-destruction'
+    | '/services/residential-garbage-collection'
+    | '/services/scrap-metal-collection'
+    | '/services/septic-tank-clearance'
+    | '/services/skip-bin-rental'
+    | '/services/waste-oil-recycling'
+    | '/services/wastewater-treatment'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,7 +208,17 @@ export interface FileRouteTypes {
     | '/locations'
     | '/resources'
     | '/services'
+    | '/services/commercial-garbage-collection'
+    | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/portable-toilet-rental'
+    | '/services/product-destruction'
+    | '/services/residential-garbage-collection'
+    | '/services/scrap-metal-collection'
+    | '/services/septic-tank-clearance'
+    | '/services/skip-bin-rental'
+    | '/services/waste-oil-recycling'
+    | '/services/wastewater-treatment'
   id:
     | '__root__'
     | '/'
@@ -108,7 +227,17 @@ export interface FileRouteTypes {
     | '/locations'
     | '/resources'
     | '/services'
+    | '/services/commercial-garbage-collection'
+    | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/portable-toilet-rental'
+    | '/services/product-destruction'
+    | '/services/residential-garbage-collection'
+    | '/services/scrap-metal-collection'
+    | '/services/septic-tank-clearance'
+    | '/services/skip-bin-rental'
+    | '/services/waste-oil-recycling'
+    | '/services/wastewater-treatment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -164,6 +293,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/wastewater-treatment': {
+      id: '/services/wastewater-treatment'
+      path: '/wastewater-treatment'
+      fullPath: '/services/wastewater-treatment'
+      preLoaderRoute: typeof ServicesWastewaterTreatmentRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/waste-oil-recycling': {
+      id: '/services/waste-oil-recycling'
+      path: '/waste-oil-recycling'
+      fullPath: '/services/waste-oil-recycling'
+      preLoaderRoute: typeof ServicesWasteOilRecyclingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/skip-bin-rental': {
+      id: '/services/skip-bin-rental'
+      path: '/skip-bin-rental'
+      fullPath: '/services/skip-bin-rental'
+      preLoaderRoute: typeof ServicesSkipBinRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/septic-tank-clearance': {
+      id: '/services/septic-tank-clearance'
+      path: '/septic-tank-clearance'
+      fullPath: '/services/septic-tank-clearance'
+      preLoaderRoute: typeof ServicesSepticTankClearanceRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/scrap-metal-collection': {
+      id: '/services/scrap-metal-collection'
+      path: '/scrap-metal-collection'
+      fullPath: '/services/scrap-metal-collection'
+      preLoaderRoute: typeof ServicesScrapMetalCollectionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/residential-garbage-collection': {
+      id: '/services/residential-garbage-collection'
+      path: '/residential-garbage-collection'
+      fullPath: '/services/residential-garbage-collection'
+      preLoaderRoute: typeof ServicesResidentialGarbageCollectionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/product-destruction': {
+      id: '/services/product-destruction'
+      path: '/product-destruction'
+      fullPath: '/services/product-destruction'
+      preLoaderRoute: typeof ServicesProductDestructionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/portable-toilet-rental': {
+      id: '/services/portable-toilet-rental'
+      path: '/portable-toilet-rental'
+      fullPath: '/services/portable-toilet-rental'
+      preLoaderRoute: typeof ServicesPortableToiletRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/dumpster-rental': {
       id: '/services/dumpster-rental'
       path: '/dumpster-rental'
@@ -171,15 +356,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesDumpsterRentalRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/document-shredding': {
+      id: '/services/document-shredding'
+      path: '/document-shredding'
+      fullPath: '/services/document-shredding'
+      preLoaderRoute: typeof ServicesDocumentShreddingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/commercial-garbage-collection': {
+      id: '/services/commercial-garbage-collection'
+      path: '/commercial-garbage-collection'
+      fullPath: '/services/commercial-garbage-collection'
+      preLoaderRoute: typeof ServicesCommercialGarbageCollectionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
 
 interface ServicesRouteChildren {
+  ServicesCommercialGarbageCollectionRoute: typeof ServicesCommercialGarbageCollectionRoute
+  ServicesDocumentShreddingRoute: typeof ServicesDocumentShreddingRoute
   ServicesDumpsterRentalRoute: typeof ServicesDumpsterRentalRoute
+  ServicesPortableToiletRentalRoute: typeof ServicesPortableToiletRentalRoute
+  ServicesProductDestructionRoute: typeof ServicesProductDestructionRoute
+  ServicesResidentialGarbageCollectionRoute: typeof ServicesResidentialGarbageCollectionRoute
+  ServicesScrapMetalCollectionRoute: typeof ServicesScrapMetalCollectionRoute
+  ServicesSepticTankClearanceRoute: typeof ServicesSepticTankClearanceRoute
+  ServicesSkipBinRentalRoute: typeof ServicesSkipBinRentalRoute
+  ServicesWasteOilRecyclingRoute: typeof ServicesWasteOilRecyclingRoute
+  ServicesWastewaterTreatmentRoute: typeof ServicesWastewaterTreatmentRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesCommercialGarbageCollectionRoute:
+    ServicesCommercialGarbageCollectionRoute,
+  ServicesDocumentShreddingRoute: ServicesDocumentShreddingRoute,
   ServicesDumpsterRentalRoute: ServicesDumpsterRentalRoute,
+  ServicesPortableToiletRentalRoute: ServicesPortableToiletRentalRoute,
+  ServicesProductDestructionRoute: ServicesProductDestructionRoute,
+  ServicesResidentialGarbageCollectionRoute:
+    ServicesResidentialGarbageCollectionRoute,
+  ServicesScrapMetalCollectionRoute: ServicesScrapMetalCollectionRoute,
+  ServicesSepticTankClearanceRoute: ServicesSepticTankClearanceRoute,
+  ServicesSkipBinRentalRoute: ServicesSkipBinRentalRoute,
+  ServicesWasteOilRecyclingRoute: ServicesWasteOilRecyclingRoute,
+  ServicesWastewaterTreatmentRoute: ServicesWastewaterTreatmentRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
@@ -197,3 +418,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
