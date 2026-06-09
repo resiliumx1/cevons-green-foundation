@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, MessageCircle, Home, RefreshCw, Search, FileText, Phone, ShieldCheck, Clock, Award } from "lucide-react";
+import confetti from "canvas-confetti";
+import { Check, MessageCircle, RefreshCw, Search, FileText, Phone, ShieldCheck, Clock, Award } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { cn } from "@/lib/utils";
 
@@ -18,10 +19,24 @@ export const Route = createFileRoute("/request-service/confirmation")({
 });
 
 function generateRef() {
-  const prefix = "CEV-";
   const year = new Date().getFullYear();
-  const num = Math.floor(100000 + Math.random() * 899999);
-  return `${prefix}${year}-${num}`;
+  const num = String(Math.floor(100000 + Math.random() * 899999)).padStart(6, "0");
+  return `CEV-${year}-${num}`;
+}
+
+const CEVONS_COLORS = ["#006B35", "#FFD200", "#E31B23", "#FFFFFF"];
+
+function fireConfetti() {
+  if (typeof window === "undefined") return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+  const defaults = {
+    spread: 70, ticks: 220, gravity: 0.9, scalar: 1,
+    colors: CEVONS_COLORS, disableForReducedMotion: true,
+  };
+  confetti({ ...defaults, particleCount: 80, startVelocity: 45, origin: { x: 0.5, y: 0.3 } });
+  setTimeout(() => confetti({ ...defaults, particleCount: 55, angle: 60, startVelocity: 55, origin: { x: 0, y: 0.6 } }), 180);
+  setTimeout(() => confetti({ ...defaults, particleCount: 55, angle: 120, startVelocity: 55, origin: { x: 1, y: 0.6 } }), 360);
 }
 
 function ConfirmationPage() {
@@ -30,13 +45,14 @@ function ConfirmationPage() {
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(t);
+    const c = setTimeout(() => fireConfetti(), 250);
+    return () => { clearTimeout(t); clearTimeout(c); };
   }, []);
 
   const steps = [
-    "Our team will review your request.",
-    "We will contact you by WhatsApp during the same business day.",
-    "We will provide a quote and schedule service where applicable.",
+    "Our team reviews your request.",
+    "We contact you by WhatsApp or phone.",
+    "We confirm service details and scheduling.",
   ];
 
   const trustItems = [
@@ -50,7 +66,7 @@ function ConfirmationPage() {
     <SiteLayout>
       {/* Main Confirmation Card */}
       <section className="bg-[var(--cevons-cream)]">
-        <div className="container-cevons px-4 py-12 md:py-20">
+        <div className="container-cevons px-4 pt-24 md:pt-28 pb-12 md:pb-20">
           <div
             className={cn(
               "max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-white p-8 md:p-12 shadow-[0_12px_40px_rgba(16,24,32,0.06)] text-center transition-all duration-700",
@@ -80,7 +96,7 @@ function ConfirmationPage() {
               Request Received!
             </h1>
             <p className="mt-3 text-[var(--cevons-muted)] text-lg max-w-lg mx-auto">
-              Thank you. Your service request has been received successfully.
+              Your CEVON'S service request has been submitted successfully.
             </p>
 
             {/* Reference Number */}
@@ -137,19 +153,19 @@ function ConfirmationPage() {
                 <Search className="size-4" />
                 Track Your Request
               </Link>
+              <a
+                href="/contact"
+                className="btn-base btn-outline-green w-full sm:w-auto"
+              >
+                <MessageCircle className="size-4" />
+                WhatsApp Us
+              </a>
               <Link
                 to="/request-service"
                 className="btn-base btn-yellow w-full sm:w-auto"
               >
                 <RefreshCw className="size-4" />
                 Submit Another Request
-              </Link>
-              <Link
-                to="/"
-                className="btn-base btn-outline-green w-full sm:w-auto"
-              >
-                <Home className="size-4" />
-                Back to Home
               </Link>
             </div>
           </div>
