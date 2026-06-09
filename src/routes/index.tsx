@@ -46,25 +46,26 @@ export const Route = createFileRoute("/")({
 
 const trust = [
   { icon: MapPin, t: "Serving", s: "Georgetown, Linden & Berbice" },
-  { icon: ShieldCheck, t: "EPA", s: "Certified" },
-  { icon: Calendar, t: "Since", s: "1997" },
-  { icon: Shield, t: "Safety", s: "First" },
-  { icon: Leaf, t: "Environment", s: "Focused" },
+  { icon: Truck, t: "Coverage", s: "Across Guyana" },
+  { icon: Shield, t: "Safety", s: "First Priority" },
+  { icon: Leaf, t: "Environment", s: "Eco-Focused" },
+  { icon: WhatsApp, t: "Support", s: "WhatsApp Anytime" },
 ];
 
 const pillars = [
   { img: imgResidential, title: "Residential", icon: Home, body: "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
   { img: imgCommercial, title: "Commercial", icon: Trash2, body: "Smart waste solutions for businesses and commercial properties." },
   { img: imgIndustrial, title: "Industrial", icon: Factory, body: "Specialized waste management and industrial environmental services." },
-  { img: imgRecovery, title: "Facilities & Recovery", icon: Recycle, body: "Turning waste into resources through recycling and recovery." },
+  { img: imgRecovery, title: "Recycling & Facilities", icon: Recycle, body: "Turning waste into resources through recycling and facility services." },
 ];
 
 const stats = [
-  { value: 25, suffix: "+", label: "Years of Service", icon: Calendar },
-  { value: 50, suffix: "K+", label: "Satisfied Customers", icon: Users },
-  { value: 120, suffix: "+", label: "Fleet & Equipment", icon: Truck },
+  { value: 16, suffix: "", label: "Services Offered", icon: ClipboardCheck },
+  { value: 4, suffix: "", label: "Service Categories", icon: Recycle },
   { value: 3, suffix: "", label: "Regions Served", icon: MapPin },
+  { value: 100, suffix: "%", label: "Guyana-Focused", icon: Leaf },
 ];
+
 
 const steps = [
   { icon: FileText, title: "Request", body: "Send your service request or inquiry." },
