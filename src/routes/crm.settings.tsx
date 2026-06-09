@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { User, Users, Bell, GitBranch, Palette, MoreHorizontal } from "lucide-react";
+import { User, Users, Bell, GitBranch, Palette, MoreHorizontal, Check, Sparkles, Sun } from "lucide-react";
+import { useCrmTheme, type CrmTheme } from "@/components/crm/theme";
 
 export const Route = createFileRoute("/crm/settings")({
   head: () => ({ meta: [{ title: "Settings | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
