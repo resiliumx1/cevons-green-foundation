@@ -597,52 +597,50 @@ function Dashboard() {
         </Card>
       </div>
 
-      {/* Row: Bookings + Recent activity */}
+      {/* Row: Recent Leads + Recent activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="p-5 lg:col-span-2 animate-fade-in">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white">Upcoming Bookings</h3>
-            <span className="text-xs text-slate-400">{d.upcoming.data?.length ?? 0} scheduled</span>
+            <h3 className="text-sm font-semibold text-white">Recent Leads</h3>
+            <span className="text-xs text-slate-400">{d.recentLeads.data?.length ?? 0} latest</span>
           </div>
-          {d.upcoming.isLoading ? (
+          {d.recentLeads.isLoading ? (
             <div className="space-y-2">{[...Array(4)].map((_, i) => <SkeletonBlock key={i} className="h-10 w-full" />)}</div>
-          ) : d.upcoming.isError ? (
-            <ErrorState onRetry={() => d.upcoming.refetch()} />
-          ) : (d.upcoming.data?.length ?? 0) === 0 ? (
-            <EmptyState title="No upcoming bookings" subtitle="Scheduled jobs will appear here." icon={CalendarCheck} />
+          ) : d.recentLeads.isError ? (
+            <ErrorState onRetry={() => d.recentLeads.refetch()} />
+          ) : (d.recentLeads.data?.length ?? 0) === 0 ? (
+            <EmptyState title="No leads yet" subtitle="New service requests will appear here." icon={Inbox} />
           ) : (
             <div className="overflow-x-auto -mx-5">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/[0.08]">
-                    <th className="px-5 py-2.5 font-medium">Time</th>
-                    <th className="px-3 py-2.5 font-medium">Customer</th>
+                    <th className="px-5 py-2.5 font-medium">When</th>
+                    <th className="px-3 py-2.5 font-medium">Name</th>
                     <th className="px-3 py-2.5 font-medium">Service</th>
                     <th className="px-3 py-2.5 font-medium">Region</th>
                     <th className="px-5 py-2.5 font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {(d.upcoming.data ?? []).map((b) => {
-                    const cust = (b as { customers?: { name?: string } | null }).customers;
-                    return (
-                      <tr key={b.id} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
-                        <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{b.scheduled_start ? fmtDateTime(b.scheduled_start) : "—"}</td>
-                        <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{cust?.name ?? "—"}</td>
-                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service ?? "—"}</td>
-                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.region ?? "—"}</td>
-                        <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
-                      </tr>
-                    );
-                  })}
+                  {(d.recentLeads.data ?? []).map((b) => (
+                    <tr key={b.id} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
+                      <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{timeAgo(b.created_at)}</td>
+                      <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{b.name ?? "—"}</td>
+                      <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service ?? "—"}</td>
+                      <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.region ?? "—"}</td>
+                      <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           )}
           <button className="mt-4 w-full inline-flex items-center justify-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 py-2 border border-emerald-500/30 rounded-lg hover:bg-emerald-500/5 transition-colors">
-            View Calendar <ChevronRight className="h-3 w-3" />
+            View All Leads <ChevronRight className="h-3 w-3" />
           </button>
         </Card>
+
 
         <Card className="p-5 flex flex-col animate-fade-in" style={{ animationDelay: "80ms" }}>
           <h3 className="text-sm font-semibold text-white mb-4">Recent Activity</h3>
