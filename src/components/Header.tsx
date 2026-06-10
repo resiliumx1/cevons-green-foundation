@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { WhatsApp } from "./icons/WhatsApp";
@@ -14,6 +15,10 @@ const nav: NavItem[] = [
   { to: "/resources", label: "Resources" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
+];
+
+// Secondary nav items — surfaced on mobile menu + as utility CTAs on desktop, not in primary desktop strip
+const utilityNav: NavItem[] = [
   { to: "/track-request", label: "Track Request" },
 ];
 
