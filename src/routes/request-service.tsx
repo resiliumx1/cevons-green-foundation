@@ -259,6 +259,8 @@ function RequestServicePage() {
                   isSpecialist={isSpecialist}
                   confirm={data.confirm}
                   setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
+                  newsletterOptIn={data.newsletterOptIn}
+                  setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
                   error={errors.confirm}
                 />
               )}
@@ -783,10 +785,12 @@ function StepInfo({
 /* ---------------- Step 6: Review ---------------- */
 
 function StepReview({
-  data, selected, isSpecialist, confirm, setConfirm, error,
+  data, selected, isSpecialist, confirm, setConfirm, newsletterOptIn, setNewsletterOptIn, error,
 }: {
   data: FormData; selected: ServiceMeta | null; isSpecialist: boolean;
-  confirm: boolean; setConfirm: (v: boolean) => void; error?: string;
+  confirm: boolean; setConfirm: (v: boolean) => void;
+  newsletterOptIn: boolean; setNewsletterOptIn: (v: boolean) => void;
+  error?: string;
 }) {
   const detailEntries = useMemo(() => Object.entries(data.details).filter(([, v]) => v), [data.details]);
   const categoryName = CATEGORIES.find((c) => c.key === data.category)?.name ?? "—";
