@@ -322,7 +322,7 @@ function MarketingPage() {
                   <td className={`px-4 py-3 font-semibold ${c.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>{fmtMoney(c.revenue)}</td>
                   <td className="px-4 py-3">
                     {Number(c.cost) > 0 ? (
-                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]" : "border-orange-500/30 bg-orange-500/10 text-orange-300"}`}>
+                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-teal-600/30 bg-teal-600/10 text-teal-700" : "border-orange-500/30 bg-orange-500/10 text-orange-700"}`}>
                         <ArrowUpRight className="h-3 w-3" />{c.roi.toFixed(1)}x
                       </span>
                     ) : <span className="text-white/40 text-xs">—</span>}
