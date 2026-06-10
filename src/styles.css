@@ -767,10 +767,10 @@
     #35E76B 70%,
     #0FA34A 100%
   );
-  background-size: 280% 100%;
+  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: ecoGradientFlow 9s ease-in-out infinite;
+  animation: ecoGradientFlow 14s ease-in-out infinite;
   filter: drop-shadow(0 0 10px rgba(53, 231, 107, 0.24));
 }
 .eco-word.growth-flow::before {
