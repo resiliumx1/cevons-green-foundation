@@ -20,6 +20,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 const heroContact = "/assets/heroes/hero-contact.webp";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
+import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
 const mapBranches: BranchPoint[] = cevonsContact.regions.map((r) => ({
   id: r.name,
@@ -41,6 +42,12 @@ export const Route = createFileRoute("/contact")({
       { property: "og:url", content: "/contact" },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ])) },
+    ],
   }),
   component: ContactPage,
 });
