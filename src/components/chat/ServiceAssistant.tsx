@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import {
-  MessageCircle,
   X,
   Send,
   RotateCcw,
@@ -11,10 +10,10 @@ import {
   MapPin,
   CheckCircle2,
 } from "lucide-react";
-import { cevonsIcons } from "@/data/cevonsIconRegistry";
+import logoMark from "@/assets/cevons-logo-transparent.png";
 import { cevonsContact, hasConfirmedWhatsApp, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
-const ASSISTANT_AVATAR = cevonsIcons.ui.contactSupport.src;
+const ASSISTANT_AVATAR = logoMark;
 
 /**
  * Cevon's Service Assistant — public website chat widget
@@ -456,6 +455,7 @@ export function ServiceAssistant() {
   const [leadOpen, setLeadOpen] = useState(false);
   const [lead, setLead] = useState<LeadDraft>(EMPTY_LEAD);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -490,6 +490,13 @@ export function ServiceAssistant() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // Welcome popup teaser (after 2.5s, hide when chat opens or dismissed)
+  useEffect(() => {
+    if (!mounted || open) return;
+    const t = setTimeout(() => setPopupVisible(true), 2500);
+    return () => clearTimeout(t);
+  }, [mounted, open]);
 
   const pushBot = useCallback((m: Message) => {
     setMessages((prev) => [...prev, m]);
@@ -542,13 +549,18 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVON'S Service Assistant"
-        className={`assistant-fab fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-4 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD200]/40 ${
+        className={`assistant-fab fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-3 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD200]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
         style={{ background: "linear-gradient(135deg, #006B35, #003F27)" }}
       >
-        <span className="relative grid place-items-center h-8 w-8 rounded-full bg-white/15">
-          <MessageCircle className="h-4 w-4" />
+        <span className="relative grid place-items-center h-9 w-9 rounded-full bg-white/15 overflow-hidden">
+          <img
+            src={ASSISTANT_AVATAR}
+            alt="CEVON'S"
+            className="h-7 w-7 object-contain"
+            draggable={false}
+          />
           <span
             className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#003F27]"
             style={{ background: "#FFD200" }}
@@ -556,6 +568,59 @@ export function ServiceAssistant() {
         </span>
         <span className="hidden sm:inline">Ask CEVON&apos;S</span>
       </button>
+
+      {/* Welcome popup teaser */}
+      {popupVisible && !open && (
+        <div
+          className="fixed bottom-20 right-5 z-[60] w-[260px] animate-in fade-in slide-in-from-bottom-2 duration-500"
+          role="dialog"
+          aria-label="Welcome message"
+        >
+          <div className="relative rounded-2xl bg-white p-4 shadow-xl border border-[#E5E7EB]">
+            <button
+              type="button"
+              onClick={() => setPopupVisible(false)}
+              aria-label="Dismiss welcome message"
+              className="absolute top-2 right-2 rounded-md p-1 text-[#94A3B8] hover:bg-[#F1F5F2] hover:text-[#64748B] transition"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+            <div className="flex items-start gap-3">
+              <div className="h-9 w-9 rounded-full bg-[#006B35] grid place-items-center overflow-hidden shrink-0">
+                <img
+                  src={ASSISTANT_AVATAR}
+                  alt="CEVON'S"
+                  className="h-7 w-7 object-contain"
+                  draggable={false}
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-[#101820]">
+                  Cevon&apos;s Service Assistant
+                </p>
+                <p className="text-xs text-[#64748B] mt-0.5 leading-relaxed">
+                  Hi there! Need help finding the right waste management service?
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPopupVisible(false);
+                    setOpen(true);
+                  }}
+                  className="mt-2 inline-flex items-center rounded-lg bg-[#006B35] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#005a2c] transition"
+                >
+                  Start a chat
+                </button>
+              </div>
+            </div>
+            {/* Triangle pointer */}
+            <div
+              className="absolute -bottom-2 right-6 h-4 w-4 bg-white border-r border-b border-[#E5E7EB] rotate-45"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      )}
 
       {/* Chat panel */}
       {open && (
