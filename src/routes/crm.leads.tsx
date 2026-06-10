@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Search, Filter, Plus, Download, ChevronDown, ArrowUpDown, Eye, X,
@@ -91,6 +91,16 @@ function classifySegment(l: Lead): Segment {
 /* ------------------------------------------------------------------ */
 
 function useLeads() {
+  const qc = useQueryClient();
+  useEffect(() => {
+    const ch = supabase
+      .channel(`crm-leads-${Math.random().toString(36).slice(2)}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "service_requests" }, () => {
+        qc.invalidateQueries({ queryKey: ["crm", "leads"] });
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [qc]);
   return useQuery({
     queryKey: ["crm", "leads"],
     queryFn: async () => {

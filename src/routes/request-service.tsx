@@ -107,7 +107,7 @@ type FormData = {
   category: CategoryKey | null;
   service: ServiceKey | null;
   details: Record<string, string>;
-  files: { name: string; size: number }[];
+  files: { file: File; name: string; size: number }[];
   schedule: { date: string; window: string; urgency: string; timeframe: string };
   info: {
     fullName: string; company: string; phone: string; email: string;
@@ -182,6 +182,24 @@ function RequestServicePage() {
     setSubmitError(null);
     try {
       const { supabase } = await import("@/integrations/supabase/client");
+
+      // 1. Upload any attached files to storage first.
+      let fileUrls: string[] = [];
+      if (data.files.length > 0) {
+        const folder = `anon/${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const uploaded: string[] = [];
+        for (const item of data.files) {
+          const safeName = item.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+          const path = `${folder}/${safeName}`;
+          const { error: upErr } = await supabase.storage
+            .from("service-request-uploads")
+            .upload(path, item.file, { contentType: item.file.type || undefined, upsert: false });
+          if (upErr) throw new Error(`Upload failed for ${item.name}: ${upErr.message}`);
+          uploaded.push(path);
+        }
+        fileUrls = uploaded;
+      }
+
       const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
       const payload = {
         category: data.category,
@@ -197,7 +215,7 @@ function RequestServicePage() {
         company: data.info.company || null,
         contact_method: data.info.contactMethod,
         message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
-        file_urls: [],
+        file_urls: fileUrls,
         utm_source: params?.get("utm_source"),
         utm_medium: params?.get("utm_medium"),
         utm_campaign: params?.get("utm_campaign"),
@@ -240,10 +258,26 @@ function RequestServicePage() {
     }
   }
 
+  const ALLOWED_TYPES = /^(image\/(png|jpe?g|webp|heic|gif)|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/i;
+  const MAX_FILE_BYTES = 10 * 1024 * 1024;
+  const MAX_FILES = 8;
+
   function onFiles(files: FileList | null) {
     if (!files) return;
-    const list = Array.from(files).map((f) => ({ name: f.name, size: f.size }));
-    setData((d) => ({ ...d, files: [...d.files, ...list] }));
+    const incoming = Array.from(files);
+    const rejected: string[] = [];
+    const accepted = incoming.filter((f) => {
+      if (f.size > MAX_FILE_BYTES) { rejected.push(`${f.name} (too large)`); return false; }
+      if (!ALLOWED_TYPES.test(f.type) && !/\.(pdf|docx?|png|jpe?g|webp|heic|gif)$/i.test(f.name)) {
+        rejected.push(`${f.name} (unsupported)`); return false;
+      }
+      return true;
+    });
+    if (rejected.length) setSubmitError(`Skipped: ${rejected.join(", ")}`);
+    setData((d) => {
+      const merged = [...d.files, ...accepted.map((file) => ({ file, name: file.name, size: file.size }))].slice(0, MAX_FILES);
+      return { ...d, files: merged };
+    });
   }
   function removeFile(i: number) {
     setData((d) => ({ ...d, files: d.files.filter((_, idx) => idx !== i) }));
@@ -591,7 +625,7 @@ function StepDetails({
   service: ServiceMeta | null;
   details: Record<string, string>;
   setDetail: (k: string, v: string) => void;
-  files: { name: string; size: number }[];
+  files: { file: File; name: string; size: number }[];
   onFiles: (f: FileList | null) => void;
   removeFile: (i: number) => void;
 }) {
