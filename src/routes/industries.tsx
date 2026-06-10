@@ -43,9 +43,9 @@ export const Route = createFileRoute("/industries")({
   head: () => ({
     meta: [
       { title: "Industries Served | CEVON’S Environmental Services Guyana" },
-      { name: "description", content: "CEVON’S serves commercial real estate, industrial facilities, healthcare, education, hospitality, construction, logistics, government, and municipal organizations across Guyana." },
-      { property: "og:title", content: "Industries Served | CEVON’S Environmental Services Guyana" },
-      { property: "og:description", content: "CEVON’S serves commercial real estate, industrial facilities, healthcare, education, hospitality, construction, logistics, government, and municipal organizations across Guyana." },
+      { name: "description", content: "CEVON'S serves commercial, industrial, healthcare, education, hospitality, construction, logistics, and government clients across Guyana." },
+      { property: "og:title", content: "Industries Served | CEVON'S Environmental Services Guyana" },
+      { property: "og:description", content: "CEVON'S serves commercial, industrial, healthcare, education, hospitality, construction, and government clients across Guyana." },
       { property: "og:url", content: "/industries" },
     ],
     links: [{ rel: "canonical", href: "/industries" }],

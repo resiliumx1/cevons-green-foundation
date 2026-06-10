@@ -10,9 +10,9 @@ import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd
 export const Route = createFileRoute("/locations")({
   head: () => ({
     meta: [
-      { title: "CEVON'S Locations | Waste Management in Georgetown, Linden & Berbice" },
+      { title: "CEVON'S Locations | Georgetown, Linden & Berbice" },
       { name: "description", content: "CEVON'S provides waste management and environmental services across Georgetown, Linden, and Berbice. Request service online or contact us by WhatsApp." },
-      { property: "og:title", content: "CEVON'S Locations | Waste Management in Georgetown, Linden & Berbice" },
+      { property: "og:title", content: "CEVON'S Locations | Georgetown, Linden & Berbice" },
       { property: "og:description", content: "CEVON'S provides waste management and environmental services across Georgetown, Linden, and Berbice." },
       { property: "og:url", content: "/locations" },
     ],

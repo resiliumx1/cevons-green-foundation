@@ -32,10 +32,10 @@ import imgOil from "@/assets/svc-oil.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About CEVON’S Environmental Services | Waste Management Guyana" },
-      { name: "description", content: "Learn about CEVON’S Environmental Services Inc., Guyana’s trusted partner for waste management, recycling, environmental services, and responsible waste solutions." },
-      { property: "og:title", content: "About CEVON’S Environmental Services | Waste Management Guyana" },
-      { property: "og:description", content: "Learn about CEVON’S Environmental Services Inc., Guyana’s trusted partner for waste management, recycling, and environmental services." },
+      { title: "About CEVON'S | Waste Management Guyana" },
+      { name: "description", content: "Learn about CEVON'S Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental solutions since 1997." },
+      { property: "og:title", content: "About CEVON'S | Waste Management Guyana" },
+      { property: "og:description", content: "Learn about CEVON'S Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental services." },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
