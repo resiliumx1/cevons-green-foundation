@@ -240,10 +240,26 @@ function RequestServicePage() {
     }
   }
 
+  const ALLOWED_TYPES = /^(image\/(png|jpe?g|webp|heic|gif)|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/i;
+  const MAX_FILE_BYTES = 10 * 1024 * 1024;
+  const MAX_FILES = 8;
+
   function onFiles(files: FileList | null) {
     if (!files) return;
-    const list = Array.from(files).map((f) => ({ name: f.name, size: f.size }));
-    setData((d) => ({ ...d, files: [...d.files, ...list] }));
+    const incoming = Array.from(files);
+    const rejected: string[] = [];
+    const accepted = incoming.filter((f) => {
+      if (f.size > MAX_FILE_BYTES) { rejected.push(`${f.name} (too large)`); return false; }
+      if (!ALLOWED_TYPES.test(f.type) && !/\.(pdf|docx?|png|jpe?g|webp|heic|gif)$/i.test(f.name)) {
+        rejected.push(`${f.name} (unsupported)`); return false;
+      }
+      return true;
+    });
+    if (rejected.length) setSubmitError(`Skipped: ${rejected.join(", ")}`);
+    setData((d) => {
+      const merged = [...d.files, ...accepted.map((file) => ({ file, name: file.name, size: file.size }))].slice(0, MAX_FILES);
+      return { ...d, files: merged };
+    });
   }
   function removeFile(i: number) {
     setData((d) => ({ ...d, files: d.files.filter((_, idx) => idx !== i) }));
