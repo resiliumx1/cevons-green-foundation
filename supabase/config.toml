@@ -1,1 +1,4 @@
 project_id = "lyxnsnbaxmygdhwmyitz"
+
+[functions.track-request]
+verify_jwt = false
