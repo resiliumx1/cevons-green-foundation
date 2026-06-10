@@ -377,7 +377,7 @@ function MarketingPage() {
                   </div>
                   <div className="mt-1 h-7 overflow-hidden rounded-md bg-white/[0.03]">
                     <div
-                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/40 to-[#FFD200]/40 px-2 text-[10px] text-white/80"
+                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/55 to-[#0FA34A]/55 px-2 text-[10px] text-white/90"
                       style={{ width: `${width}%` }}
                     />
                   </div>
