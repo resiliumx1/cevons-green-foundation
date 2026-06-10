@@ -70,7 +70,19 @@ function CrmRoot() {
 function CrmLayout() {
   const { theme } = useCrmTheme();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [collapsed, setCollapsed] = useState(false);
+  // Auto-collapse sidebar on tablet widths (768-1023) to free up content space.
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 1024;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onResize = () => {
+      if (window.innerWidth < 1024) setCollapsed(true);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { unreadByType, markTypeRead } = useNotifications();
 
