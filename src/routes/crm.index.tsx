@@ -89,7 +89,7 @@ function useDashboardData() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("service_requests")
-        .select("id, created_at, status, region, service, utm_source")
+        .select("id, created_at, status, region, service, utm_source, contact_method, estimated_value")
         .gte("created_at", lastMonthStart);
       if (error) throw error;
       return data ?? [];
@@ -108,54 +108,27 @@ function useDashboardData() {
     },
   });
 
-  const quotes = useQuery({
-    queryKey: ["dash", "quotes-open"],
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from("quotes")
-        .select("*", { count: "exact", head: true })
-        .in("status", ["draft", "sent"]);
-      if (error) throw error;
-      return count ?? 0;
-    },
-  });
-
-  const jobsScheduled = useQuery({
-    queryKey: ["dash", "jobs-scheduled"],
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from("jobs")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "scheduled")
-        .gte("scheduled_start", new Date().toISOString());
-      if (error) throw error;
-      return count ?? 0;
-    },
-  });
-
-  const invoices = useQuery({
-    queryKey: ["dash", "invoices-paid-6mo"],
+  const wonLeads = useQuery({
+    queryKey: ["dash", "won-leads-6mo"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("invoices")
-        .select("total, paid_date, status")
-        .eq("status", "paid")
-        .gte("paid_date", sixMonthsAgo.slice(0, 10));
+        .from("service_requests")
+        .select("estimated_value, created_at, status")
+        .eq("status", "won")
+        .gte("created_at", sixMonthsAgo);
       if (error) throw error;
       return data ?? [];
     },
   });
 
-  const upcoming = useQuery({
-    queryKey: ["dash", "upcoming"],
+  const recentLeads = useQuery({
+    queryKey: ["dash", "recent-leads"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("jobs")
-        .select("id, number, service, scheduled_start, status, region, address, customer_id, customers(name)")
-        .eq("status", "scheduled")
-        .gte("scheduled_start", new Date().toISOString())
-        .order("scheduled_start", { ascending: true })
-        .limit(5);
+        .from("service_requests")
+        .select("id, reference, name, service, region, status, created_at")
+        .order("created_at", { ascending: false })
+        .limit(6);
       if (error) throw error;
       return data ?? [];
     },
@@ -174,8 +147,9 @@ function useDashboardData() {
     },
   });
 
-  return { leads, allLeads, quotes, jobsScheduled, invoices, upcoming, activity, monthStart, nextMonthStart, lastMonthStart };
+  return { leads, allLeads, wonLeads, recentLeads, activity, monthStart, nextMonthStart, lastMonthStart };
 }
+
 
 /* ------------------------------------------------------------------ */
 /* UI building blocks                                                  */
