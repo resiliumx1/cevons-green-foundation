@@ -106,11 +106,20 @@ export function Footer() {
             <MapPin className="size-4 text-cevons-yellow" />
             Proudly serving Georgetown, Linden &amp; Berbice
           </p>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/60">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/60">
             <a href="#" className="hover:text-cevons-yellow">Privacy Policy</a>
             <a href="#" className="hover:text-cevons-yellow">Terms of Service</a>
             <a href="#" className="hover:text-cevons-yellow">Sitemap</a>
             <span>© {new Date().getFullYear()} CEVON&rsquo;S Environmental Services Inc.</span>
+            <Link
+              to="/crm/login"
+              aria-label="Admin login"
+              title="Admin"
+              className="group inline-flex items-center gap-1 text-white/40 hover:text-cevons-yellow transition-colors"
+            >
+              <ShieldCheck className="size-3.5" />
+              <span className="text-xs uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Admin</span>
+            </Link>
           </div>
         </div>
       </div>
