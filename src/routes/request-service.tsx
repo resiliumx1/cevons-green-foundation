@@ -172,19 +172,71 @@ function RequestServicePage() {
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
   async function submit() {
     if (!validate()) return;
-    // Demo submission only — future integration point for CRM sync.
-    console.log("CEVON'S service request submitted:", data);
-    if (data.newsletterOptIn && data.info.email) {
-      try {
-        const { subscribeEmail } = await import("@/components/NewsletterSignup");
-        await subscribeEmail(data.info.email, "request-form");
-      } catch {
-        // Non-blocking: never prevent submission on newsletter failure.
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const payload = {
+        category: data.category,
+        service: data.service,
+        customer_type: data.category,
+        details: data.details,
+        preferred_date: data.schedule.date || null,
+        preferred_time: data.schedule.window || null,
+        region: data.info.region || null,
+        name: data.info.fullName,
+        email: data.info.email || null,
+        phone: data.info.phone,
+        company: data.info.company || null,
+        contact_method: data.info.contactMethod,
+        message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
+        file_urls: [],
+        utm_source: params?.get("utm_source"),
+        utm_medium: params?.get("utm_medium"),
+        utm_campaign: params?.get("utm_campaign"),
+        utm_term: params?.get("utm_term"),
+        utm_content: params?.get("utm_content"),
+        referrer: typeof document !== "undefined" ? document.referrer || null : null,
+        landing_page: typeof window !== "undefined" ? window.location.pathname : null,
+      };
+      const { data: ref, error } = await supabase.rpc("submit_service_request", { payload });
+      if (error || !ref) throw error ?? new Error("Submission failed");
+
+      // Persist summary for the confirmation page (refresh-safe via sessionStorage).
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(`cev:req:${ref}`, JSON.stringify({
+          reference: ref,
+          name: data.info.fullName,
+          email: data.info.email,
+          phone: data.info.phone,
+          contact: data.info.email || data.info.phone,
+          service: selected?.name ?? data.service,
+          region: data.info.region,
+          preferred_date: data.schedule.date,
+          preferred_time: data.schedule.window,
+          address: data.info.address,
+        }));
       }
+
+      if (data.newsletterOptIn && data.info.email) {
+        try {
+          const { subscribeEmail } = await import("@/components/NewsletterSignup");
+          await subscribeEmail(data.info.email, "request-form");
+        } catch { /* non-blocking */ }
+      }
+      navigate({ to: "/request-service/confirmation", search: { ref } as any });
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err?.message ?? "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-    navigate({ to: "/request-service/confirmation" });
   }
 
   function onFiles(files: FileList | null) {
