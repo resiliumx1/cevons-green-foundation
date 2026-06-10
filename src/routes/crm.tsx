@@ -94,18 +94,46 @@ function CrmLayout() {
             ? pathname === item.to
             : pathname === item.to || pathname.startsWith(item.to + "/");
           const Icon = item.icon;
+          const count = item.notifType ? unreadByType[item.notifType] : 0;
           return (
             <Link
               key={item.to}
               to={item.to as "/crm"}
               onClick={() => setMobileOpen(false)}
               title={collapsed ? item.label : undefined}
-              className={`crm-nav-item flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+              className={`crm-nav-item relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                 active ? "is-active shadow-sm" : ""
               } ${collapsed ? "justify-center" : ""}`}
             >
-              <Icon className="h-[18px] w-[18px] shrink-0" />
-              {!collapsed && <span className="truncate">{item.label}</span>}
+              <span className="relative shrink-0">
+                <Icon className="h-[18px] w-[18px]" />
+                <AnimatePresence>
+                  {collapsed && count > 0 && (
+                    <motion.span
+                      key="dot"
+                      initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+                      className="absolute -top-1 -right-1 h-2 w-2 rounded-full"
+                      style={{ background: "var(--crm-primary, #c89b3c)" }}
+                    />
+                  )}
+                </AnimatePresence>
+              </span>
+              {!collapsed && <span className="truncate flex-1">{item.label}</span>}
+              <AnimatePresence>
+                {!collapsed && count > 0 && (
+                  <motion.span
+                    key="badge"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                    className="ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
+                    style={{ background: "var(--crm-primary, #c89b3c)", color: "#1a1a1a" }}
+                  >
+                    {count > 99 ? "99+" : count}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </Link>
           );
         })}
