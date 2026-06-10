@@ -355,7 +355,7 @@ function MarketingPage() {
                   <span className="text-white/70">{r.leads} <span className="text-white/40">({r.pct}%)</span></span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.05]">
-                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#FFD200]" style={{ width: `${r.pct}%` }} />
+                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A]" style={{ width: `${r.pct}%` }} />
                 </div>
               </div>
             ))}
