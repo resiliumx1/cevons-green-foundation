@@ -420,6 +420,9 @@ function MarketingPage() {
         </div>
       </div>
 
+      {/* UTM Link Builder */}
+      <UtmLinkBuilder />
+
       {/* Insights placeholder */}
       <div className="rounded-xl border border-white/[0.08] bg-gradient-to-br from-[#101820] to-[#0a1218] p-5">
         <div className="mb-4 flex items-center gap-2">
