@@ -531,7 +531,7 @@ function Dashboard() {
                   <YAxis stroke={CRM_AXIS} fontSize={11} tickLine={false} axisLine={false} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                   <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
 
-                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
+                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#0FA34A" }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
