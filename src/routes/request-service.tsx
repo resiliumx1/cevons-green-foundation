@@ -280,11 +280,16 @@ function RequestServicePage() {
         <div className="grid lg:grid-cols-[1fr_320px] gap-8">
           {/* Form */}
           <div>
-            <Stepper step={step} />
-            <div
-              key={step}
-              className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8 animate-fade-in motion-reduce:animate-none"
-            >
+            <Stepper step={step} onStepClick={(i) => i < step && setStep(i)} />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={step}
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -16 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
+              >
               {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} />}
               {step === 1 && <StepService data={data} setData={setData} error={errors.service} />}
               {step === 2 && (
