@@ -219,7 +219,7 @@ function RequestServicePage() {
         imageSrc="/assets/heroes/hero-request-service.webp"
         imageAlt="Customer requesting a CEVON’S service online"
         height="standard"
-        showLogoBadge
+        
       />
 
 
