@@ -88,15 +88,19 @@ export function HomeHero() {
               initial="hidden"
               animate="visible"
               custom={1}
-              className="mt-5 font-extrabold tracking-tight text-white"
-              style={{ fontSize: "clamp(2.4rem, 6vw, 5.5rem)", lineHeight: 0.98 }}
+              className="hero-heading mt-5"
+              style={{ fontSize: "clamp(2.4rem, 6vw, 5.5rem)" }}
             >
-              Cleaner Today.
-              <br />
-              <span className="text-[#22c55e]" style={{ textShadow: "0 0 30px rgba(34,197,94,.5)" }}>
-                Greener
-              </span>{" "}
-              Tomorrow.
+              <span className="hero-heading-line">Cleaner Today.</span>
+              <span className="hero-heading-line">
+                <span className="eco-word growth-flow" aria-label="Greener">
+                  Greener
+                  <span className="eco-leaf leaf-one" aria-hidden="true" />
+                  <span className="eco-leaf leaf-two" aria-hidden="true" />
+                  <span className="eco-leaf leaf-three" aria-hidden="true" />
+                </span>{" "}
+                Tomorrow.
+              </span>
             </motion.h1>
 
             <motion.p
@@ -104,11 +108,13 @@ export function HomeHero() {
               initial="hidden"
               animate="visible"
               custom={2}
-              className="mt-4 text-2xl md:text-3xl italic text-cevons-yellow"
-              style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive" }}
+              className="hero-script-line mt-4 text-2xl md:text-3xl"
             >
-              For Homes. For Businesses. For Guyana.
+              <span>For Homes.</span>
+              <span>For Businesses.</span>
+              <span className="for-guyana">For Guyana.</span>
             </motion.p>
+
 
             <motion.p
               variants={fadeUp}
