@@ -26,7 +26,7 @@ export const Route = createFileRoute("/crm/")({
 
 const SOURCE_COLORS: Record<string, string> = {
   Direct: "#64748b",
-  google_ads: "#FFD200",
+  google_ads: "#0FA34A",
   facebook: "#3b82f6",
   whatsapp: "#25D366",
   organic: "#006B35",
