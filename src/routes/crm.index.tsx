@@ -4,10 +4,11 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area,
 } from "recharts";
 import {
-  ArrowUpRight, ArrowDownRight, Users, CalendarCheck, FileText, DollarSign,
-  Calendar as CalendarIcon, Download, MoreHorizontal, Globe, MessageCircle, Phone, Megaphone, Facebook, UserPlus,
-  ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw,
+  ArrowUpRight, ArrowDownRight, Users, MessageCircle, Phone, DollarSign,
+  Calendar as CalendarIcon, Download, MoreHorizontal, Globe, Megaphone, Facebook, UserPlus,
+  ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw, TrendingUp, FileText,
 } from "lucide-react";
+
 import type { ReactNode, ComponentType } from "react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
