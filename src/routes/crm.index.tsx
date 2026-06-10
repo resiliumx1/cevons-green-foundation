@@ -474,7 +474,7 @@ function Dashboard() {
                     <Pie data={sources} dataKey="value" innerRadius={50} outerRadius={78} paddingAngle={2} stroke="none">
                       {sources.map((s) => <Cell key={s.name} fill={s.color} />)}
                     </Pie>
-                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number, _n, p: { payload?: { label?: string } }) => [v, p?.payload?.label ?? ""]} />
+                    <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()}`} labelFormatter={() => ""} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
