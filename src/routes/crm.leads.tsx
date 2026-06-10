@@ -423,8 +423,8 @@ function LeadsList() {
                         <td className="pl-4 pr-2 py-3" onClick={(e) => e.stopPropagation()}>
                           <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
                         </td>
-                        <td className="px-3 py-3">
-                          <Link to="/crm/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
+                        <td className="px-3 py-3 whitespace-nowrap">
+                          <Link to="/crm/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
                         </td>
                         <td className="px-3 py-3 text-white font-medium whitespace-nowrap">
                           {l.name ?? "—"}
