@@ -273,7 +273,7 @@ function MarketingPage() {
                   <Pie data={serviceData} dataKey="value" innerRadius={50} outerRadius={85} paddingAngle={2}>
                     {serviceData.map((s) => <Cell key={s.name} fill={s.color} />)}
                   </Pie>
-                  <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
+                  <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} labelFormatter={() => ""} />} wrapperStyle={{ zIndex: 50 }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
