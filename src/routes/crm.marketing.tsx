@@ -56,7 +56,7 @@ function MarketingPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("service_requests")
-        .select("id,status,service,region,utm_source,utm_medium,utm_campaign,contact_method,landing_page,customer_id,created_at")
+        .select("id,status,service,region,utm_source,utm_medium,utm_campaign,contact_method,landing_page,customer_id,estimated_value,created_at")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data || []) as SR[];
@@ -75,36 +75,11 @@ function MarketingPage() {
     },
   });
 
-  const invoicesQ = useQuery({
-    queryKey: ["marketing:invoices"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("invoices")
-        .select("id,status,total,customer_id,job_id")
-        .eq("status", "paid");
-      if (error) throw error;
-      return (data || []) as Pick<InvoiceRow, "id" | "status" | "total" | "customer_id" | "job_id">[];
-    },
-  });
-
-  const jobsQ = useQuery({
-    queryKey: ["marketing:jobs"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("jobs")
-        .select("id,service_request_id,customer_id");
-      if (error) throw error;
-      return (data || []) as Pick<JobRow, "id" | "service_request_id" | "customer_id">[];
-    },
-  });
-
-  const loading = requestsQ.isLoading || campaignsQ.isLoading || invoicesQ.isLoading || jobsQ.isLoading;
-  const errored = requestsQ.error || campaignsQ.error || invoicesQ.error || jobsQ.error;
+  const loading = requestsQ.isLoading || campaignsQ.isLoading;
+  const errored = requestsQ.error || campaignsQ.error;
 
   const requests = requestsQ.data || [];
   const campaigns = campaignsQ.data || [];
-  const invoices = invoicesQ.data || [];
-  const jobs = jobsQ.data || [];
 
   const totals = useMemo(() => {
     const total = requests.length;
@@ -114,18 +89,15 @@ function MarketingPage() {
     const totalCost = campaigns.reduce((s, c) => s + Number(c.cost || 0), 0);
     const cpl = total > 0 ? totalCost / total : 0;
 
-    // revenue from won leads (customer_id linked + invoice paid for that customer or job linked to that request)
-    const wonRequestIds = new Set(requests.filter((r) => r.status === "won").map((r) => r.id));
-    const wonCustomerIds = new Set(requests.filter((r) => r.status === "won" && r.customer_id).map((r) => r.customer_id!));
-    const jobIdsFromWon = new Set(jobs.filter((j) => j.service_request_id && wonRequestIds.has(j.service_request_id)).map((j) => j.id));
-    const revenue = invoices.reduce((sum, inv) => {
-      const match = (inv.customer_id && wonCustomerIds.has(inv.customer_id)) || (inv.job_id && jobIdsFromWon.has(inv.job_id));
-      return sum + (match ? Number(inv.total || 0) : 0);
-    }, 0);
+    // revenue from won leads using estimated_value (no invoices table dependency)
+    const wonLeads = requests.filter((r) => r.status === "won");
+    const revenue = wonLeads.reduce((s, r) => s + Number(r.estimated_value || 0), 0);
     const roi = totalCost > 0 ? revenue / totalCost : 0;
+    const conversionRate = total > 0 ? (wonLeads.length / total) * 100 : 0;
 
-    return { total, whatsapp, calls, website, totalCost, cpl, revenue, roi };
-  }, [requests, campaigns, invoices, jobs]);
+    return { total, whatsapp, calls, website, totalCost, cpl, revenue, roi, conversionRate, wonCount: wonLeads.length };
+  }, [requests, campaigns]);
+
 
   const channelData = useMemo(() => {
     const map = new Map<string, number>();
