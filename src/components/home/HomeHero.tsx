@@ -59,25 +59,14 @@ export function HomeHero() {
       {/* MAIN CONTENT GRID */}
       <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
         {/* LEFT — text column */}
-        <div className="max-w-2xl lg:col-span-7">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-cevons-green md:text-xs"
-          >
-            <Leaf className="size-4" />
-            One Partner. Total Solutions.
-          </motion.p>
-
+        <div className="max-w-2xl lg:col-span-7 pt-2 md:pt-4">
           <motion.h1
             id="home-hero-title"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={1}
-            className="hero-heading mt-3"
+            className="hero-heading"
             style={{ fontSize: "clamp(1.9rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
           >
             <span className="hero-heading-line">Cleaner Today.</span>
@@ -86,22 +75,14 @@ export function HomeHero() {
                 Greener
                 <span className="leaf-field" aria-hidden="true">
                   {[
-                    { x: "4%",  s: 14, d: 12, dl: -1,  op: 0.6,  c: "linear-gradient(135deg,#7BD389,#4CAF50 60%,#2E7D32)" },
-                    { x: "14%", s: 10, d: 14, dl: -5,  op: 0.45, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
-                    { x: "24%", s: 16, d: 11, dl: -8,  op: 0.55, c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#1F5130)" },
-                    { x: "34%", s:  9, d: 16, dl: -3,  op: 0.4,  c: "linear-gradient(135deg,#8FE89A,#2E7D32 60%,#1F5130)" },
-                    { x: "44%", s: 12, d: 13, dl: -10, op: 0.5,  c: "linear-gradient(135deg,#9CE89E,#4CAF50 60%,#2E7D32)" },
-                    { x: "54%", s: 15, d: 10, dl: -6,  op: 0.55, c: "linear-gradient(135deg,#FFE789,#F5C518 60%,#B8860B)", gold: true },
-                    { x: "62%", s:  8, d: 15, dl: -12, op: 0.35, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
-                    { x: "70%", s: 13, d: 12, dl: -2,  op: 0.5,  c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#2E7D32)" },
-                    { x: "78%", s: 11, d: 14, dl: -7,  op: 0.45, c: "linear-gradient(135deg,#7BD389,#2E7D32 60%,#1F5130)" },
-                    { x: "86%", s: 17, d: 11, dl: -4,  op: 0.55, c: "linear-gradient(135deg,#FFE789,#F5C518 60%,#B8860B)", gold: true },
-                    { x: "92%", s:  9, d: 13, dl: -9,  op: 0.4,  c: "linear-gradient(135deg,#9CE89E,#4CAF50 60%,#1F5130)" },
-                    { x: "50%", s: 12, d: 16, dl: -11, op: 0.45, c: "linear-gradient(135deg,#B6FF7A,#2E7D32 60%,#1F5130)" },
+                    { x: "8%",  s:  8, d: 18, dl: -2,  op: 0.28, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
+                    { x: "32%", s: 10, d: 16, dl: -7,  op: 0.32, c: "linear-gradient(135deg,#7BD389,#4CAF50 60%,#2E7D32)" },
+                    { x: "64%", s:  7, d: 20, dl: -4,  op: 0.25, c: "linear-gradient(135deg,#9CE89E,#2E7D32 60%,#1F5130)" },
+                    { x: "88%", s: 11, d: 17, dl: -11, op: 0.3,  c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#1F5130)" },
                   ].map((l, i) => (
                     <span
                       key={`lf-${i}`}
-                      className={`lf${l.gold ? " gold" : ""}`}
+                      className="lf"
                       style={{
                         ["--x" as any]: l.x,
                         ["--size" as any]: `${l.s}px`,
@@ -112,30 +93,12 @@ export function HomeHero() {
                       }}
                     />
                   ))}
-                  {[
-                    { x: "10%", y: "20%", d: 4.2, dl: -0.5 },
-                    { x: "28%", y: "60%", d: 5.1, dl: -2 },
-                    { x: "46%", y: "15%", d: 3.8, dl: -1.2 },
-                    { x: "60%", y: "70%", d: 4.6, dl: -3.1 },
-                    { x: "78%", y: "30%", d: 5.4, dl: -0.8 },
-                    { x: "90%", y: "55%", d: 4.0, dl: -2.6 },
-                  ].map((s, i) => (
-                    <span
-                      key={`sp-${i}`}
-                      className="sp"
-                      style={{
-                        ["--x" as any]: s.x,
-                        ["--y" as any]: s.y,
-                        ["--dur" as any]: `${s.d}s`,
-                        ["--delay" as any]: `${s.dl}s`,
-                      }}
-                    />
-                  ))}
                 </span>
               </span>{" "}
               Tomorrow.
             </span>
           </motion.h1>
+
 
           <motion.p
             variants={fadeUp}
