@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
-export const Route = createFileRoute("/request-service")({
+export const Route = createFileRoute("/request-service/")({
   head: () => ({
     meta: [
       { title: "Request a Service | CEVON'S Guyana" },
