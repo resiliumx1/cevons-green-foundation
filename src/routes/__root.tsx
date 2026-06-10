@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/NotFoundPage";
 import { SmoothScrollProvider } from "../components/motion/SmoothScroll";
+import { CurrencyProvider } from "../contexts/CurrencyContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
 
 
@@ -125,9 +126,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SmoothScrollProvider enabled={!isCrm}>
-        <Outlet />
-      </SmoothScrollProvider>
+      <CurrencyProvider>
+        <SmoothScrollProvider enabled={!isCrm}>
+          <Outlet />
+        </SmoothScrollProvider>
+      </CurrencyProvider>
     </QueryClientProvider>
   );
 }
