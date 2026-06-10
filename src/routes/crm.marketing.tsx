@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { UtmLinkBuilder } from "@/components/crm/UtmLinkBuilder";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -419,6 +420,9 @@ function MarketingPage() {
           </div>
         </div>
       </div>
+
+      {/* UTM Link Builder */}
+      <UtmLinkBuilder />
 
       {/* Insights placeholder */}
       <div className="rounded-xl border border-white/[0.08] bg-gradient-to-br from-[#101820] to-[#0a1218] p-5">
