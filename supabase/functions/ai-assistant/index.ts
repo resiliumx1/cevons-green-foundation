@@ -3,7 +3,7 @@
 //   - "public" → Cev (customer-facing site assistant)
 //   - "crm"    → Growth Command Assistant (internal CRM helper)
 //
-// Uses Lovable AI Gateway (anthropic/claude-haiku-4-5). LOVABLE_API_KEY
+// Uses Lovable AI Gateway (google/gemini-3-flash-preview). LOVABLE_API_KEY
 // is auto-provisioned in the Supabase secrets.
 
 const corsHeaders = {
@@ -125,7 +125,7 @@ Deno.serve(async (req) => {
         "Lovable-API-Key": key,
       },
       body: JSON.stringify({
-        model: "anthropic/claude-haiku-4-5",
+        model: "google/gemini-3-flash-preview",
         max_tokens: MAX_TOKENS,
         messages: [{ role: "system", content: system }, ...messages],
       }),
