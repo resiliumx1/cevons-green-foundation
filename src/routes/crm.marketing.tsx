@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { UtmLinkBuilder } from "@/components/crm/UtmLinkBuilder";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
