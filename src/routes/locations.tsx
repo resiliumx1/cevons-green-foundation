@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
+import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/locations")({
@@ -28,7 +29,7 @@ const regions: {
   phone: string;
   hours: string;
   services: string[];
-  pin: { top: string; left: string };
+  coords: [number, number];
 }[] = [
   {
     name: "Georgetown",
@@ -37,7 +38,7 @@ const regions: {
     phone: cevonsContact.regions[0].phones.join(" / "),
     hours: cevonsContact.regions[0].hours,
     services: cevonsContact.regions[0].services,
-    pin: { top: "70%", left: "32%" },
+    coords: [6.8013, -58.1551],
   },
   {
     name: "Linden",
@@ -46,7 +47,7 @@ const regions: {
     phone: cevonsContact.regions[1].phones.join(" / "),
     hours: cevonsContact.regions[1].hours,
     services: cevonsContact.regions[1].services,
-    pin: { top: "55%", left: "38%" },
+    coords: [6.0064, -58.3018],
   },
   {
     name: "Berbice",
@@ -55,9 +56,19 @@ const regions: {
     phone: cevonsContact.regions[2].phones.join(" / "),
     hours: cevonsContact.regions[2].hours,
     services: cevonsContact.regions[2].services,
-    pin: { top: "62%", left: "62%" },
+    coords: [6.2485, -57.5170],
   },
 ];
+
+const mapBranches: BranchPoint[] = regions.map((r) => ({
+  id: r.name,
+  name: r.name,
+  label: r.label,
+  lat: r.coords[0],
+  lng: r.coords[1],
+  phone: r.phone.split(" / ")[0],
+  hours: r.hours,
+}));
 
 const availability: { service: string; cells: Record<Region, "yes" | "contact"> }[] = [
   { service: "Garbage Collection", cells: { Georgetown: "yes", Linden: "yes", Berbice: "yes" } },
