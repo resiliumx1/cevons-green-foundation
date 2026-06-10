@@ -342,7 +342,7 @@ function ReportsPage() {
                 <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                <Line type="monotone" dataKey="v" name="Revenue" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} activeDot={{ r: 6, fill: "#006B35" }} />
+                <Line type="monotone" dataKey="v" name="Revenue" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#0FA34A" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
