@@ -214,7 +214,7 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-const TOOLTIP_STYLE = { background: "#0a1414", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#fff", fontSize: 12 };
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/crm/chartTheme";
 
 /* ------------------------------------------------------------------ */
 /* Activity icon mapping                                               */
@@ -474,7 +474,7 @@ function Dashboard() {
                     <Pie data={sources} dataKey="value" innerRadius={50} outerRadius={78} paddingAngle={2} stroke="none">
                       {sources.map((s) => <Cell key={s.name} fill={s.color} />)}
                     </Pie>
-                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number, _n, p: { payload?: { label?: string } }) => [v, p?.payload?.label ?? ""]} />
+                    <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()}`} labelFormatter={() => ""} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -524,10 +524,11 @@ function Dashboard() {
                       <stop offset="100%" stopColor="#006B35" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Won Value"]} />
+                  <CartesianGrid stroke={CRM_GRID} strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="d" stroke={CRM_AXIS} fontSize={11} tickLine={false} axisLine={false} tick={{ fill: CRM_AXIS }} />
+                  <YAxis stroke={CRM_AXIS} fontSize={11} tickLine={false} axisLine={false} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                  <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+
                   <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -580,7 +581,7 @@ function Dashboard() {
                     <Pie data={regions} dataKey="value" innerRadius={40} outerRadius={68} paddingAngle={2} stroke="none">
                       {regions.map((r) => <Cell key={r.name} fill={r.color} />)}
                     </Pie>
-                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()}`} labelFormatter={() => ""} />} wrapperStyle={{ zIndex: 50 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>

@@ -13,6 +13,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { UtmLinkBuilder } from "@/components/crm/UtmLinkBuilder";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR } from "@/components/crm/chartTheme";
 
 export const Route = createFileRoute("/crm/marketing")({
   head: () => ({ meta: [{ title: "Marketing Performance | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
@@ -249,10 +250,10 @@ function MarketingPage() {
             ) : (
               <ResponsiveContainer>
                 <BarChart data={channelData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                  <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                  <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                  <XAxis dataKey="name" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                  <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                  <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
                   <Bar dataKey="leads" fill="#FFD200" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -272,7 +273,7 @@ function MarketingPage() {
                   <Pie data={serviceData} dataKey="value" innerRadius={50} outerRadius={85} paddingAngle={2}>
                     {serviceData.map((s) => <Cell key={s.name} fill={s.color} />)}
                   </Pie>
-                  <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
+                  <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} labelFormatter={() => ""} />} wrapperStyle={{ zIndex: 50 }} />
                 </PieChart>
               </ResponsiveContainer>
             )}

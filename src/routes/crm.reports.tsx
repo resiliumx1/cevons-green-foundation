@@ -11,6 +11,7 @@ import {
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/crm/chartTheme";
 
 export const Route = createFileRoute("/crm/reports")({
   head: () => ({ meta: [{ title: "Reports | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
@@ -337,11 +338,11 @@ function ReportsPage() {
           {revenueTrend.length === 0 && !loading ? <Empty /> : (
             <ResponsiveContainer>
               <LineChart data={revenueTrend}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="m" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} formatter={(v: number) => `$${v.toLocaleString()}`} />
-                <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+                <Line type="monotone" dataKey="v" name="Revenue" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} activeDot={{ r: 6, fill: "#006B35" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -351,11 +352,11 @@ function ReportsPage() {
           {leadTrend.length === 0 && !loading ? <Empty /> : (
             <ResponsiveContainer>
               <LineChart data={leadTrend}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="m" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
-                <Line type="monotone" dataKey="v" stroke="#FFD200" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+                <Line type="monotone" dataKey="v" name="Leads" stroke="#FFD200" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#FFD200" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -424,11 +425,11 @@ function ReportsPage() {
           {servicesByVolume.length === 0 && !loading ? <Empty /> : (
             <ResponsiveContainer>
               <BarChart data={servicesByVolume} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis type="number" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.4)" fontSize={11} width={120} />
-                <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
-                <Bar dataKey="leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                <XAxis type="number" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <YAxis dataKey="name" type="category" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} width={120} />
+                <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+                <Bar dataKey="leads" name="Leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -439,11 +440,11 @@ function ReportsPage() {
         {servicesByRevenue.length === 0 && !loading ? <Empty /> : (
           <ResponsiveContainer>
             <BarChart data={servicesByRevenue}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-              <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-              <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} formatter={(v: number) => `$${v.toLocaleString()}`} />
-              <Bar dataKey="revenue" fill="#006B35" radius={[6, 6, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+              <XAxis dataKey="name" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+              <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+              <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+              <Bar dataKey="revenue" name="Revenue" fill="#006B35" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         )}
