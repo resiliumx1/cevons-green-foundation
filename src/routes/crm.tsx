@@ -170,14 +170,7 @@ function CrmLayout() {
 
           <div className="flex items-center gap-2 ml-auto">
             <CrmAssistant />
-            <button
-              className="relative h-9 w-9 grid place-items-center rounded-lg border"
-              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
-              aria-label="Notifications"
-            >
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full" style={{ background: "var(--crm-red)" }} />
-            </button>
+            <NotificationsBell />
             <button
               className="h-9 w-9 grid place-items-center rounded-lg border"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
