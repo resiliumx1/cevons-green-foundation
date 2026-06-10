@@ -126,12 +126,12 @@ function ReviewsPage() {
       </div>
 
       {/* Automation placeholder note */}
-      <div className="rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
+      <div className="rounded-xl border border-blue-400/30 bg-blue-500/10 p-4">
         <div className="flex items-start gap-3">
           <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-blue-300" />
           <div>
-            <p className="text-sm font-medium text-blue-200">Automated review requests coming soon</p>
-            <p className="mt-1 text-xs text-blue-200/70">
+            <p className="text-sm font-semibold text-white">Automated review requests coming soon</p>
+            <p className="mt-1 text-xs leading-relaxed text-white/80">
               Live Google/Facebook review sync and automated review request workflows will connect here when the GoHighLevel integration is enabled. For now, reviews are managed manually.
             </p>
           </div>
