@@ -607,7 +607,7 @@ function StepDetails({
   service: ServiceMeta | null;
   details: Record<string, string>;
   setDetail: (k: string, v: string) => void;
-  files: { name: string; size: number }[];
+  files: { file: File; name: string; size: number }[];
   onFiles: (f: FileList | null) => void;
   removeFile: (i: number) => void;
 }) {
