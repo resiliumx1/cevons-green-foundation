@@ -417,14 +417,14 @@ function Dashboard() {
                       <SkeletonBlock className="h-8 w-24 mt-1" />
                     ) : m.error ? (
                       <span className="text-red-400 text-base">—</span>
-                    ) : m.money ? (
-                      <><span>$</span><CountUp end={Math.round(m.value as number)} /></>
+                    ) : m.percent ? (
+                      <><CountUp end={Math.round(m.value as number)} /><span>%</span></>
                     ) : (
                       <CountUp end={m.value as number} />
                     )}
                   </div>
                   <div className="mt-2 min-h-[16px]">
-                    {!m.loading && !m.error && !m.noTrend && m.trend.change && (
+                    {!m.loading && !m.error && m.trend.change && (
                       <TrendPill up={m.trend.up} change={m.trend.change} />
                     )}
                   </div>
@@ -435,7 +435,7 @@ function Dashboard() {
               </div>
               <div className="h-12 mt-2 -mx-1">
                 <ResponsiveContainer>
-                  <AreaChart data={months.map((mo, idx) => ({ i: idx, v: m.money ? mo.v : Math.max(1, (m.value as number) * (0.4 + idx * 0.12)) }))}>
+                  <AreaChart data={months.map((mo, idx) => ({ i: idx, v: Math.max(1, (m.value as number) * (0.4 + idx * 0.12)) }))}>
                     <defs>
                       <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor={m.accent} stopOpacity={0.4} />
@@ -449,6 +449,7 @@ function Dashboard() {
             </Card>
           );
         })}
+
       </div>
 
       {/* Row: Leads by Source + Revenue */}
