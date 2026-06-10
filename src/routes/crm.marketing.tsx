@@ -25,7 +25,7 @@ type SR = Database["public"]["Tables"]["service_requests"]["Row"];
 
 
 const CHANNEL_OPTIONS = ["google_ads", "facebook", "whatsapp", "referral", "organic", "other"] as const;
-const PIE_COLORS = ["#FFD200", "#006B35", "#E31B23", "#3B82F6", "#A855F7", "#F97316", "#6B7280", "#22D3EE"];
+const PIE_COLORS = ["#006B35", "#0FA34A", "#14B8A6", "#3B82F6", "#A855F7", "#F97316", "#E31B23", "#6B7280"];
 
 function fmtMoney(n: number) {
   return `$${(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
