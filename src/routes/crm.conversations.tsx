@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { ContactMessagesInbox } from "@/components/crm/ContactMessagesInbox";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/crm/conversations")({
@@ -175,6 +176,9 @@ function ConversationsPage() {
           <span className="text-[#FFD200]/80">Live WhatsApp, SMS, and email sync arrives with the GoHighLevel integration. For now, log calls and messages here so the customer history stays complete.</span>
         </p>
       </div>
+
+      <ContactMessagesInbox />
+
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
         {/* threads list */}

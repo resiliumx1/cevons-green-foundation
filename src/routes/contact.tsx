@@ -18,6 +18,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
@@ -107,26 +108,9 @@ const branches = cevonsContact.regions.map((r) => ({
 
 function ContactPage() {
   const [mounted, setMounted] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    subject: "General Inquiry",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
   useEffect(() => setMounted(true), []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-  };
 
   return (
     <SiteLayout>
@@ -219,110 +203,10 @@ function ContactPage() {
                 </h2>
               </div>
 
-              <form onSubmit={handleSubmit} className={`mt-8 space-y-5 transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="fullName" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">
-                      Full Name
-                    </label>
-                    <input
-                      id="fullName"
-                      name="fullName"
-                      type="text"
-                      required
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      className="w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">
-                      Email Address
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      className="w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition"
-                    />
-                  </div>
-                </div>
+              <div className={`mt-8 transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+                <ContactForm />
+              </div>
 
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">
-                      Phone Number
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+592 ..."
-                      className="w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">
-                      Subject
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition appearance-none"
-                    >
-                      {subjects.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="How can we help you?"
-                    className="w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition resize-y"
-                  />
-                </div>
-
-                <div>
-                  <label className="flex items-center gap-3 rounded-xl border border-dashed border-[var(--cevons-border,#E5E7EB)] px-4 py-3 cursor-pointer hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors">
-                    <Upload className="size-5 text-[var(--cevons-muted,#64748B)]" />
-                    <span className="text-sm text-[var(--cevons-muted,#64748B)]">Upload attachment (optional)</span>
-                    <input type="file" className="sr-only" />
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn-base btn-green text-base px-7 py-3.5"
-                >
-                  <Send className="size-4" /> Send Message
-                </button>
-
-                {submitted && (
-                  <p className="text-sm font-medium text-[var(--cevons-deep-green,#006B35)] bg-[var(--cevons-deep-green,#006B35)]/10 rounded-lg px-4 py-3">
-                    Thank you! Your message has been received. We will get back to you soon.
-                  </p>
-                )}
-              </form>
             </div>
 
             {/* BRANCH INFO */}

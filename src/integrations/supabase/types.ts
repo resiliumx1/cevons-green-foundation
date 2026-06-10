@@ -88,6 +88,7 @@ export type Database = {
       }
       contact_messages: {
         Row: {
+          attachment_url: string | null
           created_at: string
           email: string
           id: string
@@ -95,6 +96,7 @@ export type Database = {
           message: string
           name: string
           phone: string | null
+          reference: string | null
           referrer: string | null
           status: string
           subject: string | null
@@ -105,6 +107,7 @@ export type Database = {
           utm_term: string | null
         }
         Insert: {
+          attachment_url?: string | null
           created_at?: string
           email: string
           id?: string
@@ -112,6 +115,7 @@ export type Database = {
           message: string
           name: string
           phone?: string | null
+          reference?: string | null
           referrer?: string | null
           status?: string
           subject?: string | null
@@ -122,6 +126,7 @@ export type Database = {
           utm_term?: string | null
         }
         Update: {
+          attachment_url?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -129,6 +134,7 @@ export type Database = {
           message?: string
           name?: string
           phone?: string | null
+          reference?: string | null
           referrer?: string | null
           status?: string
           subject?: string | null
@@ -669,6 +675,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_contact_message_reference: { Args: never; Returns: string }
       generate_request_reference: { Args: never; Returns: string }
       get_request_status: {
         Args: { _reference: string }
