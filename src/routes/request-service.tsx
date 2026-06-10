@@ -391,35 +391,89 @@ function RequestServicePage() {
 
 /* ---------------- Stepper ---------------- */
 
-function Stepper({ step }: { step: number }) {
-  const pct = Math.round((step / (STEPS.length - 1)) * 100);
+function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number) => void }) {
+  const current = STEPS[step];
+  const pct = (step / (STEPS.length - 1)) * 100;
+
   return (
     <div>
-      {/* Progress bar */}
-      <div className="mb-4 h-1.5 w-full rounded-full bg-border overflow-hidden">
-        <div
-          className="h-full bg-[#006B35] transition-all duration-500"
-          style={{ width: `${pct}%` }}
-          aria-hidden="true"
-        />
+      {/* Mobile: compact label + slim progress */}
+      <div className="md:hidden">
+        <div className="flex items-center justify-between text-sm">
+          <span className="font-semibold text-[var(--cevons-dark)]">
+            Step {step + 1} of {STEPS.length}
+          </span>
+          <span className="text-[#006B35] font-semibold">{current}</span>
+        </div>
+        <div className="mt-2 h-1.5 w-full rounded-full bg-border overflow-hidden">
+          <motion.div
+            className="h-full bg-[#006B35]"
+            initial={false}
+            animate={{ width: `${pct}%` }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          />
+        </div>
+        <div className="mt-3 flex items-center justify-center gap-1.5">
+          {STEPS.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              disabled={i > step}
+              onClick={() => onStepClick?.(i)}
+              aria-label={`Go to step ${i + 1}`}
+              className={cn(
+                "h-1.5 rounded-full transition-all",
+                i === step ? "w-6 bg-[#006B35]" : i < step ? "w-3 bg-[#006B35]/70 cursor-pointer" : "w-3 bg-border",
+              )}
+            />
+          ))}
+        </div>
       </div>
-      <ol className="flex items-center justify-between gap-2">
+
+      {/* Desktop: connected stepper */}
+      <ol className="hidden md:flex items-start justify-between gap-0 relative">
         {STEPS.map((label, i) => {
           const completed = i < step;
           const active = i === step;
+          const clickable = i < step && onStepClick;
           return (
-            <li key={label} className="flex-1 flex items-center gap-2 min-w-0">
-              <div className={cn(
-                "shrink-0 size-9 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-colors",
-                (completed || active) && "bg-[#006B35] border-[#006B35] text-white",
-                !completed && !active && "bg-card border-border text-muted-foreground",
-              )}>
-                {completed ? <Check className="size-4" /> : i + 1}
-              </div>
-              <span className={cn("text-xs md:text-sm truncate", active ? "text-foreground font-semibold" : "text-muted-foreground")}>
+            <li key={label} className="flex-1 flex flex-col items-center relative min-w-0">
+              {/* Connector to next step */}
+              {i < STEPS.length - 1 && (
+                <div className="absolute top-5 left-1/2 right-[-50%] h-[3px] bg-border -z-0 overflow-hidden rounded-full">
+                  <motion.div
+                    className="h-full bg-[#006B35] origin-left"
+                    initial={false}
+                    animate={{ scaleX: completed ? 1 : 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+                </div>
+              )}
+              <button
+                type="button"
+                disabled={!clickable}
+                onClick={() => clickable && onStepClick?.(i)}
+                aria-current={active ? "step" : undefined}
+                className={cn(
+                  "relative z-10 size-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all bg-card",
+                  completed && "bg-[#006B35] border-[#006B35] text-white hover:scale-110 cursor-pointer",
+                  active && "bg-[#006B35] border-[#006B35] text-white ring-4 ring-[#006B35]/20",
+                  !completed && !active && "border-border text-muted-foreground",
+                )}
+              >
+                {active && (
+                  <span className="absolute inset-0 rounded-full bg-[#006B35] opacity-40 animate-ping" aria-hidden />
+                )}
+                <span className="relative">{completed ? <Check className="size-4" /> : i + 1}</span>
+              </button>
+              <span
+                className={cn(
+                  "mt-2 text-[11px] lg:text-xs text-center leading-tight px-1 max-w-[88px] break-words",
+                  active ? "text-[var(--cevons-dark)] font-bold" : completed ? "text-[#006B35] font-semibold" : "text-muted-foreground",
+                )}
+              >
                 {label}
               </span>
-              {i < STEPS.length - 1 && <div className={cn("hidden md:block flex-1 h-px", completed ? "bg-[#006B35]" : "bg-border")} />}
             </li>
           );
         })}
