@@ -15,6 +15,7 @@ import { NotFoundPage } from "../components/NotFoundPage";
 import { SmoothScrollProvider } from "../components/motion/SmoothScroll";
 import { CurrencyProvider } from "../contexts/CurrencyContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
+import { ServiceAssistant } from "../components/chat/ServiceAssistant";
 
 
 function NotFoundComponent() {
@@ -129,6 +130,7 @@ function RootComponent() {
       <CurrencyProvider>
         <SmoothScrollProvider enabled={!isCrm}>
           <Outlet />
+          {!isCrm && <ServiceAssistant />}
         </SmoothScrollProvider>
       </CurrencyProvider>
     </QueryClientProvider>
