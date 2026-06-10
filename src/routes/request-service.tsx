@@ -861,6 +861,17 @@ function StepReview({
         <span className="text-sm">I confirm that the information provided is accurate.</span>
       </label>
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+
+      <label className="mt-4 flex items-start gap-3 cursor-pointer">
+        <Checkbox
+          checked={newsletterOptIn}
+          onCheckedChange={(v) => setNewsletterOptIn(!!v)}
+          className="mt-1"
+        />
+        <span className="text-sm text-muted-foreground">
+          Keep me updated with CEVON&rsquo;S news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
+        </span>
+      </label>
     </div>
   );
 }
