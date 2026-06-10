@@ -174,7 +174,7 @@ export function HomeHero() {
               ))}
             </div>
             <div className="text-sm">
-              <p className="font-bold text-white">1000+ Happy Clients</p>
+              <p className="font-bold text-white">5000+ Customers</p>
               <p className="text-white/70 text-xs md:text-sm">Across Georgetown, Linden &amp; Berbice</p>
               <div className="mt-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
                 {[0, 1, 2, 3, 4].map((i) => (
@@ -183,45 +183,45 @@ export function HomeHero() {
               </div>
             </div>
           </motion.div>
+
+          {/* STATS PILL — sits inside content column so flag wave below stays clear */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={6}
+            className="mt-5 rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
+            style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
+          >
+            <ul className="grid grid-cols-2 gap-y-2.5 md:flex md:items-center md:justify-between md:gap-3">
+              {stats.map(({ icon: Icon, value, label }, i) => (
+                <li
+                  key={label}
+                  className={
+                    "flex items-center gap-2.5 px-1.5 md:flex-1 md:justify-center " +
+                    (i > 0 ? "md:border-l md:border-white/15" : "")
+                  }
+                >
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-cevons-yellow/60 text-cevons-yellow">
+                    <Icon className="size-3.5" strokeWidth={2} />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-extrabold leading-tight text-white md:text-base">{value}</p>
+                    <p className="text-[10px] font-medium leading-tight text-white/75 md:text-[10.5px]">
+                      {label}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
 
-      {/* STATS PILL */}
-      <div className="container-cevons relative z-10 pb-4">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={6}
-          className="rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-5 py-3 backdrop-blur md:px-8 md:py-4"
-          style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
-        >
-          <ul className="grid grid-cols-2 gap-y-3 md:flex md:items-center md:justify-between md:gap-4">
-            {stats.map(({ icon: Icon, value, label }, i) => (
-              <li
-                key={label}
-                className={
-                  "flex items-center gap-3 px-2 md:flex-1 md:justify-center " +
-                  (i > 0 ? "md:border-l md:border-white/15" : "")
-                }
-              >
-                <span className="grid size-9 shrink-0 place-items-center rounded-full border border-cevons-yellow/60 text-cevons-yellow">
-                  <Icon className="size-4" strokeWidth={2} />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-base font-extrabold leading-tight text-white md:text-lg">{value}</p>
-                  <p className="text-[10.5px] font-medium leading-tight text-white/75 md:text-[11px]">
-                    {label}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      </div>
+
 
       {/* Flag wave accent — animated tri-color silk ribbons */}
       <div
