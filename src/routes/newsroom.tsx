@@ -237,7 +237,7 @@ function NewsroomPage() {
             environmental services company.
           </p>
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <WaveDivider variant="breeze" />
       </section>
 
       {/* IN THE NEWS */}
