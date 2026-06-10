@@ -156,17 +156,13 @@ function ContactPage() {
               <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">Contact</li>
             </ol>
           </nav>
-          <div className={`mb-3 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-            <span className="inline-flex items-center justify-center size-14 md:size-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
-              <CevonsIcon group="ui" name="contactSupport" size="md" decorative priority />
-            </span>
-          </div>
-          <h1 id="contact-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <h1 id="contact-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Get in Touch
           </h1>
-          <p className={`mt-3 text-white/85 text-base md:text-lg max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <p className={`mt-4 text-white/85 text-base md:text-lg max-w-2xl transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             We&rsquo;re here to help. Reach out — we typically respond the same business day.
           </p>
+
         </div>
         <div className="brand-ribbon" aria-hidden="true" />
       </section>
