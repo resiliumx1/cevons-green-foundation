@@ -449,6 +449,38 @@ export type Database = {
         }
         Relationships: []
       }
+      request_status_events: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          request_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          request_id: string
+          status: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          request_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_status_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           body: string | null
@@ -637,6 +669,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_request_reference: { Args: never; Returns: string }
       get_request_status: {
         Args: { _reference: string }
         Returns: {
