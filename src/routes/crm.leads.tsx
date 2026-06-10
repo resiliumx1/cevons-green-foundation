@@ -190,9 +190,30 @@ function LeadsList() {
     [leads],
   );
 
+  const [segment, setSegment] = useState<SegmentFilter>("all");
+
+  const withSegments = useMemo(
+    () => leads.map((l) => ({ lead: l, segment: classifySegment(l) })),
+    [leads],
+  );
+
+  const segmentStats = useMemo(() => {
+    const init = (): { count: number; value: number } => ({ count: 0, value: 0 });
+    const stats: Record<SegmentFilter, { count: number; value: number }> = {
+      all: init(), residential: init(), commercial: init(), industrial: init(), specialty: init(),
+    };
+    withSegments.forEach(({ lead, segment: seg }) => {
+      const v = Number(lead.estimated_value ?? 0);
+      stats.all.count++; stats.all.value += v;
+      stats[seg].count++; stats[seg].value += v;
+    });
+    return stats;
+  }, [withSegments]);
+
   const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const filtered = leads.filter((l) => {
+    const filtered = withSegments.filter(({ lead: l, segment: seg }) => {
+      if (segment !== "all" && seg !== segment) return false;
       if (statusFilter && l.status !== statusFilter) return false;
       if (regionFilter && l.region !== regionFilter) return false;
       if (sourceFilter) {
@@ -204,14 +225,14 @@ function LeadsList() {
         if (!hay.includes(term)) return false;
       }
       return true;
-    });
+    }).map((x) => x.lead);
     filtered.sort((a, b) => {
       const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : Number(a.estimated_value ?? 0);
       const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : Number(b.estimated_value ?? 0);
       return sortDir === "asc" ? av - bv : bv - av;
     });
     return filtered;
-  }, [leads, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
+  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
 
   const allChecked = visible.length > 0 && visible.every((l) => selected.has(l.id));
   const previewLead = leads.find((l) => l.id === previewId) ?? null;
