@@ -107,7 +107,7 @@ type FormData = {
   category: CategoryKey | null;
   service: ServiceKey | null;
   details: Record<string, string>;
-  files: { name: string; size: number }[];
+  files: { file: File; name: string; size: number }[];
   schedule: { date: string; window: string; urgency: string; timeframe: string };
   info: {
     fullName: string; company: string; phone: string; email: string;
