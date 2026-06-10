@@ -4,10 +4,11 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area,
 } from "recharts";
 import {
-  ArrowUpRight, ArrowDownRight, Users, MessageCircle, Phone, DollarSign,
+  ArrowUpRight, ArrowDownRight, Users, MessageCircle, Phone,
   Calendar as CalendarIcon, Download, MoreHorizontal, Globe, Megaphone, Facebook, UserPlus,
   ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw, TrendingUp, FileText,
 } from "lucide-react";
+
 
 import type { ReactNode, ComponentType } from "react";
 
