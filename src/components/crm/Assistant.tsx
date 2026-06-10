@@ -291,7 +291,7 @@ function botResponse(intent: Intent): Message {
         role: "bot",
         text:
           "Quote checklists by service type:\n\n— Dumpster / Skip Bin —\n• Waste type\n• Container size or estimated volume\n• Rental duration\n• Delivery / pickup dates\n• Location\n• Site access\n\n— Industrial / Specialized —\n• Waste type\n• Quantity\n• Source\n• Safety documents (SDS)\n• Photos\n• Location\n• Urgency\n• Documentation needs",
-        actions: [{ kind: "link", label: "Open Quotes", to: "/crm/quotes" }],
+        actions: [{ kind: "link", label: "Open Leads", to: "/crm/leads" }],
       };
 
     case "explain_services":
