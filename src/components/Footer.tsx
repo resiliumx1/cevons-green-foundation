@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import logo from "@/assets/cevons-logo.png";
+import logo from "@/assets/cevons-logo-transparent.png";
 import { WhatsApp } from "./icons/WhatsApp";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { NewsletterSignup } from "./NewsletterSignup";
@@ -27,12 +27,12 @@ export function Footer() {
       <div className="container-cevons py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
           <div className="lg:col-span-2">
-            <div className="inline-flex items-center rounded-xl bg-white/8 ring-1 ring-white/15 backdrop-blur-sm px-3 py-2">
+            <div className="inline-flex items-center">
               <img
                 src={logo}
                 alt="CEVON'S Environmental Services logo"
-                className="h-10 w-auto"
-                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}
+                className="h-14 w-auto"
+                style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}
               />
             </div>
             <p className="mt-5 text-white/75 text-sm leading-relaxed max-w-sm">
