@@ -392,7 +392,9 @@ function Dashboard() {
         <div className="flex items-center gap-2">
           <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20">
             <CalendarIcon className="h-4 w-4 text-slate-400" />
-            {now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            <ClientOnly fallback={<span className="opacity-0">January 1, 2026</span>}>
+              {() => now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            </ClientOnly>
           </button>
           <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Download className="h-4 w-4" /> Export
