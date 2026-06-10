@@ -18,7 +18,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
-const heroContact = "/assets/heroes/hero-contact.webp";
+
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
@@ -132,28 +132,40 @@ function ContactPage() {
     <SiteLayout>
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="contact-h1">
-        <div className="absolute inset-0">
-          <img src={heroContact} alt="CEVON’S customer support representative" className="size-full object-cover" width={1920} height={800} loading="eager" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
-        </div>
-        <div className="container-cevons relative min-h-[280px] md:min-h-[360px] flex flex-col justify-center py-16 md:py-20">
-          <nav aria-label="Breadcrumb" className="mb-5">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, var(--cevons-deep-green,#006B35) 0%, #014a25 55%, #002f17 100%)",
+          }}
+        />
+        {/* Subtle radial accent */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-60"
+          style={{
+            background:
+              "radial-gradient(60% 80% at 85% 10%, rgba(245,197,24,0.18), transparent 60%), radial-gradient(50% 70% at 10% 100%, rgba(255,255,255,0.06), transparent 60%)",
+          }}
+        />
+        <div className="container-cevons relative min-h-[240px] md:min-h-[300px] flex flex-col justify-center py-12 md:py-16">
+          <nav aria-label="Breadcrumb" className="mb-4">
             <ol className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
               <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FFD200)] transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
               <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">Contact</li>
             </ol>
           </nav>
-          <div className={`mb-4 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-            <span className="inline-flex items-center justify-center size-16 md:size-20 rounded-2xl bg-white/10 border border-white/25 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
+          <div className={`mb-3 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
+            <span className="inline-flex items-center justify-center size-14 md:size-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
               <CevonsIcon group="ui" name="contactSupport" size="md" decorative priority />
             </span>
           </div>
           <h1 id="contact-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Get in Touch
           </h1>
-          <p className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            We’re here to help. Reach out to us today.
+          <p className={`mt-3 text-white/85 text-base md:text-lg max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            We&rsquo;re here to help. Reach out — we typically respond the same business day.
           </p>
         </div>
         <div className="brand-ribbon" aria-hidden="true" />

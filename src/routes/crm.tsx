@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -11,21 +11,31 @@ import {
   Star,
   Settings,
   Search,
-  HelpCircle,
   PanelLeftClose,
   PanelLeftOpen,
   Menu,
   X,
   Globe,
+  LogOut,
+  UserCircle,
 } from "lucide-react";
 
-import logo from "@/assets/cevons-logo.png";
+import logo from "@/assets/cevons-logo-transparent.png";
 import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
@@ -80,10 +90,14 @@ function CrmLayout() {
       {/* Brand lockup */}
       <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center px-2" : ""}`}>
         <div
-          className="h-11 w-11 shrink-0 rounded-xl bg-white grid place-items-center overflow-hidden ring-1 ring-white/15"
-          style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(245,197,24,0.18)" }}
+          className="h-11 w-11 shrink-0 grid place-items-center"
         >
-          <img src={logo} alt="CEVON'S" className="h-8 w-8 object-contain" />
+          <img
+            src={logo}
+            alt="CEVON'S"
+            className="h-11 w-11 object-contain"
+            style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.4))" }}
+          />
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
@@ -264,13 +278,6 @@ function CrmLayout() {
           <div className="flex items-center gap-2 ml-auto">
             <CrmAssistant />
             <NotificationsBell />
-            <button
-              className="h-9 w-9 grid place-items-center rounded-lg border"
-              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
-              aria-label="Help"
-            >
-              <HelpCircle className="h-4 w-4" />
-            </button>
             <Link
               to="/"
               className="hidden sm:grid h-9 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
@@ -280,16 +287,7 @@ function CrmLayout() {
               <Globe className="h-4 w-4 mr-1.5" />
               <span>Back to site</span>
             </Link>
-            <div className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l" style={{ borderColor: "var(--crm-border)" }}>
-              <div className="text-right leading-tight">
-                <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
-                <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
-              </div>
-              <div className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
-                   style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}>
-                R
-              </div>
-            </div>
+            <ProfileMenu />
           </div>
         </header>
 
@@ -322,5 +320,65 @@ function CrmLayout() {
         </nav>
       </div>
     </div>
+  );
+}
+
+function ProfileMenu() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // FUTURE INTEGRATION: await supabase.auth.signOut()
+    try {
+      localStorage.removeItem("crm-assistant-session");
+    } catch {}
+    toast.success("Signed out");
+    navigate({ to: "/crm/login" });
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
+          style={{ borderColor: "var(--crm-border)", ["--tw-ring-color" as never]: "var(--crm-primary)" }}
+          aria-label="Open account menu"
+        >
+          <div className="text-right leading-tight">
+            <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
+            <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
+          </div>
+          <div
+            className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
+            style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
+          >
+            R
+          </div>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" sideOffset={8} className="w-56">
+        <DropdownMenuLabel className="flex flex-col gap-0.5">
+          <span className="text-sm font-semibold">Romina Singh</span>
+          <span className="text-[11px] font-normal text-muted-foreground">romina@cevons.gy</span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => toast("Profile coming soon")}>
+          <UserCircle className="h-4 w-4 mr-2" />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => navigate({ to: "/crm/settings" })}>
+          <Settings className="h-4 w-4 mr-2" />
+          Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onSelect={handleLogout}
+          className="text-red-600 focus:text-red-600 focus:bg-red-50"
+        >
+          <LogOut className="h-4 w-4 mr-2" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

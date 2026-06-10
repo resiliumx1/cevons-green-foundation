@@ -502,8 +502,9 @@ export function CrmAssistant() {
 
       {open && (
         <>
+          {/* Mobile-only backdrop so tap-outside closes the full-screen drawer */}
           <div
-            className="fixed inset-0 z-[70] bg-black/30"
+            className="fixed inset-0 z-[70] md:hidden"
             onClick={() => setOpen(false)}
             aria-hidden
           />
@@ -511,13 +512,14 @@ export function CrmAssistant() {
             role="dialog"
             aria-modal="true"
             aria-label="Growth Command Assistant"
-            className="crm-assistant-drawer fixed z-[80] flex flex-col shadow-2xl overflow-hidden
+            className="crm-assistant-drawer fixed z-[80] flex flex-col overflow-hidden
                        inset-x-0 bottom-0 top-0 md:inset-auto md:top-0 md:bottom-0 md:right-0
                        md:w-[440px] md:max-w-[95vw] border-l"
             style={{
               background: "var(--crm-surface)",
               borderColor: "var(--crm-border)",
               color: "var(--crm-text)",
+              boxShadow: "-24px 0 60px -20px rgba(0,0,0,0.25), -8px 0 18px -8px rgba(0,0,0,0.15)",
             }}
           >
             <header

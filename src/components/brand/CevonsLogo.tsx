@@ -1,4 +1,4 @@
-import logoMark from "@/assets/cevons-logo.png";
+import logoMark from "@/assets/cevons-logo-transparent.png";
 
 type Variant = "full" | "mark";
 type Size = "sm" | "md" | "lg" | "xl";

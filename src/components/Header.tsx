@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Calendar, ChevronDown, Menu, X } from "lucide-react";
-import logo from "@/assets/cevons-logo.png";
+import logo from "@/assets/cevons-logo-transparent.png";
 import { WhatsApp } from "./icons/WhatsApp";
 import { CurrencyToggle } from "./CurrencyToggle";
 
