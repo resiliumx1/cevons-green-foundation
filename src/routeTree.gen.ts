@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as RequestServiceRouteImport } from './routes/request-service'
 import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
@@ -20,6 +19,7 @@ import { Route as CrmRouteImport } from './routes/crm'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
 import { Route as CrmIndexRouteImport } from './routes/crm.index'
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used-waste-oil'
@@ -64,11 +64,6 @@ const ResourcesRoute = ResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RequestServiceRoute = RequestServiceRouteImport.update({
-  id: '/request-service',
-  path: '/request-service',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NewsroomRoute = NewsroomRouteImport.update({
   id: '/newsroom',
   path: '/newsroom',
@@ -102,6 +97,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
+  id: '/request-service/',
+  path: '/request-service/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrmIndexRoute = CrmIndexRouteImport.update({
@@ -206,9 +206,9 @@ const ServicesBiohazardousDisposalRoute =
   } as any)
 const RequestServiceConfirmationRoute =
   RequestServiceConfirmationRouteImport.update({
-    id: '/confirmation',
-    path: '/confirmation',
-    getParentRoute: () => RequestServiceRoute,
+    id: '/request-service/confirmation',
+    path: '/request-service/confirmation',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const CrmSettingsRoute = CrmSettingsRouteImport.update({
   id: '/settings',
@@ -264,7 +264,6 @@ export interface FileRoutesByFullPath {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/newsroom': typeof NewsroomRoute
-  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
@@ -295,6 +294,7 @@ export interface FileRoutesByFullPath {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm/': typeof CrmIndexRoute
+  '/request-service/': typeof RequestServiceIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRoutesByTo {
@@ -304,7 +304,6 @@ export interface FileRoutesByTo {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/newsroom': typeof NewsroomRoute
-  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
@@ -335,6 +334,7 @@ export interface FileRoutesByTo {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm': typeof CrmIndexRoute
+  '/request-service': typeof RequestServiceIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRoutesById {
@@ -346,7 +346,6 @@ export interface FileRoutesById {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/newsroom': typeof NewsroomRoute
-  '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
@@ -377,6 +376,7 @@ export interface FileRoutesById {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm/': typeof CrmIndexRoute
+  '/request-service/': typeof RequestServiceIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRouteTypes {
@@ -389,7 +389,6 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/newsroom'
-    | '/request-service'
     | '/resources'
     | '/services'
     | '/track-request'
@@ -420,6 +419,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/crm/'
+    | '/request-service/'
     | '/crm/leads/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -429,7 +429,6 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/newsroom'
-    | '/request-service'
     | '/resources'
     | '/services'
     | '/track-request'
@@ -460,6 +459,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/crm'
+    | '/request-service'
     | '/crm/leads/$id'
   id:
     | '__root__'
@@ -470,7 +470,6 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/newsroom'
-    | '/request-service'
     | '/resources'
     | '/services'
     | '/track-request'
@@ -501,6 +500,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/crm/'
+    | '/request-service/'
     | '/crm/leads/$id'
   fileRoutesById: FileRoutesById
 }
@@ -512,10 +512,11 @@ export interface RootRouteChildren {
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
   NewsroomRoute: typeof NewsroomRoute
-  RequestServiceRoute: typeof RequestServiceRouteWithChildren
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   TrackRequestRoute: typeof TrackRequestRoute
+  RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
+  RequestServiceIndexRoute: typeof RequestServiceIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -539,13 +540,6 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/request-service': {
-      id: '/request-service'
-      path: '/request-service'
-      fullPath: '/request-service'
-      preLoaderRoute: typeof RequestServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/newsroom': {
@@ -595,6 +589,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-service/': {
+      id: '/request-service/'
+      path: '/request-service'
+      fullPath: '/request-service/'
+      preLoaderRoute: typeof RequestServiceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crm/': {
@@ -725,10 +726,10 @@ declare module '@tanstack/react-router' {
     }
     '/request-service/confirmation': {
       id: '/request-service/confirmation'
-      path: '/confirmation'
+      path: '/request-service/confirmation'
       fullPath: '/request-service/confirmation'
       preLoaderRoute: typeof RequestServiceConfirmationRouteImport
-      parentRoute: typeof RequestServiceRoute
+      parentRoute: typeof rootRouteImport
     }
     '/crm/settings': {
       id: '/crm/settings'
@@ -834,18 +835,6 @@ const CrmRouteChildren: CrmRouteChildren = {
 
 const CrmRouteWithChildren = CrmRoute._addFileChildren(CrmRouteChildren)
 
-interface RequestServiceRouteChildren {
-  RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
-}
-
-const RequestServiceRouteChildren: RequestServiceRouteChildren = {
-  RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
-}
-
-const RequestServiceRouteWithChildren = RequestServiceRoute._addFileChildren(
-  RequestServiceRouteChildren,
-)
-
 interface ServicesRouteChildren {
   ServicesBiohazardousDisposalRoute: typeof ServicesBiohazardousDisposalRoute
   ServicesContaminatedSoilRoute: typeof ServicesContaminatedSoilRoute
@@ -898,11 +887,22 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
   NewsroomRoute: NewsroomRoute,
-  RequestServiceRoute: RequestServiceRouteWithChildren,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   TrackRequestRoute: TrackRequestRoute,
+  RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
+  RequestServiceIndexRoute: RequestServiceIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
