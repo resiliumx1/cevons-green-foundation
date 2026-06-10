@@ -852,44 +852,41 @@
 /* Ambient falling-leaf field around "Greener" */
 .leaf-field {
   position: absolute;
-  inset: -0.5em -0.4em -1.6em -0.4em;
+  inset: -0.3em -0.2em -0.6em -0.2em;
   pointer-events: none;
   overflow: visible;
-  z-index: 0;
+  z-index: -1;
 }
 .lf {
   position: absolute;
   top: 0;
   left: var(--x, 50%);
-  width: var(--size, 12px);
-  height: calc(var(--size, 12px) * 1.6);
+  width: var(--size, 10px);
+  height: calc(var(--size, 10px) * 1.6);
   border-radius: 100% 0 100% 0;
   opacity: 0;
   transform-origin: 50% 30%;
-  filter: drop-shadow(0 0 4px rgba(46, 125, 50, 0.3));
-  animation: leafFall var(--dur, 12s) cubic-bezier(.45,.05,.55,.95) infinite;
+  filter: drop-shadow(0 0 3px rgba(46, 125, 50, 0.25));
+  animation: leafFall var(--dur, 16s) cubic-bezier(.45,.05,.55,.95) infinite;
   animation-delay: var(--delay, 0s);
   will-change: transform, opacity;
-}
-.lf.gold {
-  filter: drop-shadow(0 0 5px rgba(245, 197, 24, 0.4));
 }
 .lf::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 48%, rgba(0,0,0,.22) 50%, transparent 52%);
+  background: linear-gradient(to bottom, transparent 48%, rgba(0,0,0,.18) 50%, transparent 52%);
   border-radius: inherit;
   pointer-events: none;
 }
 @keyframes leafFall {
-  0%   { transform: translate3d(0, -130%, 0) rotate(-20deg); opacity: 0; }
-  10%  { opacity: var(--op, 0.55); }
-  25%  { transform: translate3d(22px, -30%, 0) rotate(0deg); }
-  50%  { transform: translate3d(-18px, 35%, 0) rotate(20deg); opacity: var(--op, 0.55); }
-  75%  { transform: translate3d(26px, 90%, 0) rotate(35deg); opacity: calc(var(--op, 0.55) * 0.75); }
-  100% { transform: translate3d(-12px, 160%, 0) rotate(50deg); opacity: 0; }
+  0%   { transform: translate3d(0, -40%, 0) rotate(-12deg); opacity: 0; }
+  15%  { opacity: var(--op, 0.3); }
+  50%  { transform: translate3d(-6px, 20%, 0) rotate(8deg); opacity: var(--op, 0.3); }
+  85%  { transform: translate3d(8px, 55%, 0) rotate(18deg); opacity: calc(var(--op, 0.3) * 0.7); }
+  100% { transform: translate3d(-4px, 80%, 0) rotate(24deg); opacity: 0; }
 }
+
 
 .sp {
   position: absolute;
