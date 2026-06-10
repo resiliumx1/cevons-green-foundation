@@ -438,10 +438,10 @@
 }
 [data-crm-theme] .crm-bottom-nav::-webkit-scrollbar { display: none; }
 [data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] {
-  color: #FFD200 !important;
-  font-weight: 600;
+  color: #006B35 !important;
+  font-weight: 700;
 }
-[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #FFD200 !important; }
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #F5C518 !important; }
 [data-crm-theme] .crm-nav-item {
   color: var(--crm-sidebar-text) !important;
   background-color: transparent !important;
@@ -455,6 +455,13 @@
   font-weight: 600;
 }
 [data-crm-theme] .crm-nav-item.is-active svg { color: #F5C518 !important; }
+/* Sunset has a light sidebar — active label must be dark green, not white */
+[data-crm-theme="sunset"] .crm-nav-item.is-active { color: #003F27 !important; }
+[data-crm-theme="sunset"] .crm-nav-item:hover:not(.is-active) {
+  background-color: rgba(0, 107, 53, 0.08) !important;
+  color: #003F27 !important;
+}
+[data-crm-theme="sunset"] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #006B35 !important; }
 
 /* Re-map legacy dark CRM page utility classes to themed surfaces */
 [data-crm-theme] .bg-\[\#101820\],
