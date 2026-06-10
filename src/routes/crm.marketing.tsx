@@ -158,20 +158,15 @@ function MarketingPage() {
         ? requests.filter((r) => (r.utm_campaign || "").toLowerCase() === utm)
         : [];
       const leads = matched.length;
-      const reqIds = new Set(matched.map((r) => r.id));
-      const custIds = new Set(matched.map((r) => r.customer_id).filter(Boolean) as string[]);
-      const linkedJobs = jobs.filter((j) => (j.service_request_id && reqIds.has(j.service_request_id)) || (j.customer_id && custIds.has(j.customer_id!)));
-      const jobIdSet = new Set(linkedJobs.map((j) => j.id));
-      const revenue = invoices.reduce((s, inv) => {
-        const m = (inv.job_id && jobIdSet.has(inv.job_id)) || (inv.customer_id && custIds.has(inv.customer_id));
-        return s + (m ? Number(inv.total || 0) : 0);
-      }, 0);
+      const wonLeads = matched.filter((r) => r.status === "won");
+      const revenue = wonLeads.reduce((s, r) => s + Number(r.estimated_value || 0), 0);
       const cost = Number(c.cost || 0);
       const cpl = leads > 0 ? cost / leads : 0;
       const roi = cost > 0 ? revenue / cost : 0;
-      return { ...c, leads, jobs: linkedJobs.length, revenue, cpl, roi };
+      return { ...c, leads, won: wonLeads.length, revenue, cpl, roi };
     });
-  }, [campaigns, requests, jobs, invoices]);
+  }, [campaigns, requests]);
+
 
   const deleteMut = useMutation({
     mutationFn: async (id: string) => {
