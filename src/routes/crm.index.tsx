@@ -559,7 +559,7 @@ function Dashboard() {
                     <span className="text-slate-400 tabular-nums">{s.count}</span>
                   </div>
                   <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#FFD200] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
                   </div>
                 </div>
               ))}
