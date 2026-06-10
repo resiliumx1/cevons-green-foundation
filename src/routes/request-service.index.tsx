@@ -306,8 +306,9 @@ function RequestServicePage() {
         imageSrc="/assets/heroes/hero-request-service.webp"
         imageAlt="Customer requesting a CEVON’S service online"
         height="standard"
-        
+        waveVariant="minimal"
       />
+
 
 
       <section className="container mx-auto px-4 py-10 md:py-14">

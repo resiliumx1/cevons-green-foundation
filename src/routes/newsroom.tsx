@@ -13,6 +13,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { breadcrumbListJsonLd, organizationJsonLd } from "@/lib/seo/jsonLd";
 
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
@@ -236,7 +237,7 @@ function NewsroomPage() {
             environmental services company.
           </p>
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <WaveDivider variant="breeze" />
       </section>
 
       {/* IN THE NEWS */}

@@ -1191,3 +1191,136 @@
   }
   .hero-wave__sheen { opacity: 0 !important; }
 }
+
+/* ============================================================
+   WaveDivider — animated tri-color brand wave (shared across pages)
+   Driven by CSS variables set per variant on the host element.
+   ============================================================ */
+.wave-divider { overflow: hidden; }
+.wave-divider__drift {
+  position: absolute;
+  inset: 0;
+  animation: wave-divider-drift var(--wave-drift, 0s) ease-in-out infinite;
+  will-change: transform;
+}
+.wave-divider__ribbon {
+  position: absolute;
+  left: -10%;
+  bottom: 0;
+  width: 130%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0, 30, 18, 0.28));
+  will-change: transform;
+  transform-origin: center bottom;
+  opacity: var(--wave-ribbon-opacity, 1);
+}
+.wave-divider__ribbon--green path { fill: #006B35; }
+.wave-divider__ribbon--gold  path { fill: #FFD200; }
+.wave-divider__ribbon--red   path { fill: #E31B23; }
+
+.wave-divider__ribbon--green {
+  animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
+}
+.wave-divider__ribbon--gold {
+  animation: wave-divider-undulate-b var(--wave-undulate-b, 14s) ease-in-out infinite;
+  filter: drop-shadow(0 -1px 0 rgba(255,210,0,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.22));
+  opacity: calc(var(--wave-ribbon-opacity, 1) * 0.96);
+}
+.wave-divider__ribbon--red {
+  animation: wave-divider-undulate-c var(--wave-undulate-c, 10s) ease-in-out infinite;
+  filter: drop-shadow(0 -1px 0 rgba(227,27,35,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.22));
+  opacity: calc(var(--wave-ribbon-opacity, 1) * 0.95);
+}
+
+.wave-divider__sheen {
+  position: absolute;
+  inset: -10% -20%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(255, 236, 160, 0.28) 50%,
+    rgba(255, 255, 255, 0.18) 55%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: 140% 0;
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  opacity: var(--wave-sheen-opacity, 0.8);
+  animation: wave-divider-sheen var(--wave-sheen, 0s) ease-in-out infinite;
+  -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+}
+
+@keyframes wave-divider-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, calc(var(--wave-drift-amp, 8px) * -1), 0); }
+}
+@keyframes wave-divider-undulate-a {
+  0%, 100% { transform: translate3d(-2%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(2%, -2px, 0) scaleY(1.015); }
+}
+@keyframes wave-divider-undulate-b {
+  0%, 100% { transform: translate3d(2%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(-2.5%, -3px, 0) scaleY(1.02); }
+}
+@keyframes wave-divider-undulate-c {
+  0%, 100% { transform: translate3d(-3%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(3%, -4px, 0) scaleY(1.025); }
+}
+@keyframes wave-divider-sheen {
+  0%   { background-position: 140% 0; opacity: 0; }
+  20%  { opacity: var(--wave-sheen-opacity, 0.8); }
+  80%  { opacity: var(--wave-sheen-opacity, 0.8); }
+  100% { background-position: -40% 0; opacity: 0; }
+}
+
+/* Flow variant: emphasize horizontal travel */
+.wave-divider[data-variant="flow"] .wave-divider__ribbon--green {
+  animation-name: wave-divider-flow-a;
+}
+.wave-divider[data-variant="flow"] .wave-divider__ribbon--gold {
+  animation-name: wave-divider-flow-b;
+}
+.wave-divider[data-variant="flow"] .wave-divider__ribbon--red {
+  animation-name: wave-divider-flow-c;
+}
+@keyframes wave-divider-flow-a {
+  0%   { transform: translate3d(-4%, 0, 0) scaleY(1); }
+  100% { transform: translate3d(4%, 0, 0) scaleY(1.01); }
+}
+@keyframes wave-divider-flow-b {
+  0%   { transform: translate3d(4%, 0, 0) scaleY(1); }
+  100% { transform: translate3d(-4%, 0, 0) scaleY(1.015); }
+}
+@keyframes wave-divider-flow-c {
+  0%   { transform: translate3d(-5%, 0, 0) scaleY(1); }
+  100% { transform: translate3d(5%, 0, 0) scaleY(1.02); }
+}
+.wave-divider[data-variant="flow"] .wave-divider__ribbon {
+  animation-direction: alternate;
+}
+
+@media (max-width: 768px) {
+  /* Keep mobile subtle: drop the top accent on heavier variants, calm the sheen */
+  .wave-divider[data-variant="home"]    .wave-divider__ribbon--red,
+  .wave-divider[data-variant="flow"]    .wave-divider__ribbon--red,
+  .wave-divider[data-variant="breeze"]  .wave-divider__ribbon--red {
+    display: none;
+  }
+  .wave-divider__sheen { opacity: calc(var(--wave-sheen-opacity, 0.8) * 0.7); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-divider__drift,
+  .wave-divider__ribbon,
+  .wave-divider__sheen {
+    animation: none !important;
+    transform: none !important;
+  }
+  .wave-divider__sheen { opacity: 0 !important; }
+}

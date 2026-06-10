@@ -14,6 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
@@ -160,7 +161,7 @@ function ResourcesPage() {
             Tips, updates, and insights on waste management and environmental responsibility.
           </p>
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <WaveDivider variant="breeze" />
       </section>
 
       {/* CATEGORY FILTERS */}

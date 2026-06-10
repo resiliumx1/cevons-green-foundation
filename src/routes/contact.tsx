@@ -16,6 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -148,7 +149,7 @@ function ContactPage() {
           </p>
 
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <WaveDivider variant="minimal" />
       </section>
 
       {/* CONTACT METHODS */}

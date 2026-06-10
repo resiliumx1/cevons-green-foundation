@@ -105,7 +105,9 @@ function LocationsPage() {
         imageSrc="/assets/heroes/hero-locations.webp"
         imageAlt="CEVON’S service coverage across Georgetown, Linden, and Berbice"
         height="standard"
+        waveVariant="drift"
       />
+
 
       {/* MAP SECTION */}
       <section className="section-y bg-white">

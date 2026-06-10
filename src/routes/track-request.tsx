@@ -116,7 +116,9 @@ function TrackRequestPage() {
         imageSrc="/assets/heroes/hero-track-request.webp"
         imageAlt="Customer tracking a CEVON'S service request online"
         height="standard"
+        waveVariant="minimal"
       />
+
 
       {/* Lookup form */}
       <section className="bg-white">

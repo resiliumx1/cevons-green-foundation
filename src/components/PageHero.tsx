@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import logoMark from "@/assets/cevons-logo.png";
+import { WaveDivider, type WaveVariant } from "@/components/WaveDivider";
 
 type Crumb = { label: string; href?: string };
 type Height = "compact" | "standard" | "large";
@@ -17,6 +18,8 @@ export interface PageHeroProps {
   align?: Align;
   height?: Height;
   showSwoosh?: boolean;
+  /** Variant of the animated brand wave shown at the bottom of the hero. */
+  waveVariant?: WaveVariant;
   showLogoBadge?: boolean;
   /** CSS object-position for the background image. Defaults to "center center". */
   imagePosition?: string;
@@ -31,21 +34,8 @@ const heightClass: Record<Height, string> = {
   large: "min-h-[560px] md:min-h-[620px] lg:min-h-[78vh]",
 };
 
-function Swoosh() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="absolute bottom-0 left-0 w-full h-[70px] md:h-[100px] z-10 pointer-events-none"
-      viewBox="0 0 1440 110"
-      preserveAspectRatio="none"
-    >
-      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
-      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
-    </svg>
-  );
-}
-
 function LogoBadge() {
+
   return (
     <div
       aria-hidden
@@ -75,11 +65,13 @@ export function PageHero({
   align = "left",
   height = "standard",
   showSwoosh = true,
+  waveVariant = "minimal",
   showLogoBadge = false,
   imagePosition = "center center",
   priority = false,
   children,
 }: PageHeroProps) {
+
   const overlay =
     align === "center"
       ? "linear-gradient(180deg, rgba(0,63,39,0.78) 0%, rgba(0,63,39,0.52) 60%, rgba(0,0,0,0.20) 100%)"
@@ -175,7 +167,7 @@ export function PageHero({
         {children && <div className="mt-7">{children}</div>}
       </div>
 
-      {showSwoosh && <Swoosh />}
+      {showSwoosh && <WaveDivider variant={waveVariant} />}
     </section>
   );
 }

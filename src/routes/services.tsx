@@ -33,6 +33,7 @@ import {
   Minus,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
@@ -193,19 +194,8 @@ const faqs = [
   },
 ];
 
-function HeroSwoosh() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="absolute bottom-0 left-0 w-full h-[70px] md:h-[100px] z-10 pointer-events-none"
-      viewBox="0 0 1440 110"
-      preserveAspectRatio="none"
-    >
-      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
-      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
-    </svg>
-  );
-}
+
+
 
 function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
   if (variant === "industrial") {
@@ -307,7 +297,7 @@ function ServicesPage() {
             Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana.
           </p>
         </div>
-        <HeroSwoosh />
+        <WaveDivider variant="flow" />
       </section>
 
       {/* CATEGORY TABS (sticky) */}
