@@ -13,6 +13,7 @@ import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RequestServiceRouteImport } from './routes/request-service'
+import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as CrmRouteImport } from './routes/crm'
@@ -71,6 +72,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
 const RequestServiceRoute = RequestServiceRouteImport.update({
   id: '/request-service',
   path: '/request-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsroomRoute = NewsroomRouteImport.update({
+  id: '/newsroom',
+  path: '/newsroom',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/newsroom': typeof NewsroomRoute
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
@@ -331,6 +338,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/newsroom': typeof NewsroomRoute
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
@@ -377,6 +385,7 @@ export interface FileRoutesById {
   '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/newsroom': typeof NewsroomRoute
   '/request-service': typeof RequestServiceRouteWithChildren
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
@@ -424,6 +433,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/industries'
     | '/locations'
+    | '/newsroom'
     | '/request-service'
     | '/resources'
     | '/services'
@@ -468,6 +478,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/locations'
+    | '/newsroom'
     | '/request-service'
     | '/resources'
     | '/services'
@@ -513,6 +524,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/industries'
     | '/locations'
+    | '/newsroom'
     | '/request-service'
     | '/resources'
     | '/services'
@@ -559,6 +571,7 @@ export interface RootRouteChildren {
   CrmRoute: typeof CrmRouteWithChildren
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
+  NewsroomRoute: typeof NewsroomRoute
   RequestServiceRoute: typeof RequestServiceRouteWithChildren
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
@@ -593,6 +606,13 @@ declare module '@tanstack/react-router' {
       path: '/request-service'
       fullPath: '/request-service'
       preLoaderRoute: typeof RequestServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsroom': {
+      id: '/newsroom'
+      path: '/newsroom'
+      fullPath: '/newsroom'
+      preLoaderRoute: typeof NewsroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -982,6 +1002,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmRoute: CrmRouteWithChildren,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
+  NewsroomRoute: NewsroomRoute,
   RequestServiceRoute: RequestServiceRouteWithChildren,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
@@ -990,3 +1011,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

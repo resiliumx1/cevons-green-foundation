@@ -50,7 +50,7 @@ export function Footer() {
 
           {col("Services", ["Residential Garbage Collection", "Commercial Garbage Collection", "Skip Bin Rental", "Dumpster Rental", "Portable Toilet Rental", "Septic Tank Clearance"])}
           {col("Categories", ["Residential", "Commercial", "Industrial", "Recycling & Facilities"])}
-          {col("Company", ["About Us", "Locations", "Resources", "Contact"])}
+          {col("Company", ["About Us", "Locations", "Resources", "Newsroom", "Contact"])}
 
           <div>
             <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-4">Get In Touch</h4>
