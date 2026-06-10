@@ -278,13 +278,6 @@ function CrmLayout() {
           <div className="flex items-center gap-2 ml-auto">
             <CrmAssistant />
             <NotificationsBell />
-            <button
-              className="h-9 w-9 grid place-items-center rounded-lg border"
-              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
-              aria-label="Help"
-            >
-              <HelpCircle className="h-4 w-4" />
-            </button>
             <Link
               to="/"
               className="hidden sm:grid h-9 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
@@ -294,16 +287,7 @@ function CrmLayout() {
               <Globe className="h-4 w-4 mr-1.5" />
               <span>Back to site</span>
             </Link>
-            <div className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l" style={{ borderColor: "var(--crm-border)" }}>
-              <div className="text-right leading-tight">
-                <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
-                <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
-              </div>
-              <div className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
-                   style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}>
-                R
-              </div>
-            </div>
+            <ProfileMenu />
           </div>
         </header>
 
