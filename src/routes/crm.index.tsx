@@ -359,7 +359,7 @@ function Dashboard() {
     name, count, pct: Math.round((count / servicesMax) * 100),
   }));
 
-  /* ---- Revenue trend (last 6 months) ---- */
+  /* ---- Won-lead value trend (last 6 months) ---- */
   const months: { key: string; label: string; v: number }[] = [];
   for (let i = 5; i >= 0; i--) {
     const dt = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -369,13 +369,16 @@ function Dashboard() {
       v: 0,
     });
   }
-  invoicesRows.forEach((inv) => {
-    if (!inv.paid_date) return;
-    const pd = new Date(inv.paid_date);
+  (d.wonLeads.data ?? []).forEach((row) => {
+    const pd = new Date(row.created_at);
     const key = `${pd.getFullYear()}-${pd.getMonth()}`;
     const m = months.find((x) => x.key === key);
-    if (m) m.v += Number(inv.total ?? 0);
+    if (m) m.v += Number(row.estimated_value ?? 0);
   });
+  const wonValueThisMonth = months[months.length - 1]?.v ?? 0;
+  const wonValueLastMonth = months[months.length - 2]?.v ?? 0;
+  const wonValueTrend = pctChange(wonValueThisMonth, wonValueLastMonth);
+
 
   return (
     <CrmPage className="space-y-6">
