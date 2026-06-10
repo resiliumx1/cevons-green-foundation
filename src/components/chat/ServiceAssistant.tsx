@@ -455,6 +455,7 @@ export function ServiceAssistant() {
   const [leadOpen, setLeadOpen] = useState(false);
   const [lead, setLead] = useState<LeadDraft>(EMPTY_LEAD);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
