@@ -202,11 +202,11 @@ function IndustriesPage() {
                     height={375}
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute -bottom-5 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,#006B35)] text-white border-4 border-white flex items-center justify-center shadow-soft">
+                </div>
+                <div className="relative p-6 pt-9">
+                  <span className="absolute -top-6 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,#006B35)] text-white border-4 border-white flex items-center justify-center shadow-soft">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
-                </div>
-                <div className="p-6 pt-8">
                   <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#006B35)]">{title}</h3>
                   <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{description}</p>
                 </div>
