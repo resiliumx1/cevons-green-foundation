@@ -192,13 +192,14 @@ export function Header() {
         </button>
       </div>
 
-      {/* Mobile menu overlay */}
-      {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 top-[72px] z-[99] bg-white flex flex-col">
-          <div className="flex-1 overflow-y-auto px-5 py-4 pb-8">
+      {/* Mobile menu overlay — portaled to body so the sticky header's backdrop-filter
+          containing block doesn't trap `position: fixed` (which made the menu vanish on scroll). */}
+      {mobileOpen && typeof document !== "undefined" && createPortal(
+        <div className="lg:hidden fixed inset-x-0 bottom-0 top-[72px] z-[200] bg-white flex flex-col overscroll-contain">
+          <div className="flex-1 overflow-y-auto px-5 py-4 pb-8" style={{ WebkitOverflowScrolling: "touch" }}>
             {/* Main nav */}
             <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
-              {nav.map((item) => {
+              {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
                   return (
                     <div key={item.to} className="flex flex-col">
@@ -254,10 +255,8 @@ export function Header() {
               })}
             </nav>
 
-            {/* Divider */}
             <div className="my-4 border-t border-cevons-border" />
 
-            {/* Utility links */}
             <div className="flex flex-col gap-1 px-1">
               <Link
                 to="/request-service"
@@ -277,10 +276,8 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Divider */}
             <div className="my-4 border-t border-cevons-border" />
 
-            {/* Currency + CTAs */}
             <div className="flex flex-col gap-3 px-1">
               <div className="flex items-center justify-between px-3 py-2">
                 <span className="text-xs font-semibold uppercase tracking-wider text-cevons-muted">Currency</span>
@@ -296,7 +293,8 @@ export function Header() {
               </a>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
