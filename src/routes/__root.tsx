@@ -130,6 +130,7 @@ function RootComponent() {
       <CurrencyProvider>
         <SmoothScrollProvider enabled={!isCrm}>
           <Outlet />
+          {!isCrm && <ServiceAssistant />}
         </SmoothScrollProvider>
       </CurrencyProvider>
     </QueryClientProvider>
