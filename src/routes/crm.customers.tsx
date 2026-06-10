@@ -290,6 +290,12 @@ function CustomersPage() {
           onClose={() => { setShowAdd(false); setEditing(null); }}
         />
       )}
+
+      <ImportCustomersDialog
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => qc.invalidateQueries({ queryKey: ["crm", "customers"] })}
+      />
     </CrmPage>
   );
 }
