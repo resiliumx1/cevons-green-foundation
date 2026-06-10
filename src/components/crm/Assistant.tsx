@@ -331,14 +331,26 @@ export function CrmAssistant() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const sessionId = useMemo(() => {
+    if (typeof window === "undefined") return uid();
+    const k = "crm-assistant-session";
+    let s = window.localStorage.getItem(k);
+    if (!s) {
+      s = uid() + uid();
+      window.localStorage.setItem(k, s);
+    }
+    return s;
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
     }
-  }, [messages, open]);
+  }, [messages, open, loading]);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 80);
@@ -352,19 +364,76 @@ export function CrmAssistant() {
   }, [open]);
 
   const send = useCallback(
-    (raw?: string) => {
+    async (raw?: string) => {
       const text = (raw ?? input).trim();
-      if (!text) return;
+      if (!text || loading) return;
+      if (text.length > 2000) {
+        toast.error("Message too long — please shorten it.");
+        return;
+      }
       const userMsg: Message = { id: uid(), role: "user", text };
-      setMessages((prev) => [...prev, userMsg]);
+      const history = [...messages, userMsg];
+      setMessages(history);
       setInput("");
-      const reply = botResponse(detectIntent(text));
-      setTimeout(() => setMessages((prev) => [...prev, reply]), 200);
+      setLoading(true);
+
+      try {
+        const apiMessages = history
+          .slice(-10)
+          .map((m) => ({
+            role: m.role === "user" ? ("user" as const) : ("assistant" as const),
+            content: m.text,
+          }));
+
+        const { data, error } = await supabase.functions.invoke("ai-assistant", {
+          body: { mode: "crm", sessionId, messages: apiMessages },
+        });
+
+        if (error) throw error;
+        const replyText: string =
+          (data as { reply?: string; error?: string })?.reply ??
+          (data as { error?: string })?.error ??
+          "Sorry, I couldn't generate a response.";
+
+        // Auto-extract /crm/* route mentions into clickable link actions
+        const routeMatches = Array.from(replyText.matchAll(/\/crm(?:\/[a-z-]+)?/gi))
+          .map((m) => m[0].toLowerCase());
+        const uniqueRoutes = Array.from(new Set(routeMatches));
+        const linkActions: Action[] = uniqueRoutes.slice(0, 4).map((to) => ({
+          kind: "link" as const,
+          label: routeLabel(to),
+          to,
+        }));
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: uid(),
+            role: "bot",
+            text: replyText,
+            actions: linkActions.length ? linkActions : undefined,
+          },
+        ]);
+      } catch (e) {
+        console.error("CRM assistant error", e);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: uid(),
+            role: "bot",
+            text:
+              "I couldn't reach the assistant right now. Please try again in a moment.",
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
     },
-    [input],
+    [input, loading, messages, sessionId],
   );
 
   const reset = () => setMessages([WELCOME]);
+
 
   const runAction = (a: Action) => {
     switch (a.kind) {
