@@ -497,22 +497,22 @@ function Dashboard() {
         <Card className="p-5 lg:col-span-2 animate-fade-in" style={{ animationDelay: "80ms" }}>
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold text-white">Revenue (last 6 months)</h3>
+              <h3 className="text-sm font-semibold text-white">Won-Lead Value (last 6 months)</h3>
               <div className="text-3xl font-bold text-white mt-1 tabular-nums">
-                {d.invoices.isLoading ? <SkeletonBlock className="h-8 w-32 mt-1" /> : fmtMoney(revenueThisMonth)}
+                {d.wonLeads.isLoading ? <SkeletonBlock className="h-8 w-32 mt-1" /> : fmtMoney(wonValueThisMonth)}
               </div>
-              {!d.invoices.isLoading && !d.invoices.isError && (
-                <div className="mt-1"><TrendPill up={revTrend.up} change={revTrend.change} /></div>
+              {!d.wonLeads.isLoading && !d.wonLeads.isError && (
+                <div className="mt-1"><TrendPill up={wonValueTrend.up} change={wonValueTrend.change} /></div>
               )}
             </div>
             <span className="text-[11px] uppercase tracking-wider text-slate-400">{now.toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
           </div>
-          {d.invoices.isLoading ? (
+          {d.wonLeads.isLoading ? (
             <SkeletonBlock className="h-52 w-full" />
-          ) : d.invoices.isError ? (
-            <ErrorState onRetry={() => d.invoices.refetch()} />
+          ) : d.wonLeads.isError ? (
+            <ErrorState onRetry={() => d.wonLeads.refetch()} />
           ) : months.every((m) => m.v === 0) ? (
-            <EmptyState title="No paid invoices yet" subtitle="Mark invoices paid to see revenue trend." />
+            <EmptyState title="No won leads yet" subtitle="Move leads to 'Won' to see their estimated value here." />
           ) : (
             <div className="h-52">
               <ResponsiveContainer>
@@ -526,7 +526,7 @@ function Dashboard() {
                   <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
                   <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Won Value"]} />
                   <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -534,6 +534,7 @@ function Dashboard() {
           )}
         </Card>
       </div>
+
 
       {/* Row: Top Services + Leads by Region */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
