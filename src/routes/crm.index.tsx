@@ -43,7 +43,7 @@ const SOURCE_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   referral: UserPlus,
   phone: Phone,
 };
-const REGION_PALETTE = ["#006B35", "#FFD200", "#E31B23", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
+const REGION_PALETTE = ["#006B35", "#0FA34A", "#14B8A6", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
 
 function startOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth(), 1); }
 function startOfNextMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth() + 1, 1); }
