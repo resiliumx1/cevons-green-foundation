@@ -107,26 +107,9 @@ const branches = cevonsContact.regions.map((r) => ({
 
 function ContactPage() {
   const [mounted, setMounted] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    subject: "General Inquiry",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
   useEffect(() => setMounted(true), []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-  };
 
   return (
     <SiteLayout>
