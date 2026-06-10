@@ -4,11 +4,6 @@ import {
   LayoutDashboard,
   Users,
   MessageSquare,
-  Calendar,
-  CalendarCheck,
-  FileText,
-  Briefcase,
-  Receipt,
   UserSquare2,
   Megaphone,
   BarChart3,
@@ -23,6 +18,7 @@ import {
   X,
   Globe,
 } from "lucide-react";
+
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
