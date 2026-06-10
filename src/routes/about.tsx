@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { whatsappHref } from "@/data/cevonsContact";
+import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 const heroAbout = "/assets/heroes/hero-about.webp";
 import imgRecovery from "@/assets/svc-recovery.jpg";
@@ -37,6 +38,12 @@ export const Route = createFileRoute("/about")({
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+      ])) },
+    ],
   }),
   component: AboutPage,
 });

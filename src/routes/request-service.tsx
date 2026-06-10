@@ -18,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
+import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
 export const Route = createFileRoute("/request-service")({
   head: () => ({
@@ -28,6 +29,12 @@ export const Route = createFileRoute("/request-service")({
       { property: "og:description", content: "Tell us what you need and we'll take care of the rest." },
     ],
     links: [{ rel: "canonical", href: "/request-service" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Request a Service", path: "/request-service" },
+      ])) },
+    ],
   }),
   component: RequestServicePage,
 });
