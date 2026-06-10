@@ -251,14 +251,38 @@ function Dashboard() {
   }).length;
   const leadsTrend = pctChange(leadsThisMonth, leadsLastMonth);
 
-  const invoicesRows = d.invoices.data ?? [];
-  const revenueThisMonth = invoicesRows
-    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= monthMs && new Date(i.paid_date).getTime() < nextMonthMs)
-    .reduce((s, i) => s + Number(i.total ?? 0), 0);
-  const revenueLastMonth = invoicesRows
-    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= lastMonthMs && new Date(i.paid_date).getTime() < monthMs)
-    .reduce((s, i) => s + Number(i.total ?? 0), 0);
-  const revTrend = pctChange(revenueThisMonth, revenueLastMonth);
+  // WhatsApp / Phone / Contact clicks from contact_method on leads this month
+  const isWhatsApp = (r: { utm_source?: string | null; contact_method?: string | null }) => {
+    const s = (r.utm_source || "").toLowerCase();
+    const c = (r.contact_method || "").toLowerCase();
+    return s.includes("whatsapp") || s === "wa" || c.includes("whatsapp") || c === "wa";
+  };
+  const isCall = (r: { utm_source?: string | null; contact_method?: string | null }) => {
+    const s = (r.utm_source || "").toLowerCase();
+    const c = (r.contact_method || "").toLowerCase();
+    return c === "call" || c === "phone" || s === "phone" || s === "call";
+  };
+  const thisMonthRows = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= monthMs && t < nextMonthMs;
+  });
+  const lastMonthRows = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= lastMonthMs && t < monthMs;
+  });
+  const whatsappThisMonth = thisMonthRows.filter(isWhatsApp).length;
+  const whatsappLastMonth = lastMonthRows.filter(isWhatsApp).length;
+  const whatsappTrend = pctChange(whatsappThisMonth, whatsappLastMonth);
+  const callsThisMonth = thisMonthRows.filter(isCall).length;
+  const callsLastMonth = lastMonthRows.filter(isCall).length;
+  const callsTrend = pctChange(callsThisMonth, callsLastMonth);
+
+  // Conversion rate (won ÷ total) — across loaded window
+  const wonCount = leadsRows.filter((r) => r.status === "won").length;
+  const conversionRate = leadsRows.length > 0 ? (wonCount / leadsRows.length) * 100 : 0;
+  const wonLastMonth = lastMonthRows.filter((r) => r.status === "won").length;
+  const prevConv = lastMonthRows.length > 0 ? (wonLastMonth / lastMonthRows.length) * 100 : 0;
+  const convTrend = pctChange(Math.round(conversionRate * 10), Math.round(prevConv * 10));
 
   const metrics = [
     {
@@ -267,24 +291,23 @@ function Dashboard() {
       loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Open Quotes", value: d.quotes.data ?? 0, trend: { change: "", up: true },
-      icon: FileText, accent: "#FFD200",
-      loading: d.quotes.isLoading, error: d.quotes.isError, retry: () => d.quotes.refetch(),
-      noTrend: true,
+      label: "WhatsApp Clicks", value: whatsappThisMonth, trend: whatsappTrend,
+      icon: MessageCircle, accent: "#25D366",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Jobs Scheduled", value: d.jobsScheduled.data ?? 0, trend: { change: "", up: true },
-      icon: CalendarCheck, accent: "#3b82f6",
-      loading: d.jobsScheduled.isLoading, error: d.jobsScheduled.isError, retry: () => d.jobsScheduled.refetch(),
-      noTrend: true,
+      label: "Contact Clicks", value: callsThisMonth, trend: callsTrend,
+      icon: Phone, accent: "#3b82f6",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Revenue This Month", value: revenueThisMonth, trend: revTrend,
-      icon: DollarSign, accent: "#E31B23",
-      loading: d.invoices.isLoading, error: d.invoices.isError, retry: () => d.invoices.refetch(),
-      money: true,
+      label: "Conversion Rate", value: conversionRate, trend: convTrend,
+      icon: TrendingUp, accent: "#FFD200",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
+      percent: true,
     },
   ];
+
 
   /* ---- Sources (this month) ---- */
   const sourcesMap = new Map<string, number>();
