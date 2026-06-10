@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
+import { CrmCommandPalette } from "@/components/crm/CommandPalette";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/crm")({
@@ -84,7 +85,20 @@ function CrmLayout() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const { unreadByType, markTypeRead } = useNotifications();
+
+  // Cmd/Ctrl+K opens the global command palette
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Auto mark-as-read when the user opens a section that maps to a notification type.
   useEffect(() => {
@@ -234,6 +248,7 @@ function CrmLayout() {
   return (
     <div data-crm-theme={theme} className="flex min-h-screen">
       <Toaster richColors position="top-right" />
+      <CrmCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
       {/* Desktop sidebar */}
       <aside
         className={`crm-sidebar hidden md:flex flex-col transition-[width] duration-200 ${
@@ -273,19 +288,27 @@ function CrmLayout() {
             <Menu className="h-4 w-4" />
           </button>
 
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "var(--crm-text-faint)" }} />
-            <input
-              type="search"
-              placeholder="Search leads, services, customers..."
-              className="w-full rounded-lg border pl-9 pr-3 py-2 text-sm focus:outline-none"
-              style={{
-                background: "var(--crm-surface-muted)",
-                borderColor: "var(--crm-border)",
-                color: "var(--crm-text)",
-              }}
-            />
-          </div>
+          <button
+            type="button"
+            onClick={() => setPaletteOpen(true)}
+            className="relative flex-1 max-w-md flex items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
+            style={{
+              background: "var(--crm-surface-muted)",
+              borderColor: "var(--crm-border)",
+              color: "var(--crm-text-faint)",
+              ["--tw-ring-color" as never]: "var(--crm-primary)",
+            }}
+            aria-label="Open search"
+          >
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
+            <span className="truncate">Search leads, services, customers…</span>
+            <kbd
+              className="ml-auto hidden sm:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[10px] font-mono"
+              style={{ borderColor: "var(--crm-border)", color: "var(--crm-text-muted)", background: "var(--crm-surface)" }}
+            >
+              ⌘K
+            </kbd>
+          </button>
 
           <div className="flex items-center gap-2 ml-auto">
             <CrmAssistant />
