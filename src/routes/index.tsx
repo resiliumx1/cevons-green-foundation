@@ -129,7 +129,7 @@ function HomePage() {
             {pillars.map(({ img, title, body, iconKey }) => (
               <StaggerItem as="article" key={title} className="card-cevons group">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500" />
+                  <img src={img} alt={`${title} waste management services in Guyana`} loading="lazy" className="size-full object-cover transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
                 </div>
                 <div className="relative p-6 pt-12">
