@@ -3,6 +3,7 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react
 import logo from "@/assets/cevons-logo.png";
 import { WhatsApp } from "./icons/WhatsApp";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 const col = (title: string, items: string[]) => (
   <div>
@@ -86,6 +87,14 @@ export function Footer() {
             </p>
           </div>
         </div>
+
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="max-w-xl">
+            <NewsletterSignup source="footer" variant="footer" />
+          </div>
+        </div>
+
+
 
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="flex items-center gap-2 text-white/75 text-sm">
