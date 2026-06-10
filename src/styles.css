@@ -1086,3 +1086,120 @@
   .sp-card { transition: none !important; }
   .sp-card:hover { transform: none !important; }
 }
+
+/* ============================================================
+   Hero flag-wave — animated tri-color silk ribbons
+   ============================================================ */
+.hero-wave {
+  overflow: hidden;
+}
+.hero-wave__drift {
+  position: absolute;
+  inset: 0;
+  animation: hero-wave-drift 11s ease-in-out infinite;
+  will-change: transform;
+}
+.hero-wave__ribbon {
+  position: absolute;
+  left: -10%;
+  bottom: 0;
+  width: 130%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 6px 14px rgba(0, 30, 18, 0.35));
+  will-change: transform;
+  transform-origin: center bottom;
+}
+.hero-wave__ribbon path { transition: none; }
+
+.hero-wave__ribbon--green path { fill: #006B35; }
+.hero-wave__ribbon--gold path  { fill: #FFD200; }
+.hero-wave__ribbon--red path   { fill: #E31B23; }
+
+/* Independent undulation: each ribbon slides + scales subtly at a different period/phase */
+.hero-wave__ribbon--green {
+  animation: hero-wave-undulate-a 18s ease-in-out infinite;
+  opacity: 1;
+}
+.hero-wave__ribbon--gold {
+  animation: hero-wave-undulate-b 14s ease-in-out infinite;
+  opacity: 0.96;
+  mix-blend-mode: normal;
+}
+.hero-wave__ribbon--red {
+  animation: hero-wave-undulate-c 10s ease-in-out infinite;
+  opacity: 0.95;
+}
+
+/* Soft edges between bands */
+.hero-wave__ribbon--gold { filter: drop-shadow(0 -1px 0 rgba(255,210,0,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.25)); }
+.hero-wave__ribbon--red  { filter: drop-shadow(0 -1px 0 rgba(227,27,35,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.25)); }
+
+/* Gem sheen — diagonal highlight that slowly sweeps across the ribbons */
+.hero-wave__sheen {
+  position: absolute;
+  inset: -10% -20%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(255, 236, 160, 0.28) 50%,
+    rgba(255, 255, 255, 0.18) 55%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: 140% 0;
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  opacity: 0.85;
+  animation: hero-wave-sheen 8s ease-in-out infinite;
+  /* Mask the sheen to the lower wave area so it doesn't bleed up */
+  -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+}
+
+@keyframes hero-wave-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -8px, 0); }
+}
+
+@keyframes hero-wave-undulate-a {
+  0%, 100% { transform: translate3d(-2%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(2%, -2px, 0) scaleY(1.015); }
+}
+@keyframes hero-wave-undulate-b {
+  0%, 100% { transform: translate3d(2%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(-2.5%, -3px, 0) scaleY(1.02); }
+}
+@keyframes hero-wave-undulate-c {
+  0%, 100% { transform: translate3d(-3%, 0, 0) scaleY(1); }
+  50%      { transform: translate3d(3%, -4px, 0) scaleY(1.025); }
+}
+
+@keyframes hero-wave-sheen {
+  0%   { background-position: 140% 0; opacity: 0; }
+  20%  { opacity: 0.85; }
+  80%  { opacity: 0.85; }
+  100% { background-position: -40% 0; opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  /* Simplify on small screens: hide accent ribbons, keep green + gentle bob */
+  .hero-wave__ribbon--red { display: none; }
+  .hero-wave__ribbon--gold { opacity: 0.8; animation-duration: 16s; }
+  .hero-wave__sheen { animation-duration: 10s; opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wave__drift,
+  .hero-wave__ribbon--green,
+  .hero-wave__ribbon--gold,
+  .hero-wave__ribbon--red,
+  .hero-wave__sheen {
+    animation: none !important;
+    transform: none !important;
+  }
+  .hero-wave__sheen { opacity: 0 !important; }
+}
