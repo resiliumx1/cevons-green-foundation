@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Calendar, ChevronDown, Menu, X } from "lucide-react";
+import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { WhatsApp } from "./icons/WhatsApp";
 import { CurrencyToggle } from "./CurrencyToggle";
@@ -14,6 +14,7 @@ const nav: NavItem[] = [
   { to: "/resources", label: "Resources" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
+  { to: "/track-request", label: "Track Request" },
 ];
 
 const servicesMenu: { group: string; items: { label: string; to: string }[] }[] = [
