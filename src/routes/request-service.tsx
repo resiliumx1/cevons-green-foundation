@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Check, ChevronLeft, ChevronRight, Upload, MessageCircle, AlertCircle,
   Home, Building2, Factory, Recycle,
