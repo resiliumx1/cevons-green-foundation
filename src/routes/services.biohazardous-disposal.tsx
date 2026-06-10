@@ -21,6 +21,25 @@ export const Route = createFileRoute("/services/biohazardous-disposal")({
       { property: "og:url", content: PAGE_URL },
     ],
     links: [{ rel: "canonical", href: PAGE_URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: "Biohazardous Waste Disposal",
+          description: PAGE_DESC,
+          serviceType: "Biohazardous Waste Disposal",
+          areaServed: { "@type": "Country", name: "Guyana" },
+          provider: {
+            "@type": "Organization",
+            name: "CEVON'S Environmental Services Inc.",
+            url: "https://cevons-green-foundation.lovable.app",
+          },
+          url: `https://cevons-green-foundation.lovable.app${PAGE_URL}`,
+        }),
+      },
+    ],
   }),
   component: Page,
 });
