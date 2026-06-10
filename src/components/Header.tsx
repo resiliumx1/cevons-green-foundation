@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Calendar, ChevronDown, Menu, X } from "lucide-react";
+import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { WhatsApp } from "./icons/WhatsApp";
 import { CurrencyToggle } from "./CurrencyToggle";
@@ -14,6 +14,7 @@ const nav: NavItem[] = [
   { to: "/resources", label: "Resources" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
+  { to: "/track-request", label: "Track Request" },
 ];
 
 const servicesMenu: { group: string; items: { label: string; to: string }[] }[] = [
@@ -60,6 +61,7 @@ const servicesMenu: { group: string; items: { label: string; to: string }[] }[] 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -67,6 +69,16 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
     <header
@@ -175,21 +187,97 @@ export function Header() {
         </button>
       </div>
 
+      {/* Mobile menu overlay */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-cevons-border bg-white">
-          <div className="container-cevons py-4 flex flex-col gap-1">
-            {nav.map((item) => (
+        <div className="lg:hidden fixed inset-0 top-[72px] z-[99] bg-white flex flex-col">
+          <div className="flex-1 overflow-y-auto px-5 py-4 pb-8">
+            {/* Main nav */}
+            <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
+              {nav.map((item) => {
+                if (item.hasDropdown) {
+                  return (
+                    <div key={item.to} className="flex flex-col">
+                      <button
+                        onClick={() => setServicesOpen((v) => !v)}
+                        className="flex items-center justify-between px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                        aria-expanded={servicesOpen}
+                      >
+                        <span>{item.label}</span>
+                        <ChevronDown
+                          className={`size-5 text-cevons-muted transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {servicesOpen && (
+                        <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
+                          {servicesMenu.map((col) => (
+                            <div key={col.group} className="flex flex-col">
+                              <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green">
+                                {col.group}
+                              </span>
+                              <div className="flex flex-col">
+                                {col.items.map((s) => (
+                                  <Link
+                                    key={s.to}
+                                    to={s.to}
+                                    className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                                    onClick={() => { setMobileOpen(false); setServicesOpen(false); }}
+                                  >
+                                    <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                                    {s.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className="px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                    onClick={() => setMobileOpen(false)}
+                    activeProps={{ className: "bg-cevons-cream text-cevons-green" }}
+                    activeOptions={{ exact: item.to === "/" }}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Divider */}
+            <div className="my-4 border-t border-cevons-border" />
+
+            {/* Utility links */}
+            <div className="flex flex-col gap-1 px-1">
               <Link
-                key={item.to}
-                to={item.to}
-                className="px-3 py-3 text-base font-semibold text-cevons-dark rounded-md hover:bg-cevons-cream"
+                to="/request-service"
+                className="flex items-center gap-3 px-3 py-3 text-[14px] font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
-                {item.label}
+                <Calendar className="size-5 text-cevons-green" />
+                Request a Service
               </Link>
-            ))}
-            <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-cevons-border">
-              <div className="flex items-center justify-between px-1">
+              <Link
+                to="/track-request"
+                className="flex items-center gap-3 px-3 py-3 text-[14px] font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                <PackageSearch className="size-5 text-cevons-green" />
+                Track My Request
+              </Link>
+            </div>
+
+            {/* Divider */}
+            <div className="my-4 border-t border-cevons-border" />
+
+            {/* Currency + CTAs */}
+            <div className="flex flex-col gap-3 px-1">
+              <div className="flex items-center justify-between px-3 py-2">
                 <span className="text-xs font-semibold uppercase tracking-wider text-cevons-muted">Currency</span>
                 <CurrencyToggle />
               </div>
