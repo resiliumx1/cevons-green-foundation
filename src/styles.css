@@ -694,16 +694,15 @@
 [data-crm-theme] thead { background-color: var(--crm-surface-muted) !important; }
 [data-crm-theme] thead th { color: var(--crm-text-muted) !important; }
 
-/* Sidebar active item — clearer in emerald theme */
+/* Emerald sidebar — premium active state uses translucent tint + gold cue */
 [data-crm-theme="emerald"] .crm-nav-item.is-active {
-  background-color: #FFFFFF !important;
-  color: #003F27 !important;
+  background-color: rgba(245, 197, 24, 0.10) !important;
+  color: #ffffff !important;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 [data-crm-theme="emerald"] .crm-nav-item:hover:not(.is-active) {
-  background-color: rgba(255,255,255,0.10) !important;
-  color: #FFFFFF !important;
+  background-color: rgba(255,255,255,0.07) !important;
+  color: #ffffff !important;
 }
 
 /* Mobile bottom nav active */
