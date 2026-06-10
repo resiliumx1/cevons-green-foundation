@@ -716,3 +716,158 @@
   outline-offset: 2px;
   border-radius: 6px;
 }
+
+/* ============================================================
+   Homepage hero — Version 1: Growth Flow typography
+   ============================================================ */
+.hero-heading {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  color: #ffffff;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.38);
+}
+.hero-heading-line { display: block; }
+
+.eco-word.growth-flow {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+  background: linear-gradient(
+    100deg,
+    #0FA34A 0%,
+    #35E76B 28%,
+    #B6FF7A 48%,
+    #FFD200 56%,
+    #35E76B 68%,
+    #0FA34A 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: ecoGradientFlow 6.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(53, 231, 107, 0.24));
+}
+.eco-word.growth-flow::before {
+  content: "";
+  position: absolute;
+  left: 0.02em;
+  right: 0.02em;
+  bottom: -0.03em;
+  height: 0.08em;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(53, 231, 107, 0),
+    rgba(53, 231, 107, 0.8),
+    rgba(255, 210, 0, 0.72),
+    rgba(53, 231, 107, 0)
+  );
+  transform-origin: left;
+  animation: growthUnderlineDraw 950ms ease-out 420ms both;
+}
+.eco-word.growth-flow::after {
+  content: "";
+  position: absolute;
+  inset: -0.08em -0.12em;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 35%, rgba(182, 255, 122, 0.55) 0 2px, transparent 3px),
+    radial-gradient(circle at 42% 18%, rgba(53, 231, 107, 0.45) 0 1.5px, transparent 3px),
+    radial-gradient(circle at 72% 28%, rgba(255, 210, 0, 0.48) 0 1.8px, transparent 3px);
+  opacity: 0.7;
+  animation: ecoParticleDrift 7s ease-in-out infinite;
+}
+@keyframes ecoGradientFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes growthUnderlineDraw {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+@keyframes ecoParticleDrift {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.42; }
+  50%      { transform: translate3d(4px, -5px, 0); opacity: 0.72; }
+}
+
+/* Leaves */
+.eco-leaf {
+  position: absolute;
+  width: 0.18em;
+  height: 0.34em;
+  background: linear-gradient(135deg, #B6FF7A, #35E76B 65%, #0FA34A);
+  border-radius: 100% 0 100% 0;
+  opacity: 0.78;
+  filter: drop-shadow(0 0 6px rgba(53, 231, 107, 0.45));
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+.leaf-one   { top: 0.08em;  left: -0.08em;  animation: leafFloatOne   5.8s ease-in-out infinite; }
+.leaf-two   { top: -0.05em; right: 0.12em;  animation: leafFloatTwo   6.4s ease-in-out infinite; }
+.leaf-three { bottom: 0.08em; right: -0.05em; animation: leafFloatThree 7s   ease-in-out infinite; }
+@keyframes leafFloatOne {
+  0%, 100% { transform: rotate(-22deg) translateY(0);    opacity: 0.56; }
+  50%      { transform: rotate(-12deg) translateY(-6px); opacity: 0.86; }
+}
+@keyframes leafFloatTwo {
+  0%, 100% { transform: rotate(28deg) translateY(0);    opacity: 0.50; }
+  50%      { transform: rotate(14deg) translateY(-5px); opacity: 0.82; }
+}
+@keyframes leafFloatThree {
+  0%, 100% { transform: rotate(42deg) translateY(0);    opacity: 0.42; }
+  50%      { transform: rotate(30deg) translateY(-4px); opacity: 0.74; }
+}
+
+/* Yellow script line */
+.hero-script-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em;
+  align-items: baseline;
+  color: #FFD200;
+  font-family: "Caveat", "Dancing Script", "Segoe Script", cursive;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 14px rgba(255, 210, 0, 0.22);
+}
+.hero-script-line .for-guyana {
+  position: relative;
+  color: #FFD200;
+}
+.hero-script-line .for-guyana::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.18em;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #FFD200, #FFEF7A, transparent);
+  transform-origin: left;
+  animation: scriptUnderlineDraw 850ms ease-out 700ms both;
+}
+@keyframes scriptUnderlineDraw {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* Mobile — keep word effect, soften leaf clutter */
+@media (max-width: 640px) {
+  .eco-leaf.leaf-two,
+  .eco-leaf.leaf-three { display: none; }
+  .eco-word.growth-flow::after { opacity: 0.5; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .eco-word.growth-flow,
+  .eco-word.growth-flow::before,
+  .eco-word.growth-flow::after,
+  .eco-leaf,
+  .hero-script-line .for-guyana::after {
+    animation: none !important;
+    transform: none !important;
+  }
+}
