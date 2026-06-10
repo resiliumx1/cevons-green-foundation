@@ -110,15 +110,25 @@ export function ContactMessagesInbox() {
                         {m.message}
                         {m.attachment_url && (
                           <div className="mt-3">
-                            <a
-                              href={m.attachment_url.startsWith("http") ? m.attachment_url : `/api/contact-attachment?p=${encodeURIComponent(m.attachment_url)}`}
-                              target="_blank" rel="noopener noreferrer"
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                const path = m.attachment_url!.startsWith("http")
+                                  ? null
+                                  : m.attachment_url!;
+                                if (!path) { window.open(m.attachment_url!, "_blank"); return; }
+                                const { data } = await supabase.storage
+                                  .from("contact-attachments")
+                                  .createSignedUrl(path, 60 * 10);
+                                if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+                              }}
                               className="inline-flex items-center gap-1 text-xs text-[#FFD200] hover:underline"
                             >
                               <Paperclip className="h-3 w-3" /> View attachment <ExternalLink className="h-3 w-3" />
-                            </a>
+                            </button>
                           </div>
                         )}
+
                       </div>
                     )}
                   </li>
