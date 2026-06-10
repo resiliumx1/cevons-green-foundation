@@ -187,8 +187,6 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-}
-@utility btn-shine {
   &::before {
     content: "";
     position: absolute;
