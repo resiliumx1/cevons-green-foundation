@@ -42,16 +42,11 @@ import { Route as RequestServiceConfirmationRouteImport } from './routes/request
 import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
 import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
-import { Route as CrmQuotesRouteImport } from './routes/crm.quotes'
 import { Route as CrmMarketingRouteImport } from './routes/crm.marketing'
 import { Route as CrmLoginRouteImport } from './routes/crm.login'
 import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
-import { Route as CrmJobsRouteImport } from './routes/crm.jobs'
-import { Route as CrmInvoicesRouteImport } from './routes/crm.invoices'
 import { Route as CrmCustomersRouteImport } from './routes/crm.customers'
 import { Route as CrmConversationsRouteImport } from './routes/crm.conversations'
-import { Route as CrmCalendarRouteImport } from './routes/crm.calendar'
-import { Route as CrmBookingsRouteImport } from './routes/crm.bookings'
 import { Route as CrmLeadsIdRouteImport } from './routes/crm.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
@@ -230,11 +225,6 @@ const CrmReportsRoute = CrmReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => CrmRoute,
 } as any)
-const CrmQuotesRoute = CrmQuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
-  getParentRoute: () => CrmRoute,
-} as any)
 const CrmMarketingRoute = CrmMarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
@@ -250,16 +240,6 @@ const CrmLeadsRoute = CrmLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => CrmRoute,
 } as any)
-const CrmJobsRoute = CrmJobsRouteImport.update({
-  id: '/jobs',
-  path: '/jobs',
-  getParentRoute: () => CrmRoute,
-} as any)
-const CrmInvoicesRoute = CrmInvoicesRouteImport.update({
-  id: '/invoices',
-  path: '/invoices',
-  getParentRoute: () => CrmRoute,
-} as any)
 const CrmCustomersRoute = CrmCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
@@ -268,16 +248,6 @@ const CrmCustomersRoute = CrmCustomersRouteImport.update({
 const CrmConversationsRoute = CrmConversationsRouteImport.update({
   id: '/conversations',
   path: '/conversations',
-  getParentRoute: () => CrmRoute,
-} as any)
-const CrmCalendarRoute = CrmCalendarRouteImport.update({
-  id: '/calendar',
-  path: '/calendar',
-  getParentRoute: () => CrmRoute,
-} as any)
-const CrmBookingsRoute = CrmBookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
   getParentRoute: () => CrmRoute,
 } as any)
 const CrmLeadsIdRoute = CrmLeadsIdRouteImport.update({
@@ -298,16 +268,11 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
-  '/crm/bookings': typeof CrmBookingsRoute
-  '/crm/calendar': typeof CrmCalendarRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
-  '/crm/invoices': typeof CrmInvoicesRoute
-  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
@@ -343,16 +308,11 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
-  '/crm/bookings': typeof CrmBookingsRoute
-  '/crm/calendar': typeof CrmCalendarRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
-  '/crm/invoices': typeof CrmInvoicesRoute
-  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
@@ -390,16 +350,11 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/track-request': typeof TrackRequestRoute
-  '/crm/bookings': typeof CrmBookingsRoute
-  '/crm/calendar': typeof CrmCalendarRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
-  '/crm/invoices': typeof CrmInvoicesRoute
-  '/crm/jobs': typeof CrmJobsRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/quotes': typeof CrmQuotesRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
@@ -438,16 +393,11 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
-    | '/crm/bookings'
-    | '/crm/calendar'
     | '/crm/conversations'
     | '/crm/customers'
-    | '/crm/invoices'
-    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
-    | '/crm/quotes'
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
@@ -483,16 +433,11 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
-    | '/crm/bookings'
-    | '/crm/calendar'
     | '/crm/conversations'
     | '/crm/customers'
-    | '/crm/invoices'
-    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
-    | '/crm/quotes'
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
@@ -529,16 +474,11 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/track-request'
-    | '/crm/bookings'
-    | '/crm/calendar'
     | '/crm/conversations'
     | '/crm/customers'
-    | '/crm/invoices'
-    | '/crm/jobs'
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
-    | '/crm/quotes'
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
@@ -811,13 +751,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmReportsRouteImport
       parentRoute: typeof CrmRoute
     }
-    '/crm/quotes': {
-      id: '/crm/quotes'
-      path: '/quotes'
-      fullPath: '/crm/quotes'
-      preLoaderRoute: typeof CrmQuotesRouteImport
-      parentRoute: typeof CrmRoute
-    }
     '/crm/marketing': {
       id: '/crm/marketing'
       path: '/marketing'
@@ -839,20 +772,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmLeadsRouteImport
       parentRoute: typeof CrmRoute
     }
-    '/crm/jobs': {
-      id: '/crm/jobs'
-      path: '/jobs'
-      fullPath: '/crm/jobs'
-      preLoaderRoute: typeof CrmJobsRouteImport
-      parentRoute: typeof CrmRoute
-    }
-    '/crm/invoices': {
-      id: '/crm/invoices'
-      path: '/invoices'
-      fullPath: '/crm/invoices'
-      preLoaderRoute: typeof CrmInvoicesRouteImport
-      parentRoute: typeof CrmRoute
-    }
     '/crm/customers': {
       id: '/crm/customers'
       path: '/customers'
@@ -865,20 +784,6 @@ declare module '@tanstack/react-router' {
       path: '/conversations'
       fullPath: '/crm/conversations'
       preLoaderRoute: typeof CrmConversationsRouteImport
-      parentRoute: typeof CrmRoute
-    }
-    '/crm/calendar': {
-      id: '/crm/calendar'
-      path: '/calendar'
-      fullPath: '/crm/calendar'
-      preLoaderRoute: typeof CrmCalendarRouteImport
-      parentRoute: typeof CrmRoute
-    }
-    '/crm/bookings': {
-      id: '/crm/bookings'
-      path: '/bookings'
-      fullPath: '/crm/bookings'
-      preLoaderRoute: typeof CrmBookingsRouteImport
       parentRoute: typeof CrmRoute
     }
     '/crm/leads/$id': {
@@ -904,16 +809,11 @@ const CrmLeadsRouteWithChildren = CrmLeadsRoute._addFileChildren(
 )
 
 interface CrmRouteChildren {
-  CrmBookingsRoute: typeof CrmBookingsRoute
-  CrmCalendarRoute: typeof CrmCalendarRoute
   CrmConversationsRoute: typeof CrmConversationsRoute
   CrmCustomersRoute: typeof CrmCustomersRoute
-  CrmInvoicesRoute: typeof CrmInvoicesRoute
-  CrmJobsRoute: typeof CrmJobsRoute
   CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
   CrmLoginRoute: typeof CrmLoginRoute
   CrmMarketingRoute: typeof CrmMarketingRoute
-  CrmQuotesRoute: typeof CrmQuotesRoute
   CrmReportsRoute: typeof CrmReportsRoute
   CrmReviewsRoute: typeof CrmReviewsRoute
   CrmSettingsRoute: typeof CrmSettingsRoute
@@ -921,16 +821,11 @@ interface CrmRouteChildren {
 }
 
 const CrmRouteChildren: CrmRouteChildren = {
-  CrmBookingsRoute: CrmBookingsRoute,
-  CrmCalendarRoute: CrmCalendarRoute,
   CrmConversationsRoute: CrmConversationsRoute,
   CrmCustomersRoute: CrmCustomersRoute,
-  CrmInvoicesRoute: CrmInvoicesRoute,
-  CrmJobsRoute: CrmJobsRoute,
   CrmLeadsRoute: CrmLeadsRouteWithChildren,
   CrmLoginRoute: CrmLoginRoute,
   CrmMarketingRoute: CrmMarketingRoute,
-  CrmQuotesRoute: CrmQuotesRoute,
   CrmReportsRoute: CrmReportsRoute,
   CrmReviewsRoute: CrmReviewsRoute,
   CrmSettingsRoute: CrmSettingsRoute,

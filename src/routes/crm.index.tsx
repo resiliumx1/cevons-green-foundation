@@ -4,10 +4,12 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area,
 } from "recharts";
 import {
-  ArrowUpRight, ArrowDownRight, Users, CalendarCheck, FileText, DollarSign,
-  Calendar as CalendarIcon, Download, MoreHorizontal, Globe, MessageCircle, Phone, Megaphone, Facebook, UserPlus,
-  ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw,
+  ArrowUpRight, ArrowDownRight, Users, MessageCircle, Phone,
+  Calendar as CalendarIcon, Download, MoreHorizontal, Globe, Megaphone, Facebook, UserPlus,
+  ChevronRight, Inbox, AlertTriangle, StickyNote, CheckCircle2, RefreshCw, TrendingUp, FileText,
 } from "lucide-react";
+
+
 import type { ReactNode, ComponentType } from "react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -88,7 +90,7 @@ function useDashboardData() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("service_requests")
-        .select("id, created_at, status, region, service, utm_source")
+        .select("id, created_at, status, region, service, utm_source, contact_method, estimated_value")
         .gte("created_at", lastMonthStart);
       if (error) throw error;
       return data ?? [];
@@ -107,54 +109,27 @@ function useDashboardData() {
     },
   });
 
-  const quotes = useQuery({
-    queryKey: ["dash", "quotes-open"],
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from("quotes")
-        .select("*", { count: "exact", head: true })
-        .in("status", ["draft", "sent"]);
-      if (error) throw error;
-      return count ?? 0;
-    },
-  });
-
-  const jobsScheduled = useQuery({
-    queryKey: ["dash", "jobs-scheduled"],
-    queryFn: async () => {
-      const { count, error } = await supabase
-        .from("jobs")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "scheduled")
-        .gte("scheduled_start", new Date().toISOString());
-      if (error) throw error;
-      return count ?? 0;
-    },
-  });
-
-  const invoices = useQuery({
-    queryKey: ["dash", "invoices-paid-6mo"],
+  const wonLeads = useQuery({
+    queryKey: ["dash", "won-leads-6mo"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("invoices")
-        .select("total, paid_date, status")
-        .eq("status", "paid")
-        .gte("paid_date", sixMonthsAgo.slice(0, 10));
+        .from("service_requests")
+        .select("estimated_value, created_at, status")
+        .eq("status", "won")
+        .gte("created_at", sixMonthsAgo);
       if (error) throw error;
       return data ?? [];
     },
   });
 
-  const upcoming = useQuery({
-    queryKey: ["dash", "upcoming"],
+  const recentLeads = useQuery({
+    queryKey: ["dash", "recent-leads"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("jobs")
-        .select("id, number, service, scheduled_start, status, region, address, customer_id, customers(name)")
-        .eq("status", "scheduled")
-        .gte("scheduled_start", new Date().toISOString())
-        .order("scheduled_start", { ascending: true })
-        .limit(5);
+        .from("service_requests")
+        .select("id, reference, name, service, region, status, created_at")
+        .order("created_at", { ascending: false })
+        .limit(6);
       if (error) throw error;
       return data ?? [];
     },
@@ -173,8 +148,9 @@ function useDashboardData() {
     },
   });
 
-  return { leads, allLeads, quotes, jobsScheduled, invoices, upcoming, activity, monthStart, nextMonthStart, lastMonthStart };
+  return { leads, allLeads, wonLeads, recentLeads, activity, monthStart, nextMonthStart, lastMonthStart };
 }
+
 
 /* ------------------------------------------------------------------ */
 /* UI building blocks                                                  */
@@ -276,14 +252,38 @@ function Dashboard() {
   }).length;
   const leadsTrend = pctChange(leadsThisMonth, leadsLastMonth);
 
-  const invoicesRows = d.invoices.data ?? [];
-  const revenueThisMonth = invoicesRows
-    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= monthMs && new Date(i.paid_date).getTime() < nextMonthMs)
-    .reduce((s, i) => s + Number(i.total ?? 0), 0);
-  const revenueLastMonth = invoicesRows
-    .filter((i) => i.paid_date && new Date(i.paid_date).getTime() >= lastMonthMs && new Date(i.paid_date).getTime() < monthMs)
-    .reduce((s, i) => s + Number(i.total ?? 0), 0);
-  const revTrend = pctChange(revenueThisMonth, revenueLastMonth);
+  // WhatsApp / Phone / Contact clicks from contact_method on leads this month
+  const isWhatsApp = (r: { utm_source?: string | null; contact_method?: string | null }) => {
+    const s = (r.utm_source || "").toLowerCase();
+    const c = (r.contact_method || "").toLowerCase();
+    return s.includes("whatsapp") || s === "wa" || c.includes("whatsapp") || c === "wa";
+  };
+  const isCall = (r: { utm_source?: string | null; contact_method?: string | null }) => {
+    const s = (r.utm_source || "").toLowerCase();
+    const c = (r.contact_method || "").toLowerCase();
+    return c === "call" || c === "phone" || s === "phone" || s === "call";
+  };
+  const thisMonthRows = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= monthMs && t < nextMonthMs;
+  });
+  const lastMonthRows = leadsRows.filter((r) => {
+    const t = new Date(r.created_at).getTime();
+    return t >= lastMonthMs && t < monthMs;
+  });
+  const whatsappThisMonth = thisMonthRows.filter(isWhatsApp).length;
+  const whatsappLastMonth = lastMonthRows.filter(isWhatsApp).length;
+  const whatsappTrend = pctChange(whatsappThisMonth, whatsappLastMonth);
+  const callsThisMonth = thisMonthRows.filter(isCall).length;
+  const callsLastMonth = lastMonthRows.filter(isCall).length;
+  const callsTrend = pctChange(callsThisMonth, callsLastMonth);
+
+  // Conversion rate (won ÷ total) — across loaded window
+  const wonCount = leadsRows.filter((r) => r.status === "won").length;
+  const conversionRate = leadsRows.length > 0 ? (wonCount / leadsRows.length) * 100 : 0;
+  const wonLastMonth = lastMonthRows.filter((r) => r.status === "won").length;
+  const prevConv = lastMonthRows.length > 0 ? (wonLastMonth / lastMonthRows.length) * 100 : 0;
+  const convTrend = pctChange(Math.round(conversionRate * 10), Math.round(prevConv * 10));
 
   const metrics = [
     {
@@ -292,24 +292,23 @@ function Dashboard() {
       loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Open Quotes", value: d.quotes.data ?? 0, trend: { change: "", up: true },
-      icon: FileText, accent: "#FFD200",
-      loading: d.quotes.isLoading, error: d.quotes.isError, retry: () => d.quotes.refetch(),
-      noTrend: true,
+      label: "WhatsApp Clicks", value: whatsappThisMonth, trend: whatsappTrend,
+      icon: MessageCircle, accent: "#25D366",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Jobs Scheduled", value: d.jobsScheduled.data ?? 0, trend: { change: "", up: true },
-      icon: CalendarCheck, accent: "#3b82f6",
-      loading: d.jobsScheduled.isLoading, error: d.jobsScheduled.isError, retry: () => d.jobsScheduled.refetch(),
-      noTrend: true,
+      label: "Contact Clicks", value: callsThisMonth, trend: callsTrend,
+      icon: Phone, accent: "#3b82f6",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
-      label: "Revenue This Month", value: revenueThisMonth, trend: revTrend,
-      icon: DollarSign, accent: "#E31B23",
-      loading: d.invoices.isLoading, error: d.invoices.isError, retry: () => d.invoices.refetch(),
-      money: true,
+      label: "Conversion Rate", value: conversionRate, trend: convTrend,
+      icon: TrendingUp, accent: "#FFD200",
+      loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
+      percent: true,
     },
   ];
+
 
   /* ---- Sources (this month) ---- */
   const sourcesMap = new Map<string, number>();
@@ -361,7 +360,7 @@ function Dashboard() {
     name, count, pct: Math.round((count / servicesMax) * 100),
   }));
 
-  /* ---- Revenue trend (last 6 months) ---- */
+  /* ---- Won-lead value trend (last 6 months) ---- */
   const months: { key: string; label: string; v: number }[] = [];
   for (let i = 5; i >= 0; i--) {
     const dt = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -371,13 +370,16 @@ function Dashboard() {
       v: 0,
     });
   }
-  invoicesRows.forEach((inv) => {
-    if (!inv.paid_date) return;
-    const pd = new Date(inv.paid_date);
+  (d.wonLeads.data ?? []).forEach((row) => {
+    const pd = new Date(row.created_at);
     const key = `${pd.getFullYear()}-${pd.getMonth()}`;
     const m = months.find((x) => x.key === key);
-    if (m) m.v += Number(inv.total ?? 0);
+    if (m) m.v += Number(row.estimated_value ?? 0);
   });
+  const wonValueThisMonth = months[months.length - 1]?.v ?? 0;
+  const wonValueLastMonth = months[months.length - 2]?.v ?? 0;
+  const wonValueTrend = pctChange(wonValueThisMonth, wonValueLastMonth);
+
 
   return (
     <CrmPage className="space-y-6">
@@ -416,14 +418,14 @@ function Dashboard() {
                       <SkeletonBlock className="h-8 w-24 mt-1" />
                     ) : m.error ? (
                       <span className="text-red-400 text-base">—</span>
-                    ) : m.money ? (
-                      <><span>$</span><CountUp end={Math.round(m.value as number)} /></>
+                    ) : m.percent ? (
+                      <><CountUp end={Math.round(m.value as number)} /><span>%</span></>
                     ) : (
                       <CountUp end={m.value as number} />
                     )}
                   </div>
                   <div className="mt-2 min-h-[16px]">
-                    {!m.loading && !m.error && !m.noTrend && m.trend.change && (
+                    {!m.loading && !m.error && m.trend.change && (
                       <TrendPill up={m.trend.up} change={m.trend.change} />
                     )}
                   </div>
@@ -434,7 +436,7 @@ function Dashboard() {
               </div>
               <div className="h-12 mt-2 -mx-1">
                 <ResponsiveContainer>
-                  <AreaChart data={months.map((mo, idx) => ({ i: idx, v: m.money ? mo.v : Math.max(1, (m.value as number) * (0.4 + idx * 0.12)) }))}>
+                  <AreaChart data={months.map((mo, idx) => ({ i: idx, v: Math.max(1, (m.value as number) * (0.4 + idx * 0.12)) }))}>
                     <defs>
                       <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor={m.accent} stopOpacity={0.4} />
@@ -448,6 +450,7 @@ function Dashboard() {
             </Card>
           );
         })}
+
       </div>
 
       {/* Row: Leads by Source + Revenue */}
@@ -495,22 +498,22 @@ function Dashboard() {
         <Card className="p-5 lg:col-span-2 animate-fade-in" style={{ animationDelay: "80ms" }}>
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold text-white">Revenue (last 6 months)</h3>
+              <h3 className="text-sm font-semibold text-white">Won-Lead Value (last 6 months)</h3>
               <div className="text-3xl font-bold text-white mt-1 tabular-nums">
-                {d.invoices.isLoading ? <SkeletonBlock className="h-8 w-32 mt-1" /> : fmtMoney(revenueThisMonth)}
+                {d.wonLeads.isLoading ? <SkeletonBlock className="h-8 w-32 mt-1" /> : fmtMoney(wonValueThisMonth)}
               </div>
-              {!d.invoices.isLoading && !d.invoices.isError && (
-                <div className="mt-1"><TrendPill up={revTrend.up} change={revTrend.change} /></div>
+              {!d.wonLeads.isLoading && !d.wonLeads.isError && (
+                <div className="mt-1"><TrendPill up={wonValueTrend.up} change={wonValueTrend.change} /></div>
               )}
             </div>
             <span className="text-[11px] uppercase tracking-wider text-slate-400">{now.toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
           </div>
-          {d.invoices.isLoading ? (
+          {d.wonLeads.isLoading ? (
             <SkeletonBlock className="h-52 w-full" />
-          ) : d.invoices.isError ? (
-            <ErrorState onRetry={() => d.invoices.refetch()} />
+          ) : d.wonLeads.isError ? (
+            <ErrorState onRetry={() => d.wonLeads.refetch()} />
           ) : months.every((m) => m.v === 0) ? (
-            <EmptyState title="No paid invoices yet" subtitle="Mark invoices paid to see revenue trend." />
+            <EmptyState title="No won leads yet" subtitle="Move leads to 'Won' to see their estimated value here." />
           ) : (
             <div className="h-52">
               <ResponsiveContainer>
@@ -524,7 +527,7 @@ function Dashboard() {
                   <CartesianGrid stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="d" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
                   <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [`$${v.toLocaleString()}`, "Won Value"]} />
                   <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -532,6 +535,7 @@ function Dashboard() {
           )}
         </Card>
       </div>
+
 
       {/* Row: Top Services + Leads by Region */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -594,52 +598,50 @@ function Dashboard() {
         </Card>
       </div>
 
-      {/* Row: Bookings + Recent activity */}
+      {/* Row: Recent Leads + Recent activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="p-5 lg:col-span-2 animate-fade-in">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white">Upcoming Bookings</h3>
-            <span className="text-xs text-slate-400">{d.upcoming.data?.length ?? 0} scheduled</span>
+            <h3 className="text-sm font-semibold text-white">Recent Leads</h3>
+            <span className="text-xs text-slate-400">{d.recentLeads.data?.length ?? 0} latest</span>
           </div>
-          {d.upcoming.isLoading ? (
+          {d.recentLeads.isLoading ? (
             <div className="space-y-2">{[...Array(4)].map((_, i) => <SkeletonBlock key={i} className="h-10 w-full" />)}</div>
-          ) : d.upcoming.isError ? (
-            <ErrorState onRetry={() => d.upcoming.refetch()} />
-          ) : (d.upcoming.data?.length ?? 0) === 0 ? (
-            <EmptyState title="No upcoming bookings" subtitle="Scheduled jobs will appear here." icon={CalendarCheck} />
+          ) : d.recentLeads.isError ? (
+            <ErrorState onRetry={() => d.recentLeads.refetch()} />
+          ) : (d.recentLeads.data?.length ?? 0) === 0 ? (
+            <EmptyState title="No leads yet" subtitle="New service requests will appear here." icon={Inbox} />
           ) : (
             <div className="overflow-x-auto -mx-5">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/[0.08]">
-                    <th className="px-5 py-2.5 font-medium">Time</th>
-                    <th className="px-3 py-2.5 font-medium">Customer</th>
+                    <th className="px-5 py-2.5 font-medium">When</th>
+                    <th className="px-3 py-2.5 font-medium">Name</th>
                     <th className="px-3 py-2.5 font-medium">Service</th>
                     <th className="px-3 py-2.5 font-medium">Region</th>
                     <th className="px-5 py-2.5 font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {(d.upcoming.data ?? []).map((b) => {
-                    const cust = (b as { customers?: { name?: string } | null }).customers;
-                    return (
-                      <tr key={b.id} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
-                        <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{b.scheduled_start ? fmtDateTime(b.scheduled_start) : "—"}</td>
-                        <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{cust?.name ?? "—"}</td>
-                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service ?? "—"}</td>
-                        <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.region ?? "—"}</td>
-                        <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
-                      </tr>
-                    );
-                  })}
+                  {(d.recentLeads.data ?? []).map((b) => (
+                    <tr key={b.id} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
+                      <td className="px-5 py-3 text-slate-300 whitespace-nowrap">{timeAgo(b.created_at)}</td>
+                      <td className="px-3 py-3 text-white font-medium whitespace-nowrap">{b.name ?? "—"}</td>
+                      <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.service ?? "—"}</td>
+                      <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{b.region ?? "—"}</td>
+                      <td className="px-5 py-3"><StatusBadge status={b.status} /></td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           )}
           <button className="mt-4 w-full inline-flex items-center justify-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 py-2 border border-emerald-500/30 rounded-lg hover:bg-emerald-500/5 transition-colors">
-            View Calendar <ChevronRight className="h-3 w-3" />
+            View All Leads <ChevronRight className="h-3 w-3" />
           </button>
         </Card>
+
 
         <Card className="p-5 flex flex-col animate-fade-in" style={{ animationDelay: "80ms" }}>
           <h3 className="text-sm font-semibold text-white mb-4">Recent Activity</h3>

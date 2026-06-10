@@ -21,8 +21,7 @@ export const Route = createFileRoute("/crm/marketing")({
 
 type CampaignRow = Database["public"]["Tables"]["campaigns"]["Row"];
 type SR = Database["public"]["Tables"]["service_requests"]["Row"];
-type InvoiceRow = Database["public"]["Tables"]["invoices"]["Row"];
-type JobRow = Database["public"]["Tables"]["jobs"]["Row"];
+
 
 const CHANNEL_OPTIONS = ["google_ads", "facebook", "whatsapp", "referral", "organic", "other"] as const;
 const PIE_COLORS = ["#FFD200", "#006B35", "#E31B23", "#3B82F6", "#A855F7", "#F97316", "#6B7280", "#22D3EE"];
@@ -57,7 +56,7 @@ function MarketingPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("service_requests")
-        .select("id,status,service,region,utm_source,utm_medium,utm_campaign,contact_method,landing_page,customer_id,created_at")
+        .select("id,status,service,region,utm_source,utm_medium,utm_campaign,contact_method,landing_page,customer_id,estimated_value,created_at")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data || []) as SR[];
@@ -76,36 +75,11 @@ function MarketingPage() {
     },
   });
 
-  const invoicesQ = useQuery({
-    queryKey: ["marketing:invoices"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("invoices")
-        .select("id,status,total,customer_id,job_id")
-        .eq("status", "paid");
-      if (error) throw error;
-      return (data || []) as Pick<InvoiceRow, "id" | "status" | "total" | "customer_id" | "job_id">[];
-    },
-  });
-
-  const jobsQ = useQuery({
-    queryKey: ["marketing:jobs"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("jobs")
-        .select("id,service_request_id,customer_id");
-      if (error) throw error;
-      return (data || []) as Pick<JobRow, "id" | "service_request_id" | "customer_id">[];
-    },
-  });
-
-  const loading = requestsQ.isLoading || campaignsQ.isLoading || invoicesQ.isLoading || jobsQ.isLoading;
-  const errored = requestsQ.error || campaignsQ.error || invoicesQ.error || jobsQ.error;
+  const loading = requestsQ.isLoading || campaignsQ.isLoading;
+  const errored = requestsQ.error || campaignsQ.error;
 
   const requests = requestsQ.data || [];
   const campaigns = campaignsQ.data || [];
-  const invoices = invoicesQ.data || [];
-  const jobs = jobsQ.data || [];
 
   const totals = useMemo(() => {
     const total = requests.length;
@@ -115,18 +89,15 @@ function MarketingPage() {
     const totalCost = campaigns.reduce((s, c) => s + Number(c.cost || 0), 0);
     const cpl = total > 0 ? totalCost / total : 0;
 
-    // revenue from won leads (customer_id linked + invoice paid for that customer or job linked to that request)
-    const wonRequestIds = new Set(requests.filter((r) => r.status === "won").map((r) => r.id));
-    const wonCustomerIds = new Set(requests.filter((r) => r.status === "won" && r.customer_id).map((r) => r.customer_id!));
-    const jobIdsFromWon = new Set(jobs.filter((j) => j.service_request_id && wonRequestIds.has(j.service_request_id)).map((j) => j.id));
-    const revenue = invoices.reduce((sum, inv) => {
-      const match = (inv.customer_id && wonCustomerIds.has(inv.customer_id)) || (inv.job_id && jobIdsFromWon.has(inv.job_id));
-      return sum + (match ? Number(inv.total || 0) : 0);
-    }, 0);
+    // revenue from won leads using estimated_value (no invoices table dependency)
+    const wonLeads = requests.filter((r) => r.status === "won");
+    const revenue = wonLeads.reduce((s, r) => s + Number(r.estimated_value || 0), 0);
     const roi = totalCost > 0 ? revenue / totalCost : 0;
+    const conversionRate = total > 0 ? (wonLeads.length / total) * 100 : 0;
 
-    return { total, whatsapp, calls, website, totalCost, cpl, revenue, roi };
-  }, [requests, campaigns, invoices, jobs]);
+    return { total, whatsapp, calls, website, totalCost, cpl, revenue, roi, conversionRate, wonCount: wonLeads.length };
+  }, [requests, campaigns]);
+
 
   const channelData = useMemo(() => {
     const map = new Map<string, number>();
@@ -187,20 +158,15 @@ function MarketingPage() {
         ? requests.filter((r) => (r.utm_campaign || "").toLowerCase() === utm)
         : [];
       const leads = matched.length;
-      const reqIds = new Set(matched.map((r) => r.id));
-      const custIds = new Set(matched.map((r) => r.customer_id).filter(Boolean) as string[]);
-      const linkedJobs = jobs.filter((j) => (j.service_request_id && reqIds.has(j.service_request_id)) || (j.customer_id && custIds.has(j.customer_id!)));
-      const jobIdSet = new Set(linkedJobs.map((j) => j.id));
-      const revenue = invoices.reduce((s, inv) => {
-        const m = (inv.job_id && jobIdSet.has(inv.job_id)) || (inv.customer_id && custIds.has(inv.customer_id));
-        return s + (m ? Number(inv.total || 0) : 0);
-      }, 0);
+      const wonLeads = matched.filter((r) => r.status === "won");
+      const revenue = wonLeads.reduce((s, r) => s + Number(r.estimated_value || 0), 0);
       const cost = Number(c.cost || 0);
       const cpl = leads > 0 ? cost / leads : 0;
       const roi = cost > 0 ? revenue / cost : 0;
-      return { ...c, leads, jobs: linkedJobs.length, revenue, cpl, roi };
+      return { ...c, leads, won: wonLeads.length, revenue, cpl, roi };
     });
-  }, [campaigns, requests, jobs, invoices]);
+  }, [campaigns, requests]);
+
 
   const deleteMut = useMutation({
     mutationFn: async (id: string) => {
@@ -238,7 +204,7 @@ function MarketingPage() {
         <div className="flex items-center justify-between gap-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-200">
           <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4" /> Failed to load marketing data.</span>
           <button
-            onClick={() => { requestsQ.refetch(); campaignsQ.refetch(); invoicesQ.refetch(); jobsQ.refetch(); }}
+            onClick={() => { requestsQ.refetch(); campaignsQ.refetch(); }}
             className="inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-xs text-white hover:bg-white/5"
           >
             <RefreshCw className="h-3 w-3" /> Retry
@@ -334,7 +300,7 @@ function MarketingPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-white/[0.02] text-left text-xs uppercase tracking-wider text-white/50">
-              <tr>{["Campaign", "Channel", "UTM", "Leads", "Cost", "CPL", "Jobs", "Revenue", "ROI", ""].map((h) => (
+              <tr>{["Campaign", "Channel", "UTM", "Leads", "Cost", "CPL", "Won", "Revenue", "ROI", ""].map((h) => (
                 <th key={h} className="px-4 py-3 font-medium">{h}</th>
               ))}</tr>
             </thead>
@@ -351,7 +317,7 @@ function MarketingPage() {
                   <td className="px-4 py-3 text-white/80">{c.leads}</td>
                   <td className="px-4 py-3 text-white/70">{fmtMoney(Number(c.cost))}</td>
                   <td className="px-4 py-3 text-white/70">{c.leads > 0 ? `$${c.cpl.toFixed(2)}` : "—"}</td>
-                  <td className="px-4 py-3 text-white/80">{c.jobs}</td>
+                  <td className="px-4 py-3 text-white/80">{c.won}</td>
                   <td className="px-4 py-3 font-semibold text-[#FFD200]">{fmtMoney(c.revenue)}</td>
                   <td className="px-4 py-3">
                     {Number(c.cost) > 0 ? (

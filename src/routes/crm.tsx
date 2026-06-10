@@ -4,11 +4,6 @@ import {
   LayoutDashboard,
   Users,
   MessageSquare,
-  Calendar,
-  CalendarCheck,
-  FileText,
-  Briefcase,
-  Receipt,
   UserSquare2,
   Megaphone,
   BarChart3,
@@ -23,6 +18,7 @@ import {
   X,
   Globe,
 } from "lucide-react";
+
 import logo from "@/assets/cevons-logo.png";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
@@ -43,17 +39,13 @@ const nav = [
   { to: "/crm", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/crm/leads", label: "Leads / Requests", icon: Users },
   { to: "/crm/conversations", label: "Conversations", icon: MessageSquare },
-  { to: "/crm/calendar", label: "Calendar", icon: Calendar },
-  { to: "/crm/bookings", label: "Bookings", icon: CalendarCheck },
-  { to: "/crm/quotes", label: "Quotes", icon: FileText },
-  { to: "/crm/jobs", label: "Jobs", icon: Briefcase },
-  { to: "/crm/invoices", label: "Invoices", icon: Receipt },
   { to: "/crm/customers", label: "Customers", icon: UserSquare2 },
   { to: "/crm/marketing", label: "Marketing", icon: Megaphone },
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
   { to: "/crm/reviews", label: "Reviews", icon: Star },
   { to: "/crm/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }>;
+
 
 function CrmRoot() {
   return (

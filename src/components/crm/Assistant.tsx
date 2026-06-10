@@ -122,9 +122,9 @@ function botResponse(intent: Intent): Message {
             : "You have demo tasks for 4 lead follow-ups, 3 quote reviews, 5 booking confirmations, and 4 invoices to send. Highest priority should be specialist review requests, high-value commercial leads, and quote requests older than 24 hours.",
         actions: [
           { kind: "link", label: "View Leads / Requests", to: "/crm/leads" },
-          { kind: "link", label: "View Quotes", to: "/crm/quotes" },
-          { kind: "link", label: "View Calendar", to: "/crm/calendar" },
+          { kind: "link", label: "View Marketing", to: "/crm/marketing" },
         ],
+
       };
 
     case "priority":
@@ -291,7 +291,7 @@ function botResponse(intent: Intent): Message {
         role: "bot",
         text:
           "Quote checklists by service type:\n\n— Dumpster / Skip Bin —\n• Waste type\n• Container size or estimated volume\n• Rental duration\n• Delivery / pickup dates\n• Location\n• Site access\n\n— Industrial / Specialized —\n• Waste type\n• Quantity\n• Source\n• Safety documents (SDS)\n• Photos\n• Location\n• Urgency\n• Documentation needs",
-        actions: [{ kind: "link", label: "Open Quotes", to: "/crm/quotes" }],
+        actions: [{ kind: "link", label: "Open Leads", to: "/crm/leads" }],
       };
 
     case "explain_services":
