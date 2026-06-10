@@ -131,7 +131,7 @@ function AboutPage() {
           </p>
         </div>
 
-        <HeroSwoosh />
+        <WaveDivider variant="heritage" />
       </section>
 
       {/* COMPANY STORY */}
