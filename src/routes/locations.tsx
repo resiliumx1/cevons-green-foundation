@@ -4,7 +4,8 @@ import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCh
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
-import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
+import { cevonsContact, telHref, mailtoHref, whatsappHref } from "@/data/cevonsContact";
+import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -16,6 +17,13 @@ export const Route = createFileRoute("/locations")({
       { property: "og:url", content: "/locations" },
     ],
     links: [{ rel: "canonical", href: "/locations" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(localBusinessGraphJsonLd()) },
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Locations", path: "/locations" },
+      ])) },
+    ],
   }),
   component: LocationsPage,
 });
