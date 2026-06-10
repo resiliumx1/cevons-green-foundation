@@ -2,10 +2,10 @@ import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  LayoutDashboard,
+  LayoutGrid,
   Users,
   MessageSquare,
-  UserSquare2,
+  ContactRound,
   Megaphone,
   BarChart3,
   Star,
@@ -24,6 +24,7 @@ import { NotificationsBell, useNotifications, type NotifType } from "@/component
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 
 export const Route = createFileRoute("/crm")({
