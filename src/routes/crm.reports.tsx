@@ -440,11 +440,11 @@ function ReportsPage() {
         {servicesByRevenue.length === 0 && !loading ? <Empty /> : (
           <ResponsiveContainer>
             <BarChart data={servicesByRevenue}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-              <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-              <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} formatter={(v: number) => `$${v.toLocaleString()}`} />
-              <Bar dataKey="revenue" fill="#006B35" radius={[6, 6, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+              <XAxis dataKey="name" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+              <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+              <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+              <Bar dataKey="revenue" name="Revenue" fill="#006B35" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         )}
