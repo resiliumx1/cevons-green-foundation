@@ -77,7 +77,7 @@ export function useNotifications() {
     })();
 
     const ch = supabase
-      .channel("crm-notifications")
+      .channel(`crm-notifications-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "notifications" }, (payload) => {
         if (payload.eventType === "INSERT") {
           setItems((cur) => [payload.new as NotificationRow, ...cur].slice(0, 200));
