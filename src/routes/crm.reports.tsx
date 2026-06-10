@@ -425,11 +425,11 @@ function ReportsPage() {
           {servicesByVolume.length === 0 && !loading ? <Empty /> : (
             <ResponsiveContainer>
               <BarChart data={servicesByVolume} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis type="number" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.4)" fontSize={11} width={120} />
-                <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
-                <Bar dataKey="leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                <XAxis type="number" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <YAxis dataKey="name" type="category" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} width={120} />
+                <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+                <Bar dataKey="leads" name="Leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
