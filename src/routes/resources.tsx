@@ -16,6 +16,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
@@ -354,6 +355,12 @@ function ResourcesPage() {
           ))}
         </div>
       </section>
+
+      <NewsletterSignup
+        source="resources"
+        heading="Get CEVON'S tips in your inbox"
+        subheading="Practical waste management, compliance and recycling insights — once a month, no spam."
+      />
     </SiteLayout>
   );
 }

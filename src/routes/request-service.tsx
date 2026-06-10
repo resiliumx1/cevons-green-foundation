@@ -113,6 +113,7 @@ type FormData = {
     address: string; region: string; contactMethod: string; notes: string;
   };
   confirm: boolean;
+  newsletterOptIn: boolean;
 };
 
 const EMPTY: FormData = {
@@ -123,6 +124,7 @@ const EMPTY: FormData = {
   schedule: { date: "", window: "", urgency: "", timeframe: "" },
   info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", contactMethod: "WhatsApp", notes: "" },
   confirm: false,
+  newsletterOptIn: true,
 };
 
 function RequestServicePage() {
@@ -174,6 +176,14 @@ function RequestServicePage() {
     if (!validate()) return;
     // Demo submission only — future integration point for CRM sync.
     console.log("CEVON'S service request submitted:", data);
+    if (data.newsletterOptIn && data.info.email) {
+      try {
+        const { subscribeEmail } = await import("@/components/NewsletterSignup");
+        await subscribeEmail(data.info.email, "request-form");
+      } catch {
+        // Non-blocking: never prevent submission on newsletter failure.
+      }
+    }
     navigate({ to: "/request-service/confirmation" });
   }
 
@@ -249,6 +259,8 @@ function RequestServicePage() {
                   isSpecialist={isSpecialist}
                   confirm={data.confirm}
                   setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
+                  newsletterOptIn={data.newsletterOptIn}
+                  setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
                   error={errors.confirm}
                 />
               )}
@@ -773,10 +785,12 @@ function StepInfo({
 /* ---------------- Step 6: Review ---------------- */
 
 function StepReview({
-  data, selected, isSpecialist, confirm, setConfirm, error,
+  data, selected, isSpecialist, confirm, setConfirm, newsletterOptIn, setNewsletterOptIn, error,
 }: {
   data: FormData; selected: ServiceMeta | null; isSpecialist: boolean;
-  confirm: boolean; setConfirm: (v: boolean) => void; error?: string;
+  confirm: boolean; setConfirm: (v: boolean) => void;
+  newsletterOptIn: boolean; setNewsletterOptIn: (v: boolean) => void;
+  error?: string;
 }) {
   const detailEntries = useMemo(() => Object.entries(data.details).filter(([, v]) => v), [data.details]);
   const categoryName = CATEGORIES.find((c) => c.key === data.category)?.name ?? "—";
@@ -847,6 +861,17 @@ function StepReview({
         <span className="text-sm">I confirm that the information provided is accurate.</span>
       </label>
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+
+      <label className="mt-4 flex items-start gap-3 cursor-pointer">
+        <Checkbox
+          checked={newsletterOptIn}
+          onCheckedChange={(v) => setNewsletterOptIn(!!v)}
+          className="mt-1"
+        />
+        <span className="text-sm text-muted-foreground">
+          Keep me updated with CEVON&rsquo;S news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
+        </span>
+      </label>
     </div>
   );
 }
