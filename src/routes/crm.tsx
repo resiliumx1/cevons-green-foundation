@@ -61,6 +61,18 @@ function CrmLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { unreadByType, markTypeRead } = useNotifications();
+
+  // Auto mark-as-read when the user opens a section that maps to a notification type.
+  useEffect(() => {
+    for (const item of nav) {
+      if (!item.notifType) continue;
+      const active = item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
+      if (active && unreadByType[item.notifType] > 0) {
+        void markTypeRead(item.notifType);
+      }
+    }
+  }, [pathname, unreadByType, markTypeRead]);
 
   const SidebarContent = (
     <>
