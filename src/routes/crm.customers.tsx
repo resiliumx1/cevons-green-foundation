@@ -104,6 +104,7 @@ function CustomersPage() {
   const [statusFilter, setStatusFilter] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   const [editing, setEditing] = useState<Customer | null>(null);
 
   const regions = useMemo(
