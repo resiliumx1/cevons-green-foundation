@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import type { BranchPoint } from "./GuyanaBranchMap.client";
+import type { BranchPoint } from "./GuyanaBranchMapInner";
 
-const MapInner = lazy(() => import("./GuyanaBranchMap.client"));
+const MapInner = lazy(() => import("./GuyanaBranchMapInner"));
 
 interface Props {
   branches: BranchPoint[];
