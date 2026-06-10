@@ -164,8 +164,8 @@ function CrmLayout() {
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   className="absolute inset-0 rounded-xl -z-0"
                   style={{
-                    background: "linear-gradient(180deg, rgba(245,197,24,0.14), rgba(245,197,24,0.06))",
-                    boxShadow: "inset 0 0 0 1px rgba(245,197,24,0.22)",
+                    background: "linear-gradient(180deg, rgba(0,107,53,0.22), rgba(0,107,53,0.12))",
+                    boxShadow: "inset 0 0 0 1px rgba(0,107,53,0.30)",
                   }}
                 />
               )}
