@@ -149,7 +149,7 @@ function ContactPage() {
           </p>
 
         </div>
-        <div className="brand-ribbon" aria-hidden="true" />
+        <WaveDivider variant="minimal" />
       </section>
 
       {/* CONTACT METHODS */}
