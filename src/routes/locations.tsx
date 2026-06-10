@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
+import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, buildLocalBusinessJsonLd } from "@/data/cevonsContact";
 
 export const Route = createFileRoute("/locations")({
@@ -28,7 +29,7 @@ const regions: {
   phone: string;
   hours: string;
   services: string[];
-  pin: { top: string; left: string };
+  coords: [number, number];
 }[] = [
   {
     name: "Georgetown",
@@ -37,7 +38,7 @@ const regions: {
     phone: cevonsContact.regions[0].phones.join(" / "),
     hours: cevonsContact.regions[0].hours,
     services: cevonsContact.regions[0].services,
-    pin: { top: "70%", left: "32%" },
+    coords: [6.8013, -58.1551],
   },
   {
     name: "Linden",
@@ -46,7 +47,7 @@ const regions: {
     phone: cevonsContact.regions[1].phones.join(" / "),
     hours: cevonsContact.regions[1].hours,
     services: cevonsContact.regions[1].services,
-    pin: { top: "55%", left: "38%" },
+    coords: [6.0064, -58.3018],
   },
   {
     name: "Berbice",
@@ -55,9 +56,19 @@ const regions: {
     phone: cevonsContact.regions[2].phones.join(" / "),
     hours: cevonsContact.regions[2].hours,
     services: cevonsContact.regions[2].services,
-    pin: { top: "62%", left: "62%" },
+    coords: [6.2485, -57.5170],
   },
 ];
+
+const mapBranches: BranchPoint[] = regions.map((r) => ({
+  id: r.name,
+  name: r.name,
+  label: r.label,
+  lat: r.coords[0],
+  lng: r.coords[1],
+  phone: r.phone.split(" / ")[0],
+  hours: r.hours,
+}));
 
 const availability: { service: string; cells: Record<Region, "yes" | "contact"> }[] = [
   { service: "Garbage Collection", cells: { Georgetown: "yes", Linden: "yes", Berbice: "yes" } },
@@ -102,83 +113,49 @@ function LocationsPage() {
             </p>
           </div>
 
-          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#006B35)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-6 md:p-10 shadow-sm">
-            <div className="relative aspect-[4/3] w-full">
-              {/* Stylized Guyana silhouette */}
-              <svg viewBox="0 0 400 300" className="absolute inset-0 w-full h-full" aria-hidden>
-                <defs>
-                  <linearGradient id="gy" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#006B35" stopOpacity="0.15" />
-                    <stop offset="100%" stopColor="#006B35" stopOpacity="0.05" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M120 30 L180 25 L240 35 L280 60 L300 110 L290 170 L270 220 L230 260 L180 270 L140 250 L110 210 L95 160 L100 100 Z"
-                  fill="url(#gy)"
-                  stroke="#006B35"
-                  strokeOpacity="0.5"
-                  strokeWidth="1.5"
-                />
-                {/* Accent line connecting pins */}
-                <polyline
-                  points="128,210 152,165 248,186"
-                  fill="none"
-                  stroke="#F5C518"
-                  strokeWidth="2"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-
-              {/* Pins */}
-              {regions.map((r) => {
-                const isActive = activePin === r.name;
-                return (
-                  <button
-                    key={r.name}
-                    onClick={() => setActivePin(r.name)}
-                    className="absolute -translate-x-1/2 -translate-y-full group"
-                    style={{ top: r.pin.top, left: r.pin.left }}
-                    aria-label={`Show ${r.name}`}
-                  >
-                    <span
-                      className={`flex flex-col items-center transition-transform ${
-                        isActive ? "scale-110" : "group-hover:scale-105"
-                      }`}
-                    >
-                      <span
-                        className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow-lg ring-4 ${
-                          isActive
-                            ? "bg-[#F5C518] ring-[#F5C518]/30 text-[var(--cevons-deep-green,#006B35)]"
-                            : "bg-[var(--cevons-deep-green,#006B35)] ring-[var(--cevons-deep-green,#006B35)]/20 text-white"
-                        }`}
-                      >
-                        <MapPin className="w-5 h-5" />
-                        {isActive && (
-                          <span className="absolute inset-0 rounded-full bg-[#F5C518] animate-ping opacity-40" />
-                        )}
-                      </span>
-                      <span
-                        className={`mt-1 px-2 py-0.5 rounded-md text-xs font-semibold ${
-                          isActive
-                            ? "bg-[var(--cevons-deep-green,#006B35)] text-white"
-                            : "bg-white text-[var(--cevons-deep-green,#006B35)] border border-[var(--cevons-deep-green,#006B35)]/20"
-                        }`}
-                      >
-                        {r.name}
-                      </span>
-                    </span>
-                  </button>
-                );
-              })}
+          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#006B35)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+              <GuyanaBranchMap
+                branches={mapBranches}
+                selectedId={activePin}
+                onSelect={(id) => setActivePin(id as Region)}
+                className="absolute inset-0 size-full"
+              />
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-6 text-xs text-cevons-muted">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-cevons-muted">
               <span className="inline-flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,#006B35)]" /> Branch
               </span>
               <span className="inline-flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[#F5C518]" /> Selected
+                <span className="w-3 h-3 rounded-full bg-[#FFD200]" /> Selected
               </span>
+              <span className="text-cevons-muted/70">Click the map to enable scroll zoom</span>
+            </div>
+
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {regions.map((r) => {
+                const active = activePin === r.name;
+                return (
+                  <button
+                    key={r.name}
+                    onClick={() => setActivePin(r.name)}
+                    className={`rounded-xl border px-4 py-3 text-left transition-all ${
+                      active
+                        ? "border-[var(--cevons-deep-green,#006B35)] bg-[var(--cevons-deep-green,#006B35)] text-white shadow-md"
+                        : "border-[var(--cevons-deep-green,#006B35)]/15 bg-white text-[var(--cevons-deep-green,#006B35)] hover:border-[var(--cevons-deep-green,#006B35)]/40"
+                    }`}
+                    aria-pressed={active}
+                  >
+                    <div className="flex items-center gap-2 font-bold">
+                      <MapPin className="w-4 h-4" /> {r.name}
+                    </div>
+                    <div className={`text-xs mt-0.5 ${active ? "text-white/80" : "text-cevons-muted"}`}>
+                      {r.label}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
