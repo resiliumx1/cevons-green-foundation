@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import {
-  MessageCircle,
   X,
   Send,
   RotateCcw,
@@ -11,10 +10,10 @@ import {
   MapPin,
   CheckCircle2,
 } from "lucide-react";
-import { cevonsIcons } from "@/data/cevonsIconRegistry";
+import logoMark from "@/assets/cevons-logo-transparent.png";
 import { cevonsContact, hasConfirmedWhatsApp, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 
-const ASSISTANT_AVATAR = cevonsIcons.ui.contactSupport.src;
+const ASSISTANT_AVATAR = logoMark;
 
 /**
  * Cevon's Service Assistant — public website chat widget
