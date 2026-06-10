@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { ContactMessagesInbox } from "@/components/crm/ContactMessagesInbox";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/crm/conversations")({
