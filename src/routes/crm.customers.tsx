@@ -150,9 +150,17 @@ function CustomersPage() {
           <h1 className="text-2xl font-semibold text-white md:text-3xl">Customers</h1>
           <p className="mt-1 text-sm text-white/60">Manage customer and company records.</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 rounded-lg bg-[#FFD200] px-3 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90">
-          <Plus className="h-4 w-4" /> Add Customer
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowImport(true)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm font-semibold text-white hover:bg-white/[0.08]"
+          >
+            <Upload className="h-4 w-4" /> Import CSV
+          </button>
+          <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 rounded-lg bg-[#FFD200] px-3 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90">
+            <Plus className="h-4 w-4" /> Add Customer
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
