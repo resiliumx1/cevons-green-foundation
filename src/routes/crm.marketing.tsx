@@ -21,8 +21,7 @@ export const Route = createFileRoute("/crm/marketing")({
 
 type CampaignRow = Database["public"]["Tables"]["campaigns"]["Row"];
 type SR = Database["public"]["Tables"]["service_requests"]["Row"];
-type InvoiceRow = Database["public"]["Tables"]["invoices"]["Row"];
-type JobRow = Database["public"]["Tables"]["jobs"]["Row"];
+
 
 const CHANNEL_OPTIONS = ["google_ads", "facebook", "whatsapp", "referral", "organic", "other"] as const;
 const PIE_COLORS = ["#FFD200", "#006B35", "#E31B23", "#3B82F6", "#A855F7", "#F97316", "#6B7280", "#22D3EE"];
