@@ -4,8 +4,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Search, Filter, Plus, X, Users, UserPlus, Building2, Repeat,
   Phone, Mail, MapPin, FileText, AlertTriangle, RefreshCw, Inbox,
-  Pencil, Archive, Trash2, ChevronDown,
+  Pencil, Archive, Trash2, ChevronDown, Upload,
 } from "lucide-react";
+
+import { ImportCustomersDialog } from "@/components/crm/ImportCustomersDialog";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
@@ -102,6 +104,7 @@ function CustomersPage() {
   const [statusFilter, setStatusFilter] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [showImport, setShowImport] = useState(false);
   const [editing, setEditing] = useState<Customer | null>(null);
 
   const regions = useMemo(
@@ -147,9 +150,17 @@ function CustomersPage() {
           <h1 className="text-2xl font-semibold text-white md:text-3xl">Customers</h1>
           <p className="mt-1 text-sm text-white/60">Manage customer and company records.</p>
         </div>
-        <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 rounded-lg bg-[#FFD200] px-3 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90">
-          <Plus className="h-4 w-4" /> Add Customer
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowImport(true)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm font-semibold text-white hover:bg-white/[0.08]"
+          >
+            <Upload className="h-4 w-4" /> Import CSV
+          </button>
+          <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 rounded-lg bg-[#FFD200] px-3 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90">
+            <Plus className="h-4 w-4" /> Add Customer
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -279,6 +290,12 @@ function CustomersPage() {
           onClose={() => { setShowAdd(false); setEditing(null); }}
         />
       )}
+
+      <ImportCustomersDialog
+        open={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={() => qc.invalidateQueries({ queryKey: ["crm", "customers"] })}
+      />
     </CrmPage>
   );
 }
