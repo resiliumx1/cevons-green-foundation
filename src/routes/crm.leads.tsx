@@ -279,6 +279,40 @@ function LeadsList() {
         </div>
       </div>
 
+      {/* Pipeline segment tabs */}
+      <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-2 animate-fade-in">
+        <div className="flex flex-wrap gap-1.5">
+          {(["all", ...SEGMENTS] as SegmentFilter[]).map((seg) => {
+            const active = segment === seg;
+            const stats = segmentStats[seg];
+            const label = seg === "all" ? "All Pipelines" : SEGMENT_LABEL[seg];
+            const dot = seg === "all" ? "bg-[#FFD200]" : SEGMENT_DOT[seg];
+            return (
+              <button
+                key={seg}
+                onClick={() => setSegment(seg)}
+                className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg border text-left transition-colors ${
+                  active
+                    ? "bg-white/[0.04] border-[#FFD200]/40 text-white"
+                    : "bg-transparent border-white/[0.06] text-slate-300 hover:bg-white/[0.03] hover:border-white/[0.12]"
+                }`}
+              >
+                <span className={`h-2 w-2 rounded-full ${dot}`} />
+                <span className="text-xs font-semibold whitespace-nowrap">{label}</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded tabular-nums ${active ? "bg-[#FFD200]/15 text-[#FFD200]" : "bg-white/5 text-slate-400"}`}>
+                  {stats.count}
+                </span>
+                {stats.value > 0 && (
+                  <span className="text-[10px] text-emerald-400 font-semibold tabular-nums hidden sm:inline">
+                    ${stats.value >= 1000 ? `${Math.round(stats.value / 100) / 10}k` : stats.value.toLocaleString()}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Filter bar */}
       <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-3 md:p-4 animate-fade-in">
         <div className="flex flex-wrap gap-2">
