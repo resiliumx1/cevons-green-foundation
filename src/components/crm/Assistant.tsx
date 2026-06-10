@@ -67,6 +67,18 @@ type Message = {
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 
+const ROUTE_LABELS: Record<string, string> = {
+  "/crm": "Open Dashboard",
+  "/crm/leads": "Open Leads",
+  "/crm/conversations": "Open Conversations",
+  "/crm/customers": "Open Customers",
+  "/crm/marketing": "Open Marketing",
+  "/crm/reports": "Open Reports",
+  "/crm/reviews": "Open Reviews",
+  "/crm/settings": "Open Settings",
+};
+const routeLabel = (to: string) => ROUTE_LABELS[to] ?? `Open ${to}`;
+
 const QUICK_PROMPTS = [
   "What needs follow-up today?",
   "Which leads are highest priority?",
