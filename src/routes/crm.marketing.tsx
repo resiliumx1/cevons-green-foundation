@@ -319,7 +319,7 @@ function MarketingPage() {
                   <td className="px-4 py-3 text-white/70">{fmtMoney(Number(c.cost))}</td>
                   <td className="px-4 py-3 text-white/70">{c.leads > 0 ? `$${c.cpl.toFixed(2)}` : "—"}</td>
                   <td className="px-4 py-3 text-white/80">{c.won}</td>
-                  <td className="px-4 py-3 font-semibold text-[#FFD200]">{fmtMoney(c.revenue)}</td>
+                  <td className={`px-4 py-3 font-semibold ${c.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>{fmtMoney(c.revenue)}</td>
                   <td className="px-4 py-3">
                     {Number(c.cost) > 0 ? (
                       <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]" : "border-orange-500/30 bg-orange-500/10 text-orange-300"}`}>
