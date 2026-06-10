@@ -112,7 +112,7 @@ export function Footer() {
             <a href="#" className="hover:text-cevons-yellow">Sitemap</a>
             <span>© {new Date().getFullYear()} CEVON&rsquo;S Environmental Services Inc.</span>
             <Link
-              to="/crm/login"
+              to="/crm"
               aria-label="Admin login"
               title="Admin"
               className="group inline-flex items-center gap-1 text-white/40 hover:text-cevons-yellow transition-colors"
