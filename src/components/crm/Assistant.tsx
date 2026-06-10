@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Sparkles,
   X,
@@ -11,6 +12,7 @@ import {
   MessageSquare,
   ListPlus,
   AlertTriangle,
+  Loader2,
 } from "lucide-react";
 
 /**
@@ -64,6 +66,18 @@ type Message = {
 };
 
 const uid = () => Math.random().toString(36).slice(2, 10);
+
+const ROUTE_LABELS: Record<string, string> = {
+  "/crm": "Open Dashboard",
+  "/crm/leads": "Open Leads",
+  "/crm/conversations": "Open Conversations",
+  "/crm/customers": "Open Customers",
+  "/crm/marketing": "Open Marketing",
+  "/crm/reports": "Open Reports",
+  "/crm/reviews": "Open Reviews",
+  "/crm/settings": "Open Settings",
+};
+const routeLabel = (to: string) => ROUTE_LABELS[to] ?? `Open ${to}`;
 
 const QUICK_PROMPTS = [
   "What needs follow-up today?",
@@ -329,14 +343,26 @@ export function CrmAssistant() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const sessionId = useMemo(() => {
+    if (typeof window === "undefined") return uid();
+    const k = "crm-assistant-session";
+    let s = window.localStorage.getItem(k);
+    if (!s) {
+      s = uid() + uid();
+      window.localStorage.setItem(k, s);
+    }
+    return s;
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
     }
-  }, [messages, open]);
+  }, [messages, open, loading]);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 80);
@@ -350,19 +376,76 @@ export function CrmAssistant() {
   }, [open]);
 
   const send = useCallback(
-    (raw?: string) => {
+    async (raw?: string) => {
       const text = (raw ?? input).trim();
-      if (!text) return;
+      if (!text || loading) return;
+      if (text.length > 2000) {
+        toast.error("Message too long — please shorten it.");
+        return;
+      }
       const userMsg: Message = { id: uid(), role: "user", text };
-      setMessages((prev) => [...prev, userMsg]);
+      const history = [...messages, userMsg];
+      setMessages(history);
       setInput("");
-      const reply = botResponse(detectIntent(text));
-      setTimeout(() => setMessages((prev) => [...prev, reply]), 200);
+      setLoading(true);
+
+      try {
+        const apiMessages = history
+          .slice(-10)
+          .map((m) => ({
+            role: m.role === "user" ? ("user" as const) : ("assistant" as const),
+            content: m.text,
+          }));
+
+        const { data, error } = await supabase.functions.invoke("ai-assistant", {
+          body: { mode: "crm", sessionId, messages: apiMessages },
+        });
+
+        if (error) throw error;
+        const replyText: string =
+          (data as { reply?: string; error?: string })?.reply ??
+          (data as { error?: string })?.error ??
+          "Sorry, I couldn't generate a response.";
+
+        // Auto-extract /crm/* route mentions into clickable link actions
+        const routeMatches = Array.from(replyText.matchAll(/\/crm(?:\/[a-z-]+)?/gi))
+          .map((m) => m[0].toLowerCase());
+        const uniqueRoutes = Array.from(new Set(routeMatches));
+        const linkActions: Action[] = uniqueRoutes.slice(0, 4).map((to) => ({
+          kind: "link" as const,
+          label: routeLabel(to),
+          to,
+        }));
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: uid(),
+            role: "bot",
+            text: replyText,
+            actions: linkActions.length ? linkActions : undefined,
+          },
+        ]);
+      } catch (e) {
+        console.error("CRM assistant error", e);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: uid(),
+            role: "bot",
+            text:
+              "I couldn't reach the assistant right now. Please try again in a moment.",
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
     },
-    [input],
+    [input, loading, messages, sessionId],
   );
 
   const reset = () => setMessages([WELCOME]);
+
 
   const runAction = (a: Action) => {
     switch (a.kind) {
@@ -483,7 +566,7 @@ export function CrmAssistant() {
               }}
             >
               <AlertTriangle className="h-3 w-3" />
-              Front-end preview using demo CRM data.
+              AI helper — explains the CRM, no live data access yet.
             </div>
 
             {/* Quick prompts */}
@@ -516,6 +599,27 @@ export function CrmAssistant() {
               {messages.map((m) => (
                 <Bubble key={m.id} message={m} onAction={runAction} onSend={send} />
               ))}
+              {loading && (
+                <div className="flex items-start gap-2">
+                  <div
+                    className="h-7 w-7 rounded-lg grid place-items-center text-white shrink-0 mt-0.5"
+                    style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </div>
+                  <div
+                    className="rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-sm shadow-sm border inline-flex items-center gap-2"
+                    style={{
+                      background: "var(--crm-surface)",
+                      borderColor: "var(--crm-border)",
+                      color: "var(--crm-text-muted)",
+                    }}
+                  >
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    Thinking…
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}
@@ -534,9 +638,10 @@ export function CrmAssistant() {
                     send();
                   }
                 }}
-                placeholder="Ask about leads, requests, services..."
+                disabled={loading}
+                placeholder={loading ? "Waiting for response…" : "Ask about leads, requests, services..."}
                 aria-label="Type your question"
-                className="flex-1 resize-none rounded-lg border px-3 py-2 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2"
+                className="flex-1 resize-none rounded-lg border px-3 py-2 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 disabled:opacity-60"
                 style={
                   {
                     borderColor: "var(--crm-border)",
@@ -549,12 +654,12 @@ export function CrmAssistant() {
               <button
                 type="button"
                 onClick={() => send()}
-                disabled={!input.trim()}
+                disabled={!input.trim() || loading}
                 aria-label="Send"
                 className="h-9 w-9 grid place-items-center rounded-lg text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: "var(--crm-primary)" }}
               >
-                <Send className="h-4 w-4" />
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </button>
             </div>
           </aside>
