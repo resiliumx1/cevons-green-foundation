@@ -491,12 +491,18 @@ export function ServiceAssistant() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Welcome popup teaser (after 2.5s, hide when chat opens or dismissed)
+  // Welcome popup teaser (after 15s, auto-hide after 8s, hide when chat opens or dismissed)
   useEffect(() => {
     if (!mounted || open) return;
-    const t = setTimeout(() => setPopupVisible(true), 2500);
-    return () => clearTimeout(t);
+    const showTimer = setTimeout(() => setPopupVisible(true), 15000);
+    return () => clearTimeout(showTimer);
   }, [mounted, open]);
+
+  useEffect(() => {
+    if (!popupVisible || open) return;
+    const hideTimer = setTimeout(() => setPopupVisible(false), 8000);
+    return () => clearTimeout(hideTimer);
+  }, [popupVisible, open]);
 
   const pushBot = useCallback((m: Message) => {
     setMessages((prev) => [...prev, m]);
