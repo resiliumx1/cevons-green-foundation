@@ -21,6 +21,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
+import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
@@ -181,6 +182,8 @@ function HomePage() {
           </ul>
         </div>
       </section>
+
+      <SocialProofStrip />
 
       {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
