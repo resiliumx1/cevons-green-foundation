@@ -1,23 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import {
   Search, MessageCircle, Phone, ShieldCheck, Clock, Award,
-  Check, Package, FileText, User, MapPin, Calendar, Truck,
-  ChevronRight, ClipboardList, PhoneCall, ClipboardCheck,
+  Check, FileText, MapPin, Calendar, Truck,
+  ClipboardList, PhoneCall, ClipboardCheck, AlertCircle, Loader2,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 
+const searchSchema = z.object({ ref: z.string().optional() });
+
 export const Route = createFileRoute("/track-request")({
+  validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
       { title: "Track Your Request | CEVON'S Guyana" },
-      { name: "description", content: "Track the status of your CEVON'S service request. Enter your reference number to get real-time updates." },
+      { name: "description", content: "Enter your reference and contact to check the live status of your CEVON'S service request." },
       { property: "og:title", content: "Track Your Request | CEVON'S Guyana" },
       { property: "og:description", content: "Track the status of your CEVON'S service request." },
     ],
@@ -26,304 +29,213 @@ export const Route = createFileRoute("/track-request")({
   component: TrackRequestPage,
 });
 
-/* ------------------------------------------------------------------ */
-/*  Types & demo data                                                  */
-/* ------------------------------------------------------------------ */
+/* Status mapping: internal -> customer-friendly stage */
+const STAGES = [
+  { key: "new", label: "Received", icon: ClipboardList },
+  { key: "contacted", label: "Contacted", icon: PhoneCall },
+  { key: "quoted", label: "Quote Sent", icon: FileText },
+  { key: "scheduled", label: "Scheduled", icon: Calendar },
+  { key: "won", label: "Completed", icon: ClipboardCheck },
+] as const;
 
-type StatusKey =
-  | "New"
-  | "Under Review"
-  | "Contacted"
-  | "Quote Sent"
-  | "Scheduled"
-  | "In Progress"
-  | "Completed"
-  | "Cancelled";
+const TERMINAL_LOST = "lost";
 
-interface TimelineItem {
-  status: string;
-  description: string;
-  timestamp: string;
-  icon: React.ComponentType<{ className?: string }>;
+function stageIndexFor(status: string): number {
+  if (status === TERMINAL_LOST) return -2;
+  const i = STAGES.findIndex((s) => s.key === status);
+  return i;
 }
 
-const STATUS_META: Record<
-  StatusKey,
-  { color: string; text: string; bg: string; border?: string }
-> = {
-  New: { color: "text-slate-700", text: "text-slate-700", bg: "bg-slate-100" },
-  "Under Review": { color: "text-amber-700", text: "text-amber-700", bg: "bg-amber-100" },
-  Contacted: { color: "text-emerald-700", text: "text-emerald-700", bg: "bg-emerald-50", border: "border border-emerald-200" },
-  "Quote Sent": { color: "text-amber-700", text: "text-amber-700", bg: "bg-amber-100" },
-  Scheduled: { color: "text-white", text: "text-emerald-700", bg: "bg-[#006B35]" },
-  "In Progress": { color: "text-white", text: "text-[#003F27]", bg: "bg-[#003F27]" },
-  Completed: { color: "text-white", text: "text-emerald-700", bg: "bg-emerald-600" },
-  Cancelled: { color: "text-white", text: "text-red-700", bg: "bg-red-600" },
+type TrackResult = {
+  request: {
+    reference: string;
+    service: string | null;
+    category: string | null;
+    status: string;
+    region: string | null;
+    created_at: string;
+    preferred_date: string | null;
+    preferred_time: string | null;
+  };
+  events: { status: string; note: string | null; created_at: string }[];
 };
 
-const DEMO_TIMELINE: TimelineItem[] = [
-  { status: "Submitted", description: "Request received successfully.", timestamp: "May 15, 2026 10:24 AM", icon: ClipboardList },
-  { status: "Under Review", description: "Our team is reviewing your request details.", timestamp: "May 15, 2026 11:05 AM", icon: FileText },
-  { status: "Contacted", description: "We reached out via WhatsApp to confirm details.", timestamp: "May 15, 2026 02:18 PM", icon: PhoneCall },
-  { status: "Quote Sent", description: "A quote was provided for your approval.", timestamp: "May 15, 2026 04:42 PM", icon: FileText },
-  { status: "Scheduled", description: "Service confirmed for May 17, morning window.", timestamp: "May 16, 2026 09:00 AM", icon: Calendar },
-  { status: "In Progress", description: "Service is currently being performed.", timestamp: "—", icon: Truck },
-  { status: "Completed", description: "Service completed and site cleared.", timestamp: "—", icon: ClipboardCheck },
-];
-
-const trustItems = [
-  { icon: ShieldCheck, label: "Licensed & Insured" },
-  { icon: Clock, label: "Same-Day Response" },
-  { icon: Award, label: "Trusted Across Guyana" },
-  { icon: Phone, label: "24/7 Support" },
-];
-
-/* ------------------------------------------------------------------ */
-/*  Page component                                                     */
-/* ------------------------------------------------------------------ */
+function formatDateTime(iso: string): string {
+  try {
+    return new Date(iso).toLocaleString(undefined, {
+      month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
+    });
+  } catch { return iso; }
+}
 
 function TrackRequestPage() {
-  const [mounted, setMounted] = useState(false);
-  const [refInput, setRefInput] = useState("");
+  const { ref: prefillRef } = Route.useSearch();
+  const [refInput, setRefInput] = useState(prefillRef ?? "");
   const [contactInput, setContactInput] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [showDemo] = useState(true); // placeholder toggle for future real data
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<TrackResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(t);
-  }, []);
+  useEffect(() => { const t = setTimeout(() => setMounted(true), 50); return () => clearTimeout(t); }, []);
 
-  function handleTrack(e: React.FormEvent) {
+  async function handleTrack(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    if (!refInput.trim() || !contactInput.trim()) return;
+    setLoading(true);
+    setError(null);
+    setResult(null);
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { data, error: fnErr } = await supabase.functions.invoke("track-request", {
+        body: { reference: refInput.trim(), contact: contactInput.trim() },
+      });
+      if (fnErr || !data) {
+        // supabase-js sets fnErr for non-2xx responses
+        setError("not_found");
+        return;
+      }
+      if ((data as any).error) {
+        setError((data as any).error);
+        return;
+      }
+      setResult(data as TrackResult);
+    } catch {
+      setError("network");
+    } finally {
+      setLoading(false);
+    }
   }
-
-  const visibleResult = submitted || showDemo;
 
   return (
     <SiteLayout>
-      {/* Hero / Title */}
       <PageHero
         title="Track Your Request"
-        subtitle="Enter your details to check the status of your service request."
+        subtitle="Enter your reference and contact to check the status of your service request."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Track Request" }]}
         imageSrc="/assets/heroes/hero-track-request.webp"
-        imageAlt="Customer tracking a CEVON’S service request online"
+        imageAlt="Customer tracking a CEVON'S service request online"
         height="standard"
-        showLogoBadge
       />
 
-      {/* Tracking Form */}
+      {/* Lookup form */}
       <section className="bg-white">
         <div className="container-cevons px-4 py-10 md:py-14">
-          <div
-            className={cn(
-              "max-w-lg mx-auto rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)] transition-all duration-700",
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
-          >
+          <div className={cn("max-w-lg mx-auto rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)] transition-all duration-700",
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6")}>
             <form onSubmit={handleTrack} className="space-y-5">
               <div>
-                <Label htmlFor="ref" className="text-sm font-semibold text-[var(--cevons-dark)]">
-                  Reference Number
-                </Label>
+                <Label htmlFor="ref" className="text-sm font-semibold text-[var(--cevons-dark)]">Reference Number</Label>
                 <Input
                   id="ref"
-                  placeholder="e.g. CEV-2026-000124"
+                  placeholder="e.g. CEV-2026-AB3K9"
                   value={refInput}
-                  onChange={(e) => setRefInput(e.target.value)}
-                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[#006B35]"
+                  onChange={(e) => setRefInput(e.target.value.toUpperCase())}
+                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[#006B35] font-mono"
+                  required
                 />
               </div>
               <div>
-                <Label htmlFor="contact" className="text-sm font-semibold text-[var(--cevons-dark)]">
-                  Email or Phone Number
-                </Label>
+                <Label htmlFor="contact" className="text-sm font-semibold text-[var(--cevons-dark)]">Email or Phone Number</Label>
                 <Input
                   id="contact"
-                  placeholder="Email or phone used during request"
+                  placeholder="Email or phone used on your request"
                   value={contactInput}
                   onChange={(e) => setContactInput(e.target.value)}
                   className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[#006B35]"
+                  required
                 />
+                <p className="mt-1.5 text-xs text-[var(--cevons-muted)]">
+                  We verify this against the contact used at submission to protect your request privacy.
+                </p>
               </div>
-              <button type="submit" className="btn-base btn-green w-full">
-                <Search className="size-4" />
-                Track Request
+              <button type="submit" disabled={loading} className="btn-base btn-green w-full disabled:opacity-60">
+                {loading ? <><Loader2 className="size-4 animate-spin" />Looking up…</> : <><Search className="size-4" />Track Request</>}
               </button>
             </form>
           </div>
         </div>
       </section>
 
-      {/* Result Card + Timeline */}
-      {visibleResult && (
+      {/* States */}
+      {loading && (
         <section className="bg-[var(--cevons-cream)] border-t border-[var(--cevons-border)]">
-          <div className="container-cevons px-4 py-10 md:py-16">
-            <div className="max-w-3xl mx-auto space-y-8">
-              {/* Status Result Card */}
-              <div
-                className={cn(
-                  "rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)] transition-all duration-700",
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                )}
-                style={{ transitionDelay: "200ms" }}
-              >
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h2 className="text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">
-                        Request Details
-                      </h2>
-                      <StatusBadge status="Scheduled" />
-                    </div>
-                    <p className="mt-1 text-sm text-[var(--cevons-muted)]">
-                      Reference: <span className="font-mono font-semibold text-[var(--cevons-dark)]">CEV-2026-000124</span>
-                    </p>
-                  </div>
-                  <div className="text-right hidden md:block">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[var(--cevons-muted)]">Service</p>
-                    <p className="text-base font-bold text-[var(--cevons-dark)]">Dumpster Rental</p>
-                  </div>
-                </div>
-
-                <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <DetailTile icon={Package} label="Service" value="Dumpster Rental" />
-                  <DetailTile icon={MapPin} label="Location" value="Georgetown, Guyana" />
-                  <DetailTile icon={Calendar} label="Submitted" value="May 15, 2026 10:24 AM" />
-                  <DetailTile icon={Clock} label="Service Window" value="May 17, 2026, 8:00 AM – 12:00 PM" />
-                </div>
-
-                <div className="mt-5 pt-5 border-t border-[var(--cevons-border)] flex items-center gap-2 text-sm text-[var(--cevons-muted)]">
-                  <User className="size-4 text-[#006B35]" />
-                  <span>Assigned Team:</span>
-                  <span className="font-semibold text-[var(--cevons-dark)]">CEVON’S Operations</span>
-                </div>
-              </div>
-
-              {/* Timeline */}
-              <div
-                className={cn(
-                  "rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)] transition-all duration-700",
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-                )}
-                style={{ transitionDelay: "400ms" }}
-              >
-                <h3 className="text-lg font-bold text-[var(--cevons-dark)] mb-6">Request Timeline</h3>
-                <div className="relative">
-                  {/* vertical connector line */}
-                  <div className="absolute left-[19px] top-2 bottom-2 w-px bg-[var(--cevons-border)]" />
-                  <ol className="space-y-6">
-                    {DEMO_TIMELINE.map((item, i) => {
-                      const isCompleted = i < 5;
-                      const isActive = i === 4;
-                      const Icon = item.icon;
-                      return (
-                        <li
-                          key={item.status}
-                          className={cn(
-                            "relative flex items-start gap-4 transition-all duration-500",
-                            mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3"
-                          )}
-                          style={{ transitionDelay: `${500 + i * 100}ms` }}
-                        >
-                          {/* Circle */}
-                          <div className="relative z-10 shrink-0">
-                            <div
-                              className={cn(
-                                "size-10 rounded-full flex items-center justify-center border-2 transition-colors",
-                                isCompleted || isActive
-                                  ? "bg-[#006B35] border-[#006B35] text-white"
-                                  : "bg-white border-[var(--cevons-border)] text-[var(--cevons-muted)]"
-                              )}
-                            >
-                              {isCompleted ? (
-                                <Check className="size-5" />
-                              ) : (
-                                <Icon className="size-5" />
-                              )}
-                            </div>
-                          </div>
-                          {/* Content */}
-                          <div className="flex-1 pt-1">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                              <span
-                                className={cn(
-                                  "text-base font-semibold",
-                                  isCompleted || isActive ? "text-[var(--cevons-dark)]" : "text-[var(--cevons-muted)]"
-                                )}
-                              >
-                                {item.status}
-                              </span>
-                              <span className="text-xs text-[var(--cevons-muted)] font-medium">
-                                {item.timestamp}
-                              </span>
-                            </div>
-                            <p
-                              className={cn(
-                                "mt-0.5 text-sm leading-relaxed",
-                                isCompleted || isActive ? "text-[var(--cevons-muted)]" : "text-[var(--cevons-border)]"
-                              )}
-                            >
-                              {item.description}
-                            </p>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </div>
+          <div className="container-cevons px-4 py-10 md:py-16 max-w-3xl mx-auto">
+            <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-8 animate-pulse">
+              <div className="h-6 w-48 bg-[var(--cevons-border)] rounded mb-3" />
+              <div className="h-4 w-64 bg-[var(--cevons-border)] rounded mb-6" />
+              <div className="space-y-3">
+                {[0,1,2,3,4].map((i) => <div key={i} className="h-12 bg-[var(--cevons-border)]/60 rounded" />)}
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* Need Help CTA */}
+      {!loading && error && (
+        <section className="bg-[var(--cevons-cream)] border-t border-[var(--cevons-border)]">
+          <div className="container-cevons px-4 py-10 md:py-16 max-w-2xl mx-auto">
+            <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-8 text-center">
+              <div className="mx-auto size-12 rounded-full bg-[#E31B23]/10 flex items-center justify-center">
+                <AlertCircle className="size-6 text-[#E31B23]" />
+              </div>
+              <h3 className="mt-4 text-xl font-bold text-[var(--cevons-dark)]">
+                {error === "network" ? "We couldn't reach our servers" : "Request not found"}
+              </h3>
+              <p className="mt-2 text-[var(--cevons-muted)]">
+                {error === "network"
+                  ? "Check your connection and try again."
+                  : "Double-check your reference and the email or phone you used. If you still can't find it, contact us and we'll help."}
+              </p>
+              <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="btn-base btn-green">
+                  <MessageCircle className="size-4" />WhatsApp Us
+                </a>
+                <a href={primaryTelHref} className="btn-base btn-outline-green">
+                  <Phone className="size-4" />Call {cevonsContact.primaryPhone}
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {!loading && !error && result && <ResultView result={result} />}
+
+      {/* Need help */}
       <section className="bg-white border-t border-[var(--cevons-border)]">
         <div className="container-cevons px-4 py-10 md:py-14">
-          <div
-            className={cn(
-              "max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-8 md:p-10 text-center transition-all duration-700",
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            )}
-            style={{ transitionDelay: "600ms" }}
-          >
+          <div className="max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-8 md:p-10 text-center">
             <div className="mx-auto size-12 rounded-full bg-[#006B35]/10 flex items-center justify-center">
               <MessageCircle className="size-6 text-[#006B35]" />
             </div>
             <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Having trouble finding your request?</h2>
             <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Call <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>
-              {" "}or email{" "}
-              <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>{" "}
+              Call <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+              or email <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>{" "}
               and our team will help you locate it.
             </p>
             <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-              {/* Confirm official WhatsApp number with CEVON'S before launch. */}
-              <a
-                href={whatsappHref}
-                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="btn-base btn-green w-full sm:w-auto"
-              >
-                <MessageCircle className="size-4" />
-                WhatsApp Us
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="btn-base btn-green w-full sm:w-auto">
+                <MessageCircle className="size-4" />WhatsApp Us
               </a>
               <a href={primaryTelHref} className="btn-base btn-outline-green w-full sm:w-auto">
-                <Phone className="size-4" />
-                Call {cevonsContact.primaryPhone}
+                <Phone className="size-4" />Call {cevonsContact.primaryPhone}
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bottom Trust Strip */}
       <section className="bg-white border-t border-[var(--cevons-border)]">
         <div className="container-cevons px-4 py-8">
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {trustItems.map((item) => (
+            {[
+              { icon: ShieldCheck, label: "Licensed & Insured" },
+              { icon: Clock, label: "Same-Day Response" },
+              { icon: Award, label: "Trusted Across Guyana" },
+              { icon: Phone, label: "24/7 Support" },
+            ].map((item) => (
               <div key={item.label} className="flex items-center gap-2 text-sm text-[var(--cevons-muted)]">
                 <item.icon className="size-4 text-[#006B35]" />
                 <span className="font-medium">{item.label}</span>
@@ -336,35 +248,122 @@ function TrackRequestPage() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Sub-components                                                     */
-/* ------------------------------------------------------------------ */
+function ResultView({ result }: { result: TrackResult }) {
+  const { request, events } = result;
+  const currentIdx = stageIndexFor(request.status);
+  const isLost = request.status === TERMINAL_LOST;
 
-function StatusBadge({ status }: { status: StatusKey }) {
-  const meta = STATUS_META[status];
+  // Find latest event timestamp per stage key
+  const stageTimestamps = new Map<string, string>();
+  for (const ev of events) {
+    stageTimestamps.set(ev.status, ev.created_at);
+  }
+
+  const statusLabel = isLost
+    ? "Closed"
+    : (STAGES.find((s) => s.key === request.status)?.label ?? "Received");
+
+  const badgeClass = isLost
+    ? "bg-[#E31B23]/10 text-[#E31B23]"
+    : request.status === "won"
+    ? "bg-emerald-600 text-white"
+    : "bg-[#006B35] text-white";
+
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide",
-        meta.bg,
-        meta.text,
-        meta.border
-      )}
-    >
-      {status}
-    </span>
+    <section className="bg-[var(--cevons-cream)] border-t border-[var(--cevons-border)]">
+      <div className="container-cevons px-4 py-10 md:py-16">
+        <div className="max-w-3xl mx-auto space-y-8">
+          {/* Summary card */}
+          <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)]">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h2 className="text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Request Details</h2>
+                  <span className={cn("inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide", badgeClass)}>
+                    {statusLabel}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-[var(--cevons-muted)]">
+                  Reference: <span className="font-mono font-semibold text-[var(--cevons-dark)]">{request.reference}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <DetailTile icon={FileText} label="Service" value={request.service ?? "—"} />
+              <DetailTile icon={MapPin} label="Location" value={request.region ?? "—"} />
+              <DetailTile icon={Calendar} label="Submitted" value={formatDateTime(request.created_at)} />
+              <DetailTile
+                icon={Clock}
+                label="Preferred Window"
+                value={request.preferred_date
+                  ? `${request.preferred_date}${request.preferred_time ? ` · ${request.preferred_time}` : ""}`
+                  : "To be confirmed"}
+              />
+            </div>
+          </div>
+
+          {/* Timeline */}
+          <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)]">
+            <h3 className="text-lg font-bold text-[var(--cevons-dark)] mb-6">Request Timeline</h3>
+
+            {isLost && (
+              <p className="mb-6 text-sm text-[var(--cevons-muted)]">
+                This request has been closed. If this was unexpected, please contact us.
+              </p>
+            )}
+
+            <div className="relative">
+              <div className="absolute left-[19px] top-2 bottom-2 w-px bg-[var(--cevons-border)]" />
+              <ol className="space-y-6">
+                {STAGES.map((stage, i) => {
+                  const isCompleted = !isLost && i < currentIdx;
+                  const isActive = !isLost && i === currentIdx;
+                  const isFuture = isLost || i > currentIdx;
+                  const Icon = stage.icon;
+                  const ts = stageTimestamps.get(stage.key);
+                  return (
+                    <li key={stage.key} className="relative flex items-start gap-4">
+                      <div className="relative z-10 shrink-0">
+                        <div className={cn(
+                          "size-10 rounded-full flex items-center justify-center border-2 transition-colors",
+                          isCompleted && "bg-[#006B35] border-[#006B35] text-white",
+                          isActive && "bg-[#006B35] border-[#006B35] text-white",
+                          isFuture && "bg-white border-[var(--cevons-border)] text-[var(--cevons-muted)]",
+                        )}>
+                          {isCompleted ? <Check className="size-5" /> : <Icon className="size-5" />}
+                        </div>
+                        {isActive && (
+                          <span className="absolute inset-0 rounded-full bg-[#006B35] opacity-30 animate-ping" />
+                        )}
+                      </div>
+                      <div className="flex-1 pt-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                          <span className={cn(
+                            "text-base font-semibold",
+                            (isCompleted || isActive) ? "text-[var(--cevons-dark)]" : "text-[var(--cevons-muted)]"
+                          )}>
+                            {stage.label}
+                            {isActive && <span className="ml-2 text-xs font-bold uppercase text-[#006B35]">Current</span>}
+                          </span>
+                          {ts && (
+                            <span className="text-xs text-[var(--cevons-muted)] font-medium">{formatDateTime(ts)}</span>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
-function DetailTile({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-}) {
+function DetailTile({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
   return (
     <div className="rounded-xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-4">
       <div className="flex items-center gap-2 text-[var(--cevons-muted)] mb-1">
