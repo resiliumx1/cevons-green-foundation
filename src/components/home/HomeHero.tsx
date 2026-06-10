@@ -260,17 +260,40 @@ export function HomeHero() {
         </motion.div>
       </div>
 
-      {/* Flag wave accent (behind cert panel) */}
-      <svg
+      {/* Flag wave accent — animated tri-color silk ribbons */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-[110px] z-0 h-[60px] w-full md:bottom-[130px] md:h-[80px]"
-        viewBox="0 0 1440 80"
-        preserveAspectRatio="none"
+        className="hero-wave pointer-events-none absolute inset-x-0 bottom-[100px] z-0 h-[90px] md:bottom-[120px] md:h-[120px]"
       >
-        <path d="M0,60 C520,10 980,4 1440,2 L1440,30 C980,40 520,55 0,78 Z" fill="#E31B23" opacity="0.95" />
-        <path d="M0,68 C520,28 980,20 1440,16 L1440,48 C980,56 520,70 0,80 Z" fill="#FFD200" opacity="0.95" />
-        <path d="M0,76 C520,52 980,46 1440,42 L1440,80 L0,80 Z" fill="#003F27" />
-      </svg>
+        <div className="hero-wave__drift">
+          {/* GREEN — widest, bottom-most */}
+          <svg
+            className="hero-wave__ribbon hero-wave__ribbon--green"
+            viewBox="0 0 2880 120"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,92 C360,70 720,58 1080,54 C1440,50 1800,58 2160,72 C2520,84 2700,88 2880,90 L2880,120 L0,120 Z" />
+          </svg>
+          {/* GOLD — mid accent band */}
+          <svg
+            className="hero-wave__ribbon hero-wave__ribbon--gold"
+            viewBox="0 0 2880 120"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,80 C420,50 880,38 1320,34 C1760,30 2200,42 2520,58 C2700,66 2820,70 2880,72 L2880,96 C2520,82 1760,70 1320,72 C880,74 420,84 0,104 Z" />
+          </svg>
+          {/* RED — top accent band */}
+          <svg
+            className="hero-wave__ribbon hero-wave__ribbon--red"
+            viewBox="0 0 2880 120"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,62 C480,28 960,16 1440,14 C1920,12 2400,24 2880,46 L2880,68 C2400,50 1920,40 1440,42 C960,44 480,56 0,84 Z" />
+          </svg>
+          {/* GEM SHEEN — diagonal light sweep */}
+          <div className="hero-wave__sheen" />
+        </div>
+      </div>
 
       {/* CERTIFICATION PANEL */}
       <div className="container-cevons relative z-10 pb-5">
