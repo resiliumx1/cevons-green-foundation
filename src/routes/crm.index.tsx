@@ -214,7 +214,7 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-const TOOLTIP_STYLE = { background: "#0a1414", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#fff", fontSize: 12 };
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/crm/chartTheme";
 
 /* ------------------------------------------------------------------ */
 /* Activity icon mapping                                               */
