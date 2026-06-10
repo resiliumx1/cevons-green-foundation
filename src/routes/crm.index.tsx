@@ -581,7 +581,7 @@ function Dashboard() {
                     <Pie data={regions} dataKey="value" innerRadius={40} outerRadius={68} paddingAngle={2} stroke="none">
                       {regions.map((r) => <Cell key={r.name} fill={r.color} />)}
                     </Pie>
-                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()}`} labelFormatter={() => ""} />} wrapperStyle={{ zIndex: 50 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
