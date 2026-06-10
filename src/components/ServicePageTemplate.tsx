@@ -1,5 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { serviceJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import {
   ArrowRight,
   Calendar,
@@ -84,8 +85,24 @@ export function ServicePageTemplate(props: ServicePageProps) {
     ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
     : "Our team can help you select the right option for your project, timeline, and waste type.";
 
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const jsonLdService = JSON.stringify(serviceJsonLd({
+    name: h1,
+    description: typeof subhead === "string" ? subhead : h1,
+    path: pathname,
+    category: eyebrowLabel,
+    image: typeof heroImage === "string" ? heroImage : undefined,
+  }));
+  const jsonLdBreadcrumb = JSON.stringify(breadcrumbListJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: breadcrumb, path: pathname },
+  ]));
+
   return (
     <SiteLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdService }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
         <div className="container-cevons py-4">
