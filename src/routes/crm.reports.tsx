@@ -352,11 +352,11 @@ function ReportsPage() {
           {leadTrend.length === 0 && !loading ? <Empty /> : (
             <ResponsiveContainer>
               <LineChart data={leadTrend}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="m" stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={11} />
-                <Tooltip contentStyle={{ background: "#0a1218", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }} />
-                <Line type="monotone" dataKey="v" stroke="#FFD200" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={CRM_GRID} />
+                <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
+                <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
+                <Line type="monotone" dataKey="v" name="Leads" stroke="#FFD200" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#FFD200" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
