@@ -256,6 +256,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <NewsletterSignup source="home" />
     </SiteLayout>
   );
 }
