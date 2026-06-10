@@ -182,6 +182,24 @@ function RequestServicePage() {
     setSubmitError(null);
     try {
       const { supabase } = await import("@/integrations/supabase/client");
+
+      // 1. Upload any attached files to storage first.
+      let fileUrls: string[] = [];
+      if (data.files.length > 0) {
+        const folder = `anon/${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const uploaded: string[] = [];
+        for (const item of data.files) {
+          const safeName = item.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+          const path = `${folder}/${safeName}`;
+          const { error: upErr } = await supabase.storage
+            .from("service-request-uploads")
+            .upload(path, item.file, { contentType: item.file.type || undefined, upsert: false });
+          if (upErr) throw new Error(`Upload failed for ${item.name}: ${upErr.message}`);
+          uploaded.push(path);
+        }
+        fileUrls = uploaded;
+      }
+
       const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
       const payload = {
         category: data.category,
@@ -197,7 +215,7 @@ function RequestServicePage() {
         company: data.info.company || null,
         contact_method: data.info.contactMethod,
         message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
-        file_urls: [],
+        file_urls: fileUrls,
         utm_source: params?.get("utm_source"),
         utm_medium: params?.get("utm_medium"),
         utm_campaign: params?.get("utm_campaign"),
