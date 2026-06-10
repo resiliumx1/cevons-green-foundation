@@ -17,8 +17,19 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CevonsIcon } from "@/components/CevonsIcon";
+import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 const heroContact = "/assets/heroes/hero-contact.webp";
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
+
+const mapBranches: BranchPoint[] = cevonsContact.regions.map((r) => ({
+  id: r.name,
+  name: r.name,
+  label: r.officeType,
+  lat: r.name === "Georgetown" ? 6.8013 : r.name === "Linden" ? 6.0064 : 6.2485,
+  lng: r.name === "Georgetown" ? -58.1551 : r.name === "Linden" ? -58.3018 : -57.517,
+  phone: r.phones[0],
+  hours: r.hours,
+}));
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -342,38 +353,10 @@ function ContactPage() {
                 ))}
               </div>
 
-              {/* MAP PLACEHOLDER */}
+              {/* INTERACTIVE MAP */}
               <div className={`mt-6 rounded-2xl overflow-hidden border border-[var(--cevons-deep-green,#006B35)]/10 bg-[var(--cevons-cream,#FBF7EE)] relative transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ transitionDelay: "500ms" }}>
                 <div className="aspect-[4/3] relative">
-                  <svg viewBox="0 0 400 300" className="absolute inset-0 w-full h-full" aria-hidden>
-                    <defs>
-                      <linearGradient id="gy-contact" x1="0" x2="1" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#006B35" stopOpacity="0.15" />
-                        <stop offset="100%" stopColor="#006B35" stopOpacity="0.05" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      d="M120 30 L180 25 L240 35 L280 60 L300 110 L290 170 L270 220 L230 260 L180 270 L140 250 L110 210 L95 160 L100 100 Z"
-                      fill="url(#gy-contact)"
-                      stroke="#006B35"
-                      strokeOpacity="0.5"
-                      strokeWidth="1.5"
-                    />
-                    {/* Pins */}
-                    {[
-                      { x: 128, y: 210, label: "Georgetown" },
-                      { x: 152, y: 165, label: "Linden" },
-                      { x: 248, y: 186, label: "Berbice" },
-                    ].map((pin) => (
-                      <g key={pin.label}>
-                        <circle cx={pin.x} cy={pin.y - 8} r="6" fill="#006B35" stroke="white" strokeWidth="2" />
-                        <text x={pin.x} y={pin.y + 8} textAnchor="middle" fontSize="10" fill="#006B35" fontWeight="600">{pin.label}</text>
-                      </g>
-                    ))}
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="text-xs font-semibold text-[var(--cevons-deep-green,#006B35)]/50 bg-white/80 px-3 py-1 rounded-full">Interactive map coming soon</span>
-                  </div>
+                  <GuyanaBranchMap branches={mapBranches} className="absolute inset-0 size-full" />
                 </div>
               </div>
             </aside>
