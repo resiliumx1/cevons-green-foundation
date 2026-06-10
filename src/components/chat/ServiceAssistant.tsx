@@ -491,6 +491,13 @@ export function ServiceAssistant() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // Welcome popup teaser (after 2.5s, hide when chat opens or dismissed)
+  useEffect(() => {
+    if (!mounted || open) return;
+    const t = setTimeout(() => setPopupVisible(true), 2500);
+    return () => clearTimeout(t);
+  }, [mounted, open]);
+
   const pushBot = useCallback((m: Message) => {
     setMessages((prev) => [...prev, m]);
   }, []);
