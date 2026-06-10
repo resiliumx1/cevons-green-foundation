@@ -433,7 +433,15 @@
 [data-crm-theme] .crm-bottom-nav {
   background-color: var(--crm-sidebar) !important;
   border-top: 1px solid var(--crm-border) !important;
+  padding-bottom: env(safe-area-inset-bottom);
+  scroll-snap-type: x proximity;
 }
+[data-crm-theme] .crm-bottom-nav::-webkit-scrollbar { display: none; }
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] {
+  color: #FFD200 !important;
+  font-weight: 600;
+}
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #FFD200 !important; }
 [data-crm-theme] .crm-nav-item {
   color: var(--crm-sidebar-text) !important;
   background-color: transparent !important;
