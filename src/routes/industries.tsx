@@ -26,6 +26,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
