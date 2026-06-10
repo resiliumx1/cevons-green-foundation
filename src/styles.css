@@ -1020,6 +1020,19 @@
   box-shadow: 0 16px 36px -12px rgba(245, 197, 24, 0.65), 0 4px 10px rgba(0,0,0,0.22);
 }
 
+/* Stacked CTA: label + small sub-label */
+.hero-cta--stacked { padding: 0.7rem 1.2rem; align-items: center; }
+.hero-cta__text { display: flex; flex-direction: column; line-height: 1.1; text-align: left; }
+.hero-cta__label { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.005em; }
+.hero-cta__sub {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.01em;
+  margin-top: 2px;
+}
+.hero-cta--schedule .hero-cta__sub { color: rgba(16,24,32,0.7); }
+
 /* Mobile — keep word effect, soften leaf clutter & ensure no clipping */
 @media (max-width: 640px) {
   .eco-leaf.leaf-four,
