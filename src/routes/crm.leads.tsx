@@ -48,6 +48,45 @@ function sourceLabel(s: string | null) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Pipeline segments                                                   */
+/* ------------------------------------------------------------------ */
+
+const SEGMENTS = ["residential", "commercial", "industrial", "specialty"] as const;
+type Segment = typeof SEGMENTS[number];
+type SegmentFilter = Segment | "all";
+
+const SEGMENT_LABEL: Record<Segment, string> = {
+  residential: "Residential",
+  commercial: "Commercial",
+  industrial: "Industrial",
+  specialty: "Specialty",
+};
+
+const SEGMENT_DOT: Record<Segment, string> = {
+  residential: "bg-emerald-400",
+  commercial:  "bg-sky-400",
+  industrial:  "bg-violet-400",
+  specialty:   "bg-red-400",
+};
+
+const SPECIALTY_RE = /hazard|biohazard|waste\s*oil|contaminated\s*soil|tank\s*clean|product\s*destruction|wastewater|septic/i;
+const INDUSTRIAL_RE = /industrial|refinery|mining|oil\s*&?\s*gas|plant|factory|manufactur/i;
+const COMMERCIAL_RE = /commercial|business|office|retail|restaurant|hotel|facility|facilities|construction/i;
+const RESIDENTIAL_RE = /residential|household|home|domestic|bulk\s*waste|yard|garbage\s*collection/i;
+
+function classifySegment(l: Lead): Segment {
+  const haystack = `${l.category ?? ""} ${l.service ?? ""} ${l.customer_type ?? ""}`.toLowerCase();
+  if (SPECIALTY_RE.test(haystack)) return "specialty";
+  const ct = (l.customer_type ?? "").toLowerCase();
+  if (ct.includes("industrial") || INDUSTRIAL_RE.test(haystack)) return "industrial";
+  if (ct.includes("commercial") || COMMERCIAL_RE.test(haystack)) return "commercial";
+  if (ct.includes("residential") || RESIDENTIAL_RE.test(haystack)) return "residential";
+  const cat = (l.category ?? "").toLowerCase();
+  if (cat.includes("recycl") || cat.includes("facilit")) return "commercial";
+  return "residential";
+}
+
+/* ------------------------------------------------------------------ */
 /* Data                                                                */
 /* ------------------------------------------------------------------ */
 
@@ -151,9 +190,30 @@ function LeadsList() {
     [leads],
   );
 
+  const [segment, setSegment] = useState<SegmentFilter>("all");
+
+  const withSegments = useMemo(
+    () => leads.map((l) => ({ lead: l, segment: classifySegment(l) })),
+    [leads],
+  );
+
+  const segmentStats = useMemo(() => {
+    const init = (): { count: number; value: number } => ({ count: 0, value: 0 });
+    const stats: Record<SegmentFilter, { count: number; value: number }> = {
+      all: init(), residential: init(), commercial: init(), industrial: init(), specialty: init(),
+    };
+    withSegments.forEach(({ lead, segment: seg }) => {
+      const v = Number(lead.estimated_value ?? 0);
+      stats.all.count++; stats.all.value += v;
+      stats[seg].count++; stats[seg].value += v;
+    });
+    return stats;
+  }, [withSegments]);
+
   const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const filtered = leads.filter((l) => {
+    const filtered = withSegments.filter(({ lead: l, segment: seg }) => {
+      if (segment !== "all" && seg !== segment) return false;
       if (statusFilter && l.status !== statusFilter) return false;
       if (regionFilter && l.region !== regionFilter) return false;
       if (sourceFilter) {
@@ -165,14 +225,14 @@ function LeadsList() {
         if (!hay.includes(term)) return false;
       }
       return true;
-    });
+    }).map((x) => x.lead);
     filtered.sort((a, b) => {
       const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : Number(a.estimated_value ?? 0);
       const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : Number(b.estimated_value ?? 0);
       return sortDir === "asc" ? av - bv : bv - av;
     });
     return filtered;
-  }, [leads, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
+  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
 
   const allChecked = visible.length > 0 && visible.every((l) => selected.has(l.id));
   const previewLead = leads.find((l) => l.id === previewId) ?? null;
@@ -216,6 +276,40 @@ function LeadsList() {
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Plus className="h-4 w-4" /> Add Lead
           </button>
+        </div>
+      </div>
+
+      {/* Pipeline segment tabs */}
+      <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-2 animate-fade-in">
+        <div className="flex flex-wrap gap-1.5">
+          {(["all", ...SEGMENTS] as SegmentFilter[]).map((seg) => {
+            const active = segment === seg;
+            const stats = segmentStats[seg];
+            const label = seg === "all" ? "All Pipelines" : SEGMENT_LABEL[seg];
+            const dot = seg === "all" ? "bg-[#FFD200]" : SEGMENT_DOT[seg];
+            return (
+              <button
+                key={seg}
+                onClick={() => setSegment(seg)}
+                className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg border text-left transition-colors ${
+                  active
+                    ? "bg-white/[0.04] border-[#FFD200]/40 text-white"
+                    : "bg-transparent border-white/[0.06] text-slate-300 hover:bg-white/[0.03] hover:border-white/[0.12]"
+                }`}
+              >
+                <span className={`h-2 w-2 rounded-full ${dot}`} />
+                <span className="text-xs font-semibold whitespace-nowrap">{label}</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded tabular-nums ${active ? "bg-[#FFD200]/15 text-[#FFD200]" : "bg-white/5 text-slate-400"}`}>
+                  {stats.count}
+                </span>
+                {stats.value > 0 && (
+                  <span className="text-[10px] text-emerald-400 font-semibold tabular-nums hidden sm:inline">
+                    ${stats.value >= 1000 ? `${Math.round(stats.value / 100) / 10}k` : stats.value.toLocaleString()}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
