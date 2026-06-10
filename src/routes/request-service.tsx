@@ -113,6 +113,7 @@ type FormData = {
     address: string; region: string; contactMethod: string; notes: string;
   };
   confirm: boolean;
+  newsletterOptIn: boolean;
 };
 
 const EMPTY: FormData = {
@@ -123,6 +124,7 @@ const EMPTY: FormData = {
   schedule: { date: "", window: "", urgency: "", timeframe: "" },
   info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", contactMethod: "WhatsApp", notes: "" },
   confirm: false,
+  newsletterOptIn: true,
 };
 
 function RequestServicePage() {
@@ -174,6 +176,14 @@ function RequestServicePage() {
     if (!validate()) return;
     // Demo submission only — future integration point for CRM sync.
     console.log("CEVON'S service request submitted:", data);
+    if (data.newsletterOptIn && data.info.email) {
+      try {
+        const { subscribeEmail } = await import("@/components/NewsletterSignup");
+        await subscribeEmail(data.info.email, "request-form");
+      } catch {
+        // Non-blocking: never prevent submission on newsletter failure.
+      }
+    }
     navigate({ to: "/request-service/confirmation" });
   }
 
