@@ -566,7 +566,7 @@ export function CrmAssistant() {
               }}
             >
               <AlertTriangle className="h-3 w-3" />
-              Front-end preview using demo CRM data.
+              AI helper — explains the CRM, no live data access yet.
             </div>
 
             {/* Quick prompts */}
