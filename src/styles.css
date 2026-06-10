@@ -1035,13 +1035,17 @@
   .eco-word.growth-flow::before,
   .eco-word.growth-flow::after,
   .eco-leaf,
+  .lf,
+  .sp,
   .hero-subhead-pro .for-guyana::after,
   .hero-cta {
     animation: none !important;
     transition: none !important;
     transform: none !important;
   }
+  .lf, .sp { opacity: 0 !important; }
   .hero-cta:hover { transform: none !important; }
+
 }
 
 /* Social proof strip */
