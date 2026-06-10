@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -11,21 +11,31 @@ import {
   Star,
   Settings,
   Search,
-  HelpCircle,
   PanelLeftClose,
   PanelLeftOpen,
   Menu,
   X,
   Globe,
+  LogOut,
+  UserCircle,
 } from "lucide-react";
 
-import logo from "@/assets/cevons-logo.png";
+import logo from "@/assets/cevons-logo-transparent.png";
 import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({
