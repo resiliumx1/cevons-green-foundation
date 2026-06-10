@@ -361,6 +361,25 @@ function ResourcesPage() {
         heading="Get CEVON'S tips in your inbox"
         subheading="Practical waste management, compliance and recycling insights — once a month, no spam."
       />
+
+      {/* NEWSROOM CTA */}
+      <section className="bg-white py-16 md:py-20 border-t border-[var(--cevons-deep-green,#006B35)]/10">
+        <div className="container-cevons">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-[var(--cevons-deep-green,#006B35)]/10 bg-[var(--cevons-cream,#FBF7EE)] p-8 md:p-10">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-2">Press & Milestones</p>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">Visit the CEVON’S Newsroom</h3>
+              <p className="mt-2 text-[var(--cevons-muted,#64748B)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
+            </div>
+            <Link
+              to="/newsroom"
+              className="btn-base btn-green text-base px-6 py-3.5 shrink-0"
+            >
+              Go to Newsroom <ArrowRight className="size-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
     </SiteLayout>
   );
 }
