@@ -13,6 +13,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveDivider } from "@/components/WaveDivider";
 import { breadcrumbListJsonLd, organizationJsonLd } from "@/lib/seo/jsonLd";
 
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
