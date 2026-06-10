@@ -48,6 +48,45 @@ function sourceLabel(s: string | null) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Pipeline segments                                                   */
+/* ------------------------------------------------------------------ */
+
+const SEGMENTS = ["residential", "commercial", "industrial", "specialty"] as const;
+type Segment = typeof SEGMENTS[number];
+type SegmentFilter = Segment | "all";
+
+const SEGMENT_LABEL: Record<Segment, string> = {
+  residential: "Residential",
+  commercial: "Commercial",
+  industrial: "Industrial",
+  specialty: "Specialty",
+};
+
+const SEGMENT_DOT: Record<Segment, string> = {
+  residential: "bg-emerald-400",
+  commercial:  "bg-sky-400",
+  industrial:  "bg-violet-400",
+  specialty:   "bg-red-400",
+};
+
+const SPECIALTY_RE = /hazard|biohazard|waste\s*oil|contaminated\s*soil|tank\s*clean|product\s*destruction|wastewater|septic/i;
+const INDUSTRIAL_RE = /industrial|refinery|mining|oil\s*&?\s*gas|plant|factory|manufactur/i;
+const COMMERCIAL_RE = /commercial|business|office|retail|restaurant|hotel|facility|facilities|construction/i;
+const RESIDENTIAL_RE = /residential|household|home|domestic|bulk\s*waste|yard|garbage\s*collection/i;
+
+function classifySegment(l: Lead): Segment {
+  const haystack = `${l.category ?? ""} ${l.service ?? ""} ${l.customer_type ?? ""}`.toLowerCase();
+  if (SPECIALTY_RE.test(haystack)) return "specialty";
+  const ct = (l.customer_type ?? "").toLowerCase();
+  if (ct.includes("industrial") || INDUSTRIAL_RE.test(haystack)) return "industrial";
+  if (ct.includes("commercial") || COMMERCIAL_RE.test(haystack)) return "commercial";
+  if (ct.includes("residential") || RESIDENTIAL_RE.test(haystack)) return "residential";
+  const cat = (l.category ?? "").toLowerCase();
+  if (cat.includes("recycl") || cat.includes("facilit")) return "commercial";
+  return "residential";
+}
+
+/* ------------------------------------------------------------------ */
 /* Data                                                                */
 /* ------------------------------------------------------------------ */
 
