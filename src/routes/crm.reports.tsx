@@ -385,7 +385,7 @@ function ReportsPage() {
                   <td className="px-4 py-3 text-white/80">{r.leads}</td>
                   <td className="px-4 py-3 text-white/80">{r.won}</td>
                   <td className="px-4 py-3 text-white/70">{r.conv.toFixed(1)}%</td>
-                  <td className="px-4 py-3 font-semibold text-[#FFD200]">${r.revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+                  <td className={`px-4 py-3 font-semibold ${r.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>${r.revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
                 </tr>
               ))}
             </tbody>
