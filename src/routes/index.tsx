@@ -39,7 +39,7 @@ import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CEVON'S Environmental Services — Reliable Waste Management in Guyana" },
+      { title: "CEVON'S Environmental Services | Waste Management Guyana" },
       {
         name: "description",
         content:
