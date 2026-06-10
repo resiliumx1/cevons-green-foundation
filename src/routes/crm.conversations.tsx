@@ -175,7 +175,7 @@ function ConversationsPage() {
         </div>
         <div className="flex-1 space-y-1">
           <p className="text-sm font-semibold text-[#FFD200]">Manual log only — for now</p>
-          <p className="text-[13px] leading-relaxed text-white/75">
+          <p className="text-[13px] leading-relaxed text-white/90">
             Live WhatsApp, SMS, and email sync arrives with the GoHighLevel integration.
             Until then, log calls and messages here so each customer's history stays complete.
           </p>
