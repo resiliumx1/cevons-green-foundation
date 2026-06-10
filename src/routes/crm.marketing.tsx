@@ -204,7 +204,7 @@ function MarketingPage() {
         <div className="flex items-center justify-between gap-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-200">
           <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4" /> Failed to load marketing data.</span>
           <button
-            onClick={() => { requestsQ.refetch(); campaignsQ.refetch(); invoicesQ.refetch(); jobsQ.refetch(); }}
+            onClick={() => { requestsQ.refetch(); campaignsQ.refetch(); }}
             className="inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-xs text-white hover:bg-white/5"
           >
             <RefreshCw className="h-3 w-3" /> Retry
