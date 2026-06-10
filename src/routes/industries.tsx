@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { whatsappHref } from "@/data/cevonsContact";
+import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 const heroIndustries = "/assets/heroes/hero-industries.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
@@ -47,6 +48,12 @@ export const Route = createFileRoute("/industries")({
       { property: "og:url", content: "/industries" },
     ],
     links: [{ rel: "canonical", href: "/industries" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Industries", path: "/industries" },
+      ])) },
+    ],
   }),
   component: IndustriesPage,
 });

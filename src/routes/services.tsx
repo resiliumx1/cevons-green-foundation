@@ -39,6 +39,8 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 const heroServices = "/assets/heroes/hero-services.webp";
 
+import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
@@ -57,6 +59,13 @@ export const Route = createFileRoute("/services")({
       { property: "og:url", content: "/services" },
     ],
     links: [{ rel: "canonical", href: "/services" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(faqPageJsonLd(faqs)) },
+      { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/services" },
+      ])) },
+    ],
   }),
   component: ServicesPage,
 });
