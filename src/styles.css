@@ -827,7 +827,6 @@
   filter: drop-shadow(0 0 6px rgba(53, 231, 107, 0.35));
   transform-origin: bottom center;
   pointer-events: none;
-  z-index: -1;
 }
 .eco-leaf.gold {
   background: linear-gradient(135deg, #FFE789, #F5C518 60%, #B8860B);
