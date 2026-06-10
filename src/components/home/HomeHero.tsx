@@ -223,10 +223,10 @@ export function HomeHero() {
 
 
 
-      {/* Flag wave accent — animated tri-color silk ribbons */}
+      {/* Flag wave accent — animated tri-color silk ribbons (in flow, above cert panel) */}
       <div
         aria-hidden
-        className="hero-wave pointer-events-none absolute inset-x-0 bottom-[100px] z-0 h-[90px] md:bottom-[120px] md:h-[120px]"
+        className="hero-wave pointer-events-none relative z-[5] mt-auto h-[70px] w-full md:h-[90px]"
       >
         <div className="hero-wave__drift">
           {/* GREEN — widest, bottom-most */}
@@ -259,7 +259,8 @@ export function HomeHero() {
       </div>
 
       {/* CERTIFICATION PANEL */}
-      <div className="container-cevons relative z-10 pb-5">
+      <div className="container-cevons relative z-10 -mt-2 pb-5">
+
         <motion.div
           variants={fadeUp}
           initial="hidden"
