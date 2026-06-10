@@ -1,4 +1,4 @@
-import { Award, Calendar, Leaf, MapPin, Star, Target, Users } from "lucide-react";
+import { Award, Calendar, Leaf, MapPin, Star, Target, Trophy, Users } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 
@@ -275,13 +275,13 @@ export function HomeHero() {
               { img: "/assets/social-proof/iso-logo.webp", t: "ISO 9001:2015", s: "Quality Management" },
               { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Private Sector Commission" },
               {
-                img: "/assets/social-proof/market-leader-trophy.webp",
+                icon: "trophy" as const,
                 t: "Market Leader",
                 s: "Since 1997",
                 note: "Delivering trusted environmental solutions for a cleaner, healthier Guyana.",
                 accent: true,
               },
-            ].map(({ img, t, s, note, accent }) => (
+            ].map(({ img, icon, t, s, note, accent }) => (
               <li
                 key={t}
                 className={
@@ -300,13 +300,23 @@ export function HomeHero() {
               >
                 <span
                   className={
-                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden " +
+                    "grid h-12 w-12 shrink-0 place-items-center rounded-full p-1.5 md:h-[52px] md:w-[52px] md:p-2 " +
                     (accent
-                      ? "bg-cevons-deep-green/50 p-0 ring-2 ring-cevons-yellow/50"
-                      : "bg-white p-1 ring-1 ring-cevons-border")
+                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-yellow/60"
+                      : "bg-white ring-1 ring-cevons-border")
                   }
                 >
-                  <img src={img} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  {icon === "trophy" ? (
+                    <Trophy className="h-full w-full text-cevons-yellow" strokeWidth={2} aria-hidden />
+                  ) : (
+                    <img
+                      src={img}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-contain"
+                    />
+                  )}
                 </span>
 
                 <div className="min-w-0 flex-1">
