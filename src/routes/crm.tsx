@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
+import { CrmCommandPalette } from "@/components/crm/CommandPalette";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/crm")({
