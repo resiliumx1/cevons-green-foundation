@@ -27,8 +27,13 @@ export function Footer() {
       <div className="container-cevons py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg p-3 inline-block">
-              <img src={logo} alt="CEVON'S Environmental Services logo" className="h-10 w-auto" />
+            <div className="inline-flex items-center rounded-xl bg-white/8 ring-1 ring-white/15 backdrop-blur-sm px-3 py-2">
+              <img
+                src={logo}
+                alt="CEVON'S Environmental Services logo"
+                className="h-10 w-auto"
+                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}
+              />
             </div>
             <p className="mt-5 text-white/75 text-sm leading-relaxed max-w-sm">
               CEVON&rsquo;S Environmental Services Inc. delivers reliable waste management and
