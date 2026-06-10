@@ -65,11 +65,13 @@ export function PageHero({
   align = "left",
   height = "standard",
   showSwoosh = true,
+  waveVariant = "minimal",
   showLogoBadge = false,
   imagePosition = "center center",
   priority = false,
   children,
 }: PageHeroProps) {
+
   const overlay =
     align === "center"
       ? "linear-gradient(180deg, rgba(0,63,39,0.78) 0%, rgba(0,63,39,0.52) 60%, rgba(0,0,0,0.20) 100%)"
