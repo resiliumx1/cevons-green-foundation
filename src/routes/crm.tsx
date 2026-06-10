@@ -322,3 +322,63 @@ function CrmLayout() {
     </div>
   );
 }
+
+function ProfileMenu() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // FUTURE INTEGRATION: await supabase.auth.signOut()
+    try {
+      localStorage.removeItem("crm-assistant-session");
+    } catch {}
+    toast.success("Signed out");
+    navigate({ to: "/crm/login" });
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
+          style={{ borderColor: "var(--crm-border)", ["--tw-ring-color" as never]: "var(--crm-primary)" }}
+          aria-label="Open account menu"
+        >
+          <div className="text-right leading-tight">
+            <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
+            <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
+          </div>
+          <div
+            className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
+            style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
+          >
+            R
+          </div>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" sideOffset={8} className="w-56">
+        <DropdownMenuLabel className="flex flex-col gap-0.5">
+          <span className="text-sm font-semibold">Romina Singh</span>
+          <span className="text-[11px] font-normal text-muted-foreground">romina@cevons.gy</span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => toast("Profile coming soon")}>
+          <UserCircle className="h-4 w-4 mr-2" />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => navigate({ to: "/crm/settings" })}>
+          <Settings className="h-4 w-4 mr-2" />
+          Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onSelect={handleLogout}
+          className="text-red-600 focus:text-red-600 focus:bg-red-50"
+        >
+          <LogOut className="h-4 w-4 mr-2" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
