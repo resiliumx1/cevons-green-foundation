@@ -122,9 +122,9 @@ function botResponse(intent: Intent): Message {
             : "You have demo tasks for 4 lead follow-ups, 3 quote reviews, 5 booking confirmations, and 4 invoices to send. Highest priority should be specialist review requests, high-value commercial leads, and quote requests older than 24 hours.",
         actions: [
           { kind: "link", label: "View Leads / Requests", to: "/crm/leads" },
-          { kind: "link", label: "View Quotes", to: "/crm/quotes" },
-          { kind: "link", label: "View Calendar", to: "/crm/calendar" },
+          { kind: "link", label: "View Marketing", to: "/crm/marketing" },
         ],
+
       };
 
     case "priority":
