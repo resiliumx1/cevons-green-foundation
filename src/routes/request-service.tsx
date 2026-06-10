@@ -349,7 +349,8 @@ function RequestServicePage() {
               {submitError && (
                 <p className="mt-3 text-sm text-[#E31B23] font-medium">{submitError}</p>
               )}
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Sidebar */}
