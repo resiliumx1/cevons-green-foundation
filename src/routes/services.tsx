@@ -297,7 +297,7 @@ function ServicesPage() {
             Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana.
           </p>
         </div>
-        <HeroSwoosh />
+        <WaveDivider variant="flow" />
       </section>
 
       {/* CATEGORY TABS (sticky) */}
