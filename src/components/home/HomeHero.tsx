@@ -228,11 +228,11 @@ export function HomeHero() {
         <div className="container-cevons py-6">
           <ul className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
-              { icon: ShieldCheck, t: "EPA Certified", s: "Environmental Compliance" },
-              { icon: Award, t: "ISO 9001:2015", s: "Quality Management" },
-              { icon: BadgeCheck, t: "GCCI Member", s: "Private Sector Commission" },
-              { icon: Trophy, t: "Market Leader", s: "Since 1997", accent: true },
-            ].map(({ icon: Icon, t, s, accent }) => (
+              { img: "/assets/social-proof/epa-logo.webp", t: "EPA Certified", s: "Environmental Compliance" },
+              { img: "/assets/social-proof/iso-logo.webp", t: "ISO 9001:2015", s: "Quality Management" },
+              { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Private Sector Commission" },
+              { img: "/assets/social-proof/market-leader-trophy.webp", t: "Market Leader", s: "Since 1997", accent: true },
+            ].map(({ img, t, s, accent }) => (
               <li
                 key={t}
                 className={
@@ -253,12 +253,11 @@ export function HomeHero() {
               >
                 <span
                   className={
-                    "grid size-11 shrink-0 place-items-center rounded-full " +
-                    (accent ? "bg-cevons-yellow text-cevons-deep-green" : "bg-cevons-green/10 text-cevons-green")
+                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden " +
+                    (accent ? "bg-cevons-deep-green/40 ring-2 ring-cevons-yellow/40" : "bg-white ring-1 ring-cevons-border")
                   }
-                  style={accent ? { boxShadow: "0 0 0 2px rgba(255,210,0,.35)" } : undefined}
                 >
-                  <Icon className="size-5" />
+                  <img src={img} alt="" loading="lazy" decoding="async" className="size-9 object-contain" />
                 </span>
                 <div className="min-w-0">
                   <p className={"text-xs font-bold uppercase tracking-wider " + (accent ? "text-cevons-yellow" : "text-cevons-muted")}>
