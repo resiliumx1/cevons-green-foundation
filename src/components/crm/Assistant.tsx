@@ -599,6 +599,27 @@ export function CrmAssistant() {
               {messages.map((m) => (
                 <Bubble key={m.id} message={m} onAction={runAction} onSend={send} />
               ))}
+              {loading && (
+                <div className="flex items-start gap-2">
+                  <div
+                    className="h-7 w-7 rounded-lg grid place-items-center text-white shrink-0 mt-0.5"
+                    style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </div>
+                  <div
+                    className="rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-sm shadow-sm border inline-flex items-center gap-2"
+                    style={{
+                      background: "var(--crm-surface)",
+                      borderColor: "var(--crm-border)",
+                      color: "var(--crm-text-muted)",
+                    }}
+                  >
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    Thinking…
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}
@@ -617,9 +638,10 @@ export function CrmAssistant() {
                     send();
                   }
                 }}
-                placeholder="Ask about leads, requests, services..."
+                disabled={loading}
+                placeholder={loading ? "Waiting for response…" : "Ask about leads, requests, services..."}
                 aria-label="Type your question"
-                className="flex-1 resize-none rounded-lg border px-3 py-2 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2"
+                className="flex-1 resize-none rounded-lg border px-3 py-2 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 disabled:opacity-60"
                 style={
                   {
                     borderColor: "var(--crm-border)",
@@ -632,12 +654,12 @@ export function CrmAssistant() {
               <button
                 type="button"
                 onClick={() => send()}
-                disabled={!input.trim()}
+                disabled={!input.trim() || loading}
                 aria-label="Send"
                 className="h-9 w-9 grid place-items-center rounded-lg text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: "var(--crm-primary)" }}
               >
-                <Send className="h-4 w-4" />
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </button>
             </div>
           </aside>
