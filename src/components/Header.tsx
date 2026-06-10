@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Calendar, ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import { WhatsApp } from "./icons/WhatsApp";
+import { CurrencyToggle } from "./CurrencyToggle";
 
 type NavItem = { to: string; label: string; hasDropdown?: boolean };
 const nav: NavItem[] = [
@@ -83,12 +84,13 @@ export function Header() {
           <span className="relative inline-flex items-center justify-center">
             <span
               aria-hidden
-              className="absolute inset-0 -m-2 rounded-full bg-[radial-gradient(closest-side,rgba(0,107,53,0.18),transparent_70%)] blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              className="absolute inset-0 -m-3 rounded-full bg-[radial-gradient(closest-side,rgba(0,107,53,0.10),transparent_72%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             />
             <img
               src={logo}
               alt="CEVON'S Environmental Services"
-              className="relative h-12 lg:h-14 w-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-[1.04]"
+              className="relative h-12 lg:h-14 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
+              style={{ filter: "drop-shadow(0 1px 1px rgba(16,24,32,0.08))" }}
             />
           </span>
         </Link>
@@ -135,12 +137,13 @@ export function Header() {
 
         {/* CTAs (right) */}
         <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <CurrencyToggle />
           <a href="/contact" className="btn-base btn-green text-[13.5px] px-3.5 py-2.5 shrink-0">
             <WhatsApp className="size-4" />
             WhatsApp
           </a>
-          <a href="/request-service" className="btn-base btn-yellow text-[13.5px] px-3.5 py-2.5 shrink-0">
-            <Calendar className="size-4" />
+          <a href="/request-service" className="btn-base btn-yellow btn-shine group/sched text-[13.5px] px-3.5 py-2.5 shrink-0">
+            <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
             Schedule
           </a>
         </div>
@@ -170,12 +173,16 @@ export function Header() {
               </Link>
             ))}
             <div className="flex flex-col gap-2 pt-3 mt-2 border-t border-cevons-border">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-cevons-muted">Currency</span>
+                <CurrencyToggle />
+              </div>
               <a href="/contact" className="btn-base btn-green w-full">
                 <WhatsApp className="size-4" />
                 WhatsApp Us
               </a>
-              <a href="/request-service" className="btn-base btn-yellow w-full">
-                <Calendar className="size-4" />
+              <a href="/request-service" className="btn-base btn-yellow btn-shine group/sched w-full">
+                <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
                 Schedule a Service
               </a>
             </div>
