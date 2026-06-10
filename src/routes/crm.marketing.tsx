@@ -300,7 +300,7 @@ function MarketingPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-white/[0.02] text-left text-xs uppercase tracking-wider text-white/50">
-              <tr>{["Campaign", "Channel", "UTM", "Leads", "Cost", "CPL", "Jobs", "Revenue", "ROI", ""].map((h) => (
+              <tr>{["Campaign", "Channel", "UTM", "Leads", "Cost", "CPL", "Won", "Revenue", "ROI", ""].map((h) => (
                 <th key={h} className="px-4 py-3 font-medium">{h}</th>
               ))}</tr>
             </thead>
