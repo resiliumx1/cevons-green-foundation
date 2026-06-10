@@ -38,15 +38,15 @@ export const Route = createFileRoute("/crm")({
 });
 
 const nav = [
-  { to: "/crm", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/crm", label: "Dashboard", icon: LayoutGrid, exact: true },
   { to: "/crm/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
   { to: "/crm/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
-  { to: "/crm/customers", label: "Customers", icon: UserSquare2 },
+  { to: "/crm/customers", label: "Customers", icon: ContactRound },
   { to: "/crm/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
   { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
   { to: "/crm/settings", label: "Settings", icon: Settings },
-] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean; notifType?: NotifType }>;
+] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
 
 
 function CrmRoot() {
