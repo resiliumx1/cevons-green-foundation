@@ -4,8 +4,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Search, Filter, Plus, X, Users, UserPlus, Building2, Repeat,
   Phone, Mail, MapPin, FileText, AlertTriangle, RefreshCw, Inbox,
-  Pencil, Archive, Trash2, ChevronDown,
+  Pencil, Archive, Trash2, ChevronDown, Upload,
 } from "lucide-react";
+
+import { ImportCustomersDialog } from "@/components/crm/ImportCustomersDialog";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
