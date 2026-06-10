@@ -6,7 +6,7 @@ const heroBg = "/assets/heroes/hero-homepage.webp";
 
 const stats = [
   { icon: Award, value: "29+", label: "Years of Excellence" },
-  { icon: Users, value: "1000+", label: "Happy Clients" },
+  { icon: Users, value: "5000+", label: "Customers" },
   { icon: MapPin, value: "3", label: "Regions Served" },
   { icon: Leaf, value: "1 Goal", label: "A Cleaner Guyana" },
 ];
@@ -59,25 +59,14 @@ export function HomeHero() {
       {/* MAIN CONTENT GRID */}
       <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
         {/* LEFT — text column */}
-        <div className="max-w-2xl lg:col-span-7">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-cevons-green md:text-xs"
-          >
-            <Leaf className="size-4" />
-            One Partner. Total Solutions.
-          </motion.p>
-
+        <div className="max-w-2xl lg:col-span-7 pt-2 md:pt-4">
           <motion.h1
             id="home-hero-title"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={1}
-            className="hero-heading mt-3"
+            className="hero-heading"
             style={{ fontSize: "clamp(1.9rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
           >
             <span className="hero-heading-line">Cleaner Today.</span>
@@ -86,22 +75,14 @@ export function HomeHero() {
                 Greener
                 <span className="leaf-field" aria-hidden="true">
                   {[
-                    { x: "4%",  s: 14, d: 12, dl: -1,  op: 0.6,  c: "linear-gradient(135deg,#7BD389,#4CAF50 60%,#2E7D32)" },
-                    { x: "14%", s: 10, d: 14, dl: -5,  op: 0.45, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
-                    { x: "24%", s: 16, d: 11, dl: -8,  op: 0.55, c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#1F5130)" },
-                    { x: "34%", s:  9, d: 16, dl: -3,  op: 0.4,  c: "linear-gradient(135deg,#8FE89A,#2E7D32 60%,#1F5130)" },
-                    { x: "44%", s: 12, d: 13, dl: -10, op: 0.5,  c: "linear-gradient(135deg,#9CE89E,#4CAF50 60%,#2E7D32)" },
-                    { x: "54%", s: 15, d: 10, dl: -6,  op: 0.55, c: "linear-gradient(135deg,#FFE789,#F5C518 60%,#B8860B)", gold: true },
-                    { x: "62%", s:  8, d: 15, dl: -12, op: 0.35, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
-                    { x: "70%", s: 13, d: 12, dl: -2,  op: 0.5,  c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#2E7D32)" },
-                    { x: "78%", s: 11, d: 14, dl: -7,  op: 0.45, c: "linear-gradient(135deg,#7BD389,#2E7D32 60%,#1F5130)" },
-                    { x: "86%", s: 17, d: 11, dl: -4,  op: 0.55, c: "linear-gradient(135deg,#FFE789,#F5C518 60%,#B8860B)", gold: true },
-                    { x: "92%", s:  9, d: 13, dl: -9,  op: 0.4,  c: "linear-gradient(135deg,#9CE89E,#4CAF50 60%,#1F5130)" },
-                    { x: "50%", s: 12, d: 16, dl: -11, op: 0.45, c: "linear-gradient(135deg,#B6FF7A,#2E7D32 60%,#1F5130)" },
+                    { x: "8%",  s:  8, d: 18, dl: -2,  op: 0.28, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
+                    { x: "32%", s: 10, d: 16, dl: -7,  op: 0.32, c: "linear-gradient(135deg,#7BD389,#4CAF50 60%,#2E7D32)" },
+                    { x: "64%", s:  7, d: 20, dl: -4,  op: 0.25, c: "linear-gradient(135deg,#9CE89E,#2E7D32 60%,#1F5130)" },
+                    { x: "88%", s: 11, d: 17, dl: -11, op: 0.3,  c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#1F5130)" },
                   ].map((l, i) => (
                     <span
                       key={`lf-${i}`}
-                      className={`lf${l.gold ? " gold" : ""}`}
+                      className="lf"
                       style={{
                         ["--x" as any]: l.x,
                         ["--size" as any]: `${l.s}px`,
@@ -112,30 +93,12 @@ export function HomeHero() {
                       }}
                     />
                   ))}
-                  {[
-                    { x: "10%", y: "20%", d: 4.2, dl: -0.5 },
-                    { x: "28%", y: "60%", d: 5.1, dl: -2 },
-                    { x: "46%", y: "15%", d: 3.8, dl: -1.2 },
-                    { x: "60%", y: "70%", d: 4.6, dl: -3.1 },
-                    { x: "78%", y: "30%", d: 5.4, dl: -0.8 },
-                    { x: "90%", y: "55%", d: 4.0, dl: -2.6 },
-                  ].map((s, i) => (
-                    <span
-                      key={`sp-${i}`}
-                      className="sp"
-                      style={{
-                        ["--x" as any]: s.x,
-                        ["--y" as any]: s.y,
-                        ["--dur" as any]: `${s.d}s`,
-                        ["--delay" as any]: `${s.dl}s`,
-                      }}
-                    />
-                  ))}
                 </span>
               </span>{" "}
               Tomorrow.
             </span>
           </motion.h1>
+
 
           <motion.p
             variants={fadeUp}
@@ -211,7 +174,7 @@ export function HomeHero() {
               ))}
             </div>
             <div className="text-sm">
-              <p className="font-bold text-white">1000+ Happy Clients</p>
+              <p className="font-bold text-white">5000+ Customers</p>
               <p className="text-white/70 text-xs md:text-sm">Across Georgetown, Linden &amp; Berbice</p>
               <div className="mt-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
                 {[0, 1, 2, 3, 4].map((i) => (
@@ -220,45 +183,45 @@ export function HomeHero() {
               </div>
             </div>
           </motion.div>
+
+          {/* STATS PILL — sits inside content column so flag wave below stays clear */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={6}
+            className="mt-5 rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
+            style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
+          >
+            <ul className="grid grid-cols-2 gap-y-2.5 md:flex md:items-center md:justify-between md:gap-3">
+              {stats.map(({ icon: Icon, value, label }, i) => (
+                <li
+                  key={label}
+                  className={
+                    "flex items-center gap-2.5 px-1.5 md:flex-1 md:justify-center " +
+                    (i > 0 ? "md:border-l md:border-white/15" : "")
+                  }
+                >
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-cevons-yellow/60 text-cevons-yellow">
+                    <Icon className="size-3.5" strokeWidth={2} />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-extrabold leading-tight text-white md:text-base">{value}</p>
+                    <p className="text-[10px] font-medium leading-tight text-white/75 md:text-[10.5px]">
+                      {label}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
 
-      {/* STATS PILL */}
-      <div className="container-cevons relative z-10 pb-4">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={6}
-          className="rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-5 py-3 backdrop-blur md:px-8 md:py-4"
-          style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
-        >
-          <ul className="grid grid-cols-2 gap-y-3 md:flex md:items-center md:justify-between md:gap-4">
-            {stats.map(({ icon: Icon, value, label }, i) => (
-              <li
-                key={label}
-                className={
-                  "flex items-center gap-3 px-2 md:flex-1 md:justify-center " +
-                  (i > 0 ? "md:border-l md:border-white/15" : "")
-                }
-              >
-                <span className="grid size-9 shrink-0 place-items-center rounded-full border border-cevons-yellow/60 text-cevons-yellow">
-                  <Icon className="size-4" strokeWidth={2} />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-base font-extrabold leading-tight text-white md:text-lg">{value}</p>
-                  <p className="text-[10.5px] font-medium leading-tight text-white/75 md:text-[11px]">
-                    {label}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      </div>
+
 
       {/* Flag wave accent — animated tri-color silk ribbons */}
       <div

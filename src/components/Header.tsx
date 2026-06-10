@@ -70,15 +70,19 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-[100] w-full border-b border-cevons-border transition-shadow ${
-        scrolled ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "bg-white"
+      className={`sticky top-0 z-[100] w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-white/85 backdrop-blur-md border-b border-cevons-border/60 shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
+          : "bg-white border-b border-cevons-border"
       }`}
     >
       <div className="container-cevons flex h-[72px] items-center gap-4">
-        {/* Logo (left) */}
+        {/* Logo lockup (left) */}
         <Link
           to="/"
-          className="flex items-center shrink-0 group"
+          className={`flex items-center shrink-0 group gap-2.5 transition-opacity duration-300 ${
+            scrolled ? "opacity-90" : "opacity-100"
+          }`}
           aria-label="CEVON'S Environmental Services home"
         >
           <span className="relative inline-flex items-center justify-center">
@@ -93,7 +97,19 @@ export function Header() {
               style={{ filter: "drop-shadow(0 1px 1px rgba(16,24,32,0.08))" }}
             />
           </span>
+          <span className="flex flex-col justify-center leading-none">
+            <span
+              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-cevons-dark"
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
+            >
+              CEVON&rsquo;S
+            </span>
+            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-cevons-muted">
+              Environmental Services Inc.
+            </span>
+          </span>
         </Link>
+
 
         {/* Nav (center, flex-1) */}
         <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
