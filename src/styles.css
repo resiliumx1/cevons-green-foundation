@@ -893,3 +893,29 @@
     transform: none !important;
   }
 }
+
+/* Social proof strip */
+@keyframes sp-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-sp-in { animation: sp-in 600ms ease-out both; }
+
+.sp-card { box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.sp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -16px rgba(15, 58, 46, 0.25), 0 4px 12px rgba(0,0,0,0.08);
+}
+.sp-card--dark {
+  background: linear-gradient(135deg, #0F3A2E, #14523F);
+  box-shadow: 0 6px 18px -8px rgba(15, 58, 46, 0.45);
+}
+.sp-card--dark:hover {
+  box-shadow: 0 22px 44px -16px rgba(15, 58, 46, 0.55), 0 4px 12px rgba(0,0,0,0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sp-in { animation: none !important; }
+  .sp-card { transition: none !important; }
+  .sp-card:hover { transform: none !important; }
+}
