@@ -530,6 +530,45 @@ export type Database = {
         }
         Relationships: []
       }
+      utm_links: {
+        Row: {
+          base_url: string
+          created_at: string
+          full_url: string
+          id: string
+          label: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          base_url: string
+          created_at?: string
+          full_url: string
+          id?: string
+          label?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          base_url?: string
+          created_at?: string
+          full_url?: string
+          id?: string
+          label?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
