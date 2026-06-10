@@ -333,13 +333,16 @@ function RequestServicePage() {
                 ) : (
                   <Button
                     onClick={submit}
-                    disabled={!data.confirm}
+                    disabled={!data.confirm || submitting}
                     className="h-12 bg-[var(--cevons-yellow)] text-[#101820] hover:bg-[var(--cevons-yellow)]/90 font-semibold disabled:opacity-50"
                   >
-                    Submit Request
+                    {submitting ? "Submitting…" : "Submit Request"}
                   </Button>
                 )}
               </div>
+              {submitError && (
+                <p className="mt-3 text-sm text-[#E31B23] font-medium">{submitError}</p>
+              )}
             </div>
           </div>
 
