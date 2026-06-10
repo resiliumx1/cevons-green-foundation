@@ -89,7 +89,7 @@ export function HomeHero() {
               animate="visible"
               custom={1}
               className="hero-heading mt-5"
-              style={{ fontSize: "clamp(2.4rem, 6vw, 5.5rem)" }}
+              style={{ fontSize: "clamp(2rem, 7.2vw, 5.5rem)" }}
             >
               <span className="hero-heading-line">Cleaner Today.</span>
               <span className="hero-heading-line">
@@ -98,6 +98,9 @@ export function HomeHero() {
                   <span className="eco-leaf leaf-one" aria-hidden="true" />
                   <span className="eco-leaf leaf-two" aria-hidden="true" />
                   <span className="eco-leaf leaf-three" aria-hidden="true" />
+                  <span className="eco-leaf leaf-four gold" aria-hidden="true" />
+                  <span className="eco-leaf leaf-five" aria-hidden="true" />
+                  <span className="eco-leaf leaf-drift gold" aria-hidden="true" />
                 </span>{" "}
                 Tomorrow.
               </span>
@@ -108,10 +111,10 @@ export function HomeHero() {
               initial="hidden"
               animate="visible"
               custom={2}
-              className="hero-script-line mt-4 text-2xl md:text-3xl"
+              className="hero-subhead-pro mt-4"
             >
-              <span>For Homes.</span>
-              <span>For Businesses.</span>
+              <span>For Homes.</span>{" "}
+              <span>For Businesses.</span>{" "}
               <span className="for-guyana">For Guyana.</span>
             </motion.p>
 
@@ -134,12 +137,14 @@ export function HomeHero() {
               custom={4}
               className="mt-7 flex flex-wrap gap-3"
             >
-              <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5 shadow-lg shadow-cevons-green/30 transition-transform hover:-translate-y-0.5">
-                <WhatsApp className="size-5" />
+              <a href="/contact" className="hero-cta hero-cta--whatsapp group">
+                <span className="hero-cta__icon">
+                  <WhatsApp className="size-4" />
+                </span>
                 WhatsApp Us
               </a>
-              <a href="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5 shadow-lg shadow-cevons-yellow/25 transition-transform hover:-translate-y-0.5">
-                <Calendar className="size-5" />
+              <a href="/request-service" className="hero-cta hero-cta--schedule group">
+                <Calendar className="size-5 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
                 Schedule a Service
               </a>
             </motion.div>
