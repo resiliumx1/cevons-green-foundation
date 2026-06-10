@@ -429,7 +429,7 @@ function ReportsPage() {
                 <XAxis type="number" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <YAxis dataKey="name" type="category" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} width={120} />
                 <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                <Bar dataKey="leads" name="Leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
+                <Bar dataKey="leads" name="Leads" fill="#006B35" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
