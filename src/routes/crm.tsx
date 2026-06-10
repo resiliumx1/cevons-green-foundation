@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard,
   Users,
@@ -9,7 +10,6 @@ import {
   BarChart3,
   Star,
   Settings,
-  Bell,
   Search,
   HelpCircle,
   PanelLeftClose,
@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo.png";
+import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
