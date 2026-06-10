@@ -206,22 +206,35 @@ function SettingsPage() {
       )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[220px_1fr]">
-        {/* Sidebar */}
-        <aside className="rounded-xl border border-white/[0.08] bg-[#101820] p-2">
-          <nav className="flex gap-1 overflow-x-auto lg:flex-col">
+        {/* Sidebar / mobile tab strip */}
+        <aside className="rounded-xl border border-white/[0.08] bg-[#101820] p-1.5 lg:p-2 -mx-4 lg:mx-0 rounded-none lg:rounded-xl border-x-0 lg:border-x sticky top-16 z-20 lg:static backdrop-blur supports-[backdrop-filter]:bg-[#101820]/95">
+          <nav
+            className="flex gap-1 overflow-x-auto lg:flex-col px-2 lg:px-0"
+            style={{ scrollSnapType: "x proximity", scrollbarWidth: "none" }}
+            aria-label="Settings sections"
+          >
             {SECTIONS.map((s) => {
               const Icon = s.icon;
               const isActive = active === s.id;
               return (
                 <button
                   key={s.id}
-                  onClick={() => setActive(s.id)}
-                  className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${
-                    isActive ? "bg-[#FFD200]/10 text-[#FFD200]" : "text-white/70 hover:bg-white/[0.04] hover:text-white"
+                  onClick={(e) => {
+                    setActive(s.id);
+                    e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                  }}
+                  className={`relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm whitespace-nowrap transition snap-start lg:w-full ${
+                    isActive
+                      ? "bg-[#FFD200]/12 text-[#FFD200] font-semibold"
+                      : "text-white/70 hover:bg-white/[0.04] hover:text-white"
                   }`}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   <Icon className="h-4 w-4" />
                   {s.label}
+                  {isActive && (
+                    <span className="lg:hidden absolute -bottom-1 left-3 right-3 h-[2px] rounded-full bg-[#FFD200]" />
+                  )}
                 </button>
               );
             })}
