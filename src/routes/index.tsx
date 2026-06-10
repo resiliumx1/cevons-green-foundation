@@ -32,6 +32,8 @@ import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 
+import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -48,6 +50,9 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: "/" },
       { rel: "preload", as: "image", href: "/assets/heroes/hero-homepage.webp", fetchpriority: "high" },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(localBusinessGraphJsonLd()) },
     ],
   }),
   component: HomePage,
