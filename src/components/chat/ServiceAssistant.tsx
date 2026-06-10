@@ -569,6 +569,59 @@ export function ServiceAssistant() {
         <span className="hidden sm:inline">Ask CEVON&apos;S</span>
       </button>
 
+      {/* Welcome popup teaser */}
+      {popupVisible && !open && (
+        <div
+          className="fixed bottom-20 right-5 z-[60] w-[260px] animate-in fade-in slide-in-from-bottom-2 duration-500"
+          role="dialog"
+          aria-label="Welcome message"
+        >
+          <div className="relative rounded-2xl bg-white p-4 shadow-xl border border-[#E5E7EB]">
+            <button
+              type="button"
+              onClick={() => setPopupVisible(false)}
+              aria-label="Dismiss welcome message"
+              className="absolute top-2 right-2 rounded-md p-1 text-[#94A3B8] hover:bg-[#F1F5F2] hover:text-[#64748B] transition"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+            <div className="flex items-start gap-3">
+              <div className="h-9 w-9 rounded-full bg-[#006B35] grid place-items-center overflow-hidden shrink-0">
+                <img
+                  src={ASSISTANT_AVATAR}
+                  alt="CEVON'S"
+                  className="h-7 w-7 object-contain"
+                  draggable={false}
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-[#101820]">
+                  Cevon&apos;s Service Assistant
+                </p>
+                <p className="text-xs text-[#64748B] mt-0.5 leading-relaxed">
+                  Hi there! Need help finding the right waste management service?
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPopupVisible(false);
+                    setOpen(true);
+                  }}
+                  className="mt-2 inline-flex items-center rounded-lg bg-[#006B35] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#005a2c] transition"
+                >
+                  Start a chat
+                </button>
+              </div>
+            </div>
+            {/* Triangle pointer */}
+            <div
+              className="absolute -bottom-2 right-6 h-4 w-4 bg-white border-r border-b border-[#E5E7EB] rotate-45"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Chat panel */}
       {open && (
         <>
