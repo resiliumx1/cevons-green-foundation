@@ -386,7 +386,23 @@
   background-color: var(--crm-sidebar) !important;
   color: var(--crm-sidebar-text);
   border-color: transparent !important;
+  background-image:
+    radial-gradient(120% 60% at 0% 0%, rgba(245, 197, 24, 0.06), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.10));
 }
+/* Premium thin scrollbar inside sidebar */
+[data-crm-theme] .crm-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+[data-crm-theme] .crm-sidebar-scroll::-webkit-scrollbar { width: 6px; }
+[data-crm-theme] .crm-sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+[data-crm-theme] .crm-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.14);
+  border-radius: 999px;
+}
+[data-crm-theme] .crm-sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.24); }
+
 [data-crm-theme] .crm-header {
   background-color: var(--crm-header-bg) !important;
   border-bottom: 1px solid var(--crm-border) !important;
@@ -400,14 +416,15 @@
   color: var(--crm-sidebar-text) !important;
   background-color: transparent !important;
 }
-[data-crm-theme] .crm-nav-item:hover {
-  background-color: var(--crm-sidebar-hover) !important;
+[data-crm-theme] .crm-nav-item:hover:not(.is-active) {
+  background-color: rgba(255,255,255,0.06) !important;
+  color: #ffffff !important;
 }
 [data-crm-theme] .crm-nav-item.is-active {
-  background-color: var(--crm-sidebar-active) !important;
-  color: var(--crm-sidebar-text-active) !important;
+  color: #ffffff !important;
   font-weight: 600;
 }
+[data-crm-theme] .crm-nav-item.is-active svg { color: #F5C518 !important; }
 
 /* Re-map legacy dark CRM page utility classes to themed surfaces */
 [data-crm-theme] .bg-\[\#101820\],
@@ -677,16 +694,15 @@
 [data-crm-theme] thead { background-color: var(--crm-surface-muted) !important; }
 [data-crm-theme] thead th { color: var(--crm-text-muted) !important; }
 
-/* Sidebar active item — clearer in emerald theme */
+/* Emerald sidebar — premium active state uses translucent tint + gold cue */
 [data-crm-theme="emerald"] .crm-nav-item.is-active {
-  background-color: #FFFFFF !important;
-  color: #003F27 !important;
+  background-color: rgba(245, 197, 24, 0.10) !important;
+  color: #ffffff !important;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 [data-crm-theme="emerald"] .crm-nav-item:hover:not(.is-active) {
-  background-color: rgba(255,255,255,0.10) !important;
-  color: #FFFFFF !important;
+  background-color: rgba(255,255,255,0.07) !important;
+  color: #ffffff !important;
 }
 
 /* Mobile bottom nav active */
