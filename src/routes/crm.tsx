@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard,
   Users,
@@ -9,7 +10,6 @@ import {
   BarChart3,
   Star,
   Settings,
-  Bell,
   Search,
   HelpCircle,
   PanelLeftClose,
@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo.png";
+import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
 import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
 import { CrmAssistant } from "@/components/crm/Assistant";
 import { Toaster } from "@/components/ui/sonner";
@@ -37,14 +38,14 @@ export const Route = createFileRoute("/crm")({
 
 const nav = [
   { to: "/crm", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/crm/leads", label: "Leads / Requests", icon: Users },
-  { to: "/crm/conversations", label: "Conversations", icon: MessageSquare },
+  { to: "/crm/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
+  { to: "/crm/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
   { to: "/crm/customers", label: "Customers", icon: UserSquare2 },
-  { to: "/crm/marketing", label: "Marketing", icon: Megaphone },
+  { to: "/crm/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
-  { to: "/crm/reviews", label: "Reviews", icon: Star },
+  { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
   { to: "/crm/settings", label: "Settings", icon: Settings },
-] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }>;
+] as Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean; notifType?: NotifType }>;
 
 
 function CrmRoot() {
@@ -60,6 +61,18 @@ function CrmLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { unreadByType, markTypeRead } = useNotifications();
+
+  // Auto mark-as-read when the user opens a section that maps to a notification type.
+  useEffect(() => {
+    for (const item of nav) {
+      if (!item.notifType) continue;
+      const active = item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
+      if (active && unreadByType[item.notifType] > 0) {
+        void markTypeRead(item.notifType);
+      }
+    }
+  }, [pathname, unreadByType, markTypeRead]);
 
   const SidebarContent = (
     <>
@@ -81,18 +94,46 @@ function CrmLayout() {
             ? pathname === item.to
             : pathname === item.to || pathname.startsWith(item.to + "/");
           const Icon = item.icon;
+          const count = item.notifType ? unreadByType[item.notifType] : 0;
           return (
             <Link
               key={item.to}
               to={item.to as "/crm"}
               onClick={() => setMobileOpen(false)}
               title={collapsed ? item.label : undefined}
-              className={`crm-nav-item flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+              className={`crm-nav-item relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                 active ? "is-active shadow-sm" : ""
               } ${collapsed ? "justify-center" : ""}`}
             >
-              <Icon className="h-[18px] w-[18px] shrink-0" />
-              {!collapsed && <span className="truncate">{item.label}</span>}
+              <span className="relative shrink-0">
+                <Icon className="h-[18px] w-[18px]" />
+                <AnimatePresence>
+                  {collapsed && count > 0 && (
+                    <motion.span
+                      key="dot"
+                      initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+                      className="absolute -top-1 -right-1 h-2 w-2 rounded-full"
+                      style={{ background: "var(--crm-primary, #c89b3c)" }}
+                    />
+                  )}
+                </AnimatePresence>
+              </span>
+              {!collapsed && <span className="truncate flex-1">{item.label}</span>}
+              <AnimatePresence>
+                {!collapsed && count > 0 && (
+                  <motion.span
+                    key="badge"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                    className="ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
+                    style={{ background: "var(--crm-primary, #c89b3c)", color: "#1a1a1a" }}
+                  >
+                    {count > 99 ? "99+" : count}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </Link>
           );
         })}
@@ -169,14 +210,7 @@ function CrmLayout() {
 
           <div className="flex items-center gap-2 ml-auto">
             <CrmAssistant />
-            <button
-              className="relative h-9 w-9 grid place-items-center rounded-lg border"
-              style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
-              aria-label="Notifications"
-            >
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full" style={{ background: "var(--crm-red)" }} />
-            </button>
+            <NotificationsBell />
             <button
               className="h-9 w-9 grid place-items-center rounded-lg border"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}

@@ -338,6 +338,66 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          campaigns: boolean
+          id: string
+          leads: boolean
+          messages: boolean
+          reviews: boolean
+          system: boolean
+          updated_at: string
+        }
+        Insert: {
+          campaigns?: boolean
+          id?: string
+          leads?: boolean
+          messages?: boolean
+          reviews?: boolean
+          system?: boolean
+          updated_at?: string
+        }
+        Update: {
+          campaigns?: boolean
+          id?: string
+          leads?: boolean
+          messages?: boolean
+          reviews?: boolean
+          system?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read: boolean
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+        }
+        Relationships: []
+      }
       quotes: {
         Row: {
           created_at: string
@@ -586,11 +646,15 @@ export type Database = {
           status: string
         }[]
       }
+      notif_pref_enabled: {
+        Args: { _type: Database["public"]["Enums"]["notification_type"] }
+        Returns: boolean
+      }
       submit_contact_message: { Args: { payload: Json }; Returns: undefined }
       submit_service_request: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      notification_type: "lead" | "review" | "message" | "campaign" | "system"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -717,6 +781,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      notification_type: ["lead", "review", "message", "campaign", "system"],
+    },
   },
 } as const
