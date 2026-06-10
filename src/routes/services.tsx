@@ -548,7 +548,7 @@ function ServicesPage() {
                           href={s.slug}
                           className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
                         >
-                          Learn More <ArrowRight className="size-4" />
+                          Learn more about {s.title} <ArrowRight className="size-4" />
                         </a>
                       </div>
                     </div>
