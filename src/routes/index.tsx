@@ -183,6 +183,8 @@ function HomePage() {
         </div>
       </section>
 
+      <SocialProofStrip />
+
       {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
