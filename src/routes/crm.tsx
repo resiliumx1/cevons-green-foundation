@@ -309,26 +309,56 @@ function CrmLayout() {
           </CrmSectionTransition>
         </main>
 
-        {/* Mobile bottom nav (primary items) */}
-        <nav className="crm-bottom-nav md:hidden fixed bottom-0 left-0 right-0 grid grid-cols-5 z-30">
-          {nav.slice(0, 5).map((item) => {
-            const active = item.exact
-              ? pathname === item.to
-              : pathname === item.to || pathname.startsWith(item.to + "/");
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.to}
-                to={item.to as "/crm"}
-                className="crm-nav-item flex flex-col items-center justify-center py-2.5 text-[10px] gap-1 rounded-none"
-                data-active={active}
-                style={active ? { color: "var(--crm-sidebar-text-active)", background: "var(--crm-sidebar-active)" } : undefined}
-              >
-                <Icon className="h-[18px] w-[18px]" />
-                <span className="truncate max-w-[60px]">{item.label.split(" ")[0]}</span>
-              </Link>
-            );
-          })}
+        {/* Mobile bottom nav — scrollable, all sections, active highlight */}
+        <nav
+          className="crm-bottom-nav md:hidden fixed bottom-0 left-0 right-0 z-30 overflow-x-auto overflow-y-hidden"
+          style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
+          aria-label="CRM sections"
+        >
+          <div className="flex min-w-max items-stretch px-1">
+            {nav.map((item) => {
+              const active = item.exact
+                ? pathname === item.to
+                : pathname === item.to || pathname.startsWith(item.to + "/");
+              const Icon = item.icon;
+              const count = item.notifType ? unreadByType[item.notifType] : 0;
+              const shortLabel = item.label.split(" ")[0].replace("/", "");
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to as "/crm"}
+                  className="crm-nav-item relative flex min-w-[68px] flex-col items-center justify-center gap-1 px-3 py-2 text-[10px] font-medium snap-start"
+                  style={
+                    active
+                      ? { color: "#FFD200" }
+                      : { color: "rgba(255,255,255,0.7)" }
+                  }
+                  aria-current={active ? "page" : undefined}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="crm-bottom-active"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      className="absolute top-0 left-2 right-2 h-[3px] rounded-b-full"
+                      style={{ background: "#FFD200", boxShadow: "0 0 10px rgba(255,210,0,0.6)" }}
+                    />
+                  )}
+                  <span className="relative">
+                    <Icon className="h-[20px] w-[20px]" strokeWidth={active ? 2.2 : 1.75} />
+                    {count > 0 && (
+                      <span
+                        className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-1 grid place-items-center rounded-full text-[9px] font-bold"
+                        style={{ background: "#FFD200", color: "#1a1a1a" }}
+                      >
+                        {count > 9 ? "9+" : count}
+                      </span>
+                    )}
+                  </span>
+                  <span className="truncate max-w-[64px] leading-none">{shortLabel}</span>
+                </Link>
+              );
+            })}
+          </div>
         </nav>
       </div>
     </div>
