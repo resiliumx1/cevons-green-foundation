@@ -84,7 +84,20 @@ function CrmLayout() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const { unreadByType, markTypeRead } = useNotifications();
+
+  // Cmd/Ctrl+K opens the global command palette
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Auto mark-as-read when the user opens a section that maps to a notification type.
   useEffect(() => {
