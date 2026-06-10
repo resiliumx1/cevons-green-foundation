@@ -300,14 +300,15 @@ export function HomeHero() {
               >
                 <span
                   className={
-                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden " +
+                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden p-1 " +
                     (accent
                       ? "bg-cevons-deep-green/50 ring-2 ring-cevons-yellow/50"
                       : "bg-white ring-1 ring-cevons-border")
                   }
                 >
-                  <img src={img} alt="" loading="lazy" decoding="async" className="size-9 object-contain" />
+                  <img src={img} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
                 </span>
+
                 <div className="min-w-0 flex-1">
                   <p
                     className={
