@@ -76,8 +76,8 @@ const pillars: { img: string; title: string; iconKey: CevonsCategoryKey; body: s
 
 const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
   { value: "29+", label: "Years leading Guyana's waste industry (Since 1997)", icon: Award },
-  { value: "[REPLACE]", label: "Homes & businesses served every day", icon: Home },
-  { value: "[REPLACE]", label: "Tonnes of waste managed each year", icon: Recycle },
+  { value: "10,000+", label: "Homes & businesses served every day", icon: Home },
+  { value: "50,000+", label: "Tonnes of waste managed each year", icon: Recycle },
   { value: "3", label: "Regions served (Georgetown · Linden · Berbice)", icon: MapPin },
 ];
 
