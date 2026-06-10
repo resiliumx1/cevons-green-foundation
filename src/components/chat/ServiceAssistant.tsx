@@ -541,13 +541,18 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVON'S Service Assistant"
-        className={`assistant-fab fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-4 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD200]/40 ${
+        className={`assistant-fab fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-3 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FFD200]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
         style={{ background: "linear-gradient(135deg, #006B35, #003F27)" }}
       >
-        <span className="relative grid place-items-center h-8 w-8 rounded-full bg-white/15">
-          <MessageCircle className="h-4 w-4" />
+        <span className="relative grid place-items-center h-9 w-9 rounded-full bg-white/15 overflow-hidden">
+          <img
+            src={ASSISTANT_AVATAR}
+            alt="CEVON'S"
+            className="h-7 w-7 object-contain"
+            draggable={false}
+          />
           <span
             className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#003F27]"
             style={{ background: "#FFD200" }}
