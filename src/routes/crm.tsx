@@ -76,50 +76,85 @@ function CrmLayout() {
   }, [pathname, unreadByType, markTypeRead]);
 
   const SidebarContent = (
-    <>
-      <div className={`flex items-center gap-3 px-4 py-5 border-b border-white/5 ${collapsed ? "justify-center" : ""}`}>
-        <div className="h-10 w-10 shrink-0 rounded-lg bg-white grid place-items-center overflow-hidden">
+    <TooltipProvider delayDuration={150}>
+      {/* Brand lockup */}
+      <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center px-2" : ""}`}>
+        <div
+          className="h-11 w-11 shrink-0 rounded-xl bg-white grid place-items-center overflow-hidden ring-1 ring-white/15"
+          style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(245,197,24,0.18)" }}
+        >
           <img src={logo} alt="CEVON'S" className="h-8 w-8 object-contain" />
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
-            <div className="text-sm font-bold tracking-wide" style={{ color: "var(--crm-sidebar-text)" }}>CEVON'S</div>
-            <div className="text-[11px] uppercase tracking-widest opacity-70" style={{ color: "var(--crm-sidebar-text)" }}>Growth Command</div>
+            <div className="text-[15px] font-extrabold tracking-[0.04em]" style={{ color: "#ffffff" }}>
+              CEVON&apos;S
+            </div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
+              Growth Command
+            </div>
           </div>
         )}
       </div>
+      <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,197,24,0.35), transparent)" }} />
 
-      <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-0.5">
+      {/* Nav */}
+      <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 space-y-1 ${collapsed ? "px-2" : "px-3"}`}>
         {nav.map((item) => {
           const active = item.exact
             ? pathname === item.to
             : pathname === item.to || pathname.startsWith(item.to + "/");
           const Icon = item.icon;
           const count = item.notifType ? unreadByType[item.notifType] : 0;
-          return (
+
+          const row = (
             <Link
               key={item.to}
               to={item.to as "/crm"}
               onClick={() => setMobileOpen(false)}
-              title={collapsed ? item.label : undefined}
-              className={`crm-nav-item relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                active ? "is-active shadow-sm" : ""
-              } ${collapsed ? "justify-center" : ""}`}
+              aria-current={active ? "page" : undefined}
+              className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] transition-colors ${
+                collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
+              } ${active ? "is-active" : ""}`}
             >
-              <span className="relative shrink-0">
-                <Icon className="h-[18px] w-[18px]" />
+              {/* Active background pill (shared element) */}
+              {active && (
+                <motion.span
+                  layoutId="crm-nav-active"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute inset-0 rounded-xl -z-0"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(245,197,24,0.14), rgba(245,197,24,0.06))",
+                    boxShadow: "inset 0 0 0 1px rgba(245,197,24,0.22)",
+                  }}
+                />
+              )}
+              {/* Gold left accent bar */}
+              {active && !collapsed && (
+                <motion.span
+                  layoutId="crm-nav-accent"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full"
+                  style={{ background: "#F5C518", boxShadow: "0 0 12px rgba(245,197,24,0.6)" }}
+                />
+              )}
+
+              <span className="relative shrink-0 z-10 grid place-items-center">
+                <Icon size={20} strokeWidth={1.75} className="transition-colors" />
                 <AnimatePresence>
                   {collapsed && count > 0 && (
                     <motion.span
                       key="dot"
                       initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      className="absolute -top-1 -right-1 h-2 w-2 rounded-full"
-                      style={{ background: "var(--crm-primary, #c89b3c)" }}
+                      className="absolute -top-1 -right-1 h-2 w-2 rounded-full ring-2"
+                      style={{ background: "#F5C518", boxShadow: "0 0 6px rgba(245,197,24,0.8)", ["--tw-ring-color" as never]: "var(--crm-sidebar)" }}
                     />
                   )}
                 </AnimatePresence>
               </span>
-              {!collapsed && <span className="truncate flex-1">{item.label}</span>}
+              {!collapsed && (
+                <span className="truncate flex-1 z-10">{item.label}</span>
+              )}
               <AnimatePresence>
                 {!collapsed && count > 0 && (
                   <motion.span
@@ -128,8 +163,8 @@ function CrmLayout() {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                    className="ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
-                    style={{ background: "var(--crm-primary, #c89b3c)", color: "#1a1a1a" }}
+                    className="relative z-10 ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
+                    style={{ background: "#F5C518", color: "#1a1a1a" }}
                   >
                     {count > 99 ? "99+" : count}
                   </motion.span>
@@ -137,20 +172,37 @@ function CrmLayout() {
               </AnimatePresence>
             </Link>
           );
+
+          if (!collapsed) return <div key={item.to}>{row}</div>;
+          return (
+            <Tooltip key={item.to}>
+              <TooltipTrigger asChild>{row}</TooltipTrigger>
+              <TooltipContent side="right" sideOffset={8} className="font-medium">
+                {item.label}
+                {count > 0 && <span className="ml-1.5 text-[#F5C518]">· {count}</span>}
+              </TooltipContent>
+            </Tooltip>
+          );
         })}
       </nav>
 
-      <button
-        onClick={() => setCollapsed((c) => !c)}
-        className={`crm-nav-item hidden md:flex items-center gap-3 mx-2 mb-3 mt-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-          collapsed ? "justify-center" : ""
-        }`}
-        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-      >
-        {collapsed ? <PanelLeftOpen className="h-[18px] w-[18px]" /> : <PanelLeftClose className="h-[18px] w-[18px]" />}
-        {!collapsed && <span>Collapse</span>}
-      </button>
-    </>
+      {/* Footer / collapse */}
+      <div className="mt-2 px-3 pt-3 pb-3 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+        <button
+          onClick={() => setCollapsed((c) => !c)}
+          className={`crm-nav-item w-full hidden md:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
+            collapsed ? "justify-center" : ""
+          }`}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed
+            ? <PanelLeftOpen size={20} strokeWidth={1.75} />
+            : <PanelLeftClose size={20} strokeWidth={1.75} />}
+          {!collapsed && <span>Collapse</span>}
+        </button>
+      </div>
+    </TooltipProvider>
   );
 
   return (
