@@ -172,6 +172,12 @@ function AboutPage() {
                 >
                   Our Locations <ArrowRight className="size-4" />
                 </Link>
+                <Link
+                  to="/newsroom"
+                  className="btn-base btn-outline-green"
+                >
+                  Newsroom <ArrowRight className="size-4" />
+                </Link>
               </div>
             </div>
             <div className={`relative rounded-2xl overflow-hidden shadow-soft group transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
