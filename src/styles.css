@@ -602,3 +602,101 @@
   .spm-fade { width: 40px; }
 }
 
+
+/* ============================================================
+   CRM visibility hardening (light theme)
+   ============================================================ */
+
+/* Recharts: ensure tooltips render above everything and aren't clipped */
+.recharts-tooltip-wrapper { z-index: 50 !important; pointer-events: none; outline: none; }
+.recharts-wrapper { outline: none; }
+.recharts-default-tooltip {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 10px !important;
+  color: #101820 !important;
+  box-shadow: 0 8px 24px rgba(16,24,32,0.12) !important;
+}
+.recharts-tooltip-label { color: #525C6B !important; font-weight: 600; }
+.recharts-tooltip-item { color: #101820 !important; }
+/* Make sure chart containers don't clip the floating tooltip */
+[data-crm-theme] .recharts-responsive-container,
+[data-crm-theme] .recharts-wrapper { overflow: visible !important; }
+
+/* Axis tick & legend text fallback (in case some chart still uses defaults) */
+[data-crm-theme] .recharts-cartesian-axis-tick-value,
+[data-crm-theme] .recharts-polar-angle-axis-tick-value,
+[data-crm-theme] .recharts-text { fill: #525C6B; }
+[data-crm-theme] .recharts-legend-item-text { color: #101820 !important; }
+
+/* Pie segment hover highlight */
+[data-crm-theme] .recharts-pie-sector:hover { filter: brightness(1.06) drop-shadow(0 2px 6px rgba(16,24,32,0.18)); }
+
+/* Bar/line active hover state */
+[data-crm-theme] .recharts-active-bar { filter: brightness(1.08); }
+
+/* Trend pill colours — darken emerald/red so they pass contrast on white */
+[data-crm-theme] .text-emerald-400 { color: #047857 !important; }
+[data-crm-theme] .text-emerald-300 { color: #047857 !important; }
+[data-crm-theme] .text-red-400 { color: #B91C1C !important; }
+[data-crm-theme] .text-red-300 { color: #B91C1C !important; }
+[data-crm-theme] .text-amber-400 { color: #B45309 !important; }
+[data-crm-theme] .text-blue-300, [data-crm-theme] .text-blue-400 { color: #1D4ED8 !important; }
+[data-crm-theme] .text-violet-300, [data-crm-theme] .text-violet-400 { color: #6D28D9 !important; }
+[data-crm-theme] .text-sky-300, [data-crm-theme] .text-sky-400 { color: #0369A1 !important; }
+
+/* Status chips: subtle tinted backgrounds with readable text */
+[data-crm-theme] .bg-emerald-500\/10,
+[data-crm-theme] .bg-emerald-500\/20 { background-color: rgba(16,185,129,0.14) !important; }
+[data-crm-theme] .bg-red-500\/10,
+[data-crm-theme] .bg-red-500\/20 { background-color: rgba(227,27,35,0.10) !important; }
+[data-crm-theme] .bg-amber-500\/10,
+[data-crm-theme] .bg-amber-500\/20,
+[data-crm-theme] .bg-yellow-500\/10 { background-color: rgba(255,210,0,0.18) !important; }
+[data-crm-theme] .bg-blue-500\/10,
+[data-crm-theme] .bg-blue-500\/20 { background-color: rgba(29,78,216,0.10) !important; }
+[data-crm-theme] .bg-violet-500\/10,
+[data-crm-theme] .bg-violet-500\/20 { background-color: rgba(109,40,217,0.10) !important; }
+
+/* Overlays: dropdowns / popovers / dialogs need solid backgrounds */
+[data-crm-theme] [data-radix-popper-content-wrapper] > * {
+  background-color: var(--crm-surface) !important;
+  color: var(--crm-text) !important;
+  border-color: var(--crm-border) !important;
+  box-shadow: var(--crm-card-shadow) !important;
+}
+[data-crm-theme] [data-state="open"][role="menu"],
+[data-crm-theme] [data-state="open"][role="listbox"],
+[data-crm-theme] [data-state="open"][role="dialog"] {
+  background-color: var(--crm-surface) !important;
+  color: var(--crm-text) !important;
+}
+
+/* Row hover for any CRM table */
+[data-crm-theme] tbody tr:hover { background-color: var(--crm-surface-muted) !important; }
+[data-crm-theme] thead { background-color: var(--crm-surface-muted) !important; }
+[data-crm-theme] thead th { color: var(--crm-text-muted) !important; }
+
+/* Sidebar active item — clearer in emerald theme */
+[data-crm-theme="emerald"] .crm-nav-item.is-active {
+  background-color: #FFFFFF !important;
+  color: #003F27 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+[data-crm-theme="emerald"] .crm-nav-item:hover:not(.is-active) {
+  background-color: rgba(255,255,255,0.10) !important;
+  color: #FFFFFF !important;
+}
+
+/* Mobile bottom nav active */
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[data-active="true"] {
+  color: var(--crm-sidebar-text-active) !important;
+}
+
+/* Focus ring (preserve brand) */
+[data-crm-theme] *:focus-visible {
+  outline: 2px solid var(--crm-primary) !important;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
