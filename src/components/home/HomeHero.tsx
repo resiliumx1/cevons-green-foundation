@@ -57,7 +57,7 @@ export function HomeHero() {
       </div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
+      <div className="container-cevons relative z-10 grid grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-2 md:pt-4">
           <motion.h1
@@ -223,10 +223,10 @@ export function HomeHero() {
 
 
 
-      {/* Flag wave accent — animated tri-color silk ribbons */}
+      {/* Flag wave accent — animated tri-color silk ribbons (in flow, above cert panel) */}
       <div
         aria-hidden
-        className="hero-wave pointer-events-none absolute inset-x-0 bottom-[100px] z-0 h-[90px] md:bottom-[120px] md:h-[120px]"
+        className="hero-wave pointer-events-none relative z-[5] mt-auto h-[70px] w-full md:h-[90px]"
       >
         <div className="hero-wave__drift">
           {/* GREEN — widest, bottom-most */}
@@ -259,7 +259,8 @@ export function HomeHero() {
       </div>
 
       {/* CERTIFICATION PANEL */}
-      <div className="container-cevons relative z-10 pb-5">
+      <div className="container-cevons relative z-10 -mt-2 pb-5">
+
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -299,14 +300,15 @@ export function HomeHero() {
               >
                 <span
                   className={
-                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden " +
+                    "grid size-11 shrink-0 place-items-center rounded-full overflow-hidden p-1 " +
                     (accent
                       ? "bg-cevons-deep-green/50 ring-2 ring-cevons-yellow/50"
                       : "bg-white ring-1 ring-cevons-border")
                   }
                 >
-                  <img src={img} alt="" loading="lazy" decoding="async" className="size-9 object-contain" />
+                  <img src={img} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
                 </span>
+
                 <div className="min-w-0 flex-1">
                   <p
                     className={
