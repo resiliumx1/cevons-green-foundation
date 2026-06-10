@@ -25,7 +25,7 @@ type SR = Database["public"]["Tables"]["service_requests"]["Row"];
 
 
 const CHANNEL_OPTIONS = ["google_ads", "facebook", "whatsapp", "referral", "organic", "other"] as const;
-const PIE_COLORS = ["#FFD200", "#006B35", "#E31B23", "#3B82F6", "#A855F7", "#F97316", "#6B7280", "#22D3EE"];
+const PIE_COLORS = ["#006B35", "#0FA34A", "#14B8A6", "#3B82F6", "#A855F7", "#F97316", "#E31B23", "#6B7280"];
 
 function fmtMoney(n: number) {
   return `$${(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -254,7 +254,7 @@ function MarketingPage() {
                   <XAxis dataKey="name" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                   <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                   <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                  <Bar dataKey="leads" fill="#FFD200" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="leads" fill="#006B35" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -319,10 +319,10 @@ function MarketingPage() {
                   <td className="px-4 py-3 text-white/70">{fmtMoney(Number(c.cost))}</td>
                   <td className="px-4 py-3 text-white/70">{c.leads > 0 ? `$${c.cpl.toFixed(2)}` : "—"}</td>
                   <td className="px-4 py-3 text-white/80">{c.won}</td>
-                  <td className="px-4 py-3 font-semibold text-[#FFD200]">{fmtMoney(c.revenue)}</td>
+                  <td className={`px-4 py-3 font-semibold ${c.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>{fmtMoney(c.revenue)}</td>
                   <td className="px-4 py-3">
                     {Number(c.cost) > 0 ? (
-                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-[#FFD200]/30 bg-[#FFD200]/10 text-[#FFD200]" : "border-orange-500/30 bg-orange-500/10 text-orange-300"}`}>
+                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-teal-600/30 bg-teal-600/10 text-teal-700" : "border-orange-500/30 bg-orange-500/10 text-orange-700"}`}>
                         <ArrowUpRight className="h-3 w-3" />{c.roi.toFixed(1)}x
                       </span>
                     ) : <span className="text-white/40 text-xs">—</span>}
@@ -355,7 +355,7 @@ function MarketingPage() {
                   <span className="text-white/70">{r.leads} <span className="text-white/40">({r.pct}%)</span></span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.05]">
-                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#FFD200]" style={{ width: `${r.pct}%` }} />
+                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A]" style={{ width: `${r.pct}%` }} />
                 </div>
               </div>
             ))}
@@ -377,7 +377,7 @@ function MarketingPage() {
                   </div>
                   <div className="mt-1 h-7 overflow-hidden rounded-md bg-white/[0.03]">
                     <div
-                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/40 to-[#FFD200]/40 px-2 text-[10px] text-white/80"
+                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/55 to-[#0FA34A]/55 px-2 text-[10px] text-white/90"
                       style={{ width: `${width}%` }}
                     />
                   </div>

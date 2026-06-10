@@ -438,10 +438,10 @@
 }
 [data-crm-theme] .crm-bottom-nav::-webkit-scrollbar { display: none; }
 [data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] {
-  color: #FFD200 !important;
-  font-weight: 600;
+  color: #006B35 !important;
+  font-weight: 700;
 }
-[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #FFD200 !important; }
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #F5C518 !important; }
 [data-crm-theme] .crm-nav-item {
   color: var(--crm-sidebar-text) !important;
   background-color: transparent !important;
@@ -455,6 +455,13 @@
   font-weight: 600;
 }
 [data-crm-theme] .crm-nav-item.is-active svg { color: #F5C518 !important; }
+/* Sunset has a light sidebar — active label must be dark green, not white */
+[data-crm-theme="sunset"] .crm-nav-item.is-active { color: #003F27 !important; }
+[data-crm-theme="sunset"] .crm-nav-item:hover:not(.is-active) {
+  background-color: rgba(0, 107, 53, 0.08) !important;
+  color: #003F27 !important;
+}
+[data-crm-theme="sunset"] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #006B35 !important; }
 
 /* Re-map legacy dark CRM page utility classes to themed surfaces */
 [data-crm-theme] .bg-\[\#101820\],
@@ -726,7 +733,7 @@
 
 /* Emerald sidebar — premium active state uses translucent tint + gold cue */
 [data-crm-theme="emerald"] .crm-nav-item.is-active {
-  background-color: rgba(245, 197, 24, 0.10) !important;
+  background-color: rgba(0, 107, 53, 0.22) !important;
   color: #ffffff !important;
   font-weight: 600;
 }
@@ -746,6 +753,89 @@
   outline-offset: 2px;
   border-radius: 6px;
 }
+
+/* ============================================================
+   CRM yellow-as-text removal (a11y contrast hardening)
+   ------------------------------------------------------------
+   Yellow (#FFD200 / #F5C518) fails WCAG on white. Recolour every
+   text/link/badge/border/tinted-bg usage to the deep brand green.
+   Allowed yellow usage (preserved below):
+     - Solid primary buttons:   .bg-[#FFD200]  (no opacity suffix)
+     - Star rating icons:       svg with BOTH .text-[#FFD200] and .fill-[#FFD200]
+     - Inline-styled accents:   set via style={{ color/background: '#F5C518' }}
+   ============================================================ */
+
+/* Text → deep green */
+[data-crm-theme] .text-\[\#FFD200\],
+[data-crm-theme] .text-\[\#F5C518\] { color: #006B35 !important; }
+
+/* Star icons keep their warm yellow (decorative icon accent) */
+[data-crm-theme] svg.text-\[\#FFD200\].fill-\[\#FFD200\],
+[data-crm-theme] svg.fill-\[\#FFD200\].text-\[\#FFD200\] {
+  color: #F5C518 !important;
+  fill: #F5C518 !important;
+}
+
+/* Tinted backgrounds → green tint (for badges, active pills, KPI icon tiles, banners) */
+[data-crm-theme] .bg-\[\#FFD200\]\/10,
+[data-crm-theme] .bg-\[\#FFD200\]\/12,
+[data-crm-theme] .bg-\[\#FFD200\]\/15,
+[data-crm-theme] .bg-\[\#FFD200\]\/20,
+[data-crm-theme] .bg-\[\#FFD200\]\/\[0\.03\],
+[data-crm-theme] .bg-\[\#FFD200\]\/\[0\.06\] {
+  background-color: rgba(0, 107, 53, 0.10) !important;
+}
+
+/* Hover tints */
+[data-crm-theme] .hover\:bg-\[\#FFD200\]\/10:hover,
+[data-crm-theme] .hover\:bg-\[\#FFD200\]\/15:hover {
+  background-color: rgba(0, 107, 53, 0.14) !important;
+}
+
+/* Borders → green */
+[data-crm-theme] .border-\[\#FFD200\]\/20,
+[data-crm-theme] .border-\[\#FFD200\]\/30,
+[data-crm-theme] .border-\[\#FFD200\]\/40,
+[data-crm-theme] .border-\[\#FFD200\]\/50,
+[data-crm-theme] .border-\[\#FFD200\]\/60 { border-color: rgba(0, 107, 53, 0.32) !important; }
+
+[data-crm-theme] .focus\:border-\[\#FFD200\]\/40:focus,
+[data-crm-theme] .focus-within\:border-\[\#FFD200\]\/40 { border-color: rgba(0, 107, 53, 0.55) !important; }
+
+/* Form accents → green */
+[data-crm-theme] .accent-\[\#FFD200\] { accent-color: #006B35 !important; }
+
+/* Reference / link-styled text gets underline-on-hover so it reads as a link */
+[data-crm-theme] a.text-\[\#FFD200\],
+[data-crm-theme] a.text-\[\#F5C518\] {
+  text-decoration-line: none;
+  text-underline-offset: 2px;
+}
+[data-crm-theme] a.text-\[\#FFD200\]:hover,
+[data-crm-theme] a.text-\[\#F5C518\]:hover { text-decoration-line: underline; }
+
+/* Customers "View" cell sits in a hoverable row — show underline on row hover */
+[data-crm-theme] tbody tr:hover .text-\[\#FFD200\] { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Muted secondary copy on white needs more contrast than the default slate-400 */
+[data-crm-theme] .text-white\/40,
+[data-crm-theme] .text-white\/50,
+[data-crm-theme] .text-slate-500 { color: #475569 !important; }
+[data-crm-theme] .text-white\/60,
+[data-crm-theme] .text-slate-400 { color: #475569 !important; }
+[data-crm-theme] .placeholder\:text-white\/40::placeholder,
+[data-crm-theme] .placeholder\:text-white\/30::placeholder { color: #64748B !important; }
+
+/* "Manual log only" / coming-soon info banners: green-on-green-tint */
+[data-crm-theme] .text-\[\#FFD200\].font-semibold { color: #015D2E !important; }
+
+/* Status / segment chip currently using amber for "quoted" — recolour to green */
+[data-crm-theme] .bg-amber-500\/15.text-amber-300 {
+  background-color: rgba(0, 107, 53, 0.12) !important;
+  color: #015D2E !important;
+  border-color: rgba(0, 107, 53, 0.32) !important;
+}
+
 
 /* ============================================================
    Homepage hero — Version 1: Growth Flow typography

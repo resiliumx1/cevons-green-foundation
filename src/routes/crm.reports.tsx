@@ -289,7 +289,7 @@ function ReportsPage() {
               ["ytd", "YTD"],
               ["custom", "Custom"],
             ] as [Preset, string][]).map(([k, label]) => (
-              <button key={k} onClick={() => setPreset(k)} className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${preset === k ? "bg-[#FFD200] text-[#0a1218]" : "text-white/60 hover:text-white"}`}>
+              <button key={k} onClick={() => setPreset(k)} className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${preset === k ? "bg-[#006B35] text-white" : "text-white/70 hover:text-white"}`}>
                 {label}
               </button>
             ))}
@@ -342,7 +342,7 @@ function ReportsPage() {
                 <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                <Line type="monotone" dataKey="v" name="Revenue" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#FFD200", r: 4 }} activeDot={{ r: 6, fill: "#006B35" }} />
+                <Line type="monotone" dataKey="v" name="Revenue" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#0FA34A" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -356,7 +356,7 @@ function ReportsPage() {
                 <XAxis dataKey="m" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                <Line type="monotone" dataKey="v" name="Leads" stroke="#FFD200" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#FFD200" }} />
+                <Line type="monotone" dataKey="v" name="Leads" stroke="#0FA34A" strokeWidth={2.5} dot={{ fill: "#006B35", r: 4 }} activeDot={{ r: 6, fill: "#0FA34A" }} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -385,7 +385,7 @@ function ReportsPage() {
                   <td className="px-4 py-3 text-white/80">{r.leads}</td>
                   <td className="px-4 py-3 text-white/80">{r.won}</td>
                   <td className="px-4 py-3 text-white/70">{r.conv.toFixed(1)}%</td>
-                  <td className="px-4 py-3 font-semibold text-[#FFD200]">${r.revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+                  <td className={`px-4 py-3 font-semibold ${r.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>${r.revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
                 </tr>
               ))}
             </tbody>
@@ -429,7 +429,7 @@ function ReportsPage() {
                 <XAxis type="number" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                 <YAxis dataKey="name" type="category" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} width={120} />
                 <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                <Bar dataKey="leads" name="Leads" fill="#FFD200" radius={[0, 6, 6, 0]} />
+                <Bar dataKey="leads" name="Leads" fill="#006B35" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}

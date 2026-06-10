@@ -26,7 +26,7 @@ export const Route = createFileRoute("/crm/")({
 
 const SOURCE_COLORS: Record<string, string> = {
   Direct: "#64748b",
-  google_ads: "#FFD200",
+  google_ads: "#0FA34A",
   facebook: "#3b82f6",
   whatsapp: "#25D366",
   organic: "#006B35",
@@ -43,7 +43,7 @@ const SOURCE_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   referral: UserPlus,
   phone: Phone,
 };
-const REGION_PALETTE = ["#006B35", "#FFD200", "#E31B23", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
+const REGION_PALETTE = ["#006B35", "#0FA34A", "#14B8A6", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
 
 function startOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth(), 1); }
 function startOfNextMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth() + 1, 1); }
@@ -531,7 +531,7 @@ function Dashboard() {
                   <YAxis stroke={CRM_AXIS} fontSize={11} tickLine={false} axisLine={false} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                   <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
 
-                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#FFD200" }} />
+                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#0FA34A" }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -559,7 +559,7 @@ function Dashboard() {
                     <span className="text-slate-400 tabular-nums">{s.count}</span>
                   </div>
                   <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#FFD200] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
                   </div>
                 </div>
               ))}

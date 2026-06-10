@@ -491,7 +491,7 @@ function ActivityComposer({ onSubmit, pending }: { onSubmit: (type: ActivityType
           <div className="ml-auto inline-flex p-0.5 bg-white/5 rounded-md">
             {(["outbound", "inbound"] as const).map((d) => (
               <button key={d} onClick={() => setDirection(d)}
-                className={`px-2 py-0.5 rounded text-[10px] font-semibold capitalize ${direction === d ? "bg-[#FFD200] text-[#101820]" : "text-slate-400 hover:text-white"}`}>{d}</button>
+                className={`px-2 py-0.5 rounded text-[10px] font-semibold capitalize ${direction === d ? "bg-[#006B35] text-white" : "text-slate-400 hover:text-white"}`}>{d}</button>
             ))}
           </div>
         )}
