@@ -858,6 +858,68 @@
   100% { transform: translate(120%, 90%) rotate(40deg); opacity: 0; }
 }
 
+/* Ambient falling-leaf field around "Greener" */
+.leaf-field {
+  position: absolute;
+  inset: -0.5em -0.4em -1.6em -0.4em;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 0;
+}
+.lf {
+  position: absolute;
+  top: 0;
+  left: var(--x, 50%);
+  width: var(--size, 12px);
+  height: calc(var(--size, 12px) * 1.6);
+  border-radius: 100% 0 100% 0;
+  opacity: 0;
+  transform-origin: 50% 30%;
+  filter: drop-shadow(0 0 4px rgba(46, 125, 50, 0.3));
+  animation: leafFall var(--dur, 12s) cubic-bezier(.45,.05,.55,.95) infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+.lf.gold {
+  filter: drop-shadow(0 0 5px rgba(245, 197, 24, 0.4));
+}
+.lf::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 48%, rgba(0,0,0,.22) 50%, transparent 52%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+@keyframes leafFall {
+  0%   { transform: translate3d(0, -130%, 0) rotate(-20deg); opacity: 0; }
+  10%  { opacity: var(--op, 0.55); }
+  25%  { transform: translate3d(22px, -30%, 0) rotate(0deg); }
+  50%  { transform: translate3d(-18px, 35%, 0) rotate(20deg); opacity: var(--op, 0.55); }
+  75%  { transform: translate3d(26px, 90%, 0) rotate(35deg); opacity: calc(var(--op, 0.55) * 0.75); }
+  100% { transform: translate3d(-12px, 160%, 0) rotate(50deg); opacity: 0; }
+}
+
+.sp {
+  position: absolute;
+  top: var(--y, 30%);
+  left: var(--x, 50%);
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #F5C518;
+  opacity: 0;
+  box-shadow: 0 0 4px rgba(245, 197, 24, 0.75);
+  animation: sparkleTwinkle var(--dur, 4s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: opacity, transform;
+}
+@keyframes sparkleTwinkle {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(0.6); }
+  50%      { opacity: 0.7; transform: translateY(-4px) scale(1); }
+}
+
+
 /* Refined subhead — Option A (brand fonts, refined gold) */
 .hero-subhead-pro {
   font-family: var(--font-sans), "Hanken Grotesk", sans-serif;
@@ -973,13 +1035,17 @@
   .eco-word.growth-flow::before,
   .eco-word.growth-flow::after,
   .eco-leaf,
+  .lf,
+  .sp,
   .hero-subhead-pro .for-guyana::after,
   .hero-cta {
     animation: none !important;
     transition: none !important;
     transform: none !important;
   }
+  .lf, .sp { opacity: 0 !important; }
   .hero-cta:hover { transform: none !important; }
+
 }
 
 /* Social proof strip */
