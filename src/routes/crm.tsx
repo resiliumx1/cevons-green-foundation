@@ -90,10 +90,14 @@ function CrmLayout() {
       {/* Brand lockup */}
       <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center px-2" : ""}`}>
         <div
-          className="h-11 w-11 shrink-0 rounded-xl bg-white grid place-items-center overflow-hidden ring-1 ring-white/15"
-          style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(245,197,24,0.18)" }}
+          className="h-11 w-11 shrink-0 grid place-items-center"
         >
-          <img src={logo} alt="CEVON'S" className="h-8 w-8 object-contain" />
+          <img
+            src={logo}
+            alt="CEVON'S"
+            className="h-11 w-11 object-contain"
+            style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.4))" }}
+          />
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
