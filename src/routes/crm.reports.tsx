@@ -289,7 +289,7 @@ function ReportsPage() {
               ["ytd", "YTD"],
               ["custom", "Custom"],
             ] as [Preset, string][]).map(([k, label]) => (
-              <button key={k} onClick={() => setPreset(k)} className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${preset === k ? "bg-[#FFD200] text-[#0a1218]" : "text-white/60 hover:text-white"}`}>
+              <button key={k} onClick={() => setPreset(k)} className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${preset === k ? "bg-[#006B35] text-white" : "text-white/70 hover:text-white"}`}>
                 {label}
               </button>
             ))}
