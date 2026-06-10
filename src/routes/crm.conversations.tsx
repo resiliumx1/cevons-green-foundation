@@ -177,6 +177,9 @@ function ConversationsPage() {
         </p>
       </div>
 
+      <ContactMessagesInbox />
+
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
         {/* threads list */}
         <div className="flex flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#101820]">
