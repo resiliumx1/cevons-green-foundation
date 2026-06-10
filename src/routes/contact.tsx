@@ -37,10 +37,10 @@ const mapBranches: BranchPoint[] = cevonsContact.regions.map((r) => ({
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact CEVON’S | Waste Management & Environmental Services Guyana" },
-      { name: "description", content: "Contact CEVON’S Environmental Services for waste management, dumpster rental, skip bin rental, septic services, recycling, and environmental solutions in Guyana." },
-      { property: "og:title", content: "Contact CEVON’S | Waste Management & Environmental Services Guyana" },
-      { property: "og:description", content: "Contact CEVON’S Environmental Services for waste management, dumpster rental, skip bin rental, septic services, recycling, and environmental solutions in Guyana." },
+      { title: "Contact CEVON'S | Waste Management Guyana" },
+      { name: "description", content: "Get in touch with CEVON'S for waste management, dumpster rental, septic, recycling, and environmental services across Guyana." },
+      { property: "og:title", content: "Contact CEVON'S | Waste Management Guyana" },
+      { property: "og:description", content: "Get in touch with CEVON'S for waste management, dumpster rental, septic, and environmental services across Guyana." },
       { property: "og:url", content: "/contact" },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
