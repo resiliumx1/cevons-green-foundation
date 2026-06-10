@@ -6,7 +6,7 @@ const heroBg = "/assets/heroes/hero-homepage.webp";
 
 const stats = [
   { icon: Award, value: "29+", label: "Years of Excellence" },
-  { icon: Users, value: "1000+", label: "Happy Clients" },
+  { icon: Users, value: "5000+", label: "Customers" },
   { icon: MapPin, value: "3", label: "Regions Served" },
   { icon: Leaf, value: "1 Goal", label: "A Cleaner Guyana" },
 ];
