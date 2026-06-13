@@ -23,14 +23,22 @@ const fadeUp: Variants = {
 };
 
 export function HomeHero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
   return (
     <section
+      ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{ minHeight: "calc(100vh - 72px)" }}
       aria-labelledby="home-hero-title"
     >
       {/* Background photo — truck dominates right side */}
-      <div className="absolute inset-0 -z-10">
+      <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
         <img
           src={heroBg}
           alt="CEVON'S environmental services truck on a Guyanese road at golden hour"
@@ -56,7 +64,7 @@ export function HomeHero() {
               "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,20,12,.7) 100%)",
           }}
         />
-      </div>
+      </motion.div>
 
       {/* MAIN CONTENT GRID */}
       <div className="container-cevons relative z-10 grid grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
