@@ -58,8 +58,8 @@
      repointed to orange so existing utility classes (bg-cevons-green,
      btn-green, etc.) cascade to the new brand color. The hero scopes
      its own override to preserve its original green color treatment. */
-  --cevons-green: #EF7700;          /* now Cevons Orange (dominant) */
-  --cevons-deep-green: #C45F00;     /* darker orange for hover/depth */
+  --cevons-green: #EF7700;          /* now Cevons Orange (dominant accent / CTA) */
+  --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
   --cevons-yellow: #FCE722;         /* accent only */
   --cevons-red: #D42229;            /* accent only */
   --cevons-dark: #1A1A1A;           /* charcoal */
