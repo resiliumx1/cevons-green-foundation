@@ -411,7 +411,7 @@ export function ImportCustomersDialog({
                 <button
                   onClick={runImport}
                   disabled={importing || (counts.valid === 0 && !(duplicateAction === "update" && counts.duplicates > 0))}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#006B35] px-3 py-1.5 text-sm font-semibold text-white hover:bg-[#006B35]/90 disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#EF7700] px-3 py-1.5 text-sm font-semibold text-white hover:bg-[#EF7700]/90 disabled:opacity-50"
                 >
                   {importing ? <><Loader2 className="h-4 w-4 animate-spin" /> Importing… {progress}%</> : <>Import {counts.valid}{duplicateAction === "update" ? ` + update ${counts.duplicates}` : ""}</>}
                 </button>
@@ -443,7 +443,7 @@ function Stepper({ step }: { step: Step }) {
     <div className="hidden md:flex items-center gap-1.5 mr-2">
       {steps.map((s, idx) => (
         <div key={s} className="flex items-center gap-1.5">
-          <div className={`h-1.5 w-6 rounded-full ${idx <= i ? "bg-[#006B35]" : "bg-white/10"}`} />
+          <div className={`h-1.5 w-6 rounded-full ${idx <= i ? "bg-[#EF7700]" : "bg-white/10"}`} />
         </div>
       ))}
     </div>
@@ -467,7 +467,7 @@ function UploadStep(props: {
           props.dragOver ? "border-[#FFD200] bg-[#FFD200]/5" : "border-white/15 bg-white/[0.02] hover:bg-white/[0.04]"
         }`}
       >
-        <div className="grid h-12 w-12 place-items-center rounded-full bg-[#006B35]/15 text-[#27c374]">
+        <div className="grid h-12 w-12 place-items-center rounded-full bg-[#EF7700]/15 text-[#27c374]">
           <Upload className="h-6 w-6" />
         </div>
         <p className="text-sm font-semibold text-white">Drop your CSV here, or click to browse</p>
@@ -528,7 +528,7 @@ function MapStep(props: {
                     <select
                       value={props.mapping[h] ?? ""}
                       onChange={(e) => setOne(h, e.target.value as CustomerField)}
-                      className="w-full rounded-md border border-white/10 bg-[#0B1118] px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#006B35]"
+                      className="w-full rounded-md border border-white/10 bg-[#0B1118] px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#EF7700]"
                     >
                       <option value="">— Ignore —</option>
                       {ALL_FIELDS.map((f) => (
@@ -579,7 +579,7 @@ function PreviewStep(props: {
               onClick={() => props.setDuplicateAction(opt)}
               className={`rounded-md px-3 py-1.5 border ${
                 props.duplicateAction === opt
-                  ? "border-[#006B35] bg-[#006B35]/15 text-[#27c374]"
+                  ? "border-[#EF7700] bg-[#EF7700]/15 text-[#27c374]"
                   : "border-white/10 text-white/70 hover:bg-white/5"
               }`}
             >
@@ -610,7 +610,7 @@ function PreviewStep(props: {
                   ? { label: "Invalid", cls: "text-red-300 bg-red-500/15", title: r.issues.join("; ") }
                   : r.isDuplicate
                   ? { label: "Duplicate", cls: "text-[#FFD200] bg-[#FFD200]/15", title: "Email matches existing customer" }
-                  : { label: "OK", cls: "text-[#27c374] bg-[#006B35]/20", title: "Will be imported" };
+                  : { label: "OK", cls: "text-[#27c374] bg-[#EF7700]/20", title: "Will be imported" };
                 return (
                   <tr key={r.index} className="text-white/85 hover:bg-white/[0.03]">
                     <td className="px-2 py-1.5 text-white/50">{r.index}</td>
@@ -636,7 +636,7 @@ function PreviewStep(props: {
       {props.importing && (
         <div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full bg-[#006B35] transition-all" style={{ width: `${props.progress}%` }} />
+            <div className="h-full bg-[#EF7700] transition-all" style={{ width: `${props.progress}%` }} />
           </div>
           <p className="mt-1 text-xs text-white/60">Importing… {props.progress}%</p>
         </div>
@@ -648,7 +648,7 @@ function PreviewStep(props: {
 function DoneStep({ result }: { result: { imported: number; updated: number; skipped: number; duplicates: number; invalid: number; errors: string[] } }) {
   return (
     <div className="text-center py-4">
-      <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#006B35]/20 text-[#27c374]">
+      <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#EF7700]/20 text-[#27c374]">
         <CheckCircle2 className="h-6 w-6" />
       </div>
       <h3 className="mt-3 text-lg font-semibold text-white">Import complete</h3>

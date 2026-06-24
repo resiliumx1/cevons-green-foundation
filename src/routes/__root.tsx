@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "CEVON'S Environmental Services Inc." },
       { property: "og:site_name", content: "CEVON'S Environmental Services" },
       { property: "og:type", content: "website" },
-      { name: "theme-color", content: "#006B35" },
+      { name: "theme-color", content: "#EF7700" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:image", content: "https://cevons-green-foundation.lovable.app/assets/brand/cevons-og-default.jpg" },
       { property: "og:image:width", content: "1216" },
@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" },
     ],
     scripts: [
       {

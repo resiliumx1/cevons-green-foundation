@@ -141,15 +141,15 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVON'S Assistant"
-        className={`fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-3 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#006B35]/40 ${
+        className={`fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-3 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
-        style={{ background: "linear-gradient(135deg, #006B35, #003F27)" }}
+        style={{ background: "linear-gradient(135deg, #EF7700, #1A1A1A)" }}
       >
         <span className="relative grid place-items-center h-9 w-9 rounded-full bg-white/15 overflow-hidden">
           <img src={logoMark} alt="" className="h-7 w-7 object-contain" draggable={false} />
           <span
-            className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#003F27]"
+            className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#1A1A1A]"
             style={{ background: "#FFD200" }}
           />
         </span>
@@ -185,7 +185,7 @@ export function ServiceAssistant() {
               {/* Header */}
               <div
                 className="flex items-center gap-3 px-4 py-3 text-white"
-                style={{ background: "linear-gradient(135deg, #006B35, #003F27)" }}
+                style={{ background: "linear-gradient(135deg, #EF7700, #1A1A1A)" }}
               >
                 <div className="h-10 w-10 rounded-full bg-white grid place-items-center overflow-hidden shrink-0">
                   <img src={logoMark} alt="CEVON'S" className="h-8 w-8 object-contain" />
@@ -227,7 +227,7 @@ export function ServiceAssistant() {
                       <button
                         key={c}
                         onClick={() => send(c)}
-                        className="rounded-full border border-[#006B35]/25 bg-white px-3 py-1.5 text-xs font-medium text-[#006B35] hover:bg-[#006B35] hover:text-white transition"
+                        className="rounded-full border border-[#EF7700]/25 bg-white px-3 py-1.5 text-xs font-medium text-[#EF7700] hover:bg-[#EF7700] hover:text-white transition"
                       >
                         {c}
                       </button>
@@ -250,7 +250,7 @@ export function ServiceAssistant() {
                     </a>
                     <Link
                       to="/request-service"
-                      className="inline-flex items-center rounded-full border border-[#006B35] px-3 py-1.5 text-xs font-semibold text-[#006B35] hover:bg-[#006B35] hover:text-white transition"
+                      className="inline-flex items-center rounded-full border border-[#EF7700] px-3 py-1.5 text-xs font-semibold text-[#EF7700] hover:bg-[#EF7700] hover:text-white transition"
                     >
                       Open request form
                     </Link>
@@ -275,14 +275,14 @@ export function ServiceAssistant() {
                     disabled={loading}
                     placeholder={loading ? "Cev is replying…" : "Message Cev…"}
                     aria-label="Type your message"
-                    className="flex-1 resize-none rounded-2xl border border-[#E5E7EB] bg-[#FAFBF9] px-4 py-2.5 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 focus:ring-[#006B35]/30 disabled:opacity-60"
+                    className="flex-1 resize-none rounded-2xl border border-[#E5E7EB] bg-[#FAFBF9] px-4 py-2.5 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 disabled:opacity-60"
                   />
                   <button
                     type="button"
                     onClick={() => send()}
                     disabled={!input.trim() || loading}
                     aria-label="Send"
-                    className="h-10 w-10 grid place-items-center rounded-full bg-[#006B35] text-white hover:bg-[#005a2c] disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    className="h-10 w-10 grid place-items-center rounded-full bg-[#EF7700] text-white hover:bg-[#005a2c] disabled:opacity-50 disabled:cursor-not-allowed transition"
                   >
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                   </button>
@@ -303,7 +303,7 @@ function Bubble({ message }: { message: Message }) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#006B35] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
+        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#EF7700] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
           {message.text}
         </div>
       </div>
@@ -329,9 +329,9 @@ function TypingDots() {
       </div>
       <div className="rounded-2xl rounded-tl-md bg-white border border-[#E5E7EB] px-4 py-3 shadow-sm">
         <div className="flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#006B35] animate-bounce" style={{ animationDelay: "0ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#006B35] animate-bounce" style={{ animationDelay: "120ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#006B35] animate-bounce" style={{ animationDelay: "240ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "120ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "240ms" }} />
         </div>
       </div>
     </div>

@@ -273,10 +273,10 @@ function LeadsList() {
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="inline-flex p-1 bg-[#101820] border border-white/[0.08] rounded-lg">
-            <button onClick={() => setView("list")} className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold ${view === "list" ? "bg-[#006B35] text-white" : "text-slate-300 hover:text-white"}`}>
+            <button onClick={() => setView("list")} className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold ${view === "list" ? "bg-[#EF7700] text-white" : "text-slate-300 hover:text-white"}`}>
               <ListIcon className="h-3.5 w-3.5" /> List
             </button>
-            <button onClick={() => setView("kanban")} className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold ${view === "kanban" ? "bg-[#006B35] text-white" : "text-slate-300 hover:text-white"}`}>
+            <button onClick={() => setView("kanban")} className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold ${view === "kanban" ? "bg-[#EF7700] text-white" : "text-slate-300 hover:text-white"}`}>
               <LayoutGrid className="h-3.5 w-3.5" /> Pipeline
             </button>
           </div>

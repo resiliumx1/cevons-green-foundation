@@ -200,7 +200,7 @@ function LoginPage() {
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="peer absolute inset-0 h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/40 bg-white/10 transition checked:border-[#006B35] checked:bg-[#006B35]"
+                  className="peer absolute inset-0 h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/40 bg-white/10 transition checked:border-[#EF7700] checked:bg-[#EF7700]"
                 />
                 <svg
                   className="pointer-events-none relative h-3 w-3 scale-0 text-[#FFD200] transition-transform peer-checked:scale-100"
@@ -224,7 +224,7 @@ function LoginPage() {
             type="submit"
             disabled={loading}
             className="group relative mt-6 flex h-[58px] w-full items-center justify-center gap-2 overflow-hidden rounded-[18px] text-base font-bold text-[#101820] opacity-0 shadow-[0_12px_30px_-8px_rgba(255,210,0,0.55)] transition-all duration-200 animate-[fadeUp_0.6s_ease-out_0.45s_forwards] hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-8px_rgba(255,210,0,0.65)] active:translate-y-0 disabled:cursor-wait disabled:opacity-90"
-            style={{ background: "linear-gradient(90deg, #FFD200 0%, #006B35 70%, #006B35 100%)" }}
+            style={{ background: "linear-gradient(90deg, #FFD200 0%, #EF7700 70%, #EF7700 100%)" }}
           >
             {loading ? (
               <>

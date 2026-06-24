@@ -31,13 +31,13 @@ type Status = typeof STATUSES[number];
 
 const TYPE_STYLES: Record<string, string> = {
   Residential: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-  Commercial: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
+  Commercial: "bg-[#EF7700]/15 text-[#EF7700] border-[#EF7700]/30",
   Industrial: "bg-purple-500/15 text-purple-300 border-purple-500/30",
   "Government / Municipal": "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
   Institution: "bg-orange-500/15 text-orange-300 border-orange-500/30",
 };
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
+  active: "bg-[#EF7700]/15 text-[#EF7700] border-[#EF7700]/30",
   lead: "bg-[#FFD200]/15 text-[#FFD200] border-[#FFD200]/30",
   inactive: "bg-white/[0.06] text-white/50 border-white/[0.1]",
 };
@@ -136,7 +136,7 @@ function CustomersPage() {
     return [
       { label: "Total Customers", value: total, tone: "text-white/80", bg: "bg-white/[0.05]", icon: Users },
       { label: "New This Month", value: newThisMonth, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10", icon: UserPlus },
-      { label: "Commercial Accounts", value: commercial, tone: "text-[#006B35]", bg: "bg-[#006B35]/10", icon: Building2 },
+      { label: "Commercial Accounts", value: commercial, tone: "text-[#EF7700]", bg: "bg-[#EF7700]/10", icon: Building2 },
       { label: "Active", value: active, tone: "text-purple-300", bg: "bg-purple-500/10", icon: Repeat },
     ];
   }, [customers]);

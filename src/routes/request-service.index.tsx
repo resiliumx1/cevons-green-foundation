@@ -394,16 +394,16 @@ function RequestServicePage() {
               <h3 className="text-lg font-semibold">Need Help?</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 Call our Georgetown Head Office at{" "}
-                <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+                <a href={primaryTelHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
                 or email{" "}
-                <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>.
+                <a href={primaryMailtoHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.email}</a>.
                 Or contact the branch closest to you.
               </p>
               {/* Confirm official WhatsApp number with CEVON'S before launch. */}
               <a
                 href={whatsappHref}
                 {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#006B35] text-white hover:bg-[#003F27] font-semibold transition-colors"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[#EF7700] text-white hover:bg-[#1A1A1A] font-semibold transition-colors"
               >
                 <MessageCircle className="size-4" /> WhatsApp Us
               </a>
@@ -438,11 +438,11 @@ function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number
           <span className="font-semibold text-[var(--cevons-dark)]">
             Step {step + 1} of {STEPS.length}
           </span>
-          <span className="text-[#006B35] font-semibold">{current}</span>
+          <span className="text-[#EF7700] font-semibold">{current}</span>
         </div>
         <div className="mt-2 h-1.5 w-full rounded-full bg-border overflow-hidden">
           <motion.div
-            className="h-full bg-[#006B35]"
+            className="h-full bg-[#EF7700]"
             initial={false}
             animate={{ width: `${pct}%` }}
             transition={{ duration: 0.4, ease: "easeOut" }}
@@ -458,7 +458,7 @@ function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number
               aria-label={`Go to step ${i + 1}`}
               className={cn(
                 "h-1.5 rounded-full transition-all",
-                i === step ? "w-6 bg-[#006B35]" : i < step ? "w-3 bg-[#006B35]/70 cursor-pointer" : "w-3 bg-border",
+                i === step ? "w-6 bg-[#EF7700]" : i < step ? "w-3 bg-[#EF7700]/70 cursor-pointer" : "w-3 bg-border",
               )}
             />
           ))}
@@ -477,7 +477,7 @@ function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number
               {i < STEPS.length - 1 && (
                 <div className="absolute top-5 left-1/2 right-[-50%] h-[3px] bg-border -z-0 overflow-hidden rounded-full">
                   <motion.div
-                    className="h-full bg-[#006B35] origin-left"
+                    className="h-full bg-[#EF7700] origin-left"
                     initial={false}
                     animate={{ scaleX: completed ? 1 : 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
@@ -491,20 +491,20 @@ function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number
                 aria-current={active ? "step" : undefined}
                 className={cn(
                   "relative z-10 size-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all bg-card",
-                  completed && "bg-[#006B35] border-[#006B35] text-white hover:scale-110 cursor-pointer",
-                  active && "bg-[#006B35] border-[#006B35] text-white ring-4 ring-[#006B35]/20",
+                  completed && "bg-[#EF7700] border-[#EF7700] text-white hover:scale-110 cursor-pointer",
+                  active && "bg-[#EF7700] border-[#EF7700] text-white ring-4 ring-[#EF7700]/20",
                   !completed && !active && "border-border text-muted-foreground",
                 )}
               >
                 {active && (
-                  <span className="absolute inset-0 rounded-full bg-[#006B35] opacity-40 animate-ping" aria-hidden />
+                  <span className="absolute inset-0 rounded-full bg-[#EF7700] opacity-40 animate-ping" aria-hidden />
                 )}
                 <span className="relative">{completed ? <Check className="size-4" /> : i + 1}</span>
               </button>
               <span
                 className={cn(
                   "mt-2 text-[11px] lg:text-xs text-center leading-tight px-1 max-w-[88px] break-words",
-                  active ? "text-[var(--cevons-dark)] font-bold" : completed ? "text-[#006B35] font-semibold" : "text-muted-foreground",
+                  active ? "text-[var(--cevons-dark)] font-bold" : completed ? "text-[#EF7700] font-semibold" : "text-muted-foreground",
                 )}
               >
                 {label}
@@ -537,8 +537,8 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
               className={cn(
                 "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
                 active
-                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
-                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
+                  ? "border-[#EF7700] bg-[#EF7700]/5 shadow-md"
+                  : "border-border hover:border-[#EF7700]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between">
@@ -546,13 +546,13 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
                   className={cn(
                     "relative h-24 w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
                     active
-                      ? "ring-2 ring-[#006B35] ring-offset-2 ring-offset-card"
+                      ? "ring-2 ring-[#EF7700] ring-offset-2 ring-offset-card"
                       : "ring-1 ring-black/5",
                   )}
                 >
                   <CevonsIcon group="categories" name={c.iconKey} fill decorative />
                 </div>
-                {active && <Check className="size-5 text-[#006B35]" />}
+                {active && <Check className="size-5 text-[#EF7700]" />}
               </div>
               <div className="mt-4 text-lg font-bold">{c.name}</div>
               <div className="text-sm text-muted-foreground mt-1">{c.desc}</div>
@@ -586,8 +586,8 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
               className={cn(
                 "text-left rounded-xl border-2 p-4 transition-all bg-card group",
                 active
-                  ? "border-[#006B35] bg-[#006B35]/5 shadow-md"
-                  : "border-border hover:border-[#006B35]/60 hover:-translate-y-0.5 hover:shadow-md",
+                  ? "border-[#EF7700] bg-[#EF7700]/5 shadow-md"
+                  : "border-border hover:border-[#EF7700]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
               <div className="flex items-start justify-between gap-2">
@@ -595,13 +595,13 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
                   className={cn(
                     "relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
                     active
-                      ? "ring-2 ring-[#006B35] ring-offset-2 ring-offset-card"
+                      ? "ring-2 ring-[#EF7700] ring-offset-2 ring-offset-card"
                       : "ring-1 ring-black/5",
                   )}
                 >
                   <CevonsIcon group="services" name={s.iconKey} fill decorative />
                 </div>
-                {active && <Check className="size-5 text-[#006B35]" />}
+                {active && <Check className="size-5 text-[#EF7700]" />}
               </div>
               <div className="mt-3 font-semibold">{s.name}</div>
               <div className="text-sm text-muted-foreground">{s.desc}</div>
@@ -792,9 +792,9 @@ function StepDetails({
         </Label>
         <label
           htmlFor="file-upload"
-          className="mt-2 flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 hover:border-[#006B35] hover:bg-[#006B35]/5 transition-colors cursor-pointer p-8 text-center"
+          className="mt-2 flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 hover:border-[#EF7700] hover:bg-[#EF7700]/5 transition-colors cursor-pointer p-8 text-center"
         >
-          <Upload className="size-6 text-[#006B35]" />
+          <Upload className="size-6 text-[#EF7700]" />
           <div className="mt-2 font-medium">Drag & drop files here or click to upload</div>
           <div className="text-xs text-muted-foreground mt-1">Accepted: images, PDFs, documents.</div>
           <input id="file-upload" type="file" multiple accept="image/*,.pdf,.doc,.docx" className="hidden" onChange={(e) => onFiles(e.target.files)} />

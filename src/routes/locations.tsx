@@ -113,7 +113,7 @@ function LocationsPage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Where We Operate
             </h2>
             <p className="mt-3 text-cevons-muted max-w-2xl mx-auto">
@@ -121,7 +121,7 @@ function LocationsPage() {
             </p>
           </div>
 
-          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#006B35)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
+          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#EF7700)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
               <GuyanaBranchMap
                 branches={mapBranches}
@@ -133,7 +133,7 @@ function LocationsPage() {
 
             <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-cevons-muted">
               <span className="inline-flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,#006B35)]" /> Branch
+                <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,#EF7700)]" /> Branch
               </span>
               <span className="inline-flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FFD200]" /> Selected
@@ -150,8 +150,8 @@ function LocationsPage() {
                     onClick={() => setActivePin(r.name)}
                     className={`rounded-xl border px-4 py-3 text-left transition-all ${
                       active
-                        ? "border-[var(--cevons-deep-green,#006B35)] bg-[var(--cevons-deep-green,#006B35)] text-white shadow-md"
-                        : "border-[var(--cevons-deep-green,#006B35)]/15 bg-white text-[var(--cevons-deep-green,#006B35)] hover:border-[var(--cevons-deep-green,#006B35)]/40"
+                        ? "border-[var(--cevons-deep-green,#EF7700)] bg-[var(--cevons-deep-green,#EF7700)] text-white shadow-md"
+                        : "border-[var(--cevons-deep-green,#EF7700)]/15 bg-white text-[var(--cevons-deep-green,#EF7700)] hover:border-[var(--cevons-deep-green,#EF7700)]/40"
                     }`}
                     aria-pressed={active}
                   >
@@ -173,7 +173,7 @@ function LocationsPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]">
         <div className="container-cevons">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Regional Offices
             </h2>
             <p className="mt-3 text-cevons-muted">Reach out to the team closest to you.</p>
@@ -183,15 +183,15 @@ function LocationsPage() {
             {regions.map((r) => (
               <div
                 key={r.name}
-                className="group rounded-2xl bg-white border border-[var(--cevons-deep-green,#006B35)]/10 p-7 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+                className="group rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#006B35)]/10 text-[var(--cevons-deep-green,#006B35)]">
+                    <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]">
                       <MapPin className="w-6 h-6" />
                     </span>
                     <div>
-                      <h3 className="text-xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+                      <h3 className="text-xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
                         {r.name}
                       </h3>
                       <span className="text-xs font-semibold uppercase tracking-wide text-[#B58900]">
@@ -202,18 +202,18 @@ function LocationsPage() {
                 </div>
 
                 <ul className="mt-5 space-y-2 text-sm text-cevons-muted">
-                  <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.address}</li>
-                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
+                  <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{r.address}</li>
+                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
                     <span className="flex flex-wrap gap-x-2 gap-y-0.5">
                       {r.phone.split(" / ").map((p) => (
-                        <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{p}</a>
+                        <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{p}</a>
                       ))}
                     </span>
                   </li>
-                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />
-                    <a href={mailtoHref()} className="hover:text-[var(--cevons-deep-green,#006B35)] hover:underline">{cevonsContact.email}</a>
+                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
+                    <a href={mailtoHref()} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{cevonsContact.email}</a>
                   </li>
-                  <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#006B35)]" />{r.hours}</li>
+                  <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{r.hours}</li>
                 </ul>
 
                 <div className="mt-5">
@@ -224,7 +224,7 @@ function LocationsPage() {
                     {r.services.map((s) => (
                       <span
                         key={s}
-                        className="rounded-full bg-[var(--cevons-deep-green,#006B35)]/8 text-[var(--cevons-deep-green,#006B35)] text-xs font-medium px-2.5 py-1 border border-[var(--cevons-deep-green,#006B35)]/15"
+                        className="rounded-full bg-[var(--cevons-deep-green,#EF7700)]/8 text-[var(--cevons-deep-green,#EF7700)] text-xs font-medium px-2.5 py-1 border border-[var(--cevons-deep-green,#EF7700)]/15"
                       >
                         {s}
                       </span>
@@ -234,7 +234,7 @@ function LocationsPage() {
 
                 <Link
                   to="/request-service"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--cevons-deep-green,#006B35)] text-white font-semibold px-4 py-3 hover:bg-[var(--cevons-deep-green,#006B35)]/90 transition-colors"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--cevons-deep-green,#EF7700)] text-white font-semibold px-4 py-3 hover:bg-[var(--cevons-deep-green,#EF7700)]/90 transition-colors"
                 >
                   Request Service in {r.name}
                   <ArrowRight className="w-4 h-4" />
@@ -249,15 +249,15 @@ function LocationsPage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Service Availability by Location
             </h2>
             <p className="mt-3 text-cevons-muted">A quick view of what's offered where.</p>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-[var(--cevons-deep-green,#006B35)]/15 shadow-sm">
+          <div className="overflow-x-auto rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/15 shadow-sm">
             <table className="w-full min-w-[600px] text-left">
-              <thead className="bg-[var(--cevons-deep-green,#006B35)] text-white">
+              <thead className="bg-[var(--cevons-deep-green,#EF7700)] text-white">
                 <tr>
                   <th className="px-5 py-4 text-sm font-semibold">Service</th>
                   {(["Georgetown", "Linden", "Berbice"] as Region[]).map((r) => (
@@ -271,13 +271,13 @@ function LocationsPage() {
                     key={row.service}
                     className={i % 2 === 0 ? "bg-white" : "bg-[var(--cevons-cream,#FBF7EE)]/60"}
                   >
-                    <td className="px-5 py-4 text-sm font-medium text-[var(--cevons-deep-green,#006B35)]">
+                    <td className="px-5 py-4 text-sm font-medium text-[var(--cevons-deep-green,#EF7700)]">
                       {row.service}
                     </td>
                     {(["Georgetown", "Linden", "Berbice"] as Region[]).map((r) => (
                       <td key={r} className="px-5 py-4 text-center">
                         {row.cells[r] === "yes" ? (
-                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--cevons-deep-green,#006B35)]/10 text-[var(--cevons-deep-green,#006B35)]">
+                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]">
                             <Check className="w-4 h-4" />
                           </span>
                         ) : (
@@ -296,7 +296,7 @@ function LocationsPage() {
       </section>
 
       {/* LOCAL CTA */}
-      <section className="bg-[var(--cevons-deep-green,#006B35)] text-white">
+      <section className="bg-[var(--cevons-deep-green,#EF7700)] text-white">
         <div className="container-cevons py-16 md:py-20 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold">Need service in your area?</h2>
           <p className="mt-3 text-white/85 max-w-2xl mx-auto">
@@ -306,13 +306,13 @@ function LocationsPage() {
             <a
               href={whatsappHref}
               {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C518] text-[var(--cevons-deep-green,#006B35)] font-bold px-6 py-3.5 hover:brightness-105 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C518] text-[var(--cevons-deep-green,#EF7700)] font-bold px-6 py-3.5 hover:brightness-105 transition"
             >
               <MessageCircle className="w-5 h-5" /> WhatsApp Us
             </a>
             <Link
               to="/request-service"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white text-white font-bold px-6 py-3.5 hover:bg-white hover:text-[var(--cevons-deep-green,#006B35)] transition"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white text-white font-bold px-6 py-3.5 hover:bg-white hover:text-[var(--cevons-deep-green,#EF7700)] transition"
             >
               Request Service <ArrowRight className="w-5 h-5" />
             </Link>
@@ -321,7 +321,7 @@ function LocationsPage() {
       </section>
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#006B35)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -330,8 +330,8 @@ function LocationsPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#006B35)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#006B35)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
             </div>
           ))}
         </div>

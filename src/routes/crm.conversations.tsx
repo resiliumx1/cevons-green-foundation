@@ -235,7 +235,7 @@ function ConversationsPage() {
                     <li key={`${key.kind}:${key.id}`}>
                       <button onClick={() => setSelected(key)}
                         className={`flex w-full items-start gap-3 px-3 py-3 text-left transition ${isActive ? "bg-white/[0.05]" : "hover:bg-white/[0.02]"}`}>
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#006B35] text-xs font-semibold text-white">
+                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#EF7700] text-xs font-semibold text-white">
                           {initials(name)}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -304,7 +304,7 @@ function ThreadView({
     <>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#006B35] text-sm font-semibold text-white">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#EF7700] text-sm font-semibold text-white">
             {initials(contact.name)}
           </div>
           <div>
@@ -345,7 +345,7 @@ function ThreadView({
                 <Icon className="h-3.5 w-3.5" />
               </div>
               <div className={`max-w-[75%] rounded-2xl border px-3 py-2 ${
-                inbound ? "rounded-tl-sm border-white/[0.08] bg-white/[0.04]" : "rounded-tr-sm border-[#006B35]/30 bg-[#006B35]/10"
+                inbound ? "rounded-tl-sm border-white/[0.08] bg-white/[0.04]" : "rounded-tr-sm border-[#EF7700]/30 bg-[#EF7700]/10"
               }`}>
                 <div className="mb-1 flex items-center gap-2 text-[10px] uppercase tracking-wider text-white/50">
                   <span>{a.type}</span>

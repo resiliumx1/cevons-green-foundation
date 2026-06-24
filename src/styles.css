@@ -13,8 +13,8 @@
   --radius-xl: 16px;
   --radius-2xl: 20px;
 
-  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -53,36 +53,51 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVON'S brand palette */
-  --cevons-green: #006B35;
-  --cevons-deep-green: #003F27;
-  --cevons-yellow: #FFD200;
-  --cevons-red: #E31B23;
-  --cevons-dark: #101820;
-  --cevons-cream: #F7F5ED;
-  --cevons-border: #E5E7EB;
-  --cevons-muted: #525C6B;
+  /* CEVON'S brand palette — ORANGE-PRIMARY per Brand Guideline.
+     Green/yellow/red are accents only. `--cevons-green` token is
+     repointed to orange so existing utility classes (bg-cevons-green,
+     btn-green, etc.) cascade to the new brand color. The hero scopes
+     its own override to preserve its original green color treatment. */
+  --cevons-green: #EF7700;          /* now Cevons Orange (dominant accent / CTA) */
+  --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
+  --cevons-yellow: #FCE722;         /* accent only */
+  --cevons-red: #D42229;            /* accent only */
+  --cevons-dark: #1A1A1A;           /* charcoal */
+  --cevons-cream: #FFFFFF;
+  --cevons-border: #D9D9D9;
+  --cevons-muted: #4A4A4A;
 
-  /* shadcn semantic tokens mapped to CEVON'S */
+  /* Explicit brand tokens (use these going forward) */
+  --brand-orange: #EF7700;
+  --brand-orange-dark: #C45F00;
+  --brand-charcoal: #1A1A1A;
+  --brand-navy: #000080;
+  --brand-dark-grey: #4A4A4A;
+  --brand-light-grey: #D9D9D9;
+  --brand-accent-green: #2DA339;    /* small accent only */
+  --brand-accent-yellow: #FCE722;
+  --brand-accent-red: #D42229;
+
+  /* shadcn semantic tokens — orange primary, charcoal text on orange */
   --background: #FFFFFF;
-  --foreground: #101820;
+  --foreground: #1A1A1A;
   --card: #FFFFFF;
-  --card-foreground: #101820;
+  --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
-  --popover-foreground: #101820;
-  --primary: #006B35;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F7F5ED;
-  --secondary-foreground: #003F27;
+  --popover-foreground: #1A1A1A;
+  --primary: #EF7700;
+  --primary-foreground: #1A1A1A;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #1A1A1A;
   --muted: #F3F4F6;
-  --muted-foreground: #525C6B;
-  --accent: #FFD200;
-  --accent-foreground: #101820;
-  --destructive: #E31B23;
+  --muted-foreground: #4A4A4A;
+  --accent: #FCE722;
+  --accent-foreground: #1A1A1A;
+  --destructive: #D42229;
   --destructive-foreground: #FFFFFF;
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #006B35;
+  --border: #D9D9D9;
+  --input: #D9D9D9;
+  --ring: #EF7700;
 }
 
 @layer base {
@@ -101,9 +116,13 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    font-weight: 800;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    line-height: 1.2;
     color: inherit;
+  }
+  p, li, dd, dt, label, small, span, button, a, input, textarea, select {
+    line-height: 1.5;
   }
 }
 
@@ -122,7 +141,7 @@
   [role="tab"]:focus-visible,
   [role="option"]:focus-visible,
   [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: 2px solid var(--cevons-green);
+    outline: 2px solid var(--brand-orange);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -162,25 +181,27 @@
   outline: none;
   white-space: nowrap;
   &:focus-visible {
-    box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+    box-shadow: 0 0 0 3px rgba(239, 119, 0, 0.35);
   }
 }
 @utility btn-green {
-  background-color: var(--cevons-green);
-  color: #fff;
+  /* Repointed to brand orange per Brand Guideline. Charcoal text for AA contrast. */
+  background-color: var(--brand-orange);
+  color: var(--brand-charcoal);
   &:hover {
-    background-color: var(--cevons-deep-green);
+    background-color: var(--brand-orange-dark);
+    color: var(--brand-charcoal);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 107, 53, 0.25);
+    box-shadow: 0 8px 20px rgba(239, 119, 0, 0.28);
   }
 }
 @utility btn-yellow {
-  background-color: var(--cevons-yellow);
-  color: var(--cevons-dark);
+  background-color: var(--brand-accent-yellow);
+  color: var(--brand-charcoal);
   &:hover {
-    background-color: #f0c500;
+    background-color: #f0db1f;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(255, 210, 0, 0.45);
+    box-shadow: 0 10px 24px rgba(252, 231, 34, 0.45);
   }
 }
 @utility btn-shine {
@@ -1422,3 +1443,45 @@
   }
   .wave-divider__sheen { opacity: 0 !important; }
 }
+
+/* =========================================================================
+   Brand Guideline alignment overrides
+   - Orange (#EF7700) is the dominant brand color.
+   - White text fails AA on orange — force charcoal on orange surfaces.
+   - Hero is excluded ([data-hero-scope]) so its original green color
+     treatment is preserved per Step 4 of the brand alignment pass.
+   - Minimum font-weight floor: 400 (no thin/light weights).
+   ========================================================================= */
+
+/* Charcoal text on brand-orange backgrounds (outside hero scope).
+   Specificity boosted via :is() so this beats Tailwind's .text-white. */
+:is(:not([data-hero-scope]):not([data-hero-scope] *)).bg-cevons-green,
+:not([data-hero-scope]):not([data-hero-scope] *) .bg-cevons-green {
+  color: var(--brand-charcoal) !important;
+}
+[data-hero-scope] .bg-cevons-green,
+[data-hero-scope].bg-cevons-green {
+  /* hero keeps its original green treatment; white text is AA on green */
+  color: #fff !important;
+}
+
+/* Hardcoded brand-orange backgrounds in components — same guard. */
+:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[#EF7700]"],
+[class*="bg-[#EF7700]"]:not([data-hero-scope] *) {
+  color: var(--brand-charcoal) !important;
+}
+
+/* Font-weight floor — guideline forbids light/thin weights. */
+.font-thin, .font-extralight, .font-light {
+  font-weight: 400 !important;
+}
+
+/* Heading sizes per guideline (digital): H1 32–40, H2 22–28. */
+h1 { font-size: clamp(2rem, 3.6vw, 2.5rem); line-height: 1.15; }
+h2 { font-size: clamp(1.375rem, 2.4vw, 1.75rem); line-height: 1.2; }
+h3 { font-size: clamp(1.125rem, 1.8vw, 1.375rem); line-height: 1.25; }
+/* Hero opts out via its own inline clamp on .hero-heading */
+.hero-heading { font-size: clamp(1.9rem, 4.6vw, 4.25rem) !important; line-height: 1.04 !important; }
+
+/* Body line-height floor */
+body { line-height: 1.5; }

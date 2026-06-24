@@ -35,7 +35,7 @@ const ACTIVITY_META: Record<string, { icon: ComponentType<{ className?: string }
   whatsapp: { icon: WhatsApp, color: "#25D366", label: "WhatsApp" },
   sms: { icon: MessageSquarePlus, color: "#a855f7", label: "SMS" },
   email: { icon: Mail, color: "#FFD200", label: "Email" },
-  status_change: { icon: ClipboardCheck, color: "#006B35", label: "Status change" },
+  status_change: { icon: ClipboardCheck, color: "#EF7700", label: "Status change" },
 };
 
 type ActivityType = keyof typeof ACTIVITY_META;
@@ -491,7 +491,7 @@ function ActivityComposer({ onSubmit, pending }: { onSubmit: (type: ActivityType
           <div className="ml-auto inline-flex p-0.5 bg-white/5 rounded-md">
             {(["outbound", "inbound"] as const).map((d) => (
               <button key={d} onClick={() => setDirection(d)}
-                className={`px-2 py-0.5 rounded text-[10px] font-semibold capitalize ${direction === d ? "bg-[#006B35] text-white" : "text-slate-400 hover:text-white"}`}>{d}</button>
+                className={`px-2 py-0.5 rounded text-[10px] font-semibold capitalize ${direction === d ? "bg-[#EF7700] text-white" : "text-slate-400 hover:text-white"}`}>{d}</button>
             ))}
           </div>
         )}

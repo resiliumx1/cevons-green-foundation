@@ -22,7 +22,7 @@ type ReviewSource = "google" | "facebook" | "manual";
 
 const STATUS_STYLES: Record<ReviewStatus, string> = {
   pending: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  published: "bg-[#006B35]/15 text-[#006B35] border-[#006B35]/30",
+  published: "bg-[#EF7700]/15 text-[#EF7700] border-[#EF7700]/30",
   hidden: "bg-white/[0.06] text-white/50 border-white/[0.1]",
   responded: "bg-blue-500/15 text-blue-300 border-blue-500/30",
 };
@@ -101,7 +101,7 @@ function ReviewsPage() {
     return [
       { label: "Total Reviews", value: String(list.length), icon: MessageSquare, tone: "text-white", bg: "bg-white/10" },
       { label: "Average Rating", value: `${avg} / 5`, icon: Star, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
-      { label: "Positive (4–5★)", value: String(positive), icon: ThumbsUp, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
+      { label: "Positive (4–5★)", value: String(positive), icon: ThumbsUp, tone: "text-[#EF7700]", bg: "bg-[#EF7700]/10" },
       { label: "Needs Follow-Up", value: String(needsFollowUp), icon: AlertCircle, tone: "text-[#E31B23]", bg: "bg-[#E31B23]/10" },
     ];
   }, [reviews]);
@@ -294,7 +294,7 @@ function ReviewsPage() {
                       <td className="px-4 py-3 text-white/70">{fmtDate(r.review_date)}</td>
                       <td className="px-4 py-3">
                         {r.response ? (
-                          <span className="inline-flex items-center gap-1 text-xs text-[#006B35]">
+                          <span className="inline-flex items-center gap-1 text-xs text-[#EF7700]">
                             <CheckCircle2 className="h-3 w-3" /> Replied
                           </span>
                         ) : (
@@ -342,7 +342,7 @@ function ReviewsPage() {
                   </div>
                   {r.body && <p className="mt-2 text-sm text-white/80">{r.body}</p>}
                   {r.response && (
-                    <div className="mt-2 rounded-lg border border-[#006B35]/20 bg-[#006B35]/10 p-2 text-xs text-[#006B35]">
+                    <div className="mt-2 rounded-lg border border-[#EF7700]/20 bg-[#EF7700]/10 p-2 text-xs text-[#EF7700]">
                       <span className="font-semibold">Response:</span> {r.response}
                     </div>
                   )}

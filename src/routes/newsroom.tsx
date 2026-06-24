@@ -192,7 +192,7 @@ function NewsroomPage() {
             height={800}
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">
           <nav aria-label="Breadcrumb" className="mb-5">
@@ -245,24 +245,24 @@ function NewsroomPage() {
         <div className="container-cevons">
           <div className="flex items-end justify-between gap-4 mb-10">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-2">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">
                 Media & Press
               </p>
               <h2
                 id="press-heading"
-                className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#006B35)]"
+                className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]"
               >
                 In the News
               </h2>
             </div>
-            <Newspaper className="size-8 text-[var(--cevons-deep-green,#006B35)]/30 hidden md:block" />
+            <Newspaper className="size-8 text-[var(--cevons-deep-green,#EF7700)]/30 hidden md:block" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {pressClips.map(({ outlet, title, date, link, replace }, i) => (
               <article
                 key={i}
-                className={`group relative bg-[var(--cevons-cream,#FBF7EE)] rounded-xl border border-[var(--cevons-deep-green,#006B35)]/10 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#006B35)]/25 ${
+                className={`group relative bg-[var(--cevons-cream,#FBF7EE)] rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${
                   mounted
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
@@ -271,7 +271,7 @@ function NewsroomPage() {
               >
                 <div className="p-6 md:p-7 flex flex-col h-full">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="inline-flex items-center rounded-full bg-[var(--cevons-deep-green,#006B35)]/10 text-[var(--cevons-deep-green,#006B35)] text-xs font-bold px-3 py-1">
+                    <span className="inline-flex items-center rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] text-xs font-bold px-3 py-1">
                       {replace ? "[REPLACE]" : outlet}
                     </span>
                     <span className="inline-flex items-center gap-1 text-xs text-[var(--cevons-muted,#64748B)]">
@@ -279,16 +279,16 @@ function NewsroomPage() {
                       {date}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#006B35)] leading-snug flex-1">
+                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)] leading-snug flex-1">
                     {title}
                   </h3>
-                  <div className="mt-5 pt-5 border-t border-[var(--cevons-deep-green,#006B35)]/10">
+                  <div className="mt-5 pt-5 border-t border-[var(--cevons-deep-green,#EF7700)]/10">
                     {link && !replace ? (
                       <a
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,#006B35)] hover:gap-2 transition-all"
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)] hover:gap-2 transition-all"
                       >
                         Read article <ArrowUpRight className="size-4" />
                       </a>
@@ -309,12 +309,12 @@ function NewsroomPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-labelledby="milestones-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-2">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">
               Our Journey
             </p>
             <h2
               id="milestones-heading"
-              className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#006B35)]"
+              className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]"
             >
               Milestones
             </h2>
@@ -323,7 +323,7 @@ function NewsroomPage() {
           <div className="relative max-w-3xl mx-auto">
             {/* vertical line */}
             <div
-              className="absolute left-[19px] md:left-[27px] top-0 bottom-0 w-px bg-[var(--cevons-deep-green,#006B35)]/20"
+              className="absolute left-[19px] md:left-[27px] top-0 bottom-0 w-px bg-[var(--cevons-deep-green,#EF7700)]/20"
               aria-hidden="true"
             />
             <ol className="space-y-10 md:space-y-14">
@@ -340,12 +340,12 @@ function NewsroomPage() {
                   >
                     {/* dot */}
                     <span
-                      className="absolute left-0 top-0 size-10 md:size-14 rounded-full bg-[var(--cevons-deep-green,#006B35)] text-white flex items-center justify-center shadow-sm"
+                      className="absolute left-0 top-0 size-10 md:size-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)] text-white flex items-center justify-center shadow-sm"
                       aria-hidden="true"
                     >
                       <Icon className="size-5 md:size-6" />
                     </span>
-                    <div className="bg-white rounded-xl border border-[var(--cevons-deep-green,#006B35)]/10 p-5 md:p-6 shadow-sm">
+                    <div className="bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 p-5 md:p-6 shadow-sm">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
                         <span
                           className={`inline-block text-sm font-extrabold px-2.5 py-0.5 rounded ${
@@ -356,7 +356,7 @@ function NewsroomPage() {
                         >
                           {year}
                         </span>
-                        <span className="text-sm font-semibold text-[var(--cevons-deep-green,#006B35)]">
+                        <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">
                           {label}
                         </span>
                         {replace && (

@@ -154,7 +154,7 @@ function HomePage() {
         {/* Decorative brand accent behind last stat */}
         <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
-            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#006B35" />
+            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
             <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#FFD200" />
             <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#E31B23" />
           </svg>
@@ -226,7 +226,7 @@ function HomePage() {
             className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #00713A 0%, #003F27 60%, #002819 100%)",
+                "radial-gradient(120% 100% at 0% 0%, #1A1A1A 0%, #1A1A1A 60%, #0A0A0A 100%)",
             }}
           >
             {/* Subtle texture overlay */}
