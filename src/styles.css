@@ -53,36 +53,51 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVON'S brand palette */
-  --cevons-green: #006B35;
-  --cevons-deep-green: #003F27;
-  --cevons-yellow: #FFD200;
-  --cevons-red: #E31B23;
-  --cevons-dark: #101820;
-  --cevons-cream: #F7F5ED;
-  --cevons-border: #E5E7EB;
-  --cevons-muted: #525C6B;
+  /* CEVON'S brand palette — ORANGE-PRIMARY per Brand Guideline.
+     Green/yellow/red are accents only. `--cevons-green` token is
+     repointed to orange so existing utility classes (bg-cevons-green,
+     btn-green, etc.) cascade to the new brand color. The hero scopes
+     its own override to preserve its original green color treatment. */
+  --cevons-green: #EF7700;          /* now Cevons Orange (dominant) */
+  --cevons-deep-green: #C45F00;     /* darker orange for hover/depth */
+  --cevons-yellow: #FCE722;         /* accent only */
+  --cevons-red: #D42229;            /* accent only */
+  --cevons-dark: #1A1A1A;           /* charcoal */
+  --cevons-cream: #FFFFFF;
+  --cevons-border: #D9D9D9;
+  --cevons-muted: #4A4A4A;
 
-  /* shadcn semantic tokens mapped to CEVON'S */
+  /* Explicit brand tokens (use these going forward) */
+  --brand-orange: #EF7700;
+  --brand-orange-dark: #C45F00;
+  --brand-charcoal: #1A1A1A;
+  --brand-navy: #000080;
+  --brand-dark-grey: #4A4A4A;
+  --brand-light-grey: #D9D9D9;
+  --brand-accent-green: #2DA339;    /* small accent only */
+  --brand-accent-yellow: #FCE722;
+  --brand-accent-red: #D42229;
+
+  /* shadcn semantic tokens — orange primary, charcoal text on orange */
   --background: #FFFFFF;
-  --foreground: #101820;
+  --foreground: #1A1A1A;
   --card: #FFFFFF;
-  --card-foreground: #101820;
+  --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
-  --popover-foreground: #101820;
-  --primary: #006B35;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F7F5ED;
-  --secondary-foreground: #003F27;
+  --popover-foreground: #1A1A1A;
+  --primary: #EF7700;
+  --primary-foreground: #1A1A1A;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #1A1A1A;
   --muted: #F3F4F6;
-  --muted-foreground: #525C6B;
-  --accent: #FFD200;
-  --accent-foreground: #101820;
-  --destructive: #E31B23;
+  --muted-foreground: #4A4A4A;
+  --accent: #FCE722;
+  --accent-foreground: #1A1A1A;
+  --destructive: #D42229;
   --destructive-foreground: #FFFFFF;
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #006B35;
+  --border: #D9D9D9;
+  --input: #D9D9D9;
+  --ring: #EF7700;
 }
 
 @layer base {
