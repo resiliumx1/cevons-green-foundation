@@ -1465,9 +1465,9 @@
   color: #fff !important;
 }
 
-/* Hardcoded #006B35 backgrounds in components are now orange — same guard. */
-:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[#006B35]"],
-[class*="bg-[#006B35]"]:not([data-hero-scope] *) {
+/* Hardcoded brand-orange backgrounds in components — same guard. */
+:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[#EF7700]"],
+[class*="bg-[#EF7700]"]:not([data-hero-scope] *) {
   color: var(--brand-charcoal) !important;
 }
 
