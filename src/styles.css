@@ -1443,3 +1443,42 @@
   }
   .wave-divider__sheen { opacity: 0 !important; }
 }
+
+/* =========================================================================
+   Brand Guideline alignment overrides
+   - Orange (#EF7700) is the dominant brand color.
+   - White text fails AA on orange — force charcoal on orange surfaces.
+   - Hero is excluded ([data-hero-scope]) so its original green color
+     treatment is preserved per Step 4 of the brand alignment pass.
+   - Minimum font-weight floor: 400 (no thin/light weights).
+   ========================================================================= */
+
+/* Charcoal text on brand-orange backgrounds (outside hero scope). */
+:where(html:not([data-hero-scope])) .bg-cevons-green,
+:where(html:not([data-hero-scope])) .hover\:bg-cevons-green:hover {
+  color: var(--brand-charcoal) !important;
+}
+[data-hero-scope] .bg-cevons-green {
+  /* hero keeps its original green treatment, white text is fine on green */
+  color: #fff;
+}
+
+/* Hardcoded #006B35 backgrounds in components are now orange — same guard. */
+[class*="bg-[#006B35]"]:not([data-hero-scope] *) {
+  color: var(--brand-charcoal) !important;
+}
+
+/* Font-weight floor — guideline forbids light/thin weights. */
+.font-thin, .font-extralight, .font-light {
+  font-weight: 400 !important;
+}
+
+/* Heading sizes per guideline (digital): H1 32–40, H2 22–28. */
+h1 { font-size: clamp(2rem, 3.6vw, 2.5rem); line-height: 1.15; }
+h2 { font-size: clamp(1.375rem, 2.4vw, 1.75rem); line-height: 1.2; }
+h3 { font-size: clamp(1.125rem, 1.8vw, 1.375rem); line-height: 1.25; }
+/* Hero opts out via its own inline clamp on .hero-heading */
+.hero-heading { font-size: clamp(1.9rem, 4.6vw, 4.25rem) !important; line-height: 1.04 !important; }
+
+/* Body line-height floor */
+body { line-height: 1.5; }
