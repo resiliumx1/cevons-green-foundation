@@ -1239,8 +1239,8 @@
 }
 
 /* Soft edges between bands */
-.hero-wave__ribbon--gold { filter: drop-shadow(0 -1px 0 rgba(255,210,0,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.25)); }
-.hero-wave__ribbon--red  { filter: drop-shadow(0 -1px 0 rgba(227,27,35,0.35)) drop-shadow(0 4px 10px rgba(0,30,18,0.25)); }
+.hero-wave__ribbon--gold { filter: drop-shadow(0 -1px 0 rgba(252,231,34,0.35)) drop-shadow(0 4px 10px rgba(20,20,20,0.25)); }
+.hero-wave__ribbon--red  { filter: drop-shadow(0 -1px 0 rgba(212,34,41,0.35)) drop-shadow(0 4px 10px rgba(20,20,20,0.25)); }
 
 /* Gem sheen — diagonal highlight that slowly sweeps across the ribbons */
 .hero-wave__sheen {
