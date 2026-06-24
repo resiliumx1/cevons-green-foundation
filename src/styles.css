@@ -141,7 +141,7 @@
   [role="tab"]:focus-visible,
   [role="option"]:focus-visible,
   [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: 2px solid var(--cevons-green);
+    outline: 2px solid var(--brand-orange);
     outline-offset: 2px;
     border-radius: 4px;
   }
