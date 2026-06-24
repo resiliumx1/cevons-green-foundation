@@ -1219,9 +1219,9 @@
 }
 .hero-wave__ribbon path { transition: none; }
 
-.hero-wave__ribbon--green path { fill: #006B35; }
-.hero-wave__ribbon--gold path  { fill: #FFD200; }
-.hero-wave__ribbon--red path   { fill: #E31B23; }
+.hero-wave__ribbon--green path { fill: #EF7700; }
+.hero-wave__ribbon--gold path  { fill: #FCE722; }
+.hero-wave__ribbon--red path   { fill: #D42229; }
 
 /* Independent undulation: each ribbon slides + scales subtly at a different period/phase */
 .hero-wave__ribbon--green {
