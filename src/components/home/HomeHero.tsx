@@ -210,8 +210,8 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={6}
-            className="mt-5 rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
-            style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
+            className="mt-5 rounded-full border border-cevons-green/40 bg-cevons-deep-green/80 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
+            style={{ boxShadow: "0 10px 40px -12px rgba(239,119,0,.45)" }}
           >
             <ul className="grid grid-cols-2 gap-y-2.5 md:flex md:items-center md:justify-between md:gap-3">
               {stats.map(({ icon: Icon, value, label }, i) => (
