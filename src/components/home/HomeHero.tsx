@@ -323,12 +323,12 @@ export function HomeHero() {
                   className={
                     "grid h-12 w-12 shrink-0 place-items-center rounded-full p-1.5 md:h-[52px] md:w-[52px] md:p-2 " +
                     (accent
-                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-yellow/60"
+                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-green/70"
                       : "bg-white ring-1 ring-cevons-border")
                   }
                 >
                   {icon === "trophy" ? (
-                    <Trophy className="h-full w-full text-cevons-yellow" strokeWidth={2} aria-hidden />
+                    <Trophy className="h-full w-full text-cevons-green" strokeWidth={2} aria-hidden />
                   ) : (
                     <img
                       src={img}
@@ -344,7 +344,7 @@ export function HomeHero() {
                   <p
                     className={
                       "text-[11px] font-bold uppercase tracking-wider " +
-                      (accent ? "text-cevons-yellow" : "text-cevons-muted")
+                      (accent ? "text-cevons-green" : "text-cevons-muted")
                     }
                   >
                     {t}
@@ -363,7 +363,7 @@ export function HomeHero() {
                     </p>
                   )}
                 </div>
-                {accent && <Target className="ml-auto size-5 shrink-0 text-cevons-yellow/70" aria-hidden />}
+                {accent && <Target className="ml-auto size-5 shrink-0 text-cevons-green/80" aria-hidden />}
               </li>
             ))}
           </ul>
