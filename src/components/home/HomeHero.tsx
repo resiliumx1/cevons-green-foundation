@@ -36,12 +36,13 @@ export function HomeHero() {
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
         minHeight: "calc(100vh - 72px)",
-        // Preserve hero's original green color treatment after global
-        // re-skin to orange-primary. Per Brand Guideline Step 4, the hero
-        // is font-swap only — colors stay as previously designed.
-        ["--cevons-green" as any]: "#006B35",
-        ["--cevons-deep-green" as any]: "#003F27",
-        ["--cevons-yellow" as any]: "#FFD200",
+        // Brand alignment Step 4 (revised): hero re-skinned to orange-primary.
+        // Local scope swaps the hero's previous green tokens to orange (primary)
+        // and charcoal (structural neutral) so the orbital ring, ribbon
+        // underline, stats pill, and accents render in brand orange.
+        ["--cevons-green" as any]: "#EF7700",
+        ["--cevons-deep-green" as any]: "#1A1A1A",
+        ["--cevons-yellow" as any]: "#FCE722",
       }}
       aria-labelledby="home-hero-title"
       data-hero-scope
@@ -57,12 +58,12 @@ export function HomeHero() {
           fetchPriority="high"
           decoding="sync"
         />
-        {/* Left-to-right dark fade so text sits on solid dark */}
+        {/* Charcoal wash so orange accents read cleanly over the photo */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(0,24,15,.96) 0%, rgba(0,40,25,.92) 30%, rgba(0,50,32,.6) 52%, rgba(0,20,15,.15) 72%, rgba(0,0,0,.35) 100%)",
+              "linear-gradient(90deg, rgba(15,15,15,.96) 0%, rgba(26,26,26,.92) 30%, rgba(26,26,26,.6) 52%, rgba(20,20,20,.15) 72%, rgba(0,0,0,.35) 100%)",
           }}
         />
         {/* Bottom depth */}
@@ -70,7 +71,7 @@ export function HomeHero() {
           className="absolute inset-x-0 bottom-0 h-1/3"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,20,12,.7) 100%)",
+              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(10,10,10,.7) 100%)",
           }}
         />
       </motion.div>
@@ -209,8 +210,8 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={6}
-            className="mt-5 rounded-full border border-cevons-green/30 bg-cevons-deep-green/75 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
-            style={{ boxShadow: "0 10px 40px -12px rgba(15,163,74,.5)" }}
+            className="mt-5 rounded-full border border-cevons-green/40 bg-cevons-deep-green/80 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
+            style={{ boxShadow: "0 10px 40px -12px rgba(239,119,0,.45)" }}
           >
             <ul className="grid grid-cols-2 gap-y-2.5 md:flex md:items-center md:justify-between md:gap-3">
               {stats.map(({ icon: Icon, value, label }, i) => (
@@ -311,8 +312,9 @@ export function HomeHero() {
                   accent
                     ? {
                         background:
-                          "linear-gradient(135deg,#003F27 0%,#006B35 55%,#003F27 100%)",
-                        boxShadow: "0 8px 22px -8px rgba(0,107,53,.5)",
+                          "linear-gradient(135deg,#1A1A1A 0%,#262626 55%,#1A1A1A 100%)",
+                        boxShadow: "0 8px 22px -8px rgba(239,119,0,.45)",
+                        border: "1px solid rgba(239,119,0,.55)",
                       }
                     : undefined
                 }
@@ -321,12 +323,12 @@ export function HomeHero() {
                   className={
                     "grid h-12 w-12 shrink-0 place-items-center rounded-full p-1.5 md:h-[52px] md:w-[52px] md:p-2 " +
                     (accent
-                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-yellow/60"
+                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-green/70"
                       : "bg-white ring-1 ring-cevons-border")
                   }
                 >
                   {icon === "trophy" ? (
-                    <Trophy className="h-full w-full text-cevons-yellow" strokeWidth={2} aria-hidden />
+                    <Trophy className="h-full w-full text-cevons-green" strokeWidth={2} aria-hidden />
                   ) : (
                     <img
                       src={img}
@@ -342,7 +344,7 @@ export function HomeHero() {
                   <p
                     className={
                       "text-[11px] font-bold uppercase tracking-wider " +
-                      (accent ? "text-cevons-yellow" : "text-cevons-muted")
+                      (accent ? "text-cevons-green" : "text-cevons-muted")
                     }
                   >
                     {t}
@@ -361,7 +363,7 @@ export function HomeHero() {
                     </p>
                   )}
                 </div>
-                {accent && <Target className="ml-auto size-5 shrink-0 text-cevons-yellow/70" aria-hidden />}
+                {accent && <Target className="ml-auto size-5 shrink-0 text-cevons-green/80" aria-hidden />}
               </li>
             ))}
           </ul>
