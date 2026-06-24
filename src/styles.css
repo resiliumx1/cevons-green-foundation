@@ -181,25 +181,27 @@
   outline: none;
   white-space: nowrap;
   &:focus-visible {
-    box-shadow: 0 0 0 3px rgba(0, 107, 53, 0.35);
+    box-shadow: 0 0 0 3px rgba(239, 119, 0, 0.35);
   }
 }
 @utility btn-green {
-  background-color: var(--cevons-green);
-  color: #fff;
+  /* Repointed to brand orange per Brand Guideline. Charcoal text for AA contrast. */
+  background-color: var(--brand-orange);
+  color: var(--brand-charcoal);
   &:hover {
-    background-color: var(--cevons-deep-green);
+    background-color: var(--brand-orange-dark);
+    color: var(--brand-charcoal);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 107, 53, 0.25);
+    box-shadow: 0 8px 20px rgba(239, 119, 0, 0.28);
   }
 }
 @utility btn-yellow {
-  background-color: var(--cevons-yellow);
-  color: var(--cevons-dark);
+  background-color: var(--brand-accent-yellow);
+  color: var(--brand-charcoal);
   &:hover {
-    background-color: #f0c500;
+    background-color: #f0db1f;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(255, 210, 0, 0.45);
+    box-shadow: 0 10px 24px rgba(252, 231, 34, 0.45);
   }
 }
 @utility btn-shine {
