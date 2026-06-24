@@ -36,12 +36,13 @@ export function HomeHero() {
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
         minHeight: "calc(100vh - 72px)",
-        // Preserve hero's original green color treatment after global
-        // re-skin to orange-primary. Per Brand Guideline Step 4, the hero
-        // is font-swap only — colors stay as previously designed.
-        ["--cevons-green" as any]: "#006B35",
-        ["--cevons-deep-green" as any]: "#003F27",
-        ["--cevons-yellow" as any]: "#FFD200",
+        // Brand alignment Step 4 (revised): hero re-skinned to orange-primary.
+        // Local scope swaps the hero's previous green tokens to orange (primary)
+        // and charcoal (structural neutral) so the orbital ring, ribbon
+        // underline, stats pill, and accents render in brand orange.
+        ["--cevons-green" as any]: "#EF7700",
+        ["--cevons-deep-green" as any]: "#1A1A1A",
+        ["--cevons-yellow" as any]: "#FCE722",
       }}
       aria-labelledby="home-hero-title"
       data-hero-scope
@@ -57,12 +58,12 @@ export function HomeHero() {
           fetchPriority="high"
           decoding="sync"
         />
-        {/* Left-to-right dark fade so text sits on solid dark */}
+        {/* Charcoal wash so orange accents read cleanly over the photo */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, rgba(0,24,15,.96) 0%, rgba(0,40,25,.92) 30%, rgba(0,50,32,.6) 52%, rgba(0,20,15,.15) 72%, rgba(0,0,0,.35) 100%)",
+              "linear-gradient(90deg, rgba(15,15,15,.96) 0%, rgba(26,26,26,.92) 30%, rgba(26,26,26,.6) 52%, rgba(20,20,20,.15) 72%, rgba(0,0,0,.35) 100%)",
           }}
         />
         {/* Bottom depth */}
@@ -70,7 +71,7 @@ export function HomeHero() {
           className="absolute inset-x-0 bottom-0 h-1/3"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,20,12,.7) 100%)",
+              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(10,10,10,.7) 100%)",
           }}
         />
       </motion.div>
