@@ -152,7 +152,7 @@ function IndustriesPage() {
       <section className="relative overflow-hidden" aria-labelledby="industries-h1">
         <div className="absolute inset-0">
           <img src={heroIndustries} alt="CEVON’S industrial environmental services team at facility" className="size-full object-cover" width={1920} height={800} loading="eager" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#006B35)]/95 via-[var(--cevons-deep-green,#006B35)]/85 to-[var(--cevons-deep-green,#006B35)]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
         </div>
         <div className="container-cevons relative min-h-[320px] md:min-h-[400px] flex flex-col justify-center py-16 md:py-20">
           {/* Breadcrumb */}
@@ -181,8 +181,8 @@ function IndustriesPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-3">Sectors</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Sectors</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Trusted Across Key Industries
             </h2>
           </div>
@@ -191,7 +191,7 @@ function IndustriesPage() {
             {industries.map(({ title, description, icon: Icon, img, alt }, i) => (
               <article
                 key={title}
-                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#006B35)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#006B35)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
@@ -205,10 +205,10 @@ function IndustriesPage() {
                   />
                 </div>
                 <div className="relative p-6 pt-9">
-                  <span className="absolute -top-6 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,#006B35)] text-white border-4 border-white flex items-center justify-center shadow-soft">
+                  <span className="absolute -top-6 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,#EF7700)] text-white border-4 border-white flex items-center justify-center shadow-soft">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
-                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#006B35)]">{title}</h3>
+                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
                   <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{description}</p>
                 </div>
               </article>
@@ -218,9 +218,9 @@ function IndustriesPage() {
       </section>
 
       {/* INDUSTRY-SPECIFIC SOLUTIONS */}
-      <section className="section-y bg-[var(--cevons-deep-green,#006B35)] text-white relative overflow-hidden" aria-labelledby="solutions-heading">
-        <div aria-hidden="true" className="absolute -top-16 -right-16 size-56 rounded-full bg-[var(--cevons-green,#006B35)]/30 blur-3xl" />
-        <div aria-hidden="true" className="absolute -bottom-16 -left-16 size-56 rounded-full bg-[var(--cevons-green,#006B35)]/20 blur-3xl" />
+      <section className="section-y bg-[var(--cevons-deep-green,#EF7700)] text-white relative overflow-hidden" aria-labelledby="solutions-heading">
+        <div aria-hidden="true" className="absolute -top-16 -right-16 size-56 rounded-full bg-[var(--cevons-green,#EF7700)]/30 blur-3xl" />
+        <div aria-hidden="true" className="absolute -bottom-16 -left-16 size-56 rounded-full bg-[var(--cevons-green,#EF7700)]/20 blur-3xl" />
 
         <div className="container-cevons relative">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -240,7 +240,7 @@ function IndustriesPage() {
                 className={`rounded-xl bg-white/5 border border-white/10 p-7 hover:bg-white/10 transition-all duration-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${200 + i * 70}ms` }}
               >
-                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-deep-green,#006B35)] mb-4">
+                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-deep-green,#EF7700)] mb-4">
                   <Icon className="size-6" />
                 </span>
                 <h3 className="text-lg font-bold text-white">{title}</h3>
@@ -255,8 +255,8 @@ function IndustriesPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-labelledby="why-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#006B35)] mb-3">Why CEVON’S</p>
-            <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#006B35)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVON’S</p>
+            <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Why Businesses Choose CEVON’S
             </h2>
           </div>
@@ -265,13 +265,13 @@ function IndustriesPage() {
             {whyChoose.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,#006B35)]/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${300 + i * 80}ms` }}
               >
-                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#006B35)]/10 text-[var(--cevons-deep-green,#006B35)] mb-4">
+                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#006B35)]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
                 <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
               </div>
             ))}
@@ -286,7 +286,7 @@ function IndustriesPage() {
             className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #00713A 0%, #003F27 60%, #002819 100%)",
+                "radial-gradient(120% 100% at 0% 0%, #1A1A1A 0%, #1A1A1A 60%, #0A0A0A 100%)",
             }}
           >
             <div
@@ -328,7 +328,7 @@ function IndustriesPage() {
       </section>
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#006B35)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -337,8 +337,8 @@ function IndustriesPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#006B35)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#006B35)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
             </div>
           ))}
         </div>

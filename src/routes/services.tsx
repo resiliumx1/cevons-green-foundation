@@ -128,7 +128,7 @@ const categoryOverview: {
     icon: Home,
     blurb: "Reliable, neighbourly waste solutions for households across Guyana.",
     items: residential.map((s) => s.title),
-    accent: "from-[#006B35] to-[#00713A]",
+    accent: "from-[#EF7700] to-[#1A1A1A]",
   },
   {
     key: "commercial",
@@ -146,7 +146,7 @@ const categoryOverview: {
     icon: Factory,
     blurb: "Compliance-grade handling for hazardous, liquid, and solid industrial waste.",
     items: industrial.map((s) => s.title),
-    accent: "from-[#003F27] to-[#002819]",
+    accent: "from-[#1A1A1A] to-[#0A0A0A]",
   },
   {
     key: "facilities",
@@ -155,7 +155,7 @@ const categoryOverview: {
     icon: Layers3,
     blurb: "Large-scale recovery and landfill operations supporting cleaner Guyana.",
     items: facilities.map((s) => s.title),
-    accent: "from-[#00563d] to-[#003F27]",
+    accent: "from-[#00563d] to-[#1A1A1A]",
   },
 ];
 
@@ -567,7 +567,7 @@ function ServicesPage() {
             className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #00713A 0%, #003F27 60%, #002819 100%)",
+                "radial-gradient(120% 100% at 0% 0%, #1A1A1A 0%, #1A1A1A 60%, #0A0A0A 100%)",
             }}
           >
             <div

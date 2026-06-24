@@ -21,7 +21,7 @@ export function GuyanaBranchMap({ branches, selectedId, onSelect, className }: P
       {mounted ? (
         <Suspense
           fallback={
-            <div className="size-full flex items-center justify-center bg-[var(--cevons-cream,#FBF7EE)] text-xs text-[var(--cevons-deep-green,#006B35)]/60">
+            <div className="size-full flex items-center justify-center bg-[var(--cevons-cream,#FBF7EE)] text-xs text-[var(--cevons-deep-green,#EF7700)]/60">
               Loading map…
             </div>
           }

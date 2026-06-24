@@ -26,10 +26,10 @@ export const Route = createFileRoute("/crm/")({
 
 const SOURCE_COLORS: Record<string, string> = {
   Direct: "#64748b",
-  google_ads: "#0FA34A",
+  google_ads: "#C45F00",
   facebook: "#3b82f6",
   whatsapp: "#25D366",
-  organic: "#006B35",
+  organic: "#EF7700",
   referral: "#a855f7",
   phone: "#E31B23",
   other: "#94a3b8",
@@ -43,7 +43,7 @@ const SOURCE_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   referral: UserPlus,
   phone: Phone,
 };
-const REGION_PALETTE = ["#006B35", "#0FA34A", "#14B8A6", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
+const REGION_PALETTE = ["#EF7700", "#C45F00", "#14B8A6", "#3b82f6", "#a855f7", "#25D366", "#64748b"];
 
 function startOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth(), 1); }
 function startOfNextMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth() + 1, 1); }
@@ -226,7 +226,7 @@ const ACTIVITY_ICON: Record<string, { icon: ComponentType<{ className?: string }
   whatsapp: { icon: MessageCircle, color: "#25D366" },
   sms: { icon: MessageCircle, color: "#a855f7" },
   email: { icon: FileText, color: "#FFD200" },
-  status_change: { icon: CheckCircle2, color: "#006B35" },
+  status_change: { icon: CheckCircle2, color: "#EF7700" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -288,7 +288,7 @@ function Dashboard() {
   const metrics = [
     {
       label: "New Leads", value: leadsThisMonth, trend: leadsTrend,
-      icon: Users, accent: "#006B35",
+      icon: Users, accent: "#EF7700",
       loading: d.leads.isLoading, error: d.leads.isError, retry: () => d.leads.refetch(),
     },
     {
@@ -522,8 +522,8 @@ function Dashboard() {
                 <LineChart data={months.map((m) => ({ d: m.label, v: m.v }))} margin={{ left: -10, right: 8, top: 4 }}>
                   <defs>
                     <linearGradient id="rev-grad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#006B35" stopOpacity={0.3} />
-                      <stop offset="100%" stopColor="#006B35" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#EF7700" stopOpacity={0.3} />
+                      <stop offset="100%" stopColor="#EF7700" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke={CRM_GRID} strokeDasharray="3 3" vertical={false} />
@@ -531,7 +531,7 @@ function Dashboard() {
                   <YAxis stroke={CRM_AXIS} fontSize={11} tickLine={false} axisLine={false} tick={{ fill: CRM_AXIS }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
                   <Tooltip content={<CrmTooltip valueFormatter={(v) => `$${Number(v).toLocaleString()}`} />} cursor={CRM_TOOLTIP_LINE_CURSOR} wrapperStyle={{ zIndex: 50 }} />
 
-                  <Line type="monotone" dataKey="v" stroke="#006B35" strokeWidth={2.5} dot={{ fill: "#006B35", r: 3 }} activeDot={{ r: 5, fill: "#0FA34A" }} />
+                  <Line type="monotone" dataKey="v" stroke="#EF7700" strokeWidth={2.5} dot={{ fill: "#EF7700", r: 3 }} activeDot={{ r: 5, fill: "#C45F00" }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -559,7 +559,7 @@ function Dashboard() {
                     <span className="text-slate-400 tabular-nums">{s.count}</span>
                   </div>
                   <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-[#EF7700] to-[#C45F00] transition-[width] duration-700" style={{ width: `${s.pct}%` }} />
                   </div>
                 </div>
               ))}

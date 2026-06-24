@@ -26,7 +26,7 @@ export const Route = createFileRoute("/request-service/confirmation")({
   component: ConfirmationPage,
 });
 
-const CEVONS_COLORS = ["#006B35", "#FFD200", "#E31B23", "#FFFFFF"];
+const CEVONS_COLORS = ["#EF7700", "#FFD200", "#E31B23", "#FFFFFF"];
 
 function fireConfetti() {
   if (typeof window === "undefined") return;
@@ -106,7 +106,7 @@ function ConfirmationPage() {
               <div className="absolute -top-6 right-4 md:right-12 size-2.5 rounded-full bg-[var(--cevons-yellow)] opacity-70" />
               <div className="absolute top-2 -left-4 md:left-4 size-2 rounded-full bg-[var(--cevons-green)] opacity-40" />
               <div className="absolute top-0 -right-5 md:right-6 size-3.5 rounded-full bg-[var(--cevons-yellow)] opacity-50" />
-              <div className={cn("size-20 md:size-24 rounded-full bg-[#006B35] flex items-center justify-center shadow-[0_8px_24px_rgba(0,107,53,0.35)] transition-transform duration-700",
+              <div className={cn("size-20 md:size-24 rounded-full bg-[#EF7700] flex items-center justify-center shadow-[0_8px_24px_rgba(0,107,53,0.35)] transition-transform duration-700",
                 mounted ? "scale-100" : "scale-50")}>
                 <Check className={cn("size-10 md:size-12 text-white stroke-[3] transition-all duration-700", mounted ? "opacity-100 scale-100" : "opacity-0 scale-50")} />
               </div>
@@ -134,8 +134,8 @@ function ConfirmationPage() {
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all",
                     copied
-                      ? "border-[#006B35] bg-[#006B35] text-white"
-                      : "border-[var(--cevons-border)] bg-white text-[var(--cevons-dark)] hover:border-[#006B35] hover:text-[#006B35]"
+                      ? "border-[#EF7700] bg-[#EF7700] text-white"
+                      : "border-[var(--cevons-border)] bg-white text-[var(--cevons-dark)] hover:border-[#EF7700] hover:text-[#EF7700]"
                   )}
                   aria-label="Copy reference number"
                 >
@@ -180,8 +180,8 @@ function ConfirmationPage() {
                       )}
                       style={{ transitionDelay: `${400 + i * 120}ms` }}
                     >
-                      <span className="mt-0.5 shrink-0 size-8 rounded-full bg-[#006B35]/10 flex items-center justify-center">
-                        <Icon className="size-4 text-[#006B35]" />
+                      <span className="mt-0.5 shrink-0 size-8 rounded-full bg-[#EF7700]/10 flex items-center justify-center">
+                        <Icon className="size-4 text-[#EF7700]" />
                       </span>
                       <span className="text-[15px] text-[var(--cevons-dark)] leading-relaxed pt-1">{s.text}</span>
                     </li>
@@ -227,16 +227,16 @@ function ConfirmationPage() {
       <section className="bg-white border-y border-[var(--cevons-border)]">
         <div className="container-cevons px-4 py-10 md:py-14">
           <div className="max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-8 md:p-10 text-center">
-            <div className="mx-auto size-12 rounded-full bg-[#006B35]/10 flex items-center justify-center">
-              <MessageCircle className="size-6 text-[#006B35]" />
+            <div className="mx-auto size-12 rounded-full bg-[#EF7700]/10 flex items-center justify-center">
+              <MessageCircle className="size-6 text-[#EF7700]" />
             </div>
             <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">
               Need help with your request?
             </h2>
             <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Call <a href={primaryTelHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+              Call <a href={primaryTelHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
               or email{" "}
-              <a href={primaryMailtoHref} className="font-semibold text-[#006B35] hover:underline">{cevonsContact.email}</a>.
+              <a href={primaryMailtoHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.email}</a>.
             </p>
           </div>
         </div>
@@ -247,7 +247,7 @@ function ConfirmationPage() {
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
             {[ShieldCheck, Clock, Award, Phone].map((I, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-[var(--cevons-muted)]">
-                <I className="size-4 text-[#006B35]" />
+                <I className="size-4 text-[#EF7700]" />
                 <span className="font-medium">{["Licensed & Insured","Same-Day Response","Trusted Across Guyana","24/7 Support"][i]}</span>
               </div>
             ))}
@@ -262,7 +262,7 @@ function SummaryTile({ icon: Icon, label, value }: { icon: any; label: string; v
   return (
     <div className="rounded-xl border border-[var(--cevons-border)] bg-white p-3">
       <div className="flex items-center gap-2 text-[var(--cevons-muted)] mb-0.5">
-        <Icon className="size-3.5 text-[#006B35]" />
+        <Icon className="size-3.5 text-[#EF7700]" />
         <span className="text-[10px] font-semibold uppercase tracking-wider">{label}</span>
       </div>
       <p className="text-sm font-semibold text-[var(--cevons-dark)] leading-snug">{value}</p>

@@ -52,7 +52,7 @@ const initialForm: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#006B35)]/30 focus:border-[var(--cevons-deep-green,#006B35)] transition";
+  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#EF7700)]/30 focus:border-[var(--cevons-deep-green,#EF7700)] transition";
 const inputErrClass =
   "border-red-400 focus:ring-red-300 focus:border-red-500";
 
@@ -236,8 +236,8 @@ export function ContactForm() {
       ? `${whatsappHref}&text=${waMsg}`
       : `${whatsappHref}?text=${waMsg}`;
     return (
-      <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[var(--cevons-deep-green,#006B35)]/20 bg-white shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-br from-[var(--cevons-deep-green,#006B35)] to-[#014a25] px-6 py-10 text-center">
+      <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/20 bg-white shadow-lg overflow-hidden">
+        <div className="bg-gradient-to-br from-[var(--cevons-deep-green,#EF7700)] to-[#1A1A1A] px-6 py-10 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 ring-4 ring-white/20 animate-[pop_0.5s_ease-out]">
             <svg viewBox="0 0 52 52" className="h-12 w-12 text-[var(--cevons-yellow,#FFD200)]" aria-hidden="true">
               <circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="151" strokeDashoffset="151" style={{ animation: "draw 0.8s ease-out forwards" }} />
@@ -253,15 +253,15 @@ export function ContactForm() {
         </div>
 
         <div className="px-6 py-7 space-y-5">
-          <div className="rounded-xl border border-[var(--cevons-deep-green,#006B35)]/15 bg-[var(--cevons-cream,#FBF7EE)] px-5 py-4 flex items-center justify-between gap-4">
+          <div className="rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/15 bg-[var(--cevons-cream,#FBF7EE)] px-5 py-4 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-muted,#64748B)]">Reference</p>
-              <p className="mt-1 font-mono text-xl font-bold text-[var(--cevons-deep-green,#006B35)]">{result.reference}</p>
+              <p className="mt-1 font-mono text-xl font-bold text-[var(--cevons-deep-green,#EF7700)]">{result.reference}</p>
             </div>
             <button
               type="button"
               onClick={copyRef}
-              className="inline-flex items-center gap-2 rounded-lg border border-[var(--cevons-deep-green,#006B35)]/30 bg-white px-3 py-2 text-sm font-semibold text-[var(--cevons-deep-green,#006B35)] hover:bg-[var(--cevons-deep-green,#006B35)] hover:text-white transition"
+              className="inline-flex items-center gap-2 rounded-lg border border-[var(--cevons-deep-green,#EF7700)]/30 bg-white px-3 py-2 text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)] hover:text-white transition"
               aria-label="Copy reference"
             >
               {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
@@ -292,7 +292,7 @@ export function ContactForm() {
             <button
               type="button"
               onClick={reset}
-              className="btn-base flex-1 justify-center py-3 border-2 border-[var(--cevons-deep-green,#006B35)] text-[var(--cevons-deep-green,#006B35)] hover:bg-[var(--cevons-deep-green,#006B35)] hover:text-white transition"
+              className="btn-base flex-1 justify-center py-3 border-2 border-[var(--cevons-deep-green,#EF7700)] text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)] hover:text-white transition"
             >
               <Send className="size-4" /> Send Another Message
             </button>
@@ -339,7 +339,7 @@ export function ContactForm() {
             <button
               type="button"
               onClick={reset}
-              className="btn-base flex-1 justify-center py-3 border-2 border-[var(--cevons-deep-green,#006B35)] text-[var(--cevons-deep-green,#006B35)] hover:bg-[var(--cevons-deep-green,#006B35)] hover:text-white transition"
+              className="btn-base flex-1 justify-center py-3 border-2 border-[var(--cevons-deep-green,#EF7700)] text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)] hover:text-white transition"
             >
               <Edit3 className="size-4" /> Send a different message
             </button>
@@ -430,7 +430,7 @@ export function ContactForm() {
           onClick={(e) => { if (e.target === e.currentTarget && !submitting) setShowConfirm(false); }}
         >
           <div ref={dialogRef} className="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col animate-[slideUp_0.25s_ease-out]">
-            <div className="px-6 py-5 bg-[var(--cevons-deep-green,#006B35)] text-white flex items-center justify-between">
+            <div className="px-6 py-5 bg-[var(--cevons-deep-green,#EF7700)] text-white flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-yellow,#FFD200)]">Almost there</p>
                 <h3 id="confirm-heading" className="text-xl font-extrabold mt-0.5">Review your message</h3>
@@ -463,7 +463,7 @@ export function ContactForm() {
 
             <div className="px-6 py-4 border-t border-[var(--cevons-border,#E5E7EB)] bg-white flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
               <button type="button" onClick={() => setShowConfirm(false)} disabled={submitting}
-                className="btn-base px-5 py-2.5 border-2 border-[var(--cevons-deep-green,#006B35)] text-[var(--cevons-deep-green,#006B35)] hover:bg-[var(--cevons-deep-green,#006B35)]/5 disabled:opacity-50">
+                className="btn-base px-5 py-2.5 border-2 border-[var(--cevons-deep-green,#EF7700)] text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)]/5 disabled:opacity-50">
                 <Edit3 className="size-4" /> Edit
               </button>
               <button type="button" data-confirm-send onClick={handleConfirmSend} disabled={submitting}

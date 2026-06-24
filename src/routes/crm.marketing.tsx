@@ -25,7 +25,7 @@ type SR = Database["public"]["Tables"]["service_requests"]["Row"];
 
 
 const CHANNEL_OPTIONS = ["google_ads", "facebook", "whatsapp", "referral", "organic", "other"] as const;
-const PIE_COLORS = ["#006B35", "#0FA34A", "#14B8A6", "#3B82F6", "#A855F7", "#F97316", "#E31B23", "#6B7280"];
+const PIE_COLORS = ["#EF7700", "#C45F00", "#14B8A6", "#3B82F6", "#A855F7", "#F97316", "#E31B23", "#6B7280"];
 
 function fmtMoney(n: number) {
   return `$${(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -180,10 +180,10 @@ function MarketingPage() {
   const KPIS = [
     { label: "Total Leads", value: totals.total.toString(), icon: Users, tone: "text-[#FFD200]", bg: "bg-[#FFD200]/10" },
     { label: "Website Requests", value: Math.max(totals.website, 0).toString(), icon: Globe, tone: "text-blue-300", bg: "bg-blue-500/10" },
-    { label: "WhatsApp Clicks", value: totals.whatsapp.toString(), icon: MessageCircle, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
+    { label: "WhatsApp Clicks", value: totals.whatsapp.toString(), icon: MessageCircle, tone: "text-[#EF7700]", bg: "bg-[#EF7700]/10" },
     { label: "Calls", value: totals.calls.toString(), icon: Phone, tone: "text-purple-300", bg: "bg-purple-500/10" },
     { label: "Cost Per Lead", value: totals.total > 0 ? `$${totals.cpl.toFixed(2)}` : "—", icon: DollarSign, tone: "text-orange-300", bg: "bg-orange-500/10" },
-    { label: "Estimated ROI", value: totals.totalCost > 0 ? `${totals.roi.toFixed(1)}x` : "—", icon: TrendingUp, tone: "text-[#006B35]", bg: "bg-[#006B35]/10" },
+    { label: "Estimated ROI", value: totals.totalCost > 0 ? `${totals.roi.toFixed(1)}x` : "—", icon: TrendingUp, tone: "text-[#EF7700]", bg: "bg-[#EF7700]/10" },
   ];
 
   return (
@@ -254,7 +254,7 @@ function MarketingPage() {
                   <XAxis dataKey="name" stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                   <YAxis stroke={CRM_AXIS} fontSize={11} tick={{ fill: CRM_AXIS }} />
                   <Tooltip content={<CrmTooltip valueFormatter={(v) => `${Number(v).toLocaleString()} leads`} />} cursor={CRM_TOOLTIP_CURSOR} wrapperStyle={{ zIndex: 50 }} />
-                  <Bar dataKey="leads" fill="#006B35" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="leads" fill="#EF7700" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -319,10 +319,10 @@ function MarketingPage() {
                   <td className="px-4 py-3 text-white/70">{fmtMoney(Number(c.cost))}</td>
                   <td className="px-4 py-3 text-white/70">{c.leads > 0 ? `$${c.cpl.toFixed(2)}` : "—"}</td>
                   <td className="px-4 py-3 text-white/80">{c.won}</td>
-                  <td className={`px-4 py-3 font-semibold ${c.revenue > 0 ? "text-[#006B35]" : "text-white/50"}`}>{fmtMoney(c.revenue)}</td>
+                  <td className={`px-4 py-3 font-semibold ${c.revenue > 0 ? "text-[#EF7700]" : "text-white/50"}`}>{fmtMoney(c.revenue)}</td>
                   <td className="px-4 py-3">
                     {Number(c.cost) > 0 ? (
-                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#006B35]/30 bg-[#006B35]/10 text-[#006B35]" : c.roi >= 3 ? "border-teal-600/30 bg-teal-600/10 text-teal-700" : "border-orange-500/30 bg-orange-500/10 text-orange-700"}`}>
+                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${c.roi >= 5 ? "border-[#EF7700]/30 bg-[#EF7700]/10 text-[#EF7700]" : c.roi >= 3 ? "border-teal-600/30 bg-teal-600/10 text-teal-700" : "border-orange-500/30 bg-orange-500/10 text-orange-700"}`}>
                         <ArrowUpRight className="h-3 w-3" />{c.roi.toFixed(1)}x
                       </span>
                     ) : <span className="text-white/40 text-xs">—</span>}
@@ -355,7 +355,7 @@ function MarketingPage() {
                   <span className="text-white/70">{r.leads} <span className="text-white/40">({r.pct}%)</span></span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.05]">
-                  <div className="h-full rounded-full bg-gradient-to-r from-[#006B35] to-[#0FA34A]" style={{ width: `${r.pct}%` }} />
+                  <div className="h-full rounded-full bg-gradient-to-r from-[#EF7700] to-[#C45F00]" style={{ width: `${r.pct}%` }} />
                 </div>
               </div>
             ))}
@@ -377,7 +377,7 @@ function MarketingPage() {
                   </div>
                   <div className="mt-1 h-7 overflow-hidden rounded-md bg-white/[0.03]">
                     <div
-                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#006B35]/55 to-[#0FA34A]/55 px-2 text-[10px] text-white/90"
+                      className="flex h-full items-center justify-end rounded-md bg-gradient-to-r from-[#EF7700]/55 to-[#C45F00]/55 px-2 text-[10px] text-white/90"
                       style={{ width: `${width}%` }}
                     />
                   </div>

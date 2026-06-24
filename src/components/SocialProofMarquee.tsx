@@ -134,7 +134,7 @@ export function SocialProofMarquee({
               <span>Trusted Environmental Services</span>
               <span className="spm-eyebrow-dot" aria-hidden="true" />
             </p>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--cevons-deep-green,#003F27)] leading-tight">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--cevons-deep-green,#1A1A1A)] leading-tight">
               Trusted by Homes, Businesses &amp; Industries Across Guyana
             </h2>
             <p className="mt-4 text-[var(--cevons-muted,#64748B)] text-base md:text-lg">
@@ -180,7 +180,7 @@ export function SocialProofMarquee({
             </Link>
             <Link
               to="/services"
-              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#003F27)] border border-[var(--cevons-deep-green,#003F27)]/25 hover:border-[var(--cevons-green,#006B35)] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
+              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#1A1A1A)] border border-[var(--cevons-deep-green,#1A1A1A)]/25 hover:border-[var(--cevons-green,#EF7700)] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
             >
               <Package className="size-4" />
               View Services

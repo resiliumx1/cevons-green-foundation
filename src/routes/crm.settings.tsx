@@ -452,7 +452,7 @@ function ProfileSection({
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
-          <span className="flex items-center gap-1 text-xs font-medium text-[#006B35]">
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
             <Check className="h-3.5 w-3.5" /> Saved
           </span>
         )}
@@ -527,7 +527,7 @@ function NotificationsSection({
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
-          <span className="flex items-center gap-1 text-xs font-medium text-[#006B35]">
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
             <Check className="h-3.5 w-3.5" /> Saved
           </span>
         )}
@@ -636,7 +636,7 @@ function PipelineSection({
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
-          <span className="flex items-center gap-1 text-xs font-medium text-[#006B35]">
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
             <Check className="h-3.5 w-3.5" /> Saved
           </span>
         )}
@@ -727,7 +727,7 @@ function ServicesSection({
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
-          <span className="flex items-center gap-1 text-xs font-medium text-[#006B35]">
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
             <Check className="h-3.5 w-3.5" /> Saved
           </span>
         )}
@@ -753,14 +753,14 @@ const THEME_OPTIONS: Array<{
     name: "Emerald Professional",
     description: "Clean, executive, and easy to use for daily operations.",
     badge: "Recommended",
-    swatches: ["#003F27", "#006B35", "#FFD200", "#E31B23", "#F7F8F5"],
-    preview: { bg: "#F7F8F5", sidebar: "#003F27", sidebarText: "#DFF5E9", accent: "#006B35", surface: "#FFFFFF", text: "#101820" },
+    swatches: ["#1A1A1A", "#EF7700", "#FFD200", "#E31B23", "#F7F8F5"],
+    preview: { bg: "#F7F8F5", sidebar: "#1A1A1A", sidebarText: "#DFF5E9", accent: "#EF7700", surface: "#FFFFFF", text: "#101820" },
   },
   {
     id: "sunset",
     name: "Sunset Marketing",
     description: "Warm, modern, and energetic for marketing-focused teams.",
-    swatches: ["#FFF4EA", "#FF8A3D", "#FFD200", "#006B35", "#FF5A5F"],
+    swatches: ["#FFF4EA", "#FF8A3D", "#FFD200", "#EF7700", "#FF5A5F"],
     preview: { bg: "#FFF8F1", sidebar: "#FFF4EA", sidebarText: "#334155", accent: "#FF8A3D", surface: "#FFFFFF", text: "#101820" },
   },
 ];
@@ -917,7 +917,7 @@ function Toggle({ active, onChange }: { active: boolean; onChange: () => void })
   return (
     <button
       onClick={onChange}
-      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#006B35]" : "bg-white/[0.1]"}`}
+      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#EF7700]" : "bg-white/[0.1]"}`}
     >
       <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${active ? "left-[18px]" : "left-0.5"}`} />
     </button>

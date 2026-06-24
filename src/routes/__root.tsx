@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "CEVON'S Environmental Services Inc." },
       { property: "og:site_name", content: "CEVON'S Environmental Services" },
       { property: "og:type", content: "website" },
-      { name: "theme-color", content: "#006B35" },
+      { name: "theme-color", content: "#EF7700" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:image", content: "https://cevons-green-foundation.lovable.app/assets/brand/cevons-og-default.jpg" },
       { property: "og:image:width", content: "1216" },
