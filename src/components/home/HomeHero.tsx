@@ -44,6 +44,7 @@ export function HomeHero() {
         ["--cevons-yellow" as any]: "#FFD200",
       }}
       aria-labelledby="home-hero-title"
+      data-hero-scope
     >
       {/* Background photo — truck dominates right side */}
       <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
