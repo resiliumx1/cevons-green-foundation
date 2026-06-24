@@ -34,7 +34,15 @@ export function HomeHero() {
     <section
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
-      style={{ minHeight: "calc(100vh - 72px)" }}
+      style={{
+        minHeight: "calc(100vh - 72px)",
+        // Preserve hero's original green color treatment after global
+        // re-skin to orange-primary. Per Brand Guideline Step 4, the hero
+        // is font-swap only — colors stay as previously designed.
+        ["--cevons-green" as any]: "#006B35",
+        ["--cevons-deep-green" as any]: "#003F27",
+        ["--cevons-yellow" as any]: "#FFD200",
+      }}
       aria-labelledby="home-hero-title"
     >
       {/* Background photo — truck dominates right side */}
