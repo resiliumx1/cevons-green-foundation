@@ -312,8 +312,9 @@ export function HomeHero() {
                   accent
                     ? {
                         background:
-                          "linear-gradient(135deg,#003F27 0%,#006B35 55%,#003F27 100%)",
-                        boxShadow: "0 8px 22px -8px rgba(0,107,53,.5)",
+                          "linear-gradient(135deg,#1A1A1A 0%,#262626 55%,#1A1A1A 100%)",
+                        boxShadow: "0 8px 22px -8px rgba(239,119,0,.45)",
+                        border: "1px solid rgba(239,119,0,.55)",
                       }
                     : undefined
                 }
