@@ -1453,17 +1453,20 @@
    - Minimum font-weight floor: 400 (no thin/light weights).
    ========================================================================= */
 
-/* Charcoal text on brand-orange backgrounds (outside hero scope). */
-:where(html:not([data-hero-scope])) .bg-cevons-green,
-:where(html:not([data-hero-scope])) .hover\:bg-cevons-green:hover {
+/* Charcoal text on brand-orange backgrounds (outside hero scope).
+   Specificity boosted via :is() so this beats Tailwind's .text-white. */
+:is(:not([data-hero-scope]):not([data-hero-scope] *)).bg-cevons-green,
+:not([data-hero-scope]):not([data-hero-scope] *) .bg-cevons-green {
   color: var(--brand-charcoal) !important;
 }
-[data-hero-scope] .bg-cevons-green {
-  /* hero keeps its original green treatment, white text is fine on green */
-  color: #fff;
+[data-hero-scope] .bg-cevons-green,
+[data-hero-scope].bg-cevons-green {
+  /* hero keeps its original green treatment; white text is AA on green */
+  color: #fff !important;
 }
 
 /* Hardcoded #006B35 backgrounds in components are now orange — same guard. */
+:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[#006B35]"],
 [class*="bg-[#006B35]"]:not([data-hero-scope] *) {
   color: var(--brand-charcoal) !important;
 }
