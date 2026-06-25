@@ -28,7 +28,7 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        minHeight: "min(880px, calc(100vh - 72px))",
+        minHeight: "clamp(820px, calc(100vh - 72px), 1040px)",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
