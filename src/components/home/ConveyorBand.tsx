@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+
 
 const partners = [
   { src: "/partners/saipem.webp", alt: "Saipem" },
@@ -56,9 +56,6 @@ export function ConveyorBand() {
               {[...services, ...services, ...services, ...services].map((s, i) => (
                 <a className="conveyor-tile" href={s.href} key={`s-${i}`}>
                   <img src={s.src} alt={s.label} loading="lazy" />
-                  <span className="conveyor-tile__badge" aria-hidden>
-                    <Plus className="size-3.5" strokeWidth={3} />
-                  </span>
                   <span className="conveyor-tile__caption">{s.label}</span>
                 </a>
               ))}

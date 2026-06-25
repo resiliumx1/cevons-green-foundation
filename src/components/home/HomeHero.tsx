@@ -1,19 +1,11 @@
-import { Award, Calendar, Leaf, MapPin, Star, Target, Trophy, Users } from "lucide-react";
+import { Calendar, Leaf, Star, Target, Trophy } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { ConveyorBand } from "@/components/home/ConveyorBand";
 
 
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
-
-const stats = [
-  { icon: Award, value: "29+", label: "Years of Excellence" },
-  { icon: Users, value: "5000+", label: "Customers" },
-  { icon: MapPin, value: "3", label: "Regions Served" },
-  { icon: Leaf, value: "1 Goal", label: "A Cleaner Guyana" },
-];
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -206,37 +198,6 @@ export function HomeHero() {
             </div>
           </motion.div>
 
-          {/* STATS PILL — sits inside content column so flag wave below stays clear */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={6}
-            className="mt-5 rounded-full border border-cevons-green/40 bg-cevons-deep-green/80 px-4 py-2.5 backdrop-blur md:px-6 md:py-3"
-            style={{ boxShadow: "0 10px 40px -12px rgba(239,119,0,.45)" }}
-          >
-            <ul className="grid grid-cols-2 gap-y-2.5 md:flex md:items-center md:justify-between md:gap-3">
-              {stats.map(({ icon: Icon, value, label }, i) => (
-                <li
-                  key={label}
-                  className={
-                    "flex items-center gap-2.5 px-1.5 md:flex-1 md:justify-center " +
-                    (i > 0 ? "md:border-l md:border-white/15" : "")
-                  }
-                >
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-cevons-yellow/60 text-cevons-yellow">
-                    <Icon className="size-3.5" strokeWidth={2} />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-extrabold leading-tight text-white md:text-base">{value}</p>
-                    <p className="text-[10px] font-medium leading-tight text-white/75 md:text-[10.5px]">
-                      {label}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
@@ -244,9 +205,6 @@ export function HomeHero() {
       </div>
 
 
-
-      {/* Conveyor band — partner logos + service photos (replaces flag-wave divider) */}
-      <ConveyorBand />
 
 
       {/* CERTIFICATION PANEL */}

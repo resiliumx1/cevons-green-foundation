@@ -28,6 +28,7 @@ import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 const heroHomepage = "/assets/heroes/hero-homepage.webp";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
+import { ConveyorBand } from "@/components/home/ConveyorBand";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -112,9 +113,12 @@ function HomePage() {
     <SiteLayout>
       <HomeHero />
 
+      {/* Conveyor band — partner logos + services, directly under hero */}
+      <ConveyorBand />
 
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />
+
 
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
