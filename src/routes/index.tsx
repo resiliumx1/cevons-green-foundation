@@ -94,20 +94,6 @@ const steps = [
   { icon: CheckCircle, title: "Complete", body: "Job complete and you're satisfied." },
 ];
 
-function HeroSwoosh() {
-  // Stacked curved brand swooshes at hero bottom: red above yellow, curving up on the right.
-  return (
-    <svg
-      aria-hidden="true"
-      className="absolute bottom-0 left-0 w-full h-[80px] md:h-[110px] z-10 pointer-events-none"
-      viewBox="0 0 1440 110"
-      preserveAspectRatio="none"
-    >
-      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
-      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
-    </svg>
-  );
-}
 
 function HomePage() {
   return (
