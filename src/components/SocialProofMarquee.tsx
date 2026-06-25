@@ -126,7 +126,6 @@ export function SocialProofMarquee({
       className={`spm-section ${isCompact ? "spm-section-compact" : ""} ${className}`}
       aria-label="CEVON'S trust and industry proof"
     >
-      <div className="spm-accent-line" aria-hidden="true" />
       <div className="container-cevons">
         {!isCompact && (
           <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
