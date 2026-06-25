@@ -117,6 +117,9 @@ function HomePage() {
       {/* Conveyor band — partner logos + services, directly under hero */}
       <ConveyorBand />
 
+      {/* Certification panel — EPA / ISO / GCCI / Market Leader */}
+      <CertificationPanel />
+
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />
 
