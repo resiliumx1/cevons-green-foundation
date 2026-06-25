@@ -28,7 +28,7 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        minHeight: "clamp(820px, calc(100vh - 72px), 1040px)",
+        minHeight: "min(760px, calc(100vh - 72px))",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
@@ -66,9 +66,9 @@ export function HomeHero() {
       </motion.div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
+      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4">
         {/* LEFT — text column */}
-        <div className="max-w-2xl lg:col-span-7 pt-2 md:pt-4">
+        <div className="max-w-2xl lg:col-span-7 pt-0">
           <motion.h1
             id="home-hero-title"
             variants={fadeUp}
@@ -114,7 +114,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="hero-subhead-pro mt-3"
+            className="hero-subhead-pro mt-2"
           >
             <span>For Homes.</span>{" "}
             <span>For Businesses.</span>{" "}
@@ -126,7 +126,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={3}
-            className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
+            className="mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
             From residential collection to industrial waste management, CEVON'S delivers
             reliable, safe, and sustainable environmental solutions across{" "}
@@ -138,7 +138,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={4}
-            className="mt-5 flex flex-wrap gap-3"
+            className="mt-4 flex flex-wrap gap-3"
           >
             <a href="/contact" className="hero-cta hero-cta--whatsapp hero-cta--stacked group">
               <span className="hero-cta__icon">
