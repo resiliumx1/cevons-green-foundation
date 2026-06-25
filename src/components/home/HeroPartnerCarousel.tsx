@@ -66,7 +66,7 @@ export function HeroPartnerCarousel() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="container-cevons">
-        <p className="text-[10px] md:text-xs font-bold tracking-[0.22em] text-cevons-orange uppercase text-center mb-2">
+        <p className="text-[10px] md:text-xs font-bold tracking-[0.22em] text-cevons-green uppercase text-center mb-2">
           Trusted by leading organisations across Guyana
         </p>
 
@@ -114,7 +114,7 @@ export function HeroPartnerCarousel() {
         {/* Progress bar */}
         <div className="mt-2 h-[2px] w-full bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-cevons-orange transition-[width] duration-150"
+            className="h-full bg-cevons-green transition-[width] duration-150"
             style={{ width: `${Math.max(8, progress)}%` }}
           />
         </div>

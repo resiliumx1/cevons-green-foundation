@@ -64,7 +64,7 @@ export function ServicesCardsSection() {
       <div className="container-cevons">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-cevons-orange mb-3">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-cevons-green mb-3">
               What We Offer
             </p>
             <h2
@@ -77,7 +77,7 @@ export function ServicesCardsSection() {
           </div>
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 text-sm font-bold text-cevons-orange hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-bold text-cevons-green hover:gap-3 transition-all"
           >
             View all services <ArrowRight className="size-4" />
           </Link>
@@ -106,7 +106,7 @@ export function ServicesCardsSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   <span
                     className={`absolute top-3 left-3 inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-white shadow ${
-                      c.tagColor === "green" ? "bg-[#2E7D32]" : "bg-cevons-orange"
+                      c.tagColor === "green" ? "bg-[#2E7D32]" : "bg-cevons-green"
                     }`}
                   >
                     {c.tag}
@@ -121,7 +121,7 @@ export function ServicesCardsSection() {
                   </p>
                   <span
                     aria-hidden="true"
-                    className="absolute bottom-4 right-4 grid place-items-center size-10 rounded-full bg-cevons-orange text-white shadow-md transition-transform duration-300 group-hover:translate-x-1 group-hover:rotate-12"
+                    className="absolute bottom-4 right-4 grid place-items-center size-10 rounded-full bg-cevons-green text-white shadow-md transition-transform duration-300 group-hover:translate-x-1 group-hover:rotate-12"
                   >
                     <ArrowRight className="size-4" />
                   </span>
