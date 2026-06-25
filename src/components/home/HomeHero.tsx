@@ -126,7 +126,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={3}
-            className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
+            className="mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
             From residential collection to industrial waste management, CEVON'S delivers
             reliable, safe, and sustainable environmental solutions across{" "}
