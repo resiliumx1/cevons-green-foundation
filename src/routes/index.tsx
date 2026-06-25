@@ -23,6 +23,8 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { CevonsIcon } from "@/components/CevonsIcon";
+import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ConveyorBand } from "@/components/home/ConveyorBand";
