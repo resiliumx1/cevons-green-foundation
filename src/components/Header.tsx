@@ -134,7 +134,7 @@ export function Header() {
             <div key={item.to} className="relative group">
               <Link
                 to={item.to}
-                className="px-2.5 py-2 text-[13.5px] font-semibold text-cevons-dark hover:text-cevons-green transition-colors inline-flex items-center gap-1 whitespace-nowrap"
+                className="px-2 py-2 text-[13px] font-semibold text-cevons-dark hover:text-cevons-green transition-colors inline-flex items-center gap-1 whitespace-nowrap"
                 activeProps={{ className: "text-cevons-green" }}
                 activeOptions={{ exact: item.to === "/" }}
               >
@@ -171,11 +171,7 @@ export function Header() {
         {/* CTAs (right) */}
         <div className="hidden lg:flex items-center gap-2 shrink-0">
           <CurrencyToggle />
-          <a href="/contact" className="btn-base btn-green text-[13.5px] px-3.5 py-2.5 shrink-0">
-            <WhatsApp className="size-4" />
-            WhatsApp
-          </a>
-          <a href="/request-service" className="btn-base btn-yellow btn-shine group/sched text-[13.5px] px-3.5 py-2.5 shrink-0">
+          <a href="/request-service" className="btn-base btn-green btn-shine group/sched text-[13.5px] px-4 py-2.5 shrink-0">
             <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
             Schedule
           </a>
@@ -283,11 +279,7 @@ export function Header() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-cevons-muted">Currency</span>
                 <CurrencyToggle />
               </div>
-              <a href="/contact" className="btn-base btn-green w-full">
-                <WhatsApp className="size-4" />
-                WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow btn-shine group/sched w-full">
+              <a href="/request-service" className="btn-base btn-green btn-shine group/sched w-full">
                 <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
                 Schedule a Service
               </a>
