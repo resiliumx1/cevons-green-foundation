@@ -1195,121 +1195,158 @@
 }
 
 /* ============================================================
-   Hero flag-wave — animated tri-color silk ribbons
+   Conveyor Band — angled marquees of partner logos & services
+   (replaces the legacy hero flag-wave ribbon divider)
    ============================================================ */
-.hero-wave {
-  overflow: hidden;
-}
-.hero-wave__drift {
-  position: absolute;
-  inset: 0;
-  animation: hero-wave-drift 11s ease-in-out infinite;
-  will-change: transform;
-}
-.hero-wave__ribbon {
-  position: absolute;
-  left: -10%;
-  bottom: 0;
-  width: 130%;
-  height: 100%;
+.conveyor {
   display: block;
-  filter: drop-shadow(0 6px 14px rgba(0, 30, 18, 0.35));
+  isolation: isolate;
+}
+.conveyor-band {
+  position: relative;
+  overflow: hidden;
+  transform: skewY(-2.4deg);
+  transform-origin: top left;
+  margin-top: -18px; /* visually tuck into hero edge */
+}
+.conveyor-band + .conveyor-band {
+  margin-top: -6px;
+}
+.conveyor-band--orange { background: #EF7700; }
+.conveyor-band--charcoal { background: #1A1A1A; }
+
+.conveyor-band__inner {
+  transform: skewY(2.4deg); /* counter-skew so content sits level */
+  padding: 22px 0 18px;
+}
+
+.conveyor-eyebrow {
+  font-family: "Open Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0 24px 12px;
+  margin: 0;
+}
+.conveyor-eyebrow--dark { color: #3A1D00; }
+.conveyor-eyebrow--yellow { color: #FCE722; }
+
+.conveyor-marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+}
+.conveyor-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  padding: 0 7px;
   will-change: transform;
-  transform-origin: center bottom;
 }
-.hero-wave__ribbon path { transition: none; }
-
-.hero-wave__ribbon--green path { fill: #EF7700; }
-.hero-wave__ribbon--gold path  { fill: #FCE722; }
-.hero-wave__ribbon--red path   { fill: #D42229; }
-
-/* Independent undulation: each ribbon slides + scales subtly at a different period/phase */
-.hero-wave__ribbon--green {
-  animation: hero-wave-undulate-a 18s ease-in-out infinite;
-  opacity: 1;
+.conveyor-track--left {
+  animation: conveyor-scroll-left 40s linear infinite;
 }
-.hero-wave__ribbon--gold {
-  animation: hero-wave-undulate-b 14s ease-in-out infinite;
-  opacity: 0.96;
-  mix-blend-mode: normal;
+.conveyor-track--right {
+  animation: conveyor-scroll-right 46s linear infinite;
 }
-.hero-wave__ribbon--red {
-  animation: hero-wave-undulate-c 10s ease-in-out infinite;
-  opacity: 0.95;
+.conveyor-marquee:hover .conveyor-track { animation-play-state: paused; }
+
+/* Partner logo chip */
+.conveyor-chip {
+  flex: 0 0 auto;
+  width: 150px;
+  height: 64px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 200ms ease, box-shadow 200ms ease;
 }
+.conveyor-chip img {
+  max-height: 44px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.78;
+  transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease;
+}
+.conveyor-chip:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 6px 14px rgba(0,0,0,0.18); }
+.conveyor-chip:hover img { filter: grayscale(0%); opacity: 1; }
 
-/* Soft edges between bands */
-.hero-wave__ribbon--gold { filter: drop-shadow(0 -1px 0 rgba(252,231,34,0.35)) drop-shadow(0 4px 10px rgba(20,20,20,0.25)); }
-.hero-wave__ribbon--red  { filter: drop-shadow(0 -1px 0 rgba(212,34,41,0.35)) drop-shadow(0 4px 10px rgba(20,20,20,0.25)); }
-
-/* Gem sheen — diagonal highlight that slowly sweeps across the ribbons */
-.hero-wave__sheen {
+/* Service tile */
+.conveyor-tile {
+  position: relative;
+  flex: 0 0 auto;
+  width: 168px;
+  height: 84px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+.conveyor-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 350ms ease;
+}
+.conveyor-tile:hover img { transform: scale(1.07); }
+.conveyor-tile::after {
+  content: "";
   position: absolute;
-  inset: -10% -20%;
+  inset: auto 0 0 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0,0,0,0.78), transparent);
   pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.18) 45%,
-    rgba(255, 236, 160, 0.28) 50%,
-    rgba(255, 255, 255, 0.18) 55%,
-    transparent 70%
-  );
-  background-size: 220% 100%;
-  background-repeat: no-repeat;
-  background-position: 140% 0;
-  mix-blend-mode: screen;
-  filter: blur(6px);
-  opacity: 0.85;
-  animation: hero-wave-sheen 8s ease-in-out infinite;
-  /* Mask the sheen to the lower wave area so it doesn't bleed up */
-  -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
-          mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+}
+.conveyor-tile__badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #EF7700;
+  color: #1A1A1A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.35);
+}
+.conveyor-tile__caption {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  z-index: 2;
+  font-family: "Open Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
 }
 
-@keyframes hero-wave-drift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50%      { transform: translate3d(0, -8px, 0); }
+@keyframes conveyor-scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-
-@keyframes hero-wave-undulate-a {
-  0%, 100% { transform: translate3d(-2%, 0, 0) scaleY(1); }
-  50%      { transform: translate3d(2%, -2px, 0) scaleY(1.015); }
-}
-@keyframes hero-wave-undulate-b {
-  0%, 100% { transform: translate3d(2%, 0, 0) scaleY(1); }
-  50%      { transform: translate3d(-2.5%, -3px, 0) scaleY(1.02); }
-}
-@keyframes hero-wave-undulate-c {
-  0%, 100% { transform: translate3d(-3%, 0, 0) scaleY(1); }
-  50%      { transform: translate3d(3%, -4px, 0) scaleY(1.025); }
-}
-
-@keyframes hero-wave-sheen {
-  0%   { background-position: 140% 0; opacity: 0; }
-  20%  { opacity: 0.85; }
-  80%  { opacity: 0.85; }
-  100% { background-position: -40% 0; opacity: 0; }
-}
-
-@media (max-width: 768px) {
-  /* Simplify on small screens: hide accent ribbons, keep green + gentle bob */
-  .hero-wave__ribbon--red { display: none; }
-  .hero-wave__ribbon--gold { opacity: 0.8; animation-duration: 16s; }
-  .hero-wave__sheen { animation-duration: 10s; opacity: 0.6; }
+@keyframes conveyor-scroll-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-wave__drift,
-  .hero-wave__ribbon--green,
-  .hero-wave__ribbon--gold,
-  .hero-wave__ribbon--red,
-  .hero-wave__sheen {
-    animation: none !important;
-    transform: none !important;
-  }
-  .hero-wave__sheen { opacity: 0 !important; }
+  .conveyor-track--left,
+  .conveyor-track--right { animation: none !important; transform: none !important; }
 }
+
 
 /* ============================================================
    WaveDivider — animated tri-color brand wave (shared across pages)
