@@ -2,6 +2,8 @@ import { Award, Calendar, Leaf, MapPin, Star, Target, Trophy, Users } from "luci
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { ConveyorBand } from "@/components/home/ConveyorBand";
+
 
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
