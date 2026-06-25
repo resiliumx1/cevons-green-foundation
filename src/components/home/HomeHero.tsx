@@ -114,7 +114,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="hero-subhead-pro mt-3"
+            className="hero-subhead-pro mt-2"
           >
             <span>For Homes.</span>{" "}
             <span>For Businesses.</span>{" "}
