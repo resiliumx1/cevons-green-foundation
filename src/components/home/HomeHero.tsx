@@ -27,11 +27,9 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        minHeight: "calc(100vh - 72px)",
-        // Brand alignment Step 4 (revised): hero re-skinned to orange-primary.
-        // Local scope swaps the hero's previous green tokens to orange (primary)
-        // and charcoal (structural neutral) so the orbital ring, ribbon
-        // underline, stats pill, and accents render in brand orange.
+        // Hero is sized to its content (plus breathing room) so the conveyor
+        // band anchors flush against the truck photo with no dead dark band.
+        minHeight: "min(720px, calc(100vh - 72px))",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
