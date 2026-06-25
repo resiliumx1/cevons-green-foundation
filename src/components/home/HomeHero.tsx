@@ -159,22 +159,46 @@ export function HomeHero() {
               </span>
             </a>
           </motion.div>
+
+          {/* Trust badge row */}
+          <motion.ul
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={5}
+            className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
+            aria-label="Service guarantees"
+          >
+            {[
+              { Icon: CheckCircle2, label: "Reliable Service" },
+              { Icon: ShieldCheck, label: "Safe Operations" },
+              { Icon: Leaf, label: "Sustainable Solutions" },
+            ].map(({ Icon, label }, i, arr) => (
+              <li key={label} className="flex items-center gap-2">
+                <Icon className="size-4" style={{ color: "#2E7D32" }} aria-hidden="true" />
+                <span className="font-medium">{label}</span>
+                {i < arr.length - 1 && (
+                  <span aria-hidden="true" className="ml-3 h-3 w-px bg-white/25" />
+                )}
+              </li>
+            ))}
+          </motion.ul>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
 
-      {/* FULL-WIDTH conveyor strip pinned to the bottom of the hero */}
+      {/* SLIM partner-logo carousel pinned to the bottom of the hero */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="visible"
-        custom={5}
+        custom={6}
         className="relative z-10 w-full shrink-0"
         data-hero-banner
       >
-        <ConveyorBand variant="hero-bottom" />
+        <HeroPartnerCarousel />
       </motion.div>
     </section>
   );
