@@ -89,15 +89,16 @@ export function HeroPartnerCarousel() {
             {[...partners, ...partners].map((p, i) => (
               <div
                 key={`hp-${i}`}
-                className="shrink-0 h-14 w-28 md:h-[60px] md:w-[130px] rounded-lg bg-white grid place-items-center p-2 shadow-sm overflow-hidden"
+                className="shrink-0 flex h-16 w-[124px] items-center justify-center rounded-lg bg-white px-4 py-3 shadow-sm md:h-[68px] md:w-[148px]"
               >
-                <img
-                  src={p.src}
-                  alt={p.alt}
-                  loading="lazy"
-                  className="max-h-10 max-w-full object-contain"
-                  style={{ maxHeight: "40px", maxWidth: "100%" }}
-                />
+                <span className="flex h-full w-full items-center justify-center">
+                  <img
+                    src={p.src}
+                    alt={p.alt}
+                    loading="lazy"
+                    className="block h-full w-full object-contain object-center"
+                  />
+                </span>
               </div>
             ))}
           </div>
