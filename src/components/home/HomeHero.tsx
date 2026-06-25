@@ -1,4 +1,4 @@
-import { Calendar, Leaf, Star, Target, Trophy } from "lucide-react";
+import { Calendar, Leaf } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
