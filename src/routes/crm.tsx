@@ -9,6 +9,7 @@ import {
   Megaphone,
   BarChart3,
   Star,
+  Newspaper,
   Settings,
   Search,
   PanelLeftClose,
