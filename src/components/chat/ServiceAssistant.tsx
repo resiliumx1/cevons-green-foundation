@@ -1,14 +1,32 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { X, Send, RotateCcw, Loader2 } from "lucide-react";
+import {
+  X,
+  Send,
+  RotateCcw,
+  Loader2,
+  Leaf,
+  MapPin,
+  Calendar,
+  User,
+  Paperclip,
+  Lock,
+  Compass,
+} from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import logoMark from "@/assets/cevons-logo-transparent.png";
 import { whatsappHref } from "@/data/cevonsContact";
 
+const LOGO_MARK = "/assets/brand/cevons-logo-mark.webp";
 const WHATSAPP_URL = whatsappHref;
+
+const BRAND_ORANGE = "#EF7700";
+const BRAND_ORANGE_DEEP = "#d96b00";
+const BRAND_GREEN = "#2E7D32";
+const BRAND_GREEN_DEEP = "#1e3a24";
+const CHARCOAL = "#1A1A1A";
 
 type Message = {
   id: string;
@@ -18,21 +36,110 @@ type Message = {
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 
-const SUGGESTED_CHIPS = [
-  "What services do you offer?",
-  "Do you serve my area?",
-  "Book a skip bin",
-  "Talk to a person",
+type Chip = {
+  label: string;
+  prompt: string;
+  icon: React.ComponentType<{ className?: string }>;
+  tone: "orange" | "green";
+};
+
+const CHIPS: Chip[] = [
+  { label: "What services do you offer?", prompt: "What services do you offer?", icon: Compass, tone: "orange" },
+  { label: "Do you serve my area?",       prompt: "Do you serve my area?",        icon: MapPin,  tone: "green"  },
+  { label: "Book a skip bin",             prompt: "Book a skip bin",              icon: Calendar, tone: "orange" },
+  { label: "Talk to a person",            prompt: "Talk to a person",             icon: User,    tone: "green"  },
 ];
 
-const WELCOME_TEXT =
-  "Hey, I'm Cev — CEVON'S assistant. Ask me about our services, your area, or how to book a pickup. I can also point you to the right team.";
+const WELCOME_BOLD = "Hey, I'm Cev — CEVON'S assistant.";
+const WELCOME_BODY =
+  "Ask me about our services, your area, or how to book a pickup. I can also point you to the right team.";
+const WELCOME_TEXT = `${WELCOME_BOLD} ${WELCOME_BODY}`;
 
 function detectBookingIntent(text: string): boolean {
   const t = text.toLowerCase();
-  return /\b(book|schedule|pickup|whatsapp|talk to|speak to|contact|call|agent|representative|person|quote|request|skip bin|dumpster)\b/.test(t);
+  return /\b(book|schedule|pickup|whatsapp|talk to|speak to|contact|call|agent|representative|person|quote|request|skip bin|dumpster)\b/.test(
+    t,
+  );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Logo emblem — white circular badge, code-drawn orbital ring + AI  */
+/* ------------------------------------------------------------------ */
+function EmblemBadge({
+  size = 40,
+  ring = true,
+  aiBadge = true,
+}: {
+  size?: number;
+  ring?: boolean;
+  aiBadge?: boolean;
+}) {
+  const reduce = useReducedMotion();
+  const ringSize = size + 10;
+  return (
+    <span
+      className="relative inline-block shrink-0"
+      style={{ width: ringSize, height: ringSize }}
+      aria-hidden
+    >
+      {ring && (
+        <motion.svg
+          viewBox="0 0 100 100"
+          className="absolute inset-0"
+          width={ringSize}
+          height={ringSize}
+          animate={reduce ? undefined : { rotate: 360 }}
+          transition={reduce ? undefined : { duration: 18, repeat: Infinity, ease: "linear" }}
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="46"
+            fill="none"
+            stroke="rgba(255,255,255,0.55)"
+            strokeWidth="1"
+            strokeDasharray="3 4"
+          />
+          <circle cx="50" cy="4" r="2.4" fill="#FCE722" />
+          <circle cx="96" cy="50" r="1.6" fill="#ffffff" opacity="0.9" />
+        </motion.svg>
+      )}
+      <span
+        className="absolute grid place-items-center rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.18)]"
+        style={{
+          width: size,
+          height: size,
+          top: (ringSize - size) / 2,
+          left: (ringSize - size) / 2,
+        }}
+      >
+        <img
+          src={LOGO_MARK}
+          alt=""
+          className="object-contain"
+          style={{ width: size * 0.78, height: size * 0.78 }}
+          draggable={false}
+        />
+      </span>
+      {aiBadge && (
+        <span
+          className="absolute rounded-full px-1.5 py-[1px] text-[8px] font-bold tracking-wider text-white shadow-md"
+          style={{
+            background: CHARCOAL,
+            bottom: 0,
+            right: 0,
+            lineHeight: 1.2,
+            border: "1.5px solid #fff",
+          }}
+        >
+          AI
+        </span>
+      )}
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 export function ServiceAssistant() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -129,31 +236,42 @@ export function ServiceAssistant() {
 
   const lastUserText = [...messages].reverse().find((m) => m.role === "user")?.text ?? "";
   const showWhatsAppCta = detectBookingIntent(lastUserText) && !loading;
+  const showChips = messages.length === 1 && !loading;
 
   const panelTransition = reduce
     ? { duration: 0.2 }
     : { duration: 0.32, ease: [0.16, 1, 0.3, 1] as const };
 
+  const orangeGradient = `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND_ORANGE_DEEP} 100%)`;
+
   return (
     <>
-      {/* Floating bubble */}
+      {/* ============ LAUNCHER ============ */}
       <button
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVON'S Assistant"
-        className={`fixed bottom-5 right-5 z-[60] flex items-center gap-2 rounded-full pl-3 pr-5 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
+        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-3 rounded-full pl-2 pr-5 py-2 text-left text-white shadow-[0_14px_32px_-12px_rgba(239,119,0,0.55),0_4px_12px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-12px_rgba(239,119,0,0.65),0_6px_16px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
-        style={{ background: "linear-gradient(135deg, #EF7700, #1A1A1A)" }}
+        style={{ background: orangeGradient }}
       >
-        <span className="relative grid place-items-center h-9 w-9 rounded-full bg-white/15 overflow-hidden">
-          <img src={logoMark} alt="" className="h-7 w-7 object-contain" draggable={false} />
+        <EmblemBadge size={40} />
+        <span className="hidden sm:flex flex-col leading-tight pr-1">
           <span
-            className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-[#1A1A1A]"
-            style={{ background: "#FFD200" }}
-          />
+            className="text-[15px] font-bold text-white"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Ask CEVON&apos;S
+          </span>
+          <span
+            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-white/80"
+            style={{ fontFamily: "'Open Sans', system-ui, sans-serif", letterSpacing: "0.16em" }}
+          >
+            <Leaf className="h-2.5 w-2.5" style={{ color: "#A8E6A0" }} />
+            AI Assistant
+          </span>
         </span>
-        <span className="hidden sm:inline">Ask CEVON&apos;S</span>
       </button>
 
       <AnimatePresence>
@@ -178,28 +296,37 @@ export function ServiceAssistant() {
               transition={panelTransition}
               style={{ transformOrigin: "bottom right" }}
               className="fixed z-[70] bg-white shadow-2xl flex flex-col overflow-hidden
-                         inset-x-0 bottom-0 top-12 rounded-t-3xl
-                         md:inset-auto md:bottom-5 md:right-5 md:top-auto md:w-[400px] md:h-[600px] md:max-h-[80vh] md:rounded-3xl
-                         border border-[#E5E7EB]"
+                         inset-x-0 bottom-0 top-12 rounded-t-[18px]
+                         md:inset-auto md:bottom-5 md:right-5 md:top-auto md:w-[400px] md:h-[640px] md:max-h-[85vh] md:rounded-[18px]
+                         border border-black/5"
             >
-              {/* Header */}
+              {/* ============ HEADER ============ */}
               <div
-                className="flex items-center gap-3 px-4 py-3 text-white"
-                style={{ background: "linear-gradient(135deg, #EF7700, #1A1A1A)" }}
+                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-white"
+                style={{ background: orangeGradient }}
               >
-                <div className="h-10 w-10 rounded-full bg-white grid place-items-center overflow-hidden shrink-0">
-                  <img src={logoMark} alt="CEVON'S" className="h-8 w-8 object-contain" />
-                </div>
+                <EmblemBadge size={42} />
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold truncate text-[15px]">Cev — CEVON&apos;S Assistant</p>
-                  <p className="text-[11px] text-white/85 flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#7CE2A0] animate-pulse" />
-                    Online · replies in seconds
+                  <p
+                    className="font-bold truncate text-[15px] leading-tight"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    Cev — CEVON&apos;S Assistant
+                  </p>
+                  <p
+                    className="text-[11px] text-white/90 flex items-center gap-1.5 mt-0.5"
+                    style={{ fontFamily: "'Open Sans', system-ui, sans-serif" }}
+                  >
+                    <span className="relative inline-flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#7CE2A0] opacity-70 animate-ping" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#3DDC84]" />
+                    </span>
+                    Online · Replies in seconds
                   </p>
                 </div>
                 <button
                   onClick={reset}
-                  className="rounded-md p-1.5 hover:bg-white/10 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
                   aria-label="Reset conversation"
                   title="Reset"
                 >
@@ -207,31 +334,69 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="rounded-md p-1.5 hover:bg-white/10 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
                   aria-label="Close assistant"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4" />
                 </button>
+
+                {/* curved green hairline along the bottom edge */}
+                <svg
+                  className="pointer-events-none absolute inset-x-0 -bottom-px h-3 w-full"
+                  viewBox="0 0 400 12"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M0,8 Q200,-4 400,8 L400,12 L0,12 Z"
+                    fill="#FAF7F1"
+                  />
+                  <path
+                    d="M0,7 Q200,-5 400,7"
+                    fill="none"
+                    stroke={BRAND_GREEN}
+                    strokeOpacity="0.45"
+                    strokeWidth="1"
+                  />
+                </svg>
               </div>
 
-              {/* Messages */}
-              <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#FAFBF9]">
-                {messages.map((m) => (
-                  <Bubble key={m.id} message={m} />
+              {/* ============ MESSAGES ============ */}
+              <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto px-4 py-4 space-y-3"
+                style={{
+                  background:
+                    "radial-gradient(circle at 20% 0%, rgba(239,119,0,0.04), transparent 60%), #FAF7F1",
+                }}
+              >
+                {messages.map((m, i) => (
+                  <Bubble key={m.id} message={m} isFirst={i === 0} />
                 ))}
 
-                {/* Suggested chips only when fresh conversation */}
-                {messages.length === 1 && !loading && (
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {SUGGESTED_CHIPS.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => send(c)}
-                        className="rounded-full border border-[#EF7700]/25 bg-white px-3 py-1.5 text-xs font-medium text-[#EF7700] hover:bg-[#EF7700] hover:text-white transition"
-                      >
-                        {c}
-                      </button>
-                    ))}
+                {showChips && (
+                  <div className="grid grid-cols-2 gap-2 pt-2">
+                    {CHIPS.map((c) => {
+                      const Icon = c.icon;
+                      const tone = c.tone === "orange" ? BRAND_ORANGE : BRAND_GREEN;
+                      const toneSoft =
+                        c.tone === "orange" ? "rgba(239,119,0,0.10)" : "rgba(46,125,50,0.10)";
+                      return (
+                        <button
+                          key={c.label}
+                          onClick={() => send(c.prompt)}
+                          className="group flex items-center gap-2.5 rounded-xl border border-black/8 bg-white px-3 py-2.5 text-left text-[12.5px] font-medium text-[#1A1A1A] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:-translate-y-0.5 hover:border-black/15 hover:shadow-[0_6px_14px_rgba(0,0,0,0.08)]"
+                        >
+                          <span
+                            className="grid h-7 w-7 shrink-0 place-items-center rounded-full"
+                            style={{ background: toneSoft, color: tone }}
+                          >
+                            <Icon className="h-3.5 w-3.5" />
+                          </span>
+                          <span className="leading-tight">{c.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
 
@@ -258,9 +423,16 @@ export function ServiceAssistant() {
                 )}
               </div>
 
-              {/* Input */}
-              <div className="border-t border-[#E5E7EB] bg-white px-3 py-3">
-                <div className="flex items-end gap-2">
+              {/* ============ INPUT ============ */}
+              <div className="bg-white px-3 pt-3 pb-2 border-t border-black/5">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="Attach (coming soon)"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#F3F1EB] text-[#6B6B6B] hover:bg-[#E9E6DE] transition"
+                  >
+                    <Paperclip className="h-4 w-4" />
+                  </button>
                   <textarea
                     ref={inputRef}
                     value={input}
@@ -275,21 +447,46 @@ export function ServiceAssistant() {
                     disabled={loading}
                     placeholder={loading ? "Cev is replying…" : "Message Cev…"}
                     aria-label="Type your message"
-                    className="flex-1 resize-none rounded-2xl border border-[#E5E7EB] bg-[#FAFBF9] px-4 py-2.5 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 disabled:opacity-60"
+                    className="flex-1 resize-none rounded-full border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug max-h-28 placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
                   />
                   <button
                     type="button"
                     onClick={() => send()}
                     disabled={!input.trim() || loading}
                     aria-label="Send"
-                    className="h-10 w-10 grid place-items-center rounded-full bg-[#EF7700] text-white hover:bg-[#005a2c] disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    style={{ background: orangeGradient }}
                   >
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                   </button>
                 </div>
-                <p className="mt-2 text-[10px] text-[#94A3B8] text-center">
-                  AI assistant. For urgent help, reach us on WhatsApp.
+                <p className="mt-2 flex items-center justify-center gap-1.5 text-[10.5px] text-[#7A7A7A]">
+                  <Lock className="h-3 w-3" />
+                  AI assistant. For urgent help, reach us on{" "}
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-[#1B7F3A] hover:underline"
+                  >
+                    WhatsApp
+                  </a>
+                  .
                 </p>
+              </div>
+
+              {/* ============ FOOTER ============ */}
+              <div
+                className="flex items-center justify-center gap-1.5 py-2 text-[10px] tracking-[0.18em]"
+                style={{ background: BRAND_GREEN_DEEP }}
+              >
+                <Leaf className="h-3 w-3" style={{ color: "#A8E6A0" }} />
+                <span className="font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  CEVON&apos;S
+                </span>
+                <span className="font-semibold" style={{ color: "#A8E6A0" }}>
+                  ENVIRONMENTAL
+                </span>
               </div>
             </motion.div>
           </>
@@ -299,7 +496,7 @@ export function ServiceAssistant() {
   );
 }
 
-function Bubble({ message }: { message: Message }) {
+function Bubble({ message, isFirst }: { message: Message; isFirst?: boolean }) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
@@ -309,13 +506,21 @@ function Bubble({ message }: { message: Message }) {
       </div>
     );
   }
+
+  // Assistant — split first message into bold lead + body
+  const isWelcome = isFirst && message.text.startsWith(WELCOME_BOLD);
+  const body = isWelcome ? message.text.slice(WELCOME_BOLD.length).trim() : message.text;
+
   return (
     <div className="flex items-start gap-2">
-      <div className="h-7 w-7 rounded-full bg-white border border-[#E5E7EB] grid place-items-center overflow-hidden shrink-0 mt-0.5">
-        <img src={logoMark} alt="" className="h-5 w-5 object-contain" />
+      <div className="mt-0.5">
+        <EmblemBadge size={28} ring={false} aiBadge={false} />
       </div>
-      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-[#E5E7EB] px-3.5 py-2 text-sm text-[#101820] leading-relaxed whitespace-pre-wrap shadow-sm">
-        {message.text}
+      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-black/5 px-3.5 py-2.5 text-[13.5px] text-[#1A1A1A] leading-relaxed whitespace-pre-wrap shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+        {isWelcome && (
+          <p className="font-bold mb-1">{WELCOME_BOLD}</p>
+        )}
+        {body}
       </div>
     </div>
   );
@@ -324,10 +529,10 @@ function Bubble({ message }: { message: Message }) {
 function TypingDots() {
   return (
     <div className="flex items-start gap-2">
-      <div className="h-7 w-7 rounded-full bg-white border border-[#E5E7EB] grid place-items-center overflow-hidden shrink-0 mt-0.5">
-        <img src={logoMark} alt="" className="h-5 w-5 object-contain" />
+      <div className="mt-0.5">
+        <EmblemBadge size={28} ring={false} aiBadge={false} />
       </div>
-      <div className="rounded-2xl rounded-tl-md bg-white border border-[#E5E7EB] px-4 py-3 shadow-sm">
+      <div className="rounded-2xl rounded-tl-md bg-white border border-black/5 px-4 py-3 shadow-sm">
         <div className="flex items-center gap-1">
           <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "0ms" }} />
           <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "120ms" }} />
