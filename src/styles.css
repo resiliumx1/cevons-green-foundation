@@ -1347,6 +1347,65 @@
   .conveyor-track--right { animation: none !important; transform: none !important; }
 }
 
+/* Embedded variant — sits inside the hero under the CTAs.
+   No skew, contained width, rounded card with border + shadow. */
+.conveyor--embedded {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 18px 40px -18px rgba(0, 0, 0, 0.55),
+    0 2px 0 rgba(255, 255, 255, 0.04) inset;
+  background: #1A1A1A;
+}
+.conveyor--embedded .conveyor-band {
+  transform: none;
+  margin-top: 0;
+  overflow: hidden;
+}
+.conveyor--embedded .conveyor-band + .conveyor-band {
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.conveyor--embedded .conveyor-band__inner {
+  transform: none;
+  padding: 14px 0 14px;
+}
+.conveyor--embedded .conveyor-eyebrow {
+  padding: 0 16px 8px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
+.conveyor--embedded .conveyor-chip {
+  width: 132px;
+  height: 64px;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.conveyor--embedded .conveyor-chip img {
+  max-height: 52px;
+}
+.conveyor--embedded .conveyor-tile {
+  width: 132px;
+  height: 60px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.conveyor--embedded .conveyor-tile__caption {
+  font-size: 11px;
+  left: 8px;
+  bottom: 6px;
+}
+.conveyor--embedded .conveyor-track {
+  gap: 10px;
+  padding: 0 6px;
+}
+.conveyor--embedded .conveyor-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+}
+
+
 
 /* ============================================================
    WaveDivider — animated tri-color brand wave (shared across pages)
