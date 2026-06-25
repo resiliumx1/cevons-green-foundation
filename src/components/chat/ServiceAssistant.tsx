@@ -140,12 +140,43 @@ function EmblemBadge({
 }
 
 /* ------------------------------------------------------------------ */
+const STORAGE_KEY_MESSAGES = "cev-assistant-messages";
+const STORAGE_KEY_OPEN = "cev-assistant-open";
+const MAX_PERSISTED_MESSAGES = 50;
+
+function loadPersistedMessages(): Message[] | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY_MESSAGES);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Message[];
+    if (!Array.isArray(parsed) || parsed.length === 0) return null;
+    return parsed.filter(
+      (m) => m && (m.role === "user" || m.role === "assistant") && typeof m.text === "string",
+    );
+  } catch {
+    return null;
+  }
+}
+
+function loadPersistedOpen(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(STORAGE_KEY_OPEN) === "1";
+  } catch {
+    return false;
+  }
+}
+
 export function ServiceAssistant() {
   const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { id: uid(), role: "assistant", text: WELCOME_TEXT },
-  ]);
+  const [open, setOpen] = useState<boolean>(() => loadPersistedOpen());
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const persisted = loadPersistedMessages();
+    return persisted && persisted.length > 0
+      ? persisted
+      : [{ id: uid(), role: "assistant", text: WELCOME_TEXT }];
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -167,6 +198,29 @@ export function ServiceAssistant() {
     const t = setTimeout(() => setMounted(true), 800);
     return () => clearTimeout(t);
   }, []);
+
+  // Persist messages (cap to recent N to keep storage small)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const trimmed = messages.slice(-MAX_PERSISTED_MESSAGES);
+      window.localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(trimmed));
+    } catch {
+      /* ignore quota errors */
+    }
+  }, [messages]);
+
+  // Persist open/closed state
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY_OPEN, open ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }, [open]);
+
+
 
   useEffect(() => {
     if (scrollRef.current) {
