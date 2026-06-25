@@ -66,7 +66,7 @@ export function HomeHero() {
       </motion.div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-6 py-4 md:py-6 lg:grid-cols-12 lg:gap-6 lg:py-6">
+      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4">
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-0">
           <motion.h1
