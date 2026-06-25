@@ -13,6 +13,7 @@ const nav: NavItem[] = [
   { to: "/industries", label: "Industries" },
   { to: "/locations", label: "Locations" },
   { to: "/resources", label: "Resources" },
+  { to: "/newsroom", label: "Newsroom" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];

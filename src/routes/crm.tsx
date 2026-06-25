@@ -9,6 +9,7 @@ import {
   Megaphone,
   BarChart3,
   Star,
+  Newspaper,
   Settings,
   Search,
   PanelLeftClose,
@@ -56,6 +57,7 @@ const nav = [
   { to: "/crm/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
   { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
+  { to: "/crm/newsroom", label: "Newsroom", icon: Newspaper },
   { to: "/crm/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
 

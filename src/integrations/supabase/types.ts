@@ -320,6 +320,54 @@ export type Database = {
         }
         Relationships: []
       }
+      media_items: {
+        Row: {
+          body: string | null
+          created_at: string
+          external_url: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean
+          outlet: string | null
+          published_at: string
+          sort_order: number
+          summary: string | null
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          outlet?: string | null
+          published_at?: string
+          sort_order?: number
+          summary?: string | null
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          external_url?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          outlet?: string | null
+          published_at?: string
+          sort_order?: number
+          summary?: string | null
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           consent: boolean
