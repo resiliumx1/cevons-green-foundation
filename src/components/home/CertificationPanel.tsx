@@ -12,7 +12,7 @@ const fadeUp: Variants = {
 
 export function CertificationPanel() {
   return (
-    <section className="relative z-10 w-full bg-white py-6 md:py-8">
+    <section className="relative z-10 -mt-8 w-full bg-white py-6 md:-mt-12 md:py-8">
       <div className="container-cevons">
         <motion.div
           variants={fadeUp}
