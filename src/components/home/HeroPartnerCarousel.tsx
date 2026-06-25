@@ -1,0 +1,126 @@
+import { useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const partners = [
+  { src: "/partners/saipem.webp", alt: "Saipem" },
+  { src: "/partners/ramps-logistics.webp", alt: "Ramps Logistics" },
+  { src: "/partners/gysbi.webp", alt: "GYSBI" },
+  { src: "/partners/baker-hughes.webp", alt: "Baker Hughes" },
+  { src: "/partners/edison-chouest-offshore.webp", alt: "Edison Chouest Offshore" },
+  { src: "/partners/halliburton.jpg", alt: "Halliburton" },
+  { src: "/partners/agm-inc.jpg", alt: "AGM Inc." },
+  { src: "/partners/gtt.jpg", alt: "GT&T" },
+  { src: "/partners/british-high-commission.jpg", alt: "British High Commission" },
+  { src: "/partners/us-embassy.jpg", alt: "United States Embassy" },
+  { src: "/partners/united-nations.jpg", alt: "United Nations" },
+  { src: "/partners/caricom.jpg", alt: "CARICOM" },
+  { src: "/partners/pegasus-hotel-guyana.jpg", alt: "Pegasus Hotel Guyana" },
+  { src: "/partners/marriott.jpg", alt: "Marriott" },
+  { src: "/partners/kfc.jpg", alt: "KFC" },
+  { src: "/partners/churchs-chicken.jpg", alt: "Church's Chicken" },
+];
+
+export function HeroPartnerCarousel() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Auto-scroll
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    let raf = 0;
+    const tick = () => {
+      if (!paused && el) {
+        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
+          el.scrollLeft = 0;
+        } else {
+          el.scrollLeft += 0.6;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [paused]);
+
+  const updateProgress = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setProgress(max > 0 ? (el.scrollLeft / max) * 100 : 0);
+  };
+
+  const page = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  return (
+    <div
+      className="relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-3"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="container-cevons">
+        <p className="text-[10px] md:text-xs font-bold tracking-[0.22em] text-cevons-orange uppercase text-center mb-2">
+          Trusted by leading organisations across Guyana
+        </p>
+
+        <div className="relative flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Previous partners"
+            onClick={() => page(-1)}
+            className="shrink-0 grid place-items-center size-8 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+          >
+            <ChevronLeft className="size-4" />
+          </button>
+
+          <div
+            ref={trackRef}
+            onScroll={updateProgress}
+            className="flex-1 flex gap-3 overflow-x-auto scroll-smooth no-scrollbar"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {[...partners, ...partners].map((p, i) => (
+              <div
+                key={`hp-${i}`}
+                className="shrink-0 h-12 w-24 md:h-14 md:w-28 rounded-lg bg-white grid place-items-center px-2 shadow-sm"
+              >
+                <img
+                  src={p.src}
+                  alt={p.alt}
+                  loading="lazy"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next partners"
+            onClick={() => page(1)}
+            className="shrink-0 grid place-items-center size-8 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mt-2 h-[2px] w-full bg-white/10 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-cevons-orange transition-[width] duration-150"
+            style={{ width: `${Math.max(8, progress)}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default HeroPartnerCarousel;
