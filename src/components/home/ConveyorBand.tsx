@@ -1,5 +1,3 @@
-
-
 const partners = [
   { src: "/partners/saipem.webp", alt: "Saipem" },
   { src: "/partners/ramps-logistics.webp", alt: "Ramps Logistics" },
@@ -26,9 +24,17 @@ const services = [
   { src: "/services/svc-recycling.webp", label: "Recyclables", href: "/services#recycling" },
 ];
 
-export function ConveyorBand() {
+type ConveyorBandProps = {
+  variant?: "default" | "embedded";
+};
+
+export function ConveyorBand({ variant = "default" }: ConveyorBandProps) {
+  const isEmbedded = variant === "embedded";
   return (
-    <section aria-label="Trusted clients and services" className="conveyor relative z-[5] w-full">
+    <section
+      aria-label="Trusted clients and services"
+      className={`conveyor relative z-[5] w-full ${isEmbedded ? "conveyor--embedded" : ""}`}
+    >
       {/* BAND 1 — Partner logos on orange */}
       <div className="conveyor-band conveyor-band--orange">
         <div className="conveyor-band__inner">

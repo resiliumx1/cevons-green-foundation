@@ -99,9 +99,6 @@ function HomePage() {
     <SiteLayout>
       <HomeHero />
 
-      {/* Conveyor band — partner logos + services, directly under hero */}
-      <ConveyorBand />
-
       {/* Certification panel — EPA / ISO / GCCI / Market Leader */}
       <CertificationPanel />
 

@@ -2,6 +2,7 @@ import { Calendar } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { ConveyorBand } from "@/components/home/ConveyorBand";
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
 
@@ -27,9 +28,7 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        // Hero is sized to its content (plus breathing room) so the conveyor
-        // band anchors flush against the truck photo with no dead dark band.
-        minHeight: "min(720px, calc(100vh - 72px))",
+        minHeight: "calc(100vh - 72px)",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
@@ -159,6 +158,16 @@ export function HomeHero() {
             </a>
           </motion.div>
 
+          {/* Embedded conveyor strip — partner logos + services, sitting under CTAs */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={5}
+            className="mt-8 md:mt-10 lg:max-w-none"
+          >
+            <ConveyorBand variant="embedded" />
+          </motion.div>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
