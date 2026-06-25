@@ -27,6 +27,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
+import { ServicesCardsSection } from "@/components/home/ServicesCardsSection";
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
 import imgResidential from "@/assets/svc-residential.jpg";
