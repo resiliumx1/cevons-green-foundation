@@ -61,7 +61,7 @@ export function HeroPartnerCarousel() {
 
   return (
     <div
-      className="relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-3"
+      className="relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-2"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -89,13 +89,14 @@ export function HeroPartnerCarousel() {
             {[...partners, ...partners].map((p, i) => (
               <div
                 key={`hp-${i}`}
-                className="shrink-0 h-12 w-24 md:h-14 md:w-28 rounded-lg bg-white grid place-items-center px-2 shadow-sm"
+                className="shrink-0 h-14 w-28 md:h-[60px] md:w-[130px] rounded-lg bg-white grid place-items-center p-2 shadow-sm overflow-hidden"
               >
                 <img
                   src={p.src}
                   alt={p.alt}
                   loading="lazy"
-                  className="max-h-full max-w-full object-contain"
+                  className="max-h-10 max-w-full object-contain"
+                  style={{ maxHeight: "40px", maxWidth: "100%" }}
                 />
               </div>
             ))}
