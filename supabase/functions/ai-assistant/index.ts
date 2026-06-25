@@ -14,7 +14,7 @@ const corsHeaders = {
 
 const MAX_MESSAGES = 10;
 const MAX_INPUT_CHARS = 1500;
-const MAX_TOKENS = 300;
+const MAX_TOKENS = 700;
 
 // In-memory rate limits (per isolate; best-effort)
 const sessionHits = new Map<string, { count: number; reset: number }>();
