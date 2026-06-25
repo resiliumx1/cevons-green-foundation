@@ -3,7 +3,7 @@
 //   - "public" → Cev (customer-facing site assistant)
 //   - "crm"    → Growth Command Assistant (internal CRM helper)
 //
-// Model: google/gemini-2.5-flash-lite via Lovable AI Gateway.
+// Model: google/gemini-2.5-flash via Lovable AI Gateway.
 // LOVABLE_API_KEY is auto-provisioned and must stay server-side.
 
 const corsHeaders = {
