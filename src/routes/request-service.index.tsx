@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
@@ -315,7 +316,12 @@ function RequestServicePage() {
         <div className="grid lg:grid-cols-[1fr_320px] gap-8">
           {/* Form */}
           <div>
-            <Stepper step={step} onStepClick={(i) => i < step && setStep(i)} />
+            <AnimatedTruckStepper
+              currentStep={step}
+              steps={STEPS}
+              onStepClick={(i) => i < step && setStep(i)}
+              className="mb-2"
+            />
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={step}
