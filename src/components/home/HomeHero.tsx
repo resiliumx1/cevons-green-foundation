@@ -41,8 +41,8 @@ export function HomeHero() {
       {/* Background photo — truck dominates right side */}
       <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
         <img
-          src={heroBg}
-          alt="CEVON'S environmental services truck on a Guyanese road at golden hour"
+          src={heroBg.url}
+          alt="CEVON'S environmental services truck in Guyana's lush rainforest near a waterfall"
           className="size-full object-cover object-right"
           width={1920}
           height={1080}
