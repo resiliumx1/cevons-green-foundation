@@ -109,7 +109,7 @@ export function AnimatedTruckStepper({
 
       {/* Scrollable wrapper for very small screens */}
       <div className="relative -mx-1 overflow-x-auto overflow-y-visible pb-1">
-        <div className="min-w-[520px] md:min-w-0 px-3 md:px-2">
+        <div className="min-w-[600px] md:min-w-0 px-14 md:px-16">
           {/* TRUCK LANE */}
           <div className="relative" style={{ height: 64 }}>
             {/* Truck — translated by step progress */}
