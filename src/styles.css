@@ -1405,6 +1405,62 @@
           mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
 }
 
+/* Hero-bottom variant — full-bleed banner pinned across the bottom of the hero.
+   No skew, no rounded card, no outer container — both rows span the entire width. */
+.conveyor--hero-bottom {
+  background: transparent;
+}
+.conveyor--hero-bottom .conveyor-band {
+  transform: none;
+  margin-top: 0;
+  overflow: hidden;
+}
+.conveyor--hero-bottom .conveyor-band + .conveyor-band {
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.conveyor--hero-bottom .conveyor-band--orange {
+  box-shadow: 0 -8px 24px -12px rgba(0, 0, 0, 0.45);
+}
+.conveyor--hero-bottom .conveyor-band__inner {
+  transform: none;
+  padding: 14px 0 12px;
+}
+.conveyor--hero-bottom .conveyor-eyebrow {
+  padding: 0 24px 8px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+.conveyor--hero-bottom .conveyor-chip {
+  width: 140px;
+  height: 66px;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.conveyor--hero-bottom .conveyor-chip img {
+  max-height: 54px;
+}
+.conveyor--hero-bottom .conveyor-tile {
+  width: 140px;
+  height: 64px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.conveyor--hero-bottom .conveyor-tile__caption {
+  font-size: 11px;
+  left: 8px;
+  bottom: 6px;
+}
+.conveyor--hero-bottom .conveyor-track {
+  gap: 12px;
+  padding: 0 8px;
+}
+.conveyor--hero-bottom .conveyor-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+}
+
+
 
 
 /* ============================================================
