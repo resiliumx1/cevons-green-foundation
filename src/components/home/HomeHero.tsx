@@ -28,7 +28,8 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        minHeight: "min(760px, calc(100vh - 72px))",
+        height: "calc(100vh - 72px)",
+        maxHeight: "calc(100vh - 72px)",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
@@ -66,7 +67,7 @@ export function HomeHero() {
       </motion.div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4">
+      <div className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-0">
           <motion.h1
@@ -169,7 +170,8 @@ export function HomeHero() {
         initial="hidden"
         animate="visible"
         custom={5}
-        className="relative z-10 mt-auto w-full"
+        className="relative z-10 w-full shrink-0"
+        data-hero-banner
       >
         <ConveyorBand variant="hero-bottom" />
       </motion.div>
