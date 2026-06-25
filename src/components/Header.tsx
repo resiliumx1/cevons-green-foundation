@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
-import { WhatsApp } from "./icons/WhatsApp";
 import { CurrencyToggle } from "./CurrencyToggle";
 
 type NavItem = { to: string; label: string; hasDropdown?: boolean };
