@@ -113,9 +113,12 @@ function HomePage() {
     <SiteLayout>
       <HomeHero />
 
+      {/* Conveyor band — partner logos + services, directly under hero */}
+      <ConveyorBand />
 
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />
+
 
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
