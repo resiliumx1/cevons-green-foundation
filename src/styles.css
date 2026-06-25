@@ -1207,7 +1207,7 @@
   overflow: hidden;
   transform: skewY(-2.4deg);
   transform-origin: top left;
-  margin-top: -18px; /* visually tuck into hero edge */
+  margin-top: -40px; /* anchor flush to hero bottom, skew tucks into edge */
 }
 .conveyor-band + .conveyor-band {
   margin-top: -6px;
@@ -1257,20 +1257,22 @@
 /* Partner logo chip */
 .conveyor-chip {
   flex: 0 0 auto;
-  width: 150px;
-  height: 64px;
+  width: 160px;
+  height: 76px;
   background: #FFFFFF;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
+  padding: 8px 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
 .conveyor-chip img {
-  max-height: 44px;
+  max-height: 60px;
   max-width: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   opacity: 1;
   transition: transform 200ms ease;
