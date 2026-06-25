@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+
 
 const partners = [
   { src: "/partners/saipem.webp", alt: "Saipem" },
