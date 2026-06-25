@@ -25,10 +25,10 @@ import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
-const heroHomepage = "/assets/heroes/hero-homepage.webp";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ConveyorBand } from "@/components/home/ConveyorBand";
+import { CertificationPanel } from "@/components/home/CertificationPanel";
 import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -93,20 +93,6 @@ const steps = [
   { icon: CheckCircle, title: "Complete", body: "Job complete and you're satisfied." },
 ];
 
-function HeroSwoosh() {
-  // Stacked curved brand swooshes at hero bottom: red above yellow, curving up on the right.
-  return (
-    <svg
-      aria-hidden="true"
-      className="absolute bottom-0 left-0 w-full h-[80px] md:h-[110px] z-10 pointer-events-none"
-      viewBox="0 0 1440 110"
-      preserveAspectRatio="none"
-    >
-      <path d="M0,90 C480,30 980,10 1440,0 L1440,110 L0,110 Z" fill="#FFD200" />
-      <path d="M0,70 C520,20 1000,8 1440,-10 L1440,60 C1000,40 520,55 0,90 Z" fill="#E31B23" />
-    </svg>
-  );
-}
 
 function HomePage() {
   return (
@@ -115,6 +101,9 @@ function HomePage() {
 
       {/* Conveyor band — partner logos + services, directly under hero */}
       <ConveyorBand />
+
+      {/* Certification panel — EPA / ISO / GCCI / Market Leader */}
+      <CertificationPanel />
 
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />

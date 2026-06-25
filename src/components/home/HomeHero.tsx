@@ -1,9 +1,7 @@
-import { Calendar, Leaf, Star, Target, Trophy } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-
-
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
 
@@ -163,140 +161,10 @@ export function HomeHero() {
             </a>
           </motion.div>
 
-          {/* Social proof */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={5}
-            className="mt-5 flex items-center gap-4"
-          >
-            <div className="flex -space-x-3">
-              {[
-                "from-emerald-600 to-emerald-800",
-                "from-yellow-500 to-amber-700",
-                "from-red-500 to-red-800",
-                "from-emerald-500 to-teal-700",
-              ].map((g, i) => (
-                <span
-                  key={i}
-                  className={`grid size-10 place-items-center rounded-full bg-gradient-to-br ${g} ring-2 ring-cevons-dark text-[11px] font-bold text-white`}
-                  aria-hidden
-                >
-                  {["GA", "RP", "SK", "MD"][i]}
-                </span>
-              ))}
-            </div>
-            <div className="text-sm">
-              <p className="font-bold text-white">5000+ Customers</p>
-              <p className="text-white/70 text-xs md:text-sm">Across Georgetown, Linden &amp; Berbice</p>
-              <div className="mt-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="size-3.5 fill-cevons-yellow text-cevons-yellow" />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
-      </div>
-
-
-
-
-      {/* CERTIFICATION PANEL */}
-      <div className="container-cevons relative z-10 -mt-2 pb-5">
-
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={7}
-          className="rounded-2xl bg-white p-3 shadow-2xl md:p-4"
-          style={{ boxShadow: "0 22px 60px -20px rgba(0,0,0,.55)" }}
-        >
-          <ul className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-            {[
-              { img: "/assets/social-proof/epa-logo.webp", t: "EPA Certified", s: "Environmental Compliance" },
-              { img: "/assets/social-proof/iso-logo.webp", t: "ISO 9001:2015", s: "Quality Management" },
-              { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Private Sector Commission" },
-              {
-                icon: "trophy" as const,
-                t: "Market Leader",
-                s: "Since 1997",
-                note: "Delivering trusted environmental solutions for a cleaner, healthier Guyana.",
-                accent: true,
-              },
-            ].map(({ img, icon, t, s, note, accent }) => (
-              <li
-                key={t}
-                className={
-                  "flex items-center gap-3 rounded-xl px-3 py-2.5 md:px-4 md:py-3 " +
-                  (accent ? "text-white" : "border border-cevons-border bg-white")
-                }
-                style={
-                  accent
-                    ? {
-                        background:
-                          "linear-gradient(135deg,#1A1A1A 0%,#262626 55%,#1A1A1A 100%)",
-                        boxShadow: "0 8px 22px -8px rgba(239,119,0,.45)",
-                        border: "1px solid rgba(239,119,0,.55)",
-                      }
-                    : undefined
-                }
-              >
-                <span
-                  className={
-                    "grid h-12 w-12 shrink-0 place-items-center rounded-full p-1.5 md:h-[52px] md:w-[52px] md:p-2 " +
-                    (accent
-                      ? "bg-cevons-deep-green/60 ring-2 ring-cevons-green/70"
-                      : "bg-white ring-1 ring-cevons-border")
-                  }
-                >
-                  {icon === "trophy" ? (
-                    <Trophy className="h-full w-full text-cevons-green" strokeWidth={2} aria-hidden />
-                  ) : (
-                    <img
-                      src={img}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-contain"
-                    />
-                  )}
-                </span>
-
-                <div className="min-w-0 flex-1">
-                  <p
-                    className={
-                      "text-[11px] font-bold uppercase tracking-wider " +
-                      (accent ? "text-cevons-green" : "text-cevons-muted")
-                    }
-                  >
-                    {t}
-                  </p>
-                  <p
-                    className={
-                      "text-sm font-semibold leading-tight " +
-                      (accent ? "text-white" : "text-cevons-dark")
-                    }
-                  >
-                    {s}
-                  </p>
-                  {note && (
-                    <p className="mt-1 hidden text-[10.5px] leading-snug text-white/80 lg:block">
-                      {note}
-                    </p>
-                  )}
-                </div>
-                {accent && <Target className="ml-auto size-5 shrink-0 text-cevons-green/80" aria-hidden />}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
       </div>
     </section>
   );
