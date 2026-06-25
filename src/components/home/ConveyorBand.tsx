@@ -25,16 +25,22 @@ const services = [
 ];
 
 type ConveyorBandProps = {
-  variant?: "default" | "embedded";
+  variant?: "default" | "embedded" | "hero-bottom";
 };
 
 export function ConveyorBand({ variant = "default" }: ConveyorBandProps) {
-  const isEmbedded = variant === "embedded";
+  const variantClass =
+    variant === "embedded"
+      ? "conveyor--embedded"
+      : variant === "hero-bottom"
+        ? "conveyor--hero-bottom"
+        : "";
   return (
     <section
       aria-label="Trusted clients and services"
-      className={`conveyor relative z-[5] w-full ${isEmbedded ? "conveyor--embedded" : ""}`}
+      className={`conveyor relative z-[5] w-full ${variantClass}`}
     >
+
       {/* BAND 1 — Partner logos on orange */}
       <div className="conveyor-band conveyor-band--orange">
         <div className="conveyor-band__inner">

@@ -66,7 +66,7 @@ export function HomeHero() {
       </motion.div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
+      <div className="container-cevons relative z-10 grid flex-1 grid-cols-1 items-center gap-8 py-8 md:py-10 lg:grid-cols-12 lg:gap-6 lg:py-12">
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-2 md:pt-4">
           <motion.h1
@@ -157,22 +157,23 @@ export function HomeHero() {
               </span>
             </a>
           </motion.div>
-
-          {/* Embedded conveyor strip — partner logos + services, sitting under CTAs */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={5}
-            className="mt-8 md:mt-10 lg:max-w-none"
-          >
-            <ConveyorBand variant="embedded" />
-          </motion.div>
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
+
+      {/* FULL-WIDTH conveyor strip pinned to the bottom of the hero */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        custom={5}
+        className="relative z-10 mt-auto w-full"
+      >
+        <ConveyorBand variant="hero-bottom" />
+      </motion.div>
     </section>
   );
 }
+
