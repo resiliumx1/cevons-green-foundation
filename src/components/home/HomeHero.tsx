@@ -3,8 +3,8 @@ import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { HeroPartnerCarousel } from "@/components/home/HeroPartnerCarousel";
+import heroBg from "@/assets/hero-homepage.png.asset.json";
 
-const heroBg = "/assets/heroes/hero-homepage.webp";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
