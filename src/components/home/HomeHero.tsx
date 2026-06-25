@@ -163,41 +163,6 @@ export function HomeHero() {
             </a>
           </motion.div>
 
-          {/* Social proof */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={5}
-            className="mt-5 flex items-center gap-4"
-          >
-            <div className="flex -space-x-3">
-              {[
-                "from-emerald-600 to-emerald-800",
-                "from-yellow-500 to-amber-700",
-                "from-red-500 to-red-800",
-                "from-emerald-500 to-teal-700",
-              ].map((g, i) => (
-                <span
-                  key={i}
-                  className={`grid size-10 place-items-center rounded-full bg-gradient-to-br ${g} ring-2 ring-cevons-dark text-[11px] font-bold text-white`}
-                  aria-hidden
-                >
-                  {["GA", "RP", "SK", "MD"][i]}
-                </span>
-              ))}
-            </div>
-            <div className="text-sm">
-              <p className="font-bold text-white">5000+ Customers</p>
-              <p className="text-white/70 text-xs md:text-sm">Across Georgetown, Linden &amp; Berbice</p>
-              <div className="mt-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="size-3.5 fill-cevons-yellow text-cevons-yellow" />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
         </div>
 
         {/* RIGHT column intentionally empty — truck photo shows through background */}
