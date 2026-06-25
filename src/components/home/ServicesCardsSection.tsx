@@ -17,7 +17,7 @@ const cards: ServiceCard[] = [
     tagColor: "orange",
     title: "Industrial Waste",
     desc: "Safe handling of hazardous and industrial-scale waste streams.",
-    img: "/services/svc-hazardous.jpg",
+    img: "/services/svc-industrial.webp",
     to: "/services/hazardous-waste",
   },
   {
@@ -25,7 +25,7 @@ const cards: ServiceCard[] = [
     tagColor: "green",
     title: "Recyclables Collection",
     desc: "Material recovery that turns waste into reusable resources.",
-    img: "/services/svc-recovery.jpg",
+    img: "/services/svc-recycling.webp",
     to: "/services/material-recovery-facility",
   },
   {
@@ -33,7 +33,7 @@ const cards: ServiceCard[] = [
     tagColor: "green",
     title: "Residential Collection",
     desc: "Reliable home pickups across Georgetown, Linden and Berbice.",
-    img: "/services/svc-residential.jpg",
+    img: "/services/svc-residential.webp",
     to: "/services/general-trash-collection",
   },
   {
@@ -41,7 +41,7 @@ const cards: ServiceCard[] = [
     tagColor: "orange",
     title: "Commercial Solutions",
     desc: "Tailored waste programmes for businesses and properties.",
-    img: "/services/svc-commercial.jpg",
+    img: "/services/svc-commercial.webp",
     to: "/services/general-waste-management",
   },
   {
@@ -49,7 +49,7 @@ const cards: ServiceCard[] = [
     tagColor: "orange",
     title: "Specialised Services",
     desc: "Biohazardous, medical and sensitive-stream disposal you can trust.",
-    img: "/services/svc-biohazard.jpg",
+    img: "/services/svc-industrial.webp",
     to: "/services/biohazardous-disposal",
   },
 ];
