@@ -30,6 +30,7 @@ export function HomeHero() {
       style={{
         height: "calc(100vh - 73px)",
         maxHeight: "calc(100vh - 73px)",
+        paddingBottom: "32px",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
