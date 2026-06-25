@@ -1,19 +1,11 @@
-import { Award, Calendar, Leaf, MapPin, Star, Target, Trophy, Users } from "lucide-react";
+import { Calendar, Leaf, Star, Target, Trophy } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { ConveyorBand } from "@/components/home/ConveyorBand";
 
 
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
-
-const stats = [
-  { icon: Award, value: "29+", label: "Years of Excellence" },
-  { icon: Users, value: "5000+", label: "Customers" },
-  { icon: MapPin, value: "3", label: "Regions Served" },
-  { icon: Leaf, value: "1 Goal", label: "A Cleaner Guyana" },
-];
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
