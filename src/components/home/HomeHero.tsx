@@ -1,8 +1,8 @@
-import { Calendar } from "lucide-react";
+import { Calendar, ShieldCheck, Leaf, CheckCircle2 } from "lucide-react";
 import { motion, type Variants, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { ConveyorBand } from "@/components/home/ConveyorBand";
+import { HeroPartnerCarousel } from "@/components/home/HeroPartnerCarousel";
 
 const heroBg = "/assets/heroes/hero-homepage.webp";
 
