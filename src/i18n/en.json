@@ -136,6 +136,39 @@
       "quote": "Request a Quote"
     }
   },
+  "otherServices": {
+    "eyebrow": "SPECIALIZED CAPABILITIES",
+    "title": "Other Services",
+    "intro": "Beyond everyday collection, CEVONS delivers specialized industrial and commercial services across Guyana.",
+    "requestService": "Request This Service",
+    "items": {
+      "roadMarking": {
+        "title": "Road Marking",
+        "desc": "From road marking to track cleaning, line removal and surface preparation to antiskid retexturing, white lining and creative design, we have the resources to deliver perfect results, on time and on budget. Major projects include the Marking & Grooving of Cheddi Jagan International Airport, Marking of the West Coast Demerara Highway, and Marking of the East Bank Demerara Highway.",
+        "tags": ["Car Parks & Retail", "Roadways", "Airports"]
+      },
+      "oilyRags": {
+        "title": "Oily Rags Disposal",
+        "desc": "Our barrel incinerator creates a whirlwind of fire and intense heat inside a drum, burning refuse without smoke or smell. Combustion is complete, leaving only 3% ash. Incinerators are used for the incineration of oily rags, gloves, used personal protective equipment, and filters. Ashes are disposed at the Haags Bosch Sanitary Landfill site. Ideal for oil & gas waste management.",
+        "tags": ["Portable Incinerator", "Complete Combustion", "Oil & Gas Waste"]
+      },
+      "productDestruction": {
+        "title": "Product Destruction",
+        "desc": "From expired food items and beverages to pharmaceuticals, we have the experience and the equipment to effectively destroy your products before hauling to the approved landfill for special disposal. A Certificate of Destruction will be provided to your organization.",
+        "tags": ["Beverage Destruction", "Pharmaceutical Destruction", "Certificate of Destruction"]
+      },
+      "asbestos": {
+        "title": "Asbestos Disposal",
+        "desc": "CEVONS is the market leader in the asbestos disposal industry, with a wealth of experience and an unrivaled reputation. We provide an immediate, nationwide response with a personal and professional service delivered on all jobs of every size. All waste is disposed at an approved cell at the landfill facilities.",
+        "tags": ["Nationwide Response", "Approved Disposal Cell", "All Job Sizes"]
+      },
+      "equipmentRental": {
+        "title": "Equipment Rental",
+        "desc": "CEVONS offers an extensive fleet of industrial and construction equipment for rental. Give us a call today so we can help you finish your project on time and on budget.",
+        "tags": ["Excavator", "Backhoe 3CX (Loader/Digger)", "Ride-on Roller"]
+      }
+    }
+  },
   "footer": {
     "tagline": "CEVONS Environmental Services Inc. delivers reliable waste management and environmental solutions for homes, businesses, and industries across Guyana.",
     "services": "Services",
