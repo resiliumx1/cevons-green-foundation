@@ -111,7 +111,6 @@ export function FacebookEmbed() {
     const container = containerRef.current;
     if (!container) return;
 
-    let timeout: ReturnType<typeof setTimeout> | undefined;
     let cancelled = false;
 
     const io = new IntersectionObserver(
@@ -138,6 +137,9 @@ export function FacebookEmbed() {
         }
 
         // Detect render success: FB injects an <iframe> into the .fb-page div.
+        // The 5s window doubles as our fallback timeout — no extra timer needed
+        // (a stale `loaded` closure in a separate setTimeout would incorrectly
+        // flip the embed to the fallback even after a successful render).
         const startedAt = Date.now();
         const interval = setInterval(() => {
           if (cancelled) return;
@@ -150,10 +152,6 @@ export function FacebookEmbed() {
             setFailed(true);
           }
         }, 300);
-
-        timeout = setTimeout(() => {
-          if (!cancelled && !loaded) setFailed(true);
-        }, 7000);
       },
       { threshold: 0.1 },
     );
@@ -162,9 +160,7 @@ export function FacebookEmbed() {
     return () => {
       cancelled = true;
       io.disconnect();
-      if (timeout) clearTimeout(timeout);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (failed) return <FallbackCard s={socialLinks.facebook} />;
