@@ -1,10 +1,11 @@
 import { Calendar, ShieldCheck, Leaf, CheckCircle2 } from "lucide-react";
-import { motion, type Variants, useScroll, useTransform } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { HeroPartnerCarousel } from "@/components/home/HeroPartnerCarousel";
-import heroBg from "@/assets/hero-homepage.png.asset.json";
+import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
+
 
 
 const fadeUp: Variants = {
@@ -19,13 +20,9 @@ const fadeUp: Variants = {
 export function HomeHero() {
   const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
+    <HeroSlideshowProvider>
     <section
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
@@ -40,34 +37,13 @@ export function HomeHero() {
       aria-labelledby="home-hero-title"
       data-hero-scope
     >
-      {/* Background photo — truck dominates right side */}
-      <motion.div className="absolute inset-0 -z-10" style={{ y: bgY }}>
-        <img
-          src={heroBg.url}
-          alt="CEVONS environmental services truck in Guyana's lush rainforest near a waterfall"
-          className="size-full object-cover object-right"
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-          decoding="sync"
-        />
-        {/* Charcoal wash so orange accents read cleanly over the photo */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(15,15,15,.96) 0%, rgba(26,26,26,.92) 30%, rgba(26,26,26,.6) 52%, rgba(20,20,20,.15) 72%, rgba(0,0,0,.35) 100%)",
-          }}
-        />
-        {/* Bottom depth */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-1/3"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(10,10,10,.7) 100%)",
-          }}
-        />
-      </motion.div>
+      {/* Cinematic 5-slide background slideshow */}
+      <HeroSlideshowBackground />
+      {/* Slide indicators + progress (above content + partner band) */}
+      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[160px] lg:bottom-[156px]" />
+
+
+
 
       {/* MAIN CONTENT GRID */}
       <div className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
@@ -202,6 +178,8 @@ export function HomeHero() {
         <HeroPartnerCarousel />
       </motion.div>
     </section>
+    </HeroSlideshowProvider>
   );
 }
+
 
