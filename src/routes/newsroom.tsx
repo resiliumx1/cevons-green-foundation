@@ -251,6 +251,10 @@ function NewsroomPage() {
       </section>
 
       {/* MILESTONES */}
+      {/* SOCIAL */}
+      <NewsroomSocialSection />
+
+      {/* MILESTONES */}
       <section className="section-y bg-white" aria-labelledby="milestones-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-14">
