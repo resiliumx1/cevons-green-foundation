@@ -1855,8 +1855,9 @@ html.dark .bg-neutral-50 {
   border-color: var(--hairline);
 }
 
-/* Newsletter / footer light sections inside dark mode */
-html.dark .bg-cevons-yellow { color: #1A1A1A; } /* keep yellow chip text legible */
+/* Newsletter / footer light sections inside dark mode — keep dark text on yellow */
+html.dark .bg-cevons-yellow,
+html.dark .bg-cevons-yellow * { color: #1A1A1A !important; }
 
 /* Settings menu panel and other popovers */
 html.dark [role="dialog"],
@@ -1865,4 +1866,36 @@ html.dark [role="menu"] { background-color: var(--surface-2); color: var(--text-
 /* Partner logo chips: keep them light so colored logos remain readable, but add a soft border */
 html.dark .partner-chip,
 html.dark .logo-chip { background-color: #F5F4F1; border: 1px solid var(--hairline-strong); }
+
+/* ---------- Arbitrary-value CSS-variable utility classes ----------
+   Tailwind compiles `text-[var(--cevons-deep-green)]` to a literal escaped
+   class. In dark mode the underlying token is a dark surface, so text using
+   it would be invisible. Force these arbitrary classes to light equivalents. */
+html.dark .text-\[var\(--cevons-deep-green\)\],
+html.dark .text-\[var\(--cevons-dark\)\] { color: var(--text-strong); }
+html.dark .text-\[var\(--cevons-muted\)\] { color: var(--text-muted); }
+html.dark .text-\[var\(--cevons-green\)\] { color: #FFA040; }
+html.dark .bg-\[var\(--cevons-cream\)\] { background-color: var(--surface-2); }
+html.dark .bg-\[var\(--cevons-deep-green\)\] { background-color: var(--surface-1); }
+html.dark .border-\[var\(--cevons-border\)\] { border-color: var(--hairline); }
+html.dark .border-\[var\(--cevons-deep-green\)\] { border-color: var(--hairline-strong); }
+
+/* TrustStrip yellow bar: keep the dark icon chip & yellow icon glyph intact
+   (the broad bg-cevons-yellow * rule would have flattened them). */
+html.dark .bg-cevons-yellow .bg-cevons-dark { background-color: #1A1A1A !important; color: #FCE722 !important; }
+html.dark .bg-cevons-yellow .text-cevons-yellow { color: #FCE722 !important; }
+
+/* Sticky service filter strip (bg-white/95) needs a dark backdrop */
+html.dark .sticky.bg-white\/95 { background-color: rgba(20,17,14,0.92) !important; border-bottom-color: var(--hairline) !important; }
+
+/* News-card accents and "Read article" links */
+html.dark .text-cevons-green { color: #FFA040; }
+
+/* Resources/Newsroom muted helper that used an arbitrary var() w/ fallback */
+html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
+
+/* Footer links keep contrast */
+html.dark footer a:not(.btn-green):not(.btn-yellow) { color: var(--text-base); }
+html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #FFA040; }
+
 
