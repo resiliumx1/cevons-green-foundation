@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-toilet.jpg";
 import imgRel2 from "@/assets/svc-grease.jpg";
 
-const PAGE_TITLE = "Septic Services in Guyana | CEVON'S";
+const PAGE_TITLE = "Septic Services in Guyana | CEVONS";
 const PAGE_DESC = "Septic tank pumping, clearance, and maintenance for homes across Guyana — safe handling and responsible disposal every visit.";
 const PAGE_URL = "/services/septic-services";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Septic Services for Homes"
       subhead="Professional septic tank pumping, clearance, and maintenance with safe handling and proper disposal."
       heroImage={imgHero}
-      heroAlt="CEVON'S septic service truck performing residential tank pumping"
+      heroAlt="CEVONS septic service truck performing residential tank pumping"
       benefits={["Trained, experienced crews","Modern vacuum equipment","Safe waste handling","Discreet, clean service","Coverage across Guyana"]}
       commonUses={uses}
       faqs={faqs}

@@ -84,9 +84,9 @@ function LoginPage() {
         className="absolute left-6 top-6 z-10 flex items-center gap-2 text-white/90 transition hover:text-white"
       >
         <div className="grid h-9 w-9 place-items-center rounded-lg bg-white shadow-md">
-          <img src={logo} alt="CEVON'S" className="h-7 w-7 object-contain" />
+          <img src={logo} alt="CEVONS" className="h-7 w-7 object-contain" />
         </div>
-        <span className="hidden text-sm font-semibold tracking-wide sm:block">CEVON'S</span>
+        <span className="hidden text-sm font-semibold tracking-wide sm:block">CEVONS</span>
       </Link>
 
       {/* Card */}
@@ -130,7 +130,7 @@ function LoginPage() {
                 aria-hidden
               />
               <div className="relative grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-lg ring-1 ring-white/40">
-                <img src={logo} alt="CEVON'S logo" className="h-12 w-12 object-contain" />
+                <img src={logo} alt="CEVONS logo" className="h-12 w-12 object-contain" />
               </div>
             </div>
             <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FFD200]">
@@ -247,7 +247,7 @@ function LoginPage() {
 
           {/* Security note */}
           <p className="mt-6 border-t border-white/10 pt-4 text-center text-[11px] uppercase tracking-wider text-white/55">
-            Secure internal access for CEVON'S team members
+            Secure internal access for CEVONS team members
           </p>
         </form>
       </main>

@@ -42,10 +42,10 @@ import imgWastewater from "@/assets/svc-wastewater.jpg";
 export const Route = createFileRoute("/industries")({
   head: () => ({
     meta: [
-      { title: "Industries Served | CEVON’S Environmental Services Guyana" },
-      { name: "description", content: "CEVON'S serves commercial, industrial, healthcare, education, hospitality, construction, logistics, and government clients across Guyana." },
-      { property: "og:title", content: "Industries Served | CEVON'S Environmental Services Guyana" },
-      { property: "og:description", content: "CEVON'S serves commercial, industrial, healthcare, education, hospitality, construction, and government clients across Guyana." },
+      { title: "Industries Served | CEVONS Environmental Services Guyana" },
+      { name: "description", content: "CEVONS serves commercial, industrial, healthcare, education, hospitality, construction, logistics, and government clients across Guyana." },
+      { property: "og:title", content: "Industries Served | CEVONS Environmental Services Guyana" },
+      { property: "og:description", content: "CEVONS serves commercial, industrial, healthcare, education, hospitality, construction, and government clients across Guyana." },
       { property: "og:url", content: "/industries" },
     ],
     links: [{ rel: "canonical", href: "/industries" }],
@@ -151,7 +151,7 @@ function IndustriesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="industries-h1">
         <div className="absolute inset-0">
-          <img src={heroIndustries} alt="CEVON’S industrial environmental services team at facility" className="size-full object-cover" width={1920} height={800} loading="eager" />
+          <img src={heroIndustries} alt="CEVONS industrial environmental services team at facility" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
         </div>
         <div className="container-cevons relative min-h-[320px] md:min-h-[400px] flex flex-col justify-center py-16 md:py-20">
@@ -229,7 +229,7 @@ function IndustriesPage() {
               Custom Solutions for Your Industry
             </h2>
             <p className="mt-4 text-white/85 max-w-xl mx-auto">
-              Every sector has different waste, compliance, scheduling, and service needs. CEVON’S helps match the right solution to your operation.
+              Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.
             </p>
           </div>
 
@@ -251,13 +251,13 @@ function IndustriesPage() {
         </div>
       </section>
 
-      {/* WHY CHOOSE CEVON’S */}
+      {/* WHY CHOOSE CEVONS */}
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-labelledby="why-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVON’S</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVONS</p>
             <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Why Businesses Choose CEVON’S
+              Why Businesses Choose CEVONS
             </h2>
           </div>
 

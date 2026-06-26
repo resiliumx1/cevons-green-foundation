@@ -49,7 +49,7 @@ function LogoBadge() {
         className="h-7 w-7 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)]"
       />
       <span className="text-[11px] font-extrabold tracking-tight uppercase leading-none">
-        CEVON&rsquo;S
+        CEVONS
       </span>
     </div>
   );

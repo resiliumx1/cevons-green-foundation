@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-oil.jpg";
 import imgRel1 from "@/assets/svc-wastewater.jpg";
 import imgRel2 from "@/assets/svc-hazardous.jpg";
 
-const PAGE_TITLE = "Industrial Tank Cleaning in Guyana | CEVON'S";
+const PAGE_TITLE = "Industrial Tank Cleaning in Guyana | CEVONS";
 const PAGE_DESC = "Industrial tank cleaning with safety controls and proper disposal of recovered material across Guyana.";
 const PAGE_URL = "/services/tank-cleaning";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Industrial Tank Cleaning"
       subhead="Cleaning of fuel, oil, chemical, and water storage tanks with full safety controls and proper waste handling."
       heroImage={imgHero}
-      heroAlt="CEVON'S industrial tank cleaning crew working at a fuel storage facility"
+      heroAlt="CEVONS industrial tank cleaning crew working at a fuel storage facility"
       benefits={["Confined-space safety protocols","Vacuum and pump systems","Trained, equipped crews","Proper disposal of residues","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}

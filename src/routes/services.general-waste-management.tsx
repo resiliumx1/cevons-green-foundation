@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-skip.jpg";
 import imgRel1 from "@/assets/svc-shred.jpg";
 import imgRel2 from "@/assets/svc-grease.jpg";
 
-const PAGE_TITLE = "Commercial Waste Management in Guyana | CEVON'S";
+const PAGE_TITLE = "Commercial Waste Management in Guyana | CEVONS";
 const PAGE_DESC = "Scheduled waste management for businesses, offices, retail, and commercial properties across Guyana.";
 const PAGE_URL = "/services/general-waste-management";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Commercial Waste Management"
       subhead="Scheduled collection programs and waste solutions for offices, retail, hospitality, and multi-tenant properties."
       heroImage={imgHero}
-      heroAlt="CEVON'S commercial waste collection at a Guyana business property"
+      heroAlt="CEVONS commercial waste collection at a Guyana business property"
       benefits={["Custom collection schedules","Right-sized containers","Reliable, professional crews","Reporting on request","Coverage across Guyana"]}
       commonUses={uses}
       faqs={faqs}

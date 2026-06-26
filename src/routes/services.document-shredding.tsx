@@ -6,8 +6,8 @@ import imgRel0 from "@/assets/svc-destruction.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
 
-const TITLE = "Document Shredding in Guyana | CEVON'S Environmental Services";
-const DESC = "Secure document shredding from CEVON'S for businesses, offices, institutions, and organizations handling sensitive information across Guyana.";
+const TITLE = "Document Shredding in Guyana | CEVONS Environmental Services";
+const DESC = "Secure document shredding from CEVONS for businesses, offices, institutions, and organizations handling sensitive information across Guyana.";
 
 export const Route = createFileRoute("/services/document-shredding")({
   head: () => ({

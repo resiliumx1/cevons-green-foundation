@@ -10,10 +10,10 @@ import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd
 export const Route = createFileRoute("/locations")({
   head: () => ({
     meta: [
-      { title: "CEVON'S Locations | Georgetown, Linden & Berbice" },
-      { name: "description", content: "CEVON'S provides waste management and environmental services across Georgetown, Linden, and Berbice. Request service online or contact us by WhatsApp." },
-      { property: "og:title", content: "CEVON'S Locations | Georgetown, Linden & Berbice" },
-      { property: "og:description", content: "CEVON'S provides waste management and environmental services across Georgetown, Linden, and Berbice." },
+      { title: "CEVONS Locations | Georgetown, Linden & Berbice" },
+      { name: "description", content: "CEVONS provides waste management and environmental services across Georgetown, Linden, and Berbice. Request service online or contact us by WhatsApp." },
+      { property: "og:title", content: "CEVONS Locations | Georgetown, Linden & Berbice" },
+      { property: "og:description", content: "CEVONS provides waste management and environmental services across Georgetown, Linden, and Berbice." },
       { property: "og:url", content: "/locations" },
     ],
     links: [{ rel: "canonical", href: "/locations" }],
@@ -103,7 +103,7 @@ function LocationsPage() {
         subtitle="Proudly serving Georgetown, Linden, and Berbice."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Locations" }]}
         imageSrc="/assets/heroes/hero-locations.webp"
-        imageAlt="CEVON’S service coverage across Georgetown, Linden, and Berbice"
+        imageAlt="CEVONS service coverage across Georgetown, Linden, and Berbice"
         height="standard"
         waveVariant="drift"
       />

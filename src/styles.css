@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* CEVON'S Environmental Services — Design System */
+/* CEVONS Environmental Services — Design System */
 
 @theme inline {
   --radius-sm: 6px;
@@ -36,7 +36,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* CEVON'S brand tokens */
+  /* CEVONS brand tokens */
   --color-cevons-green: var(--cevons-green);
   --color-cevons-deep-green: var(--cevons-deep-green);
   --color-cevons-yellow: var(--cevons-yellow);
@@ -53,7 +53,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVON'S brand palette — ORANGE-PRIMARY per Brand Guideline.
+  /* CEVONS brand palette — ORANGE-PRIMARY per Brand Guideline.
      Green/yellow/red are accents only. `--cevons-green` token is
      repointed to orange so existing utility classes (bg-cevons-green,
      btn-green, etc.) cascade to the new brand color. The hero scopes
@@ -1658,41 +1658,211 @@ html.reduce-motion *::after {
   scroll-behavior: auto !important;
 }
 
-/* Dark mode site-wide — charcoal surfaces, light text, orange accents */
+/* =====================================================
+   Dark mode — premium charcoal palette with orange accents
+   ===================================================== */
 html.dark {
-  --background: #0F0F10;
-  --foreground: #F5F5F5;
-  --card: #161616;
-  --card-foreground: #F5F5F5;
-  --popover: #161616;
-  --popover-foreground: #F5F5F5;
+  /* Layered surfaces: page → section → card → elevated */
+  --surface-0: #0E0C0A;   /* page background (warm near-black) */
+  --surface-1: #14110E;   /* alt section background */
+  --surface-2: #1A1714;   /* card surface */
+  --surface-3: #221E1A;   /* elevated / hover */
+  --hairline:  #2C2722;   /* subtle border */
+  --hairline-strong: #3A332C;
+
+  --text-strong: #F5F4F1; /* headings */
+  --text-base:   #E6E3DD; /* body */
+  --text-muted:  #B8B2A8; /* secondary */
+  --text-faint:  #8A857C; /* tertiary / captions */
+
+  /* shadcn tokens */
+  --background: var(--surface-0);
+  --foreground: var(--text-strong);
+  --card: var(--surface-2);
+  --card-foreground: var(--text-strong);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--text-strong);
   --primary: #EF7700;
   --primary-foreground: #1A1A1A;
-  --secondary: #1E1E1F;
-  --secondary-foreground: #F5F5F5;
-  --muted: #1B1B1C;
-  --muted-foreground: #B3B3B3;
+  --secondary: var(--surface-3);
+  --secondary-foreground: var(--text-strong);
+  --muted: var(--surface-1);
+  --muted-foreground: var(--text-muted);
   --accent: #FCE722;
   --accent-foreground: #1A1A1A;
   --destructive: #FF5C61;
   --destructive-foreground: #1A1A1A;
-  --border: #2A2A2C;
-  --input: #2A2A2C;
+  --border: var(--hairline);
+  --input: var(--hairline);
   --ring: #EF7700;
 
-  --cevons-cream: #1B1B1C;
-  --cevons-border: #2A2A2C;
-  --cevons-muted: #B3B3B3;
-  --cevons-dark: #F5F5F5;
-  --cevons-deep-green: #0F0F10;
+  /* Brand utility-token remap so existing classes cascade */
+  --cevons-cream: var(--surface-1);
+  --cevons-border: var(--hairline);
+  --cevons-muted: var(--text-muted);
+  --cevons-dark: var(--text-strong);
+  --cevons-deep-green: var(--surface-1);
+  color-scheme: dark;
 }
 
-/* Map common hardcoded bg/text utilities to dark surfaces */
-html.dark .bg-white { background-color: #161616 !important; }
-html.dark .bg-white\/85 { background-color: rgba(22,22,22,0.85) !important; }
-html.dark .text-cevons-dark { color: #F5F5F5; }
-html.dark .text-cevons-muted { color: #B3B3B3; }
-html.dark .border-cevons-border { border-color: #2A2A2C; }
-html.dark .bg-cevons-cream { background-color: #1B1B1C; }
+/* Base page color so naked body is dark and any unstyled area is legible */
+html.dark body {
+  background-color: var(--surface-0);
+  color: var(--text-base);
+}
 
-/* Footer keeps its deep-charcoal styling in both themes; nothing to override */
+/* ---------- Hardcoded Tailwind backgrounds → dark surfaces ---------- */
+html.dark .bg-white,
+html.dark .bg-gray-50,
+html.dark .bg-gray-100,
+html.dark .bg-slate-50,
+html.dark .bg-slate-100,
+html.dark .bg-neutral-50,
+html.dark .bg-neutral-100,
+html.dark .bg-zinc-50,
+html.dark .bg-zinc-100,
+html.dark .bg-stone-50,
+html.dark .bg-stone-100 { background-color: var(--surface-2); }
+
+html.dark .bg-gray-200,
+html.dark .bg-slate-200,
+html.dark .bg-neutral-200,
+html.dark .bg-stone-200 { background-color: var(--surface-3); }
+
+html.dark .bg-white\/85,
+html.dark .bg-white\/90,
+html.dark .bg-white\/95 { background-color: rgba(20,17,14,0.88); }
+html.dark .bg-white\/80 { background-color: rgba(20,17,14,0.82); }
+html.dark .bg-white\/70 { background-color: rgba(20,17,14,0.75); }
+html.dark .bg-white\/60 { background-color: rgba(20,17,14,0.65); }
+html.dark .bg-white\/50 { background-color: rgba(20,17,14,0.55); }
+html.dark .bg-white\/10 { background-color: rgba(255,255,255,0.06); }
+html.dark .bg-white\/5  { background-color: rgba(255,255,255,0.04); }
+
+/* Brand token utilities */
+html.dark .bg-cevons-cream { background-color: var(--surface-1); }
+html.dark .bg-background { background-color: var(--surface-0); }
+html.dark .text-cevons-dark { color: var(--text-strong); }
+html.dark .text-cevons-deep-green { color: var(--text-strong); }
+html.dark .text-cevons-muted { color: var(--text-muted); }
+html.dark .border-cevons-border { border-color: var(--hairline); }
+html.dark .border-cevons-border\/60 { border-color: color-mix(in srgb, var(--hairline) 60%, transparent); }
+html.dark .border-cevons-border\/50 { border-color: color-mix(in srgb, var(--hairline) 50%, transparent); }
+
+/* Gray / slate / neutral / stone text shades commonly used on light bg */
+html.dark .text-black,
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-slate-900,
+html.dark .text-slate-800,
+html.dark .text-neutral-900,
+html.dark .text-neutral-800,
+html.dark .text-zinc-900,
+html.dark .text-zinc-800,
+html.dark .text-stone-900,
+html.dark .text-stone-800 { color: var(--text-strong); }
+
+html.dark .text-gray-700,
+html.dark .text-gray-600,
+html.dark .text-slate-700,
+html.dark .text-slate-600,
+html.dark .text-neutral-700,
+html.dark .text-neutral-600,
+html.dark .text-stone-700,
+html.dark .text-stone-600 { color: var(--text-base); }
+
+html.dark .text-gray-500,
+html.dark .text-gray-400,
+html.dark .text-slate-500,
+html.dark .text-slate-400,
+html.dark .text-neutral-500,
+html.dark .text-neutral-400,
+html.dark .text-stone-500,
+html.dark .text-stone-400 { color: var(--text-muted); }
+
+/* Borders */
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-neutral-100,
+html.dark .border-neutral-200,
+html.dark .border-stone-100,
+html.dark .border-stone-200 { border-color: var(--hairline); }
+
+html.dark .border-gray-300,
+html.dark .border-slate-300,
+html.dark .border-neutral-300 { border-color: var(--hairline-strong); }
+
+/* Dividers */
+html.dark .divide-gray-100 > :not(template) ~ :not(template),
+html.dark .divide-gray-200 > :not(template) ~ :not(template),
+html.dark .divide-slate-200 > :not(template) ~ :not(template) { border-color: var(--hairline); }
+
+/* Shadows lose effect on dark — replace with subtle ring/border */
+html.dark .shadow-sm,
+html.dark .shadow,
+html.dark .shadow-md,
+html.dark .shadow-lg,
+html.dark .shadow-xl,
+html.dark .shadow-2xl {
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 8px 24px rgba(0,0,0,0.45);
+}
+
+/* Inputs */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: var(--surface-2);
+  color: var(--text-strong);
+  border-color: var(--hairline-strong);
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder { color: var(--text-faint); }
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #EF7700;
+  outline: 2px solid rgba(239,119,0,0.35);
+  outline-offset: 0;
+}
+
+/* Buttons that were outline-on-light should now read on dark */
+html.dark .btn-outline-green {
+  color: var(--text-strong);
+  border-color: var(--hairline-strong);
+}
+html.dark .btn-outline-green:hover {
+  background-color: var(--surface-3);
+  border-color: #EF7700;
+  color: #EF7700;
+}
+
+/* Header tweak: when sticky white header lands on dark page, keep dark surface */
+html.dark header.sticky { background-color: var(--surface-1) !important; border-color: var(--hairline) !important; }
+html.dark header .text-cevons-dark { color: var(--text-strong); }
+
+/* Hero sections that hardcode dark gradient need a light-text guarantee */
+html.dark section [class*="from-cevons-deep-green"],
+html.dark section [class*="bg-cevons-deep-green"] { color: #F5F4F1; }
+
+/* Cards built with bg-white / bg-cevons-cream — add a hairline so they read */
+html.dark .bg-white,
+html.dark .bg-cevons-cream,
+html.dark .bg-gray-50,
+html.dark .bg-slate-50,
+html.dark .bg-neutral-50 {
+  border-color: var(--hairline);
+}
+
+/* Newsletter / footer light sections inside dark mode */
+html.dark .bg-cevons-yellow { color: #1A1A1A; } /* keep yellow chip text legible */
+
+/* Settings menu panel and other popovers */
+html.dark [role="dialog"],
+html.dark [role="menu"] { background-color: var(--surface-2); color: var(--text-strong); border-color: var(--hairline); }
+
+/* Partner logo chips: keep them light so colored logos remain readable, but add a soft border */
+html.dark .partner-chip,
+html.dark .logo-chip { background-color: #F5F4F1; border: 1px solid var(--hairline-strong); }
+

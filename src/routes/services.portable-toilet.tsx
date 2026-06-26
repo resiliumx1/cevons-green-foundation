@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-septic.jpg";
 
-const PAGE_TITLE = "Portable Toilet Rental in Guyana | CEVON'S";
+const PAGE_TITLE = "Portable Toilet Rental in Guyana | CEVONS";
 const PAGE_DESC = "Clean, hygienic portable toilet rentals for events, residential projects, and commercial sites across Guyana.";
 const PAGE_URL = "/services/portable-toilet";
 
@@ -39,7 +39,7 @@ const faqs = [
   { q: "Do you service the units during long rentals?", a: "Yes. Regular servicing is available for long-term and high-traffic rentals — we'll set a schedule that fits your needs." },
   { q: "Are accessible units available?", a: "Yes. ADA-accessible portable toilets are available — let us know if you need them when requesting service." },
   { q: "How far in advance should I book?", a: "For events, 2–3 weeks is recommended. For job sites, we can often schedule delivery within a few business days." },
-  { q: "What areas do you deliver to?", a: "CEVON'S delivers across Georgetown, Linden, Berbice, and broader Guyana." },
+  { q: "What areas do you deliver to?", a: "CEVONS delivers across Georgetown, Linden, Berbice, and broader Guyana." },
 ];
 
 const related = [
@@ -57,7 +57,7 @@ function Page() {
       h1="Portable Toilet Rental"
       subhead="Hygienic portable toilet rentals for events, residential projects, construction sites, and commercial properties."
       heroImage={imgHero}
-      heroAlt="Row of CEVON'S portable toilets at an outdoor event in Guyana"
+      heroAlt="Row of CEVONS portable toilets at an outdoor event in Guyana"
       benefits={["Clean, well-maintained units","Standard and ADA-accessible options","Short and long-term rentals","On-time delivery and pickup","Regular servicing available"]}
       commonUses={uses}
       faqs={faqs}

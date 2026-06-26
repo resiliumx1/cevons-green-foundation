@@ -122,7 +122,7 @@ function CrmLayout() {
         >
           <img
             src={logo}
-            alt="CEVON'S"
+            alt="CEVONS"
             className="h-11 w-11 object-contain"
             style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.4))" }}
           />
@@ -130,7 +130,7 @@ function CrmLayout() {
         {!collapsed && (
           <div className="leading-tight min-w-0">
             <div className="text-[15px] font-extrabold tracking-[0.04em]" style={{ color: "#ffffff" }}>
-              CEVON&apos;S
+              CEVONS
             </div>
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
               Growth Command

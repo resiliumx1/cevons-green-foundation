@@ -20,24 +20,24 @@ import { SiteLayout } from "@/components/SiteLayout";
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
 // when it's available. External https URLs automatically render as new-tab links below.
-const APPLY_URL = "/contact"; // TODO: replace with CEVON'S BambooHR careers portal URL when available
+const APPLY_URL = "/contact"; // TODO: replace with CEVONS BambooHR careers portal URL when available
 
 const heroCareers = "/assets/heroes/hero-careers.webp";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "Careers — CEVON'S Environmental Services" },
+      { title: "Careers — CEVONS Environmental Services" },
       {
         name: "description",
         content:
-          "Join CEVON'S Environmental Services. Explore current opportunities across operations, finance, HR, engineering, and more across Guyana.",
+          "Join CEVONS Environmental Services. Explore current opportunities across operations, finance, HR, engineering, and more across Guyana.",
       },
-      { property: "og:title", content: "Careers — CEVON'S Environmental Services" },
+      { property: "og:title", content: "Careers — CEVONS Environmental Services" },
       {
         property: "og:description",
         content:
-          "Build a cleaner tomorrow with CEVON'S. Explore current openings and grow your career in environmental services.",
+          "Build a cleaner tomorrow with CEVONS. Explore current openings and grow your career in environmental services.",
       },
       { property: "og:url", content: "https://cevons-green-foundation.lovable.app/careers" },
     ],
@@ -183,7 +183,7 @@ function CareersPage() {
               Purpose. People. Progress.
             </h2>
             <p className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
-              At CEVON&rsquo;S, our people are our greatest asset. We foster a culture of respect,
+              At CEVONS, our people are our greatest asset. We foster a culture of respect,
               accountability, and continuous improvement — where your work makes a real difference
               every day.
             </p>
@@ -260,7 +260,7 @@ function CareersPage() {
                 className="mt-5 text-2xl md:text-3xl font-bold text-cevons-dark dark:text-white"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                Grow with CEVON&rsquo;S.
+                Grow with CEVONS.
               </h3>
               <p className="mt-3 text-cevons-dark/80 dark:text-white/80 leading-relaxed">
                 We invest in our people because we believe a strong team builds a stronger future.

@@ -28,7 +28,7 @@ export function BrandedPlaceholder({
   return (
     <div
       role="img"
-      aria-label={label ? `CEVON'S — ${label}` : "CEVON'S Environmental Services"}
+      aria-label={label ? `CEVONS — ${label}` : "CEVONS Environmental Services"}
       className={`relative overflow-hidden rounded-2xl bg-cevons-deep-green text-white ${aspectMap[aspect]} ${className}`}
     >
       {/* Soft radial highlight */}

@@ -1,8 +1,8 @@
-# CEVON'S Environmental Services Inc.
+# CEVONS Environmental Services Inc.
 
 > Guyana's market leader in waste management and environmental services since 1997. Reliable residential, commercial, industrial, recycling, and facility services across Georgetown, Linden, and Berbice.
 
-CEVON'S Environmental Services Inc. is a Guyanese company providing complete waste management, sanitation, and environmental services to homes, businesses, industries, and government facilities. Operating since 1997, CEVON'S is EPA certified, ISO 9001:2015 quality managed, and a member of the Guyana Chamber of Commerce and Industry (GCCI) and the Private Sector Commission (PSC).
+CEVONS Environmental Services Inc. is a Guyanese company providing complete waste management, sanitation, and environmental services to homes, businesses, industries, and government facilities. Operating since 1997, CEVONS is EPA certified, ISO 9001:2015 quality managed, and a member of the Guyana Chamber of Commerce and Industry (GCCI) and the Private Sector Commission (PSC).
 
 ## Contact
 
@@ -48,7 +48,7 @@ CEVON'S Environmental Services Inc. is a Guyanese company providing complete was
 
 ## Key Pages
 
-- [Home](/): Overview of CEVON'S services and impact.
+- [Home](/): Overview of CEVONS services and impact.
 - [All Services](/services): Full service catalog by category.
 - [Industries Served](/industries): Sectors we support.
 - [Locations](/locations): Branches and service areas in Guyana.

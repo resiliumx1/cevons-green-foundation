@@ -47,7 +47,7 @@ export function NotFoundPage() {
                 <span className="absolute inset-0 rounded-full bg-white shadow-lift" />
                 <img
                   src={logo}
-                  alt="CEVON'S logo mark"
+                  alt="CEVONS logo mark"
                   className="absolute inset-2 md:inset-3 object-contain w-[calc(100%-1rem)] md:w-[calc(100%-1.5rem)] h-[calc(100%-1rem)] md:h-[calc(100%-1.5rem)]"
                 />
               </span>
@@ -82,7 +82,7 @@ export function NotFoundPage() {
 
           <Reveal variant="scale" delay={0.1} className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lift aspect-[4/3]">
-              <img src={truck} alt="CEVON’S branded page not found background" className="w-full h-full object-cover hero-img" />
+              <img src={truck} alt="CEVONS branded page not found background" className="w-full h-full object-cover hero-img" />
               <div className="absolute inset-0 bg-gradient-to-tr from-cevons-deep-green/30 via-transparent to-transparent" />
             </div>
           </Reveal>
@@ -141,7 +141,7 @@ export function NotFoundPage() {
                 </p>
               </div>
             </div>
-            {/* Confirm official WhatsApp number with CEVON'S before launch. */}
+            {/* Confirm official WhatsApp number with CEVONS before launch. */}
             <a
               href={whatsappHref}
               {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}

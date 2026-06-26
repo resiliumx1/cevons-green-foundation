@@ -44,13 +44,13 @@ import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CEVON'S Environmental Services | Waste Management Guyana" },
+      { title: "CEVONS Environmental Services | Waste Management Guyana" },
       {
         name: "description",
         content:
           "Premium waste management, recycling and environmental services for homes, businesses and industries across Georgetown, Linden and Berbice.",
       },
-      { property: "og:title", content: "CEVON'S Environmental Services" },
+      { property: "og:title", content: "CEVONS Environmental Services" },
       { property: "og:description", content: "Reliable waste management and environmental solutions across Guyana." },
       { property: "og:type", content: "website" },
     ],

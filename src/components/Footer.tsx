@@ -55,7 +55,7 @@ export function Footer() {
             <div className="inline-flex items-center">
               <img
                 src={logo}
-                alt="CEVON'S Environmental Services logo"
+                alt="CEVONS Environmental Services logo"
                 className="h-14 w-auto"
                 style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}
               />
@@ -131,7 +131,7 @@ export function Footer() {
             <a href="#" className="hover:text-cevons-yellow">{t("footer.privacy")}</a>
             <a href="#" className="hover:text-cevons-yellow">{t("footer.terms")}</a>
             <a href="#" className="hover:text-cevons-yellow">{t("footer.sitemap")}</a>
-            <span>© {new Date().getFullYear()} CEVON&rsquo;S Environmental Services Inc.</span>
+            <span>© {new Date().getFullYear()} CEVONS Environmental Services Inc.</span>
             <Link
               to="/crm"
               aria-label="Admin login"

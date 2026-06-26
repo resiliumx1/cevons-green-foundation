@@ -3,12 +3,12 @@ import { motion, useReducedMotion } from "framer-motion";
 const logo = "/assets/brand/cevons-logo-correct.webp";
 
 const services = [
-  { name: "Garbage\nCollection", img: "/assets/home/service-garbage-collection.webp", href: "/services/general-trash-collection", alt: "Garbage collection truck for CEVON'S services" },
-  { name: "Skip Bin\nRental", img: "/assets/home/service-skip-bin-rental.webp", href: "/services/skip-bin-dumpster-rental", alt: "Skip bin rental container for CEVON'S services" },
-  { name: "Portable\nToilets", img: "/assets/home/service-portable-toilets.webp", href: "/services/portable-toilet", alt: "Portable toilets for CEVON'S services" },
-  { name: "Septic\nServices", img: "/assets/home/service-septic-services.webp", href: "/services/septic-services", alt: "Septic service truck for CEVON'S services" },
-  { name: "Recycling\nSolutions", img: "/assets/home/service-recycling-solutions.webp", href: "/services/material-recovery-facility", alt: "Recycling solutions bin for CEVON'S services" },
-  { name: "Dumpster\nRental", img: "/assets/home/service-dumpster-rental.webp", href: "/services/dumpster-rental", alt: "Dumpster rental container for CEVON'S services" },
+  { name: "Garbage\nCollection", img: "/assets/home/service-garbage-collection.webp", href: "/services/general-trash-collection", alt: "Garbage collection truck for CEVONS services" },
+  { name: "Skip Bin\nRental", img: "/assets/home/service-skip-bin-rental.webp", href: "/services/skip-bin-dumpster-rental", alt: "Skip bin rental container for CEVONS services" },
+  { name: "Portable\nToilets", img: "/assets/home/service-portable-toilets.webp", href: "/services/portable-toilet", alt: "Portable toilets for CEVONS services" },
+  { name: "Septic\nServices", img: "/assets/home/service-septic-services.webp", href: "/services/septic-services", alt: "Septic service truck for CEVONS services" },
+  { name: "Recycling\nSolutions", img: "/assets/home/service-recycling-solutions.webp", href: "/services/material-recovery-facility", alt: "Recycling solutions bin for CEVONS services" },
+  { name: "Dumpster\nRental", img: "/assets/home/service-dumpster-rental.webp", href: "/services/dumpster-rental", alt: "Dumpster rental container for CEVONS services" },
 ];
 
 export function InteractiveServiceHub() {
@@ -91,7 +91,7 @@ export function InteractiveServiceHub() {
       <motion.a
         href="/about"
         className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 group"
-        aria-label="About CEVON'S Environmental Services Inc."
+        aria-label="About CEVONS Environmental Services Inc."
         animate={reduced ? undefined : { scale: [1, 1.04, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -105,7 +105,7 @@ export function InteractiveServiceHub() {
           }}
         >
           <img src={logo} alt="" aria-hidden className="size-12 md:size-14 object-contain" />
-          <p className="mt-1 text-[11px] md:text-sm font-extrabold tracking-wider text-white leading-none">CEVON'S</p>
+          <p className="mt-1 text-[11px] md:text-sm font-extrabold tracking-wider text-white leading-none">CEVONS</p>
           <p className="mt-1 text-[8px] md:text-[10px] font-bold tracking-[0.18em] text-cevons-yellow leading-tight text-center">
             ENVIRONMENTAL<br/>SERVICES INC.
           </p>

@@ -231,7 +231,7 @@ export function ContactForm() {
 
   // ========= SUCCESS PANEL =========
   if (stage === "success" && result) {
-    const waMsg = encodeURIComponent(`Hi CEVON'S — following up on my message (ref ${result.reference}).`);
+    const waMsg = encodeURIComponent(`Hi CEVONS — following up on my message (ref ${result.reference}).`);
     const waUrl = whatsappHref.includes("?")
       ? `${whatsappHref}&text=${waMsg}`
       : `${whatsappHref}?text=${waMsg}`;
@@ -307,7 +307,7 @@ export function ContactForm() {
     const receivedDate = result.received_at
       ? new Date(result.received_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
       : "recently";
-    const waMsg = encodeURIComponent(`Hi CEVON'S — urgent follow-up on my message (ref ${result.reference}).`);
+    const waMsg = encodeURIComponent(`Hi CEVONS — urgent follow-up on my message (ref ${result.reference}).`);
     const waUrl = whatsappHref.includes("?") ? `${whatsappHref}&text=${waMsg}` : `${whatsappHref}?text=${waMsg}`;
     return (
       <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[#B58900]/30 bg-white shadow-lg overflow-hidden">

@@ -25,16 +25,16 @@ const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
 export const Route = createFileRoute("/newsroom")({
   head: () => ({
     meta: [
-      { title: "Newsroom | CEVON’S Environmental Services" },
+      { title: "Newsroom | CEVONS Environmental Services" },
       {
         name: "description",
         content:
-          "Press releases, news coverage, and announcements from CEVON’S Environmental Services Inc., Guyana’s leader in waste management since 1997.",
+          "Press releases, news coverage, and announcements from CEVONS Environmental Services Inc., Guyana’s leader in waste management since 1997.",
       },
-      { property: "og:title", content: "Newsroom | CEVON’S Environmental Services" },
+      { property: "og:title", content: "Newsroom | CEVONS Environmental Services" },
       {
         property: "og:description",
-        content: "Press releases, news coverage, and announcements from CEVON’S Environmental Services Inc.",
+        content: "Press releases, news coverage, and announcements from CEVONS Environmental Services Inc.",
       },
       { property: "og:url", content: "/newsroom" },
     ],
@@ -79,7 +79,7 @@ interface Milestone {
 }
 
 const milestones: Milestone[] = [
-  { year: "1997", label: "Founded", body: "CEVON’S Environmental Services Inc. is established in Guyana with a mission to deliver reliable waste management solutions.", icon: Leaf },
+  { year: "1997", label: "Founded", body: "CEVONS Environmental Services Inc. is established in Guyana with a mission to deliver reliable waste management solutions.", icon: Leaf },
   { year: "[REPLACE]", label: "Fleet Expansion", body: "[REPLACE] Key growth moment: expanded collection fleet and routing capacity to serve more communities across Georgetown.", icon: TrendingUp, replace: true },
   { year: "[REPLACE]", label: "ISO 9001:2015 Certification", body: "[REPLACE] Achieved ISO 9001:2015 certification for quality management systems, reinforcing our commitment to operational excellence.", icon: Award, replace: true },
   { year: "[REPLACE]", label: "EPA Certification", body: "[REPLACE] Earned EPA certification, meeting national environmental standards for waste handling and disposal.", icon: ShieldCheck, replace: true },
@@ -90,7 +90,7 @@ const milestones: Milestone[] = [
 
 const SECTION_META: Record<MediaItem["type"], { title: string; eyebrow: string; icon: typeof Newspaper }> = {
   release: { title: "Media Releases", eyebrow: "Press Releases", icon: FileText },
-  news: { title: "CEVON’S in the News", eyebrow: "Press Coverage", icon: Newspaper },
+  news: { title: "CEVONS in the News", eyebrow: "Press Coverage", icon: Newspaper },
   announcement: { title: "Announcements", eyebrow: "Latest Updates", icon: Megaphone },
 };
 
@@ -211,7 +211,7 @@ function NewsroomPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="newsroom-h1">
         <div className="absolute inset-0">
-          <img src={heroNewsroom} alt="CEVON’S newsroom and press announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
+          <img src={heroNewsroom} alt="CEVONS newsroom and press announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">

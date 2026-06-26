@@ -20,9 +20,9 @@ export interface CevonsLogoProps {
 }
 
 /**
- * Single source of truth for the CEVON'S brand mark.
+ * Single source of truth for the CEVONS brand mark.
  * - "mark"  → circular C logo only.
- * - "full"  → circular C logo + "CEVON'S" wordmark.
+ * - "full"  → circular C logo + "CEVONS" wordmark.
  */
 export function CevonsLogo({
   variant = "mark",
@@ -36,7 +36,7 @@ export function CevonsLogo({
   const img = (
     <img
       src={logoMark}
-      alt="CEVON'S Environmental Services logo"
+      alt="CEVONS Environmental Services logo"
       className={`${h} w-auto object-contain shrink-0`}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
@@ -54,7 +54,7 @@ export function CevonsLogo({
     <span className={`inline-flex items-center gap-2 ${className}`}>
       {img}
       <span className={`font-extrabold tracking-tight leading-none ${text} ${textClassName}`}>
-        CEVON&rsquo;S
+        CEVONS
       </span>
     </span>
   );

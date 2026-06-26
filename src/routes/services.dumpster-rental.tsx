@@ -32,9 +32,9 @@ import imgSkip from "@/assets/svc-skip.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 
-const PAGE_TITLE = "Dumpster Rental in Guyana | CEVON'S Environmental Services";
+const PAGE_TITLE = "Dumpster Rental in Guyana | CEVONS Environmental Services";
 const PAGE_DESC =
-  "Request dumpster rental services from CEVON'S for construction, commercial, residential, and cleanup projects across Georgetown, Linden, and Berbice.";
+  "Request dumpster rental services from CEVONS for construction, commercial, residential, and cleanup projects across Georgetown, Linden, and Berbice.";
 
 export const Route = createFileRoute("/services/dumpster-rental")({
   head: () => ({
@@ -99,7 +99,7 @@ const faqs = [
   },
   {
     q: "Do you deliver to Georgetown, Linden, and Berbice?",
-    a: "Yes. CEVON'S serves Georgetown, Linden, and Berbice, with coverage across Guyana. Reach out to confirm delivery to your specific location.",
+    a: "Yes. CEVONS serves Georgetown, Linden, and Berbice, with coverage across Guyana. Reach out to confirm delivery to your specific location.",
   },
   {
     q: "Can businesses schedule recurring dumpster service?",
@@ -172,14 +172,14 @@ function DumpsterRentalPage() {
             <div className="relative rounded-2xl overflow-hidden shadow-lift group">
               <img
                 src={imgDumpster}
-                alt="Green CEVON'S dumpster ready for rental on a Guyana job site"
+                alt="Green CEVONS dumpster ready for rental on a Guyana job site"
                 className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
                 width={960}
                 height={720}
               />
               <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
                 <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVON'S</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVONS</span>
               </div>
             </div>
           </Reveal>
@@ -196,7 +196,7 @@ function DumpsterRentalPage() {
               Choose the right size for your project
             </h2>
             <p className="mt-4 text-sm text-cevons-muted">
-              Typical size options — confirm availability with CEVON'S.
+              Typical size options — confirm availability with CEVONS.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -338,7 +338,7 @@ function DumpsterRentalPage() {
         <div className="container-cevons">
           <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVON'S</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVONS</p>
               <h2 id="related-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Related Services</h2>
             </div>
             <Link to="/services" className="inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">

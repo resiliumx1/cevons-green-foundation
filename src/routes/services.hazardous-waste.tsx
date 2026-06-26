@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-wastewater.jpg";
 import imgRel1 from "@/assets/svc-soil.jpg";
 import imgRel2 from "@/assets/svc-biohazard.jpg";
 
-const PAGE_TITLE = "Hazardous Waste Disposal in Guyana | CEVON'S";
+const PAGE_TITLE = "Hazardous Waste Disposal in Guyana | CEVONS";
 const PAGE_DESC = "Regulated handling, transport, and disposal of hazardous waste streams for industrial clients across Guyana.";
 const PAGE_URL = "/services/hazardous-waste";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Hazardous Waste Management"
       subhead="Responsible collection, transport, and disposal of regulated hazardous waste streams for industrial operations."
       heroImage={imgHero}
-      heroAlt="CEVON'S team handling labeled hazardous waste drums at an industrial site"
+      heroAlt="CEVONS team handling labeled hazardous waste drums at an industrial site"
       benefits={["Proper classification and labeling","Trained, equipped crews","Documented chain-of-custody","Compliant transport","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}
