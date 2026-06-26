@@ -19,6 +19,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { WaveDivider } from "@/components/WaveDivider";
 import { breadcrumbListJsonLd, organizationJsonLd } from "@/lib/seo/jsonLd";
 import { supabase } from "@/integrations/supabase/client";
+import { NewsroomSocialSection } from "@/components/newsroom/NewsroomSocialSection";
 
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
 
