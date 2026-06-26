@@ -56,8 +56,9 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "/" },
-      { rel: "preload", as: "image", href: "/assets/heroes/hero-homepage.webp", fetchpriority: "high" },
+      { rel: "preload", as: "image", href: "/assets/heroes/hero-homepage.webp" },
     ],
+
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(localBusinessGraphJsonLd()) },
     ],
