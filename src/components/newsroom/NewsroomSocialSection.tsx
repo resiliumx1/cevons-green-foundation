@@ -101,7 +101,7 @@ function FollowCard({ s, index }: { s: SocialLink; index: number }) {
 
 /* --------------------------- Facebook Page Plugin --------------------------- */
 
-function FacebookEmbed() {
+export function FacebookEmbed() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
