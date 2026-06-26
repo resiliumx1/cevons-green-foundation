@@ -65,17 +65,41 @@ export function Footer() {
             <p className="mt-5 text-white/75 text-sm leading-relaxed max-w-sm">
               {t("footer.tagline")}
             </p>
-            <div className="mt-5 flex items-center gap-3">
-              {[Facebook, Instagram, Linkedin].map((I, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  aria-label="social"
-                  className="size-9 rounded-full bg-white/10 hover:bg-cevons-yellow hover:text-cevons-dark flex items-center justify-center transition-colors"
-                >
-                  <I className="size-4" />
-                </a>
-              ))}
+            <div className="mt-5 flex items-center gap-2.5">
+              {socialLinksList.map((s) => {
+                const disabled = !s.enabled || !s.url;
+                const label = disabled
+                  ? `${s.name} — Coming soon`
+                  : `Follow CEVONS on ${s.name}`;
+                const common =
+                  "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-cevons-deep-green";
+                if (disabled) {
+                  return (
+                    <span
+                      key={s.platform}
+                      role="img"
+                      aria-label={label}
+                      title="Coming soon"
+                      className={`${common} bg-white/5 text-white/35 cursor-not-allowed`}
+                    >
+                      <SocialGlyph platform={s.platform} className="size-4" />
+                    </span>
+                  );
+                }
+                return (
+                  <a
+                    key={s.platform}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className={`${common} bg-white/10 text-white hover:bg-cevons-yellow hover:text-cevons-dark hover:-translate-y-0.5 hover:scale-110 motion-reduce:hover:transform-none`}
+                  >
+                    <SocialGlyph platform={s.platform} className="size-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
