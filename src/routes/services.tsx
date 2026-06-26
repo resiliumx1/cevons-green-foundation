@@ -31,12 +31,16 @@ import {
   Wrench,
   Plus,
   Minus,
+  PaintRoller,
+  AlertTriangle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveDivider } from "@/components/WaveDivider";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { useT } from "@/contexts/SettingsContext";
 import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 const heroServices = "/assets/heroes/hero-services.webp";
 
