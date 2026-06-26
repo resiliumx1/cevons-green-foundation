@@ -141,7 +141,7 @@ function CareersPage() {
 
         <div className="container-cevons py-24 md:py-32 lg:py-40 text-white">
           <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
-            {t("careers.eyebrow") || "CAREERS"}
+            CAREERS
           </p>
           <h1
             className="mt-4 text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] max-w-4xl"
