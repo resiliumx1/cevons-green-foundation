@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "industries": "Industrias",
+    "locations": "Ubicaciones",
+    "resources": "Recursos",
+    "newsroom": "Noticias",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "trackRequest": "Rastrear Solicitud",
+    "trackMyRequest": "Rastrear mi Solicitud",
+    "requestService": "Solicitar un Servicio",
+    "schedule": "Agendar",
+    "scheduleService": "Agendar un Servicio",
+    "whatsapp": "Escríbenos por WhatsApp"
+  },
+  "servicesMenu": {
+    "residential": "Residencial",
+    "commercial": "Comercial",
+    "industrial": "Industrial",
+    "facilities": "Instalaciones",
+    "items": {
+      "general-trash-collection": "Recolección General de Basura",
+      "dumpster-rental": "Alquiler de Contenedores",
+      "septic-services": "Servicios Sépticos",
+      "portable-toilet": "Baños Portátiles",
+      "general-waste-management": "Gestión General de Residuos",
+      "skip-bin-dumpster-rental": "Alquiler de Skip y Contenedores",
+      "grease-trap-septic-tank": "Trampas de Grasa / Tanques Sépticos",
+      "document-shredding": "Trituración de Documentos",
+      "hazardous-waste": "Residuos Peligrosos",
+      "wastewater": "Aguas Residuales",
+      "used-waste-oil": "Aceite Usado",
+      "contaminated-soil": "Suelo Contaminado",
+      "tank-cleaning": "Limpieza de Tanques",
+      "product-destruction": "Destrucción de Productos",
+      "biohazardous-disposal": "Desecho Biopeligroso",
+      "material-recovery-facility": "Planta de Recuperación de Materiales",
+      "landfill-operations": "Operaciones de Relleno Sanitario"
+    }
+  },
+  "settings": {
+    "title": "Accesibilidad y Ajustes",
+    "open": "Accesibilidad y ajustes",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "currency": "Moneda",
+    "language": "Idioma",
+    "english": "English",
+    "spanish": "Español",
+    "textSize": "Tamaño del texto",
+    "normal": "Normal",
+    "large": "Grande",
+    "larger": "Más Grande",
+    "reduceMotion": "Reducir movimiento",
+    "reduceMotionHint": "Minimizar animaciones y transiciones"
+  },
+  "home": {
+    "hero": {
+      "lineA": "Más Limpio Hoy.",
+      "lineB1": "Más Verde",
+      "lineB2": "Mañana.",
+      "subFor": "Para Hogares.",
+      "subForB": "Para Negocios.",
+      "subForC": "Para Guyana.",
+      "lead": "Desde la recolección residencial hasta la gestión de residuos industriales, CEVON'S brinda soluciones ambientales confiables, seguras y sostenibles en toda",
+      "leadCountry": "Guyana.",
+      "ctaWhatsappLabel": "Escríbenos por WhatsApp",
+      "ctaWhatsappSub": "Chatea con nuestro equipo",
+      "ctaScheduleLabel": "Agendar un Servicio",
+      "ctaScheduleSub": "Reserva rápida y fácil",
+      "trust": {
+        "reliable": "Servicio Confiable",
+        "safe": "Operaciones Seguras",
+        "sustainable": "Soluciones Sostenibles"
+      }
+    },
+    "services": {
+      "eyebrow": "Lo Que Ofrecemos",
+      "title1": "Nuestros",
+      "title2": "Servicios",
+      "viewAll": "Ver todos los servicios",
+      "cards": {
+        "industrial": { "tag": "INDUSTRIAL", "title": "Residuos Industriales", "desc": "Manejo seguro de residuos peligrosos y de escala industrial." },
+        "recyclables": { "tag": "RECICLABLES", "title": "Recolección de Reciclables", "desc": "Recuperación de materiales que convierte los residuos en recursos reutilizables." },
+        "residential": { "tag": "RESIDENCIAL", "title": "Recolección Residencial", "desc": "Recolección confiable en hogares de Georgetown, Linden y Berbice." },
+        "commercial": { "tag": "COMERCIAL", "title": "Soluciones Comerciales", "desc": "Programas de residuos a la medida para negocios y propiedades." },
+        "specialised": { "tag": "ESPECIALIZADO", "title": "Servicios Especializados", "desc": "Desecho biopeligroso, médico y de flujos sensibles en quien puedes confiar." }
+      }
+    },
+    "pillars": {
+      "eyebrow": "Lo Que Hacemos",
+      "titleA": "Nuestros Pilares",
+      "titleB": "de Servicio",
+      "titleC": "",
+      "explore": "Explorar Servicios",
+      "items": {
+        "residential": { "title": "Residencial", "body": "Recolección confiable y servicios esenciales para hogares y comunidades limpias, seguras y cómodas." },
+        "commercial": { "title": "Comercial", "body": "Soluciones inteligentes de residuos para negocios y propiedades comerciales." },
+        "industrial": { "title": "Industrial", "body": "Gestión de residuos especializada y servicios ambientales industriales." },
+        "facilities": { "title": "Reciclaje e Instalaciones", "body": "Convertimos residuos en recursos mediante reciclaje y servicios de instalaciones." }
+      }
+    },
+    "stats": {
+      "yearsLabel": "Años liderando la industria de residuos en Guyana (Desde 1997)",
+      "homesLabel": "Hogares y negocios atendidos cada día",
+      "tonnesLabel": "Toneladas de residuos gestionadas cada año",
+      "regionsLabel": "Regiones atendidas (Georgetown · Linden · Berbice)",
+      "goal": "1 Meta",
+      "goalSub": "Una Guyana Más Limpia"
+    },
+    "process": {
+      "eyebrow": "Cómo Funciona",
+      "titleA": "Nuestro Sencillo Proceso de",
+      "titleB": "6 Pasos",
+      "titleC": "",
+      "step": "Paso",
+      "items": {
+        "request": { "title": "Solicita", "body": "Envía tu solicitud o consulta de servicio." },
+        "confirm": { "title": "Confirmamos", "body": "Confirmamos detalles y requisitos." },
+        "schedule": { "title": "Agendamos", "body": "Programamos el mejor horario para ti." },
+        "dispatch": { "title": "Despachamos", "body": "Enviamos a nuestro equipo." },
+        "service": { "title": "Servicio", "body": "Entregamos un servicio de calidad." },
+        "complete": { "title": "Listo", "body": "Trabajo completado y tú satisfecho." }
+      }
+    },
+    "cta": {
+      "eyebrow": "Construyamos una Guyana Más Verde",
+      "title": "¿Listo para Empezar?",
+      "lead": "Mantengamos juntos a Guyana limpia y nuestro ambiente saludable.",
+      "whatsapp": "Escríbenos por WhatsApp",
+      "quote": "Solicitar Cotización"
+    }
+  },
+  "footer": {
+    "tagline": "CEVON'S Environmental Services Inc. brinda gestión de residuos y soluciones ambientales confiables para hogares, negocios e industrias en toda Guyana.",
+    "services": "Servicios",
+    "categories": "Categorías",
+    "company": "Empresa",
+    "getInTouch": "Contáctanos",
+    "primary": "Principal",
+    "whatsappUs": "Escríbenos por WhatsApp",
+    "call": "Llamar",
+    "email": "Correo",
+    "branches": "Sucursales: Georgetown • Linden • Berbice",
+    "serving": "Atendiendo con orgullo a Georgetown, Linden y Berbice",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos del Servicio",
+    "sitemap": "Mapa del Sitio",
+    "admin": "Admin",
+    "servicesList": {
+      "residential": "Recolección Residencial de Basura",
+      "commercial": "Recolección Comercial de Basura",
+      "skipBin": "Alquiler de Skip",
+      "dumpster": "Alquiler de Contenedores",
+      "portable": "Alquiler de Baños Portátiles",
+      "septic": "Vaciado de Tanques Sépticos"
+    },
+    "categoriesList": {
+      "residential": "Residencial",
+      "commercial": "Comercial",
+      "industrial": "Industrial",
+      "recycling": "Reciclaje e Instalaciones"
+    },
+    "companyList": {
+      "about": "Sobre Nosotros",
+      "locations": "Ubicaciones",
+      "resources": "Recursos",
+      "newsroom": "Noticias",
+      "contact": "Contacto"
+    }
+  }
+}
