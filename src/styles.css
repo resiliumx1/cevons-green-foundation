@@ -1904,3 +1904,38 @@ html.dark footer a:not(.btn-green):not(.btn-yellow) { color: var(--text-base); }
 html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #FFA040; }
 
 
+
+/* ============== Hero slideshow: Ken-Burns + tint flash ============== */
+@keyframes hero-kb-left {
+  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(-1.5%, -0.8%, 0); }
+}
+@keyframes hero-kb-right {
+  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(1.5%, -0.8%, 0); }
+}
+@keyframes hero-kb-up {
+  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(-0.6%, -1.6%, 0); }
+}
+@keyframes hero-kb-down {
+  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(0.6%, 1.6%, 0); }
+}
+.hero-kenburns { will-change: transform; transform-origin: center center; animation-duration: 7200ms; animation-timing-function: cubic-bezier(.22,.61,.36,1); animation-fill-mode: both; }
+.hero-kenburns-left  { animation-name: hero-kb-left; }
+.hero-kenburns-right { animation-name: hero-kb-right; }
+.hero-kenburns-up    { animation-name: hero-kb-up; }
+.hero-kenburns-down  { animation-name: hero-kb-down; }
+
+@keyframes hero-tint-flash {
+  0%   { opacity: 0; }
+  35%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.hero-tint-flash { animation: hero-tint-flash 1200ms ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns { animation: none !important; }
+  .hero-tint-flash { animation: none !important; opacity: 0 !important; }
+}
