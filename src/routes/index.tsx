@@ -101,6 +101,7 @@ const steps: { icon: typeof FileText; key: StepKey }[] = [
 
 
 function HomePage() {
+  const t = useT();
   return (
     <SiteLayout>
       <HomeHero />
@@ -111,47 +112,47 @@ function HomePage() {
       {/* Certification panel — EPA / ISO / GCCI / Market Leader */}
       <CertificationPanel />
 
-
       {/* SOCIAL PROOF MARQUEE */}
       <SocialProofMarquee variant="full" />
-
 
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
         <div className="container-cevons">
           <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">What We Do</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">{t("home.pillars.eyebrow")}</p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">
-              Our Core <span className="text-cevons-green">Service</span> Pillars
+              {t("home.pillars.titleA")} <span className="text-cevons-green">{t("home.pillars.titleB")}</span> {t("home.pillars.titleC")}
             </h2>
           </Reveal>
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map(({ img, title, body, iconKey }) => (
-              <StaggerItem as="article" key={title} className="card-cevons group">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={img} alt={`${title} waste management services in Guyana`} loading="lazy" className="size-full object-cover transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
-                </div>
-                <div className="relative p-6 pt-12">
-                  <span className="absolute -top-8 left-5 h-16 w-16 rounded-2xl bg-[#101820] border-4 border-white overflow-hidden shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
-                    <CevonsIcon group="categories" name={iconKey} fill decorative />
-                  </span>
-                  <h3 className="text-xl font-bold text-cevons-dark">{title}</h3>
-                  <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                  <a href="/services" className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-cevons-green hover:gap-2 transition-all">
-                    Explore Services <ArrowRight className="size-4" />
-                  </a>
-                </div>
-              </StaggerItem>
-            ))}
+            {pillars.map(({ img, key, iconKey }) => {
+              const title = t(`home.pillars.items.${key}.title`);
+              const body = t(`home.pillars.items.${key}.body`);
+              return (
+                <StaggerItem as="article" key={key} className="card-cevons group">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img src={img} alt={`${title} waste management services in Guyana`} loading="lazy" className="size-full object-cover transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
+                  </div>
+                  <div className="relative p-6 pt-12">
+                    <span className="absolute -top-8 left-5 h-16 w-16 rounded-2xl bg-[#101820] border-4 border-white overflow-hidden shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
+                      <CevonsIcon group="categories" name={iconKey} fill decorative />
+                    </span>
+                    <h3 className="text-xl font-bold text-cevons-dark">{title}</h3>
+                    <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
+                    <a href="/services" className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-cevons-green hover:gap-2 transition-all">
+                      {t("home.pillars.explore")} <ArrowRight className="size-4" />
+                    </a>
+                  </div>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
-
         </div>
       </section>
 
       {/* IMPACT STATS BAND */}
       <section className="relative bg-cevons-deep-green overflow-hidden">
-        {/* Decorative brand accent behind last stat */}
         <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
             <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
@@ -161,22 +162,23 @@ function HomePage() {
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
-            {stats.map(({ icon: Icon, value, label }) => (
-              <li key={label} className="flex items-center gap-4">
-                <Icon className="size-7 text-cevons-yellow shrink-0" />
-                <div>
-                  <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
-                    {value}
-                  </p>
-                  <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
-                </div>
-              </li>
-            ))}
+            {statValues.map(({ icon: Icon, value, labelKey }) => {
+              const label = t(`home.stats.${labelKey}`);
+              return (
+                <li key={labelKey} className="flex items-center gap-4">
+                  <Icon className="size-7 text-cevons-yellow shrink-0" />
+                  <div>
+                    <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">{value}</p>
+                    <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
+                  </div>
+                </li>
+              );
+            })}
             <li className="flex items-center gap-4 relative z-10">
               <Target className="size-7 text-white shrink-0" />
               <div>
-                <p className="text-3xl md:text-4xl font-extrabold leading-none text-white">1 Goal</p>
-                <p className="text-xs md:text-sm text-white/95 mt-1.5 font-semibold">A Cleaner Guyana</p>
+                <p className="text-3xl md:text-4xl font-extrabold leading-none text-white">{t("home.stats.goal")}</p>
+                <p className="text-xs md:text-sm text-white/95 mt-1.5 font-semibold">{t("home.stats.goalSub")}</p>
               </div>
             </li>
           </ul>
@@ -189,32 +191,31 @@ function HomePage() {
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
           <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">{t("home.process.eyebrow")}</p>
             <h2 className="text-3xl md:text-5xl font-extrabold">
-              Our Simple <span className="text-cevons-green">6-Step</span> Process
+              {t("home.process.titleA")} <span className="text-cevons-green">{t("home.process.titleB")}</span> {t("home.process.titleC")}
             </h2>
           </Reveal>
 
           <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
-            {steps.map(({ icon: Icon, title, body }, i) => (
-              <StaggerItem as="li" key={title} className="relative text-center">
-                {/* Arrow */}
-                {i < steps.length - 1 && (
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="hidden lg:block absolute top-7 -right-3 size-5 text-cevons-green/40"
-                  />
-                )}
-                <div className="mx-auto size-16 rounded-full bg-white border-2 border-cevons-green/30 flex items-center justify-center text-cevons-green shadow-soft">
-                  <Icon className="size-7" />
-                </div>
-                <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">Step {i + 1}</p>
-                <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
-                <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
-              </StaggerItem>
-            ))}
+            {steps.map(({ icon: Icon, key }, i) => {
+              const title = t(`home.process.items.${key}.title`);
+              const body = t(`home.process.items.${key}.body`);
+              return (
+                <StaggerItem as="li" key={key} className="relative text-center">
+                  {i < steps.length - 1 && (
+                    <ArrowRight aria-hidden="true" className="hidden lg:block absolute top-7 -right-3 size-5 text-cevons-green/40" />
+                  )}
+                  <div className="mx-auto size-16 rounded-full bg-white border-2 border-cevons-green/30 flex items-center justify-center text-cevons-green shadow-soft">
+                    <Icon className="size-7" />
+                  </div>
+                  <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">{t("home.process.step")} {i + 1}</p>
+                  <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
+                  <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
-
         </div>
       </section>
 
@@ -229,7 +230,6 @@ function HomePage() {
                 "radial-gradient(120% 100% at 0% 0%, #1A1A1A 0%, #1A1A1A 60%, #0A0A0A 100%)",
             }}
           >
-            {/* Subtle texture overlay */}
             <div
               aria-hidden="true"
               className="absolute inset-0 opacity-[0.06]"
@@ -241,18 +241,18 @@ function HomePage() {
             />
             <div className="relative">
               <p className="text-cevons-yellow text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> Let's Build a Greener Guyana
+                <Leaf className="size-4" /> {t("home.cta.eyebrow")}
               </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">Ready to Get Started?</h2>
+              <h2 className="text-white text-3xl md:text-5xl font-extrabold">{t("home.cta.title")}</h2>
               <p className="mt-4 text-white/80 max-w-xl mx-auto">
-                Let's keep Guyana clean and our environment healthy together.
+                {t("home.cta.lead")}
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                 <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
-                  <WhatsApp className="size-5" /> WhatsApp Us
+                  <WhatsApp className="size-5" /> {t("home.cta.whatsapp")}
                 </a>
                 <a href="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5">
-                  Request a Quote <ArrowRight className="size-5" />
+                  {t("home.cta.quote")} <ArrowRight className="size-5" />
                 </a>
               </div>
             </div>
@@ -263,4 +263,5 @@ function HomePage() {
       <NewsletterSignup source="home" />
     </SiteLayout>
   );
+
 }
