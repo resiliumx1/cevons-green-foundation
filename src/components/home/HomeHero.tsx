@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { HeroPartnerCarousel } from "@/components/home/HeroPartnerCarousel";
 import heroBg from "@/assets/hero-homepage.png.asset.json";
+import { useT } from "@/contexts/SettingsContext";
 
 
 const fadeUp: Variants = {
@@ -16,6 +17,7 @@ const fadeUp: Variants = {
 };
 
 export function HomeHero() {
+  const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -80,10 +82,10 @@ export function HomeHero() {
             className="hero-heading"
             style={{ fontSize: "clamp(1.9rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
           >
-            <span className="hero-heading-line">Cleaner Today.</span>
+            <span className="hero-heading-line">{t("home.hero.lineA")}</span>
             <span className="hero-heading-line">
-              <span className="eco-word growth-flow" aria-label="Greener">
-                Greener
+              <span className="eco-word growth-flow" aria-label={t("home.hero.lineB1")}>
+                {t("home.hero.lineB1")}
                 <span className="leaf-field" aria-hidden="true">
                   {[
                     { x: "8%",  s:  8, d: 18, dl: -2,  op: 0.28, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
@@ -106,7 +108,7 @@ export function HomeHero() {
                   ))}
                 </span>
               </span>{" "}
-              Tomorrow.
+              {t("home.hero.lineB2")}
             </span>
           </motion.h1>
 
@@ -118,9 +120,9 @@ export function HomeHero() {
             custom={2}
             className="hero-subhead-pro mt-2"
           >
-            <span>For Homes.</span>{" "}
-            <span>For Businesses.</span>{" "}
-            <span className="for-guyana">For Guyana.</span>
+            <span>{t("home.hero.subFor")}</span>{" "}
+            <span>{t("home.hero.subForB")}</span>{" "}
+            <span className="for-guyana">{t("home.hero.subForC")}</span>
           </motion.p>
 
           <motion.p
@@ -130,9 +132,8 @@ export function HomeHero() {
             custom={3}
             className="mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
-            From residential collection to industrial waste management, CEVON'S delivers
-            reliable, safe, and sustainable environmental solutions across{" "}
-            <strong className="font-bold text-white">Guyana.</strong>
+            {t("home.hero.lead")}{" "}
+            <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
           </motion.p>
 
           <motion.div
@@ -147,15 +148,15 @@ export function HomeHero() {
                 <WhatsApp className="size-4" />
               </span>
               <span className="hero-cta__text">
-                <span className="hero-cta__label">WhatsApp Us</span>
-                <span className="hero-cta__sub">Chat with our team</span>
+                <span className="hero-cta__label">{t("home.hero.ctaWhatsappLabel")}</span>
+                <span className="hero-cta__sub">{t("home.hero.ctaWhatsappSub")}</span>
               </span>
             </a>
             <a href="/request-service" className="hero-cta hero-cta--schedule hero-cta--stacked group">
               <Calendar className="size-5 shrink-0 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
               <span className="hero-cta__text">
-                <span className="hero-cta__label">Schedule a Service</span>
-                <span className="hero-cta__sub">Fast &amp; easy booking</span>
+                <span className="hero-cta__label">{t("home.hero.ctaScheduleLabel")}</span>
+                <span className="hero-cta__sub">{t("home.hero.ctaScheduleSub")}</span>
               </span>
             </a>
           </motion.div>
@@ -170,9 +171,9 @@ export function HomeHero() {
             aria-label="Service guarantees"
           >
             {[
-              { Icon: CheckCircle2, label: "Reliable Service" },
-              { Icon: ShieldCheck, label: "Safe Operations" },
-              { Icon: Leaf, label: "Sustainable Solutions" },
+              { Icon: CheckCircle2, label: t("home.hero.trust.reliable") },
+              { Icon: ShieldCheck, label: t("home.hero.trust.safe") },
+              { Icon: Leaf, label: t("home.hero.trust.sustainable") },
             ].map(({ Icon, label }, i, arr) => (
               <li key={label} className="flex items-center gap-2">
                 <Icon className="size-4" style={{ color: "#2E7D32" }} aria-hidden="true" />
