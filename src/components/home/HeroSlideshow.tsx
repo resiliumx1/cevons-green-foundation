@@ -8,8 +8,8 @@ type Slide = {
 };
 
 const SLIDES: Slide[] = [
-  { src: "/hero-slides/slide-1.jpg", alt: "CEVONS recycling facility at sunset with sorted bins for glass, paper, plastic and metal", position: "70% center", pan: "left" },
-  { src: "/hero-slides/slide-2.jpg", alt: "CEVONS orange collection truck driving down a tree-lined avenue at golden hour", position: "75% center", pan: "right" },
+  { src: "/hero-slides/slide-1.jpg", alt: "CEVONS environmental services truck in Guyana's lush rainforest near a waterfall", position: "right center", pan: "left" },
+  { src: "/hero-slides/slide-2.jpg", alt: "CEVONS recycling facility at sunset with sorted bins for glass, paper, plastic and metal", position: "70% center", pan: "left" },
   { src: "/hero-slides/slide-3.jpg", alt: "CEVONS crew in orange hi-vis and hard hats standing in front of a collection truck", position: "75% center", pan: "left" },
   { src: "/hero-slides/slide-4.jpg", alt: "CEVONS depot at sunset with orange truck and skip bins on wet reflective ground", position: "65% center", pan: "down" },
   { src: "/hero-slides/slide-5.jpg", alt: "CEVONS truck passing a calm community street with gazebo, benches and palm trees", position: "75% center", pan: "up" },
