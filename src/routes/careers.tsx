@@ -16,7 +16,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { useT } from "@/contexts/SettingsContext";
+
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
 // when it's available. External https URLs automatically render as new-tab links below.
