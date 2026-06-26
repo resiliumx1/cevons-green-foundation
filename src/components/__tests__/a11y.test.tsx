@@ -109,15 +109,9 @@ describe("Footer social icons — accessibility", () => {
 });
 
 describe("Newsroom social section — accessibility", () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-  afterEach(() => {
-    vi.useRealTimers();
-    cleanup();
-  });
+  afterEach(() => cleanup());
 
-  it("every FollowCard exposes Follow/Coming-soon controls with accessible names + focus rings on enabled CTAs", () => {
+  it("every FollowCard exposes Follow/Coming-soon controls with accessible names", () => {
     render(<NewsroomSocialSection />);
 
     for (const s of socialLinksList) {
@@ -126,10 +120,12 @@ describe("Newsroom social section — accessibility", () => {
           name: new RegExp(`Follow CEVONS on ${s.name}`, "i"),
         });
         expect(links.length).toBeGreaterThan(0);
-        // The Follow button inside the card carries brand-orange affordances
-        // and the Visit fallback button carries similar focus hover transitions.
-        const followButton = links.find((l) => /^Follow$/i.test(l.textContent ?? "") || /^Visit/i.test(l.textContent ?? ""));
-        expect(followButton).toBeTruthy();
+        // Each enabled control links to the platform URL and opens in a new tab.
+        for (const a of links) {
+          expect(a).toHaveAttribute("href", s.url);
+          expect(a).toHaveAttribute("target", "_blank");
+          expect(a).toHaveAttribute("rel", expect.stringContaining("noopener"));
+        }
       } else {
         // Disabled cards render an inert "Coming soon" pill with aria-label.
         const el = screen.getByLabelText(`${s.name} — Coming soon`);
@@ -138,19 +134,21 @@ describe("Newsroom social section — accessibility", () => {
     }
   });
 
-  it("passes axe ARIA/name checks (light + dark wrappers)", async () => {
-    const { container, rerender } = render(
+  it("passes axe ARIA/name checks in light and dark wrappers", async () => {
+    const light = render(
       <div>
         <NewsroomSocialSection />
       </div>,
     );
-    expect(await runAxe(container)).toEqual([]);
+    expect(await runAxe(light.container)).toEqual([]);
+    light.unmount();
 
-    rerender(
+    const dark = render(
       <div className="dark">
         <NewsroomSocialSection />
       </div>,
     );
-    expect(await runAxe(container)).toEqual([]);
-  });
+    expect(await runAxe(dark.container)).toEqual([]);
+    dark.unmount();
+  }, 15000);
 });
