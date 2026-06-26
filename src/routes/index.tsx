@@ -35,6 +35,9 @@ import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { useT } from "@/contexts/SettingsContext";
+
+
 
 import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
 
@@ -70,29 +73,31 @@ const trust = [
   { icon: ShieldCheck, t: "Market Leader", s: "Since 1997" },
 ];
 
-const pillars: { img: string; title: string; iconKey: CevonsCategoryKey; body: string }[] = [
-  { img: imgResidential, title: "Residential", iconKey: "residential", body: "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
-  { img: imgCommercial, title: "Commercial", iconKey: "commercial", body: "Smart waste solutions for businesses and commercial properties." },
-  { img: imgIndustrial, title: "Industrial", iconKey: "industrial", body: "Specialized waste management and industrial environmental services." },
-  { img: imgRecovery, title: "Recycling & Facilities", iconKey: "facilities", body: "Turning waste into resources through recycling and facility services." },
+type PillarKey = "residential" | "commercial" | "industrial" | "facilities";
+const pillars: { img: string; key: PillarKey; iconKey: CevonsCategoryKey }[] = [
+  { img: imgResidential, key: "residential", iconKey: "residential" },
+  { img: imgCommercial, key: "commercial", iconKey: "commercial" },
+  { img: imgIndustrial, key: "industrial", iconKey: "industrial" },
+  { img: imgRecovery, key: "facilities", iconKey: "facilities" },
 ];
 
-const stats: { label: string; value: string; icon: typeof ClipboardCheck }[] = [
-  { value: "29+", label: "Years leading Guyana's waste industry (Since 1997)", icon: Award },
-  { value: "10,000+", label: "Homes & businesses served every day", icon: Home },
-  { value: "50,000+", label: "Tonnes of waste managed each year", icon: Recycle },
-  { value: "3", label: "Regions served (Georgetown · Linden · Berbice)", icon: MapPin },
+const statValues = [
+  { value: "29+", labelKey: "yearsLabel", icon: Award },
+  { value: "10,000+", labelKey: "homesLabel", icon: Home },
+  { value: "50,000+", labelKey: "tonnesLabel", icon: Recycle },
+  { value: "3", labelKey: "regionsLabel", icon: MapPin },
 ];
 
-
-const steps = [
-  { icon: FileText, title: "Request", body: "Send your service request or inquiry." },
-  { icon: ClipboardCheck, title: "Confirm", body: "We confirm details and requirements." },
-  { icon: Calendar, title: "Schedule", body: "We schedule the best time for you." },
-  { icon: Truck, title: "Dispatch", body: "Our team is dispatched." },
-  { icon: ShieldCheck, title: "Service", body: "We deliver quality service." },
-  { icon: CheckCircle, title: "Complete", body: "Job complete and you're satisfied." },
+type StepKey = "request" | "confirm" | "schedule" | "dispatch" | "service" | "complete";
+const steps: { icon: typeof FileText; key: StepKey }[] = [
+  { icon: FileText, key: "request" },
+  { icon: ClipboardCheck, key: "confirm" },
+  { icon: Calendar, key: "schedule" },
+  { icon: Truck, key: "dispatch" },
+  { icon: ShieldCheck, key: "service" },
+  { icon: CheckCircle, key: "complete" },
 ];
+
 
 
 function HomePage() {
