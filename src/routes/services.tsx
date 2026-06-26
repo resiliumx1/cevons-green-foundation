@@ -642,6 +642,9 @@ function ServicesPage() {
         </section>
       )}
 
+      {/* OTHER SERVICES */}
+      <OtherServicesSection />
+
       {/* "Not Sure" CTA */}
       <section className="bg-white py-16 md:py-20">
         <div className="container-cevons">
