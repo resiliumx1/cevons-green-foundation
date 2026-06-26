@@ -121,8 +121,6 @@ function scrollToOpenPositions(e: React.MouseEvent) {
 }
 
 function CareersPage() {
-  const t = useT();
-
   return (
     <SiteLayout>
       {/* HERO */}
