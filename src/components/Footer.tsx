@@ -6,18 +6,23 @@ import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "
 import { NewsletterSignup } from "./NewsletterSignup";
 import { useT } from "@/contexts/SettingsContext";
 
-function Col({ title, items }: { title: string; items: string[] }) {
+type FooterLink = { label: string; to: string };
+
+function Col({ title, items }: { title: string; items: string[] | FooterLink[] }) {
   return (
     <div>
       <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-5">{title}</h4>
       <ul className="space-y-3">
-        {items.map((i) => (
-          <li key={i}>
-            <Link to="/services" className="text-white/75 hover:text-cevons-yellow text-[14px] leading-relaxed transition-colors">
-              {i}
-            </Link>
-          </li>
-        ))}
+        {items.map((i) => {
+          const link: FooterLink = typeof i === "string" ? { label: i, to: "/services" } : i;
+          return (
+            <li key={link.label}>
+              <Link to={link.to} className="text-white/75 hover:text-cevons-yellow text-[14px] leading-relaxed transition-colors">
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -33,9 +38,14 @@ export function Footer() {
   const categoriesList = ["residential", "commercial", "industrial", "recycling"].map(
     (k) => t(`footer.categoriesList.${k}`),
   );
-  const companyList = ["about", "locations", "resources", "newsroom", "contact"].map(
-    (k) => t(`footer.companyList.${k}`),
-  );
+  const companyList: FooterLink[] = [
+    { label: t("footer.companyList.about"), to: "/about" },
+    { label: t("footer.companyList.careers"), to: "/careers" },
+    { label: t("footer.companyList.locations"), to: "/locations" },
+    { label: t("footer.companyList.resources"), to: "/resources" },
+    { label: t("footer.companyList.newsroom"), to: "/newsroom" },
+    { label: t("footer.companyList.contact"), to: "/contact" },
+  ];
 
   return (
     <footer className="bg-cevons-deep-green text-white">
