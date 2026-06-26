@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/NotFoundPage";
 import { SmoothScrollProvider } from "../components/motion/SmoothScroll";
 import { CurrencyProvider } from "../contexts/CurrencyContext";
+import { SettingsProvider } from "../contexts/SettingsContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
 import { ServiceAssistant } from "../components/chat/ServiceAssistant";
 
@@ -127,12 +128,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CurrencyProvider>
-        <SmoothScrollProvider enabled={!isCrm}>
-          <Outlet />
-          {!isCrm && <ServiceAssistant />}
-        </SmoothScrollProvider>
-      </CurrencyProvider>
+      <SettingsProvider>
+        <CurrencyProvider>
+          <SmoothScrollProvider enabled={!isCrm}>
+            <Outlet />
+            {!isCrm && <ServiceAssistant />}
+          </SmoothScrollProvider>
+        </CurrencyProvider>
+      </SettingsProvider>
     </QueryClientProvider>
   );
 }
