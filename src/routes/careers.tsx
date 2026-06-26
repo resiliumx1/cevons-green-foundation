@@ -140,7 +140,7 @@ function CareersPage() {
         </div>
 
         <div className="container-cevons py-24 md:py-32 lg:py-40 text-white">
-          <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-orange">
+          <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
             {t("careers.eyebrow") || "CAREERS"}
           </p>
           <h1
@@ -148,7 +148,7 @@ function CareersPage() {
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Build a Cleaner Tomorrow.{" "}
-            <span className="text-cevons-orange">Together.</span>
+            <span className="text-cevons-green">Together.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg md:text-xl text-white/85 leading-relaxed">
             Join a team that&rsquo;s committed to protecting our environment, strengthening our
@@ -175,7 +175,7 @@ function CareersPage() {
       <section className="section-y bg-background">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-orange">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
               WHY WORK WITH US
             </p>
             <h2
@@ -198,7 +198,7 @@ function CareersPage() {
                 className="group rounded-2xl border border-cevons-border dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 md:p-7 shadow-sm hover:shadow-[0_12px_30px_rgba(16,24,32,0.08)] hover:-translate-y-0.5 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none"
               >
                 <div className="flex items-start gap-4">
-                  <span className="shrink-0 inline-flex size-12 items-center justify-center rounded-xl bg-cevons-orange/10 text-cevons-orange group-hover:bg-cevons-orange group-hover:text-white transition-colors">
+                  <span className="shrink-0 inline-flex size-12 items-center justify-center rounded-xl bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
                     <Icon className="size-6" />
                   </span>
                   <div>
@@ -220,7 +220,7 @@ function CareersPage() {
       <section className="section-y bg-cevons-cream dark:bg-white/[0.02]">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-orange">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
               CAREER OPPORTUNITIES
             </p>
             <h2
@@ -242,7 +242,7 @@ function CareersPage() {
                   key={item}
                   className="flex items-start gap-3 rounded-lg p-3 hover:bg-white/60 dark:hover:bg-white/[0.04] transition-colors"
                 >
-                  <CheckCircle2 className="size-5 mt-0.5 text-cevons-orange shrink-0" />
+                  <CheckCircle2 className="size-5 mt-0.5 text-cevons-green shrink-0" />
                   <span className="text-cevons-dark dark:text-white/90 font-medium">{item}</span>
                 </li>
               ))}
@@ -254,8 +254,8 @@ function CareersPage() {
               </li>
             </ul>
 
-            <aside className="rounded-2xl border border-cevons-orange/25 bg-cevons-orange/10 dark:bg-cevons-orange/15 p-7 md:p-8 shadow-sm">
-              <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-cevons-orange text-white shadow-[0_8px_20px_rgba(239,119,0,0.30)]">
+            <aside className="rounded-2xl border border-cevons-green/25 bg-cevons-green/10 dark:bg-cevons-green/15 p-7 md:p-8 shadow-sm">
+              <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-cevons-green text-white shadow-[0_8px_20px_rgba(239,119,0,0.30)]">
                 <Users className="size-7" />
               </span>
               <h3
@@ -284,7 +284,7 @@ function CareersPage() {
       <section id="open-positions" className="section-y bg-background scroll-mt-24">
         <div className="container-cevons">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-orange">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
               OPEN POSITIONS
             </p>
             <h2
@@ -301,17 +301,17 @@ function CareersPage() {
                 key={title}
                 className="group flex flex-col rounded-2xl border border-cevons-border dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 text-center shadow-sm hover:shadow-[0_14px_32px_rgba(16,24,32,0.10)] hover:-translate-y-1 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none"
               >
-                <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-cevons-orange/10 text-cevons-orange group-hover:bg-cevons-orange group-hover:text-white transition-colors">
+                <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
                   <Icon className="size-6" />
                 </span>
-                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-orange">
+                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green">
                   {category}
                 </p>
                 <h3 className="mt-2 text-lg font-bold text-cevons-dark dark:text-white leading-snug">
                   {title}
                 </h3>
                 <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-cevons-muted dark:text-white/65">
-                  <MapPin className="size-4 text-cevons-orange" />
+                  <MapPin className="size-4 text-cevons-green" />
                   {location}
                 </p>
                 <ApplyAction
