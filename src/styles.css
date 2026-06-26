@@ -1640,3 +1640,59 @@ h3 { font-size: clamp(1.125rem, 1.8vw, 1.375rem); line-height: 1.25; }
 
 /* Body line-height floor */
 body { line-height: 1.5; }
+
+/* =====================================================
+   Settings: text size, dark mode, reduce motion
+   ===================================================== */
+
+html.text-size-normal { font-size: 16px; }
+html.text-size-large  { font-size: 17.5px; }
+html.text-size-larger { font-size: 19px; }
+
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Dark mode site-wide — charcoal surfaces, light text, orange accents */
+html.dark {
+  --background: #0F0F10;
+  --foreground: #F5F5F5;
+  --card: #161616;
+  --card-foreground: #F5F5F5;
+  --popover: #161616;
+  --popover-foreground: #F5F5F5;
+  --primary: #EF7700;
+  --primary-foreground: #1A1A1A;
+  --secondary: #1E1E1F;
+  --secondary-foreground: #F5F5F5;
+  --muted: #1B1B1C;
+  --muted-foreground: #B3B3B3;
+  --accent: #FCE722;
+  --accent-foreground: #1A1A1A;
+  --destructive: #FF5C61;
+  --destructive-foreground: #1A1A1A;
+  --border: #2A2A2C;
+  --input: #2A2A2C;
+  --ring: #EF7700;
+
+  --cevons-cream: #1B1B1C;
+  --cevons-border: #2A2A2C;
+  --cevons-muted: #B3B3B3;
+  --cevons-dark: #F5F5F5;
+  --cevons-deep-green: #0F0F10;
+}
+
+/* Map common hardcoded bg/text utilities to dark surfaces */
+html.dark .bg-white { background-color: #161616 !important; }
+html.dark .bg-white\/85 { background-color: rgba(22,22,22,0.85) !important; }
+html.dark .text-cevons-dark { color: #F5F5F5; }
+html.dark .text-cevons-muted { color: #B3B3B3; }
+html.dark .border-cevons-border { border-color: #2A2A2C; }
+html.dark .bg-cevons-cream { background-color: #1B1B1C; }
+
+/* Footer keeps its deep-charcoal styling in both themes; nothing to override */

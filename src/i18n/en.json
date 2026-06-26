@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "industries": "Industries",
+    "locations": "Locations",
+    "resources": "Resources",
+    "newsroom": "Newsroom",
+    "about": "About",
+    "contact": "Contact",
+    "trackRequest": "Track Request",
+    "trackMyRequest": "Track My Request",
+    "requestService": "Request a Service",
+    "schedule": "Schedule",
+    "scheduleService": "Schedule a Service",
+    "whatsapp": "WhatsApp Us"
+  },
+  "servicesMenu": {
+    "residential": "Residential",
+    "commercial": "Commercial",
+    "industrial": "Industrial",
+    "facilities": "Facilities",
+    "items": {
+      "general-trash-collection": "General Trash Collection",
+      "dumpster-rental": "Dumpster Rental",
+      "septic-services": "Septic Services",
+      "portable-toilet": "Portable Toilet",
+      "general-waste-management": "General Waste Management",
+      "skip-bin-dumpster-rental": "Skip Bin & Dumpster Rental",
+      "grease-trap-septic-tank": "Grease Trap / Septic Tank",
+      "document-shredding": "Document Shredding",
+      "hazardous-waste": "Hazardous Waste",
+      "wastewater": "Wastewater",
+      "used-waste-oil": "Used Waste Oil",
+      "contaminated-soil": "Contaminated Soil",
+      "tank-cleaning": "Tank Cleaning",
+      "product-destruction": "Product Destruction",
+      "biohazardous-disposal": "Biohazardous Disposal",
+      "material-recovery-facility": "Material Recovery Facility",
+      "landfill-operations": "Landfill Operations"
+    }
+  },
+  "settings": {
+    "title": "Accessibility & Settings",
+    "open": "Accessibility and settings",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "currency": "Currency",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Español",
+    "textSize": "Text size",
+    "normal": "Normal",
+    "large": "Large",
+    "larger": "Larger",
+    "reduceMotion": "Reduce motion",
+    "reduceMotionHint": "Minimize animations and transitions"
+  },
+  "home": {
+    "hero": {
+      "lineA": "Cleaner Today.",
+      "lineB1": "Greener",
+      "lineB2": "Tomorrow.",
+      "subFor": "For Homes.",
+      "subForB": "For Businesses.",
+      "subForC": "For Guyana.",
+      "lead": "From residential collection to industrial waste management, CEVON'S delivers reliable, safe, and sustainable environmental solutions across",
+      "leadCountry": "Guyana.",
+      "ctaWhatsappLabel": "WhatsApp Us",
+      "ctaWhatsappSub": "Chat with our team",
+      "ctaScheduleLabel": "Schedule a Service",
+      "ctaScheduleSub": "Fast & easy booking",
+      "trust": {
+        "reliable": "Reliable Service",
+        "safe": "Safe Operations",
+        "sustainable": "Sustainable Solutions"
+      }
+    },
+    "services": {
+      "eyebrow": "What We Offer",
+      "title1": "Our",
+      "title2": "Services",
+      "viewAll": "View all services",
+      "cards": {
+        "industrial": { "tag": "INDUSTRIAL", "title": "Industrial Waste", "desc": "Safe handling of hazardous and industrial-scale waste streams." },
+        "recyclables": { "tag": "RECYCLABLES", "title": "Recyclables Collection", "desc": "Material recovery that turns waste into reusable resources." },
+        "residential": { "tag": "RESIDENTIAL", "title": "Residential Collection", "desc": "Reliable home pickups across Georgetown, Linden and Berbice." },
+        "commercial": { "tag": "COMMERCIAL", "title": "Commercial Solutions", "desc": "Tailored waste programmes for businesses and properties." },
+        "specialised": { "tag": "SPECIALISED", "title": "Specialised Services", "desc": "Biohazardous, medical and sensitive-stream disposal you can trust." }
+      }
+    },
+    "pillars": {
+      "eyebrow": "What We Do",
+      "titleA": "Our Core",
+      "titleB": "Service",
+      "titleC": "Pillars",
+      "explore": "Explore Services",
+      "items": {
+        "residential": { "title": "Residential", "body": "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
+        "commercial": { "title": "Commercial", "body": "Smart waste solutions for businesses and commercial properties." },
+        "industrial": { "title": "Industrial", "body": "Specialized waste management and industrial environmental services." },
+        "facilities": { "title": "Recycling & Facilities", "body": "Turning waste into resources through recycling and facility services." }
+      }
+    },
+    "stats": {
+      "yearsLabel": "Years leading Guyana's waste industry (Since 1997)",
+      "homesLabel": "Homes & businesses served every day",
+      "tonnesLabel": "Tonnes of waste managed each year",
+      "regionsLabel": "Regions served (Georgetown · Linden · Berbice)",
+      "goal": "1 Goal",
+      "goalSub": "A Cleaner Guyana"
+    },
+    "process": {
+      "eyebrow": "How It Works",
+      "titleA": "Our Simple",
+      "titleB": "6-Step",
+      "titleC": "Process",
+      "step": "Step",
+      "items": {
+        "request": { "title": "Request", "body": "Send your service request or inquiry." },
+        "confirm": { "title": "Confirm", "body": "We confirm details and requirements." },
+        "schedule": { "title": "Schedule", "body": "We schedule the best time for you." },
+        "dispatch": { "title": "Dispatch", "body": "Our team is dispatched." },
+        "service": { "title": "Service", "body": "We deliver quality service." },
+        "complete": { "title": "Complete", "body": "Job complete and you're satisfied." }
+      }
+    },
+    "cta": {
+      "eyebrow": "Let's Build a Greener Guyana",
+      "title": "Ready to Get Started?",
+      "lead": "Let's keep Guyana clean and our environment healthy together.",
+      "whatsapp": "WhatsApp Us",
+      "quote": "Request a Quote"
+    }
+  },
+  "footer": {
+    "tagline": "CEVON'S Environmental Services Inc. delivers reliable waste management and environmental solutions for homes, businesses, and industries across Guyana.",
+    "services": "Services",
+    "categories": "Categories",
+    "company": "Company",
+    "getInTouch": "Get In Touch",
+    "primary": "Primary",
+    "whatsappUs": "WhatsApp Us",
+    "call": "Call",
+    "email": "Email",
+    "branches": "Branches: Georgetown • Linden • Berbice",
+    "serving": "Proudly serving Georgetown, Linden & Berbice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "sitemap": "Sitemap",
+    "admin": "Admin",
+    "servicesList": {
+      "residential": "Residential Garbage Collection",
+      "commercial": "Commercial Garbage Collection",
+      "skipBin": "Skip Bin Rental",
+      "dumpster": "Dumpster Rental",
+      "portable": "Portable Toilet Rental",
+      "septic": "Septic Tank Clearance"
+    },
+    "categoriesList": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "recycling": "Recycling & Facilities"
+    },
+    "companyList": {
+      "about": "About Us",
+      "locations": "Locations",
+      "resources": "Resources",
+      "newsroom": "Newsroom",
+      "contact": "Contact"
+    }
+  }
+}
