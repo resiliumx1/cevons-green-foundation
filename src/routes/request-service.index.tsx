@@ -1026,7 +1026,7 @@ function StepReview({
           className="mt-1"
         />
         <span className="text-sm text-muted-foreground">
-          Keep me updated with CEVON&rsquo;S news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
+          Keep me updated with CEVONS news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
         </span>
       </label>
     </div>

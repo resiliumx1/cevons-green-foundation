@@ -54,7 +54,7 @@ export function CevonsLogo({
     <span className={`inline-flex items-center gap-2 ${className}`}>
       {img}
       <span className={`font-extrabold tracking-tight leading-none ${text} ${textClassName}`}>
-        CEVON&rsquo;S
+        CEVONS
       </span>
     </span>
   );

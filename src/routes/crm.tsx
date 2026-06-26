@@ -130,7 +130,7 @@ function CrmLayout() {
         {!collapsed && (
           <div className="leading-tight min-w-0">
             <div className="text-[15px] font-extrabold tracking-[0.04em]" style={{ color: "#ffffff" }}>
-              CEVON&apos;S
+              CEVONS
             </div>
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
               Growth Command

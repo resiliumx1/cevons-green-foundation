@@ -131,7 +131,7 @@ export function Footer() {
             <a href="#" className="hover:text-cevons-yellow">{t("footer.privacy")}</a>
             <a href="#" className="hover:text-cevons-yellow">{t("footer.terms")}</a>
             <a href="#" className="hover:text-cevons-yellow">{t("footer.sitemap")}</a>
-            <span>© {new Date().getFullYear()} CEVON&rsquo;S Environmental Services Inc.</span>
+            <span>© {new Date().getFullYear()} CEVONS Environmental Services Inc.</span>
             <Link
               to="/crm"
               aria-label="Admin login"

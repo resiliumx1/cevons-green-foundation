@@ -88,7 +88,7 @@ export function Header() {
               className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-cevons-dark"
               style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
             >
-              CEVON&rsquo;S
+              CEVONS
             </span>
             <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-cevons-muted">
               Environmental Services Inc.

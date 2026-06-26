@@ -183,7 +183,7 @@ function CareersPage() {
               Purpose. People. Progress.
             </h2>
             <p className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
-              At CEVON&rsquo;S, our people are our greatest asset. We foster a culture of respect,
+              At CEVONS, our people are our greatest asset. We foster a culture of respect,
               accountability, and continuous improvement — where your work makes a real difference
               every day.
             </p>
@@ -260,7 +260,7 @@ function CareersPage() {
                 className="mt-5 text-2xl md:text-3xl font-bold text-cevons-dark dark:text-white"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                Grow with CEVON&rsquo;S.
+                Grow with CEVONS.
               </h3>
               <p className="mt-3 text-cevons-dark/80 dark:text-white/80 leading-relaxed">
                 We invest in our people because we believe a strong team builds a stronger future.

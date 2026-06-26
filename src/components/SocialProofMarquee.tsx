@@ -138,7 +138,7 @@ export function SocialProofMarquee({
             </h2>
             <p className="mt-4 text-[var(--cevons-muted,#64748B)] text-base md:text-lg">
               From residential collection to industrial waste and facility
-              operations, CEVON&rsquo;S supports communities and organizations
+              operations, CEVONS supports communities and organizations
               across Georgetown, Linden, and Berbice.
             </p>
           </div>

@@ -316,7 +316,7 @@ export function ServiceAssistant() {
             className="text-[15px] font-bold text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Ask CEVON&apos;S
+            Ask CEVONS
           </span>
           <span
             className="flex items-center gap-1 text-[10px] font-semibold uppercase text-white/80"
@@ -365,7 +365,7 @@ export function ServiceAssistant() {
                     className="font-bold truncate text-[15px] leading-tight"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    Cev — CEVON&apos;S Assistant
+                    Cev — CEVONS Assistant
                   </p>
                   <p
                     className="text-[11px] text-white/90 flex items-center gap-1.5 mt-0.5"
@@ -536,7 +536,7 @@ export function ServiceAssistant() {
               >
                 <Leaf className="h-3 w-3" style={{ color: "#A8E6A0" }} />
                 <span className="font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  CEVON&apos;S
+                  CEVONS
                 </span>
                 <span className="font-semibold" style={{ color: "#A8E6A0" }}>
                   ENVIRONMENTAL
