@@ -32,10 +32,10 @@ import imgOil from "@/assets/svc-oil.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About CEVON'S | Waste Management Guyana" },
-      { name: "description", content: "Learn about CEVON'S Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental solutions since 1997." },
-      { property: "og:title", content: "About CEVON'S | Waste Management Guyana" },
-      { property: "og:description", content: "Learn about CEVON'S Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental services." },
+      { title: "About CEVONS | Waste Management Guyana" },
+      { name: "description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental solutions since 1997." },
+      { property: "og:title", content: "About CEVONS | Waste Management Guyana" },
+      { property: "og:description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental services." },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -85,7 +85,7 @@ const complianceBadges = [
 ];
 
 const operationsImages = [
-  { src: imgGarbage, alt: "CEVON’S waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
+  { src: imgGarbage, alt: "CEVONS waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
   { src: imgIndustrial, alt: "Industrial waste management team at work", caption: "Industrial Crews", sub: "Trained, safety-first teams" },
   { src: imgDumpster, alt: "Dumpster rental services for commercial clients", caption: "Rental Equipment", sub: "Dumpsters, skips & portable units" },
   { src: imgOil, alt: "Waste oil recycling and environmental services", caption: "Specialist Services", sub: "Oil, wastewater & recovery" },
@@ -105,7 +105,7 @@ function AboutPage() {
         <div className="absolute inset-0">
           <img
             src={heroAbout}
-            alt="CEVON’S team outside company facility"
+            alt="CEVONS team outside company facility"
             className="size-full object-cover hero-img"
             width={1920}
             height={1080}
@@ -124,7 +124,7 @@ function AboutPage() {
             </ol>
           </nav>
           <h1 id="about-h1" className={`text-white text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            About CEVON’S
+            About CEVONS
           </h1>
           <p className={`mt-5 text-white/85 text-base md:text-xl max-w-xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Guyana’s trusted environmental services partner since 1997.
@@ -144,7 +144,7 @@ function AboutPage() {
                 Supporting a Cleaner, Safer Guyana
               </h2>
               <p className="mt-5 text-[var(--cevons-muted,#64748B)] leading-relaxed text-base md:text-lg">
-                For over 25 years, CEVON’S Environmental Services Inc. has helped homes, businesses, industries, and communities manage waste responsibly. From collection and rentals to specialized environmental services, our team is committed to reliable service, safety, and environmental responsibility.
+                For over 25 years, CEVONS Environmental Services Inc. has helped homes, businesses, industries, and communities manage waste responsibly. From collection and rentals to specialized environmental services, our team is committed to reliable service, safety, and environmental responsibility.
               </p>
               <p className="mt-4 text-[var(--cevons-muted,#64748B)] leading-relaxed">
                 We serve Georgetown, Linden, and Berbice with a growing fleet and a dedicated team focused on protecting the environment while delivering dependable customer support.
@@ -173,7 +173,7 @@ function AboutPage() {
             <div className={`relative rounded-2xl overflow-hidden shadow-soft group transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               <img
                 src={imgRecovery}
-                alt="CEVON’S environmental recovery operations in Guyana"
+                alt="CEVONS environmental recovery operations in Guyana"
                 loading="lazy"
                 className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
                 width={800}
@@ -228,7 +228,7 @@ function AboutPage() {
               Certified. Compliant. Committed.
             </h2>
             <p className="mt-4 text-[var(--cevons-muted,#64748B)]">
-              CEVON’S is committed to responsible environmental practices and professional service standards.
+              CEVONS is committed to responsible environmental practices and professional service standards.
             </p>
           </div>
 
@@ -334,7 +334,7 @@ function AboutPage() {
                   to="/services"
                   className="btn-base btn-yellow"
                 >
-                  <Recycle className="size-4" /> Work With CEVON’S
+                  <Recycle className="size-4" /> Work With CEVONS
                 </Link>
               </div>
             </div>
@@ -379,7 +379,7 @@ function AboutPage() {
                 <Leaf className="size-4" /> Partner With Us
               </p>
               <h2 className="text-white text-3xl md:text-5xl font-extrabold">
-                Ready to Work With CEVON’S?
+                Ready to Work With CEVONS?
               </h2>
               <p className="mt-4 text-white/80 max-w-xl mx-auto">
                 Let us help you manage waste responsibly and efficiently.

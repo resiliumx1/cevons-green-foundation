@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-hazardous.jpg";
 import imgRel1 from "@/assets/svc-destruction.jpg";
 import imgRel2 from "@/assets/svc-shred.jpg";
 
-const PAGE_TITLE = "Biohazardous Waste Disposal in Guyana | CEVON'S";
+const PAGE_TITLE = "Biohazardous Waste Disposal in Guyana | CEVONS";
 const PAGE_DESC = "Safe biohazardous waste collection, transport, and compliant disposal for healthcare and laboratory clients in Guyana.";
 const PAGE_URL = "/services/biohazardous-disposal";
 
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/services/biohazardous-disposal")({
           areaServed: { "@type": "Country", name: "Guyana" },
           provider: {
             "@type": "Organization",
-            name: "CEVON'S Environmental Services Inc.",
+            name: "CEVONS Environmental Services Inc.",
             url: "https://cevons-green-foundation.lovable.app",
           },
           url: `https://cevons-green-foundation.lovable.app${PAGE_URL}`,
@@ -76,7 +76,7 @@ function Page() {
       h1="Biohazardous Waste Disposal"
       subhead="Safe collection, secure transport, and compliant disposal of biohazardous and clinical waste for healthcare and laboratory clients."
       heroImage={imgHero}
-      heroAlt="CEVON'S team collecting labeled biohazard containers at a healthcare facility"
+      heroAlt="CEVONS team collecting labeled biohazard containers at a healthcare facility"
       benefits={["Approved containers and labeling","Trained, equipped crews","Sealed, compliant transport","Documented disposal","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}

@@ -33,7 +33,7 @@ export function NewsletterSignup({
   source,
   variant = "section",
   heading = "Stay in the loop",
-  subheading = "Tips, service updates, and news from CEVON'S — straight to your inbox.",
+  subheading = "Tips, service updates, and news from CEVONS — straight to your inbox.",
 }: Props) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -60,7 +60,7 @@ export function NewsletterSignup({
           Newsletter
         </label>
         <p className="text-white/70 text-xs leading-relaxed mb-3">
-          Get CEVON'S news, tips and service updates.
+          Get CEVONS news, tips and service updates.
         </p>
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">

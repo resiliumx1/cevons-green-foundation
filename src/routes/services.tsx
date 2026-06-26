@@ -45,13 +45,13 @@ import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services | CEVON’S Environmental Services — Guyana" },
+      { title: "Services | CEVONS Environmental Services — Guyana" },
       {
         name: "description",
         content:
           "Complete waste management and environmental services for homes, businesses, industries, and facilities across Georgetown, Linden, and Berbice.",
       },
-      { property: "og:title", content: "CEVON’S Services — Waste Management Guyana" },
+      { property: "og:title", content: "CEVONS Services — Waste Management Guyana" },
       {
         property: "og:description",
         content:
@@ -169,12 +169,12 @@ const tabs: { key: FilterKey; label: string }[] = [
 
 const faqs = [
   {
-    q: "What types of waste does CEVON’S handle?",
+    q: "What types of waste does CEVONS handle?",
     a: "We handle residential trash, commercial waste, industrial and hazardous waste, liquid waste (wastewater and used waste oil), contaminated soil, biohazardous waste, and more across our facilities.",
   },
   {
     q: "Do you provide commercial and industrial services?",
-    a: "Yes. CEVON’S supports businesses, properties, institutions, and industrial operators with scheduled collection, rentals, sanitation, and specialized waste programs.",
+    a: "Yes. CEVONS supports businesses, properties, institutions, and industrial operators with scheduled collection, rentals, sanitation, and specialized waste programs.",
   },
   {
     q: "Can I book online?",
@@ -186,7 +186,7 @@ const faqs = [
   },
   {
     q: "Do you serve Georgetown, Linden, and Berbice?",
-    a: "Yes — CEVON’S operates across Georgetown, Linden, and Berbice, with regional teams supporting each area.",
+    a: "Yes — CEVONS operates across Georgetown, Linden, and Berbice, with regional teams supporting each area.",
   },
   {
     q: "Can I upload photos or documents with my request?",
@@ -274,7 +274,7 @@ function ServicesPage() {
         <div className="absolute inset-0">
           <img
             src={heroServices}
-            alt="CEVON’S waste management trucks, equipment, and environmental service team"
+            alt="CEVONS waste management trucks, equipment, and environmental service team"
             className="size-full object-cover"
             width={1920}
             height={800}

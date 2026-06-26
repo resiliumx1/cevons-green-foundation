@@ -30,10 +30,10 @@ import imgScrap from "@/assets/svc-scrap.jpg";
 export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: [
-      { title: "Resources & Insights | CEVON’S Environmental Services" },
-      { name: "description", content: "Read CEVON’S tips and insights on waste management, recycling, compliance, service preparation, and environmental responsibility in Guyana." },
-      { property: "og:title", content: "Resources & Insights | CEVON’S Environmental Services" },
-      { property: "og:description", content: "Read CEVON’S tips and insights on waste management, recycling, compliance, service preparation, and environmental responsibility in Guyana." },
+      { title: "Resources & Insights | CEVONS Environmental Services" },
+      { name: "description", content: "Read CEVONS tips and insights on waste management, recycling, compliance, service preparation, and environmental responsibility in Guyana." },
+      { property: "og:title", content: "Resources & Insights | CEVONS Environmental Services" },
+      { property: "og:description", content: "Read CEVONS tips and insights on waste management, recycling, compliance, service preparation, and environmental responsibility in Guyana." },
       { property: "og:url", content: "/resources" },
     ],
     links: [{ rel: "canonical", href: "/resources" }],
@@ -96,7 +96,7 @@ const articles: Article[] = [
   },
   {
     title: "How We Help Our Communities Clean",
-    excerpt: "CEVON’S supports cleaner communities through reliable environmental services.",
+    excerpt: "CEVONS supports cleaner communities through reliable environmental services.",
     category: "News",
     date: "February 2026",
     img: imgGarbage,
@@ -142,7 +142,7 @@ function ResourcesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="resources-h1">
         <div className="absolute inset-0">
-          <img src={heroNewsroom} alt="CEVON’S newsroom and media announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
+          <img src={heroNewsroom} alt="CEVONS newsroom and media announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">
@@ -359,7 +359,7 @@ function ResourcesPage() {
 
       <NewsletterSignup
         source="resources"
-        heading="Get CEVON'S tips in your inbox"
+        heading="Get CEVONS tips in your inbox"
         subheading="Practical waste management, compliance and recycling insights — once a month, no spam."
       />
 
@@ -369,7 +369,7 @@ function ResourcesPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/10 bg-[var(--cevons-cream,#FBF7EE)] p-8 md:p-10">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">Press & Milestones</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">Visit the CEVON’S Newsroom</h3>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">Visit the CEVONS Newsroom</h3>
               <p className="mt-2 text-[var(--cevons-muted,#64748B)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
             </div>
             <Link

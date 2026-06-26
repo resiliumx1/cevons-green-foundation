@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-commercial.jpg";
 import imgRel1 from "@/assets/svc-septic.jpg";
 import imgRel2 from "@/assets/svc-wastewater.jpg";
 
-const PAGE_TITLE = "Grease Trap & Septic Tank Services in Guyana | CEVON'S";
+const PAGE_TITLE = "Grease Trap & Septic Tank Services in Guyana | CEVONS";
 const PAGE_DESC = "Grease trap cleaning and septic tank servicing for restaurants, hotels, and commercial facilities across Guyana.";
 const PAGE_URL = "/services/grease-trap-septic-tank";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Grease Trap & Septic Tank Services"
       subhead="Professional grease trap cleaning and septic tank servicing for restaurants, hotels, food service, and commercial facilities."
       heroImage={imgHero}
-      heroAlt="CEVON'S service vehicle performing grease trap cleaning at a commercial kitchen"
+      heroAlt="CEVONS service vehicle performing grease trap cleaning at a commercial kitchen"
       benefits={["Scheduled or on-demand service","Trained, professional crews","Discreet after-hours options","Safe handling and disposal","Service documentation on request"]}
       commonUses={uses}
       faqs={faqs}

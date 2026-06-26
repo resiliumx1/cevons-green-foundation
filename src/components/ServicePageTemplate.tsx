@@ -161,7 +161,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
               />
               <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
                 <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVON'S</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVONS</span>
               </div>
             </div>
           </Reveal>
@@ -281,7 +281,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
         <div className="container-cevons">
           <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVON'S</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVONS</p>
               <h2 id="related-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Related Services</h2>
             </div>
             <Link to="/services" className="inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">

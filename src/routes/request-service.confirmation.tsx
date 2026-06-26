@@ -16,10 +16,10 @@ export const Route = createFileRoute("/request-service/confirmation")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
-      { title: "Request Received | CEVON'S Guyana" },
-      { name: "description", content: "Your CEVON'S service request has been received. We'll be in touch shortly." },
-      { property: "og:title", content: "Request Received | CEVON'S Guyana" },
-      { property: "og:description", content: "Your CEVON'S service request has been received. We'll be in touch shortly." },
+      { title: "Request Received | CEVONS Guyana" },
+      { name: "description", content: "Your CEVONS service request has been received. We'll be in touch shortly." },
+      { property: "og:title", content: "Request Received | CEVONS Guyana" },
+      { property: "og:description", content: "Your CEVONS service request has been received. We'll be in touch shortly." },
     ],
     links: [{ rel: "canonical", href: "/request-service/confirmation" }],
   }),
@@ -74,7 +74,7 @@ function ConfirmationPage() {
   const firstName = summary?.name?.trim().split(/\s+/)[0];
 
   const waMessage = useMemo(() => {
-    const text = `Hi CEVON'S, I just submitted a service request. My reference is ${displayRef}.`;
+    const text = `Hi CEVONS, I just submitted a service request. My reference is ${displayRef}.`;
     return whatsappHref.includes("?")
       ? `${whatsappHref}&text=${encodeURIComponent(text)}`
       : `${whatsappHref}?text=${encodeURIComponent(text)}`;

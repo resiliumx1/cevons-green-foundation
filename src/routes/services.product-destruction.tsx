@@ -6,8 +6,8 @@ import imgRel0 from "@/assets/svc-shred.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
 
-const TITLE = "Product Destruction in Guyana | CEVON'S Environmental Services";
-const DESC = "Controlled product destruction from CEVON'S for businesses that need secure, documented disposal across Guyana.";
+const TITLE = "Product Destruction in Guyana | CEVONS Environmental Services";
+const DESC = "Controlled product destruction from CEVONS for businesses that need secure, documented disposal across Guyana.";
 
 export const Route = createFileRoute("/services/product-destruction")({
   head: () => ({
@@ -33,7 +33,7 @@ function ProductDestructionPage() {
       h1="Product Destruction"
       subhead="Controlled product destruction services for businesses that need secure, documented disposal."
       heroImage={imgHero}
-      heroAlt="Secure product destruction handled by CEVON'S"
+      heroAlt="Secure product destruction handled by CEVONS"
       benefits={[
         "Secure destruction process",
         "Business and industrial support",

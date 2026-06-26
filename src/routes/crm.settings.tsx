@@ -95,7 +95,7 @@ const DEFAULT_NOTIFICATIONS: NotificationPref[] = [
 ];
 
 const DEFAULT_PROFILE: CompanyProfile = {
-  name: "CEVON'S Waste Management",
+  name: "CEVONS Waste Management",
   branches: [
     { name: "Head Office", phone: "+592 000-0000", address: "Georgetown, Guyana", hours: "Mon–Fri 8:00–17:00" },
   ],

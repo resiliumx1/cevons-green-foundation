@@ -21,7 +21,7 @@ import { ServiceAssistant } from "../components/chat/ServiceAssistant";
 
 function NotFoundComponent() {
   if (typeof document !== "undefined") {
-    document.title = "404 Page Not Found | CEVON'S Environmental Services";
+    document.title = "404 Page Not Found | CEVONS Environmental Services";
     let robots = document.querySelector('meta[name="robots"]');
     if (!robots) {
       robots = document.createElement("meta");
@@ -76,10 +76,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CEVON'S Environmental Services Inc." },
+      { title: "CEVONS Environmental Services Inc." },
       { name: "description", content: "Reliable waste management and environmental services across Guyana." },
-      { name: "author", content: "CEVON'S Environmental Services Inc." },
-      { property: "og:site_name", content: "CEVON'S Environmental Services" },
+      { name: "author", content: "CEVONS Environmental Services Inc." },
+      { property: "og:site_name", content: "CEVONS Environmental Services" },
       { property: "og:type", content: "website" },
       { name: "theme-color", content: "#EF7700" },
       { name: "twitter:card", content: "summary_large_image" },

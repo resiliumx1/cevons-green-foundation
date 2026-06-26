@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-recovery.jpg";
 import imgRel1 from "@/assets/svc-skip.jpg";
 import imgRel2 from "@/assets/svc-soil.jpg";
 
-const PAGE_TITLE = "Landfill Operations | CEVON'S Guyana";
+const PAGE_TITLE = "Landfill Operations | CEVONS Guyana";
 const PAGE_DESC = "Managed landfill operations with environmental safeguards and structured intake for commercial and industrial clients.";
 const PAGE_URL = "/services/landfill-operations";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Landfill Operations"
       subhead="Managed landfill operations with environmental safeguards, controlled intake, and structured handling for commercial and industrial clients."
       heroImage={imgHero}
-      heroAlt="Aerial view of CEVON'S managed landfill operation with active working face"
+      heroAlt="Aerial view of CEVONS managed landfill operation with active working face"
       benefits={["Controlled intake and weighing","Trained site operators","Environmental safeguards","Compatibility screening","Specialist intake coordination"]}
       commonUses={uses}
       faqs={faqs}

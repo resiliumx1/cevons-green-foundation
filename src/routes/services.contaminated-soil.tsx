@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-hazardous.jpg";
 import imgRel1 from "@/assets/svc-wastewater.jpg";
 import imgRel2 from "@/assets/svc-landfill.jpg";
 
-const PAGE_TITLE = "Contaminated Soil Services in Guyana | CEVON'S";
+const PAGE_TITLE = "Contaminated Soil Services in Guyana | CEVONS";
 const PAGE_DESC = "Excavation, transport, and treatment coordination for contaminated soil and solid waste across Guyana.";
 const PAGE_URL = "/services/contaminated-soil";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Contaminated Soil Management"
       subhead="Excavation, secure transport, and treatment coordination for impacted soils and contaminated solid waste."
       heroImage={imgHero}
-      heroAlt="CEVON'S crew loading contaminated soil into a covered transport at an industrial site"
+      heroAlt="CEVONS crew loading contaminated soil into a covered transport at an industrial site"
       benefits={["Site assessment support","Proper containment & loading","Covered, compliant transport","Treatment & disposal coordination","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}

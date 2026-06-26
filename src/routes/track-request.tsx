@@ -19,10 +19,10 @@ export const Route = createFileRoute("/track-request")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
-      { title: "Track Your Request | CEVON'S Guyana" },
-      { name: "description", content: "Enter your reference and contact to check the live status of your CEVON'S service request." },
-      { property: "og:title", content: "Track Your Request | CEVON'S Guyana" },
-      { property: "og:description", content: "Track the status of your CEVON'S service request." },
+      { title: "Track Your Request | CEVONS Guyana" },
+      { name: "description", content: "Enter your reference and contact to check the live status of your CEVONS service request." },
+      { property: "og:title", content: "Track Your Request | CEVONS Guyana" },
+      { property: "og:description", content: "Track the status of your CEVONS service request." },
     ],
     links: [{ rel: "canonical", href: "/track-request" }],
   }),
@@ -114,7 +114,7 @@ function TrackRequestPage() {
         subtitle="Enter your reference and contact to check the status of your service request."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Track Request" }]}
         imageSrc="/assets/heroes/hero-track-request.webp"
-        imageAlt="Customer tracking a CEVON'S service request online"
+        imageAlt="Customer tracking a CEVONS service request online"
         height="standard"
         waveVariant="minimal"
       />

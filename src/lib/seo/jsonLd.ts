@@ -1,5 +1,5 @@
 /**
- * Centralized JSON-LD builders for CEVON'S site SEO.
+ * Centralized JSON-LD builders for CEVONS site SEO.
  * Use with TanStack head().scripts:
  *   scripts: [{ type: "application/ld+json", children: JSON.stringify(orgJsonLd()) }]
  */
@@ -28,7 +28,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: cevonsContact.companyName,
-    legalName: "CEVON'S Environmental Services Inc.",
+    legalName: "CEVONS Environmental Services Inc.",
     url: SITE_URL,
     logo: `${SITE_URL}/assets/brand/cevons-logo-correct.webp`,
     email: cevonsContact.email,

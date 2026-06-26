@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-septic.jpg";
 import imgRel2 from "@/assets/svc-toilet.jpg";
 
-const PAGE_TITLE = "General Trash Collection in Guyana | CEVON'S";
+const PAGE_TITLE = "General Trash Collection in Guyana | CEVONS";
 const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean.";
 const PAGE_URL = "/services/general-trash-collection";
 
@@ -37,8 +37,8 @@ const uses = [
 const faqs = [
   { q: "How often is trash collected?", a: "Most residential routes are serviced weekly. Pickup days depend on your area — contact us to confirm your schedule." },
   { q: "What types of waste are included?", a: "Standard household trash, kitchen waste, and bagged yard waste are included. Bulky items, hazardous materials, and construction debris are handled separately." },
-  { q: "Do I need to provide my own bin?", a: "You can use your own bins or ask about CEVON'S collection containers. We'll recommend the right setup for your household." },
-  { q: "What areas do you serve?", a: "CEVON'S serves Georgetown, Linden, and Berbice, with coverage across Guyana. Reach out to confirm service in your community." },
+  { q: "Do I need to provide my own bin?", a: "You can use your own bins or ask about CEVONS collection containers. We'll recommend the right setup for your household." },
+  { q: "What areas do you serve?", a: "CEVONS serves Georgetown, Linden, and Berbice, with coverage across Guyana. Reach out to confirm service in your community." },
   { q: "How do I sign up?", a: "Send us a WhatsApp message or submit a request. We'll confirm your address, schedule, and start your service." },
 ];
 
@@ -57,7 +57,7 @@ function Page() {
       h1="General Trash Collection"
       subhead="Dependable household waste pickup on a schedule that fits your home and community across Guyana."
       heroImage={imgHero}
-      heroAlt="CEVON'S residential garbage collection truck on a Guyana street"
+      heroAlt="CEVONS residential garbage collection truck on a Guyana street"
       benefits={["Scheduled weekly pickup","Friendly, uniformed crews","Modern collection vehicles","Coverage across Guyana","Clean, professional service"]}
       commonUses={uses}
       faqs={faqs}

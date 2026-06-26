@@ -6,8 +6,8 @@ import imgRel0 from "@/assets/svc-landfill.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
-const PAGE_TITLE = "Material Recovery Facility (MRF) | CEVON'S Guyana";
-const PAGE_DESC = "CEVON'S material recovery facility sorts, separates, and recovers materials from the waste stream — turning waste into resources.";
+const PAGE_TITLE = "Material Recovery Facility (MRF) | CEVONS Guyana";
+const PAGE_DESC = "CEVONS material recovery facility sorts, separates, and recovers materials from the waste stream — turning waste into resources.";
 const PAGE_URL = "/services/material-recovery-facility";
 
 export const Route = createFileRoute("/services/material-recovery-facility")({
@@ -57,7 +57,7 @@ function Page() {
       h1="Material Recovery Facility"
       subhead="Sorting, separation, and recovery infrastructure that diverts materials from landfill and returns value to the supply chain."
       heroImage={imgHero}
-      heroAlt="Sorting lines and recovered materials inside the CEVON'S material recovery facility"
+      heroAlt="Sorting lines and recovered materials inside the CEVONS material recovery facility"
       benefits={["Industrial-scale sorting","Material recovery and baling","Waste diversion reporting","Tipping and intake support","Specialist intake coordination"]}
       commonUses={uses}
       faqs={faqs}

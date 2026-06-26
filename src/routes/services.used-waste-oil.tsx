@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-tank.jpg";
 import imgRel1 from "@/assets/svc-hazardous.jpg";
 import imgRel2 from "@/assets/svc-wastewater.jpg";
 
-const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVON'S";
+const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVONS";
 const PAGE_DESC = "Compliant collection and responsible recycling of used waste oil for industrial, marine, and commercial operations across Guyana.";
 const PAGE_URL = "/services/used-waste-oil";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Used Waste Oil Collection & Recycling"
       subhead="Compliant collection, transport, and responsible recycling of used motor, hydraulic, and industrial oils."
       heroImage={imgHero}
-      heroAlt="CEVON'S waste oil collection truck servicing an industrial workshop"
+      heroAlt="CEVONS waste oil collection truck servicing an industrial workshop"
       benefits={["Closed-system pumping","Trained, equipped operators","Compliant transport","Routed to authorized recyclers","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}

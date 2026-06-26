@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
 
-const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVON'S";
+const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
 const PAGE_DESC = "Skip bins and dumpsters for construction, renovation, and ongoing commercial site needs across Guyana.";
 const PAGE_URL = "/services/skip-bin-dumpster-rental";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Skip Bin & Dumpster Rental"
       subhead="Right-sized skip bins and dumpsters for construction, renovation, commercial operations, and ongoing site needs."
       heroImage={imgHero}
-      heroAlt="Skip bin and dumpster from CEVON'S placed on a construction site in Guyana"
+      heroAlt="Skip bin and dumpster from CEVONS placed on a construction site in Guyana"
       benefits={["Multiple sizes available","Short and long-term rental","Timely delivery and swap-outs","Site-friendly placement","Responsible waste disposal"]}
       commonUses={uses}
       faqs={faqs}

@@ -6,7 +6,7 @@ import imgRel0 from "@/assets/svc-hazardous.jpg";
 import imgRel1 from "@/assets/svc-tank.jpg";
 import imgRel2 from "@/assets/svc-oil.jpg";
 
-const PAGE_TITLE = "Industrial Wastewater Services in Guyana | CEVON'S";
+const PAGE_TITLE = "Industrial Wastewater Services in Guyana | CEVONS";
 const PAGE_DESC = "Industrial wastewater collection, transport, and treatment coordination for facilities across Guyana.";
 const PAGE_URL = "/services/wastewater";
 
@@ -57,7 +57,7 @@ function Page() {
       h1="Industrial Wastewater Services"
       subhead="Collection, transport, and treatment coordination for industrial wastewater and process water streams."
       heroImage={imgHero}
-      heroAlt="CEVON'S wastewater service vehicle at an industrial facility in Guyana"
+      heroAlt="CEVONS wastewater service vehicle at an industrial facility in Guyana"
       benefits={["Vacuum tankers and pumps","Trained operators","Proper transport and handling","Treatment coordination","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}

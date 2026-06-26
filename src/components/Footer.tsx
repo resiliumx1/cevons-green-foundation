@@ -55,7 +55,7 @@ export function Footer() {
             <div className="inline-flex items-center">
               <img
                 src={logo}
-                alt="CEVON'S Environmental Services logo"
+                alt="CEVONS Environmental Services logo"
                 className="h-14 w-auto"
                 style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}
               />

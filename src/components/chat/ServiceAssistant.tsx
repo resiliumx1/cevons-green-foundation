@@ -50,7 +50,7 @@ const CHIPS: Chip[] = [
   { label: "Talk to a person",            prompt: "Talk to a person",             icon: User,    tone: "green"  },
 ];
 
-const WELCOME_BOLD = "Hey, I'm Cev — CEVON'S assistant.";
+const WELCOME_BOLD = "Hey, I'm Cev — CEVONS assistant.";
 const WELCOME_BODY =
   "Ask me about our services, your area, or how to book a pickup. I can also point you to the right team.";
 const WELCOME_TEXT = `${WELCOME_BOLD} ${WELCOME_BODY}`;
@@ -304,7 +304,7 @@ export function ServiceAssistant() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open CEVON'S Assistant"
+        aria-label="Open CEVONS Assistant"
         className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-3 rounded-full pl-2 pr-5 py-2 text-left text-white shadow-[0_14px_32px_-12px_rgba(239,119,0,0.55),0_4px_12px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-12px_rgba(239,119,0,0.65),0_6px_16px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
@@ -343,7 +343,7 @@ export function ServiceAssistant() {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-label="CEVON'S Assistant"
+              aria-label="CEVONS Assistant"
               initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 24 }}
               animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 16 }}

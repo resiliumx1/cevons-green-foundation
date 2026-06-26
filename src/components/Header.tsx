@@ -69,7 +69,7 @@ export function Header() {
           className={`flex items-center shrink-0 group gap-2.5 transition-opacity duration-300 ${
             scrolled ? "opacity-90" : "opacity-100"
           }`}
-          aria-label="CEVON'S Environmental Services home"
+          aria-label="CEVONS Environmental Services home"
         >
           <span className="relative inline-flex items-center justify-center">
             <span
@@ -78,7 +78,7 @@ export function Header() {
             />
             <img
               src={logo}
-              alt="CEVON'S Environmental Services"
+              alt="CEVONS Environmental Services"
               className="relative h-12 lg:h-14 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
               style={{ filter: "drop-shadow(0 1px 1px rgba(16,24,32,0.08))" }}
             />

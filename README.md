@@ -1,4 +1,4 @@
-# CEVON'S Environmental Services — CRM & Website
+# CEVONS Environmental Services — CRM & Website
 
 Built on TanStack Start + Lovable Cloud (Supabase). The CRM modules below are wired to real
 Supabase tables via `react-query`. This README captures the implementation prompts used to

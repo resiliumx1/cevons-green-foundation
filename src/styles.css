@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* CEVON'S Environmental Services — Design System */
+/* CEVONS Environmental Services — Design System */
 
 @theme inline {
   --radius-sm: 6px;
@@ -36,7 +36,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* CEVON'S brand tokens */
+  /* CEVONS brand tokens */
   --color-cevons-green: var(--cevons-green);
   --color-cevons-deep-green: var(--cevons-deep-green);
   --color-cevons-yellow: var(--cevons-yellow);
@@ -53,7 +53,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVON'S brand palette — ORANGE-PRIMARY per Brand Guideline.
+  /* CEVONS brand palette — ORANGE-PRIMARY per Brand Guideline.
      Green/yellow/red are accents only. `--cevons-green` token is
      repointed to orange so existing utility classes (bg-cevons-green,
      btn-green, etc.) cascade to the new brand color. The hero scopes

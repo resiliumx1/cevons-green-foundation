@@ -25,9 +25,9 @@ import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 export const Route = createFileRoute("/request-service/")({
   head: () => ({
     meta: [
-      { title: "Request a Service | CEVON'S Guyana" },
-      { name: "description", content: "Request waste management, recycling or environmental services from CEVON'S across Georgetown, Linden, and Berbice." },
-      { property: "og:title", content: "Request a Service | CEVON'S Guyana" },
+      { title: "Request a Service | CEVONS Guyana" },
+      { name: "description", content: "Request waste management, recycling or environmental services from CEVONS across Georgetown, Linden, and Berbice." },
+      { property: "og:title", content: "Request a Service | CEVONS Guyana" },
       { property: "og:description", content: "Tell us what you need and we'll take care of the rest." },
     ],
     links: [{ rel: "canonical", href: "/request-service" }],
@@ -305,7 +305,7 @@ function RequestServicePage() {
         subtitle="Tell us what you need and we’ll take care of the rest."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
         imageSrc="/assets/heroes/hero-request-service.webp"
-        imageAlt="Customer requesting a CEVON’S service online"
+        imageAlt="Customer requesting a CEVONS service online"
         height="standard"
         waveVariant="minimal"
       />
@@ -405,7 +405,7 @@ function RequestServicePage() {
                 <a href={primaryMailtoHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.email}</a>.
                 Or contact the branch closest to you.
               </p>
-              {/* Confirm official WhatsApp number with CEVON'S before launch. */}
+              {/* Confirm official WhatsApp number with CEVONS before launch. */}
               <a
                 href={whatsappHref}
                 {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -849,7 +849,7 @@ function StepSchedule({
       {isSpecialist && (
         <div className="mt-4 rounded-xl border border-[var(--cevons-yellow)]/50 bg-[var(--cevons-yellow)]/15 p-4 text-sm">
           <strong className="font-semibold">Specialist Review Required.</strong>{" "}
-          Submit your request and a CEVON'S team member will contact you by WhatsApp during the same business day.
+          Submit your request and a CEVONS team member will contact you by WhatsApp during the same business day.
         </div>
       )}
 
