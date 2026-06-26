@@ -255,6 +255,7 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
 }
 
 function ServicesPage() {
+  const t = useT();
   const [active, setActive] = useState<FilterKey>("all");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [stuck, setStuck] = useState(false);
