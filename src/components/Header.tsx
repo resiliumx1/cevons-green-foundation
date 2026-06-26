@@ -15,6 +15,7 @@ const nav: NavItem[] = [
   { to: "/resources", key: "resources" },
   { to: "/newsroom", key: "newsroom" },
   { to: "/about", key: "about" },
+  { to: "/careers", key: "careers" },
   { to: "/contact", key: "contact" },
 ];
 
