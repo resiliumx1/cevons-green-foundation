@@ -168,7 +168,7 @@ function HomePage() {
                 const label = t(`home.stats.${labelKey}`);
                 return (
                   <li key={labelKey} className="flex items-center gap-4">
-                    <Icon className="size-7 text-cevons-yellow shrink-0" />
+                    <Icon className="size-7 text-white shrink-0" />
                     <div>
                       <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">{value}</p>
                       <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
