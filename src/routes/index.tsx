@@ -177,12 +177,12 @@ function HomePage() {
                 );
               })}
             </ul>
-            <div className="relative z-10 flex-shrink-0">
+            <div className="relative z-10 flex-shrink-0 w-full flex justify-center lg:w-auto">
               <img
                 src={marketLeaderBadge.url}
                 alt="Market Leader - Trusted Since 1997"
                 loading="lazy"
-                className="h-auto w-full max-w-[280px] md:max-w-[320px] rounded-2xl shadow-2xl"
+                className="h-auto w-[280px] md:w-[320px] rounded-2xl shadow-2xl"
               />
             </div>
           </div>
