@@ -41,7 +41,7 @@ function LinkCol({
   return (
     <div>
       <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-5 inline-flex items-center gap-2">
-        {Icon ? <Icon className="size-4 text-[color:var(--brand-green)]" style={{ color: BRAND_GREEN }} /> : null}
+        {Icon ? <span style={{ color: BRAND_GREEN }}><Icon className="size-4" /></span> : null}
         {title}
       </h4>
       <ul className="space-y-2.5">
