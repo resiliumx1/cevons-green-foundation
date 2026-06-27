@@ -254,40 +254,93 @@ function NewsroomPage() {
       {/* SOCIAL */}
       <NewsroomSocialSection />
 
-      {/* MILESTONES */}
-      <section className="section-y bg-white" aria-labelledby="milestones-heading">
+      {/* MILESTONES — editorial alternating timeline */}
+      <section
+        className="section-y bg-[var(--cevons-cream,#FBF7EE)] dark:bg-[#0f0f0f]"
+        aria-labelledby="milestones-heading"
+      >
         <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">Our Journey</p>
-            <h2 id="milestones-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]" style={{ fontFamily: "Playfair Display, serif" }}>
-              Milestones
+          <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+            <span className="block text-xs md:text-sm font-semibold uppercase tracking-[0.28em] text-[#EF7700] mb-3">
+              Our Journey
+            </span>
+            <h2
+              id="milestones-heading"
+              className="font-display text-4xl md:text-5xl font-bold text-[#1A1A1A] dark:text-white tracking-tight"
+            >
+              Company Milestones
             </h2>
+            <div aria-hidden className="mt-5 mx-auto h-[3px] w-20 rounded-full bg-[#EF7700]" />
           </div>
 
-          <div className="relative max-w-3xl mx-auto">
-            <div className="absolute left-[19px] md:left-[27px] top-0 bottom-0 w-px bg-[var(--cevons-deep-green,#EF7700)]/20" aria-hidden="true" />
-            <ol className="space-y-10 md:space-y-14">
-              {milestones.map(({ year, label, body, icon: Icon, replace }, i) => (
-                <li key={i} className={`relative pl-14 md:pl-20 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ transitionDelay: `${i * 90}ms` }}>
-                  <span className="absolute left-0 top-0 size-10 md:size-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)] text-white flex items-center justify-center shadow-sm" aria-hidden="true">
-                    <Icon className="size-5 md:size-6" />
-                  </span>
-                  <div className="bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 p-5 md:p-6 shadow-sm">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className={`inline-block text-sm font-extrabold px-2.5 py-0.5 rounded ${replace ? "bg-[var(--cevons-yellow,#FFD200)]/20 text-[var(--cevons-dark,#101820)]" : "bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-dark,#101820)]"}`}>
-                        {year}
-                      </span>
-                      <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
-                      {replace && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--cevons-muted,#64748B)] bg-[var(--cevons-cream,#FBF7EE)] px-2 py-0.5 rounded">
-                          [REPLACE]
+          <div className="relative max-w-5xl mx-auto">
+            {/* Vertical spine */}
+            <div
+              aria-hidden="true"
+              className="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#1A1A1A]/15 dark:via-white/15 to-transparent"
+            />
+
+            <ol className="space-y-12 md:space-y-20">
+              {milestones.map(({ year, label, body, icon: Icon, replace }, i) => {
+                const right = i % 2 === 1; // alternate on md+
+                return (
+                  <li
+                    key={i}
+                    className={`relative flex flex-col md:flex-row ${right ? "md:flex-row-reverse" : ""} items-start md:items-center transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                    style={{ transitionDelay: `${i * 90}ms` }}
+                  >
+                    {/* Content column */}
+                    <div className={`w-full md:w-1/2 pl-14 md:pl-0 ${right ? "md:pl-12" : "md:pr-12 md:text-right"}`}>
+                      <div className={`inline-flex items-center gap-2 mb-4 ${right ? "" : "md:flex-row-reverse"}`}>
+                        <span
+                          className={`px-4 py-1 text-sm font-bold rounded-full ${
+                            replace
+                              ? "bg-[#1A1A1A] text-white"
+                              : "bg-[#EF7700] text-white"
+                          }`}
+                        >
+                          {year}
                         </span>
-                      )}
+                        {replace && (
+                          <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-tight rounded-sm bg-[#FFE9C2] border border-[#FFD79A] text-[#7A4A00]">
+                            [REPLACE]
+                          </span>
+                        )}
+                      </div>
+                      <h3
+                        className={`font-display text-2xl font-bold text-[#1A1A1A] dark:text-white mb-3 leading-tight max-w-sm ${right ? "" : "md:ml-auto"}`}
+                      >
+                        {label}
+                      </h3>
+                      <p
+                        className={`text-[#4B5563] dark:text-white/75 leading-relaxed max-w-sm text-sm md:text-base ${right ? "" : "md:ml-auto"}`}
+                      >
+                        {body}
+                      </p>
                     </div>
-                    <p className="text-[var(--cevons-muted,#64748B)] leading-relaxed text-sm md:text-base">{body}</p>
-                  </div>
-                </li>
-              ))}
+
+                    {/* Spine node */}
+                    <div className="absolute left-4 md:left-1/2 top-1 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 z-10">
+                      <div
+                        className={`flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-[#1A1A1A] shadow-md border-4 ${
+                          replace
+                            ? "border-dashed border-[#1A1A1A]/40 dark:border-white/40"
+                            : "border-[#EF7700]"
+                        }`}
+                      >
+                        <Icon
+                          className={`w-4 h-4 ${replace ? "text-[#1A1A1A]/60 dark:text-white/60" : "text-[#EF7700]"}`}
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Spacer for desktop balance */}
+                    <div className="hidden md:block md:w-1/2" />
+                  </li>
+                );
+              })}
             </ol>
           </div>
         </div>
