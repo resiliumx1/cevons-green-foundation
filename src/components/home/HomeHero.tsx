@@ -27,9 +27,8 @@ export function HomeHero() {
       ref={sectionRef}
       className="relative isolate flex flex-col overflow-hidden bg-cevons-dark"
       style={{
-        height: "calc(100vh - 73px)",
-        maxHeight: "calc(100vh - 73px)",
-        paddingBottom: "32px",
+        minHeight: "calc(100vh - 73px)",
+        paddingBottom: "8px",
         ["--cevons-green" as any]: "#EF7700",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
@@ -40,7 +39,7 @@ export function HomeHero() {
       {/* Cinematic 5-slide background slideshow */}
       <HeroSlideshowBackground />
       {/* Slide indicators + progress (above content + partner band) */}
-      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[160px] lg:bottom-[156px]" />
+      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[140px] lg:bottom-[136px]" />
 
 
 
