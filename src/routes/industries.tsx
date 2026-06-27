@@ -174,7 +174,7 @@ function IndustriesPage() {
       </section>
 
       {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="compact" />
+      <LogoCarousel showCta={false} />
 
       {/* INDUSTRY GRID */}
       <section className="section-y bg-white" aria-label="Industry sectors">
