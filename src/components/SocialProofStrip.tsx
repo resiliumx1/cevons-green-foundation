@@ -14,13 +14,8 @@ const items = [
     title: "GCCI Member",
     subtitle: "Private Sector Commission",
   },
-  {
-    logo: "/assets/social-proof/market-leader-trophy.webp",
-    title: "Market Leader",
-    subtitle: "Trusted Since 1997",
-    dark: true,
-  },
 ];
+
 
 export default function SocialProofStrip() {
   return (
