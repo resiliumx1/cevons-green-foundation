@@ -409,9 +409,9 @@ export function ServiceAssistant() {
               exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 16 }}
               transition={panelTransition}
               style={{ transformOrigin: "bottom right" }}
-              className="fixed z-[70] bg-white shadow-2xl flex flex-col overflow-hidden
-                         inset-x-0 bottom-0 top-12 rounded-t-[18px]
-                         md:inset-auto md:bottom-5 md:right-5 md:top-auto md:w-[400px] md:h-[640px] md:max-h-[85vh] md:rounded-[18px]
+              className="fixed z-[70] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] flex flex-col overflow-hidden
+                         bottom-[max(12px,env(safe-area-inset-bottom))] left-3 right-3 top-12 rounded-[24px]
+                         md:inset-auto md:bottom-5 md:right-5 md:left-auto md:top-auto md:w-[440px] md:h-[680px] md:max-h-[85vh] md:rounded-[28px]
                          border border-black/5"
             >
               {/* ============ HEADER ============ */}
