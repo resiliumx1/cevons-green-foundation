@@ -591,6 +591,55 @@ export function ServiceAssistant() {
                   ENVIRONMENTAL
                 </span>
               </div>
+
+              {/* ============ IN-PANEL RESET CONFIRM ============ */}
+              <AnimatePresence>
+                {confirmReset && (
+                  <motion.div
+                    className="absolute inset-0 z-10 grid place-items-center bg-black/30 backdrop-blur-[2px] p-5"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    onClick={() => setConfirmReset(false)}
+                  >
+                    <motion.div
+                      role="alertdialog"
+                      aria-modal="true"
+                      onClick={(e) => e.stopPropagation()}
+                      initial={{ opacity: 0, scale: 0.95, y: 6 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.18 }}
+                      className="w-full max-w-[300px] rounded-2xl bg-white p-5 shadow-2xl border border-black/5"
+                    >
+                      <p className="text-[15px] font-bold text-[#0F0F0F]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Start a new conversation?
+                      </p>
+                      <p className="mt-1.5 text-[13px] text-[#4B5563] leading-relaxed">
+                        This will clear your current chat.
+                      </p>
+                      <div className="mt-4 flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setConfirmReset(false)}
+                          className="rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#1A1A1A] hover:bg-black/[0.03] transition"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={confirmClearChat}
+                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-white hover:brightness-110 transition"
+                          style={{ background: orangeGradient }}
+                        >
+                          Clear chat
+                        </button>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </>
         )}
