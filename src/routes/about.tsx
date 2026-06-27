@@ -325,23 +325,22 @@ function AboutPage() {
       {/* ENVIRONMENTAL RESPONSIBILITY */}
       <section className="section-y bg-white dark:bg-[#0b0b0b] relative" aria-labelledby="env-heading">
         <div className="container-cevons">
-          <div className="relative overflow-hidden rounded-[28px] ring-1 ring-black/5 shadow-[0_30px_60px_-25px_rgba(26,26,26,0.45)]"
-               style={{ background: "linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 60%, #1A1A1A 100%)" }}>
+          <div className="relative overflow-hidden rounded-[28px] ring-1 ring-black/5 shadow-[0_30px_60px_-25px_rgba(26,26,26,0.18)] bg-white">
             <div aria-hidden className="absolute -top-24 -right-24 size-72 rounded-full"
-                 style={{ background: "radial-gradient(circle, rgba(239,119,0,0.35) 0%, transparent 65%)" }} />
+                 style={{ background: "radial-gradient(circle, rgba(239,119,0,0.18) 0%, transparent 65%)" }} />
             <div aria-hidden className="absolute -bottom-24 -left-24 size-72 rounded-full"
-                 style={{ background: "radial-gradient(circle, rgba(255,210,0,0.18) 0%, transparent 65%)" }} />
+                 style={{ background: "radial-gradient(circle, rgba(46,125,50,0.12) 0%, transparent 65%)" }} />
 
             <div className="relative grid md:grid-cols-2 gap-10 lg:gap-16 items-center p-8 sm:p-10 md:p-14">
-              <div className={`text-white transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="inline-flex items-center gap-2 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-sm px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#FFD200] mb-5">
+              <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+                <p className="inline-flex items-center gap-2 rounded-full bg-[#EF7700]/10 ring-1 ring-[#EF7700]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45F00] mb-5">
                   <Leaf className="size-3.5" /> Responsibility
                 </p>
-                <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05]">
+                <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[#1A1A1A]">
                   Built for Impact.<br />
-                  <span className="text-[#FF8A2A]">Driven by Responsibility.</span>
+                  <span className="text-[#EF7700]">Driven by Responsibility.</span>
                 </h2>
-                <p className="mt-5 text-white/80 leading-relaxed text-base md:text-lg max-w-lg">
+                <p className="mt-5 text-[#4B5563] leading-relaxed text-base md:text-lg max-w-lg">
                   Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.
                 </p>
                 <div className="mt-7 flex flex-wrap gap-3">
@@ -355,17 +354,20 @@ function AboutPage() {
               </div>
               <div className={`grid grid-cols-2 gap-4 transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
                 {[
-                  { label: "Recycling Focus", value: "Materials recovery", icon: Recycle },
-                  { label: "Safe Disposal", value: "Proper handling", icon: ShieldCheck },
-                  { label: "Community Clean", value: "Local support", icon: Heart },
-                  { label: "Sustainable Ops", value: "Long-term care", icon: Leaf },
+                  { label: "Recycling Focus", value: "Materials recovery", icon: Recycle, tint: "#2E7D32" },
+                  { label: "Safe Disposal", value: "Proper handling", icon: ShieldCheck, tint: "#1E66D0" },
+                  { label: "Community Clean", value: "Local support", icon: Heart, tint: "#E53935" },
+                  { label: "Sustainable Ops", value: "Long-term care", icon: Leaf, tint: "#EF7700" },
                 ].map((item) => (
-                  <div key={item.label} className="group relative rounded-xl bg-white/[0.04] border border-white/10 p-5 hover:border-[#EF7700]/50 hover:bg-white/[0.06] transition-all">
-                    <span className="inline-flex size-10 items-center justify-center rounded-lg bg-[#EF7700]/15 text-[#FF8A2A] mb-3">
+                  <div key={item.label} className="group relative rounded-xl bg-white border border-black/10 p-5 hover:border-[#EF7700]/50 hover:shadow-[0_10px_24px_-12px_rgba(26,26,26,0.18)] transition-all">
+                    <span
+                      className="inline-flex size-10 items-center justify-center rounded-lg mb-3"
+                      style={{ background: `${item.tint}1A`, color: item.tint }}
+                    >
                       <item.icon className="size-5" />
                     </span>
-                    <p className="text-xs font-bold uppercase tracking-wider text-white/95">{item.label}</p>
-                    <p className="mt-1 text-sm text-white/70 font-medium">{item.value}</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">{item.label}</p>
+                    <p className="mt-1 text-sm text-[#4B5563] font-medium">{item.value}</p>
                   </div>
                 ))}
               </div>
