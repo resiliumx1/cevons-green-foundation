@@ -396,7 +396,6 @@ function AboutPage() {
         </a>
       </OrangeCTABanner>
 
-      </section>
 
       {/* TRUST STRIP */}
       <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
