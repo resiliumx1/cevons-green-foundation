@@ -66,10 +66,10 @@ export function HeroPartnerCarousel() {
       onMouseLeave={() => setPaused(false)}
       style={{
         background: "linear-gradient(180deg, #ffffff 0%, #faf7f1 100%)",
-        padding: "32px 0 36px",
+        padding: "22px 0 24px",
         borderTopLeftRadius: 28,
         borderTopRightRadius: 28,
-        marginTop: -10,
+        marginTop: 0,
         zIndex: 3,
       }}
     >
