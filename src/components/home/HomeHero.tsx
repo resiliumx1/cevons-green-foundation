@@ -143,18 +143,6 @@ export function HomeHero() {
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
-
-      {/* SLIM partner-logo carousel pinned to the bottom of the hero */}
-      <motion.div
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={6}
-        className="relative z-10 w-full shrink-0"
-        data-hero-banner
-      >
-        <HeroPartnerCarousel />
-      </motion.div>
     </section>
     </HeroSlideshowProvider>
   );
