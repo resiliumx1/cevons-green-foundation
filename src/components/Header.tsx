@@ -197,19 +197,22 @@ export function Header() {
                     <div key={item.to} className="flex flex-col">
                       <button
                         onClick={() => setServicesOpen((v) => !v)}
-                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                           active
-                            ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
-                            : "text-cevons-dark border-transparent"
+                            ? "border-[#EF7700]"
+                            : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
+                        style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
                         aria-expanded={servicesOpen}
                         aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
-                          className={`size-5 transition-transform duration-200 ${active ? "text-[#EF7700]" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
+                          className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
+                          style={active ? { color: "#ffffff" } : undefined}
                         />
                       </button>
+
                       {servicesOpen && (
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
