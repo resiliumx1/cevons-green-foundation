@@ -49,16 +49,11 @@ const industriesRow: Item[] = [
   { label: "Environmental Infrastructure", icon: Truck },
 ];
 
-function Pill({ item, iconOnly = false }: { item: Item; iconOnly?: boolean }) {
+function Pill({ item }: { item: Item }) {
   const Icon = item.icon;
-  const iconSize = iconOnly ? 32 : 30;
   return (
-    <span
-      className={`spm-pill group/pill${iconOnly ? " spm-pill-iconly" : ""}`}
-      aria-label={iconOnly ? item.label : undefined}
-      title={iconOnly ? item.label : undefined}
-    >
-      <span className={`spm-pill-icon${item.img ? " spm-pill-icon-img" : ""}${iconOnly ? " spm-pill-icon-lg" : ""}`}>
+    <span className="spm-pill group/pill">
+      <span className={`spm-pill-icon${item.img ? " spm-pill-icon-img" : ""}`}>
         {item.img ? (
           <img
             src={item.img}
@@ -66,14 +61,15 @@ function Pill({ item, iconOnly = false }: { item: Item; iconOnly?: boolean }) {
             aria-hidden="true"
             loading="lazy"
             decoding="async"
-            style={{ width: iconSize, height: iconSize }}
-            className="object-contain"
+            width={24}
+            height={24}
+            className="spm-pill-img"
           />
         ) : Icon ? (
-          <Icon className={iconOnly ? "size-5" : "size-4"} aria-hidden="true" />
+          <Icon className="size-4" aria-hidden="true" />
         ) : null}
       </span>
-      {!iconOnly && <span className="spm-pill-text">{item.label}</span>}
+      <span className="spm-pill-text">{item.label}</span>
     </span>
   );
 }
@@ -82,13 +78,12 @@ function Track({
   items,
   direction = "left",
   duration = 45,
-  iconOnly = false,
 }: {
   items: Item[];
   direction?: "left" | "right";
   duration?: number;
-  iconOnly?: boolean;
 }) {
+
   // Duplicate twice for seamless loop
   const sequence = [...items, ...items];
   return (
@@ -104,7 +99,7 @@ function Track({
             key={`${item.label}-${i}`}
             aria-hidden={i >= items.length ? "true" : undefined}
           >
-            <Pill item={item} iconOnly={iconOnly} />
+            <Pill item={item} />
           </div>
         ))}
       </div>
@@ -180,7 +175,7 @@ export function SocialProofMarquee({
 
         {/* Animated marquee */}
         <div className="spm-motion space-y-3 md:space-y-4">
-          <Track items={trustRow} direction="left" duration={45} iconOnly />
+          <Track items={trustRow} direction="left" duration={45} />
           {!isCompact && (
             <Track items={industriesRow} direction="right" duration={55} />
           )}
