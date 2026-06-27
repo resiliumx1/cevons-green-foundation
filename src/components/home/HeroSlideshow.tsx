@@ -53,18 +53,6 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => { progressRef.current = progress; }, [progress]);
 
-  // Preload every slide image immediately so a blank frame never shows
-  // when the carousel advances. The first slide also renders eagerly in
-  // the <img> below, so this mainly warms slides 2..N.
-  useEffect(() => {
-    const imgs = SLIDES.map((s) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = s.src;
-      return img;
-    });
-    return () => { imgs.forEach((i) => { i.src = ""; }); };
-  }, []);
 
 
   useEffect(() => {
