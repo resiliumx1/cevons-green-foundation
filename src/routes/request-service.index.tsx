@@ -313,9 +313,9 @@ function RequestServicePage() {
 
 
       <section className="container mx-auto px-4 py-10 md:py-14">
-        <div className="grid lg:grid-cols-[1fr_320px] gap-8">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8">
           {/* Form */}
-          <div>
+          <div className="min-w-0">
             <AnimatedTruckStepper
               currentStep={step}
               steps={STEPS}
