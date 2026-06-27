@@ -108,8 +108,7 @@ function GroupCard({ group }: { group: NavGroup }) {
         </span>
         <h2
           id={`sm-${group.title.toLowerCase().replace(/\s+/g, "-")}`}
-          className="text-xl font-extrabold text-cevons-dark dark:text-white"
-          style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+          className="font-display text-xl font-extrabold text-cevons-dark dark:text-white"
         >
           {group.title}
         </h2>
@@ -137,8 +136,7 @@ function SitemapPage() {
             Navigate the site
           </p>
           <h1
-            className="text-4xl md:text-5xl font-extrabold tracking-tight text-cevons-dark dark:text-white"
-            style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+            className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-cevons-dark dark:text-white"
           >
             Sitemap
           </h1>
@@ -177,8 +175,7 @@ function SitemapPage() {
               </span>
               <h2
                 id="sm-services"
-                className="text-xl font-extrabold text-cevons-dark dark:text-white"
-                style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+                className="font-display text-xl font-extrabold text-cevons-dark dark:text-white"
               >
                 Services
               </h2>

@@ -130,7 +130,7 @@ function MediaCard({ item }: { item: MediaItem }) {
             {formatDate(item.published_at)}
           </span>
         </div>
-        <h3 className="text-lg font-bold text-[var(--cevons-dark,#101820)] leading-snug mb-2" style={{ fontFamily: "Playfair Display, serif" }}>
+        <h3 className="font-display text-lg font-bold text-[var(--cevons-dark,#101820)] leading-snug mb-2">
           {item.title}
         </h3>
         {item.summary && (
@@ -172,7 +172,7 @@ function MediaSection({ type, items }: { type: MediaItem["type"]; items: MediaIt
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">
             {meta.eyebrow}
           </p>
-          <h2 id={`media-${type}`} className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-dark,#101820)]" style={{ fontFamily: "Playfair Display, serif" }}>
+          <h2 id={`media-${type}`} className="font-display text-3xl md:text-4xl font-extrabold text-[var(--cevons-dark,#101820)]">
             {meta.title}
           </h2>
         </div>
@@ -223,7 +223,7 @@ function NewsroomPage() {
               <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">Newsroom</li>
             </ol>
           </nav>
-          <h1 id="newsroom-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ fontFamily: "Playfair Display, serif" }}>
+          <h1 id="newsroom-h1" className={`font-display text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Newsroom
           </h1>
           <p className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
