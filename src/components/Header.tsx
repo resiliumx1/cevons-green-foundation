@@ -96,12 +96,12 @@ export function Header() {
           </span>
           <span className="flex flex-col justify-center leading-none">
             <span
-              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-cevons-dark"
+              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-[#2DA339] dark:text-[#4FD163]"
               style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
             >
               CEVONS
             </span>
-            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-cevons-muted">
+            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#2DA339] dark:text-[#4FD163]">
               Environmental Services Inc.
             </span>
           </span>
