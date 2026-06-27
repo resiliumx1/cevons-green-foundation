@@ -267,17 +267,21 @@ export function ServiceAssistant() {
           (data as { reply?: string })?.reply ??
           (data as { error?: string })?.error ??
           "Sorry, I couldn't generate a response.";
-        setMessages((prev) => [...prev, { id: uid(), role: "assistant", text: reply }]);
+        const replyId = uid();
+        setMessages((prev) => [...prev, { id: replyId, role: "assistant", text: reply }]);
+        setStreamingId(replyId);
       } catch (e) {
         console.error("Cev assistant error", e);
+        const errId = uid();
         setMessages((prev) => [
           ...prev,
           {
-            id: uid(),
+            id: errId,
             role: "assistant",
             text: "I couldn't reach the assistant right now. Please try again, or reach us on WhatsApp.",
           },
         ]);
+        setStreamingId(errId);
       } finally {
         setLoading(false);
       }
