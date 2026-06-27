@@ -247,11 +247,11 @@ function AboutPage() {
 
       {/* IMPACT STATS */}
       <section className="relative bg-[var(--cevons-deep-green,#EF7700)] overflow-hidden">
-        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
+        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block opacity-90">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
             <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
-            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#FFD200" />
-            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#E31B23" />
+            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#C45F00" />
+            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#1A1A1A" />
           </svg>
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
