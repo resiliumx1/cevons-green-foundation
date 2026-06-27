@@ -16,7 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { breadcrumbListJsonLd, organizationJsonLd } from "@/lib/seo/jsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsroomSocialSection } from "@/components/newsroom/NewsroomSocialSection";
@@ -230,7 +230,7 @@ function NewsroomPage() {
             Press releases, news coverage, milestones, and the stories behind Guyana’s leading environmental services company.
           </p>
         </div>
-        <WaveDivider variant="breeze" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* MEDIA HUB */}

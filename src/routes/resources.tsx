@@ -14,7 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
@@ -161,7 +161,7 @@ function ResourcesPage() {
             Tips, updates, and insights on waste management and environmental responsibility.
           </p>
         </div>
-        <WaveDivider variant="breeze" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* CATEGORY FILTERS */}

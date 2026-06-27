@@ -18,7 +18,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
@@ -61,19 +61,16 @@ const mvvcards = [
     icon: Target,
     title: "Mission",
     body: "To provide reliable and responsible waste management and environmental services that protect communities and support a cleaner Guyana.",
-    accent: "bg-[var(--cevons-deep-green,#EF7700)] text-white",
   },
   {
     icon: Eye,
     title: "Vision",
     body: "To be the leading environmental services and waste management partner in Guyana and the Caribbean.",
-    accent: "bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-dark,#101820)]",
   },
   {
     icon: Heart,
     title: "Values",
     body: "Safety, integrity, reliability, environmental responsibility, customer focus, and continuous improvement.",
-    accent: "bg-white text-[var(--cevons-deep-green,#EF7700)] border border-[var(--cevons-deep-green,#EF7700)]/10",
   },
 ];
 
@@ -118,9 +115,9 @@ function AboutPage() {
         <div className="container-cevons relative py-24 md:py-32 z-20">
           <nav aria-label="Breadcrumb" className="mb-5">
             <ol className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FFD200)] transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">About</li>
+              <li aria-current="page" className="text-white font-semibold">About</li>
             </ol>
           </nav>
           <h1 id="about-h1" className={`text-white text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
@@ -131,7 +128,7 @@ function AboutPage() {
           </p>
         </div>
 
-        <WaveDivider variant="heritage" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* COMPANY STORY */}
@@ -179,7 +176,7 @@ function AboutPage() {
                 width={800}
                 height={600}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#EF7700)]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
           </div>
         </div>
@@ -195,18 +192,18 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {mvvcards.map(({ icon: Icon, title, body, accent }, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {mvvcards.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-2xl p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${accent} ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-8 hover:-translate-y-1 motion-reduce:transform-none border-t-4 border-t-[#EF7700] ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-white/20 mb-5">
+                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700] mb-5">
                   <Icon className="size-7" />
                 </span>
-                <h3 className="text-2xl font-extrabold">{title}</h3>
-                <p className={`mt-3 leading-relaxed ${title === "Values" ? "text-[var(--cevons-muted,#64748B)]" : "text-white/90"}`}>
+                <h3 className="text-2xl font-extrabold text-[#1A1A1A] dark:text-white">{title}</h3>
+                <p className="mt-3 leading-relaxed text-[var(--cevons-muted,#64748B)] dark:text-white/75">
                   {body}
                 </p>
               </div>
@@ -230,18 +227,18 @@ function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {complianceBadges.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-xl bg-[var(--cevons-cream,#FBF7EE)] border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow flex h-full flex-col rounded-xl bg-white dark:bg-white/[0.04] p-7 text-center hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
+                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
                   <Icon className="size-7" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
+                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -250,18 +247,18 @@ function AboutPage() {
 
       {/* IMPACT STATS */}
       <section className="relative bg-[var(--cevons-deep-green,#EF7700)] overflow-hidden">
-        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
+        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block opacity-90">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
             <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
-            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#FFD200" />
-            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#E31B23" />
+            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#C45F00" />
+            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#1A1A1A" />
           </svg>
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
           <ul className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
             {stats.map(({ icon: Icon, value, label }) => (
               <li key={label} className="flex items-center gap-4">
-                <Icon className="size-7 text-[var(--cevons-yellow,#FFD200)] shrink-0" />
+                <Icon className="size-7 text-white shrink-0" />
                 <div>
                   <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
                     {value}
@@ -284,11 +281,11 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {operationsImages.map(({ src, alt, caption, sub }, i) => (
               <div
                 key={alt}
-                className={`group rounded-2xl overflow-hidden bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow group flex h-full flex-col rounded-2xl overflow-hidden bg-white dark:bg-white/[0.04] hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -300,11 +297,11 @@ function AboutPage() {
                     height={450}
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#EF7700)]/45 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="p-5">
                   <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{caption}</h3>
-                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)]">{sub}</p>
+                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70">{sub}</p>
                 </div>
               </div>
             ))}
@@ -320,7 +317,7 @@ function AboutPage() {
         <div className="container-cevons relative">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-yellow,#FFD200)] mb-3">Responsibility</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-3">Responsibility</p>
               <h2 id="env-heading" className="text-3xl md:text-5xl font-extrabold leading-tight">
                 Built for Impact.<br />Driven by Responsibility.
               </h2>
@@ -344,7 +341,7 @@ function AboutPage() {
                 { label: "Sustainable Ops", value: "Long-term care" },
               ].map((item) => (
                 <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--cevons-yellow,#FFD200)]">{item.label}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-white">{item.label}</p>
                   <p className="mt-1 text-sm text-white/90 font-medium">{item.value}</p>
                 </div>
               ))}
@@ -373,7 +370,7 @@ function AboutPage() {
               }}
             />
             <div className="relative">
-              <p className="text-[var(--cevons-yellow,#FFD200)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
+              <p className="text-white text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> Partner With Us
               </p>
               <h2 className="text-white text-3xl md:text-5xl font-extrabold">

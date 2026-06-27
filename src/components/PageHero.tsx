@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import logoMark from "@/assets/cevons-logo.png";
-import { WaveDivider, type WaveVariant } from "@/components/WaveDivider";
+import { type WaveVariant } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 type Crumb = { label: string; href?: string };
 type Height = "compact" | "standard" | "large";
@@ -65,7 +66,7 @@ export function PageHero({
   align = "left",
   height = "standard",
   showSwoosh = true,
-  waveVariant = "minimal",
+  waveVariant: _waveVariant = "minimal",
   showLogoBadge = false,
   imagePosition = "center center",
   priority = false,
@@ -169,7 +170,7 @@ export function PageHero({
         {children && <div className="mt-7">{children}</div>}
       </div>
 
-      {showSwoosh && <WaveDivider variant={waveVariant} />}
+      {showSwoosh && <WaveHalftoneDivider height={48} />}
     </section>
   );
 }

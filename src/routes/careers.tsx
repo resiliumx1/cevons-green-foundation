@@ -16,6 +16,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
@@ -167,6 +168,7 @@ function CareersPage() {
             </ApplyAction>
           </div>
         </div>
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* WHY WORK WITH US */}
@@ -189,11 +191,11 @@ function CareersPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
             {VALUES.map(({ icon: Icon, title, body }) => (
               <article
                 key={title}
-                className="group rounded-2xl border border-cevons-border dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 md:p-7 shadow-sm hover:shadow-[0_12px_30px_rgba(16,24,32,0.08)] hover:-translate-y-0.5 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none"
+                className="card-glow group flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-6 md:p-7 hover:-translate-y-0.5 motion-reduce:transform-none"
               >
                 <div className="flex items-start gap-4">
                   <span className="shrink-0 inline-flex size-12 items-center justify-center rounded-xl bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
@@ -293,11 +295,11 @@ function CareersPage() {
             </h2>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-stretch">
             {JOBS.map(({ category, title, location, icon: Icon }) => (
               <article
                 key={title}
-                className="group flex flex-col rounded-2xl border border-cevons-border dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 text-center shadow-sm hover:shadow-[0_14px_32px_rgba(16,24,32,0.10)] hover:-translate-y-1 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none"
+                className="card-glow group flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-6 text-center hover:-translate-y-1 motion-reduce:transform-none"
               >
                 <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
                   <Icon className="size-6" />
@@ -313,7 +315,7 @@ function CareersPage() {
                   {location}
                 </p>
                 <ApplyAction
-                  className="mt-5 btn-base btn-green btn-shine w-full"
+                  className="mt-auto pt-5 btn-base btn-green btn-shine w-full"
                   ariaLabel={`View details for ${title}`}
                 >
                   View Details

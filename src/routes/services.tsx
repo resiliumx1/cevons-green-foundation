@@ -35,7 +35,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
@@ -379,7 +379,7 @@ function ServicesPage() {
             Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana.
           </p>
         </div>
-        <WaveDivider variant="flow" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* CATEGORY TABS (sticky) */}
