@@ -10,9 +10,9 @@ import {
   MapPin,
   Calendar,
   User,
-  Paperclip,
   Lock,
   Compass,
+  Minus,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
