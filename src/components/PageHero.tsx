@@ -74,8 +74,9 @@ export function PageHero({
 
   const overlay =
     align === "center"
-      ? "linear-gradient(180deg, rgba(0,63,39,0.78) 0%, rgba(0,63,39,0.52) 60%, rgba(0,0,0,0.20) 100%)"
-      : "linear-gradient(90deg, rgba(0,63,39,0.90) 0%, rgba(0,63,39,0.66) 45%, rgba(0,0,0,0.20) 100%)";
+      ? "linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.55) 60%, rgba(15,15,15,0.30) 100%)"
+      : "linear-gradient(90deg, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.72) 45%, rgba(15,15,15,0.30) 100%)";
+
 
   return (
     <section
