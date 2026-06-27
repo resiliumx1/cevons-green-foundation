@@ -534,7 +534,10 @@ export function ServiceAssistant() {
                   <textarea
                     ref={inputRef}
                     value={input}
-                    onChange={(e) => setInput(e.target.value)}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                      autosizeInput();
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
@@ -545,7 +548,8 @@ export function ServiceAssistant() {
                     disabled={loading}
                     placeholder={loading ? "Cev is replying…" : "Message Cev…"}
                     aria-label="Type your message"
-                    className="flex-1 resize-none rounded-full border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug max-h-28 placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
+                    className="flex-1 resize-none rounded-2xl border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
+                    style={{ maxHeight: 140, overflowY: "auto" }}
                   />
                   <button
                     type="button"
