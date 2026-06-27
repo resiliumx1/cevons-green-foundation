@@ -261,7 +261,9 @@ function HomePage() {
         </div>
       </section>
 
-      <NewsletterSignup source="home" />
+      <section className="bg-cevons-cream py-12 md:py-16">
+        <NewsletterSignup source="home" variant="card" />
+      </section>
     </SiteLayout>
   );
 
