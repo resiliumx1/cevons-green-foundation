@@ -224,12 +224,9 @@ function ResourcesPage() {
                   {featured.excerpt}
                 </p>
                 <div className="mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-[var(--cevons-deep-green,#EF7700)] text-white hover:bg-[var(--cevons-deep-green,#EF7700)]/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green,#EF7700)] focus-visible:ring-offset-2"
-                  >
-                    <BookOpen className="size-4" /> Read Article
-                  </button>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--cevons-muted,#64748B)]">
+                    <BookOpen className="size-4" /> Full article coming soon
+                  </span>
                 </div>
               </div>
             </article>
@@ -273,12 +270,9 @@ function ResourcesPage() {
                   </div>
                   <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)] leading-snug">{title}</h3>
                   <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{excerpt}</p>
-                  <button
-                    type="button"
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)] hover:gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green,#EF7700)] rounded"
-                  >
-                    Read Article <ArrowRight className="size-4" />
-                  </button>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--cevons-muted,#64748B)]">
+                    Coming soon <ArrowRight className="size-4 opacity-60" />
+                  </span>
                 </div>
               </article>
             ))}
@@ -312,7 +306,7 @@ function ResourcesPage() {
               }}
             />
             <div className="relative">
-              <p className="text-[var(--cevons-yellow,#FFD200)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
+              <p className="text-white text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> Get Support
               </p>
               <h2 className="text-white text-3xl md:text-5xl font-extrabold">
