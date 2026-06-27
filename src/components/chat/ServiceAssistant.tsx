@@ -10,9 +10,9 @@ import {
   MapPin,
   Calendar,
   User,
-  Paperclip,
   Lock,
   Compass,
+  Minus,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -117,7 +117,7 @@ function EmblemBadge({
           src={LOGO_MARK}
           alt=""
           className="object-contain"
-          style={{ width: size * 0.78, height: size * 0.78 }}
+          style={{ width: "100%", height: "100%" }}
           draggable={false}
         />
       </span>
@@ -179,6 +179,7 @@ export function ServiceAssistant() {
   });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streamingId, setStreamingId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const reduce = useReducedMotion();
@@ -266,17 +267,21 @@ export function ServiceAssistant() {
           (data as { reply?: string })?.reply ??
           (data as { error?: string })?.error ??
           "Sorry, I couldn't generate a response.";
-        setMessages((prev) => [...prev, { id: uid(), role: "assistant", text: reply }]);
+        const replyId = uid();
+        setMessages((prev) => [...prev, { id: replyId, role: "assistant", text: reply }]);
+        setStreamingId(replyId);
       } catch (e) {
         console.error("Cev assistant error", e);
+        const errId = uid();
         setMessages((prev) => [
           ...prev,
           {
-            id: uid(),
+            id: errId,
             role: "assistant",
             text: "I couldn't reach the assistant right now. Please try again, or reach us on WhatsApp.",
           },
         ]);
+        setStreamingId(errId);
       } finally {
         setLoading(false);
       }
@@ -381,15 +386,24 @@ export function ServiceAssistant() {
                 <button
                   onClick={reset}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
-                  aria-label="Reset conversation"
-                  title="Reset"
+                  aria-label="Start a new conversation"
+                  title="New conversation"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => setOpen(false)}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
-                  aria-label="Close assistant"
+                  aria-label="Minimize chat"
+                  title="Minimize"
+                >
+                  <Minus className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  aria-label="Close chat"
+                  title="Close"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -425,7 +439,17 @@ export function ServiceAssistant() {
                 }}
               >
                 {messages.map((m, i) => (
-                  <Bubble key={m.id} message={m} isFirst={i === 0} />
+                  <Bubble
+                    key={m.id}
+                    message={m}
+                    isFirst={i === 0}
+                    streaming={m.id === streamingId}
+                    onStreamDone={() => setStreamingId((id) => (id === m.id ? null : id))}
+                    onStreamTick={() => {
+                      const el = scrollRef.current;
+                      if (el) el.scrollTop = el.scrollHeight;
+                    }}
+                  />
                 ))}
 
                 {showChips && (
@@ -480,13 +504,6 @@ export function ServiceAssistant() {
               {/* ============ INPUT ============ */}
               <div className="bg-white px-3 pt-3 pb-2 border-t border-black/5">
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    aria-label="Attach (coming soon)"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#F3F1EB] text-[#6B6B6B] hover:bg-[#E9E6DE] transition"
-                  >
-                    <Paperclip className="h-4 w-4" />
-                  </button>
                   <textarea
                     ref={inputRef}
                     value={input}
@@ -508,6 +525,7 @@ export function ServiceAssistant() {
                     onClick={() => send()}
                     disabled={!input.trim() || loading}
                     aria-label="Send"
+                    title="Send message"
                     className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
                     style={{ background: orangeGradient }}
                   >
@@ -550,7 +568,19 @@ export function ServiceAssistant() {
   );
 }
 
-function Bubble({ message, isFirst }: { message: Message; isFirst?: boolean }) {
+function Bubble({
+  message,
+  isFirst,
+  streaming = false,
+  onStreamDone,
+  onStreamTick,
+}: {
+  message: Message;
+  isFirst?: boolean;
+  streaming?: boolean;
+  onStreamDone?: () => void;
+  onStreamTick?: () => void;
+}) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
@@ -574,9 +604,64 @@ function Bubble({ message, isFirst }: { message: Message; isFirst?: boolean }) {
         {isWelcome && (
           <p className="font-bold mb-1">{WELCOME_BOLD}</p>
         )}
-        {body}
+        {streaming ? (
+          <Typewriter text={body} onDone={onStreamDone} onTick={onStreamTick} />
+        ) : (
+          body
+        )}
       </div>
     </div>
+  );
+}
+
+function Typewriter({
+  text,
+  onDone,
+  onTick,
+  charsPerTick = 3,
+  tickMs = 18,
+}: {
+  text: string;
+  onDone?: () => void;
+  onTick?: () => void;
+  charsPerTick?: number;
+  tickMs?: number;
+}) {
+  const reduce = useReducedMotion();
+  const [count, setCount] = useState(reduce ? text.length : 0);
+  const onDoneRef = useRef(onDone);
+  const onTickRef = useRef(onTick);
+  onDoneRef.current = onDone;
+  onTickRef.current = onTick;
+
+  useEffect(() => {
+    if (reduce) {
+      onDoneRef.current?.();
+      return;
+    }
+    if (count >= text.length) {
+      onDoneRef.current?.();
+      return;
+    }
+    const id = window.setTimeout(() => {
+      setCount((c) => Math.min(text.length, c + charsPerTick));
+      onTickRef.current?.();
+    }, tickMs);
+    return () => window.clearTimeout(id);
+  }, [count, text, charsPerTick, tickMs, reduce]);
+
+  const shown = text.slice(0, count);
+  const done = count >= text.length;
+  return (
+    <>
+      {shown}
+      {!done && (
+        <span
+          aria-hidden
+          className="inline-block w-[2px] h-[1em] align-[-2px] ml-[1px] bg-[#EF7700] animate-pulse"
+        />
+      )}
+    </>
   );
 }
 
