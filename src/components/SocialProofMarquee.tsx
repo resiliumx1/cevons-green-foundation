@@ -99,7 +99,7 @@ function Track({
             key={`${item.label}-${i}`}
             aria-hidden={i >= items.length ? "true" : undefined}
           >
-            <Pill item={item} iconOnly={iconOnly} />
+            <Pill item={item} />
           </div>
         ))}
       </div>
