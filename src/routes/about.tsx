@@ -61,19 +61,16 @@ const mvvcards = [
     icon: Target,
     title: "Mission",
     body: "To provide reliable and responsible waste management and environmental services that protect communities and support a cleaner Guyana.",
-    accent: "bg-[var(--cevons-deep-green,#EF7700)] text-white",
   },
   {
     icon: Eye,
     title: "Vision",
     body: "To be the leading environmental services and waste management partner in Guyana and the Caribbean.",
-    accent: "bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-dark,#101820)]",
   },
   {
     icon: Heart,
     title: "Values",
     body: "Safety, integrity, reliability, environmental responsibility, customer focus, and continuous improvement.",
-    accent: "bg-white text-[var(--cevons-deep-green,#EF7700)] border border-[var(--cevons-deep-green,#EF7700)]/10",
   },
 ];
 
