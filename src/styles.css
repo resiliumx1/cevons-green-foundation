@@ -797,11 +797,11 @@
 /* Per-logo presentation tweaks: source images with baked-in
    vertical whitespace render tiny inside the chip — scale them up so
    every logo reads at a consistent visual weight. */
-.lcm-logo[data-logo="gtt"]            { transform: scale(2.3); transform-origin: center; }
-.lcm-logo[data-logo="gysbi"]          { transform: scale(2.6); transform-origin: center; }
-.lcm-logo[data-logo="baker-hughes"]   { transform: scale(1.55); transform-origin: center; }
-.lcm-logo[data-logo="marriott"]       { transform: scale(1.5); transform-origin: center; }
-.lcm-logo[data-logo="pegasus-hotel-guyana"] { transform: scale(1.5); transform-origin: center; }
+.lcm-logo[data-logo="gtt"]            { transform: scale(1.3); transform-origin: center; }
+.lcm-logo[data-logo="gysbi"]          { transform: scale(1.3); transform-origin: center; }
+.lcm-logo[data-logo="baker-hughes"]   { transform: scale(1.2); transform-origin: center; }
+.lcm-logo[data-logo="marriott"]       { transform: scale(1.2); transform-origin: center; }
+.lcm-logo[data-logo="pegasus-hotel-guyana"] { transform: scale(1.2); transform-origin: center; }
 .lcm-logo[data-logo="halliburton"]    { transform: scale(1.05); }
 /* Horizontal nudge for sources with off-center built-in padding */
 .lcm-logo[data-logo="british-high-commission"] { object-position: 45% center; }
@@ -1920,6 +1920,23 @@ html.dark .bg-background { background-color: var(--surface-0); }
 html.dark .text-cevons-dark { color: var(--text-strong); }
 html.dark .text-cevons-deep-green { color: var(--text-strong); }
 html.dark .text-cevons-muted { color: var(--text-muted); }
+
+/* Comma-fallback arbitrary text classes: match by attribute selector so we catch every hex fallback variant */
+html.dark [class*="text-[var(--cevons-deep-green"],
+html.dark [class*="text-[var(--cevons-dark"] { color: var(--text-strong) !important; }
+html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
+html.dark [class*="text-[var(--cevons-green"] { color: #FFA040 !important; }
+html.dark svg[class*="text-[var(--cevons-deep-green"],
+html.dark svg[class*="text-[var(--cevons-dark"] { color: #EF7700 !important; }
+
+/* Hardcoded charcoal hex text classes */
+html.dark [class*="text-[#1A1A1A]"],
+html.dark [class*="text-[#101820]"],
+html.dark [class*="text-[#1a1a1a]"] { color: var(--text-strong) !important; }
+html.dark [class*="text-[#4B5563]"] { color: var(--text-muted) !important; }
+html.dark svg[class*="text-[#1A1A1A]"],
+html.dark svg[class*="text-[#101820]"],
+html.dark svg[class*="text-[#1a1a1a]"] { color: #EF7700 !important; }
 html.dark .border-cevons-border { border-color: var(--hairline); }
 html.dark .border-cevons-border\/60 { border-color: color-mix(in srgb, var(--hairline) 60%, transparent); }
 html.dark .border-cevons-border\/50 { border-color: color-mix(in srgb, var(--hairline) 50%, transparent); }
