@@ -230,7 +230,7 @@ function NewsroomPage() {
             Press releases, news coverage, milestones, and the stories behind Guyana’s leading environmental services company.
           </p>
         </div>
-        <WaveDivider variant="breeze" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* MEDIA HUB */}
