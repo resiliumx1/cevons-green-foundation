@@ -29,7 +29,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
-import { SocialProofMarquee } from "@/components/SocialProofMarquee";
+import { LogoCarousel } from "@/components/home/LogoCarousel";
 const heroIndustries = "/assets/heroes/hero-industries.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -174,7 +174,7 @@ function IndustriesPage() {
       </section>
 
       {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="compact" />
+      <LogoCarousel showCta={false} />
 
       {/* INDUSTRY GRID */}
       <section className="section-y bg-white" aria-label="Industry sectors">

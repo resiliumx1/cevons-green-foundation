@@ -21,7 +21,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { WaveDivider } from "@/components/WaveDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
-import { SocialProofMarquee } from "@/components/SocialProofMarquee";
+
 const heroAbout = "/assets/heroes/hero-about.webp";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
@@ -215,8 +215,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="compact" />
 
       {/* COMPLIANCE SECTION */}
       <section className="section-y bg-white" aria-labelledby="compliance-heading">
