@@ -115,9 +115,9 @@ function AboutPage() {
         <div className="container-cevons relative py-24 md:py-32 z-20">
           <nav aria-label="Breadcrumb" className="mb-5">
             <ol className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FFD200)] transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">About</li>
+              <li aria-current="page" className="text-white font-semibold">About</li>
             </ol>
           </nav>
           <h1 id="about-h1" className={`text-white text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
@@ -317,7 +317,7 @@ function AboutPage() {
         <div className="container-cevons relative">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-yellow,#FFD200)] mb-3">Responsibility</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white mb-3">Responsibility</p>
               <h2 id="env-heading" className="text-3xl md:text-5xl font-extrabold leading-tight">
                 Built for Impact.<br />Driven by Responsibility.
               </h2>
@@ -341,7 +341,7 @@ function AboutPage() {
                 { label: "Sustainable Ops", value: "Long-term care" },
               ].map((item) => (
                 <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--cevons-yellow,#FFD200)]">{item.label}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-white">{item.label}</p>
                   <p className="mt-1 text-sm text-white/90 font-medium">{item.value}</p>
                 </div>
               ))}
@@ -370,7 +370,7 @@ function AboutPage() {
               }}
             />
             <div className="relative">
-              <p className="text-[var(--cevons-yellow,#FFD200)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
+              <p className="text-white text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> Partner With Us
               </p>
               <h2 className="text-white text-3xl md:text-5xl font-extrabold">
