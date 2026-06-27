@@ -1785,6 +1785,11 @@ h3 { font-size: clamp(1.125rem, 1.8vw, 1.375rem); line-height: 1.25; }
 /* Body line-height floor */
 body { line-height: 1.5; }
 
+/* Responsive safety net: never let stray overflowing elements
+   (decorative SVG ribbons, marquees, etc.) widen the page or
+   trigger horizontal scroll on mobile. */
+html, body { overflow-x: clip; }
+
 /* =====================================================
    Settings: text size, dark mode, reduce motion
    ===================================================== */
