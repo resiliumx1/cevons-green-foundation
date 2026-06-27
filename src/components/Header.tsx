@@ -245,17 +245,19 @@ export function Header() {
                   <Link
                     key={item.to}
                     to={item.to}
-                    className={`px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                    className={`px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                       active
-                        ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
-                        : "text-cevons-dark border-transparent"
+                        ? "border-[#EF7700]"
+                        : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                     }`}
+                    style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
                     onClick={() => setMobileOpen(false)}
                     aria-current={active ? "page" : undefined}
                   >
                     {t(`nav.${item.key}`)}
                   </Link>
                 );
+
               })}
             </nav>
 
