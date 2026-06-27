@@ -192,18 +192,18 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {mvvcards.map(({ icon: Icon, title, body, accent }, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {mvvcards.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-2xl p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${accent} ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-8 hover:-translate-y-1 motion-reduce:transform-none border-t-4 border-t-[#EF7700] ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-white/20 mb-5">
+                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700] mb-5">
                   <Icon className="size-7" />
                 </span>
-                <h3 className="text-2xl font-extrabold">{title}</h3>
-                <p className={`mt-3 leading-relaxed ${title === "Values" ? "text-[var(--cevons-muted,#64748B)]" : "text-white/90"}`}>
+                <h3 className="text-2xl font-extrabold text-[#1A1A1A] dark:text-white">{title}</h3>
+                <p className="mt-3 leading-relaxed text-[var(--cevons-muted,#64748B)] dark:text-white/75">
                   {body}
                 </p>
               </div>
