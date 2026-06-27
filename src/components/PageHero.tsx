@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import logoMark from "@/assets/cevons-logo.png";
-import { WaveDivider, type WaveVariant } from "@/components/WaveDivider";
+import { type WaveVariant } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 type Crumb = { label: string; href?: string };
 type Height = "compact" | "standard" | "large";
