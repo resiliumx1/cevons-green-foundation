@@ -106,7 +106,7 @@ function AboutPage() {
           <img
             src={heroAbout}
             alt="CEVONS team outside company facility"
-            className="size-full object-cover hero-img"
+            className="size-full object-cover hero-img hero-img-mobile"
             width={1920}
             height={1080}
             loading="eager"

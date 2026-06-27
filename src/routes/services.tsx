@@ -357,7 +357,7 @@ function ServicesPage() {
           <img
             src={heroServices}
             alt="CEVONS waste management trucks, equipment, and environmental service team"
-            className="size-full object-cover"
+            className="size-full object-cover hero-img-mobile"
             width={1920}
             height={800}
             loading="eager"
