@@ -260,4 +260,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+    </SiteLayout>
+  );
+
+}
 
