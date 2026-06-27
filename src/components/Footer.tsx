@@ -1,8 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Briefcase,
-  Building2,
   Clock,
   Leaf,
   Mail,
