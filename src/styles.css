@@ -2385,3 +2385,118 @@ html.dark :where(
 @media (prefers-reduced-motion: reduce) {
   .card-glow { transition: none; }
 }
+
+/* ===========================================================================
+   Homepage hero — mobile-only polish (<= 768px). Carousel is untouched.
+   Scoped to [data-hero-scope] so nothing else on the site is affected.
+   =========================================================================== */
+@media (max-width: 768px) {
+  /* Relax fixed viewport height so content can breathe; override inline style */
+  [data-hero-scope] {
+    height: auto !important;
+    max-height: none !important;
+    min-height: clamp(760px, 118vh, 860px);
+    padding-bottom: 24px !important;
+  }
+
+  /* Stronger overlay so white copy reads cleanly on any slide */
+  [data-hero-scope]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.10) 70%);
+  }
+
+  /* Content grid: a touch more breathing room top, no center-clamp */
+  [data-hero-scope] [data-hero-content] {
+    align-items: start;
+    padding-top: 20px;
+    padding-bottom: 12px;
+    gap: 0;
+  }
+
+  /* Headline */
+  [data-hero-scope] .hero-heading {
+    font-size: clamp(42px, 11vw, 58px) !important;
+    line-height: 0.95 !important;
+    max-width: 92%;
+    letter-spacing: -0.025em;
+  }
+
+  /* Gold italic line — tighter top gap (18px) */
+  [data-hero-scope] .hero-subhead-pro {
+    margin-top: 18px !important;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  /* Body copy — 28px gap, narrower, easier to read */
+  [data-hero-scope] [data-hero-content] p:not(.hero-subhead-pro) {
+    margin-top: 28px !important;
+    font-size: 16.5px !important;
+    line-height: 1.55 !important;
+    max-width: 34ch;
+  }
+
+  /* CTA row — stack full-width, 22px gap above */
+  [data-hero-scope] [data-hero-content] .mt-4.flex.flex-wrap {
+    margin-top: 22px !important;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    align-items: stretch;
+    max-width: 360px;
+  }
+  [data-hero-scope] .hero-cta {
+    width: 100%;
+    min-height: 70px;
+    padding: 12px 18px !important;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  [data-hero-scope] .hero-cta__label { font-size: 1rem; }
+  [data-hero-scope] .hero-cta__sub { font-size: 0.78rem; }
+
+  /* Trust chips — 32px gap, 2-col chip grid, hide the inline dividers */
+  [data-hero-scope] ul[aria-label="Service guarantees"] {
+    margin-top: 32px !important;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 360px;
+  }
+  [data-hero-scope] ul[aria-label="Service guarantees"] > li {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    line-height: 1.2;
+  }
+  [data-hero-scope] ul[aria-label="Service guarantees"] > li > span[aria-hidden="true"] {
+    display: none; /* hide vertical divider pips */
+  }
+
+  /* Carousel breathing room above (does NOT touch the carousel itself) */
+  [data-hero-scope] [data-hero-banner] {
+    margin-top: 28px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 390px) {
+  [data-hero-scope] .hero-heading {
+    font-size: clamp(38px, 10.5vw, 50px) !important;
+  }
+  [data-hero-scope] .hero-cta { min-height: 64px; }
+  [data-hero-scope] ul[aria-label="Service guarantees"] {
+    grid-template-columns: 1fr;
+  }
+}
+
