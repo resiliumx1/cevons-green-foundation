@@ -63,7 +63,7 @@ export function ServicesCardsSection() {
               >
                 <Link
                   to={c.to}
-                  className="group relative block overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl h-full"
+                  className="group relative block overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl h-full"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img
