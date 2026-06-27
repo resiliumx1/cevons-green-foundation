@@ -20,7 +20,6 @@ type NavItem = { to: string; key: string; hasDropdown?: boolean };
 const nav: NavItem[] = [
   { to: "/", key: "home" },
   { to: "/services", key: "services", hasDropdown: true },
-  { to: "/industries", key: "industries" },
   { to: "/locations", key: "locations" },
   { to: "/resources", key: "resources" },
   { to: "/about", key: "about" },
