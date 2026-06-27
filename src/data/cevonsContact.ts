@@ -1,10 +1,6 @@
 /**
  * Central source of truth for CEVONS official contact details.
  * Source: official CEVONS Environmental Services Inc. contact page.
- *
- * NOTE: The official WhatsApp number has not been confirmed yet.
- * Confirm official WhatsApp number with CEVONS before launch and
- * replace the `whatsapp` field below with the real value.
  */
 
 export type CevonsRegionId = "georgetown" | "linden" | "berbice";
