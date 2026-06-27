@@ -827,7 +827,7 @@
   mix-blend-mode: overlay;
   animation: lcm-shimmer-move 3.6s ease-in-out infinite;
 }
-.dark .lcm-shimmer { mix-blend-mode: screen; opacity: 0.7; }
+/* shimmer renders identically in light/dark */
 @keyframes lcm-shimmer-move {
   0%   { transform: translateX(-30%); }
   100% { transform: translateX(430%); }
