@@ -410,7 +410,7 @@ export function ServiceAssistant() {
               transition={panelTransition}
               style={{ transformOrigin: "bottom right" }}
               className="fixed z-[70] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] flex flex-col overflow-hidden
-                         bottom-[max(12px,env(safe-area-inset-bottom))] left-3 right-3 top-12 rounded-[24px]
+                         bottom-[max(12px,env(safe-area-inset-bottom))] left-3 right-3 top-[96px] rounded-[24px]
                          md:inset-auto md:bottom-5 md:right-5 md:left-auto md:top-auto md:w-[440px] md:h-[680px] md:max-h-[85vh] md:rounded-[28px]
                          border border-black/5"
             >
