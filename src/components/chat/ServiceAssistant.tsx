@@ -117,7 +117,7 @@ function EmblemBadge({
           src={LOGO_MARK}
           alt=""
           className="object-contain"
-          style={{ width: size * 0.78, height: size * 0.78 }}
+          style={{ width: "100%", height: "100%" }}
           draggable={false}
         />
       </span>
