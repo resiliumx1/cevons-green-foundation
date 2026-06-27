@@ -122,9 +122,9 @@ export function HeroPartnerCarousel() {
                   border: "1px solid rgba(31,41,55,0.08)",
                   borderRadius: 18,
                   boxShadow: "0 10px 28px rgba(0,0,0,0.08)",
-                  height: 96,
-                  width: 148,
-                  padding: 20,
+                  height: 78,
+                  width: 132,
+                  padding: 16,
                 }}
               >
                 <img
