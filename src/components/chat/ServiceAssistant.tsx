@@ -9,7 +9,7 @@ import {
   Leaf,
   MapPin,
   Calendar,
-  User,
+  Wrench,
   Lock,
   Compass,
   Minus,
@@ -47,7 +47,7 @@ const CHIPS: Chip[] = [
   { label: "What services do you offer?", prompt: "What services do you offer?", icon: Compass, tone: "orange" },
   { label: "Do you serve my area?",       prompt: "Do you serve my area?",        icon: MapPin,  tone: "green"  },
   { label: "Book a skip bin",             prompt: "Book a skip bin",              icon: Calendar, tone: "orange" },
-  { label: "Talk to a person",            prompt: "Talk to a person",             icon: User,    tone: "green"  },
+  { label: "Schedule a Service",          prompt: "I'd like to schedule a service.", icon: Wrench, tone: "green"  },
 ];
 
 const WELCOME_BOLD = "Hey, I'm Cev — CEVONS assistant.";
@@ -180,9 +180,24 @@ export function ServiceAssistant() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [streamingId, setStreamingId] = useState<string | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const reduce = useReducedMotion();
+
+  const autosizeInput = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const next = Math.min(el.scrollHeight, 140);
+    el.style.height = `${next}px`;
+  }, []);
+
+  const resetInputHeight = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+  }, []);
 
   const sessionId = useMemo(() => {
     if (typeof window === "undefined") return uid();
@@ -252,6 +267,7 @@ export function ServiceAssistant() {
       const next = [...messages, userMsg];
       setMessages(next);
       setInput("");
+      resetInputHeight();
       setLoading(true);
 
       try {
@@ -286,18 +302,22 @@ export function ServiceAssistant() {
         setLoading(false);
       }
     },
-    [input, loading, messages, sessionId],
+    [input, loading, messages, sessionId, resetInputHeight],
   );
 
-  const reset = () => {
-    if (typeof window !== "undefined" && messages.length > 1) {
-      const confirmed = window.confirm(
-        "Start a new conversation? This will clear your current chat.",
-      );
-      if (!confirmed) return;
+  const handleResetClick = () => {
+    if (messages.length > 1) {
+      setConfirmReset(true);
+      return;
     }
     setMessages([{ id: uid(), role: "assistant", text: WELCOME_TEXT }]);
     setStreamingId(null);
+  };
+
+  const confirmClearChat = () => {
+    setMessages([{ id: uid(), role: "assistant", text: WELCOME_TEXT }]);
+    setStreamingId(null);
+    setConfirmReset(false);
   };
 
   const lastUserText = [...messages].reverse().find((m) => m.role === "user")?.text ?? "";
@@ -317,24 +337,24 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-3 rounded-full pl-2 pr-5 py-2 text-left text-white shadow-[0_14px_32px_-12px_rgba(239,119,0,0.55),0_4px_12px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-12px_rgba(239,119,0,0.65),0_6px_16px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
+        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-1.5 sm:gap-2 rounded-full pl-1.5 pr-1.5 sm:pr-3 py-1 text-left text-white shadow-[0_10px_24px_-12px_rgba(239,119,0,0.55),0_3px_8px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_rgba(239,119,0,0.65),0_5px_12px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
-        style={{ background: orangeGradient }}
+        style={{ background: orangeGradient, minHeight: 40 }}
       >
-        <EmblemBadge size={40} />
-        <span className="hidden sm:flex flex-col leading-tight pr-1">
+        <EmblemBadge size={22} />
+        <span className="hidden sm:flex flex-col leading-tight pr-0.5">
           <span
-            className="text-[15px] font-bold text-white"
+            className="text-[13px] font-bold text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Ask CEVONS
           </span>
           <span
-            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-white/80"
+            className="flex items-center gap-1 text-[8px] font-semibold uppercase text-white/80"
             style={{ fontFamily: "'Open Sans', system-ui, sans-serif", letterSpacing: "0.16em" }}
           >
-            <Leaf className="h-2.5 w-2.5" style={{ color: "#A8E6A0" }} />
+            <Leaf className="h-2 w-2" style={{ color: "#A8E6A0" }} />
             AI Assistant
           </span>
         </span>
@@ -391,7 +411,7 @@ export function ServiceAssistant() {
                   </p>
                 </div>
                 <button
-                  onClick={reset}
+                  onClick={handleResetClick}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
                   aria-label="Start a new conversation"
                   title="New conversation"
@@ -514,7 +534,10 @@ export function ServiceAssistant() {
                   <textarea
                     ref={inputRef}
                     value={input}
-                    onChange={(e) => setInput(e.target.value)}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                      autosizeInput();
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
@@ -525,7 +548,8 @@ export function ServiceAssistant() {
                     disabled={loading}
                     placeholder={loading ? "Cev is replying…" : "Message Cev…"}
                     aria-label="Type your message"
-                    className="flex-1 resize-none rounded-full border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug max-h-28 placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
+                    className="flex-1 resize-none rounded-2xl border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
+                    style={{ maxHeight: 140, overflowY: "auto" }}
                   />
                   <button
                     type="button"
@@ -567,6 +591,55 @@ export function ServiceAssistant() {
                   ENVIRONMENTAL
                 </span>
               </div>
+
+              {/* ============ IN-PANEL RESET CONFIRM ============ */}
+              <AnimatePresence>
+                {confirmReset && (
+                  <motion.div
+                    className="absolute inset-0 z-10 grid place-items-center bg-black/30 backdrop-blur-[2px] p-5"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    onClick={() => setConfirmReset(false)}
+                  >
+                    <motion.div
+                      role="alertdialog"
+                      aria-modal="true"
+                      onClick={(e) => e.stopPropagation()}
+                      initial={{ opacity: 0, scale: 0.95, y: 6 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.18 }}
+                      className="w-full max-w-[300px] rounded-2xl bg-white p-5 shadow-2xl border border-black/5"
+                    >
+                      <p className="text-[15px] font-bold text-[#0F0F0F]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Start a new conversation?
+                      </p>
+                      <p className="mt-1.5 text-[13px] text-[#4B5563] leading-relaxed">
+                        This will clear your current chat.
+                      </p>
+                      <div className="mt-4 flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setConfirmReset(false)}
+                          className="rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[13px] font-semibold text-[#1A1A1A] hover:bg-black/[0.03] transition"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={confirmClearChat}
+                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-white hover:brightness-110 transition"
+                          style={{ background: orangeGradient }}
+                        >
+                          Clear chat
+                        </button>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </>
         )}
@@ -607,7 +680,7 @@ function Bubble({
       <div className="mt-0.5">
         <EmblemBadge size={28} ring={false} aiBadge={false} />
       </div>
-      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-black/5 px-3.5 py-2.5 text-[13.5px] text-[#1A1A1A] leading-relaxed whitespace-pre-wrap shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-black/5 px-3.5 py-2.5 text-[14.5px] text-[#0F0F0F] leading-relaxed whitespace-pre-wrap shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
         {isWelcome && (
           <p className="font-bold mb-1">{WELCOME_BOLD}</p>
         )}
@@ -625,8 +698,8 @@ function Typewriter({
   text,
   onDone,
   onTick,
-  charsPerTick = 3,
-  tickMs = 18,
+  charsPerTick = 2,
+  tickMs = 16,
 }: {
   text: string;
   onDone?: () => void;
