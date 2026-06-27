@@ -24,12 +24,15 @@ import {
   ShieldCheck,
   Clock3,
   Headphones,
+  Users,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 const heroIndustries = "/assets/heroes/hero-industries.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
