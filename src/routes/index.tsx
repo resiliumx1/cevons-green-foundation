@@ -114,7 +114,7 @@ function HomePage() {
       <CertificationPanel />
 
       {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="full" />
+      <LogoCarousel />
 
       {/* CORE SERVICE PILLARS */}
       <section className="section-y bg-white">
