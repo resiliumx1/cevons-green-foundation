@@ -568,7 +568,19 @@ export function ServiceAssistant() {
   );
 }
 
-function Bubble({ message, isFirst }: { message: Message; isFirst?: boolean }) {
+function Bubble({
+  message,
+  isFirst,
+  streaming = false,
+  onStreamDone,
+  onStreamTick,
+}: {
+  message: Message;
+  isFirst?: boolean;
+  streaming?: boolean;
+  onStreamDone?: () => void;
+  onStreamTick?: () => void;
+}) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
@@ -592,9 +604,64 @@ function Bubble({ message, isFirst }: { message: Message; isFirst?: boolean }) {
         {isWelcome && (
           <p className="font-bold mb-1">{WELCOME_BOLD}</p>
         )}
-        {body}
+        {streaming ? (
+          <Typewriter text={body} onDone={onStreamDone} onTick={onStreamTick} />
+        ) : (
+          body
+        )}
       </div>
     </div>
+  );
+}
+
+function Typewriter({
+  text,
+  onDone,
+  onTick,
+  charsPerTick = 3,
+  tickMs = 18,
+}: {
+  text: string;
+  onDone?: () => void;
+  onTick?: () => void;
+  charsPerTick?: number;
+  tickMs?: number;
+}) {
+  const reduce = useReducedMotion();
+  const [count, setCount] = useState(reduce ? text.length : 0);
+  const onDoneRef = useRef(onDone);
+  const onTickRef = useRef(onTick);
+  onDoneRef.current = onDone;
+  onTickRef.current = onTick;
+
+  useEffect(() => {
+    if (reduce) {
+      onDoneRef.current?.();
+      return;
+    }
+    if (count >= text.length) {
+      onDoneRef.current?.();
+      return;
+    }
+    const id = window.setTimeout(() => {
+      setCount((c) => Math.min(text.length, c + charsPerTick));
+      onTickRef.current?.();
+    }, tickMs);
+    return () => window.clearTimeout(id);
+  }, [count, text, charsPerTick, tickMs, reduce]);
+
+  const shown = text.slice(0, count);
+  const done = count >= text.length;
+  return (
+    <>
+      {shown}
+      {!done && (
+        <span
+          aria-hidden
+          className="inline-block w-[2px] h-[1em] align-[-2px] ml-[1px] bg-[#EF7700] animate-pulse"
+        />
+      )}
+    </>
   );
 }
 
