@@ -2,27 +2,20 @@ import { Link } from "@tanstack/react-router";
 import {
   Award,
   BadgeCheck,
-  Building2,
   Calendar,
-  Factory,
-  GraduationCap,
-  HardHat,
   Headset,
-  Home,
-  Hotel,
-  Landmark,
   type LucideIcon,
   MapPin,
   MessageCircle,
   Package,
   Recycle,
   ShieldCheck,
-  Stethoscope,
   Truck,
-  Warehouse,
 } from "lucide-react";
 
-type Item = { label: string; icon: LucideIcon };
+type Item = { label: string; icon?: LucideIcon; img?: string };
+
+const I = (name: string) => `/industry-icons/${name}.webp`;
 
 const trustRow: Item[] = [
   { label: "Since 1997", icon: Calendar },
@@ -30,9 +23,9 @@ const trustRow: Item[] = [
   { label: "Georgetown", icon: MapPin },
   { label: "Linden", icon: MapPin },
   { label: "Berbice", icon: MapPin },
-  { label: "Residential Services", icon: Home },
-  { label: "Commercial Services", icon: Building2 },
-  { label: "Industrial Services", icon: HardHat },
+  { label: "Residential Services", img: I("residential") },
+  { label: "Commercial Services", img: I("commercial") },
+  { label: "Industrial Services", img: I("industrial") },
   { label: "Facilities & Recovery", icon: Recycle },
   { label: "WhatsApp Support", icon: MessageCircle },
   { label: "Service Requests Online", icon: Headset },
@@ -40,16 +33,18 @@ const trustRow: Item[] = [
 ];
 
 const industriesRow: Item[] = [
-  { label: "Commercial Real Estate", icon: Building2 },
-  { label: "Manufacturing", icon: Factory },
-  { label: "Industrial Facilities", icon: HardHat },
-  { label: "Healthcare", icon: Stethoscope },
-  { label: "Education", icon: GraduationCap },
-  { label: "Hotels & Restaurants", icon: Hotel },
-  { label: "Government & Municipal", icon: Landmark },
-  { label: "Construction", icon: HardHat },
-  { label: "Logistics & Warehousing", icon: Warehouse },
-  { label: "Residential Communities", icon: Home },
+  { label: "Commercial Real Estate", img: I("commercial") },
+  { label: "Manufacturing", img: I("industrial") },
+  { label: "Industrial Facilities", img: I("industrial") },
+  { label: "Healthcare", img: I("healthcare") },
+  { label: "Education", img: I("education") },
+  { label: "Hotels & Restaurants", img: I("hotels-restaurants") },
+  { label: "Hospitality", img: I("hospitality") },
+  { label: "Retail & Shopping", img: I("retail-shopping") },
+  { label: "Government & Municipal", img: I("government-municipal") },
+  { label: "Construction", img: I("construction") },
+  { label: "Logistics & Warehousing", img: I("logistics-warehousing") },
+  { label: "Residential Communities", img: I("residential") },
   { label: "Recycling & Recovery", icon: Recycle },
   { label: "Environmental Infrastructure", icon: Truck },
 ];
@@ -58,8 +53,19 @@ function Pill({ item }: { item: Item }) {
   const Icon = item.icon;
   return (
     <span className="spm-pill group/pill">
-      <span className="spm-pill-icon">
-        <Icon className="size-4" aria-hidden="true" />
+      <span className={`spm-pill-icon${item.img ? " spm-pill-icon-img" : ""}`}>
+        {item.img ? (
+          <img
+            src={item.img}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="h-[22px] w-[22px] object-contain"
+          />
+        ) : Icon ? (
+          <Icon className="size-4" aria-hidden="true" />
+        ) : null}
       </span>
       <span className="spm-pill-text">{item.label}</span>
     </span>
