@@ -310,15 +310,15 @@ export function ContactForm() {
     const waMsg = encodeURIComponent(`Hi CEVONS — urgent follow-up on my message (ref ${result.reference}).`);
     const waUrl = whatsappHref.includes("?") ? `${whatsappHref}&text=${waMsg}` : `${whatsappHref}?text=${waMsg}`;
     return (
-      <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[#B58900]/30 bg-white shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-br from-[#F5C518] to-[#D4A017] px-6 py-10 text-center">
+      <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[#C45F00]/30 bg-white shadow-lg overflow-hidden">
+        <div className="bg-gradient-to-br from-[#EF7700] to-[#C45F00] px-6 py-10 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/25 ring-4 ring-white/30">
-            <Info className="size-10 text-[#5b4500]" />
+            <Info className="size-10 text-white" />
           </div>
-          <h2 tabIndex={-1} data-panel-heading className="mt-5 text-[#3a2c00] text-3xl md:text-4xl font-extrabold focus:outline-none">
+          <h2 tabIndex={-1} data-panel-heading className="mt-5 text-white text-3xl md:text-4xl font-extrabold focus:outline-none">
             We already have your message
           </h2>
-          <p className="mt-3 text-[#3a2c00]/85 max-w-md mx-auto">
+          <p className="mt-3 text-white/85 max-w-md mx-auto">
             It looks like you contacted us about this on {receivedDate}. Your message (ref{" "}
             <span className="font-mono font-bold">{result.reference}</span>) is with our team and we&rsquo;ll get back to you soon — no need to resend.
           </p>

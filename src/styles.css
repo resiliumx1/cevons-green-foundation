@@ -60,8 +60,8 @@
      its own override to preserve its original green color treatment. */
   --cevons-green: #EF7700;          /* now Cevons Orange (dominant accent / CTA) */
   --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
-  --cevons-yellow: #FCE722;         /* accent only */
-  --cevons-red: #D42229;            /* accent only */
+  --cevons-yellow: #EF7700;         /* sweep: yellow accent → orange */
+  --cevons-red: #EF7700;            /* sweep: red decoration → orange */
   --cevons-dark: #1A1A1A;           /* charcoal */
   --cevons-cream: #FFFFFF;
   --cevons-border: #D9D9D9;
@@ -75,8 +75,8 @@
   --brand-dark-grey: #4A4A4A;
   --brand-light-grey: #D9D9D9;
   --brand-accent-green: #2DA339;    /* small accent only */
-  --brand-accent-yellow: #FCE722;
-  --brand-accent-red: #D42229;
+  --brand-accent-yellow: #EF7700;
+  --brand-accent-red: #EF7700;
 
   /* shadcn semantic tokens — orange primary, charcoal text on orange */
   --background: #FFFFFF;
@@ -91,7 +91,7 @@
   --secondary-foreground: #1A1A1A;
   --muted: #F3F4F6;
   --muted-foreground: #4A4A4A;
-  --accent: #FCE722;
+  --accent: #EF7700;
   --accent-foreground: #1A1A1A;
   --destructive: #D42229;
   --destructive-foreground: #FFFFFF;
@@ -1338,7 +1338,7 @@
   margin-top: -6px;
 }
 .conveyor-band--orange { background: #EF7700; }
-.conveyor-band--charcoal { background: #1A1A1A; }
+.conveyor-band--charcoal { background: #EF7700; color: #1A1A1A; }
 
 .conveyor-band__inner {
   transform: skewY(2.4deg); /* counter-skew so content sits level */
@@ -1355,7 +1355,7 @@
   margin: 0;
 }
 .conveyor-eyebrow--dark { color: #3A1D00; }
-.conveyor-eyebrow--yellow { color: #FCE722; }
+.conveyor-eyebrow--yellow { color: #1A1A1A; }
 
 .conveyor-marquee {
   position: relative;
@@ -1615,8 +1615,8 @@
   opacity: var(--wave-ribbon-opacity, 1);
 }
 .wave-divider__ribbon--green path { fill: #006B35; }
-.wave-divider__ribbon--gold  path { fill: #FFD200; }
-.wave-divider__ribbon--red   path { fill: #E31B23; }
+.wave-divider__ribbon--gold  path { fill: #EF7700; }
+.wave-divider__ribbon--red   path { fill: #C45F00; }
 
 .wave-divider__ribbon--green {
   animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
@@ -1813,7 +1813,7 @@ html.dark {
   --secondary-foreground: var(--text-strong);
   --muted: var(--surface-1);
   --muted-foreground: var(--text-muted);
-  --accent: #FCE722;
+  --accent: #EF7700;
   --accent-foreground: #1A1A1A;
   --destructive: #FF5C61;
   --destructive-foreground: #1A1A1A;
@@ -2136,3 +2136,80 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
   .hero-shimmer { animation: none !important; }
 }
 
+
+/* ============================================================
+   COLOR SWEEP OVERRIDES — orange-forward + readable contrast
+   - Black-by-design SECTION backgrounds (bg-cevons-deep-green
+     and its CSS-var-fallback variants) → solid Cevons Orange.
+   - White text descendants on those sections → charcoal.
+   - Yellow accent text → charcoal (was already orange via tokens
+     but inside an orange section it must drop to dark for AA).
+   ============================================================ */
+:where(
+  .bg-cevons-deep-green,
+  .bg-\[var\(--cevons-deep-green\)\],
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\],
+  .bg-\[var\(--cevons-deep-green\,\#1A1A1A\)\]
+) {
+  background-color: #EF7700 !important;
+  color: #1A1A1A;
+}
+
+/* Gradients referencing the deep-green token in their from/via/to slots */
+:where(
+  [class*="from-cevons-deep-green"],
+  [class*="via-cevons-deep-green"],
+  [class*="to-cevons-deep-green"],
+  [class*="from-[var(--cevons-deep-green"],
+  [class*="via-[var(--cevons-deep-green"],
+  [class*="to-[var(--cevons-deep-green"]
+) {
+  /* allow gradients but tint floor to orange */
+  background-color: #EF7700;
+}
+
+/* Force readable charcoal text inside any block that ends up orange:
+   - bg-cevons-deep-green family
+   - the inline radial-gradient CTA blocks (matched via style attr) */
+.bg-cevons-deep-green :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+.bg-\[var\(--cevons-deep-green\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
+[style*="#EF7700 0%, #EF7700 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+[style*="#EF7700 0%, #EF7700 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
+  color: #1A1A1A !important;
+}
+
+/* Yellow accent / cevons-yellow text inside orange sections → charcoal */
+.bg-cevons-deep-green .text-cevons-yellow,
+.bg-\[var\(--cevons-deep-green\)\] .text-cevons-yellow,
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .text-cevons-yellow,
+[style*="#EF7700 0%, #EF7700 60%"] .text-cevons-yellow,
+[style*="#EF7700 0%, #EF7700 55%"] .text-cevons-yellow {
+  color: #1A1A1A !important;
+}
+
+/* Buttons inside orange CTA sections: charcoal solid for contrast */
+[style*="#EF7700 0%, #EF7700 60%"] .btn-yellow,
+[style*="#EF7700 0%, #EF7700 55%"] .btn-yellow,
+.bg-cevons-deep-green .btn-yellow,
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .btn-yellow {
+  background-color: #1A1A1A !important;
+  color: #FFFFFF !important;
+  border-color: #1A1A1A !important;
+}
+
+/* Borders/dividers using deep-green border become orange-toned on orange */
+.bg-cevons-deep-green :where([class*="border-white/"]),
+[style*="#EF7700 0%, #EF7700 60%"] :where([class*="border-white/"]) {
+  border-color: rgba(26,26,26,0.25) !important;
+}
+
+/* Dark mode: keep these section blocks orange too (already AA: charcoal on orange) */
+html.dark :where(
+  .bg-cevons-deep-green,
+  .bg-\[var\(--cevons-deep-green\)\],
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\]
+) {
+  background-color: #EF7700 !important;
+  color: #1A1A1A !important;
+}

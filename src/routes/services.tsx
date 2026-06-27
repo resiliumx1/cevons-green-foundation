@@ -141,7 +141,7 @@ const categoryOverview: {
     icon: Building2,
     blurb: "Scheduled collection and sanitation for offices, retail, and institutions.",
     items: commercial.map((s) => s.title),
-    accent: "from-[#FFD200] to-[#F0C500]",
+    accent: "from-[#EF7700] to-[#C45F00]",
   },
   {
     key: "industrial",
@@ -445,7 +445,7 @@ function ServicesPage() {
                   key={key}
                   className={`relative overflow-hidden rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
                     isYellow
-                      ? "bg-gradient-to-br from-[#FFD200] to-[#F0C500] text-[var(--cevons-dark)] border-[#E0B800]"
+                      ? "bg-gradient-to-br from-[#EF7700] to-[#C45F00] text-white border-[#C45F00]"
                       : `bg-gradient-to-br ${accent} text-white border-white/10`
                   }`}
                 >
@@ -652,7 +652,7 @@ function ServicesPage() {
             className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #1A1A1A 0%, #1A1A1A 60%, #0A0A0A 100%)",
+                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
             }}
           >
             <div
