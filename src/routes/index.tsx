@@ -20,6 +20,7 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
+import { LogoCarousel } from "@/components/home/LogoCarousel";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
