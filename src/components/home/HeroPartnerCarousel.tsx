@@ -61,21 +61,48 @@ export function HeroPartnerCarousel() {
 
   return (
     <div
-      className="hpc-carousel relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-2"
+      className="hpc-carousel relative w-full"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      style={{
+        background: "linear-gradient(180deg, #ffffff 0%, #faf7f1 100%)",
+        padding: "32px 0 36px",
+        borderTopLeftRadius: 28,
+        borderTopRightRadius: 28,
+        marginTop: -10,
+        zIndex: 3,
+      }}
     >
       <div className="container-cevons">
-        <p className="text-[10px] md:text-xs font-bold tracking-[0.22em] text-cevons-green uppercase text-center mb-2">
+        <p
+          className="text-center font-bold uppercase mx-auto"
+          style={{
+            color: "#1F2937",
+            fontSize: 12,
+            letterSpacing: "0.22em",
+            maxWidth: 340,
+          }}
+        >
           Trusted by leading organisations across Guyana
         </p>
+        <div
+          aria-hidden
+          className="mx-auto"
+          style={{
+            width: 72,
+            height: 3,
+            background: "#EF7700",
+            borderRadius: 999,
+            margin: "12px auto 22px",
+          }}
+        />
 
         <div className="relative flex items-center gap-2">
           <button
             type="button"
             aria-label="Previous partners"
             onClick={() => page(-1)}
-            className="shrink-0 grid place-items-center size-8 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[#EF7700] transition shadow-sm"
           >
             <ChevronLeft className="size-4" />
           </button>
@@ -89,16 +116,23 @@ export function HeroPartnerCarousel() {
             {[...partners, ...partners].map((p, i) => (
               <div
                 key={`hp-${i}`}
-                className="shrink-0 flex h-16 w-[124px] items-center justify-center rounded-lg bg-white px-4 py-3 shadow-sm md:h-[68px] md:w-[148px]"
+                className="shrink-0 flex items-center justify-center"
+                style={{
+                  background: "#fff",
+                  border: "1px solid rgba(31,41,55,0.08)",
+                  borderRadius: 18,
+                  boxShadow: "0 10px 28px rgba(0,0,0,0.08)",
+                  height: 96,
+                  width: 148,
+                  padding: 20,
+                }}
               >
-                <span className="flex h-full w-full items-center justify-center">
-                  <img
-                    src={p.src}
-                    alt={p.alt}
-                    loading="lazy"
-                    className="block h-full w-full object-contain object-center"
-                  />
-                </span>
+                <img
+                  src={p.src}
+                  alt={p.alt}
+                  loading="lazy"
+                  className="block h-full w-full object-contain object-center"
+                />
               </div>
             ))}
           </div>
@@ -107,17 +141,17 @@ export function HeroPartnerCarousel() {
             type="button"
             aria-label="Next partners"
             onClick={() => page(1)}
-            className="shrink-0 grid place-items-center size-8 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
+            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[#EF7700] transition shadow-sm"
           >
             <ChevronRight className="size-4" />
           </button>
         </div>
 
         {/* Progress bar */}
-        <div className="mt-2 h-[2px] w-full bg-white/10 rounded-full overflow-hidden">
+        <div className="mt-3 h-[3px] w-full bg-black/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-cevons-green transition-[width] duration-150"
-            style={{ width: `${Math.max(8, progress)}%` }}
+            className="h-full rounded-full transition-[width] duration-150"
+            style={{ width: `${Math.max(8, progress)}%`, background: "#EF7700" }}
           />
         </div>
       </div>
