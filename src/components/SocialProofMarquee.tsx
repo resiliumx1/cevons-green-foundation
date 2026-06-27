@@ -49,11 +49,16 @@ const industriesRow: Item[] = [
   { label: "Environmental Infrastructure", icon: Truck },
 ];
 
-function Pill({ item }: { item: Item }) {
+function Pill({ item, iconOnly = false }: { item: Item; iconOnly?: boolean }) {
   const Icon = item.icon;
+  const iconSize = iconOnly ? 32 : 30;
   return (
-    <span className="spm-pill group/pill">
-      <span className={`spm-pill-icon${item.img ? " spm-pill-icon-img" : ""}`}>
+    <span
+      className={`spm-pill group/pill${iconOnly ? " spm-pill-iconly" : ""}`}
+      aria-label={iconOnly ? item.label : undefined}
+      title={iconOnly ? item.label : undefined}
+    >
+      <span className={`spm-pill-icon${item.img ? " spm-pill-icon-img" : ""}${iconOnly ? " spm-pill-icon-lg" : ""}`}>
         {item.img ? (
           <img
             src={item.img}
@@ -61,13 +66,14 @@ function Pill({ item }: { item: Item }) {
             aria-hidden="true"
             loading="lazy"
             decoding="async"
-            className="h-[22px] w-[22px] object-contain"
+            style={{ width: iconSize, height: iconSize }}
+            className="object-contain"
           />
         ) : Icon ? (
-          <Icon className="size-4" aria-hidden="true" />
+          <Icon className={iconOnly ? "size-5" : "size-4"} aria-hidden="true" />
         ) : null}
       </span>
-      <span className="spm-pill-text">{item.label}</span>
+      {!iconOnly && <span className="spm-pill-text">{item.label}</span>}
     </span>
   );
 }
@@ -76,10 +82,12 @@ function Track({
   items,
   direction = "left",
   duration = 45,
+  iconOnly = false,
 }: {
   items: Item[];
   direction?: "left" | "right";
   duration?: number;
+  iconOnly?: boolean;
 }) {
   // Duplicate twice for seamless loop
   const sequence = [...items, ...items];
@@ -96,13 +104,14 @@ function Track({
             key={`${item.label}-${i}`}
             aria-hidden={i >= items.length ? "true" : undefined}
           >
-            <Pill item={item} />
+            <Pill item={item} iconOnly={iconOnly} />
           </div>
         ))}
       </div>
     </div>
   );
 }
+
 
 function StaticGrid({ items }: { items: Item[] }) {
   return (
