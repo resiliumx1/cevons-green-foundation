@@ -797,7 +797,7 @@
 }
 
 @media (max-width: 640px) {
-  .lcm-chip { width: 128px; height: 70px; padding: 10px 14px; border-radius: 14px; }
+  .lcm-chip { width: 140px; height: 84px; padding: 8px 12px; border-radius: 14px; }
   .lcm-track { gap: 12px; animation-duration: 45s; }
   .lcm-fade { width: 48px; }
 }
