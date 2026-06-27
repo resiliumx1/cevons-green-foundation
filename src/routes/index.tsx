@@ -106,9 +106,6 @@ function HomePage() {
     <SiteLayout>
       <HomeHero />
 
-      {/* SERVICES — card section below the hero */}
-      <ServicesCardsSection />
-
       {/* Certification panel — EPA / ISO / GCCI / Market Leader */}
       <CertificationPanel />
 
