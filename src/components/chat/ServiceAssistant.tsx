@@ -404,9 +404,9 @@ export function ServiceAssistant() {
               role="dialog"
               aria-modal="true"
               aria-label="CEVONS Assistant"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 24 }}
-              animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
-              exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 16 }}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+              animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
               transition={panelTransition}
               style={{ transformOrigin: "bottom right" }}
               className="fixed z-[70] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] flex flex-col overflow-hidden
