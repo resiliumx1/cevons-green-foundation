@@ -123,7 +123,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={5}
-            className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
+            className="mt-3 md:mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
             aria-label="Service guarantees"
           >
             {[
