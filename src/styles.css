@@ -666,12 +666,25 @@
   color: #006B35;
 }
 .spm-pill-icon-img {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   background: transparent;
   padding: 0;
 }
+.spm-pill-iconly {
+  padding: 10px;
+  gap: 0;
+}
+.spm-pill-iconly .spm-pill-icon {
+  width: 40px;
+  height: 40px;
+}
+.spm-pill-iconly .spm-pill-icon-img {
+  width: 44px;
+  height: 44px;
+}
 .spm-pill-text { line-height: 1; }
+
 
 .spm-reduced { display: none; }
 @media (prefers-reduced-motion: reduce) {
