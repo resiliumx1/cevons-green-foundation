@@ -775,9 +775,7 @@
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.dark .lcm-chip {
-  border-color: rgba(255,255,255,0.08);
-}
+/* .lcm-chip border stays light in dark mode */
 .lcm-chip:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(16,24,32,0.12), 0 2px 4px rgba(16,24,32,0.06);
