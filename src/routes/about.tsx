@@ -176,7 +176,7 @@ function AboutPage() {
                 width={800}
                 height={600}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#EF7700)]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
           </div>
         </div>
