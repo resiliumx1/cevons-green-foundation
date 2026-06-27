@@ -33,11 +33,15 @@ import {
   Minus,
   PaintRoller,
   AlertTriangle,
+  Compass,
+  ClipboardList,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { whatsappHref } from "@/data/cevonsContact";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { useT } from "@/contexts/SettingsContext";
