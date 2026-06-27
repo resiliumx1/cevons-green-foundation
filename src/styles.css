@@ -2419,82 +2419,83 @@ html.dark :where(
 
   /* Headline */
   [data-hero-scope] .hero-heading {
-    font-size: clamp(34px, 9vw, 46px) !important;
-    line-height: 1.0 !important;
-    max-width: 94%;
-    letter-spacing: -0.025em;
+    font-size: clamp(28px, 7.2vw, 38px) !important;
+    line-height: 1.02 !important;
+    max-width: 96%;
+    letter-spacing: -0.02em;
   }
 
   /* Gold italic line */
   [data-hero-scope] .hero-subhead-pro {
-    margin-top: 12px !important;
-    font-size: 14px;
-    line-height: 1.4;
+    margin-top: 8px !important;
+    font-size: 13px;
+    line-height: 1.35;
   }
 
   /* Body copy */
   [data-hero-scope] [data-hero-content] p:not(.hero-subhead-pro) {
-    margin-top: 14px !important;
-    font-size: 16px !important;
-    line-height: 1.5 !important;
-    max-width: 36ch;
+    margin-top: 8px !important;
+    font-size: 13.5px !important;
+    line-height: 1.4 !important;
+    max-width: 38ch;
   }
 
-  /* CTA row — premium full-width action cards, stacked */
+  /* CTA row — premium full-width action cards, stacked, compact */
+  [data-hero-scope] [data-hero-content] .mt-3.flex.flex-wrap,
   [data-hero-scope] [data-hero-content] .mt-4.flex.flex-wrap {
-    margin-top: 22px !important;
+    margin-top: 14px !important;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 18px;
+    gap: 10px;
     align-items: stretch;
     max-width: 390px;
-    padding: 0 0;
   }
   [data-hero-scope] .hero-cta {
     width: 100%;
-    min-height: 108px;
-    border-radius: 26px !important;
-    padding: 18px 20px !important;
+    min-height: 72px;
+    border-radius: 20px !important;
+    padding: 10px 14px !important;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 12px;
     position: relative;
     border: 1px solid rgba(255,255,255,0.22) !important;
     overflow: hidden;
   }
+
   /* Right-side circular arrow indicator */
   [data-hero-scope] .hero-cta::after {
     content: "→";
     position: absolute;
-    right: 18px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     border-radius: 999px;
     background: rgba(255,255,255,0.18);
     border: 1px solid rgba(255,255,255,0.35);
     color: #fff;
     display: grid;
     place-items: center;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     line-height: 1;
   }
   [data-hero-scope] .hero-cta--whatsapp {
     background: linear-gradient(135deg, #0FAF45 0%, #047A2B 100%) !important;
-    box-shadow: 0 16px 38px rgba(0,150,70,0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
+    box-shadow: 0 12px 28px rgba(0,150,70,0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
     color: #fff !important;
   }
   [data-hero-scope] .hero-cta--schedule {
     background: linear-gradient(135deg, #FF8A00 0%, #D96500 100%) !important;
-    box-shadow: 0 16px 38px rgba(239,119,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22) !important;
+    box-shadow: 0 12px 28px rgba(239,119,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22) !important;
     color: #fff !important;
   }
   [data-hero-scope] .hero-cta__icon,
   [data-hero-scope] .hero-cta > svg:first-child {
-    width: 52px !important;
-    height: 52px !important;
-    border-radius: 16px;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px;
     background: rgba(255,255,255,0.18);
     border: 1px solid rgba(255,255,255,0.28);
     display: grid;
@@ -2502,24 +2503,23 @@ html.dark :where(
     flex-shrink: 0;
     color: #fff !important;
   }
-  [data-hero-scope] .hero-cta > svg:first-child {
-    padding: 12px;
-  }
-  [data-hero-scope] .hero-cta__icon svg { width: 24px; height: 24px; }
-  [data-hero-scope] .hero-cta__text { padding-right: 44px; }
-  [data-hero-scope] .hero-cta__label { font-size: 1.05rem; font-weight: 800; color: #fff !important; }
+  [data-hero-scope] .hero-cta > svg:first-child { padding: 9px; }
+  [data-hero-scope] .hero-cta__icon svg { width: 20px; height: 20px; }
+  [data-hero-scope] .hero-cta__text { padding-right: 38px; }
+  [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #fff !important; line-height: 1.1; }
   [data-hero-scope] .hero-cta__sub {
-    font-size: 0.84rem;
-    color: rgba(255,255,255,0.85) !important;
+    font-size: 0.74rem;
+    color: rgba(255,255,255,0.88) !important;
     font-weight: 500;
     margin-top: 2px;
+    line-height: 1.15;
   }
-  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(255,255,255,0.88) !important; }
+  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(255,255,255,0.9) !important; }
 
   /* Trust chips — single glass bar with 3 columns + dividers */
   [data-hero-scope] ul[aria-label="Service guarantees"] {
-    margin-top: 20px !important;
-    margin-bottom: 18px !important;
+    margin-top: 12px !important;
+    margin-bottom: 10px !important;
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 0 !important;
@@ -2527,10 +2527,11 @@ html.dark :where(
     background: rgba(10, 12, 10, 0.58);
     border: 1px solid rgba(255,255,255,0.16);
     backdrop-filter: blur(12px);
-    border-radius: 20px;
-    padding: 14px 8px;
+    border-radius: 16px;
+    padding: 10px 6px;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
   }
+
   [data-hero-scope] ul[aria-label="Service guarantees"] > li {
     flex-direction: column;
     align-items: center;
@@ -2556,37 +2557,73 @@ html.dark :where(
     display: none;
   }
   [data-hero-scope] ul[aria-label="Service guarantees"] > li svg {
-    width: 26px !important;
-    height: 26px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
   [data-hero-scope] ul[aria-label="Service guarantees"] > li > span:not([aria-hidden]) {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 11.5px;
+    line-height: 1.15;
   }
 
-  /* Carousel snug under badges */
+
+  /* Carousel snug under badges — shrink footprint to ~150–170px tall */
   [data-hero-scope] [data-hero-banner] {
-    margin-top: 14px;
+    margin-top: 10px;
   }
   [data-hero-scope] .hpc-carousel {
-    padding: 18px 0 22px !important;
-    border-top-left-radius: 24px !important;
-    border-top-right-radius: 24px !important;
+    padding: 14px 0 16px !important;
+    border-top-left-radius: 22px !important;
+    border-top-right-radius: 22px !important;
     margin-top: 0 !important;
   }
+  /* Compact label + divider */
+  [data-hero-scope] .hpc-carousel > .container-cevons > p {
+    font-size: 11px !important;
+    letter-spacing: 0.18em !important;
+  }
+  [data-hero-scope] .hpc-carousel > .container-cevons > div[aria-hidden] {
+    margin: 8px auto 12px !important;
+    width: 56px !important;
+    height: 2px !important;
+  }
+  /* Smaller logo cards on mobile */
+  [data-hero-scope] .hpc-carousel [class*="shrink-0"][class*="items-center"][class*="justify-center"] {
+    height: 64px !important;
+    width: 104px !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+  }
+  /* Smaller arrow buttons on mobile */
+  [data-hero-scope] .hpc-carousel button[aria-label*="partners"] {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  /* Tighter progress bar gap */
+  [data-hero-scope] .hpc-carousel .mt-3 {
+    margin-top: 8px !important;
+  }
 
-  /* Hide slideshow indicators on mobile so they don't overlap carousel */
-  [data-hero-scope] [data-hero-banner] ~ * { display: none; }
+  /* Slideshow controls: keep above the (now shorter) carousel band */
+  [data-hero-scope] .absolute.left-1\/2 {
+    bottom: 180px !important;
+  }
 }
+
 
 /* Very small phones */
 @media (max-width: 390px) {
   [data-hero-scope] .hero-heading {
-    font-size: clamp(30px, 8.5vw, 40px) !important;
+    font-size: clamp(26px, 7vw, 34px) !important;
   }
-  [data-hero-scope] .hero-cta { min-height: 96px; }
+  [data-hero-scope] .hero-cta { min-height: 66px; }
   [data-hero-scope] .hero-cta__icon,
-  [data-hero-scope] .hero-cta > svg:first-child { width: 46px !important; height: 46px !important; }
+  [data-hero-scope] .hero-cta > svg:first-child { width: 38px !important; height: 38px !important; }
+  [data-hero-scope] .hpc-carousel [class*="shrink-0"][class*="items-center"][class*="justify-center"] {
+    height: 58px !important;
+    width: 92px !important;
+  }
 }
+
 
 

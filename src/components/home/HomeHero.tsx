@@ -56,7 +56,8 @@ export function HomeHero() {
             animate="visible"
             custom={1}
             className="hero-heading"
-            style={{ fontSize: "clamp(1.9rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
+            style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
+
           >
             <span className="hero-heading-line">{t("home.hero.lineA")}</span>
             <span className="hero-heading-line">
@@ -85,7 +86,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={3}
-            className="mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
+            className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
             {t("home.hero.lead")}{" "}
             <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
@@ -96,7 +97,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={4}
-            className="mt-4 flex flex-wrap gap-3"
+            className="mt-3 md:mt-4 flex flex-wrap gap-3"
           >
             <a href="/contact" className="hero-cta hero-cta--whatsapp hero-cta--stacked group">
               <span className="hero-cta__icon">
@@ -122,7 +123,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={5}
-            className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
+            className="mt-3 md:mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
             aria-label="Service guarantees"
           >
             {[
