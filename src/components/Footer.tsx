@@ -152,10 +152,12 @@ export function Footer() {
   ];
 
   const certs = [
-    { initials: "EPA", color: "#1E88E5", title: t("footer.certs.epaTitle"), sub: t("footer.certs.epaSub") },
-    { initials: "ISO", color: "#D42229", title: t("footer.certs.isoTitle"), sub: t("footer.certs.isoSub") },
-    { initials: "GCCI", color: "#FCE722", title: t("footer.certs.gcciTitle"), sub: t("footer.certs.gcciSub") },
+    { src: "/certifications/epa.webp",  alt: "EPA Guyana — Environmental Protection Agency certified",       title: t("footer.certs.epaTitle"),  sub: t("footer.certs.epaSub") },
+    { src: "/certifications/iso.webp",  alt: "ISO 9001:2015 Certified — Quality Management",                   title: t("footer.certs.isoTitle"),  sub: t("footer.certs.isoSub") },
+    { src: "/certifications/gcci.webp", alt: "Georgetown Chamber of Commerce & Industry member",               title: t("footer.certs.gcciTitle"), sub: t("footer.certs.gcciSub") },
+    { src: "/certifications/psc.webp",  alt: "Private Sector Commission of Guyana member",                     title: t("footer.certs.pscTitle"),  sub: t("footer.certs.pscSub") },
   ];
+
 
   return (
     <footer className="bg-[#0F0F0F] text-white">
