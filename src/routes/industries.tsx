@@ -218,17 +218,41 @@ function IndustriesPage() {
       </section>
 
       {/* INDUSTRY-SPECIFIC SOLUTIONS */}
-      <section className="section-y bg-[var(--cevons-deep-green,#EF7700)] text-white relative overflow-hidden" aria-labelledby="solutions-heading">
-        <div aria-hidden="true" className="absolute -top-16 -right-16 size-56 rounded-full bg-[var(--cevons-green,#EF7700)]/30 blur-3xl" />
-        <div aria-hidden="true" className="absolute -bottom-16 -left-16 size-56 rounded-full bg-[var(--cevons-green,#EF7700)]/20 blur-3xl" />
+      <section
+        className="section-y relative overflow-hidden text-white"
+        style={{
+          background:
+            "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 55%, #C45F00 100%)",
+        }}
+        aria-labelledby="solutions-heading"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.16] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.22) 1px, transparent 0)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+        <div aria-hidden="true" className="absolute -top-32 -right-24 size-96 rounded-full bg-white/10 blur-3xl pointer-events-none" />
 
         <div className="container-cevons relative">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-yellow,#FFD200)] mb-3">Tailored Approach</p>
-            <h2 id="solutions-heading" className="text-3xl md:text-5xl font-extrabold">
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-white/90 mb-4 flex items-center justify-center gap-3">
+              <span aria-hidden className="h-px w-8 bg-white/40" />
+              Built Around Your Operations
+              <span aria-hidden className="h-px w-8 bg-white/40" />
+            </p>
+            <h2 id="solutions-heading" className="font-display text-white text-3xl md:text-5xl font-extrabold tracking-tight">
               Custom Solutions for Your Industry
             </h2>
-            <p className="mt-4 text-white/85 max-w-xl mx-auto">
+            <div className="mt-4 flex items-center justify-center gap-3 text-white/90" aria-hidden>
+              <span className="h-px w-12 bg-white/40" />
+              <Leaf className="size-4" />
+              <span className="h-px w-12 bg-white/40" />
+            </div>
+            <p className="mt-4 text-white/90 max-w-xl mx-auto">
               Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.
             </p>
           </div>
@@ -237,14 +261,18 @@ function IndustriesPage() {
             {solutionFeatures.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-xl bg-white/5 border border-white/10 p-7 hover:bg-white/10 transition-all duration-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`relative rounded-2xl bg-[#FBF7EE] dark:bg-[#1A1A1A] p-7 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${200 + i * 70}ms` }}
               >
-                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-yellow,#FFD200)] text-[var(--cevons-deep-green,#EF7700)] mb-4">
+                <span className="absolute top-6 right-6 font-display text-3xl md:text-4xl font-bold text-[#EF7700]/25 select-none">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="flex w-12 h-12 items-center justify-center rounded-full bg-[#EF7700]/15 text-[#EF7700] mb-5">
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-white">{title}</h3>
-                <p className="mt-2 text-sm text-white/75 leading-relaxed">{body}</p>
+                <h3 className="font-display text-xl font-bold text-[#1A1A1A] dark:text-white">{title}</h3>
+                <span aria-hidden className="block mt-2 h-[3px] w-10 rounded-full bg-[#EF7700]" />
+                <p className="mt-4 text-sm text-[#4B5563] dark:text-white/75 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -280,52 +308,26 @@ function IndustriesPage() {
       </section>
 
       {/* CONSULTATION CTA */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="container-cevons">
-          <div
-            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
-            style={{
-              background:
-                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
-            }}
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="relative">
-              <p className="text-[var(--cevons-yellow,#FFD200)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> Let's Talk
-              </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">
-                Need a Waste Solution for Your Business?
-              </h2>
-              <p className="mt-4 text-white/80 max-w-xl mx-auto">
-                Tell us about your industry and facility. We will recommend the right services and schedule.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  to="/request-service"
-                  className="btn-base btn-green text-base px-6 py-3.5"
-                >
-                  Request a Consultation <ArrowRight className="size-5" />
-                </Link>
-                <a
-                  href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="btn-base btn-yellow text-base px-6 py-3.5"
-                >
-                  WhatsApp Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <OrangeCTABanner
+        icon={Building2}
+        flankIcon
+        title="Need a Waste Solution for Your Business?"
+        subtitle="Tell us about your industry and facility, and we’ll recommend the right services and collection plan."
+        texture="diagonal"
+      >
+        <Link
+          to="/request-service"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#D86A00] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <Users className="size-5" /> Request a Consultation <ArrowRight className="size-5" />
+        </Link>
+        <a
+          href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <WhatsApp className="size-5" /> WhatsApp Us
+        </a>
+      </OrangeCTABanner>
 
       {/* TRUST STRIP */}
       <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
