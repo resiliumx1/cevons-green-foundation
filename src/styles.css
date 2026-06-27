@@ -2557,13 +2557,15 @@ html.dark :where(
     display: none;
   }
   [data-hero-scope] ul[aria-label="Service guarantees"] > li svg {
-    width: 26px !important;
-    height: 26px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
   [data-hero-scope] ul[aria-label="Service guarantees"] > li > span:not([aria-hidden]) {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 11.5px;
+    line-height: 1.15;
   }
+
 
   /* Carousel snug under badges — shrink footprint to ~150–170px tall */
   [data-hero-scope] [data-hero-banner] {
