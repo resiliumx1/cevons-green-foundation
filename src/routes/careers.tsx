@@ -168,6 +168,7 @@ function CareersPage() {
             </ApplyAction>
           </div>
         </div>
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* WHY WORK WITH US */}
