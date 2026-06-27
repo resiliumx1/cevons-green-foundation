@@ -309,6 +309,32 @@
   animation: hero-scale 1.8s ease-out forwards;
 }
 
+/* Photographic hero overlay: dark gradient (left strong → right transparent) so text reads
+   on the left and the photo is visible on the right. Use on inner-page hero <img> overlays. */
+.hero-photo-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(15, 15, 15, 0.92) 0%,
+    rgba(15, 15, 15, 0.78) 35%,
+    rgba(15, 15, 15, 0.45) 70%,
+    rgba(15, 15, 15, 0.28) 100%
+  );
+}
+@media (max-width: 767px) {
+  .hero-photo-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(15, 15, 15, 0.55) 0%,
+      rgba(15, 15, 15, 0.72) 60%,
+      rgba(15, 15, 15, 0.82) 100%
+    );
+  }
+  /* On narrow screens, prefer the right side of hero photos. */
+  .hero-img-mobile { object-position: 75% center !important; }
+}
+
+
+
 
 /* ===== Premium motion system ===== */
 

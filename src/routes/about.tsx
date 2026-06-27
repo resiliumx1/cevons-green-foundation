@@ -106,13 +106,13 @@ function AboutPage() {
           <img
             src={heroAbout}
             alt="CEVONS team outside company facility"
-            className="size-full object-cover hero-img"
+            className="size-full object-cover hero-img hero-img-mobile"
             width={1920}
             height={1080}
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/90 via-[var(--cevons-deep-green,#EF7700)]/65 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#EF7700)]/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 hero-photo-overlay" />
+
         </div>
 
         <div className="container-cevons relative py-24 md:py-32 z-20">

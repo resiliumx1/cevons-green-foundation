@@ -212,8 +212,8 @@ function NewsroomPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="newsroom-h1">
         <div className="absolute inset-0">
-          <img src={heroNewsroom} alt="CEVONS newsroom and press announcements" className="size-full object-cover" width={1920} height={800} loading="eager" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green,#EF7700)]/95 via-[var(--cevons-deep-green,#EF7700)]/85 to-[var(--cevons-deep-green,#EF7700)]/60" />
+          <img src={heroNewsroom} alt="CEVONS newsroom and press announcements" className="size-full object-cover hero-img-mobile" width={1920} height={800} loading="eager" />
+          <div className="absolute inset-0 hero-photo-overlay" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">
           <nav aria-label="Breadcrumb" className="mb-5">

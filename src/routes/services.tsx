@@ -357,12 +357,12 @@ function ServicesPage() {
           <img
             src={heroServices}
             alt="CEVONS waste management trucks, equipment, and environmental service team"
-            className="size-full object-cover"
+            className="size-full object-cover hero-img-mobile"
             width={1920}
             height={800}
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--cevons-deep-green)]/95 via-[var(--cevons-deep-green)]/85 to-[var(--cevons-deep-green)]/60" />
+          <div className="absolute inset-0 hero-photo-overlay" />
         </div>
         <div className="container-cevons relative min-h-[360px] md:min-h-[440px] flex flex-col justify-center py-20 md:py-24 z-10">
           <nav aria-label="Breadcrumb" className="mb-5">
