@@ -244,6 +244,9 @@ export function Footer() {
 
             <GetInTouch t={t} isExternalWA={isExternalWA} />
           </div>
+        </div>
+
+
 
 
         {/* Bottom bar */}
