@@ -281,11 +281,11 @@ function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {operationsImages.map(({ src, alt, caption, sub }, i) => (
               <div
                 key={alt}
-                className={`group rounded-2xl overflow-hidden bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow group flex h-full flex-col rounded-2xl overflow-hidden bg-white dark:bg-white/[0.04] hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -297,11 +297,11 @@ function AboutPage() {
                     height={450}
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--cevons-deep-green,#EF7700)]/45 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="p-5">
                   <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{caption}</h3>
-                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)]">{sub}</p>
+                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70">{sub}</p>
                 </div>
               </div>
             ))}
