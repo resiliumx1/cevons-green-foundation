@@ -14,7 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
