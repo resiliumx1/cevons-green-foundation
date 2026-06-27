@@ -16,6 +16,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
