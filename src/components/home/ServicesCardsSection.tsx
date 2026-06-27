@@ -42,7 +42,7 @@ export function ServicesCardsSection() {
           </div>
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 text-sm font-bold text-cevons-green hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[#EF7700] hover:gap-3 transition-all"
           >
             {t("home.services.viewAll")} <ArrowRight className="size-4" />
           </Link>
