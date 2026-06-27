@@ -745,8 +745,7 @@
 }
 .lcm-fade-l { left: 0; background: linear-gradient(90deg, #FFFFFF 0%, rgba(255,255,255,0) 100%); }
 .lcm-fade-r { right: 0; background: linear-gradient(270deg, #FFFFFF 0%, rgba(255,255,255,0) 100%); }
-.dark .lcm-fade-l { background: linear-gradient(90deg, #0E1416 0%, rgba(14,20,22,0) 100%); }
-.dark .lcm-fade-r { background: linear-gradient(270deg, #0E1416 0%, rgba(14,20,22,0) 100%); }
+/* edge fades stay white in dark mode — carousel is dark-mode-immune */
 
 .lcm-track {
   display: flex;
