@@ -14,7 +14,7 @@ export function TrustStrip() {
       {/* Red diagonal swoosh accent */}
       <div
         aria-hidden="true"
-        className="absolute -left-20 -top-10 h-[200%] w-40 bg-cevons-red opacity-90 rotate-[18deg]"
+        className="absolute -left-20 -top-10 h-[200%] w-40 bg-cevons-dark opacity-90 rotate-[18deg]"
       />
       <div
         aria-hidden="true"

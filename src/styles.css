@@ -60,8 +60,8 @@
      its own override to preserve its original green color treatment. */
   --cevons-green: #EF7700;          /* now Cevons Orange (dominant accent / CTA) */
   --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
-  --cevons-yellow: #FCE722;         /* accent only */
-  --cevons-red: #D42229;            /* accent only */
+  --cevons-yellow: #EF7700;         /* sweep: yellow accent → orange */
+  --cevons-red: #EF7700;            /* sweep: red decoration → orange */
   --cevons-dark: #1A1A1A;           /* charcoal */
   --cevons-cream: #FFFFFF;
   --cevons-border: #D9D9D9;
@@ -75,8 +75,8 @@
   --brand-dark-grey: #4A4A4A;
   --brand-light-grey: #D9D9D9;
   --brand-accent-green: #2DA339;    /* small accent only */
-  --brand-accent-yellow: #FCE722;
-  --brand-accent-red: #D42229;
+  --brand-accent-yellow: #EF7700;
+  --brand-accent-red: #EF7700;
 
   /* shadcn semantic tokens — orange primary, charcoal text on orange */
   --background: #FFFFFF;
@@ -91,7 +91,7 @@
   --secondary-foreground: #1A1A1A;
   --muted: #F3F4F6;
   --muted-foreground: #4A4A4A;
-  --accent: #FCE722;
+  --accent: #EF7700;
   --accent-foreground: #1A1A1A;
   --destructive: #D42229;
   --destructive-foreground: #FFFFFF;
@@ -1338,7 +1338,7 @@
   margin-top: -6px;
 }
 .conveyor-band--orange { background: #EF7700; }
-.conveyor-band--charcoal { background: #1A1A1A; }
+.conveyor-band--charcoal { background: #EF7700; color: #1A1A1A; }
 
 .conveyor-band__inner {
   transform: skewY(2.4deg); /* counter-skew so content sits level */
@@ -1355,7 +1355,7 @@
   margin: 0;
 }
 .conveyor-eyebrow--dark { color: #3A1D00; }
-.conveyor-eyebrow--yellow { color: #FCE722; }
+.conveyor-eyebrow--yellow { color: #1A1A1A; }
 
 .conveyor-marquee {
   position: relative;
@@ -1615,8 +1615,8 @@
   opacity: var(--wave-ribbon-opacity, 1);
 }
 .wave-divider__ribbon--green path { fill: #006B35; }
-.wave-divider__ribbon--gold  path { fill: #FFD200; }
-.wave-divider__ribbon--red   path { fill: #E31B23; }
+.wave-divider__ribbon--gold  path { fill: #EF7700; }
+.wave-divider__ribbon--red   path { fill: #C45F00; }
 
 .wave-divider__ribbon--green {
   animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
@@ -1813,7 +1813,7 @@ html.dark {
   --secondary-foreground: var(--text-strong);
   --muted: var(--surface-1);
   --muted-foreground: var(--text-muted);
-  --accent: #FCE722;
+  --accent: #EF7700;
   --accent-foreground: #1A1A1A;
   --destructive: #FF5C61;
   --destructive-foreground: #1A1A1A;
