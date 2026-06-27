@@ -224,8 +224,11 @@
       "isoTitle": "ISO 9001:2015",
       "isoSub": "Quality Management",
       "gcciTitle": "GCCI MEMBER",
-      "gcciSub": "Private Sector Commission"
+      "gcciSub": "Chamber of Commerce & Industry",
+      "pscTitle": "PSC MEMBER",
+      "pscSub": "Private Sector Commission"
     },
+
     "servicesList": {
       "residential": "Residential Garbage Collection",
       "commercial": "Commercial Garbage Collection",

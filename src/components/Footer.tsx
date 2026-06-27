@@ -152,10 +152,12 @@ export function Footer() {
   ];
 
   const certs = [
-    { initials: "EPA", color: "#1E88E5", title: t("footer.certs.epaTitle"), sub: t("footer.certs.epaSub") },
-    { initials: "ISO", color: "#D42229", title: t("footer.certs.isoTitle"), sub: t("footer.certs.isoSub") },
-    { initials: "GCCI", color: "#FCE722", title: t("footer.certs.gcciTitle"), sub: t("footer.certs.gcciSub") },
+    { src: "/certifications/epa.webp",  alt: "EPA Guyana — Environmental Protection Agency certified",       title: t("footer.certs.epaTitle"),  sub: t("footer.certs.epaSub") },
+    { src: "/certifications/iso.webp",  alt: "ISO 9001:2015 Certified — Quality Management",                   title: t("footer.certs.isoTitle"),  sub: t("footer.certs.isoSub") },
+    { src: "/certifications/gcci.webp", alt: "Georgetown Chamber of Commerce & Industry member",               title: t("footer.certs.gcciTitle"), sub: t("footer.certs.gcciSub") },
+    { src: "/certifications/psc.webp",  alt: "Private Sector Commission of Guyana member",                     title: t("footer.certs.pscTitle"),  sub: t("footer.certs.pscSub") },
   ];
+
 
   return (
     <footer className="bg-[#0F0F0F] text-white">
@@ -231,11 +233,16 @@ export function Footer() {
               {certs.map((c) => (
                 <li key={c.title} className="flex items-center gap-2.5">
                   <span
-                    className="size-10 rounded-full flex items-center justify-center text-[10px] font-extrabold ring-2 ring-white/15"
-                    style={{ backgroundColor: c.color, color: c.color === "#FCE722" ? "#1A1A1A" : "#FFFFFF" }}
+                    className="shrink-0 inline-flex items-center justify-center h-12 w-14 rounded-lg bg-white p-1.5 ring-1 ring-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
                     aria-hidden
                   >
-                    {c.initials}
+                    <img
+                      src={c.src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-full max-w-full object-contain"
+                    />
                   </span>
                   <div className="leading-tight">
                     <p className="text-white text-[11px] font-bold uppercase tracking-wider">{c.title}</p>
@@ -244,6 +251,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+
           </div>
         </div>
       </section>
@@ -403,7 +411,19 @@ export function Footer() {
             <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
 
             <span className="text-white/20">|</span>
-            <Link to="/" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.sitemap")}</Link>
+            <Link
+              to="/sitemap"
+              className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
+              style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
+            >
+              <ArrowRight
+                aria-hidden
+                className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
+                style={{ color: BRAND_ORANGE }}
+              />
+              {t("footer.sitemap")}
+            </Link>
+
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="text-white/60">{t("footer.serving")}</span>

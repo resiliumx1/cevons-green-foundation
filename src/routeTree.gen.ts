@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as NewsroomRouteImport } from './routes/newsroom'
@@ -60,6 +61,11 @@ const TrackRequestRoute = TrackRequestRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -285,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/crm/conversations': typeof CrmConversationsRoute
@@ -328,6 +335,7 @@ export interface FileRoutesByTo {
   '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/crm/conversations': typeof CrmConversationsRoute
@@ -373,6 +381,7 @@ export interface FileRoutesById {
   '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/crm/conversations': typeof CrmConversationsRoute
@@ -419,6 +428,7 @@ export interface FileRouteTypes {
     | '/newsroom'
     | '/resources'
     | '/services'
+    | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
     | '/crm/conversations'
@@ -462,6 +472,7 @@ export interface FileRouteTypes {
     | '/newsroom'
     | '/resources'
     | '/services'
+    | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
     | '/crm/conversations'
@@ -506,6 +517,7 @@ export interface FileRouteTypes {
     | '/newsroom'
     | '/resources'
     | '/services'
+    | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
     | '/crm/conversations'
@@ -551,6 +563,7 @@ export interface RootRouteChildren {
   NewsroomRoute: typeof NewsroomRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
@@ -571,6 +584,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -951,6 +971,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewsroomRoute: NewsroomRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
