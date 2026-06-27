@@ -1903,6 +1903,70 @@ html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !import
 html.dark footer a:not(.btn-green):not(.btn-yellow) { color: var(--text-base); }
 html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #FFA040; }
 
+/* ============================================================
+   Dark-mode icon recolor: black/dark-charcoal icons & decorative
+   glyphs become brand orange (#EF7700) so they're visible on dark
+   surfaces. Body text and headings keep their light color (handled
+   above). Green accents are preserved — this rule targets only
+   elements that resolve to black/near-black in light mode.
+   ============================================================ */
+
+/* SVG icons whose color was set to a dark/charcoal token in light mode.
+   Tailwind icon utilities use `currentColor`, so retargeting the parent's
+   color via these specific dark-token classes flips the glyph orange. */
+html.dark svg.text-cevons-dark,
+html.dark svg.text-cevons-deep-green,
+html.dark svg.text-black,
+html.dark svg.text-charcoal,
+html.dark svg.text-neutral-900,
+html.dark svg.text-neutral-800,
+html.dark svg.text-slate-900,
+html.dark svg.text-slate-800,
+html.dark svg.text-zinc-900,
+html.dark svg.text-zinc-800,
+html.dark svg.text-stone-900,
+html.dark svg.text-stone-800,
+html.dark svg.text-gray-900,
+html.dark svg.text-gray-800,
+html.dark svg.text-\[\#1A1A1A\],
+html.dark svg.text-\[\#0E0C0A\],
+html.dark svg.text-\[var\(--cevons-dark\)\],
+html.dark svg.text-\[var\(--cevons-deep-green\)\],
+html.dark svg.text-foreground { color: #EF7700 !important; }
+
+/* Icons that inherit color from a dark-text parent. Scoped to svg
+   children so paragraph text stays light. The earlier rules turn
+   `.text-cevons-dark` → light for text; this re-routes svgs to orange. */
+html.dark .text-cevons-dark > svg,
+html.dark .text-cevons-deep-green > svg,
+html.dark .text-black > svg,
+html.dark .text-\[var\(--cevons-dark\)\] > svg,
+html.dark .text-\[var\(--cevons-deep-green\)\] > svg { color: #EF7700; }
+
+/* Small decorative marks (bullets, separator dots, indicator pills,
+   divider rules) hard-coded to charcoal/black backgrounds become
+   orange in dark mode. Large structural dark fills (sections, hero
+   gradients, footer banners) are NOT matched here — we only target
+   tiny decorative shapes by limiting recolor to bg utilities that
+   are most often used for dots/pills, NOT broad section bgs. */
+html.dark hr.bg-cevons-dark,
+html.dark hr.bg-black,
+html.dark .bg-cevons-dark.rounded-full,
+html.dark .bg-black.rounded-full,
+html.dark .bg-\[\#1A1A1A\].rounded-full { background-color: #EF7700 !important; }
+
+/* Inline arrows / chevrons rendered as plain text characters inside
+   small-label spans (e.g. "Read more →") read as black on dark when
+   the parent uses a dark-token color. Their parent already maps to
+   light, but if the arrow lives in its own span with text-cevons-dark
+   or text-black, push it orange. */
+html.dark span.text-cevons-dark,
+html.dark span.text-black { color: var(--text-strong); }
+html.dark span.text-cevons-dark > svg,
+html.dark span.text-black > svg { color: #EF7700 !important; }
+
+
+
 
 
 /* ============== Hero slideshow: Ken-Burns + tint flash ============== */
