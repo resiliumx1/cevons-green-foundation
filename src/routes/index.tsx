@@ -261,10 +261,3 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="bg-cevons-cream py-12 md:py-16">
-        <NewsletterSignup source="home" variant="card" />
-      </section>
-    </SiteLayout>
-  );
-
-}
