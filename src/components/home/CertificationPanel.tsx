@@ -10,9 +10,8 @@ const fadeUp: Variants = {
 };
 
 const items = [
-  { img: "/assets/social-proof/epa-logo.webp", t: "EPA Certified", s: "Environmental Compliance" },
-  { img: "/assets/social-proof/iso-logo.webp", t: "ISO 9001:2015", s: "Quality Management" },
-  { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Private Sector Commission" },
+  { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Chamber of Commerce & Industry" },
+  { img: "/assets/social-proof/psc-logo.webp", t: "PSC Member", s: "Private Sector Commission" },
 ];
 
 export function CertificationPanel() {
@@ -28,7 +27,10 @@ export function CertificationPanel() {
           className="rounded-2xl bg-white p-3 shadow-2xl md:p-4"
           style={{ boxShadow: "0 22px 60px -20px rgba(0,0,0,.55)" }}
         >
-          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 md:gap-4">
+          <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-cevons-muted mb-3">
+            Professional Membership
+          </p>
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 max-w-2xl mx-auto">
             {items.map(({ img, t, s }) => (
               <li
                 key={t}
