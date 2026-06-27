@@ -56,7 +56,8 @@ export function HomeHero() {
             animate="visible"
             custom={1}
             className="hero-heading"
-            style={{ fontSize: "clamp(1.9rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
+            style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
+
           >
             <span className="hero-heading-line">{t("home.hero.lineA")}</span>
             <span className="hero-heading-line">
