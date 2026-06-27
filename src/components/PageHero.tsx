@@ -92,8 +92,9 @@ export function PageHero({
           {...(priority ? { fetchPriority: "high" as const } : {})}
           width={1920}
           height={1080}
-          className="size-full object-cover"
+          className="size-full object-cover hero-img-mobile"
           style={{ objectPosition: imagePosition }}
+
         />
         <div className="absolute inset-0" style={{ background: overlay }} aria-hidden />
       </div>
