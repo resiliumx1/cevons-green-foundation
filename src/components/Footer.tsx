@@ -314,9 +314,10 @@ export function Footer() {
             </div>
           </div>
 
-          <LinkCol title={t("footer.services")} icon={Leaf} items={servicesList} />
-          <LinkCol title={t("footer.industries")} icon={Building2} items={industriesList} />
-          <LinkCol title={t("footer.company")} icon={Briefcase} items={companyList} />
+          <LinkCol title={t("footer.services")} icon={Leaf} items={servicesList} currentPath={currentPath} />
+          <LinkCol title={t("footer.industries")} icon={Building2} items={industriesList} currentPath={currentPath} />
+          <LinkCol title={t("footer.company")} icon={Briefcase} items={companyList} currentPath={currentPath} />
+
 
           {/* Get in touch */}
           <div>
