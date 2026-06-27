@@ -693,6 +693,113 @@
   .spm-fade { width: 40px; }
 }
 
+/* ============================================================
+   Logo Carousel (homepage)
+   ============================================================ */
+.lcm-section {
+  position: relative;
+  padding: 3.5rem 0 4rem;
+  background: var(--cevons-cream, #FBF7EE);
+}
+.dark .lcm-section { background: #0E1416; }
+
+.lcm-marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.lcm-fade {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.lcm-fade-l { left: 0; background: linear-gradient(90deg, var(--cevons-cream,#FBF7EE) 0%, rgba(251,247,238,0) 100%); }
+.lcm-fade-r { right: 0; background: linear-gradient(270deg, var(--cevons-cream,#FBF7EE) 0%, rgba(251,247,238,0) 100%); }
+.dark .lcm-fade-l { background: linear-gradient(90deg, #0E1416 0%, rgba(14,20,22,0) 100%); }
+.dark .lcm-fade-r { background: linear-gradient(270deg, #0E1416 0%, rgba(14,20,22,0) 100%); }
+
+.lcm-track {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  animation: lcm-scroll 60s linear infinite;
+  will-change: transform;
+}
+.lcm-marquee:hover .lcm-track { animation-play-state: paused; }
+@keyframes lcm-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.lcm-chip {
+  flex: 0 0 auto;
+  width: 160px;
+  height: 84px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(16,24,32,0.08), 0 1px 2px rgba(16,24,32,0.05);
+  display: grid;
+  place-items: center;
+  padding: 14px 18px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.lcm-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16,24,32,0.12), 0 2px 4px rgba(16,24,32,0.06);
+}
+.lcm-logo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Orange shimmer-wave line */
+.lcm-shimmer-wrap {
+  position: relative;
+  margin: 28px auto 0;
+  max-width: 920px;
+  height: 18px;
+  overflow: hidden;
+}
+.lcm-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 6px rgba(239,119,0,0.45));
+}
+.lcm-shimmer {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 22%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 50%, transparent 100%);
+  mix-blend-mode: overlay;
+  animation: lcm-shimmer-move 3.6s ease-in-out infinite;
+}
+.dark .lcm-shimmer { mix-blend-mode: screen; opacity: 0.7; }
+@keyframes lcm-shimmer-move {
+  0%   { transform: translateX(-30%); }
+  100% { transform: translateX(430%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lcm-track { animation: none; }
+  .lcm-shimmer { animation: none; opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .lcm-chip { width: 128px; height: 70px; padding: 10px 14px; border-radius: 14px; }
+  .lcm-track { gap: 12px; animation-duration: 45s; }
+  .lcm-fade { width: 48px; }
+}
+
 
 /* ============================================================
    CRM visibility hardening (light theme)
