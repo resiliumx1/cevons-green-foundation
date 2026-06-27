@@ -47,7 +47,7 @@ const CHIPS: Chip[] = [
   { label: "What services do you offer?", prompt: "What services do you offer?", icon: Compass, tone: "orange" },
   { label: "Do you serve my area?",       prompt: "Do you serve my area?",        icon: MapPin,  tone: "green"  },
   { label: "Book a skip bin",             prompt: "Book a skip bin",              icon: Calendar, tone: "orange" },
-  { label: "Talk to a person",            prompt: "Talk to a person",             icon: User,    tone: "green"  },
+  { label: "Schedule a Service",          prompt: "I'd like to schedule a service.", icon: Wrench, tone: "green"  },
 ];
 
 const WELCOME_BOLD = "Hey, I'm Cev — CEVONS assistant.";
