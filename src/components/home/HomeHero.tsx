@@ -39,7 +39,7 @@ export function HomeHero() {
       {/* Cinematic 5-slide background slideshow */}
       <HeroSlideshowBackground />
       {/* Slide indicators + progress (above content + partner band) */}
-      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[160px] lg:bottom-[156px]" />
+      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[140px] lg:bottom-[136px]" />
 
 
 
