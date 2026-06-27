@@ -313,7 +313,7 @@ function CareersPage() {
                   {location}
                 </p>
                 <ApplyAction
-                  className="mt-5 btn-base btn-green btn-shine w-full"
+                  className="mt-auto pt-5 btn-base btn-green btn-shine w-full"
                   ariaLabel={`View details for ${title}`}
                 >
                   View Details
