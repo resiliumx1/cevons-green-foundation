@@ -2,7 +2,6 @@ import { Calendar, ShieldCheck, Leaf, CheckCircle2 } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { HeroPartnerCarousel } from "@/components/home/HeroPartnerCarousel";
 import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
 
@@ -38,8 +37,8 @@ export function HomeHero() {
     >
       {/* Cinematic 5-slide background slideshow */}
       <HeroSlideshowBackground />
-      {/* Slide indicators + progress (above content + partner band) */}
-      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-[170px] md:bottom-[140px] lg:bottom-[136px]" />
+      {/* Slide indicators + progress */}
+      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-6" />
 
 
 
@@ -144,18 +143,6 @@ export function HomeHero() {
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
-
-      {/* SLIM partner-logo carousel pinned to the bottom of the hero */}
-      <motion.div
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={6}
-        className="relative z-10 w-full shrink-0"
-        data-hero-banner
-      >
-        <HeroPartnerCarousel />
-      </motion.div>
     </section>
     </HeroSlideshowProvider>
   );
