@@ -6,6 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { cevonsContact, telHref, mailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
