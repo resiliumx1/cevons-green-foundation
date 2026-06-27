@@ -2278,7 +2278,8 @@ html.dark :where(
     border-color 280ms ease,
     transform 280ms ease;
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     border-color: rgba(239, 119, 0, 0.75);
     box-shadow:
       0 0 0 1px rgba(239, 119, 0, 0.55),
@@ -2292,7 +2293,8 @@ html.dark :where(
     0 0 0 1px rgba(239, 119, 0, 0.12),
     0 6px 22px -8px rgba(239, 119, 0, 0.35);
 }
-.dark .card-glow:hover {
+.dark .card-glow:hover,
+.dark .card-glow:focus-within {
   border-color: rgba(239, 119, 0, 0.85);
   box-shadow:
     0 0 0 1px rgba(239, 119, 0, 0.6),
