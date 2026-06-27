@@ -649,8 +649,8 @@ function Typewriter({
   text,
   onDone,
   onTick,
-  charsPerTick = 3,
-  tickMs = 18,
+  charsPerTick = 2,
+  tickMs = 16,
 }: {
   text: string;
   onDone?: () => void;
