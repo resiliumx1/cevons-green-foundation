@@ -2136,3 +2136,80 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
   .hero-shimmer { animation: none !important; }
 }
 
+
+/* ============================================================
+   COLOR SWEEP OVERRIDES — orange-forward + readable contrast
+   - Black-by-design SECTION backgrounds (bg-cevons-deep-green
+     and its CSS-var-fallback variants) → solid Cevons Orange.
+   - White text descendants on those sections → charcoal.
+   - Yellow accent text → charcoal (was already orange via tokens
+     but inside an orange section it must drop to dark for AA).
+   ============================================================ */
+:where(
+  .bg-cevons-deep-green,
+  .bg-\[var\(--cevons-deep-green\)\],
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\],
+  .bg-\[var\(--cevons-deep-green\,\#1A1A1A\)\]
+) {
+  background-color: #EF7700 !important;
+  color: #1A1A1A;
+}
+
+/* Gradients referencing the deep-green token in their from/via/to slots */
+:where(
+  [class*="from-cevons-deep-green"],
+  [class*="via-cevons-deep-green"],
+  [class*="to-cevons-deep-green"],
+  [class*="from-[var(--cevons-deep-green"],
+  [class*="via-[var(--cevons-deep-green"],
+  [class*="to-[var(--cevons-deep-green"]
+) {
+  /* allow gradients but tint floor to orange */
+  background-color: #EF7700;
+}
+
+/* Force readable charcoal text inside any block that ends up orange:
+   - bg-cevons-deep-green family
+   - the inline radial-gradient CTA blocks (matched via style attr) */
+.bg-cevons-deep-green :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+.bg-\[var\(--cevons-deep-green\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
+[style*="#EF7700 0%, #EF7700 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+[style*="#EF7700 0%, #EF7700 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
+  color: #1A1A1A !important;
+}
+
+/* Yellow accent / cevons-yellow text inside orange sections → charcoal */
+.bg-cevons-deep-green .text-cevons-yellow,
+.bg-\[var\(--cevons-deep-green\)\] .text-cevons-yellow,
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .text-cevons-yellow,
+[style*="#EF7700 0%, #EF7700 60%"] .text-cevons-yellow,
+[style*="#EF7700 0%, #EF7700 55%"] .text-cevons-yellow {
+  color: #1A1A1A !important;
+}
+
+/* Buttons inside orange CTA sections: charcoal solid for contrast */
+[style*="#EF7700 0%, #EF7700 60%"] .btn-yellow,
+[style*="#EF7700 0%, #EF7700 55%"] .btn-yellow,
+.bg-cevons-deep-green .btn-yellow,
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .btn-yellow {
+  background-color: #1A1A1A !important;
+  color: #FFFFFF !important;
+  border-color: #1A1A1A !important;
+}
+
+/* Borders/dividers using deep-green border become orange-toned on orange */
+.bg-cevons-deep-green :where([class*="border-white/"]),
+[style*="#EF7700 0%, #EF7700 60%"] :where([class*="border-white/"]) {
+  border-color: rgba(26,26,26,0.25) !important;
+}
+
+/* Dark mode: keep these section blocks orange too (already AA: charcoal on orange) */
+html.dark :where(
+  .bg-cevons-deep-green,
+  .bg-\[var\(--cevons-deep-green\)\],
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\]
+) {
+  background-color: #EF7700 !important;
+  color: #1A1A1A !important;
+}
