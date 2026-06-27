@@ -439,7 +439,17 @@ export function ServiceAssistant() {
                 }}
               >
                 {messages.map((m, i) => (
-                  <Bubble key={m.id} message={m} isFirst={i === 0} />
+                  <Bubble
+                    key={m.id}
+                    message={m}
+                    isFirst={i === 0}
+                    streaming={m.id === streamingId}
+                    onStreamDone={() => setStreamingId((id) => (id === m.id ? null : id))}
+                    onStreamTick={() => {
+                      const el = scrollRef.current;
+                      if (el) el.scrollTop = el.scrollHeight;
+                    }}
+                  />
                 ))}
 
                 {showChips && (
