@@ -411,7 +411,7 @@ export function ServiceAssistant() {
                   </p>
                 </div>
                 <button
-                  onClick={reset}
+                  onClick={handleResetClick}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
                   aria-label="Start a new conversation"
                   title="New conversation"
