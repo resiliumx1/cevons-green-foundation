@@ -156,7 +156,7 @@ export function Footer() {
 
         {/* ZONE 3 — Main link grid */}
         <div className="container-cevons py-14 md:py-16 relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
             {/* Brand col */}
             <div className="lg:col-span-2">
               <div className="inline-flex items-center gap-2">
@@ -242,20 +242,9 @@ export function Footer() {
             <LinkCol title={t("footer.company")} items={companyList} currentPath={currentPath} />
             <LinkCol title={t("footer.industries")} items={industriesList} currentPath={currentPath} />
 
-            {/* Get in touch — spans 2 on sm, 1 on lg */}
-            <div className="sm:col-span-2 lg:col-span-5 lg:hidden">
-              <GetInTouch
-                t={t}
-                isExternalWA={isExternalWA}
-              />
-            </div>
-          </div>
-
-          {/* Get in touch row at lg+ — its own row spanning right side */}
-          <div className="hidden lg:block mt-12 max-w-xl ml-auto">
             <GetInTouch t={t} isExternalWA={isExternalWA} />
           </div>
-        </div>
+
 
         {/* Bottom bar */}
         <div className="border-t border-white/10 relative">
