@@ -149,7 +149,7 @@ function ContactPage() {
           </p>
 
         </div>
-        <WaveDivider variant="minimal" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* CONTACT METHODS */}
