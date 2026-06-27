@@ -51,6 +51,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const t = useT();
+  const isActive = useIsActive();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
