@@ -23,7 +23,6 @@ const nav: NavItem[] = [
   { to: "/industries", key: "industries" },
   { to: "/locations", key: "locations" },
   { to: "/resources", key: "resources" },
-  { to: "/newsroom", key: "newsroom" },
   { to: "/about", key: "about" },
   { to: "/careers", key: "careers" },
   { to: "/contact", key: "contact" },
