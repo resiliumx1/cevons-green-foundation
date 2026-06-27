@@ -258,7 +258,7 @@ function AboutPage() {
           <ul className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
             {stats.map(({ icon: Icon, value, label }) => (
               <li key={label} className="flex items-center gap-4">
-                <Icon className="size-7 text-[var(--cevons-yellow,#FFD200)] shrink-0" />
+                <Icon className="size-7 text-white shrink-0" />
                 <div>
                   <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
                     {value}
