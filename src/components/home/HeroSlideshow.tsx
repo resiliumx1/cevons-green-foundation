@@ -13,6 +13,8 @@ const SLIDES: Slide[] = [
   { src: "/hero-slides/slide-3.jpg", alt: "CEVONS crew in orange hi-vis and hard hats standing in front of a collection truck", position: "75% center", pan: "left" },
   { src: "/hero-slides/slide-4.jpg", alt: "CEVONS depot at sunset with orange truck and skip bins on wet reflective ground", position: "65% center", pan: "down" },
   { src: "/hero-slides/slide-5.jpg", alt: "CEVONS truck passing a calm community street with gazebo, benches and palm trees", position: "75% center", pan: "up" },
+  { src: "/hero-slides/slide-6.jpg", alt: "CEVONS operations collage — branded skip trucks, hi-vis crew with clipboard, recycling line and color-sorted bins against an industrial Guyana skyline", position: "center", pan: "left" },
+  { src: "/hero-slides/slide-7.jpg", alt: "CEVONS service collage — branded collection truck on a Guyanese street, smiling supervisor on radio, skip bin pickup and orange/green CEVONS wheelie bins at a recycling facility", position: "center", pan: "right" },
 ];
 
 const DURATION_MS = 6000;
