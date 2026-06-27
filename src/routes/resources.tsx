@@ -161,7 +161,7 @@ function ResourcesPage() {
             Tips, updates, and insights on waste management and environmental responsibility.
           </p>
         </div>
-        <WaveDivider variant="breeze" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* CATEGORY FILTERS */}
