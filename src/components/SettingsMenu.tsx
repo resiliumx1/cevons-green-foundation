@@ -99,6 +99,7 @@ export function SettingsMenu({ className = "" }: { className?: string }) {
         <button
           type="button"
           aria-label={t("settings.open")}
+          title={t("settings.open")}
           className={`inline-flex items-center justify-center size-10 rounded-full border border-cevons-border dark:border-white/15 bg-white dark:bg-white/[0.06] text-cevons-dark dark:text-white hover:bg-cevons-cream dark:hover:bg-white/10 hover:border-cevons-green transition-colors shadow-soft ${className}`}
         >
           <Accessibility className="size-[18px]" />
