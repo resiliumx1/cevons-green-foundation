@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
+import { Calendar, ChevronDown, ChevronRight, ExternalLink, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { useT } from "@/contexts/SettingsContext";
@@ -25,6 +25,7 @@ const nav: NavItem[] = [
   { to: "/about", key: "about" },
   { to: "/careers", key: "careers" },
   { to: "/contact", key: "contact" },
+  { to: "/partners", key: "partners", hasDropdown: true },
 ];
 
 const utilityNav: NavItem[] = [
@@ -44,10 +45,15 @@ const servicesMenu: { groupKey: "residential" | "commercial" | "industrial" | "f
   { groupKey: "facilities", items: ["material-recovery-facility", "landfill-operations"] },
 ];
 
+const partnersMenu = [
+  { label: "Wemco", href: "https://wemcosuriname.com", description: "Suriname" },
+  { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
+];
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const t = useT();
   const isActive = useIsActive();
 
@@ -133,7 +139,7 @@ export function Header() {
                   style={{ backgroundColor: ACTIVE_ORANGE }}
                 />
               </Link>
-              {item.hasDropdown && (
+              {item.hasDropdown && item.key === "services" && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 grid grid-cols-4 gap-x-6 gap-y-2 min-w-[820px]">
                     {servicesMenu.map((col) => (
@@ -155,6 +161,30 @@ export function Header() {
                         </ul>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+              {item.hasDropdown && item.key === "partners" && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-4 min-w-[260px]">
+                    <ul className="space-y-1">
+                      {partnersMenu.map((partner) => (
+                        <li key={partner.label}>
+                          <a
+                            href={partner.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                          >
+                            <span className="flex flex-col">
+                              <span className="font-semibold">{partner.label}</span>
+                              <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                            </span>
+                            <ExternalLink className="size-3.5 text-cevons-muted shrink-0" />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               )}
@@ -191,27 +221,28 @@ export function Header() {
               {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
                   const active = isActive(item.to);
+                  const isOpen = openDropdown === item.key;
                   return (
                     <div key={item.to} className="flex flex-col">
                       <button
-                        onClick={() => setServicesOpen((v) => !v)}
+                        onClick={() => setOpenDropdown((v) => v === item.key ? null : item.key)}
                         className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                           active
                             ? "border-[#EF7700]"
                             : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
                         style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
-                        aria-expanded={servicesOpen}
+                        aria-expanded={isOpen}
                         aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
-                          className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
+                          className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${isOpen ? "rotate-180" : ""}`}
                           style={active ? { color: "#ffffff" } : undefined}
                         />
                       </button>
 
-                      {servicesOpen && (
+                      {isOpen && item.key === "services" && (
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
                             <div key={col.groupKey} className="flex flex-col">
@@ -224,7 +255,7 @@ export function Header() {
                                     key={slug}
                                     to={`/services/${slug}`}
                                     className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
-                                    onClick={() => { setMobileOpen(false); setServicesOpen(false); }}
+                                    onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
                                     {t(`servicesMenu.items.${slug}`)}
@@ -232,6 +263,27 @@ export function Header() {
                                 ))}
                               </div>
                             </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {isOpen && item.key === "partners" && (
+                        <div className="pl-3 pr-1 pb-2 flex flex-col">
+                          {partnersMenu.map((partner) => (
+                            <a
+                              key={partner.label}
+                              href={partner.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                              onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                            >
+                              <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                              <span className="flex flex-col">
+                                <span className="font-semibold">{partner.label}</span>
+                                <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                              </span>
+                            </a>
                           ))}
                         </div>
                       )}
