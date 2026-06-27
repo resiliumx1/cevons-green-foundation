@@ -2,24 +2,15 @@ import { Link } from "@tanstack/react-router";
 import {
   Award,
   BadgeCheck,
-  Building2,
   Calendar,
-  Factory,
-  GraduationCap,
-  HardHat,
   Headset,
-  Home,
-  Hotel,
-  Landmark,
   type LucideIcon,
   MapPin,
   MessageCircle,
   Package,
   Recycle,
   ShieldCheck,
-  Stethoscope,
   Truck,
-  Warehouse,
 } from "lucide-react";
 
 type Item = { label: string; icon?: LucideIcon; img?: string };
