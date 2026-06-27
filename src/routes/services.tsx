@@ -33,11 +33,15 @@ import {
   Minus,
   PaintRoller,
   AlertTriangle,
+  Compass,
+  ClipboardList,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { whatsappHref } from "@/data/cevonsContact";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { useT } from "@/contexts/SettingsContext";
@@ -646,48 +650,25 @@ function ServicesPage() {
       <OtherServicesSection />
 
       {/* "Not Sure" CTA */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="container-cevons">
-          <div
-            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
-            style={{
-              background:
-                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
-            }}
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="relative">
-              <p className="text-[var(--cevons-yellow)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <HelpCircle className="size-4" /> Need Guidance?
-              </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">
-                Not sure which service fits your request?
-              </h2>
-              <p className="mt-4 text-white/85 max-w-xl mx-auto">
-                Tell us what you need and our team will route your request to the right service.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <Link to="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5">
-                  <Wrench className="size-5" /> Request a Service
-                </Link>
-                <a
-                  href="/contact"
-                  className="btn-base btn-green text-base px-6 py-3.5"
-                >
-                  <WhatsApp className="size-5" /> WhatsApp Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <OrangeCTABanner
+        icon={Compass}
+        title="Not Sure Which Service Fits Your Request?"
+        subtitle="Tell us what you need and our team will guide you to the right service quickly and clearly."
+      >
+        <Link
+          to="/request-service"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#EF7700] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
+        >
+          <ClipboardList className="size-5" /> Request a Service
+        </Link>
+        <a
+          href={whatsappHref}
+          {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
+        >
+          <WhatsApp className="size-5" /> WhatsApp Us
+        </a>
+      </OrangeCTABanner>
 
       {/* FAQ */}
       <section className="section-y bg-[var(--cevons-cream)]">

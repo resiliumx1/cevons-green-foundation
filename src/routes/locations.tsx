@@ -6,6 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { cevonsContact, telHref, mailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -310,29 +312,26 @@ function LocationsPage() {
       </section>
 
       {/* LOCAL CTA */}
-      <section className="bg-[var(--cevons-deep-green,#EF7700)] text-white">
-        <div className="container-cevons py-16 md:py-20 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold">Need service in your area?</h2>
-          <p className="mt-3 text-white/85 max-w-2xl mx-auto">
-            Tell us your location and the service you need. Our team will confirm availability and next steps.
-          </p>
-          <div className="mt-7 flex flex-col sm:flex-row justify-center gap-3">
-            <a
-              href={whatsappHref}
-              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F5C518] text-[var(--cevons-deep-green,#EF7700)] font-bold px-6 py-3.5 hover:brightness-105 transition"
-            >
-              <MessageCircle className="w-5 h-5" /> WhatsApp Us
-            </a>
-            <Link
-              to="/request-service"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white text-white font-bold px-6 py-3.5 hover:bg-white hover:text-[var(--cevons-deep-green,#EF7700)] transition"
-            >
-              Request Service <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      <OrangeCTABanner
+        icon={MapPin}
+        flankIcon
+        title="Need Service in Your Area?"
+        subtitle="Tell us your location and the service you need. Our team will confirm availability and next steps quickly."
+      >
+        <a
+          href={whatsappHref}
+          {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <WhatsApp className="w-5 h-5" /> WhatsApp Us
+        </a>
+        <Link
+          to="/request-service"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border-2 border-white bg-transparent text-white font-bold hover:bg-white hover:text-[#EF7700] transition"
+        >
+          Request Service <ArrowRight className="w-5 h-5" />
+        </Link>
+      </OrangeCTABanner>
 
       {/* TRUST STRIP */}
       <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
