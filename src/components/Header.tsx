@@ -96,15 +96,19 @@ export function Header() {
           </span>
           <span className="flex flex-col justify-center leading-none">
             <span
-              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-[#2DA339] dark:text-[#4FD163]"
-              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
+              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "#2DA339" }}
             >
               CEVONS
             </span>
-            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#2DA339] dark:text-[#4FD163]">
+            <span
+              className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#2DA339" }}
+            >
               Environmental Services Inc.
             </span>
           </span>
+
         </Link>
 
         <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
@@ -193,19 +197,22 @@ export function Header() {
                     <div key={item.to} className="flex flex-col">
                       <button
                         onClick={() => setServicesOpen((v) => !v)}
-                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                           active
-                            ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
-                            : "text-cevons-dark border-transparent"
+                            ? "border-[#EF7700]"
+                            : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
+                        style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
                         aria-expanded={servicesOpen}
                         aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
-                          className={`size-5 transition-transform duration-200 ${active ? "text-[#EF7700]" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
+                          className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
+                          style={active ? { color: "#ffffff" } : undefined}
                         />
                       </button>
+
                       {servicesOpen && (
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
@@ -238,17 +245,19 @@ export function Header() {
                   <Link
                     key={item.to}
                     to={item.to}
-                    className={`px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                    className={`px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                       active
-                        ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
-                        : "text-cevons-dark border-transparent"
+                        ? "border-[#EF7700]"
+                        : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                     }`}
+                    style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
                     onClick={() => setMobileOpen(false)}
                     aria-current={active ? "page" : undefined}
                   >
                     {t(`nav.${item.key}`)}
                   </Link>
                 );
+
               })}
             </nav>
 
