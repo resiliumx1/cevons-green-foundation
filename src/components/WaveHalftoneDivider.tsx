@@ -88,10 +88,10 @@ function approxWaveY(x: number): number {
 }
 
 function WaveHalftoneDividerImpl({
-  underFill = "#ffffff",
   className = "",
-  height = 220,
+  height = 160,
 }: WaveHalftoneDividerProps) {
+
   const dots = useMemo(generateDots, []);
 
   return (
@@ -117,8 +117,10 @@ function WaveHalftoneDividerImpl({
           </linearGradient>
         </defs>
 
-        {/* Under-wave fill matches next section bg (prevents seam). */}
-        <rect x="0" y="0" width="1440" height="220" fill={underFill} />
+        {/* No under-wave fill: the wave path itself fills to viewBox bottom and abuts the
+            next section. Area ABOVE the wave stays transparent so the dark hero shows
+            through and the dots read against it. */}
+
 
         {/* Halftone dot field — drifts subtly. Wave drawn on top so dots tuck behind crest. */}
         <g className="whd-dots" fill="#F26F1C">
