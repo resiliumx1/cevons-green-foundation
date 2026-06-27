@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" },
       // Warm the LCP hero image before JS hydrates the carousel.
-      { rel: "preload", as: "image", href: "/hero-slides/slide-1.jpg", fetchpriority: "high" },
+      { rel: "preload", as: "image", href: "/hero-slides/slide-1.webp", fetchpriority: "high" },
     ],
 
     scripts: [
