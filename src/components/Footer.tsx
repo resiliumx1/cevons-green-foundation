@@ -411,7 +411,19 @@ export function Footer() {
             <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
 
             <span className="text-white/20">|</span>
-            <Link to="/" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.sitemap")}</Link>
+            <Link
+              to="/sitemap"
+              className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
+              style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
+            >
+              <ArrowRight
+                aria-hidden
+                className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
+                style={{ color: BRAND_ORANGE }}
+              />
+              {t("footer.sitemap")}
+            </Link>
+
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="text-white/60">{t("footer.serving")}</span>
