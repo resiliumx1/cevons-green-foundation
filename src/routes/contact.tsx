@@ -265,53 +265,27 @@ function ContactPage() {
       </section>
 
       {/* URGENT CTA */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="container-cevons">
-          <div
-            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
-            style={{
-              background:
-                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
-            }}
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="relative">
-              <p className="text-[var(--cevons-yellow,#FFD200)] text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> Urgent
-              </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">
-                Need Urgent Assistance?
-              </h2>
-              <p className="mt-4 text-white/80 max-w-xl mx-auto">
-                Contact us on WhatsApp and our team will respond as soon as possible.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href={whatsappHref}
-                  {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="btn-base btn-green text-base px-6 py-3.5"
-                >
-                  <MessageCircle className="size-5" /> WhatsApp Us
-                </a>
-                <a
-                  href={primaryTelHref}
-                  className="btn-base btn-yellow text-base px-6 py-3.5"
-                >
-                  <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <OrangeCTABanner
+        icon={Siren}
+        flankIcon
+        title="Need Urgent Assistance?"
+        subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance."
+        texture="flame"
+      >
+        <a
+          href={whatsappHref}
+          {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <WhatsApp className="size-5" /> WhatsApp Us
+        </a>
+        <a
+          href={primaryTelHref}
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#EF7700] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
+        </a>
+      </OrangeCTABanner>
 
       {/* TRUST STRIP */}
       <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
