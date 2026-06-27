@@ -196,14 +196,16 @@
   }
 }
 @utility btn-yellow {
-  background-color: var(--brand-accent-yellow);
-  color: var(--brand-charcoal);
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
   &:hover {
-    background-color: #f0db1f;
+    background-color: var(--brand-orange-dark);
+    color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(252, 231, 34, 0.45);
+    box-shadow: 0 10px 24px rgba(239, 119, 0, 0.40);
   }
 }
+
 @utility btn-shine {
   position: relative;
   overflow: hidden;
