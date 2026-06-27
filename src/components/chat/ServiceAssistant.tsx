@@ -337,24 +337,24 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-3 rounded-full pl-2 pr-5 py-2 text-left text-white shadow-[0_14px_32px_-12px_rgba(239,119,0,0.55),0_4px_12px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-12px_rgba(239,119,0,0.65),0_6px_16px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
+        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-1.5 sm:gap-2 rounded-full pl-1.5 pr-1.5 sm:pr-3 py-1 text-left text-white shadow-[0_10px_24px_-12px_rgba(239,119,0,0.55),0_3px_8px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_rgba(239,119,0,0.65),0_5px_12px_rgba(0,0,0,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
         } ${open ? "pointer-events-none opacity-0" : ""}`}
-        style={{ background: orangeGradient }}
+        style={{ background: orangeGradient, minHeight: 40 }}
       >
-        <EmblemBadge size={40} />
-        <span className="hidden sm:flex flex-col leading-tight pr-1">
+        <EmblemBadge size={22} />
+        <span className="hidden sm:flex flex-col leading-tight pr-0.5">
           <span
-            className="text-[15px] font-bold text-white"
+            className="text-[13px] font-bold text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Ask CEVONS
           </span>
           <span
-            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-white/80"
+            className="flex items-center gap-1 text-[8px] font-semibold uppercase text-white/80"
             style={{ fontFamily: "'Open Sans', system-ui, sans-serif", letterSpacing: "0.16em" }}
           >
-            <Leaf className="h-2.5 w-2.5" style={{ color: "#A8E6A0" }} />
+            <Leaf className="h-2 w-2" style={{ color: "#A8E6A0" }} />
             AI Assistant
           </span>
         </span>
