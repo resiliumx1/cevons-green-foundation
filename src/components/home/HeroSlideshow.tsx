@@ -100,9 +100,20 @@ export function HeroSlideshowBackground() {
   // (IntersectionObserver) or they become the active slide.
   const [eager, setEager] = useState<Set<number>>(() => new Set([0]));
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const [scrollY, setScrollY] = useState(0);
 
   const markLoaded = (i: number) =>
     setLoaded((prev) => (prev[i] ? prev : prev.map((v, idx) => (idx === i ? true : v))));
+
+  // Cached/preloaded images (slide 1 via <link rel="preload">) often resolve
+  // before React attaches onLoad. Check .complete on mount so we don't sit
+  // on the placeholder while the decoded image is already in memory.
+  useEffect(() => {
+    imgRefs.current.forEach((img, i) => {
+      if (img && img.complete && img.naturalWidth > 0) markLoaded(i);
+    });
+  }, [eager]);
 
   // IntersectionObserver: once the hero is in (or near) the viewport,
   // warm the remaining slides. Saves bandwidth when a visitor never
@@ -111,7 +122,6 @@ export function HeroSlideshowBackground() {
     const node = rootRef.current;
     if (!node) return;
     if (typeof IntersectionObserver === "undefined") {
-      // Older browsers — just load everything.
       setEager(new Set(SLIDES.map((_, i) => i)));
       return;
     }
@@ -137,7 +147,28 @@ export function HeroSlideshowBackground() {
     setEager((prev) => (prev.has(active) ? prev : new Set(prev).add(active)));
   }, [active]);
 
+  // Scroll parallax: translate the slideshow layer at ~30% of scroll for
+  // a subtle depth effect. Disabled when user prefers reduced motion.
+  useEffect(() => {
+    if (reduced) return;
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        setScrollY(window.scrollY);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [reduced]);
+
   const showPlaceholder = !loaded[active];
+  const parallaxY = reduced ? 0 : scrollY * 0.3;
 
   return (
     <div
@@ -174,41 +205,54 @@ export function HeroSlideshowBackground() {
         )}
       </div>
 
-      {SLIDES.map((s, i) => {
-        const isActive = i === active;
-        const isLoaded = loaded[i];
-        const shouldLoad = eager.has(i);
-        return (
-          <div
-            key={s.src}
-            className="absolute inset-0 transition-opacity ease-out"
-            style={{
-              opacity: isActive && isLoaded ? 1 : 0,
-              transitionDuration: `${FADE_MS}ms`,
-              zIndex: isActive ? 2 : 1,
-            }}
-            aria-hidden={!isActive}
-          >
-            {shouldLoad && (
-              <img
-                src={s.src}
-                alt={s.alt}
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding={i === 0 ? "sync" : "async"}
-                {...(i === 0 ? { fetchPriority: "high" as const } : {})}
-                width={1920}
-                height={1080}
-                onLoad={() => markLoaded(i)}
-                onError={() => markLoaded(i)}
-                className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
-                style={{ objectPosition: s.position }}
-              />
-            )}
-          </div>
-        );
-      })}
-
-
+      {/* Parallax wrapper — translates the image stack on scroll while the
+          tints/placeholder stay fixed to the viewport edge. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          transform: `translate3d(0, ${parallaxY}px, 0)`,
+          willChange: reduced ? undefined : "transform",
+        }}
+      >
+        {SLIDES.map((s, i) => {
+          const isActive = i === active;
+          const isLoaded = loaded[i];
+          const shouldLoad = eager.has(i);
+          // Slide 0 is preloaded + eager — don't gate its opacity on the
+          // React onLoad event, which can fire after the image is already
+          // decoded and waste 1.2s on a fade against the placeholder.
+          const visible = isActive && (i === 0 || isLoaded);
+          return (
+            <div
+              key={s.src}
+              className="absolute inset-0 transition-opacity ease-out"
+              style={{
+                opacity: visible ? 1 : 0,
+                transitionDuration: `${FADE_MS}ms`,
+                zIndex: isActive ? 2 : 1,
+              }}
+              aria-hidden={!isActive}
+            >
+              {shouldLoad && (
+                <img
+                  ref={(el) => { imgRefs.current[i] = el; }}
+                  src={s.src}
+                  alt={s.alt}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding={i === 0 ? "sync" : "async"}
+                  {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                  width={1920}
+                  height={1080}
+                  onLoad={() => markLoaded(i)}
+                  onError={() => markLoaded(i)}
+                  className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+                  style={{ objectPosition: s.position }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
 
       <div
         key={`tint-${active}`}
