@@ -26,7 +26,7 @@ export const Route = createFileRoute("/sitemap")({
 });
 
 type NavItem = { label: string; to: string };
-type NavGroup = { title: string; icon: React.ComponentType<{ className?: string }>; items: NavItem[] };
+type NavGroup = { title: string; icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; items: NavItem[] };
 
 // Pulled from src/routes/*.tsx — every public, non-CRM route.
 const MAIN: NavItem[] = [
