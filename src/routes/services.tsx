@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveDivider } from "@/components/WaveDivider";
-import { SocialProofMarquee } from "@/components/SocialProofMarquee";
+import { LogoCarousel } from "@/components/home/LogoCarousel";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
