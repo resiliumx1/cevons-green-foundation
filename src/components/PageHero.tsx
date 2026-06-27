@@ -66,7 +66,7 @@ export function PageHero({
   align = "left",
   height = "standard",
   showSwoosh = true,
-  waveVariant = "minimal",
+  waveVariant: _waveVariant = "minimal",
   showLogoBadge = false,
   imagePosition = "center center",
   priority = false,
