@@ -398,9 +398,10 @@ export function Footer() {
             © {year} CEVONS Environmental Services Inc. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-            <a href="#" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.privacy")}</a>
+            <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
             <span className="text-white/20">|</span>
-            <a href="#" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.terms")}</a>
+            <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
+
             <span className="text-white/20">|</span>
             <Link to="/" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.sitemap")}</Link>
           </div>
