@@ -97,7 +97,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={4}
-            className="mt-4 flex flex-wrap gap-3"
+            className="mt-3 md:mt-4 flex flex-wrap gap-3"
           >
             <a href="/contact" className="hero-cta hero-cta--whatsapp hero-cta--stacked group">
               <span className="hero-cta__icon">
