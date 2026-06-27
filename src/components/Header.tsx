@@ -1,10 +1,20 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { useT } from "@/contexts/SettingsContext";
+
+const ACTIVE_ORANGE = "#EF7700";
+
+function useIsActive() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return (to: string) => {
+    if (to === "/") return pathname === "/";
+    return pathname === to || pathname.startsWith(to + "/");
+  };
+}
 
 type NavItem = { to: string; key: string; hasDropdown?: boolean };
 const nav: NavItem[] = [
