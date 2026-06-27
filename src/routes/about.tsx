@@ -18,6 +18,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
