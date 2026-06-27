@@ -31,9 +31,7 @@ export default function SocialProofStrip() {
               className={[
                 "sp-card group flex items-center gap-3 rounded-2xl px-5 py-4 md:px-7 md:h-[90px]",
                 "border transition-all duration-[250ms] motion-safe:animate-sp-in",
-                it.dark
-                  ? "border-white/10 text-white sp-card--dark"
-                  : "border-black/[0.08] bg-white/75 backdrop-blur-md text-cevons-deep-green",
+                "border-black/[0.08] bg-white/75 backdrop-blur-md text-cevons-deep-green",
               ].join(" ")}
               style={{ animationDelay: `${i * 100}ms` }}
             >
@@ -45,23 +43,16 @@ export default function SocialProofStrip() {
                 className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
               />
               <div className="min-w-0">
-                <p
-                  className={`text-sm md:text-base font-bold leading-tight ${
-                    it.dark ? "text-white" : "text-cevons-deep-green"
-                  }`}
-                >
+                <p className="text-sm md:text-base font-bold leading-tight text-cevons-deep-green">
                   {it.title}
                 </p>
-                <p
-                  className={`text-[11px] md:text-xs mt-0.5 ${
-                    it.dark ? "text-white/80" : "text-black/60"
-                  }`}
-                >
+                <p className="text-[11px] md:text-xs mt-0.5 text-black/60">
                   {it.subtitle}
                 </p>
               </div>
             </li>
           ))}
+
         </ul>
       </div>
     </section>
