@@ -480,13 +480,6 @@ export function ServiceAssistant() {
               {/* ============ INPUT ============ */}
               <div className="bg-white px-3 pt-3 pb-2 border-t border-black/5">
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    aria-label="Attach (coming soon)"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#F3F1EB] text-[#6B6B6B] hover:bg-[#E9E6DE] transition"
-                  >
-                    <Paperclip className="h-4 w-4" />
-                  </button>
                   <textarea
                     ref={inputRef}
                     value={input}
@@ -508,6 +501,7 @@ export function ServiceAssistant() {
                     onClick={() => send()}
                     disabled={!input.trim() || loading}
                     aria-label="Send"
+                    title="Send message"
                     className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
                     style={{ background: orangeGradient }}
                   >
