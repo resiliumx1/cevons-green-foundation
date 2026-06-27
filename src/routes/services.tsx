@@ -420,7 +420,7 @@ function ServicesPage() {
       </div>
 
       {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="compact" />
+      <LogoCarousel showCta={false} />
 
       {/* CATEGORY OVERVIEW */}
       <section className="section-y bg-white">
