@@ -1999,7 +1999,15 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
 }
 .hero-tint-flash { animation: hero-tint-flash 1200ms ease-out both; }
 
+@keyframes hero-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.hero-shimmer { animation: hero-shimmer 1800ms linear infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-kenburns { animation: none !important; }
   .hero-tint-flash { animation: none !important; opacity: 0 !important; }
+  .hero-shimmer { animation: none !important; }
 }
+
