@@ -157,7 +157,9 @@ export function Header() {
                 </div>
               )}
             </div>
-          ))}
+            </div>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-2 shrink-0">
