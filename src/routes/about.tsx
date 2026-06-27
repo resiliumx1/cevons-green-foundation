@@ -215,8 +215,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF MARQUEE */}
-      <SocialProofMarquee variant="compact" />
 
       {/* COMPLIANCE SECTION */}
       <section className="section-y bg-white" aria-labelledby="compliance-heading">
