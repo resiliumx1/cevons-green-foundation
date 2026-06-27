@@ -53,12 +53,19 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => { progressRef.current = progress; }, [progress]);
 
+  // Preload every slide image immediately so a blank frame never shows
+  // when the carousel advances. The first slide also renders eagerly in
+  // the <img> below, so this mainly warms slides 2..N.
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      SLIDES.slice(1).forEach((s) => { const img = new Image(); img.src = s.src; });
-    }, 800);
-    return () => window.clearTimeout(id);
+    const imgs = SLIDES.map((s) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = s.src;
+      return img;
+    });
+    return () => { imgs.forEach((i) => { i.src = ""; }); };
   }, []);
+
 
   useEffect(() => {
     if (reduced) { setProgress(0); return; }
@@ -99,6 +106,12 @@ function useSlideshow() {
 
 export function HeroSlideshowBackground() {
   const { active, reduced, setPaused } = useSlideshow();
+  const [loaded, setLoaded] = useState<boolean[]>(() => SLIDES.map(() => false));
+  const markLoaded = (i: number) =>
+    setLoaded((prev) => (prev[i] ? prev : prev.map((v, idx) => (idx === i ? true : v))));
+
+  const showPlaceholder = !loaded[active];
+
   return (
     <div
       className="absolute inset-0 -z-10 overflow-hidden bg-cevons-dark"
@@ -107,13 +120,44 @@ export function HeroSlideshowBackground() {
       aria-roledescription="carousel"
       aria-label="CEVONS environmental services"
     >
+      {/* Brand placeholder shown beneath every slide until that slide
+          has finished loading. Stays under the image (z-0) so once the
+          image fades in it covers the placeholder seamlessly. */}
+      <div
+        aria-hidden
+        className={`absolute inset-0 z-0 transition-opacity duration-500 ${showPlaceholder ? "opacity-100" : "opacity-0"}`}
+      >
+        <div
+          className="size-full"
+          style={{
+            background:
+              "radial-gradient(80% 60% at 30% 40%, #2a2622 0%, #1a1714 55%, #0e0c0a 100%)",
+          }}
+        />
+        {!reduced && (
+          <div
+            className="absolute inset-0 hero-shimmer"
+            style={{
+              background:
+                "linear-gradient(100deg, transparent 30%, rgba(239,119,0,0.10) 50%, transparent 70%)",
+              backgroundSize: "200% 100%",
+            }}
+          />
+        )}
+      </div>
+
       {SLIDES.map((s, i) => {
         const isActive = i === active;
+        const isLoaded = loaded[i];
         return (
           <div
             key={s.src}
             className="absolute inset-0 transition-opacity ease-out"
-            style={{ opacity: isActive ? 1 : 0, transitionDuration: `${FADE_MS}ms`, zIndex: isActive ? 2 : 1 }}
+            style={{
+              opacity: isActive && isLoaded ? 1 : 0,
+              transitionDuration: `${FADE_MS}ms`,
+              zIndex: isActive ? 2 : 1,
+            }}
             aria-hidden={!isActive}
           >
             <img
@@ -124,12 +168,15 @@ export function HeroSlideshowBackground() {
               {...(i === 0 ? { fetchPriority: "high" as const } : {})}
               width={1920}
               height={1080}
-              className={`size-full object-cover ${isActive && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+              onLoad={() => markLoaded(i)}
+              onError={() => markLoaded(i)}
+              className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
               style={{ objectPosition: s.position }}
             />
           </div>
         );
       })}
+
 
       <div
         key={`tint-${active}`}
