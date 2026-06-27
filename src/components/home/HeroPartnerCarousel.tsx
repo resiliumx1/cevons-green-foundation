@@ -93,7 +93,7 @@ export function HeroPartnerCarousel() {
             height: 3,
             background: "#EF7700",
             borderRadius: 999,
-            margin: "12px auto 22px",
+            margin: "8px auto 14px",
           }}
         />
 
