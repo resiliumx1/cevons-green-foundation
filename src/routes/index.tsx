@@ -86,7 +86,7 @@ const statValues = [
   { value: "29+", labelKey: "yearsLabel", icon: Award },
   { value: "10,000+", labelKey: "homesLabel", icon: Home },
   { value: "50,000+", labelKey: "tonnesLabel", icon: Recycle },
-  { value: "3", labelKey: "regionsLabel", icon: MapPin },
+  { value: "10", labelKey: "regionsLabel", icon: MapPin },
 ];
 
 type StepKey = "request" | "confirm" | "schedule" | "dispatch" | "service" | "complete";

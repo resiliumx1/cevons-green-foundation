@@ -53,7 +53,7 @@ export const Route = createFileRoute("/about")({
 const stats: { label: string; value: string; icon: typeof Award }[] = [
   { value: "Since 1997", label: "Trusted Across Guyana", icon: Award },
   { value: "4", label: "Service Categories", icon: Recycle },
-  { value: "3", label: "Regions Served", icon: TrendingUp },
+  { value: "10", label: "Regions Served Across Guyana", icon: TrendingUp },
   { value: "All Sectors", label: "Residential • Commercial • Industrial • Facilities", icon: Shield },
 ];
 
