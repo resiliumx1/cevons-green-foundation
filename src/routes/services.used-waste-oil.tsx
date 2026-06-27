@@ -45,7 +45,7 @@ const faqs = [
 const related = [
   { title: "Tank Cleaning", body: "Industrial tank cleaning with safety controls.", img: imgRel0, to: "/services/tank-cleaning", icon: Beaker },
   { title: "Hazardous Waste", body: "Regulated hazardous waste handling and disposal.", img: imgRel1, to: "/services/hazardous-waste", icon: ShieldAlert },
-  { title: "Wastewater", body: "Industrial wastewater collection and treatment.", img: imgRel2, to: "/services/wastewater", icon: Waves },
+  { title: "Septic Tank Emptying", body: "Safe septic tank pumping and maintenance.", img: imgRel2, to: "/services/septic-services", icon: Droplet },
 ];
 
 function Page() {
