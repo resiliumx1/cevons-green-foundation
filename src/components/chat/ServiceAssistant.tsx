@@ -337,13 +337,40 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed bottom-5 right-5 z-[60] flex items-center gap-2 sm:gap-2.5 rounded-full pl-2 pr-2 sm:pr-4 py-1.5 text-left text-white shadow-[0_12px_28px_-12px_rgba(239,119,0,0.6),0_4px_10px_rgba(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-12px_rgba(239,119,0,0.7),0_6px_14px_rgba(0,0,0,0.24)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40 ${
-          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-        } ${open ? "pointer-events-none opacity-0" : ""}`}
-        style={{ background: orangeGradient, minHeight: 50 }}
+        className={`group fixed z-[60] text-left text-white transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40
+          sm:flex sm:items-center sm:gap-3 sm:rounded-full sm:pl-3 sm:pr-5 sm:py-2.5 sm:min-h-[64px] sm:shadow-[0_14px_34px_rgba(239,119,0,0.35)]
+          grid place-items-center h-16 w-16 rounded-full shadow-[0_10px_24px_rgba(239,119,0,0.4)]
+          ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"} ${open ? "pointer-events-none opacity-0" : ""}`}
+        style={{
+          background: orangeGradient,
+          bottom: "calc(20px + env(safe-area-inset-bottom))",
+          right: 18,
+        }}
       >
-        <EmblemBadge size={28} />
-        <span className="hidden sm:flex flex-col leading-tight pr-0.5">
+        {/* Tight white logo badge with AI pill */}
+        <span className="relative inline-grid place-items-center shrink-0 rounded-full bg-white sm:h-[52px] sm:w-[52px] h-[46px] w-[46px]" style={{ padding: 4 }}>
+          <img
+            src={LOGO_MARK}
+            alt=""
+            className="object-contain h-full w-full"
+            draggable={false}
+          />
+          <span
+            className="absolute rounded-full font-bold text-white"
+            style={{
+              background: "#111",
+              fontSize: 10,
+              padding: "2px 6px",
+              right: -3,
+              bottom: 2,
+              border: "1px solid rgba(255,255,255,0.85)",
+              lineHeight: 1.1,
+            }}
+          >
+            AI
+          </span>
+        </span>
+        <span className="hidden sm:flex flex-col leading-tight">
           <span
             className="text-[16px] font-bold text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
@@ -382,9 +409,9 @@ export function ServiceAssistant() {
               exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 16 }}
               transition={panelTransition}
               style={{ transformOrigin: "bottom right" }}
-              className="fixed z-[70] bg-white shadow-2xl flex flex-col overflow-hidden
-                         inset-x-0 bottom-0 top-12 rounded-t-[18px]
-                         md:inset-auto md:bottom-5 md:right-5 md:top-auto md:w-[400px] md:h-[640px] md:max-h-[85vh] md:rounded-[18px]
+              className="fixed z-[70] bg-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] flex flex-col overflow-hidden
+                         bottom-[max(12px,env(safe-area-inset-bottom))] left-3 right-3 top-12 rounded-[24px]
+                         md:inset-auto md:bottom-5 md:right-5 md:left-auto md:top-auto md:w-[440px] md:h-[680px] md:max-h-[85vh] md:rounded-[28px]
                          border border-black/5"
             >
               {/* ============ HEADER ============ */}
