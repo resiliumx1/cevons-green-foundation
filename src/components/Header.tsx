@@ -188,16 +188,22 @@ export function Header() {
             <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
               {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
+                  const active = isActive(item.to);
                   return (
                     <div key={item.to} className="flex flex-col">
                       <button
                         onClick={() => setServicesOpen((v) => !v)}
-                        className="flex items-center justify-between px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                          active
+                            ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
+                            : "text-cevons-dark border-transparent"
+                        }`}
                         aria-expanded={servicesOpen}
+                        aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
-                          className={`size-5 text-cevons-muted transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                          className={`size-5 transition-transform duration-200 ${active ? "text-[#EF7700]" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
                         />
                       </button>
                       {servicesOpen && (
