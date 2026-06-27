@@ -2564,20 +2564,49 @@ html.dark :where(
     font-size: 13px;
   }
 
-  /* Carousel snug under badges */
+  /* Carousel snug under badges — shrink footprint to ~150–170px tall */
   [data-hero-scope] [data-hero-banner] {
-    margin-top: 14px;
+    margin-top: 10px;
   }
   [data-hero-scope] .hpc-carousel {
-    padding: 18px 0 22px !important;
-    border-top-left-radius: 24px !important;
-    border-top-right-radius: 24px !important;
+    padding: 14px 0 16px !important;
+    border-top-left-radius: 22px !important;
+    border-top-right-radius: 22px !important;
     margin-top: 0 !important;
   }
+  /* Compact label + divider */
+  [data-hero-scope] .hpc-carousel > .container-cevons > p {
+    font-size: 11px !important;
+    letter-spacing: 0.18em !important;
+  }
+  [data-hero-scope] .hpc-carousel > .container-cevons > div[aria-hidden] {
+    margin: 8px auto 12px !important;
+    width: 56px !important;
+    height: 2px !important;
+  }
+  /* Smaller logo cards on mobile */
+  [data-hero-scope] .hpc-carousel [class*="shrink-0"][class*="items-center"][class*="justify-center"] {
+    height: 64px !important;
+    width: 104px !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+  }
+  /* Smaller arrow buttons on mobile */
+  [data-hero-scope] .hpc-carousel button[aria-label*="partners"] {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  /* Tighter progress bar gap */
+  [data-hero-scope] .hpc-carousel .mt-3 {
+    margin-top: 8px !important;
+  }
 
-  /* Hide slideshow indicators on mobile so they don't overlap carousel */
-  [data-hero-scope] [data-hero-banner] ~ * { display: none; }
+  /* Slideshow controls: keep above the (now shorter) carousel band */
+  [data-hero-scope] .absolute.left-1\/2 {
+    bottom: 180px !important;
+  }
 }
+
 
 /* Very small phones */
 @media (max-width: 390px) {
