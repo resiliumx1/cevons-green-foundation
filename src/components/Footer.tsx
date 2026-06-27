@@ -98,6 +98,8 @@ export function Footer() {
   const t = useT();
   const isExternalWA = whatsappHref.startsWith("http");
   const year = new Date().getFullYear();
+  const currentPath = useRouterState({ select: (s) => s.location.pathname });
+
 
   const servicesList: FooterLink[] = [
     { label: t("footer.servicesList.residential"), to: "/services/general-trash-collection" },
