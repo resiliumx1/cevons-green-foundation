@@ -797,11 +797,11 @@
 /* Per-logo presentation tweaks: source images with baked-in
    vertical whitespace render tiny inside the chip — scale them up so
    every logo reads at a consistent visual weight. */
-.lcm-logo[data-logo="gtt"]            { transform: scale(2.3); transform-origin: center; }
-.lcm-logo[data-logo="gysbi"]          { transform: scale(2.6); transform-origin: center; }
-.lcm-logo[data-logo="baker-hughes"]   { transform: scale(1.55); transform-origin: center; }
-.lcm-logo[data-logo="marriott"]       { transform: scale(1.5); transform-origin: center; }
-.lcm-logo[data-logo="pegasus-hotel-guyana"] { transform: scale(1.5); transform-origin: center; }
+.lcm-logo[data-logo="gtt"]            { transform: scale(1.3); transform-origin: center; }
+.lcm-logo[data-logo="gysbi"]          { transform: scale(1.3); transform-origin: center; }
+.lcm-logo[data-logo="baker-hughes"]   { transform: scale(1.2); transform-origin: center; }
+.lcm-logo[data-logo="marriott"]       { transform: scale(1.2); transform-origin: center; }
+.lcm-logo[data-logo="pegasus-hotel-guyana"] { transform: scale(1.2); transform-origin: center; }
 .lcm-logo[data-logo="halliburton"]    { transform: scale(1.05); }
 /* Horizontal nudge for sources with off-center built-in padding */
 .lcm-logo[data-logo="british-high-commission"] { object-position: 45% center; }
