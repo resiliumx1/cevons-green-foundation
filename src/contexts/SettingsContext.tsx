@@ -72,7 +72,7 @@ function applyLang(lang: Language) {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>("system");
+  const [theme, setThemeState] = useState<ThemeMode>("light");
   const [language, setLanguageState] = useState<Language>("en");
   const [textSize, setTextSizeState] = useState<TextSize>("normal");
   const [motion, setMotionState] = useState<MotionPref>("auto");
