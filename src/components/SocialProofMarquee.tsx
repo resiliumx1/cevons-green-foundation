@@ -180,7 +180,7 @@ export function SocialProofMarquee({
 
         {/* Animated marquee */}
         <div className="spm-motion space-y-3 md:space-y-4">
-          <Track items={trustRow} direction="left" duration={45} />
+          <Track items={trustRow} direction="left" duration={45} iconOnly />
           {!isCompact && (
             <Track items={industriesRow} direction="right" duration={55} />
           )}
