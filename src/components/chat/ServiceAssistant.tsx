@@ -290,7 +290,14 @@ export function ServiceAssistant() {
   );
 
   const reset = () => {
+    if (typeof window !== "undefined" && messages.length > 1) {
+      const confirmed = window.confirm(
+        "Start a new conversation? This will clear your current chat.",
+      );
+      if (!confirmed) return;
+    }
     setMessages([{ id: uid(), role: "assistant", text: WELCOME_TEXT }]);
+    setStreamingId(null);
   };
 
   const lastUserText = [...messages].reverse().find((m) => m.role === "user")?.text ?? "";
