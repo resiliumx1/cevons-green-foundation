@@ -131,7 +131,7 @@ function AboutPage() {
           </p>
         </div>
 
-        <WaveDivider variant="heritage" />
+        <WaveHalftoneDivider height={48} />
       </section>
 
       {/* COMPANY STORY */}
