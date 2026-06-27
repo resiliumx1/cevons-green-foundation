@@ -7,7 +7,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh flex flex-col bg-background">
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <PageTransition>{children}</PageTransition>
       </main>
       <Footer />
