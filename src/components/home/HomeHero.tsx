@@ -86,7 +86,7 @@ export function HomeHero() {
             initial="hidden"
             animate="visible"
             custom={3}
-            className="mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
+            className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
             {t("home.hero.lead")}{" "}
             <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
