@@ -1934,6 +1934,69 @@ html.dark [class*="text-[#4B5563]"] { color: var(--text-muted) !important; }
 html.dark svg[class*="text-[#1A1A1A]"],
 html.dark svg[class*="text-[#101820]"],
 html.dark svg[class*="text-[#1a1a1a]"] { color: #EF7700 !important; }
+
+/* ===========================================================================
+   Carousels / marquees are dark-mode-immune — always render light appearance.
+   Must come AFTER the broad attribute-selector dark text rules above.
+   =========================================================================== */
+html.dark .lcm-section,
+html.dark .spm-section,
+html.dark .spm-section-compact,
+html.dark .conveyor,
+html.dark .conveyor-band {
+  background: #FFFFFF;
+}
+
+/* Re-assert light-mode heading/body text inside carousels */
+html.dark .lcm-section [class*="text-[var(--cevons-deep-green"],
+html.dark .spm-section [class*="text-[var(--cevons-deep-green"],
+html.dark .spm-section-compact [class*="text-[var(--cevons-deep-green"],
+html.dark .conveyor [class*="text-[var(--cevons-deep-green"],
+html.dark .conveyor-band [class*="text-[var(--cevons-deep-green"],
+html.dark .lcm-section [class*="text-[#1A1A1A]"],
+html.dark .lcm-section [class*="text-[#1a1a1a]"],
+html.dark .lcm-section [class*="text-[#101820]"],
+html.dark .spm-section [class*="text-[#1A1A1A]"],
+html.dark .spm-section-compact [class*="text-[#1A1A1A]"],
+html.dark .conveyor [class*="text-[#1A1A1A]"],
+html.dark .conveyor-band [class*="text-[#1A1A1A]"] { color: #1A1A1A !important; }
+
+html.dark .lcm-section [class*="text-[var(--cevons-muted"],
+html.dark .spm-section [class*="text-[var(--cevons-muted"],
+html.dark .spm-section-compact [class*="text-[var(--cevons-muted"],
+html.dark .conveyor [class*="text-[var(--cevons-muted"],
+html.dark .conveyor-band [class*="text-[var(--cevons-muted"],
+html.dark .lcm-section [class*="text-[#4B5563]"],
+html.dark .spm-section [class*="text-[#4B5563]"],
+html.dark .conveyor [class*="text-[#4B5563]"] { color: #64748B !important; }
+
+/* Cevons-token text classes inside carousels — undo dark remap */
+html.dark .lcm-section .text-cevons-deep-green,
+html.dark .lcm-section .text-cevons-dark,
+html.dark .spm-section .text-cevons-deep-green,
+html.dark .spm-section .text-cevons-dark,
+html.dark .spm-section-compact .text-cevons-deep-green,
+html.dark .spm-section-compact .text-cevons-dark,
+html.dark .conveyor .text-cevons-deep-green,
+html.dark .conveyor .text-cevons-dark,
+html.dark .conveyor-band .text-cevons-deep-green,
+html.dark .conveyor-band .text-cevons-dark { color: #1A1A1A !important; }
+
+html.dark .lcm-section .text-cevons-muted,
+html.dark .spm-section .text-cevons-muted,
+html.dark .spm-section-compact .text-cevons-muted,
+html.dark .conveyor .text-cevons-muted,
+html.dark .conveyor-band .text-cevons-muted { color: #64748B !important; }
+
+/* Preserve brand-green eyebrows in SocialProofStrip */
+html.dark .spm-eyebrow,
+html.dark .spm-section .spm-eyebrow,
+html.dark .spm-section-compact .spm-eyebrow { color: #006B35 !important; }
+
+/* SocialProofStrip cards: keep dark text on light card bg.
+   .sp-card--dark variant (if any) keeps its own light text — only target plain .sp-card. */
+html.dark .sp-card:not(.sp-card--dark) .text-cevons-deep-green,
+html.dark .sp-card:not(.sp-card--dark) p { color: #1A1A1A !important; }
 html.dark .border-cevons-border { border-color: var(--hairline); }
 html.dark .border-cevons-border\/60 { border-color: color-mix(in srgb, var(--hairline) 60%, transparent); }
 html.dark .border-cevons-border\/50 { border-color: color-mix(in srgb, var(--hairline) 50%, transparent); }
