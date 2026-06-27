@@ -227,18 +227,18 @@ function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
             {complianceBadges.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-xl bg-[var(--cevons-cream,#FBF7EE)] border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow flex h-full flex-col rounded-xl bg-white dark:bg-white/[0.04] p-7 text-center hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
+                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
                   <Icon className="size-7" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
+                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
