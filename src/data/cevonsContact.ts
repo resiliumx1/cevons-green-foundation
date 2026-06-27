@@ -1,10 +1,6 @@
 /**
  * Central source of truth for CEVONS official contact details.
  * Source: official CEVONS Environmental Services Inc. contact page.
- *
- * NOTE: The official WhatsApp number has not been confirmed yet.
- * Confirm official WhatsApp number with CEVONS before launch and
- * replace the `whatsapp` field below with the real value.
  */
 
 export type CevonsRegionId = "georgetown" | "linden" | "berbice";
@@ -26,8 +22,8 @@ export const cevonsContact = {
   email: "info@cevons.com",
   /** Primary phone for general inquiries (Georgetown Head Office). */
   primaryPhone: "+592 218 1455",
-  /** Official CEVONS WhatsApp number (Georgetown Head Office line). */
-  whatsapp: "+592 218 1455" as string,
+  /** Official CEVONS WhatsApp number. */
+  whatsapp: "+1 592-625-5211" as string,
   hours: "Monday \u2013 Saturday, 8:00am to 5:00pm",
   regions: [
     {
