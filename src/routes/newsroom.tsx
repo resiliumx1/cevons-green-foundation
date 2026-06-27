@@ -16,7 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { breadcrumbListJsonLd, organizationJsonLd } from "@/lib/seo/jsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsroomSocialSection } from "@/components/newsroom/NewsroomSocialSection";
