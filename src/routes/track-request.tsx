@@ -207,30 +207,29 @@ function TrackRequestPage() {
 
       {!loading && !error && result && <ResultView result={result} />}
 
-      {/* Need help */}
-      <section className="bg-white border-t border-[var(--cevons-border)]">
-        <div className="container-cevons px-4 py-10 md:py-14">
-          <div className="max-w-2xl mx-auto rounded-2xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-8 md:p-10 text-center">
-            <div className="mx-auto size-12 rounded-full bg-[#EF7700]/10 flex items-center justify-center">
-              <MessageCircle className="size-6 text-[#EF7700]" />
-            </div>
-            <h2 className="mt-4 text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Having trouble finding your request?</h2>
-            <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Call <a href={primaryTelHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
-              or email <a href={primaryMailtoHref} className="font-semibold text-[#EF7700] hover:underline">{cevonsContact.email}</a>{" "}
-              and our team will help you locate it.
-            </p>
-            <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="btn-base btn-green w-full sm:w-auto">
-                <MessageCircle className="size-4" />WhatsApp Us
-              </a>
-              <a href={primaryTelHref} className="btn-base btn-outline-green w-full sm:w-auto">
-                <Phone className="size-4" />Call {cevonsContact.primaryPhone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Urgent Assistance CTA */}
+      <OrangeCTABanner
+        icon={Siren}
+        flankIcon
+        title="Need Urgent Assistance?"
+        subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance."
+        texture="flame"
+      >
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <WhatsApp className="size-5" /> WhatsApp Us
+        </a>
+        <a
+          href="tel:+5922181455"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#EF7700] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+        >
+          <Phone className="size-5" /> Call +592 218 1455
+        </a>
+      </OrangeCTABanner>
 
       <section className="bg-white border-t border-[var(--cevons-border)]">
         <div className="container-cevons px-4 py-8">
