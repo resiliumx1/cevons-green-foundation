@@ -181,7 +181,6 @@ function HomePage() {
               <img
                 src={marketLeaderBadge.url}
                 alt="Market Leader - Trusted Since 1997"
-                loading="lazy"
                 className="h-auto w-[280px] md:w-[320px] rounded-2xl shadow-2xl"
               />
             </div>
