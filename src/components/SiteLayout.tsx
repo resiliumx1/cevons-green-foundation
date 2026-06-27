@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { TrustStrip } from "./TrustStrip";
 import { PageTransition } from "./motion/PageTransition";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -11,10 +10,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">
         <PageTransition>{children}</PageTransition>
       </main>
-      <TrustStrip />
       <Footer />
     </div>
   );
 }
+
 
 

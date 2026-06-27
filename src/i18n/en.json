@@ -172,26 +172,79 @@
   "footer": {
     "tagline": "CEVONS Environmental Services Inc. delivers reliable waste management and environmental solutions for homes, businesses, and industries across Guyana.",
     "services": "Services",
+    "industries": "Industries",
     "categories": "Categories",
     "company": "Company",
     "getInTouch": "Get In Touch",
+    "newsletter": "Newsletter",
+    "newsletterBlurb": "Get service updates, tips, and news straight to your inbox.",
     "primary": "Primary",
     "whatsappUs": "WhatsApp Us",
+    "whatsappSub": "Fastest way to reach us",
     "call": "Call",
+    "callHours": "Mon – Sat, 7AM – 6PM",
     "email": "Email",
-    "branches": "Branches: Georgetown • Linden • Berbice",
-    "serving": "Proudly serving Georgetown, Linden & Berbice",
+    "emailSub": "We reply within 24hrs",
+    "locationLabel": "Guyana",
+    "branches": "Coastland, Linden, Berbice",
+    "serving": "Proudly serving Guyana",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "sitemap": "Sitemap",
     "admin": "Admin",
+    "partnerLine": "Your Partner for a Cleaner,",
+    "partnerGreen": "Greener",
+    "partnerCountry": "Guyana.",
+    "trust": {
+      "wa": "WhatsApp Us Anytime",
+      "waSub": "Fastest way to reach us",
+      "fast": "Fast Response",
+      "fastSub": "Same business day follow-up",
+      "cert": "Trusted & Certified",
+      "certSub": "EPA Certified & Compliant",
+      "eco": "Eco-Focused",
+      "ecoSub": "Sustainable for a better Guyana"
+    },
+    "stats": {
+      "heading": "Trusted Across Guyana",
+      "sub": "by Homes, Businesses & Industries",
+      "yearsValue": "29+",
+      "yearsLabel": "Years in Service",
+      "homesValue": "10,000+",
+      "homesLabel": "Homes & Businesses Served Every Year",
+      "wasteValue": "50,000+",
+      "wasteLabel": "Tonnes of Waste Managed Responsibly",
+      "regionsValue": "3",
+      "regionsLabel": "Regions Served",
+      "regionsSub": "Coastland · Linden · Berbice"
+    },
+    "certs": {
+      "epaTitle": "EPA CERTIFIED",
+      "epaSub": "Environmental Compliance",
+      "isoTitle": "ISO 9001:2015",
+      "isoSub": "Quality Management",
+      "gcciTitle": "GCCI MEMBER",
+      "gcciSub": "Private Sector Commission"
+    },
     "servicesList": {
       "residential": "Residential Garbage Collection",
       "commercial": "Commercial Garbage Collection",
+      "industrial": "Industrial Waste Solutions",
+      "recycling": "Recycling & Facilities",
       "skipBin": "Skip Bin Rental",
       "dumpster": "Dumpster Rental",
       "portable": "Portable Toilet Rental",
-      "septic": "Septic Tank Clearance"
+      "septic": "Septic Tank Cleaners"
+    },
+    "industriesList": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "hospitality": "Hospitality",
+      "construction": "Construction",
+      "healthcare": "Healthcare",
+      "education": "Education",
+      "retail": "Retail & Shopping Centers"
     },
     "categoriesList": {
       "residential": "Residential",
@@ -201,11 +254,14 @@
     },
     "companyList": {
       "about": "About Us",
+      "story": "Our Story",
       "careers": "Careers",
-      "locations": "Locations",
-      "resources": "Resources",
       "newsroom": "Newsroom",
-      "contact": "Contact"
+      "locations": "Locations",
+      "environment": "Environment",
+      "resources": "Resources",
+      "contact": "Contact Us"
     }
   }
 }
+
