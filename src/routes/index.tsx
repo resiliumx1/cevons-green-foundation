@@ -15,7 +15,6 @@ import {
   Trash2,
   Truck,
   Factory,
-  Target,
   Home,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -34,6 +33,7 @@ import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
+import marketLeaderBadge from "@/assets/market-leader-badge.png.asset.json";
 
 import { useT } from "@/contexts/SettingsContext";
 
@@ -162,27 +162,30 @@ function HomePage() {
           </svg>
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
-          <ul className="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
-            {statValues.map(({ icon: Icon, value, labelKey }) => {
-              const label = t(`home.stats.${labelKey}`);
-              return (
-                <li key={labelKey} className="flex items-center gap-4">
-                  <Icon className="size-7 text-cevons-yellow shrink-0" />
-                  <div>
-                    <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">{value}</p>
-                    <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
-                  </div>
-                </li>
-              );
-            })}
-            <li className="flex items-center gap-4 relative z-10">
-              <Target className="size-7 text-white shrink-0" />
-              <div>
-                <p className="text-3xl md:text-4xl font-extrabold leading-none text-white">{t("home.stats.goal")}</p>
-                <p className="text-xs md:text-sm text-white/95 mt-1.5 font-semibold">{t("home.stats.goalSub")}</p>
-              </div>
-            </li>
-          </ul>
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12">
+            <ul className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white w-full lg:w-auto">
+              {statValues.map(({ icon: Icon, value, labelKey }) => {
+                const label = t(`home.stats.${labelKey}`);
+                return (
+                  <li key={labelKey} className="flex items-center gap-4">
+                    <Icon className="size-7 text-cevons-yellow shrink-0" />
+                    <div>
+                      <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">{value}</p>
+                      <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="relative z-10 flex-shrink-0">
+              <img
+                src={marketLeaderBadge.url}
+                alt="Market Leader - Trusted Since 1997"
+                loading="lazy"
+                className="h-auto w-full max-w-[280px] md:max-w-[320px] rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
