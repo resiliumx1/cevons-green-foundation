@@ -373,7 +373,7 @@ function RequestServicePage() {
                   <Button
                     onClick={next}
                     disabled={!canContinue}
-                    className="h-12 bg-[var(--cevons-yellow)] text-[#101820] hover:bg-[var(--cevons-yellow)]/90 font-semibold disabled:opacity-50"
+                    className="h-12 bg-[#EF7700] text-white hover:bg-[#C45F00] font-semibold disabled:opacity-50"
                   >
                     Continue <ChevronRight className="size-4 ml-1" />
                   </Button>
@@ -381,7 +381,7 @@ function RequestServicePage() {
                   <Button
                     onClick={submit}
                     disabled={!data.confirm || submitting}
-                    className="h-12 bg-[var(--cevons-yellow)] text-[#101820] hover:bg-[var(--cevons-yellow)]/90 font-semibold disabled:opacity-50"
+                    className="h-12 bg-[#EF7700] text-white hover:bg-[#C45F00] font-semibold disabled:opacity-50"
                   >
                     {submitting ? "Submitting…" : "Submit Request"}
                   </Button>
@@ -612,7 +612,7 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
               <div className="mt-3 font-semibold">{s.name}</div>
               <div className="text-sm text-muted-foreground">{s.desc}</div>
               {specialist && (
-                <div className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-wide text-[var(--cevons-red)]">
+                <div className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-wide text-[#EF7700]">
                   Specialist Review
                 </div>
               )}
@@ -847,7 +847,7 @@ function StepSchedule({
       </p>
 
       {isSpecialist && (
-        <div className="mt-4 rounded-xl border border-[var(--cevons-yellow)]/50 bg-[var(--cevons-yellow)]/15 p-4 text-sm">
+        <div className="mt-4 rounded-xl border border-[#EF7700]/40 bg-[#EF7700]/10 p-4 text-sm">
           <strong className="font-semibold">Specialist Review Required.</strong>{" "}
           Submit your request and a CEVONS team member will contact you by WhatsApp during the same business day.
         </div>
@@ -962,7 +962,7 @@ function StepReview({
         </ReviewBlock>
         <ReviewBlock title="Service">
           <div className="font-medium">{selected?.name ?? "—"}</div>
-          {isSpecialist && <div className="text-sm text-[var(--cevons-red)] font-semibold mt-1">Specialist review required</div>}
+          {isSpecialist && <div className="text-sm text-[#EF7700] font-semibold mt-1">Specialist review required</div>}
         </ReviewBlock>
         {detailEntries.length > 0 && (
           <ReviewBlock title="Details">
