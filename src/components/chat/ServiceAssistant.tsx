@@ -302,18 +302,22 @@ export function ServiceAssistant() {
         setLoading(false);
       }
     },
-    [input, loading, messages, sessionId],
+    [input, loading, messages, sessionId, resetInputHeight],
   );
 
-  const reset = () => {
-    if (typeof window !== "undefined" && messages.length > 1) {
-      const confirmed = window.confirm(
-        "Start a new conversation? This will clear your current chat.",
-      );
-      if (!confirmed) return;
+  const handleResetClick = () => {
+    if (messages.length > 1) {
+      setConfirmReset(true);
+      return;
     }
     setMessages([{ id: uid(), role: "assistant", text: WELCOME_TEXT }]);
     setStreamingId(null);
+  };
+
+  const confirmClearChat = () => {
+    setMessages([{ id: uid(), role: "assistant", text: WELCOME_TEXT }]);
+    setStreamingId(null);
+    setConfirmReset(false);
   };
 
   const lastUserText = [...messages].reverse().find((m) => m.role === "user")?.text ?? "";
