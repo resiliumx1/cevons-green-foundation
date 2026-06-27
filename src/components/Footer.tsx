@@ -1,10 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Award,
-  BadgeCheck,
-  Briefcase,
-  Building2,
   Clock,
   Leaf,
   Mail,
@@ -31,8 +27,6 @@ const BRAND_GREEN = "#2DA339";
 type FooterLink = { label: string; to: string };
 
 function FooterNavLink({ to, label, currentPath }: { to: string; label: string; currentPath: string }) {
-  // Active if exact match, or — for service/industry detail pages — when the
-  // current URL is nested under the same route prefix.
   const isActive =
     currentPath === to ||
     (to !== "/" && to.split("/").length > 2 && currentPath.startsWith(to));
@@ -67,21 +61,19 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
 
 function LinkCol({
   title,
-  icon: Icon,
   items,
   currentPath,
 }: {
   title: string;
-  icon?: React.ComponentType<{ className?: string }>;
   items: FooterLink[];
   currentPath: string;
 }) {
   return (
     <div>
-      <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-5 inline-flex items-center gap-2">
-        {Icon ? <span style={{ color: BRAND_GREEN }}><Icon className="size-4" /></span> : null}
+      <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-2">
         {title}
       </h4>
+      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: BRAND_ORANGE }} />
       <ul className="space-y-2.5">
         {items.map((l) => (
           <li key={l.label + l.to}>
@@ -93,13 +85,11 @@ function LinkCol({
   );
 }
 
-
 export function Footer() {
   const t = useT();
   const isExternalWA = whatsappHref.startsWith("http");
   const year = new Date().getFullYear();
   const currentPath = useRouterState({ select: (s) => s.location.pathname });
-
 
   const servicesList: FooterLink[] = [
     { label: t("footer.servicesList.residential"), to: "/services/general-trash-collection" },
@@ -133,322 +123,245 @@ export function Footer() {
     { label: t("footer.companyList.contact"), to: "/contact" },
   ];
 
-  const trustItems = [
+  const trustMini = [
+    { Icon: Leaf, title: t("footer.trust.eco"), sub: t("footer.trust.ecoSub") },
+    { Icon: ShieldCheck, title: t("footer.trust.cert"), sub: t("footer.trust.certSub") },
     { Icon: WhatsApp, title: t("footer.trust.wa"), sub: t("footer.trust.waSub") },
     { Icon: Clock, title: t("footer.trust.fast"), sub: t("footer.trust.fastSub") },
-    { Icon: ShieldCheck, title: t("footer.trust.cert"), sub: t("footer.trust.certSub") },
-    { Icon: Leaf, title: t("footer.trust.eco"), sub: t("footer.trust.ecoSub") },
   ];
-
-  const stats = [
-    { value: t("footer.stats.yearsValue"), label: t("footer.stats.yearsLabel") },
-    { value: t("footer.stats.homesValue"), label: t("footer.stats.homesLabel") },
-    { value: t("footer.stats.wasteValue"), label: t("footer.stats.wasteLabel") },
-    {
-      value: t("footer.stats.regionsValue"),
-      label: t("footer.stats.regionsLabel"),
-      sub: t("footer.stats.regionsSub"),
-    },
-  ];
-
-  const certs = [
-    { src: "/certifications/epa.webp",  alt: "EPA Guyana — Environmental Protection Agency certified",       title: t("footer.certs.epaTitle"),  sub: t("footer.certs.epaSub") },
-    { src: "/certifications/iso.webp",  alt: "ISO 9001:2015 Certified — Quality Management",                   title: t("footer.certs.isoTitle"),  sub: t("footer.certs.isoSub") },
-    { src: "/certifications/gcci.webp", alt: "Georgetown Chamber of Commerce & Industry member",               title: t("footer.certs.gcciTitle"), sub: t("footer.certs.gcciSub") },
-    { src: "/certifications/psc.webp",  alt: "Private Sector Commission of Guyana member",                     title: t("footer.certs.pscTitle"),  sub: t("footer.certs.pscSub") },
-  ];
-
 
   return (
-    <footer className="bg-[#0F0F0F] text-white">
-      {/* ZONE 1 — Partner gradient banner */}
-      <section className="relative overflow-hidden">
-        <div
-          className="relative"
-          style={{
-            background:
-              "linear-gradient(90deg, #111111 0%, #1a1a1a 18%, #F5A300 38%, #EF7700 65%, #D42229 100%)",
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 6% 100%, 0 70%)",
-          }}
-        >
-          <div className="container-cevons relative py-7 md:py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-y-6 gap-x-10">
-              <h3
-                className="text-white text-2xl md:text-3xl leading-tight tracking-tight"
-                style={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700 }}
-              >
-                {t("footer.partnerLine")}{" "}
-                <span style={{ color: BRAND_GREEN }}>{t("footer.partnerGreen")}</span>{" "}
-                {t("footer.partnerCountry")}
-              </h3>
+    <footer>
+      {/* Newsletter card on cream background, sitting above the dark footer */}
+      <section className="bg-cevons-cream py-12 md:py-14">
+        <NewsletterSignup source="footer-card" variant="card" />
+      </section>
 
-              <ul className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4">
-                {trustItems.map(({ Icon, title, sub }) => (
+      <div className="bg-[#0F0F0F] text-white relative overflow-hidden">
+        {/* thin gradient accent divider */}
+        <div
+          aria-hidden
+          className="h-[3px] w-full"
+          style={{ background: "linear-gradient(90deg, transparent 0%, #EF7700 30%, #F5A300 50%, #EF7700 70%, transparent 100%)" }}
+        />
+
+        {/* faint watermark C */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.025] select-none"
+          style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", fontSize: "28rem", fontWeight: 900, lineHeight: 1 }}
+        >
+          C
+        </span>
+
+        {/* ZONE 3 — Main link grid */}
+        <div className="container-cevons py-14 md:py-16 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
+            {/* Brand col */}
+            <div className="lg:col-span-2">
+              <div className="inline-flex items-center gap-2">
+                <img
+                  src={logo}
+                  alt="CEVONS Environmental Services logo"
+                  className="h-10 w-auto"
+                  style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}
+                />
+                <span
+                  className="text-2xl font-extrabold tracking-tight text-white"
+                  style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
+                >
+                  CEVONS
+                </span>
+              </div>
+              <p
+                className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
+                style={{ color: BRAND_GREEN }}
+              >
+                Environmental Services Inc.
+              </p>
+              <p className="mt-5 text-white/70 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
+
+              {/* Social icons */}
+              <div className="mt-6 flex items-center gap-2.5">
+                {socialLinksList.map((s) => {
+                  const disabled = !s.enabled || !s.url;
+                  const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
+                  const common =
+                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0F0F]";
+                  if (disabled) {
+                    return (
+                      <span
+                        key={s.platform}
+                        role="img"
+                        aria-label={label}
+                        title="Coming soon"
+                        className={`${common} bg-white/5 text-white/35 cursor-not-allowed`}
+                      >
+                        <SocialGlyph platform={s.platform} className="size-4" />
+                      </span>
+                    );
+                  }
+                  return (
+                    <a
+                      key={s.platform}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                      className={`${common} bg-white/10 text-white hover:-translate-y-0.5 hover:scale-110 motion-reduce:hover:transform-none`}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND_ORANGE)}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                    >
+                      <SocialGlyph platform={s.platform} className="size-4" />
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* 2x2 trust mini items */}
+              <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4 max-w-md">
+                {trustMini.map(({ Icon, title, sub }) => (
                   <li key={title} className="flex items-start gap-2.5 min-w-0">
-                    <span className="shrink-0 size-9 rounded-full bg-black/35 backdrop-blur-sm flex items-center justify-center text-white ring-1 ring-white/20">
+                    <span
+                      className="shrink-0 size-8 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}
+                    >
                       <Icon className="size-4" />
                     </span>
                     <div className="min-w-0">
-                      <p className="text-white text-[13px] font-bold leading-tight">{title}</p>
-                      <p className="text-white/85 text-[11px] leading-snug">{sub}</p>
+                      <p className="text-white text-[12.5px] font-bold leading-tight">{title}</p>
+                      <p className="text-white/60 text-[11px] leading-snug">{sub}</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
+
+            <LinkCol title={t("footer.services")} items={servicesList} currentPath={currentPath} />
+            <LinkCol title={t("footer.company")} items={companyList} currentPath={currentPath} />
+            <LinkCol title={t("footer.industries")} items={industriesList} currentPath={currentPath} />
+
+            <GetInTouch t={t} isExternalWA={isExternalWA} />
           </div>
         </div>
-      </section>
 
-      {/* ZONE 2 — Stats + certifications strip */}
-      <section className="border-b border-white/10">
-        <div className="container-cevons py-7">
-          <div className="flex flex-col xl:flex-row xl:items-center gap-6 xl:gap-4">
-            <div className="flex items-center gap-3 shrink-0">
-              <span
-                className="size-10 rounded-lg flex items-center justify-center ring-1 ring-white/15"
-                style={{ backgroundColor: "rgba(45,163,57,0.15)" }}
-              >
-                <BadgeCheck className="size-5" style={{ color: BRAND_GREEN }} />
-              </span>
-              <div className="min-w-0">
-                <p className="text-white text-sm font-bold leading-tight">{t("footer.stats.heading")}</p>
-                <p className="text-white/60 text-xs leading-snug">{t("footer.stats.sub")}</p>
-              </div>
-            </div>
 
-            <ul className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 xl:divide-x xl:divide-white/10">
-              {stats.map((s) => (
-                <li key={s.label} className="px-0 xl:px-4 min-w-0">
-                  <p className="text-white text-lg md:text-xl font-extrabold leading-tight" style={{ color: BRAND_ORANGE }}>
-                    {s.value}
-                  </p>
-                  <p className="text-white/80 text-[12px] leading-snug">{s.label}</p>
-                  {s.sub ? <p className="text-white/55 text-[11px] mt-0.5">{s.sub}</p> : null}
-                </li>
-              ))}
-            </ul>
 
-            <ul className="flex items-center gap-4 shrink-0 flex-wrap">
-              {certs.map((c) => (
-                <li key={c.title} className="flex items-center gap-2.5">
-                  <span
-                    className="shrink-0 inline-flex items-center justify-center h-12 w-14 rounded-lg bg-white p-1.5 ring-1 ring-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
-                    aria-hidden
-                  >
-                    <img
-                      src={c.src}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </span>
-                  <div className="leading-tight">
-                    <p className="text-white text-[11px] font-bold uppercase tracking-wider">{c.title}</p>
-                    <p className="text-white/60 text-[11px]">{c.sub}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ZONE 3 — Main link grid */}
-      <div className="container-cevons py-14 md:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
-          {/* Brand col */}
-          <div className="lg:col-span-2">
-            <div className="inline-flex items-center gap-2">
-              <img
-                src={logo}
-                alt="CEVONS Environmental Services logo"
-                className="h-10 w-auto"
-                style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}
-              />
-              <span
-                className="text-2xl font-extrabold tracking-tight text-white"
-                style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
-              >
-                CEVONS
-              </span>
-            </div>
-            <p
-              className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: BRAND_GREEN }}
-            >
-              Environmental Services Inc.
+        {/* Bottom bar */}
+        <div className="border-t border-white/10 relative">
+          <div className="container-cevons py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <p className="text-white/60 text-xs">
+              © {year} CEVONS Environmental Services Inc. All rights reserved.
             </p>
-            <p className="mt-5 text-white/70 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
-
-            <div className="mt-6 flex items-center gap-2.5">
-              {socialLinksList.map((s) => {
-                const disabled = !s.enabled || !s.url;
-                const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
-                const common =
-                  "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0F0F]";
-                if (disabled) {
-                  return (
-                    <span
-                      key={s.platform}
-                      role="img"
-                      aria-label={label}
-                      title="Coming soon"
-                      className={`${common} bg-white/5 text-white/35 cursor-not-allowed`}
-                    >
-                      <SocialGlyph platform={s.platform} className="size-4" />
-                    </span>
-                  );
-                }
-                return (
-                  <a
-                    key={s.platform}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    title={label}
-                    className={`${common} bg-white/10 text-white hover:-translate-y-0.5 hover:scale-110 motion-reduce:hover:transform-none`}
-                    style={{ ["--hover-bg" as never]: BRAND_ORANGE }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND_ORANGE)}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
-                  >
-                    <SocialGlyph platform={s.platform} className="size-4" />
-                  </a>
-                );
-              })}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
+              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
+              <span className="text-white/20">|</span>
+              <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
+              <span className="text-white/20">|</span>
+              <Link
+                to="/sitemap"
+                className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
+                style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
+              >
+                <ArrowRight
+                  aria-hidden
+                  className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
+                  style={{ color: BRAND_ORANGE }}
+                />
+                {t("footer.sitemap")}
+              </Link>
             </div>
-          </div>
-
-          <LinkCol title={t("footer.services")} icon={Leaf} items={servicesList} currentPath={currentPath} />
-          <LinkCol title={t("footer.industries")} icon={Building2} items={industriesList} currentPath={currentPath} />
-          <LinkCol title={t("footer.company")} icon={Briefcase} items={companyList} currentPath={currentPath} />
-
-
-          {/* Get in touch */}
-          <div>
-            <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-5 inline-flex items-center gap-2">
-              <Phone className="size-4" style={{ color: BRAND_GREEN }} />
-              {t("footer.getInTouch")}
-            </h4>
-            <ul className="space-y-4">
-              <li>
-                <a
-                  href={whatsappHref}
-                  {...(isExternalWA ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="flex items-start gap-3 group"
-                >
-                  <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}>
-                    <WhatsApp className="size-4" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-white font-semibold text-sm leading-tight">{t("footer.whatsappUs")}</p>
-                    <p className="text-white/60 text-xs">{t("footer.whatsappSub")}</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href={primaryTelHref} className="flex items-start gap-3 group">
-                  <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(239,119,0,0.18)", color: BRAND_ORANGE }}>
-                    <Phone className="size-4" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-white text-sm font-semibold leading-tight" style={{ color: BRAND_ORANGE }}>
-                      {cevonsContact.primaryPhone}
-                    </p>
-                    <p className="text-white/60 text-xs">{t("footer.callHours")}</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href={primaryMailtoHref} className="flex items-start gap-3 group">
-                  <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(239,119,0,0.18)", color: BRAND_ORANGE }}>
-                    <Mail className="size-4" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-white text-sm font-semibold leading-tight">{cevonsContact.email}</p>
-                    <p className="text-white/60 text-xs">{t("footer.emailSub")}</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <div className="flex items-start gap-3">
-                  <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}>
-                    <MapPin className="size-4" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-white text-sm font-semibold leading-tight">{t("footer.locationLabel")}</p>
-                    <p className="text-white/60 text-xs">{t("footer.branches")}</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-3 inline-flex items-center gap-2">
-              <Award className="size-4" style={{ color: BRAND_GREEN }} />
-              {t("footer.newsletter")}
-            </h4>
-            <p className="text-white/70 text-xs leading-relaxed mb-3">{t("footer.newsletterBlurb")}</p>
-            <NewsletterSignup source="footer" variant="footer" />
-          </div>
-        </div>
-      </div>
-
-      {/* ZONE 4 — Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="container-cevons py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <p className="text-white/60 text-xs">
-            © {year} CEVONS Environmental Services Inc. All rights reserved.
-          </p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-            <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
-            <span className="text-white/20">|</span>
-            <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
-
-            <span className="text-white/20">|</span>
-            <Link
-              to="/sitemap"
-              className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
-              style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
-            >
-              <ArrowRight
+            <div className="flex items-center gap-3 text-xs">
+              <span className="text-white/60">{t("footer.serving")}</span>
+              <span
                 aria-hidden
-                className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
-                style={{ color: BRAND_ORANGE }}
+                className="inline-flex size-6 rounded-full overflow-hidden ring-1 ring-white/20"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, #2DA339 0 33%, #FCE722 33% 66%, #D42229 66% 100%)",
+                }}
               />
-              {t("footer.sitemap")}
-            </Link>
-
-          </div>
-          <div className="flex items-center gap-3 text-xs">
-            <span className="text-white/60">{t("footer.serving")}</span>
-            <span
-              aria-hidden
-              className="inline-flex size-6 rounded-full overflow-hidden ring-1 ring-white/20"
-              style={{
-                background:
-                  "conic-gradient(from 0deg, #2DA339 0 33%, #FCE722 33% 66%, #D42229 66% 100%)",
-              }}
-            />
-            <Link
-              to="/crm"
-              aria-label="Admin login"
-              title="Admin"
-              className="group inline-flex items-center gap-1 text-white/30 hover:text-cevons-yellow transition-colors"
-            >
-              <ShieldCheck className="size-3.5" />
-              <span className="text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                {t("footer.admin")}
-              </span>
-            </Link>
+              <Link
+                to="/crm"
+                aria-label="Admin login"
+                title="Admin"
+                className="group inline-flex items-center gap-1 text-white/30 hover:text-cevons-yellow transition-colors"
+              >
+                <ShieldCheck className="size-3.5" />
+                <span className="text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                  {t("footer.admin")}
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+function GetInTouch({ t, isExternalWA }: { t: (k: string) => string; isExternalWA: boolean }) {
+  return (
+    <div>
+      <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-2 inline-flex items-center gap-2">
+        <Phone className="size-4" style={{ color: BRAND_GREEN }} />
+        {t("footer.getInTouch")}
+      </h4>
+      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: BRAND_ORANGE }} />
+      <ul className="space-y-4">
+        <li>
+          <a
+            href={whatsappHref}
+            {...(isExternalWA ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="flex items-start gap-3 group"
+          >
+            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}>
+              <WhatsApp className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-white font-semibold text-sm leading-tight">{t("footer.whatsappUs")}</p>
+              <p className="text-white/60 text-xs">{t("footer.whatsappSub")}</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href={primaryTelHref} className="flex items-start gap-3 group">
+            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(239,119,0,0.18)", color: BRAND_ORANGE }}>
+              <Phone className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-white text-sm font-semibold leading-tight" style={{ color: BRAND_ORANGE }}>
+                {cevonsContact.primaryPhone}
+              </p>
+              <p className="text-white/60 text-xs">{t("footer.callHours")}</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href={primaryMailtoHref} className="flex items-start gap-3 group">
+            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(239,119,0,0.18)", color: BRAND_ORANGE }}>
+              <Mail className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-white text-sm font-semibold leading-tight">{cevonsContact.email}</p>
+              <p className="text-white/60 text-xs">{t("footer.emailSub")}</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <div className="flex items-start gap-3">
+            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}>
+              <MapPin className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-white text-sm font-semibold leading-tight">{t("footer.locationLabel")}</p>
+              <p className="text-white/60 text-xs">{t("footer.branches")}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   );
 }
