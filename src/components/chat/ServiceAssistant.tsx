@@ -9,7 +9,7 @@ import {
   Leaf,
   MapPin,
   Calendar,
-  User,
+  Wrench,
   Lock,
   Compass,
   Minus,
