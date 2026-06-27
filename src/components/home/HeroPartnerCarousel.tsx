@@ -66,7 +66,7 @@ export function HeroPartnerCarousel() {
       onMouseLeave={() => setPaused(false)}
       style={{
         background: "linear-gradient(180deg, #ffffff 0%, #faf7f1 100%)",
-        padding: "22px 0 24px",
+        padding: "16px 0 18px",
         borderTopLeftRadius: 28,
         borderTopRightRadius: 28,
         marginTop: 0,
@@ -93,7 +93,7 @@ export function HeroPartnerCarousel() {
             height: 3,
             background: "#EF7700",
             borderRadius: 999,
-            margin: "12px auto 22px",
+            margin: "8px auto 14px",
           }}
         />
 
