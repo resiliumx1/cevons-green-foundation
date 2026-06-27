@@ -5,6 +5,7 @@ import {
   Search, MessageCircle, Phone, ShieldCheck, Clock, Award,
   Check, FileText, MapPin, Calendar, Truck,
   ClipboardList, PhoneCall, ClipboardCheck, AlertCircle, Loader2,
+  Siren,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
@@ -12,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 
 const searchSchema = z.object({ ref: z.string().optional() });
 
