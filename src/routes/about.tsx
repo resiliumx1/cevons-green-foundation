@@ -246,30 +246,42 @@ function AboutPage() {
       </section>
 
       {/* IMPACT STATS */}
-      <section className="relative bg-[var(--cevons-deep-green,#EF7700)] overflow-hidden">
-        <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block opacity-90">
-          <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
-            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
-            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#C45F00" />
-            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#1A1A1A" />
-          </svg>
-        </div>
-        <div className="container-cevons py-14 md:py-16 relative">
-          <ul className="grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
-            {stats.map(({ icon: Icon, value, label }) => (
-              <li key={label} className="flex items-center gap-4">
-                <Icon className="size-7 text-white shrink-0" />
-                <div>
-                  <p className="text-2xl md:text-3xl font-extrabold leading-tight text-white">
+      <section className="relative bg-[var(--cevons-cream,#FBF7EE)] dark:bg-[#0b0b0b] section-y" aria-label="Company impact">
+        <div className="container-cevons">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700] mb-3">By the Numbers</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#1A1A1A] dark:text-white">
+              Built on Decades of Trust
+            </h2>
+          </div>
+          <ul className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+            {stats.map(({ icon: Icon, value, label }, i) => (
+              <li
+                key={label}
+                className="group relative overflow-hidden rounded-2xl bg-white dark:bg-white/[0.04] ring-1 ring-[#EF7700]/15 p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(239,119,0,0.45)] hover:shadow-[0_18px_40px_-15px_rgba(239,119,0,0.7)] hover:-translate-y-1 transition-all duration-300"
+              >
+                <div aria-hidden className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EF7700] to-[#FF8A2A]" />
+                <div aria-hidden className="absolute -right-10 -bottom-10 size-32 rounded-full bg-[#EF7700]/5 group-hover:bg-[#EF7700]/10 transition-colors" />
+                <div className="relative">
+                  <span className="inline-flex size-11 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700]">
+                    <Icon className="size-5" />
+                  </span>
+                  <p className="mt-4 text-2xl md:text-3xl font-extrabold leading-tight text-[#1A1A1A] dark:text-white tracking-tight">
                     {value}
                   </p>
-                  <p className="text-xs md:text-sm text-white/80 mt-1.5 font-medium">{label}</p>
+                  <p className="mt-1.5 text-xs md:text-sm text-[#64748B] dark:text-white/70 font-medium">{label}</p>
+                  {i === 0 && (
+                    <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[#EF7700]">
+                      {new Date().getFullYear() - 1997}+ Years
+                    </span>
+                  )}
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
+
 
       {/* OPERATIONS IMAGE SECTION */}
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Operations gallery">
