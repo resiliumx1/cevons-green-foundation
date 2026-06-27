@@ -267,6 +267,7 @@ export function ServiceAssistant() {
       const next = [...messages, userMsg];
       setMessages(next);
       setInput("");
+      resetInputHeight();
       setLoading(true);
 
       try {
