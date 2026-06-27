@@ -117,41 +117,17 @@ function ContactPage() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative overflow-hidden" aria-labelledby="contact-h1">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, #EF7700 0%, #EF7700 55%, #C45F00 100%)",
-          }}
-        />
-        {/* Subtle radial accent */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-60"
-          style={{
-            background:
-              "radial-gradient(60% 80% at 85% 10%, rgba(245,197,24,0.18), transparent 60%), radial-gradient(50% 70% at 10% 100%, rgba(255,255,255,0.06), transparent 60%)",
-          }}
-        />
-        <div className="container-cevons relative min-h-[240px] md:min-h-[300px] flex flex-col justify-center py-12 md:py-16">
-          <nav aria-label="Breadcrumb" className="mb-4">
-            <ol className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FFD200)] transition-colors">Home</Link></li>
-              <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">Contact</li>
-            </ol>
-          </nav>
-          <h1 id="contact-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Get in Touch
-          </h1>
-          <p className={`mt-4 text-white/85 text-base md:text-lg max-w-2xl transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            We&rsquo;re here to help. Reach out — we typically respond the same business day.
-          </p>
+      <PageHero
+        title="Get in Touch"
+        eyebrow="Contact"
+        subtitle="We're here to help. Reach out — we typically respond the same business day."
+        breadcrumb={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        imageSrc="/assets/heroes/hero-contact.webp"
+        imageAlt="CEVONS team ready to assist with waste management inquiries"
+        height="standard"
+        waveVariant="drift"
+      />
 
-        </div>
-        <WaveHalftoneDivider height={48} />
-      </section>
 
       {/* CONTACT METHODS */}
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Contact methods">
