@@ -23,19 +23,18 @@ export function ServicesCardsSection() {
   return (
     <section
       id="services"
-      className="relative bg-cevons-dark py-16 md:py-20"
+      className="relative bg-white py-16 md:py-20"
       aria-labelledby="services-heading"
     >
       <div className="container-cevons">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-cevons-green mb-3">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#EF7700] mb-3">
               {t("home.services.eyebrow")}
             </p>
             <h2
               id="services-heading"
-              className="text-white font-extrabold text-3xl md:text-5xl"
-              style={{ fontFamily: "Playfair Display, serif" }}
+              className="text-[#1A1A1A] font-extrabold text-3xl md:text-5xl font-display"
             >
               {t("home.services.title1")}{" "}
               <span style={{ color: "#2E7D32" }}>{t("home.services.title2")}</span>
