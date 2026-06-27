@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from "react";
-import { Mail, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Mail, Loader2, CheckCircle2, AlertCircle, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-type Variant = "footer" | "section";
+type Variant = "footer" | "section" | "card";
 
 interface Props {
   source: string;
