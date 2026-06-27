@@ -53,18 +53,6 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => { progressRef.current = progress; }, [progress]);
 
-  // Preload every slide image immediately so a blank frame never shows
-  // when the carousel advances. The first slide also renders eagerly in
-  // the <img> below, so this mainly warms slides 2..N.
-  useEffect(() => {
-    const imgs = SLIDES.map((s) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = s.src;
-      return img;
-    });
-    return () => { imgs.forEach((i) => { i.src = ""; }); };
-  }, []);
 
 
   useEffect(() => {
@@ -107,13 +95,53 @@ function useSlideshow() {
 export function HeroSlideshowBackground() {
   const { active, reduced, setPaused } = useSlideshow();
   const [loaded, setLoaded] = useState<boolean[]>(() => SLIDES.map(() => false));
+  // Slide 1 starts in the eager set so it loads immediately for LCP. Other
+  // slides are added to this set only after the hero enters the viewport
+  // (IntersectionObserver) or they become the active slide.
+  const [eager, setEager] = useState<Set<number>>(() => new Set([0]));
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
   const markLoaded = (i: number) =>
     setLoaded((prev) => (prev[i] ? prev : prev.map((v, idx) => (idx === i ? true : v))));
+
+  // IntersectionObserver: once the hero is in (or near) the viewport,
+  // warm the remaining slides. Saves bandwidth when a visitor never
+  // scrolls to / sees the hero (or lands deep-linked elsewhere).
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") {
+      // Older browsers — just load everything.
+      setEager(new Set(SLIDES.map((_, i) => i)));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setEager(new Set(SLIDES.map((_, i) => i)));
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
+  // Safety net: if the carousel advances to a slide we haven't loaded
+  // yet (e.g. user clicked a dot before IO fired), pull that one in too.
+  useEffect(() => {
+    setEager((prev) => (prev.has(active) ? prev : new Set(prev).add(active)));
+  }, [active]);
 
   const showPlaceholder = !loaded[active];
 
   return (
     <div
+      ref={rootRef}
       className="absolute inset-0 -z-10 overflow-hidden bg-cevons-dark"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -149,6 +177,7 @@ export function HeroSlideshowBackground() {
       {SLIDES.map((s, i) => {
         const isActive = i === active;
         const isLoaded = loaded[i];
+        const shouldLoad = eager.has(i);
         return (
           <div
             key={s.src}
@@ -160,22 +189,25 @@ export function HeroSlideshowBackground() {
             }}
             aria-hidden={!isActive}
           >
-            <img
-              src={s.src}
-              alt={s.alt}
-              loading={i === 0 ? "eager" : "lazy"}
-              decoding={i === 0 ? "sync" : "async"}
-              {...(i === 0 ? { fetchPriority: "high" as const } : {})}
-              width={1920}
-              height={1080}
-              onLoad={() => markLoaded(i)}
-              onError={() => markLoaded(i)}
-              className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
-              style={{ objectPosition: s.position }}
-            />
+            {shouldLoad && (
+              <img
+                src={s.src}
+                alt={s.alt}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding={i === 0 ? "sync" : "async"}
+                {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                width={1920}
+                height={1080}
+                onLoad={() => markLoaded(i)}
+                onError={() => markLoaded(i)}
+                className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+                style={{ objectPosition: s.position }}
+              />
+            )}
           </div>
         );
       })}
+
 
 
       <div
