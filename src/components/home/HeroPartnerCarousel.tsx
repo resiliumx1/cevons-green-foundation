@@ -61,7 +61,7 @@ export function HeroPartnerCarousel() {
 
   return (
     <div
-      className="relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-2"
+      className="hpc-carousel relative w-full bg-cevons-dark/85 backdrop-blur-sm border-t border-white/10 py-2"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
