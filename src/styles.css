@@ -196,14 +196,16 @@
   }
 }
 @utility btn-yellow {
-  background-color: var(--brand-accent-yellow);
-  color: var(--brand-charcoal);
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
   &:hover {
-    background-color: #f0db1f;
+    background-color: var(--brand-orange-dark);
+    color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(252, 231, 34, 0.45);
+    box-shadow: 0 10px 24px rgba(239, 119, 0, 0.40);
   }
 }
+
 @utility btn-shine {
   position: relative;
   overflow: hidden;
@@ -664,12 +666,25 @@
   color: #006B35;
 }
 .spm-pill-icon-img {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   background: transparent;
   padding: 0;
 }
+.spm-pill-iconly {
+  padding: 10px;
+  gap: 0;
+}
+.spm-pill-iconly .spm-pill-icon {
+  width: 40px;
+  height: 40px;
+}
+.spm-pill-iconly .spm-pill-icon-img {
+  width: 44px;
+  height: 44px;
+}
 .spm-pill-text { line-height: 1; }
+
 
 .spm-reduced { display: none; }
 @media (prefers-reduced-motion: reduce) {
