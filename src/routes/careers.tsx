@@ -189,11 +189,11 @@ function CareersPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
             {VALUES.map(({ icon: Icon, title, body }) => (
               <article
                 key={title}
-                className="group rounded-2xl border border-cevons-border dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 md:p-7 shadow-sm hover:shadow-[0_12px_30px_rgba(16,24,32,0.08)] hover:-translate-y-0.5 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none"
+                className="card-glow group flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-6 md:p-7 hover:-translate-y-0.5 motion-reduce:transform-none"
               >
                 <div className="flex items-start gap-4">
                   <span className="shrink-0 inline-flex size-12 items-center justify-center rounded-xl bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
