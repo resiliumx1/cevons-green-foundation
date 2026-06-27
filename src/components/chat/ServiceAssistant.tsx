@@ -180,9 +180,24 @@ export function ServiceAssistant() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [streamingId, setStreamingId] = useState<string | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const reduce = useReducedMotion();
+
+  const autosizeInput = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const next = Math.min(el.scrollHeight, 140);
+    el.style.height = `${next}px`;
+  }, []);
+
+  const resetInputHeight = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+  }, []);
 
   const sessionId = useMemo(() => {
     if (typeof window === "undefined") return uid();
