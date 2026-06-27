@@ -34,7 +34,7 @@ import imgResidential from "@/assets/svc-residential.jpg";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgRecovery from "@/assets/svc-recovery.jpg";
-import { NewsletterSignup } from "@/components/NewsletterSignup";
+
 import { useT } from "@/contexts/SettingsContext";
 
 
