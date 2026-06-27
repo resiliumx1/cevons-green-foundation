@@ -96,15 +96,19 @@ export function Header() {
           </span>
           <span className="flex flex-col justify-center leading-none">
             <span
-              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-[#2DA339] dark:text-[#4FD163]"
-              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
+              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "#2DA339" }}
             >
               CEVONS
             </span>
-            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#2DA339] dark:text-[#4FD163]">
+            <span
+              className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#2DA339" }}
+            >
               Environmental Services Inc.
             </span>
           </span>
+
         </Link>
 
         <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
