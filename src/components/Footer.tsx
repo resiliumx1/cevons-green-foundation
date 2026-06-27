@@ -233,11 +233,16 @@ export function Footer() {
               {certs.map((c) => (
                 <li key={c.title} className="flex items-center gap-2.5">
                   <span
-                    className="size-10 rounded-full flex items-center justify-center text-[10px] font-extrabold ring-2 ring-white/15"
-                    style={{ backgroundColor: c.color, color: c.color === "#FCE722" ? "#1A1A1A" : "#FFFFFF" }}
+                    className="shrink-0 inline-flex items-center justify-center h-12 w-14 rounded-lg bg-white p-1.5 ring-1 ring-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
                     aria-hidden
                   >
-                    {c.initials}
+                    <img
+                      src={c.src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-full max-w-full object-contain"
+                    />
                   </span>
                   <div className="leading-tight">
                     <p className="text-white text-[11px] font-bold uppercase tracking-wider">{c.title}</p>
@@ -246,6 +251,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+
           </div>
         </div>
       </section>
