@@ -233,14 +233,18 @@ export function Header() {
                     </div>
                   );
                 }
+                const active = isActive(item.to);
                 return (
                   <Link
                     key={item.to}
                     to={item.to}
-                    className="px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                    className={`px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                      active
+                        ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
+                        : "text-cevons-dark border-transparent"
+                    }`}
                     onClick={() => setMobileOpen(false)}
-                    activeProps={{ className: "bg-cevons-cream text-cevons-green" }}
-                    activeOptions={{ exact: item.to === "/" }}
+                    aria-current={active ? "page" : undefined}
                   >
                     {t(`nav.${item.key}`)}
                   </Link>
