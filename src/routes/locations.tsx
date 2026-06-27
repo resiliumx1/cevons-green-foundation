@@ -291,8 +291,8 @@ function LocationsPage() {
                     {(["Georgetown", "Linden", "Berbice"] as Region[]).map((r) => (
                       <td key={r} className="px-5 py-4 text-center">
                         {row.cells[r] === "yes" ? (
-                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]">
-                            <Check className="w-4 h-4" />
+                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#EF7700]/10">
+                            <Check className="w-4 h-4 text-[#EF7700]" strokeWidth={3} />
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-cevons-muted">
