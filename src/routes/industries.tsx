@@ -26,7 +26,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { SocialProofMarquee } from "@/components/SocialProofMarquee";
@@ -170,7 +170,7 @@ function IndustriesPage() {
             Reliable waste management and environmental services for Guyana’s most important sectors.
           </p>
         </div>
-        <WaveDivider variant="steady" />
+        <WaveHalftoneDivider />
       </section>
 
       {/* SOCIAL PROOF MARQUEE */}
