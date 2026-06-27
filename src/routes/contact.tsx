@@ -14,12 +14,15 @@ import {
   Headphones,
   Upload,
   Leaf,
+  Siren,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { WhatsApp } from "@/components/icons/WhatsApp";
 
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
