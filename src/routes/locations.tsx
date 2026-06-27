@@ -185,19 +185,7 @@ function LocationsPage() {
             {regions.map((r) => (
               <div
                 key={r.name}
-                className="group flex h-full flex-col rounded-2xl bg-white p-7 transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  border: "1px solid rgba(239,119,0,0.35)",
-                  boxShadow: "0 0 0 1px rgba(239,119,0,0.08), 0 6px 20px -8px rgba(239,119,0,0.25)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px rgba(239,119,0,0.55), 0 14px 40px -8px rgba(239,119,0,0.55)";
-                  e.currentTarget.style.borderColor = "rgba(239,119,0,0.75)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px rgba(239,119,0,0.08), 0 6px 20px -8px rgba(239,119,0,0.25)";
-                  e.currentTarget.style.borderColor = "rgba(239,119,0,0.35)";
-                }}
+                className="card-glow group flex h-full flex-col rounded-2xl bg-white p-7 transition-all duration-300 hover:-translate-y-1 focus-within:-translate-y-1 motion-reduce:transform-none"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
