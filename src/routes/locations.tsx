@@ -179,19 +179,31 @@ function LocationsPage() {
             <p className="mt-3 text-cevons-muted">Reach out to the team closest to you.</p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
             {regions.map((r) => (
               <div
                 key={r.name}
-                className="group rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+                className="group flex h-full flex-col rounded-2xl bg-white p-7 transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  border: "1px solid rgba(239,119,0,0.35)",
+                  boxShadow: "0 0 0 1px rgba(239,119,0,0.08), 0 6px 20px -8px rgba(239,119,0,0.25)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px rgba(239,119,0,0.55), 0 14px 40px -8px rgba(239,119,0,0.55)";
+                  e.currentTarget.style.borderColor = "rgba(239,119,0,0.75)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px rgba(239,119,0,0.08), 0 6px 20px -8px rgba(239,119,0,0.25)";
+                  e.currentTarget.style.borderColor = "rgba(239,119,0,0.35)";
+                }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]">
+                    <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700]">
                       <MapPin className="w-6 h-6" />
                     </span>
                     <div>
-                      <h3 className="text-xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+                      <h3 className="text-xl font-extrabold text-[#EF7700]">
                         {r.name}
                       </h3>
                       <span className="text-xs font-semibold uppercase tracking-wide text-[#B58900]">
@@ -202,18 +214,18 @@ function LocationsPage() {
                 </div>
 
                 <ul className="mt-5 space-y-2 text-sm text-cevons-muted">
-                  <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{r.address}</li>
-                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
+                  <li className="flex gap-2"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#EF7700]" />{r.address}</li>
+                  <li className="flex gap-2"><Phone className="w-4 h-4 mt-0.5 shrink-0 text-[#EF7700]" />
                     <span className="flex flex-wrap gap-x-2 gap-y-0.5">
                       {r.phone.split(" / ").map((p) => (
-                        <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{p}</a>
+                        <a key={p} href={telHref(p)} className="hover:text-[#EF7700] hover:underline">{p}</a>
                       ))}
                     </span>
                   </li>
-                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
-                    <a href={mailtoHref()} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{cevonsContact.email}</a>
+                  <li className="flex gap-2"><Mail className="w-4 h-4 mt-0.5 shrink-0 text-[#EF7700]" />
+                    <a href={mailtoHref()} className="hover:text-[#EF7700] hover:underline">{cevonsContact.email}</a>
                   </li>
-                  <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{r.hours}</li>
+                  <li className="flex gap-2"><Clock className="w-4 h-4 mt-0.5 shrink-0 text-[#EF7700]" />{r.hours}</li>
                 </ul>
 
                 <div className="mt-5">
@@ -224,7 +236,7 @@ function LocationsPage() {
                     {r.services.map((s) => (
                       <span
                         key={s}
-                        className="rounded-full bg-[var(--cevons-deep-green,#EF7700)]/8 text-[var(--cevons-deep-green,#EF7700)] text-xs font-medium px-2.5 py-1 border border-[var(--cevons-deep-green,#EF7700)]/15"
+                        className="rounded-full bg-[#EF7700]/10 text-[#EF7700] text-xs font-medium px-2.5 py-1 border border-[#EF7700]/20"
                       >
                         {s}
                       </span>
@@ -234,10 +246,12 @@ function LocationsPage() {
 
                 <Link
                   to="/request-service"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--cevons-deep-green,#EF7700)] text-white font-semibold px-4 py-3 hover:bg-[var(--cevons-deep-green,#EF7700)]/90 transition-colors"
+                  className="mt-auto pt-6"
                 >
-                  Request Service in {r.name}
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#EF7700] px-4 text-sm font-bold text-[#1A1A1A] hover:bg-[#FF8A2A] transition-colors">
+                    Request Service in {r.name}
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
                 </Link>
               </div>
             ))}
