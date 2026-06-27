@@ -727,7 +727,7 @@
   padding: 3.5rem 0 4rem;
   background: #FFFFFF;
 }
-.dark .lcm-section { background: #0E1416; }
+/* .lcm-section intentionally NOT dark-mode-themed — carousel always renders light */
 
 .lcm-marquee {
   position: relative;
