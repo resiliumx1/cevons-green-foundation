@@ -85,7 +85,7 @@ const pillars: { img: string; key: PillarKey; iconKey: CevonsCategoryKey }[] = [
 const statValues = [
   { value: "29+", labelKey: "yearsLabel", icon: Award },
   { value: "10,000+", labelKey: "homesLabel", icon: Home },
-  { value: "50,000+", labelKey: "tonnesLabel", icon: Recycle },
+  { value: "200,000+", labelKey: "tonnesLabel", icon: Recycle },
   { value: "10", labelKey: "regionsLabel", icon: MapPin },
 ];
 
