@@ -16,7 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { WaveDivider } from "@/components/WaveDivider";
+import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { ContactForm } from "@/components/contact/ContactForm";
