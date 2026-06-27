@@ -62,27 +62,6 @@ export function HomeHero() {
             <span className="hero-heading-line">
               <span className="eco-word growth-flow" aria-label={t("home.hero.lineB1")}>
                 {t("home.hero.lineB1")}
-                <span className="leaf-field" aria-hidden="true">
-                  {[
-                    { x: "8%",  s:  8, d: 18, dl: -2,  op: 0.28, c: "linear-gradient(135deg,#A8E6A0,#2E7D32 60%,#1F5130)" },
-                    { x: "32%", s: 10, d: 16, dl: -7,  op: 0.32, c: "linear-gradient(135deg,#7BD389,#4CAF50 60%,#2E7D32)" },
-                    { x: "64%", s:  7, d: 20, dl: -4,  op: 0.25, c: "linear-gradient(135deg,#9CE89E,#2E7D32 60%,#1F5130)" },
-                    { x: "88%", s: 11, d: 17, dl: -11, op: 0.3,  c: "linear-gradient(135deg,#B6FF7A,#4CAF50 60%,#1F5130)" },
-                  ].map((l, i) => (
-                    <span
-                      key={`lf-${i}`}
-                      className="lf"
-                      style={{
-                        ["--x" as any]: l.x,
-                        ["--size" as any]: `${l.s}px`,
-                        ["--dur" as any]: `${l.d}s`,
-                        ["--delay" as any]: `${l.dl}s`,
-                        ["--op" as any]: l.op,
-                        background: l.c,
-                      }}
-                    />
-                  ))}
-                </span>
               </span>{" "}
               {t("home.hero.lineB2")}
             </span>

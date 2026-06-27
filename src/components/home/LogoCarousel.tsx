@@ -66,6 +66,7 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
                   loading="lazy"
                   decoding="async"
                   className="lcm-logo"
+                  data-logo={l.src.split("/").pop()?.replace(/\.[^.]+$/, "")}
                 />
               </div>
             ))}
