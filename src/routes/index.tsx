@@ -223,38 +223,70 @@ function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-white py-16 md:py-20">
+      <section className="bg-white dark:bg-[#0b0b0b] py-14 md:py-20">
         <div className="container-cevons">
           <div
             id="schedule"
-            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
+            className="relative overflow-hidden rounded-[28px] px-6 py-14 md:px-16 md:py-20 text-center shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
+                "linear-gradient(120deg, #C45F00 0%, #EF7700 45%, #FF8A2A 100%)",
             }}
           >
+            {/* Dot texture */}
             <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
+              aria-hidden
+              className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
+                  "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0)",
+                backgroundSize: "22px 22px",
               }}
             />
+            {/* Decorative curved swooshes */}
+            <svg
+              aria-hidden
+              className="absolute inset-0 size-full opacity-30 pointer-events-none"
+              viewBox="0 0 1200 360"
+              preserveAspectRatio="none"
+            >
+              <path d="M-50,260 C300,180 700,340 1300,160" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" fill="none" />
+              <path d="M-50,300 C350,220 750,380 1300,200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" fill="none" />
+            </svg>
+            {/* Soft corner glows */}
+            <div aria-hidden className="absolute -left-32 top-1/3 size-[420px] rounded-full pointer-events-none"
+                 style={{ background: "radial-gradient(circle, rgba(255,210,0,0.25) 0%, transparent 65%)" }} />
+            <div aria-hidden className="absolute -right-24 -top-24 size-[420px] rounded-full pointer-events-none"
+                 style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%)" }} />
+
             <div className="relative">
-              <p className="text-cevons-yellow text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> {t("home.cta.eyebrow")}
-              </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">{t("home.cta.title")}</h2>
-              <p className="mt-4 text-white/80 max-w-xl mx-auto">
+              {/* Eyebrow with flanking lines */}
+              <div className="mx-auto mb-6 flex items-center justify-center gap-4 max-w-2xl">
+                <span aria-hidden className="hidden sm:block h-px flex-1 bg-white/50 max-w-[80px]" />
+                <p className="text-white text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em]">
+                  {t("home.cta.eyebrow")}
+                </p>
+                <span aria-hidden className="hidden sm:block h-px flex-1 bg-white/50 max-w-[80px]" />
+              </div>
+
+              <h2 className="font-display text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)]">
+                {t("home.cta.title")}
+              </h2>
+              <p className="mt-5 md:mt-6 text-white/90 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
                 {t("home.cta.lead")}
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="/contact" className="btn-base btn-green text-base px-6 py-3.5">
+
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
+                <a
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-[#2DA339] text-white font-bold text-base hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                >
                   <WhatsApp className="size-5" /> {t("home.cta.whatsapp")}
                 </a>
-                <a href="/request-service" className="btn-base btn-yellow text-base px-6 py-3.5">
+                <a
+                  href="/request-service"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[#EF7700] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                >
                   {t("home.cta.quote")} <ArrowRight className="size-5" />
                 </a>
               </div>
@@ -262,6 +294,7 @@ function HomePage() {
           </div>
         </div>
       </section>
+
     </SiteLayout>
   );
 
