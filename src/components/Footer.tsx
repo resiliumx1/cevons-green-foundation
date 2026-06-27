@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
+  ArrowRight,
   Award,
   BadgeCheck,
   Briefcase,
@@ -29,14 +30,51 @@ const BRAND_GREEN = "#2DA339";
 
 type FooterLink = { label: string; to: string };
 
+function FooterNavLink({ to, label, currentPath }: { to: string; label: string; currentPath: string }) {
+  // Active if exact match, or — for service/industry detail pages — when the
+  // current URL is nested under the same route prefix.
+  const isActive =
+    currentPath === to ||
+    (to !== "/" && to.split("/").length > 2 && currentPath.startsWith(to));
+  return (
+    <Link
+      to={to}
+      aria-current={isActive ? "page" : undefined}
+      className={`group/link inline-flex items-center gap-1.5 text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
+        isActive ? "text-[color:var(--fa-orange)] font-semibold" : "text-white/75 hover:text-[color:var(--fa-orange)]"
+      }`}
+      style={{ ["--fa-orange" as never]: BRAND_ORANGE }}
+    >
+      <ArrowRight
+        aria-hidden
+        className={`size-3.5 shrink-0 -ml-0.5 transition-all duration-200 motion-reduce:transition-none ${
+          isActive
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-focus-visible/link:opacity-100 group-focus-visible/link:translate-x-0"
+        }`}
+        style={{ color: BRAND_ORANGE }}
+      />
+      <span
+        className={`transition-transform duration-200 motion-reduce:transition-none ${
+          isActive ? "translate-x-0" : "group-hover/link:translate-x-0.5 group-focus-visible/link:translate-x-0.5"
+        }`}
+      >
+        {label}
+      </span>
+    </Link>
+  );
+}
+
 function LinkCol({
   title,
   icon: Icon,
   items,
+  currentPath,
 }: {
   title: string;
   icon?: React.ComponentType<{ className?: string }>;
   items: FooterLink[];
+  currentPath: string;
 }) {
   return (
     <div>
@@ -47,13 +85,7 @@ function LinkCol({
       <ul className="space-y-2.5">
         {items.map((l) => (
           <li key={l.label + l.to}>
-            <Link
-              to={l.to}
-              className="text-white/75 hover:text-[color:var(--brand-orange)] text-[14px] leading-relaxed transition-colors"
-              style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
-            >
-              {l.label}
-            </Link>
+            <FooterNavLink to={l.to} label={l.label} currentPath={currentPath} />
           </li>
         ))}
       </ul>
@@ -61,10 +93,13 @@ function LinkCol({
   );
 }
 
+
 export function Footer() {
   const t = useT();
   const isExternalWA = whatsappHref.startsWith("http");
   const year = new Date().getFullYear();
+  const currentPath = useRouterState({ select: (s) => s.location.pathname });
+
 
   const servicesList: FooterLink[] = [
     { label: t("footer.servicesList.residential"), to: "/services/general-trash-collection" },
@@ -279,9 +314,10 @@ export function Footer() {
             </div>
           </div>
 
-          <LinkCol title={t("footer.services")} icon={Leaf} items={servicesList} />
-          <LinkCol title={t("footer.industries")} icon={Building2} items={industriesList} />
-          <LinkCol title={t("footer.company")} icon={Briefcase} items={companyList} />
+          <LinkCol title={t("footer.services")} icon={Leaf} items={servicesList} currentPath={currentPath} />
+          <LinkCol title={t("footer.industries")} icon={Building2} items={industriesList} currentPath={currentPath} />
+          <LinkCol title={t("footer.company")} icon={Briefcase} items={companyList} currentPath={currentPath} />
+
 
           {/* Get in touch */}
           <div>
@@ -362,9 +398,10 @@ export function Footer() {
             © {year} CEVONS Environmental Services Inc. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-            <a href="#" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.privacy")}</a>
+            <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
             <span className="text-white/20">|</span>
-            <a href="#" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.terms")}</a>
+            <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
+
             <span className="text-white/20">|</span>
             <Link to="/" className="hover:text-[color:var(--brand-orange)]" style={{ ["--brand-orange" as never]: BRAND_ORANGE }}>{t("footer.sitemap")}</Link>
           </div>
