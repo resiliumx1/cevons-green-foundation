@@ -81,12 +81,12 @@ interface Milestone {
 
 const milestones: Milestone[] = [
   { year: "1997", label: "Founded", body: "CEVONS Environmental Services Inc. is established in Guyana with a mission to deliver reliable waste management solutions.", icon: Leaf },
-  { year: "[REPLACE]", label: "Fleet Expansion", body: "[REPLACE] Key growth moment: expanded collection fleet and routing capacity to serve more communities across Georgetown.", icon: TrendingUp, replace: true },
-  { year: "[REPLACE]", label: "ISO 9001:2015 Certification", body: "[REPLACE] Achieved ISO 9001:2015 certification for quality management systems, reinforcing our commitment to operational excellence.", icon: Award, replace: true },
-  { year: "[REPLACE]", label: "EPA Certification", body: "[REPLACE] Earned EPA certification, meeting national environmental standards for waste handling and disposal.", icon: ShieldCheck, replace: true },
-  { year: "[REPLACE]", label: "Linden Branch Opens", body: "[REPLACE] Opened the Linden branch to bring dedicated waste management services to communities south of Georgetown.", icon: MapPin, replace: true },
-  { year: "[REPLACE]", label: "Berbice Branch Opens", body: "[REPLACE] Launched the Berbice / New Amsterdam branch, extending reliable coverage to eastern Guyana.", icon: MapPin, replace: true },
-  { year: "[REPLACE]", label: "Recent Achievement", body: "[REPLACE] Recent company milestone: new service line launch, industry partnership, or award recognition.", icon: Trophy, replace: true },
+  { year: "", label: "Fleet Expansion", body: "Key growth moment: expanded collection fleet and routing capacity to serve more communities across Georgetown.", icon: TrendingUp },
+  { year: "", label: "ISO 9001:2015 Certification", body: "Achieved ISO 9001:2015 certification for quality management systems, reinforcing our commitment to operational excellence.", icon: Award },
+  { year: "", label: "EPA Certification", body: "Earned EPA certification, meeting national environmental standards for waste handling and disposal.", icon: ShieldCheck },
+  { year: "", label: "Linden Branch Opens", body: "Opened the Linden branch to bring dedicated waste management services to communities south of Georgetown.", icon: MapPin },
+  { year: "", label: "Berbice Branch Opens", body: "Launched the Berbice / New Amsterdam branch, extending reliable coverage to eastern Guyana.", icon: MapPin },
+  { year: "", label: "Recent Achievement", body: "Recent company milestone: new service line launch, industry partnership, or award recognition.", icon: Trophy },
 ];
 
 const SECTION_META: Record<MediaItem["type"], { title: string; eyebrow: string; icon: typeof Newspaper }> = {
@@ -292,18 +292,17 @@ function NewsroomPage() {
                     {/* Content column */}
                     <div className={`w-full md:w-1/2 pl-14 md:pl-0 ${right ? "md:pl-12" : "md:pr-12 md:text-right"}`}>
                       <div className={`inline-flex items-center gap-2 mb-4 ${right ? "" : "md:flex-row-reverse"}`}>
-                        <span
-                          className={`px-4 py-1 text-sm font-bold rounded-full ${
-                            replace
-                              ? "bg-[#1A1A1A] text-white"
-                              : "bg-[#EF7700] text-white"
-                          }`}
-                        >
-                          {year}
-                        </span>
-                        {replace && (
-                          <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-tight rounded-sm bg-[#FFE9C2] border border-[#FFD79A] text-[#7A4A00]">
-                            [REPLACE]
+                        {year ? (
+                          <span
+                            className={`px-4 py-1 text-sm font-bold rounded-full ${
+                              replace ? "bg-[#1A1A1A] text-white" : "bg-[#EF7700] text-white"
+                            }`}
+                          >
+                            {year}
+                          </span>
+                        ) : (
+                          <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] rounded-full bg-[#EF7700]/10 text-[#EF7700] ring-1 ring-[#EF7700]/30">
+                            Milestone
                           </span>
                         )}
                       </div>
