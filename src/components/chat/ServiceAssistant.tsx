@@ -381,15 +381,24 @@ export function ServiceAssistant() {
                 <button
                   onClick={reset}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
-                  aria-label="Reset conversation"
-                  title="Reset"
+                  aria-label="Start a new conversation"
+                  title="New conversation"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => setOpen(false)}
                   className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
-                  aria-label="Close assistant"
+                  aria-label="Minimize chat"
+                  title="Minimize"
+                >
+                  <Minus className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  aria-label="Close chat"
+                  title="Close"
                 >
                   <X className="h-4 w-4" />
                 </button>
