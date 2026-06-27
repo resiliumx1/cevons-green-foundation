@@ -631,7 +631,7 @@ function Bubble({
       <div className="mt-0.5">
         <EmblemBadge size={28} ring={false} aiBadge={false} />
       </div>
-      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-black/5 px-3.5 py-2.5 text-[13.5px] text-[#1A1A1A] leading-relaxed whitespace-pre-wrap shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+      <div className="max-w-[85%] rounded-2xl rounded-tl-md bg-white border border-black/5 px-3.5 py-2.5 text-[14.5px] text-[#0F0F0F] leading-relaxed whitespace-pre-wrap shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
         {isWelcome && (
           <p className="font-bold mb-1">{WELCOME_BOLD}</p>
         )}
