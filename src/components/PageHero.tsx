@@ -170,7 +170,7 @@ export function PageHero({
         {children && <div className="mt-7">{children}</div>}
       </div>
 
-      {showSwoosh && <WaveDivider variant={waveVariant} />}
+      {showSwoosh && <WaveHalftoneDivider height={48} />}
     </section>
   );
 }
