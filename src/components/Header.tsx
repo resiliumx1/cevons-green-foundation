@@ -1,10 +1,20 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { useT } from "@/contexts/SettingsContext";
+
+const ACTIVE_ORANGE = "#EF7700";
+
+function useIsActive() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return (to: string) => {
+    if (to === "/") return pathname === "/";
+    return pathname === to || pathname.startsWith(to + "/");
+  };
+}
 
 type NavItem = { to: string; key: string; hasDropdown?: boolean };
 const nav: NavItem[] = [
@@ -41,6 +51,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const t = useT();
+  const isActive = useIsActive();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -85,28 +96,40 @@ export function Header() {
           </span>
           <span className="flex flex-col justify-center leading-none">
             <span
-              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-cevons-dark"
+              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight text-[#2DA339] dark:text-[#4FD163]"
               style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif" }}
             >
               CEVONS
             </span>
-            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-cevons-muted">
+            <span className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#2DA339] dark:text-[#4FD163]">
               Environmental Services Inc.
             </span>
           </span>
         </Link>
 
         <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
-          {nav.map((item) => (
+          {nav.map((item) => {
+            const active = isActive(item.to);
+            return (
             <div key={item.to} className="relative group">
               <Link
                 to={item.to}
-                className="px-2 py-2 text-[13px] font-semibold text-cevons-dark hover:text-cevons-green transition-colors inline-flex items-center gap-1 whitespace-nowrap"
-                activeProps={{ className: "text-cevons-green" }}
-                activeOptions={{ exact: item.to === "/" }}
+                className={`relative px-2 py-2 text-[13px] font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap ${
+                  active
+                    ? "text-[#EF7700]"
+                    : "text-cevons-dark hover:text-[#EF7700]/80"
+                }`}
+                aria-current={active ? "page" : undefined}
               >
                 {t(`nav.${item.key}`)}
                 {item.hasDropdown && <ChevronDown className="size-3.5" />}
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2.5px] rounded-full bg-[${ACTIVE_ORANGE}] motion-safe:transition-all motion-safe:duration-300 ${
+                    active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                  } origin-center`}
+                  style={{ backgroundColor: ACTIVE_ORANGE }}
+                />
               </Link>
               {item.hasDropdown && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
@@ -134,7 +157,8 @@ export function Header() {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-2 shrink-0">
@@ -164,16 +188,22 @@ export function Header() {
             <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
               {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
+                  const active = isActive(item.to);
                   return (
                     <div key={item.to} className="flex flex-col">
                       <button
                         onClick={() => setServicesOpen((v) => !v)}
-                        className="flex items-center justify-between px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                        className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                          active
+                            ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
+                            : "text-cevons-dark border-transparent"
+                        }`}
                         aria-expanded={servicesOpen}
+                        aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
-                          className={`size-5 text-cevons-muted transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                          className={`size-5 transition-transform duration-200 ${active ? "text-[#EF7700]" : "text-cevons-muted"} ${servicesOpen ? "rotate-180" : ""}`}
                         />
                       </button>
                       {servicesOpen && (
@@ -203,14 +233,18 @@ export function Header() {
                     </div>
                   );
                 }
+                const active = isActive(item.to);
                 return (
                   <Link
                     key={item.to}
                     to={item.to}
-                    className="px-3 py-3 text-base font-semibold text-cevons-dark rounded-lg hover:bg-cevons-cream transition-colors"
+                    className={`px-3 py-3 text-base font-semibold rounded-lg hover:bg-cevons-cream transition-colors border-l-[3px] ${
+                      active
+                        ? "text-[#EF7700] border-[#EF7700] bg-[#EF7700]/5"
+                        : "text-cevons-dark border-transparent"
+                    }`}
                     onClick={() => setMobileOpen(false)}
-                    activeProps={{ className: "bg-cevons-cream text-cevons-green" }}
-                    activeOptions={{ exact: item.to === "/" }}
+                    aria-current={active ? "page" : undefined}
                   >
                     {t(`nav.${item.key}`)}
                   </Link>
