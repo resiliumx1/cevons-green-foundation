@@ -23,19 +23,18 @@ export function ServicesCardsSection() {
   return (
     <section
       id="services"
-      className="relative bg-cevons-dark py-16 md:py-20"
+      className="relative bg-white py-16 md:py-20"
       aria-labelledby="services-heading"
     >
       <div className="container-cevons">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-cevons-green mb-3">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#EF7700] mb-3">
               {t("home.services.eyebrow")}
             </p>
             <h2
               id="services-heading"
-              className="text-white font-extrabold text-3xl md:text-5xl"
-              style={{ fontFamily: "Playfair Display, serif" }}
+              className="text-[#1A1A1A] font-extrabold text-3xl md:text-5xl font-display"
             >
               {t("home.services.title1")}{" "}
               <span style={{ color: "#2E7D32" }}>{t("home.services.title2")}</span>
@@ -43,7 +42,7 @@ export function ServicesCardsSection() {
           </div>
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 text-sm font-bold text-cevons-green hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[#EF7700] hover:gap-3 transition-all"
           >
             {t("home.services.viewAll")} <ArrowRight className="size-4" />
           </Link>
@@ -64,7 +63,7 @@ export function ServicesCardsSection() {
               >
                 <Link
                   to={c.to}
-                  className="group relative block overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl h-full"
+                  className="group relative block overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl h-full"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img
