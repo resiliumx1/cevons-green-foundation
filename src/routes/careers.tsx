@@ -316,34 +316,8 @@ function CareersPage() {
             </h2>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-stretch">
-            {JOBS.map(({ category, title, location, icon: Icon }) => (
-              <article
-                key={title}
-                className="card-glow group flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-6 text-center hover:-translate-y-1 motion-reduce:transform-none"
-              >
-                <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
-                  <Icon className="size-6" />
-                </span>
-                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green">
-                  {category}
-                </p>
-                <h3 className="mt-2 text-lg font-bold text-cevons-dark dark:text-white leading-snug">
-                  {title}
-                </h3>
-                <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-cevons-muted dark:text-white/65">
-                  <MapPin className="size-4 text-cevons-green" />
-                  {location}
-                </p>
-                <ApplyAction
-                  className="mt-auto pt-5 btn-base btn-green btn-shine w-full"
-                  ariaLabel={`View details for ${title}`}
-                >
-                  View Details
-                  <ArrowRight className="size-4" />
-                </ApplyAction>
-              </article>
-            ))}
+          <div className="mt-12">
+            <BambooHREmbed />
           </div>
 
           <div className="mt-12 flex justify-center">
