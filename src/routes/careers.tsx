@@ -1,19 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import {
   ArrowRight,
-  Briefcase,
-  Building2,
   CheckCircle2,
   HeartHandshake,
   Leaf,
   Lightbulb,
-  MapPin,
   ShieldCheck,
   Sparkles,
   TrendingUp,
-  Truck,
   Users,
-  Wrench,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
@@ -21,7 +17,7 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
 // when it's available. External https URLs automatically render as new-tab links below.
-const APPLY_URL = "/contact"; // TODO: replace with CEVONS BambooHR careers portal URL when available
+const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
 const heroCareers = "/assets/heroes/hero-careers.webp";
 
@@ -103,14 +99,39 @@ const OPPORTUNITY_AREAS: string[] = [
   "Information Technology",
 ];
 
-type Job = { category: string; title: string; location: string; icon: React.ComponentType<{ className?: string }> };
-const JOBS: Job[] = [
-  { category: "Finance", title: "Snr. Accounts Officer", location: "Georgetown", icon: Briefcase },
-  { category: "Human Resources", title: "Verification Officer", location: "Georgetown", icon: Users },
-  { category: "Operations", title: "Porter", location: "Georgetown", icon: Building2 },
-  { category: "Operations", title: "Truck Driver", location: "Georgetown", icon: Truck },
-  { category: "Stores", title: "Stores Clerk", location: "Georgetown", icon: Wrench },
-];
+function BambooHREmbed() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    if (document.getElementById("bamboohr-embed-script")) return;
+
+    const script = document.createElement("script");
+    script.id = "bamboohr-embed-script";
+    script.src = "https://cevonswaste.bamboohr.com/js/embed.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+    scriptRef.current = script;
+
+    return () => {
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      id="BambooHR"
+      data-domain="cevonswaste.bamboohr.com"
+      data-version="1.0.0"
+      data-departmentId=""
+    />
+  );
+}
 
 function scrollToOpenPositions(e: React.MouseEvent) {
   e.preventDefault();
@@ -295,34 +316,8 @@ function CareersPage() {
             </h2>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 items-stretch">
-            {JOBS.map(({ category, title, location, icon: Icon }) => (
-              <article
-                key={title}
-                className="card-glow group flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-6 text-center hover:-translate-y-1 motion-reduce:transform-none"
-              >
-                <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors">
-                  <Icon className="size-6" />
-                </span>
-                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green">
-                  {category}
-                </p>
-                <h3 className="mt-2 text-lg font-bold text-cevons-dark dark:text-white leading-snug">
-                  {title}
-                </h3>
-                <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-cevons-muted dark:text-white/65">
-                  <MapPin className="size-4 text-cevons-green" />
-                  {location}
-                </p>
-                <ApplyAction
-                  className="mt-auto pt-5 btn-base btn-green btn-shine w-full"
-                  ariaLabel={`View details for ${title}`}
-                >
-                  View Details
-                  <ArrowRight className="size-4" />
-                </ApplyAction>
-              </article>
-            ))}
+          <div className="mt-12">
+            <BambooHREmbed />
           </div>
 
           <div className="mt-12 flex justify-center">
