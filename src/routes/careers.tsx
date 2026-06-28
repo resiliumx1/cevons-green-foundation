@@ -1,19 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import {
   ArrowRight,
-  Briefcase,
-  Building2,
   CheckCircle2,
   HeartHandshake,
   Leaf,
   Lightbulb,
-  MapPin,
   ShieldCheck,
   Sparkles,
   TrendingUp,
-  Truck,
   Users,
-  Wrench,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
