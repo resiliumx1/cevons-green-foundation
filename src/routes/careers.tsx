@@ -99,14 +99,39 @@ const OPPORTUNITY_AREAS: string[] = [
   "Information Technology",
 ];
 
-type Job = { category: string; title: string; location: string; icon: React.ComponentType<{ className?: string }> };
-const JOBS: Job[] = [
-  { category: "Finance", title: "Snr. Accounts Officer", location: "Georgetown", icon: Briefcase },
-  { category: "Human Resources", title: "Verification Officer", location: "Georgetown", icon: Users },
-  { category: "Operations", title: "Porter", location: "Georgetown", icon: Building2 },
-  { category: "Operations", title: "Truck Driver", location: "Georgetown", icon: Truck },
-  { category: "Stores", title: "Stores Clerk", location: "Georgetown", icon: Wrench },
-];
+function BambooHREmbed() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    if (document.getElementById("bamboohr-embed-script")) return;
+
+    const script = document.createElement("script");
+    script.id = "bamboohr-embed-script";
+    script.src = "https://cevonswaste.bamboohr.com/js/embed.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+    scriptRef.current = script;
+
+    return () => {
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      id="BambooHR"
+      data-domain="cevonswaste.bamboohr.com"
+      data-version="1.0.0"
+      data-departmentId=""
+    />
+  );
+}
 
 function scrollToOpenPositions(e: React.MouseEvent) {
   e.preventDefault();
