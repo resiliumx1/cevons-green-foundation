@@ -28,11 +28,8 @@ import {
   MessageCircle,
   HelpCircle,
   Layers3,
-  Wrench,
   Plus,
   Minus,
-  PaintRoller,
-  AlertTriangle,
   Compass,
   ClipboardList,
 } from "lucide-react";
