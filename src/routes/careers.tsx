@@ -17,7 +17,7 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
 // One-line swap: replace with the BambooHR portal URL (e.g. "https://cevons.bamboohr.com/careers")
 // when it's available. External https URLs automatically render as new-tab links below.
-const APPLY_URL = "/contact"; // TODO: replace with CEVONS BambooHR careers portal URL when available
+const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
 const heroCareers = "/assets/heroes/hero-careers.webp";
 
