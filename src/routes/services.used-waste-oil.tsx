@@ -1,11 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Wrench, Factory, Truck, Anchor, Building2, Beaker, ShieldAlert, Droplet, PackageX } from "lucide-react";
+import { Flame, Wrench, Factory, Truck, Anchor, Building2 } from "lucide-react";
 import { ServicePageTemplate } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-oil.jpg";
-import imgRel0 from "@/assets/svc-tank.jpg";
-import imgRel1 from "@/assets/svc-hazardous.jpg";
-import imgRel2 from "@/assets/svc-septic.jpg";
-import imgRel3 from "@/assets/svc-destruction.jpg";
 
 const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVONS";
 const PAGE_DESC = "Compliant collection and responsible recycling of used waste oil for industrial, marine, and commercial operations across Guyana.";
@@ -43,12 +39,6 @@ const faqs = [
   { q: "How do I start service?", a: "Submit a specialist review request with your site, oil type, and estimated monthly volume." },
 ];
 
-const related = [
-  { title: "Tank Cleaning", body: "Industrial tank cleaning with safety controls.", img: imgRel0, to: "/services/tank-cleaning", icon: Beaker },
-  { title: "Hazardous Waste", body: "Regulated hazardous waste handling and disposal.", img: imgRel1, to: "/services/hazardous-waste", icon: ShieldAlert },
-  { title: "Septic Tank Emptying", body: "Safe septic tank pumping and maintenance.", img: imgRel2, to: "/services/septic-services", icon: Droplet },
-  { title: "Product Destruction & Recycling Services", body: "Secure disposal and material recovery for unusable or excess products.", img: imgRel3, to: "/services/product-destruction", icon: PackageX },
-];
 
 function Page() {
   return (
@@ -63,7 +53,6 @@ function Page() {
       benefits={["Closed-system pumping","Trained, equipped operators","Compliant transport","Routed to authorized recyclers","Specialist project review"]}
       commonUses={uses}
       faqs={faqs}
-      related={related}
       ctaVariant="specialist"
     />
   );
