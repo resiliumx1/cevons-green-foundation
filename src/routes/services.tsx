@@ -25,8 +25,6 @@ import {
   Clock3,
   Headphones,
   Leaf,
-  MessageCircle,
-  HelpCircle,
   Layers3,
   Plus,
   Minus,
