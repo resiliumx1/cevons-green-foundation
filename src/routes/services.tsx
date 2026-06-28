@@ -566,8 +566,6 @@ function ServicesPage() {
         </section>
       )}
 
-      {/* OTHER SERVICES */}
-      <OtherServicesSection />
 
       {/* "Not Sure" CTA */}
       <OrangeCTABanner
