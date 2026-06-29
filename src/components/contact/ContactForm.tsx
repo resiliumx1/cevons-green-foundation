@@ -158,7 +158,7 @@ export function ContactForm() {
   const uploadAttachment = async (): Promise<string | null> => {
     if (!file) return null;
     const ext = file.name.split(".").pop() || "bin";
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
+    const path = `public/${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
     const { error } = await supabase.storage
       .from("contact-attachments")
       .upload(path, file, { contentType: file.type, upsert: false });

@@ -187,7 +187,7 @@ function RequestServicePage() {
       // 1. Upload any attached files to storage first.
       let fileUrls: string[] = [];
       if (data.files.length > 0) {
-        const folder = `anon/${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const folder = `public/${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
         const uploaded: string[] = [];
         for (const item of data.files) {
           const safeName = item.name.replace(/[^a-zA-Z0-9._-]/g, "_");
@@ -225,8 +225,12 @@ function RequestServicePage() {
         referrer: typeof document !== "undefined" ? document.referrer || null : null,
         landing_page: typeof window !== "undefined" ? window.location.pathname : null,
       };
-      const { data: ref, error } = await supabase.rpc("submit_service_request", { payload });
-      if (error || !ref) throw error ?? new Error("Submission failed");
+      const { data: fnRes, error } = await supabase.functions.invoke<{ reference?: string; error?: string }>(
+        "submit-service-request",
+        { body: payload },
+      );
+      if (error || !fnRes?.reference) throw error ?? new Error(fnRes?.error || "Submission failed");
+      const ref = fnRes.reference;
 
       // Persist summary for the confirmation page (refresh-safe via sessionStorage).
       if (typeof window !== "undefined") {
