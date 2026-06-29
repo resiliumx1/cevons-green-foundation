@@ -5,3 +5,7 @@ verify_jwt = false
 
 [functions.submit-contact]
 verify_jwt = false
+
+[functions.submit-service-request]
+verify_jwt = false
+
