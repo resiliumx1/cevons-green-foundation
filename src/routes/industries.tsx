@@ -320,7 +320,7 @@ function IndustriesPage() {
       >
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#D86A00] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
         >
           <Users className="size-5" /> Request a Consultation <ArrowRight className="size-5" />
         </Link>
