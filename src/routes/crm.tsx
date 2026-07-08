@@ -10,6 +10,7 @@ import {
   BarChart3,
   Star,
   Newspaper,
+  FileClock,
   Settings,
   Search,
   PanelLeftClose,

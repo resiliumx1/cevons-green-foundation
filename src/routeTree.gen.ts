@@ -51,6 +51,7 @@ import { Route as CrmLoginRouteImport } from './routes/crm.login'
 import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
 import { Route as CrmCustomersRouteImport } from './routes/crm.customers'
 import { Route as CrmConversationsRouteImport } from './routes/crm.conversations'
+import { Route as CrmAuditRouteImport } from './routes/crm.audit'
 import { Route as CrmLeadsIdRouteImport } from './routes/crm.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
@@ -274,6 +275,11 @@ const CrmConversationsRoute = CrmConversationsRouteImport.update({
   path: '/conversations',
   getParentRoute: () => CrmRoute,
 } as any)
+const CrmAuditRoute = CrmAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => CrmRoute,
+} as any)
 const CrmLeadsIdRoute = CrmLeadsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -294,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/crm/audit': typeof CrmAuditRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
@@ -338,6 +345,7 @@ export interface FileRoutesByTo {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/crm/audit': typeof CrmAuditRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
@@ -384,6 +392,7 @@ export interface FileRoutesById {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/crm/audit': typeof CrmAuditRoute
   '/crm/conversations': typeof CrmConversationsRoute
   '/crm/customers': typeof CrmCustomersRoute
   '/crm/leads': typeof CrmLeadsRouteWithChildren
@@ -431,6 +440,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/crm/audit'
     | '/crm/conversations'
     | '/crm/customers'
     | '/crm/leads'
@@ -475,6 +485,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/crm/audit'
     | '/crm/conversations'
     | '/crm/customers'
     | '/crm/leads'
@@ -520,6 +531,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/crm/audit'
     | '/crm/conversations'
     | '/crm/customers'
     | '/crm/leads'
@@ -866,6 +878,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmConversationsRouteImport
       parentRoute: typeof CrmRoute
     }
+    '/crm/audit': {
+      id: '/crm/audit'
+      path: '/audit'
+      fullPath: '/crm/audit'
+      preLoaderRoute: typeof CrmAuditRouteImport
+      parentRoute: typeof CrmRoute
+    }
     '/crm/leads/$id': {
       id: '/crm/leads/$id'
       path: '/$id'
@@ -889,6 +908,7 @@ const CrmLeadsRouteWithChildren = CrmLeadsRoute._addFileChildren(
 )
 
 interface CrmRouteChildren {
+  CrmAuditRoute: typeof CrmAuditRoute
   CrmConversationsRoute: typeof CrmConversationsRoute
   CrmCustomersRoute: typeof CrmCustomersRoute
   CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
@@ -902,6 +922,7 @@ interface CrmRouteChildren {
 }
 
 const CrmRouteChildren: CrmRouteChildren = {
+  CrmAuditRoute: CrmAuditRoute,
   CrmConversationsRoute: CrmConversationsRoute,
   CrmCustomersRoute: CrmCustomersRoute,
   CrmLeadsRoute: CrmLeadsRouteWithChildren,
