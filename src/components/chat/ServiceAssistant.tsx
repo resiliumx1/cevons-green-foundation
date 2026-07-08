@@ -22,7 +22,7 @@ import { whatsappHref } from "@/data/cevonsContact";
 const LOGO_MARK = "/assets/brand/cevons-logo-mark.webp";
 const WHATSAPP_URL = whatsappHref;
 
-const BRAND_ORANGE = "#EF7700";
+const BRAND_ORANGE = "var(--brand-orange)";
 const BRAND_ORANGE_DEEP = "#d96b00";
 const BRAND_GREEN = "#2E7D32";
 const BRAND_GREEN_DEEP = "#1e3a24";
@@ -337,7 +337,7 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed z-[60] text-left text-white transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#EF7700]/40
+        className={`group fixed z-[60] text-left text-white transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
           sm:flex sm:items-center sm:gap-3 sm:rounded-full sm:pl-3 sm:pr-5 sm:py-2.5 sm:min-h-[64px] sm:shadow-[0_14px_34px_rgba(239,119,0,0.35)]
           grid place-items-center h-16 w-16 rounded-full shadow-[0_10px_24px_rgba(239,119,0,0.4)]
           ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"} ${open ? "pointer-events-none opacity-0" : ""}`}
@@ -548,7 +548,7 @@ export function ServiceAssistant() {
                     </a>
                     <Link
                       to="/request-service"
-                      className="inline-flex items-center rounded-full border border-[#EF7700] px-3 py-1.5 text-xs font-semibold text-[#EF7700] hover:bg-[#EF7700] hover:text-white transition"
+                      className="inline-flex items-center rounded-full border border-[var(--brand-orange)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-white transition"
                     >
                       Open request form
                     </Link>
@@ -576,7 +576,7 @@ export function ServiceAssistant() {
                     disabled={loading}
                     placeholder={loading ? "Cev is replying…" : "Message Cev…"}
                     aria-label="Type your message"
-                    className="flex-1 resize-none rounded-2xl border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[#EF7700]/30 focus:border-[#EF7700]/40 disabled:opacity-60"
+                    className="flex-1 resize-none rounded-2xl border border-black/10 bg-[#FAF7F1] px-4 py-2.5 text-sm leading-snug placeholder:text-[#9A9A9A] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange)]/30 focus:border-[var(--brand-orange)]/40 disabled:opacity-60"
                     style={{ maxHeight: 140, overflowY: "auto" }}
                   />
                   <button
@@ -692,7 +692,7 @@ function Bubble({
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#EF7700] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
+        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[var(--brand-orange)] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
           {message.text}
         </div>
       </div>
@@ -766,7 +766,7 @@ function Typewriter({
       {!done && (
         <span
           aria-hidden
-          className="inline-block w-[2px] h-[1em] align-[-2px] ml-[1px] bg-[#EF7700] animate-pulse"
+          className="inline-block w-[2px] h-[1em] align-[-2px] ml-[1px] bg-[var(--brand-orange)] animate-pulse"
         />
       )}
     </>
@@ -781,9 +781,9 @@ function TypingDots() {
       </div>
       <div className="rounded-2xl rounded-tl-md bg-white border border-black/5 px-4 py-3 shadow-sm">
         <div className="flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "0ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "120ms" }} />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#EF7700] animate-bounce" style={{ animationDelay: "240ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-orange)] animate-bounce" style={{ animationDelay: "0ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-orange)] animate-bounce" style={{ animationDelay: "120ms" }} />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-orange)] animate-bounce" style={{ animationDelay: "240ms" }} />
         </div>
       </div>
     </div>

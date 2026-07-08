@@ -189,7 +189,7 @@ export function SocialProofMarquee({
             </Link>
             <Link
               to="/services"
-              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#1A1A1A)] border border-[var(--cevons-deep-green,#1A1A1A)]/25 hover:border-[var(--cevons-green,#EF7700)] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
+              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#1A1A1A)] border border-[var(--cevons-deep-green,#1A1A1A)]/25 hover:border-[var(--cevons-green,var(--brand-orange))] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
             >
               <Package className="size-4" />
               View Services

@@ -6,7 +6,7 @@ import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { useT } from "@/contexts/SettingsContext";
 
-const ACTIVE_ORANGE = "#EF7700";
+const ACTIVE_ORANGE = "var(--brand-orange)";
 
 function useIsActive() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -124,8 +124,8 @@ export function Header() {
                 to={item.to}
                 className={`relative px-2 py-2 text-[13px] font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap ${
                   active
-                    ? "text-[#EF7700]"
-                    : "text-cevons-dark hover:text-[#EF7700]/80"
+                    ? "text-[var(--brand-orange)]"
+                    : "text-cevons-dark hover:text-[var(--brand-orange)]/80"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
@@ -228,10 +228,10 @@ export function Header() {
                         onClick={() => setOpenDropdown((v) => v === item.key ? null : item.key)}
                         className={`flex items-center justify-between px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                           active
-                            ? "border-[#EF7700]"
+                            ? "border-[var(--brand-orange)]"
                             : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
-                        style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
+                        style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
                         aria-expanded={isOpen}
                         aria-current={active ? "page" : undefined}
                       >
@@ -297,10 +297,10 @@ export function Header() {
                     to={item.to}
                     className={`px-3 py-3 text-base font-semibold rounded-lg transition-colors border-l-[3px] ${
                       active
-                        ? "border-[#EF7700]"
+                        ? "border-[var(--brand-orange)]"
                         : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                     }`}
-                    style={active ? { backgroundColor: "#EF7700", color: "#ffffff" } : undefined}
+                    style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
                     onClick={() => setMobileOpen(false)}
                     aria-current={active ? "page" : undefined}
                   >

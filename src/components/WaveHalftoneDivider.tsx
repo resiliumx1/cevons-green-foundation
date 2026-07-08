@@ -33,8 +33,8 @@ function WaveHalftoneDividerImpl({
       >
         <defs>
           <linearGradient id="whd-wave" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#EF7700" />
-            <stop offset="100%" stopColor="#C45F00" />
+            <stop offset="0%" stopColor="var(--brand-orange)" />
+            <stop offset="100%" stopColor="var(--brand-orange-dark)" />
           </linearGradient>
           <linearGradient id="whd-highlight" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0.0" />

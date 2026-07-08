@@ -82,9 +82,9 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
           >
             <defs>
               <linearGradient id="lcm-wave-grad" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0%" stopColor="#EF7700" stopOpacity="0.35" />
-                <stop offset="50%" stopColor="#EF7700" stopOpacity="1" />
-                <stop offset="100%" stopColor="#EF7700" stopOpacity="0.35" />
+                <stop offset="0%" stopColor="var(--brand-orange)" stopOpacity="0.35" />
+                <stop offset="50%" stopColor="var(--brand-orange)" stopOpacity="1" />
+                <stop offset="100%" stopColor="var(--brand-orange)" stopOpacity="0.35" />
               </linearGradient>
             </defs>
             <path
@@ -106,7 +106,7 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
             </Link>
             <Link
               to="/services"
-              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#1A1A1A)] border border-[var(--cevons-deep-green,#1A1A1A)]/25 hover:border-[var(--cevons-green,#EF7700)] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
+              className="btn-base px-5 py-3 text-sm bg-white text-[var(--cevons-deep-green,#1A1A1A)] border border-[var(--cevons-deep-green,#1A1A1A)]/25 hover:border-[var(--cevons-green,var(--brand-orange))] hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors"
             >
               <Package className="size-4" />
               View Services

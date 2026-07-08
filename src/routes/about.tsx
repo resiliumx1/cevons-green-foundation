@@ -137,8 +137,8 @@ function AboutPage() {
         <div className="container-cevons">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Our Story</p>
-              <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Our Story</p>
+              <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))] leading-tight">
                 Supporting a Cleaner, Safer Guyana
               </h2>
               <p className="mt-5 text-[var(--cevons-muted,#64748B)] leading-relaxed text-base md:text-lg">
@@ -187,8 +187,8 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Mission, Vision, and Values">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">What Drives Us</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">What Drives Us</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               Mission, Vision & Values
             </h2>
           </div>
@@ -197,10 +197,10 @@ function AboutPage() {
             {mvvcards.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`card-glow flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-8 hover:-translate-y-1 motion-reduce:transform-none border-t-4 border-t-[#EF7700] ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`card-glow flex h-full flex-col rounded-2xl bg-white dark:bg-white/[0.04] p-8 hover:-translate-y-1 motion-reduce:transform-none border-t-4 border-t-[var(--brand-orange)] ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700] mb-5">
+                <span className="flex w-14 h-14 items-center justify-center rounded-xl bg-[var(--brand-orange)]/10 text-[var(--brand-orange)] mb-5">
                   <Icon className="size-7" />
                 </span>
                 <h3 className="text-2xl font-extrabold text-[#1A1A1A] dark:text-white">{title}</h3>
@@ -219,8 +219,8 @@ function AboutPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Standards</p>
-            <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Standards</p>
+            <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               Certified. Compliant. Committed.
             </h2>
             <p className="mt-4 text-[var(--cevons-muted,#64748B)]">
@@ -235,10 +235,10 @@ function AboutPage() {
                 className={`card-glow flex h-full flex-col rounded-xl bg-white dark:bg-white/[0.04] p-7 text-center hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
+                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))] mb-4">
                   <Icon className="size-7" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{title}</h3>
                 <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70 leading-relaxed">{body}</p>
               </div>
             ))}
@@ -250,7 +250,7 @@ function AboutPage() {
       <section className="relative bg-[var(--cevons-cream,#FBF7EE)] dark:bg-[#0b0b0b] section-y" aria-label="Company impact">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700] mb-3">By the Numbers</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)] mb-3">By the Numbers</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#1A1A1A] dark:text-white">
               Built on Decades of Trust
             </h2>
@@ -259,12 +259,12 @@ function AboutPage() {
             {stats.map(({ icon: Icon, value, label }, i) => (
               <li
                 key={label}
-                className="group relative overflow-hidden rounded-2xl bg-white dark:bg-white/[0.04] ring-1 ring-[#EF7700]/15 p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(239,119,0,0.45)] hover:shadow-[0_18px_40px_-15px_rgba(239,119,0,0.7)] hover:-translate-y-1 transition-all duration-300"
+                className="group relative overflow-hidden rounded-2xl bg-white dark:bg-white/[0.04] ring-1 ring-[var(--brand-orange)]/15 p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(239,119,0,0.45)] hover:shadow-[0_18px_40px_-15px_rgba(239,119,0,0.7)] hover:-translate-y-1 transition-all duration-300"
               >
-                <div aria-hidden className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EF7700] to-[#C45F00]" />
-                <div aria-hidden className="absolute -right-10 -bottom-10 size-32 rounded-full bg-[#EF7700]/5 group-hover:bg-[#EF7700]/10 transition-colors" />
+                <div aria-hidden className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--brand-orange)] to-[var(--brand-orange-dark)]" />
+                <div aria-hidden className="absolute -right-10 -bottom-10 size-32 rounded-full bg-[var(--brand-orange)]/5 group-hover:bg-[var(--brand-orange)]/10 transition-colors" />
                 <div className="relative">
-                  <span className="inline-flex size-11 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700]">
+                  <span className="inline-flex size-11 items-center justify-center rounded-xl bg-[var(--brand-orange)]/10 text-[var(--brand-orange)]">
                     <Icon className="size-5" />
                   </span>
                   <p className="mt-4 text-2xl md:text-3xl font-extrabold leading-tight text-[#1A1A1A] dark:text-white tracking-tight">
@@ -272,7 +272,7 @@ function AboutPage() {
                   </p>
                   <p className="mt-1.5 text-xs md:text-sm text-[#64748B] dark:text-white/70 font-medium">{label}</p>
                   {i === 0 && (
-                    <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[#EF7700]">
+                    <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--brand-orange)]">
                       {new Date().getFullYear() - 1997}+ Years
                     </span>
                   )}
@@ -288,8 +288,8 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Operations gallery">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Operations</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Operations</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               Our Fleet & Team
             </h2>
           </div>
@@ -313,7 +313,7 @@ function AboutPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{caption}</h3>
+                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{caption}</h3>
                   <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70">{sub}</p>
                 </div>
               </div>
@@ -333,12 +333,12 @@ function AboutPage() {
 
             <div className="relative grid md:grid-cols-2 gap-10 lg:gap-16 items-center p-8 sm:p-10 md:p-14">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="inline-flex items-center gap-2 rounded-full bg-[#EF7700]/10 ring-1 ring-[#EF7700]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#C45F00] mb-5">
+                <p className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)]/10 ring-1 ring-[var(--brand-orange)]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--brand-orange-dark)] mb-5">
                   <Leaf className="size-3.5" /> Responsibility
                 </p>
                 <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[#1A1A1A]">
                   Built for Impact.<br />
-                  <span className="text-[#EF7700]">Driven by Responsibility.</span>
+                  <span className="text-[var(--brand-orange)]">Driven by Responsibility.</span>
                 </h2>
                 <p className="mt-5 text-[#4B5563] leading-relaxed text-base md:text-lg max-w-lg">
                   Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.
@@ -346,7 +346,7 @@ function AboutPage() {
                 <div className="mt-7 flex flex-wrap gap-3">
                   <Link
                     to="/services"
-                    className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
+                    className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
                   >
                     <Recycle className="size-5" /> Work With CEVONS
                   </Link>
@@ -357,9 +357,9 @@ function AboutPage() {
                   { label: "Recycling Focus", value: "Materials recovery", icon: Recycle, tint: "#2E7D32" },
                   { label: "Safe Disposal", value: "Proper handling", icon: ShieldCheck, tint: "#1E66D0" },
                   { label: "Community Clean", value: "Local support", icon: Heart, tint: "#E53935" },
-                  { label: "Sustainable Ops", value: "Long-term care", icon: Leaf, tint: "#EF7700" },
+                  { label: "Sustainable Ops", value: "Long-term care", icon: Leaf, tint: "var(--brand-orange)" },
                 ].map((item) => (
-                  <div key={item.label} className="group relative rounded-xl bg-white border border-black/10 p-5 hover:border-[#EF7700]/50 hover:shadow-[0_10px_24px_-12px_rgba(26,26,26,0.18)] transition-all">
+                  <div key={item.label} className="group relative rounded-xl bg-white border border-black/10 p-5 hover:border-[var(--brand-orange)]/50 hover:shadow-[0_10px_24px_-12px_rgba(26,26,26,0.18)] transition-all">
                     <span
                       className="inline-flex size-10 items-center justify-center rounded-lg mb-3"
                       style={{ background: `${item.tint}1A`, color: item.tint }}
@@ -386,7 +386,7 @@ function AboutPage() {
       >
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.35)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.35)]"
         >
           Request Service <ArrowRight className="size-5" />
         </Link>
@@ -401,7 +401,7 @@ function AboutPage() {
 
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -410,8 +410,8 @@ function AboutPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
             </div>
           ))}
         </div>

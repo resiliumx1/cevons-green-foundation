@@ -21,7 +21,7 @@ import {
 import { NewsletterSignup } from "./NewsletterSignup";
 import { useT } from "@/contexts/SettingsContext";
 
-const BRAND_ORANGE = "#EF7700";
+const BRAND_ORANGE = "var(--brand-orange)";
 const BRAND_GREEN = "#2DA339";
 
 type FooterLink = { label: string; to: string };
@@ -142,7 +142,7 @@ export function Footer() {
         <div
           aria-hidden
           className="h-[3px] w-full"
-          style={{ background: "linear-gradient(90deg, transparent 0%, #EF7700 30%, #F5A300 50%, #EF7700 70%, transparent 100%)" }}
+          style={{ background: "linear-gradient(90deg, transparent 0%, var(--brand-orange) 30%, #F5A300 50%, var(--brand-orange) 70%, transparent 100%)" }}
         />
 
         {/* faint watermark C */}

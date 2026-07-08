@@ -85,7 +85,7 @@ export function NewsletterSignup({
                   <Mail className="size-6" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#EF7700]">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">
                     Stay Informed
                   </p>
                   <h3
@@ -120,13 +120,13 @@ export function NewsletterSignup({
                       placeholder="Enter your email address"
                       disabled={state === "loading"}
                       aria-label="Email address"
-                      className="w-full h-12 pl-9 pr-3 rounded-lg bg-white dark:bg-white/5 border border-cevons-deep-green/15 dark:border-white/15 text-cevons-dark dark:text-white placeholder:text-cevons-muted dark:placeholder:text-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#EF7700]"
+                      className="w-full h-12 pl-9 pr-3 rounded-lg bg-white dark:bg-white/5 border border-cevons-deep-green/15 dark:border-white/15 text-cevons-dark dark:text-white placeholder:text-cevons-muted dark:placeholder:text-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange)]"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={state === "loading"}
-                    className="h-12 px-6 rounded-lg bg-[#EF7700] text-white text-sm font-bold hover:brightness-110 transition disabled:opacity-60 inline-flex items-center justify-center gap-2"
+                    className="h-12 px-6 rounded-lg bg-[var(--brand-orange)] text-white text-sm font-bold hover:brightness-110 transition disabled:opacity-60 inline-flex items-center justify-center gap-2"
                   >
                     {state === "loading" ? <Loader2 className="size-4 animate-spin" /> : "Subscribe"}
                   </button>

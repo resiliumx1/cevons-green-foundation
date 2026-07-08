@@ -89,7 +89,7 @@ function FollowCard({ s, index }: { s: SocialLink; index: number }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Follow CEVONS on ${s.name}`}
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#EF7700] text-white text-sm font-bold px-4 py-2 hover:brightness-110 transition-all hover:gap-2 motion-reduce:hover:gap-1.5"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand-orange)] text-white text-sm font-bold px-4 py-2 hover:brightness-110 transition-all hover:gap-2 motion-reduce:hover:gap-1.5"
           >
             Follow <ArrowUpRight className="size-4" />
           </a>
@@ -215,7 +215,7 @@ function FallbackCard({ s }: { s: SocialLink }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Follow CEVONS on ${s.name}`}
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#EF7700] text-white text-sm font-bold px-5 py-2.5 hover:brightness-110 transition-all hover:gap-3 motion-reduce:hover:gap-2"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)] text-white text-sm font-bold px-5 py-2.5 hover:brightness-110 transition-all hover:gap-3 motion-reduce:hover:gap-2"
         >
           Visit {s.name} <ArrowUpRight className="size-4" />
         </a>
@@ -238,12 +238,12 @@ export function NewsroomSocialSection() {
     >
       <div className="container-cevons">
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700] mb-2">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)] mb-2">
             Stay Connected
           </p>
           <h2
             id="socials-heading"
-            className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] dark:text-white"
+            className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))] dark:text-white"
             style={{ fontFamily: "Playfair Display, serif" }}
           >
             Follow CEVONS
@@ -263,7 +263,7 @@ export function NewsroomSocialSection() {
 
         {/* Live previews */}
         <div className="mt-12 md:mt-16">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700] mb-4 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)] mb-4 text-center">
             From Our Socials
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">

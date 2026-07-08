@@ -152,8 +152,8 @@ function HomePage() {
       <section className="relative bg-cevons-deep-green overflow-hidden">
         <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
-            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="#EF7700" />
-            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="#C45F00" />
+            <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="var(--brand-orange)" />
+            <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="var(--brand-orange-dark)" />
             <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#1A1A1A" />
           </svg>
         </div>
@@ -226,7 +226,7 @@ function HomePage() {
             className="relative overflow-hidden rounded-[28px] px-6 py-14 md:px-16 md:py-20 text-center shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
             style={{
               background:
-                "linear-gradient(120deg, #C45F00 0%, #EF7700 55%, #EF7700 100%)",
+                "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
             }}
           >
             {/* Dot texture */}
@@ -281,7 +281,7 @@ function HomePage() {
                 </a>
                 <a
                   href="/request-service"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[#EF7700] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--brand-orange)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
                 >
                   {t("home.cta.quote")} <ArrowRight className="size-5" />
                 </a>
