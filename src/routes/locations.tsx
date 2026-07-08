@@ -238,7 +238,7 @@ function LocationsPage() {
                   to="/request-service"
                   className="mt-auto pt-6"
                 >
-                  <span className="flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#EF7700] px-4 text-sm font-bold text-[#1A1A1A] hover:bg-[#FF8A2A] transition-colors">
+                  <span className="flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#EF7700] px-4 text-sm font-bold text-[#1A1A1A] hover:bg-[#C45F00] hover:text-white transition-colors">
                     Request Service in {r.name}
                     <ArrowRight className="w-4 h-4" />
                   </span>

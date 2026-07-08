@@ -261,7 +261,7 @@ function AboutPage() {
                 key={label}
                 className="group relative overflow-hidden rounded-2xl bg-white dark:bg-white/[0.04] ring-1 ring-[#EF7700]/15 p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(239,119,0,0.45)] hover:shadow-[0_18px_40px_-15px_rgba(239,119,0,0.7)] hover:-translate-y-1 transition-all duration-300"
               >
-                <div aria-hidden className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EF7700] to-[#FF8A2A]" />
+                <div aria-hidden className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EF7700] to-[#C45F00]" />
                 <div aria-hidden className="absolute -right-10 -bottom-10 size-32 rounded-full bg-[#EF7700]/5 group-hover:bg-[#EF7700]/10 transition-colors" />
                 <div className="relative">
                   <span className="inline-flex size-11 items-center justify-center rounded-xl bg-[#EF7700]/10 text-[#EF7700]">
@@ -346,7 +346,7 @@ function AboutPage() {
                 <div className="mt-7 flex flex-wrap gap-3">
                   <Link
                     to="/services"
-                    className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#FF8A2A] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
+                    className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
                   >
                     <Recycle className="size-5" /> Work With CEVONS
                   </Link>
