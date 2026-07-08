@@ -28,7 +28,7 @@ export function HomeHero() {
       style={{
         minHeight: "calc(100vh - 73px)",
         paddingBottom: "0px",
-        ["--cevons-green" as any]: "#EF7700",
+        ["--cevons-green" as any]: "var(--brand-orange)",
         ["--cevons-deep-green" as any]: "#1A1A1A",
         ["--cevons-yellow" as any]: "#FCE722",
       }}

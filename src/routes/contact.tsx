@@ -138,17 +138,17 @@ function ContactPage() {
                 key={title}
                 className={`rounded-2xl bg-white border p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                   primary
-                    ? "border-[var(--cevons-deep-green,#EF7700)]/20 ring-1 ring-[var(--cevons-deep-green,#EF7700)]/10"
-                    : "border-[var(--cevons-deep-green,#EF7700)]/10"
+                    ? "border-[var(--cevons-deep-green,var(--brand-orange))]/20 ring-1 ring-[var(--cevons-deep-green,var(--brand-orange))]/10"
+                    : "border-[var(--cevons-deep-green,var(--brand-orange))]/10"
                 } ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <span className={`flex w-12 h-12 items-center justify-center rounded-xl mb-4 ${
-                  primary ? "bg-[var(--cevons-deep-green,#EF7700)] text-white" : "bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]"
+                  primary ? "bg-[var(--cevons-deep-green,var(--brand-orange))] text-white" : "bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))]"
                 }`}>
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{title}</h3>
                 <p className="mt-1.5 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
                 <a
                   href={href}
@@ -156,8 +156,8 @@ function ContactPage() {
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className={`mt-5 inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2.5 text-sm transition-colors w-full ${
                     primary
-                      ? "bg-[var(--cevons-deep-green,#EF7700)] text-white hover:bg-[var(--cevons-deep-green,#EF7700)]/90"
-                      : "border-2 border-[var(--cevons-deep-green,#EF7700)] text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)] hover:text-white"
+                      ? "bg-[var(--cevons-deep-green,var(--brand-orange))] text-white hover:bg-[var(--cevons-deep-green,var(--brand-orange))]/90"
+                      : "border-2 border-[var(--cevons-deep-green,var(--brand-orange))] text-[var(--cevons-deep-green,var(--brand-orange))] hover:bg-[var(--cevons-deep-green,var(--brand-orange))] hover:text-white"
                   }`}
                 >
                   {action} <ArrowRight className="size-4" />
@@ -175,8 +175,8 @@ function ContactPage() {
             {/* FORM */}
             <div className="lg:col-span-3">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Message</p>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Message</p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
                   Send Us a Message
                 </h2>
               </div>
@@ -190,8 +190,8 @@ function ContactPage() {
             {/* BRANCH INFO */}
             <aside className="lg:col-span-2">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Offices</p>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Offices</p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
                   Our Branches
                 </h2>
               </div>
@@ -200,38 +200,38 @@ function ContactPage() {
                 {branches.map((b, i) => (
                   <div
                     key={b.name}
-                    className={`rounded-xl bg-[var(--cevons-cream,#FBF7EE)] border border-[var(--cevons-deep-green,#EF7700)]/10 p-6 transition-all duration-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                    className={`rounded-xl bg-[var(--cevons-cream,#FBF7EE)] border border-[var(--cevons-deep-green,var(--brand-orange))]/10 p-6 transition-all duration-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                     style={{ transitionDelay: `${200 + i * 80}ms` }}
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="flex w-10 h-10 items-center justify-center rounded-lg bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]">
+                      <span className="flex w-10 h-10 items-center justify-center rounded-lg bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))]">
                         <MapPin className="size-5" />
                       </span>
                       <div>
-                        <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{b.name}</h3>
+                        <h3 className="text-base font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{b.name}</h3>
                         <span className="text-xs font-semibold uppercase tracking-wide text-[#B58900]">{b.label}</span>
                       </div>
                     </div>
                     <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
-                      <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{b.address}</li>
-                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
+                      <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,var(--brand-orange))]" />{b.address}</li>
+                      <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,var(--brand-orange))]" />
                         <span className="flex flex-wrap gap-x-2 gap-y-0.5">
                           {b.phones.map((p) => (
-                            <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{p}</a>
+                            <a key={p} href={telHref(p)} className="hover:text-[var(--cevons-deep-green,var(--brand-orange))] hover:underline">{p}</a>
                           ))}
                         </span>
                       </li>
-                      <li className="flex gap-2"><Mail className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
-                        <a href={mailtoHref(b.email)} className="hover:text-[var(--cevons-deep-green,#EF7700)] hover:underline">{b.email}</a>
+                      <li className="flex gap-2"><Mail className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,var(--brand-orange))]" />
+                        <a href={mailtoHref(b.email)} className="hover:text-[var(--cevons-deep-green,var(--brand-orange))] hover:underline">{b.email}</a>
                       </li>
-                      <li className="flex gap-2"><Clock3 className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{b.hours}</li>
+                      <li className="flex gap-2"><Clock3 className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,var(--brand-orange))]" />{b.hours}</li>
                     </ul>
                   </div>
                 ))}
               </div>
 
               {/* INTERACTIVE MAP */}
-              <div className={`mt-6 rounded-2xl overflow-hidden border border-[var(--cevons-deep-green,#EF7700)]/10 bg-[var(--cevons-cream,#FBF7EE)] relative transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ transitionDelay: "500ms" }}>
+              <div className={`mt-6 rounded-2xl overflow-hidden border border-[var(--cevons-deep-green,var(--brand-orange))]/10 bg-[var(--cevons-cream,#FBF7EE)] relative transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ transitionDelay: "500ms" }}>
                 <div className="aspect-[4/3] relative">
                   <GuyanaBranchMap branches={mapBranches} className="absolute inset-0 size-full" />
                 </div>
@@ -251,7 +251,7 @@ function ContactPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(120deg, #C45F00 0%, #EF7700 55%, #EF7700 100%)",
+                  "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
               }}
             />
             <div
@@ -310,14 +310,14 @@ function ContactPage() {
 
               {/* RIGHT: action card */}
               <div className="relative rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700]">Talk to us now</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">Talk to us now</p>
 
                 <a
                   href={primaryTelHref}
-                  className="mt-2 flex items-center gap-3 text-[#1A1A1A] hover:text-[#EF7700] transition-colors group"
+                  className="mt-2 flex items-center gap-3 text-[#1A1A1A] hover:text-[var(--brand-orange)] transition-colors group"
                 >
-                  <Phone className="size-6 text-[#EF7700] shrink-0" />
-                  <span className="text-2xl sm:text-3xl font-extrabold tracking-tight group-hover:underline underline-offset-4 decoration-[#EF7700]/40">
+                  <Phone className="size-6 text-[var(--brand-orange)] shrink-0" />
+                  <span className="text-2xl sm:text-3xl font-extrabold tracking-tight group-hover:underline underline-offset-4 decoration-[var(--brand-orange)]/40">
                     {cevonsContact.primaryPhone}
                   </span>
                 </a>
@@ -337,7 +337,7 @@ function ContactPage() {
                   </a>
                   <a
                     href={primaryMailtoHref}
-                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl border-2 border-[#EF7700] text-[#EF7700] font-bold hover:bg-[#EF7700] hover:text-white transition"
+                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl border-2 border-[var(--brand-orange)] text-[var(--brand-orange)] font-bold hover:bg-[var(--brand-orange)] hover:text-white transition"
                   >
                     <Mail className="size-5" /> Email
                   </a>
@@ -350,7 +350,7 @@ function ContactPage() {
 
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -359,8 +359,8 @@ function ContactPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
             </div>
           ))}
         </div>

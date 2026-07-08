@@ -58,7 +58,7 @@ export function OrangeCTABanner({
           className="relative overflow-hidden rounded-[28px] shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
           style={{
             background:
-              "linear-gradient(120deg, #C45F00 0%, #EF7700 55%, #EF7700 100%)",
+              "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
           }}
         >
           {/* Texture */}
@@ -97,7 +97,7 @@ export function OrangeCTABanner({
 
             {/* RIGHT: frosted action card */}
             <div className="relative rounded-2xl bg-white/95 dark:bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#EF7700]">Get Started</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">Get Started</p>
               <p className="mt-1 text-sm text-[#64748B]">Choose how you'd like to reach us.</p>
               <div className="mt-5 flex flex-col gap-3">
                 {children}

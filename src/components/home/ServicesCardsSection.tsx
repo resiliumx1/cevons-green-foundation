@@ -29,7 +29,7 @@ export function ServicesCardsSection() {
       <div className="container-cevons">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#EF7700] mb-3">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)] mb-3">
               {t("home.services.eyebrow")}
             </p>
             <h2
@@ -42,7 +42,7 @@ export function ServicesCardsSection() {
           </div>
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#EF7700] hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--brand-orange)] hover:gap-3 transition-all"
           >
             {t("home.services.viewAll")} <ArrowRight className="size-4" />
           </Link>

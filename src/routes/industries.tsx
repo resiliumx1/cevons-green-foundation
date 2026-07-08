@@ -184,8 +184,8 @@ function IndustriesPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Sectors</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Sectors</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               Trusted Across Key Industries
             </h2>
           </div>
@@ -194,7 +194,7 @@ function IndustriesPage() {
             {industries.map(({ title, description, icon: Icon, img, alt }, i) => (
               <article
                 key={title}
-                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,var(--brand-orange))]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,var(--brand-orange))]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
@@ -208,10 +208,10 @@ function IndustriesPage() {
                   />
                 </div>
                 <div className="relative p-6 pt-9">
-                  <span className="absolute -top-6 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,#EF7700)] text-white border-4 border-white flex items-center justify-center shadow-soft">
+                  <span className="absolute -top-6 left-5 size-12 rounded-full bg-[var(--cevons-deep-green,var(--brand-orange))] text-white border-4 border-white flex items-center justify-center shadow-soft">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
-                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
+                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{title}</h3>
                   <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{description}</p>
                 </div>
               </article>
@@ -225,7 +225,7 @@ function IndustriesPage() {
         className="section-y relative overflow-hidden text-white"
         style={{
           background:
-            "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 55%, #C45F00 100%)",
+            "radial-gradient(120% 100% at 0% 0%, var(--brand-orange) 0%, var(--brand-orange) 55%, var(--brand-orange-dark) 100%)",
         }}
         aria-labelledby="solutions-heading"
       >
@@ -267,14 +267,14 @@ function IndustriesPage() {
                 className={`relative rounded-2xl bg-[#FBF7EE] dark:bg-[#1A1A1A] p-7 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${200 + i * 70}ms` }}
               >
-                <span className="absolute top-6 right-6 font-display text-3xl md:text-4xl font-bold text-[#EF7700]/25 select-none">
+                <span className="absolute top-6 right-6 font-display text-3xl md:text-4xl font-bold text-[var(--brand-orange)]/25 select-none">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="flex w-12 h-12 items-center justify-center rounded-full bg-[#EF7700]/15 text-[#EF7700] mb-5">
+                <span className="flex w-12 h-12 items-center justify-center rounded-full bg-[var(--brand-orange)]/15 text-[var(--brand-orange)] mb-5">
                   <Icon className="size-6" />
                 </span>
                 <h3 className="font-display text-xl font-bold text-[#1A1A1A] dark:text-white">{title}</h3>
-                <span aria-hidden className="block mt-2 h-[3px] w-10 rounded-full bg-[#EF7700]" />
+                <span aria-hidden className="block mt-2 h-[3px] w-10 rounded-full bg-[var(--brand-orange)]" />
                 <p className="mt-4 text-sm text-[#4B5563] dark:text-white/75 leading-relaxed">{body}</p>
               </div>
             ))}
@@ -286,8 +286,8 @@ function IndustriesPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-labelledby="why-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVONS</p>
-            <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Why CEVONS</p>
+            <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               Why Businesses Choose CEVONS
             </h2>
           </div>
@@ -296,13 +296,13 @@ function IndustriesPage() {
             {whyChoose.map(({ icon: Icon, title, body }, i) => (
               <div
                 key={title}
-                className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,var(--brand-orange))]/10 p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${300 + i * 80}ms` }}
               >
-                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
+                <span className="flex w-12 h-12 items-center justify-center rounded-xl bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))] mb-4">
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{title}</h3>
                 <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
               </div>
             ))}
@@ -320,7 +320,7 @@ function IndustriesPage() {
       >
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#EF7700] text-white font-bold hover:bg-[#C45F00] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
         >
           <Users className="size-5" /> Request a Consultation <ArrowRight className="size-5" />
         </Link>
@@ -333,7 +333,7 @@ function IndustriesPage() {
       </OrangeCTABanner>
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -342,8 +342,8 @@ function IndustriesPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
             </div>
           ))}
         </div>

@@ -131,7 +131,7 @@ const categoryOverview: {
     icon: Home,
     blurb: "Reliable, neighbourly waste solutions for households across Guyana.",
     items: residential.map((s) => s.title),
-    accent: "from-[#EF7700] to-[#1A1A1A]",
+    accent: "from-[var(--brand-orange)] to-[#1A1A1A]",
   },
   {
     key: "commercial",
@@ -140,7 +140,7 @@ const categoryOverview: {
     icon: Building2,
     blurb: "Scheduled collection and sanitation for offices, retail, and institutions.",
     items: commercial.map((s) => s.title),
-    accent: "from-[#EF7700] to-[#C45F00]",
+    accent: "from-[var(--brand-orange)] to-[var(--brand-orange-dark)]",
   },
   {
     key: "industrial",
@@ -367,7 +367,7 @@ function ServicesPage() {
                   key={key}
                   className={`relative overflow-hidden rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
                     isYellow
-                      ? "bg-gradient-to-br from-[#EF7700] to-[#C45F00] text-white border-[#C45F00]"
+                      ? "bg-gradient-to-br from-[var(--brand-orange)] to-[var(--brand-orange-dark)] text-white border-[var(--brand-orange-dark)]"
                       : `bg-gradient-to-br ${accent} text-white border-white/10`
                   }`}
                 >
@@ -573,7 +573,7 @@ function ServicesPage() {
       >
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#EF7700] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--brand-orange)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
         >
           <ClipboardList className="size-5" /> Request a Service
         </Link>

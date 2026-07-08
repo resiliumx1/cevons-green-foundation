@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, FileText, Home, Map, Newspaper, Phone, Recycle, Truck } from "lucide-react";
 import { useT } from "@/contexts/SettingsContext";
 
-const BRAND_ORANGE = "#EF7700";
+const BRAND_ORANGE = "var(--brand-orange)";
 
 export const Route = createFileRoute("/sitemap")({
   head: () => ({

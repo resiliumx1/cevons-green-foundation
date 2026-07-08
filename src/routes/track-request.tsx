@@ -136,7 +136,7 @@ function TrackRequestPage() {
                   placeholder="e.g. CEV-2026-AB3K9"
                   value={refInput}
                   onChange={(e) => setRefInput(e.target.value.toUpperCase())}
-                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[#EF7700] font-mono"
+                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[var(--brand-orange)] font-mono"
                   required
                 />
               </div>
@@ -147,7 +147,7 @@ function TrackRequestPage() {
                   placeholder="Email or phone used on your request"
                   value={contactInput}
                   onChange={(e) => setContactInput(e.target.value)}
-                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[#EF7700]"
+                  className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[var(--brand-orange)]"
                   required
                 />
                 <p className="mt-1.5 text-xs text-[var(--cevons-muted)]">
@@ -225,7 +225,7 @@ function TrackRequestPage() {
         </a>
         <a
           href="tel:+5922181455"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#EF7700] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--brand-orange)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
         >
           <Phone className="size-5" /> Call +592 218 1455
         </a>
@@ -241,7 +241,7 @@ function TrackRequestPage() {
               { icon: Phone, label: "24/7 Support" },
             ].map((item) => (
               <div key={item.label} className="flex items-center gap-2 text-sm text-[var(--cevons-muted)]">
-                <item.icon className="size-4 text-[#EF7700]" />
+                <item.icon className="size-4 text-[var(--brand-orange)]" />
                 <span className="font-medium">{item.label}</span>
               </div>
             ))}
@@ -271,7 +271,7 @@ function ResultView({ result }: { result: TrackResult }) {
     ? "bg-[#E31B23]/10 text-[#E31B23]"
     : request.status === "won"
     ? "bg-emerald-600 text-white"
-    : "bg-[#EF7700] text-white";
+    : "bg-[var(--brand-orange)] text-white";
 
   return (
     <section className="bg-[var(--cevons-cream)] border-t border-[var(--cevons-border)]">
@@ -331,14 +331,14 @@ function ResultView({ result }: { result: TrackResult }) {
                       <div className="relative z-10 shrink-0">
                         <div className={cn(
                           "size-10 rounded-full flex items-center justify-center border-2 transition-colors",
-                          isCompleted && "bg-[#EF7700] border-[#EF7700] text-white",
-                          isActive && "bg-[#EF7700] border-[#EF7700] text-white",
+                          isCompleted && "bg-[var(--brand-orange)] border-[var(--brand-orange)] text-white",
+                          isActive && "bg-[var(--brand-orange)] border-[var(--brand-orange)] text-white",
                           isFuture && "bg-white border-[var(--cevons-border)] text-[var(--cevons-muted)]",
                         )}>
                           {isCompleted ? <Check className="size-5" /> : <Icon className="size-5" />}
                         </div>
                         {isActive && (
-                          <span className="absolute inset-0 rounded-full bg-[#EF7700] opacity-30 animate-ping" />
+                          <span className="absolute inset-0 rounded-full bg-[var(--brand-orange)] opacity-30 animate-ping" />
                         )}
                       </div>
                       <div className="flex-1 pt-1">
@@ -348,7 +348,7 @@ function ResultView({ result }: { result: TrackResult }) {
                             (isCompleted || isActive) ? "text-[var(--cevons-dark)]" : "text-[var(--cevons-muted)]"
                           )}>
                             {stage.label}
-                            {isActive && <span className="ml-2 text-xs font-bold uppercase text-[#EF7700]">Current</span>}
+                            {isActive && <span className="ml-2 text-xs font-bold uppercase text-[var(--brand-orange)]">Current</span>}
                           </span>
                           {ts && (
                             <span className="text-xs text-[var(--cevons-muted)] font-medium">{formatDateTime(ts)}</span>
@@ -371,7 +371,7 @@ function DetailTile({ icon: Icon, label, value }: { icon: any; label: string; va
   return (
     <div className="rounded-xl border border-[var(--cevons-border)] bg-[var(--cevons-cream)] p-4">
       <div className="flex items-center gap-2 text-[var(--cevons-muted)] mb-1">
-        <Icon className="size-4 text-[#EF7700]" />
+        <Icon className="size-4 text-[var(--brand-orange)]" />
         <span className="text-xs font-semibold uppercase tracking-wider">{label}</span>
       </div>
       <p className="text-sm font-semibold text-[var(--cevons-dark)] leading-snug">{value}</p>

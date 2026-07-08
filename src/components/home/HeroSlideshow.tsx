@@ -299,7 +299,7 @@ export function HeroSlideshowControls({ className = "" }: { className?: string }
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               aria-current={isActive ? "true" : undefined}
-              className="group relative h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EF7700] focus-visible:ring-offset-2 focus-visible:ring-offset-black overflow-hidden"
+              className="group relative h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)] focus-visible:ring-offset-2 focus-visible:ring-offset-black overflow-hidden"
               style={{ width: isActive ? 40 : 12, background: "rgba(255,255,255,0.32)" }}
             >
               {isActive && (
@@ -308,7 +308,7 @@ export function HeroSlideshowControls({ className = "" }: { className?: string }
                   className="absolute inset-y-0 left-0"
                   style={{
                     width: `${(reduced ? 1 : progress) * 100}%`,
-                    background: "#EF7700",
+                    background: "var(--brand-orange)",
                     transition: reduced ? "none" : "width 80ms linear",
                     boxShadow: "0 0 8px rgba(239,119,0,0.55)",
                   }}

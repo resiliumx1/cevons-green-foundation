@@ -91,7 +91,7 @@ export function HeroPartnerCarousel() {
           style={{
             width: 72,
             height: 3,
-            background: "#EF7700",
+            background: "var(--brand-orange)",
             borderRadius: 999,
             margin: "8px auto 14px",
           }}
@@ -102,7 +102,7 @@ export function HeroPartnerCarousel() {
             type="button"
             aria-label="Previous partners"
             onClick={() => page(-1)}
-            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[#EF7700] transition shadow-sm"
+            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[var(--brand-orange)] transition shadow-sm"
           >
             <ChevronLeft className="size-4" />
           </button>
@@ -141,7 +141,7 @@ export function HeroPartnerCarousel() {
             type="button"
             aria-label="Next partners"
             onClick={() => page(1)}
-            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[#EF7700] transition shadow-sm"
+            className="shrink-0 grid place-items-center size-9 rounded-full bg-[#1F2937] text-white hover:bg-[var(--brand-orange)] transition shadow-sm"
           >
             <ChevronRight className="size-4" />
           </button>
@@ -151,7 +151,7 @@ export function HeroPartnerCarousel() {
         <div className="mt-3 h-[3px] w-full bg-black/10 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-[width] duration-150"
-            style={{ width: `${Math.max(8, progress)}%`, background: "#EF7700" }}
+            style={{ width: `${Math.max(8, progress)}%`, background: "var(--brand-orange)" }}
           />
         </div>
       </div>

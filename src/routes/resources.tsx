@@ -165,7 +165,7 @@ function ResourcesPage() {
       </section>
 
       {/* CATEGORY FILTERS */}
-      <section aria-label="Filter articles by category" className="border-b border-[var(--cevons-deep-green,#EF7700)]/10 bg-white sticky top-[72px] z-30">
+      <section aria-label="Filter articles by category" className="border-b border-[var(--cevons-deep-green,var(--brand-orange))]/10 bg-white sticky top-[72px] z-30">
         <div className="container-cevons py-4 flex flex-wrap gap-2">
           {categories.map((c) => {
             const isActive = active === c;
@@ -175,10 +175,10 @@ function ResourcesPage() {
                 type="button"
                 onClick={() => setActive(c)}
                 aria-pressed={isActive}
-                className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green,#EF7700)] focus-visible:ring-offset-2 ${
+                className={`px-4 md:px-5 py-2 rounded-full text-sm font-semibold border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green,var(--brand-orange))] focus-visible:ring-offset-2 ${
                   isActive
-                    ? "bg-[var(--cevons-deep-green,#EF7700)] text-white border-[var(--cevons-deep-green,#EF7700)] shadow-soft"
-                    : "bg-white text-[var(--cevons-dark,#101820)] border-[var(--cevons-border,#E5E7EB)] hover:border-[var(--cevons-deep-green,#EF7700)] hover:text-[var(--cevons-deep-green,#EF7700)]"
+                    ? "bg-[var(--cevons-deep-green,var(--brand-orange))] text-white border-[var(--cevons-deep-green,var(--brand-orange))] shadow-soft"
+                    : "bg-white text-[var(--cevons-dark,#101820)] border-[var(--cevons-border,#E5E7EB)] hover:border-[var(--cevons-deep-green,var(--brand-orange))] hover:text-[var(--cevons-deep-green,var(--brand-orange))]"
                 }`}
               >
                 {c}
@@ -192,11 +192,11 @@ function ResourcesPage() {
       {featured && (active === "All" || active === featured.category) && (
         <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Featured article">
           <div className="container-cevons">
-            <p className={`text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-5 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
+            <p className={`text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-5 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
               Featured
             </p>
             <article
-              className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid md:grid-cols-2 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+              className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,var(--brand-orange))]/10 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid md:grid-cols-2 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             >
               <div className="relative aspect-[16/10] md:aspect-auto overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
                 <img
@@ -217,7 +217,7 @@ function ResourcesPage() {
                     <Calendar className="size-3" /> {featured.date}
                   </span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))] leading-tight">
                   {featured.title}
                 </h2>
                 <p className="mt-3 text-[var(--cevons-muted,#64748B)] leading-relaxed">
@@ -238,8 +238,8 @@ function ResourcesPage() {
       <section className="section-y bg-white" aria-label="All articles">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Articles</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Articles</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
               {active === "All" ? "Latest Insights" : `${active} Articles`}
             </h2>
           </div>
@@ -248,7 +248,7 @@ function ResourcesPage() {
             {gridArticles.map(({ title, excerpt, category, date, img, alt }, i) => (
               <article
                 key={title}
-                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,var(--brand-orange))]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,var(--brand-orange))]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
@@ -268,7 +268,7 @@ function ResourcesPage() {
                   <div className="flex items-center gap-1.5 text-xs text-[var(--cevons-muted,#64748B)] mb-2">
                     <Calendar className="size-3" /> {date}
                   </div>
-                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)] leading-snug">{title}</h3>
+                  <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))] leading-snug">{title}</h3>
                   <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{excerpt}</p>
                   <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--cevons-muted,#64748B)]">
                     Coming soon <ArrowRight className="size-4 opacity-60" />
@@ -293,7 +293,7 @@ function ResourcesPage() {
             className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
             style={{
               background:
-                "radial-gradient(120% 100% at 0% 0%, #EF7700 0%, #EF7700 60%, #C45F00 100%)",
+                "radial-gradient(120% 100% at 0% 0%, var(--brand-orange) 0%, var(--brand-orange) 60%, var(--brand-orange-dark) 100%)",
             }}
           >
             <div
@@ -335,7 +335,7 @@ function ResourcesPage() {
       </section>
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -344,8 +344,8 @@ function ResourcesPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
             </div>
           ))}
         </div>
@@ -358,12 +358,12 @@ function ResourcesPage() {
       />
 
       {/* NEWSROOM CTA */}
-      <section className="bg-white py-16 md:py-20 border-t border-[var(--cevons-deep-green,#EF7700)]/10">
+      <section className="bg-white py-16 md:py-20 border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
         <div className="container-cevons">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/10 bg-[var(--cevons-cream,#FBF7EE)] p-8 md:p-10">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-[var(--cevons-deep-green,var(--brand-orange))]/10 bg-[var(--cevons-cream,#FBF7EE)] p-8 md:p-10">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">Press & Milestones</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">Visit the CEVONS Newsroom</h3>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-2">Press & Milestones</p>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">Visit the CEVONS Newsroom</h3>
               <p className="mt-2 text-[var(--cevons-muted,#64748B)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
             </div>
             <Link
