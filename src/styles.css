@@ -58,10 +58,10 @@
      repointed to orange so existing utility classes (bg-cevons-green,
      btn-green, etc.) cascade to the new brand color. The hero scopes
      its own override to preserve its original green color treatment. */
-  --cevons-green: #EF7700;          /* now Cevons Orange (dominant accent / CTA) */
+  --cevons-green: var(--brand-orange);          /* now Cevons Orange (dominant accent / CTA) */
   --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
-  --cevons-yellow: #EF7700;         /* sweep: yellow accent → orange */
-  --cevons-red: #EF7700;            /* sweep: red decoration → orange */
+  --cevons-yellow: var(--brand-orange);         /* sweep: yellow accent → orange */
+  --cevons-red: var(--brand-orange);            /* sweep: red decoration → orange */
   --cevons-dark: #1A1A1A;           /* charcoal */
   --cevons-cream: #FFFFFF;
   --cevons-border: #D9D9D9;
@@ -75,8 +75,8 @@
   --brand-dark-grey: #4A4A4A;
   --brand-light-grey: #D9D9D9;
   --brand-accent-green: #2DA339;    /* small accent only */
-  --brand-accent-yellow: #EF7700;
-  --brand-accent-red: #EF7700;
+  --brand-accent-yellow: var(--brand-orange);
+  --brand-accent-red: var(--brand-orange);
 
   /* shadcn semantic tokens — orange primary, charcoal text on orange */
   --background: #FFFFFF;
@@ -85,19 +85,19 @@
   --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
   --popover-foreground: #1A1A1A;
-  --primary: #EF7700;
+  --primary: var(--brand-orange);
   --primary-foreground: #1A1A1A;
   --secondary: #FFFFFF;
   --secondary-foreground: #1A1A1A;
   --muted: #F3F4F6;
   --muted-foreground: #4A4A4A;
-  --accent: #EF7700;
+  --accent: var(--brand-orange);
   --accent-foreground: #1A1A1A;
   --destructive: #D42229;
   --destructive-foreground: #FFFFFF;
   --border: #D9D9D9;
   --input: #D9D9D9;
-  --ring: #EF7700;
+  --ring: var(--brand-orange);
 }
 
 @layer base {
@@ -1285,7 +1285,7 @@
 
 .hero-cta--schedule {
   color: #1A1A1A;
-  background: linear-gradient(135deg, #EF7700 0%, #C45F00 100%);
+  background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%);
   box-shadow: 0 10px 28px -10px rgba(239, 119, 0, 0.55), 0 2px 6px rgba(0,0,0,0.18);
 }
 .hero-cta--schedule:hover {
@@ -1379,8 +1379,8 @@
 .conveyor-band + .conveyor-band {
   margin-top: -6px;
 }
-.conveyor-band--orange { background: #EF7700; }
-.conveyor-band--charcoal { background: #EF7700; color: #1A1A1A; }
+.conveyor-band--orange { background: var(--brand-orange); }
+.conveyor-band--charcoal { background: var(--brand-orange); color: #1A1A1A; }
 
 .conveyor-band__inner {
   transform: skewY(2.4deg); /* counter-skew so content sits level */
@@ -1480,7 +1480,7 @@
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  background: #EF7700;
+  background: var(--brand-orange);
   color: #1A1A1A;
   display: inline-flex;
   align-items: center;
@@ -1657,8 +1657,8 @@
   opacity: var(--wave-ribbon-opacity, 1);
 }
 .wave-divider__ribbon--green path { fill: #006B35; }
-.wave-divider__ribbon--gold  path { fill: #EF7700; }
-.wave-divider__ribbon--red   path { fill: #C45F00; }
+.wave-divider__ribbon--gold  path { fill: var(--brand-orange); }
+.wave-divider__ribbon--red   path { fill: var(--brand-orange-dark); }
 
 .wave-divider__ribbon--green {
   animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
@@ -1768,7 +1768,7 @@
 
 /* =========================================================================
    Brand Guideline alignment overrides
-   - Orange (#EF7700) is the dominant brand color.
+   - Orange (var(--brand-orange)) is the dominant brand color.
    - White text fails AA on orange — force charcoal on orange surfaces.
    - Hero is excluded ([data-hero-scope]) so its original green color
      treatment is preserved per Step 4 of the brand alignment pass.
@@ -1788,8 +1788,8 @@
 }
 
 /* Hardcoded brand-orange backgrounds in components — same guard. */
-:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[#EF7700]"],
-[class*="bg-[#EF7700]"]:not([data-hero-scope] *) {
+:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[var(--brand-orange)]"],
+[class*="bg-[var(--brand-orange)]"]:not([data-hero-scope] *) {
   color: var(--brand-charcoal) !important;
 }
 
@@ -1854,19 +1854,19 @@ html.dark {
   --card-foreground: var(--text-strong);
   --popover: var(--surface-2);
   --popover-foreground: var(--text-strong);
-  --primary: #EF7700;
+  --primary: var(--brand-orange);
   --primary-foreground: #1A1A1A;
   --secondary: var(--surface-3);
   --secondary-foreground: var(--text-strong);
   --muted: var(--surface-1);
   --muted-foreground: var(--text-muted);
-  --accent: #EF7700;
+  --accent: var(--brand-orange);
   --accent-foreground: #1A1A1A;
   --destructive: #FF5C61;
   --destructive-foreground: #1A1A1A;
   --border: var(--hairline);
   --input: var(--hairline);
-  --ring: #EF7700;
+  --ring: var(--brand-orange);
 
   /* Brand utility-token remap so existing classes cascade */
   --cevons-cream: var(--surface-1);
@@ -1926,9 +1926,9 @@ html.dark .text-cevons-muted { color: var(--text-muted); }
 html.dark [class*="text-[var(--cevons-deep-green"],
 html.dark [class*="text-[var(--cevons-dark"] { color: var(--text-strong) !important; }
 html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
-html.dark [class*="text-[var(--cevons-green"] { color: #EF7700 !important; }
+html.dark [class*="text-[var(--cevons-green"] { color: var(--brand-orange) !important; }
 html.dark svg[class*="text-[var(--cevons-deep-green"],
-html.dark svg[class*="text-[var(--cevons-dark"] { color: #EF7700 !important; }
+html.dark svg[class*="text-[var(--cevons-dark"] { color: var(--brand-orange) !important; }
 
 /* Hardcoded charcoal hex text classes */
 html.dark [class*="text-[#1A1A1A]"],
@@ -1937,7 +1937,7 @@ html.dark [class*="text-[#1a1a1a]"] { color: var(--text-strong) !important; }
 html.dark [class*="text-[#4B5563]"] { color: var(--text-muted) !important; }
 html.dark svg[class*="text-[#1A1A1A]"],
 html.dark svg[class*="text-[#101820]"],
-html.dark svg[class*="text-[#1a1a1a]"] { color: #EF7700 !important; }
+html.dark svg[class*="text-[#1a1a1a]"] { color: var(--brand-orange) !important; }
 
 /* ===========================================================================
    Carousels / marquees are dark-mode-immune — always render light appearance.
@@ -2078,7 +2078,7 @@ html.dark textarea::placeholder { color: var(--text-faint); }
 html.dark input:focus,
 html.dark textarea:focus,
 html.dark select:focus {
-  border-color: #EF7700;
+  border-color: var(--brand-orange);
   outline: 2px solid rgba(239,119,0,0.35);
   outline-offset: 0;
 }
@@ -2090,8 +2090,8 @@ html.dark .btn-outline-green {
 }
 html.dark .btn-outline-green:hover {
   background-color: var(--surface-3);
-  border-color: #EF7700;
-  color: #EF7700;
+  border-color: var(--brand-orange);
+  color: var(--brand-orange);
 }
 
 /* Header tweak: when sticky white header lands on dark page, keep dark surface */
@@ -2130,7 +2130,7 @@ html.dark .logo-chip { background-color: #F5F4F1; border: 1px solid var(--hairli
 html.dark .text-\[var\(--cevons-deep-green\)\],
 html.dark .text-\[var\(--cevons-dark\)\] { color: var(--text-strong); }
 html.dark .text-\[var\(--cevons-muted\)\] { color: var(--text-muted); }
-html.dark .text-\[var\(--cevons-green\)\] { color: #EF7700; }
+html.dark .text-\[var\(--cevons-green\)\] { color: var(--brand-orange); }
 html.dark .bg-\[var\(--cevons-cream\)\] { background-color: var(--surface-2); }
 html.dark .bg-\[var\(--cevons-deep-green\)\] { background-color: var(--surface-1); }
 html.dark .border-\[var\(--cevons-border\)\] { border-color: var(--hairline); }
@@ -2146,22 +2146,22 @@ html.dark .bg-cevons-yellow .text-cevons-yellow { color: #FCE722 !important; }
    don't blend with the page surface. */
 html.dark .sticky.bg-white\/95 { background-color: rgba(20,17,14,0.92) !important; border-bottom-color: var(--hairline) !important; }
 html.dark .sticky.bg-white\/95 .bg-\[var\(--cevons-cream\)\] { background-color: var(--surface-3) !important; border: 1px solid var(--hairline); }
-html.dark .sticky.bg-white\/95 .bg-\[var\(--cevons-deep-green\)\] { background-color: #EF7700 !important; color: #1A1A1A !important; }
+html.dark .sticky.bg-white\/95 .bg-\[var\(--cevons-deep-green\)\] { background-color: var(--brand-orange) !important; color: #1A1A1A !important; }
 
 
 /* News-card accents and "Read article" links */
-html.dark .text-cevons-green { color: #EF7700; }
+html.dark .text-cevons-green { color: var(--brand-orange); }
 
 /* Resources/Newsroom muted helper that used an arbitrary var() w/ fallback */
 html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
 
 /* Footer links keep contrast */
 html.dark footer a:not(.btn-green):not(.btn-yellow) { color: var(--text-base); }
-html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #EF7700; }
+html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: var(--brand-orange); }
 
 /* ============================================================
    Dark-mode icon recolor: black/dark-charcoal icons & decorative
-   glyphs become brand orange (#EF7700) so they're visible on dark
+   glyphs become brand orange (var(--brand-orange)) so they're visible on dark
    surfaces. Body text and headings keep their light color (handled
    above). Green accents are preserved — this rule targets only
    elements that resolve to black/near-black in light mode.
@@ -2188,7 +2188,7 @@ html.dark svg.text-\[\#1A1A1A\],
 html.dark svg.text-\[\#0E0C0A\],
 html.dark svg.text-\[var\(--cevons-dark\)\],
 html.dark svg.text-\[var\(--cevons-deep-green\)\],
-html.dark svg.text-foreground { color: #EF7700 !important; }
+html.dark svg.text-foreground { color: var(--brand-orange) !important; }
 
 /* Icons that inherit color from a dark-text parent. Scoped to svg
    children so paragraph text stays light. The earlier rules turn
@@ -2197,7 +2197,7 @@ html.dark .text-cevons-dark > svg,
 html.dark .text-cevons-deep-green > svg,
 html.dark .text-black > svg,
 html.dark .text-\[var\(--cevons-dark\)\] > svg,
-html.dark .text-\[var\(--cevons-deep-green\)\] > svg { color: #EF7700; }
+html.dark .text-\[var\(--cevons-deep-green\)\] > svg { color: var(--brand-orange); }
 
 /* Small decorative marks (bullets, separator dots, indicator pills,
    divider rules) hard-coded to charcoal/black backgrounds become
@@ -2209,7 +2209,7 @@ html.dark hr.bg-cevons-dark,
 html.dark hr.bg-black,
 html.dark .bg-cevons-dark.rounded-full,
 html.dark .bg-black.rounded-full,
-html.dark .bg-\[\#1A1A1A\].rounded-full { background-color: #EF7700 !important; }
+html.dark .bg-\[\#1A1A1A\].rounded-full { background-color: var(--brand-orange) !important; }
 
 /* Inline arrows / chevrons rendered as plain text characters inside
    small-label spans (e.g. "Read more →") read as black on dark when
@@ -2219,7 +2219,7 @@ html.dark .bg-\[\#1A1A1A\].rounded-full { background-color: #EF7700 !important; 
 html.dark span.text-cevons-dark,
 html.dark span.text-black { color: var(--text-strong); }
 html.dark span.text-cevons-dark > svg,
-html.dark span.text-black > svg { color: #EF7700 !important; }
+html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 
 
 
@@ -2279,10 +2279,10 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
 :where(
   .bg-cevons-deep-green,
   .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\],
+  .bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\],
   .bg-\[var\(--cevons-deep-green\,\#1A1A1A\)\]
 ) {
-  background-color: #EF7700 !important;
+  background-color: var(--brand-orange) !important;
   color: #1A1A1A;
 }
 
@@ -2296,7 +2296,7 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
   [class*="to-[var(--cevons-deep-green"]
 ) {
   /* allow gradients but tint floor to orange */
-  background-color: #EF7700;
+  background-color: var(--brand-orange);
 }
 
 /* Force readable charcoal text inside any block that ends up orange:
@@ -2304,26 +2304,26 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
    - the inline radial-gradient CTA blocks (matched via style attr) */
 .bg-cevons-deep-green :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
 .bg-\[var\(--cevons-deep-green\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
-[style*="#EF7700 0%, #EF7700 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-[style*="#EF7700 0%, #EF7700 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
+.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
+[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
+[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
   color: #1A1A1A !important;
 }
 
 /* Yellow accent / cevons-yellow text inside orange sections → charcoal */
 .bg-cevons-deep-green .text-cevons-yellow,
 .bg-\[var\(--cevons-deep-green\)\] .text-cevons-yellow,
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .text-cevons-yellow,
-[style*="#EF7700 0%, #EF7700 60%"] .text-cevons-yellow,
-[style*="#EF7700 0%, #EF7700 55%"] .text-cevons-yellow {
+.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] .text-cevons-yellow,
+[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .text-cevons-yellow,
+[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .text-cevons-yellow {
   color: #1A1A1A !important;
 }
 
 /* Buttons inside orange CTA sections: charcoal solid for contrast */
-[style*="#EF7700 0%, #EF7700 60%"] .btn-yellow,
-[style*="#EF7700 0%, #EF7700 55%"] .btn-yellow,
+[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .btn-yellow,
+[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .btn-yellow,
 .bg-cevons-deep-green .btn-yellow,
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .btn-yellow {
+.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] .btn-yellow {
   background-color: #1A1A1A !important;
   color: #FFFFFF !important;
   border-color: #1A1A1A !important;
@@ -2331,7 +2331,7 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
 
 /* Borders/dividers using deep-green border become orange-toned on orange */
 .bg-cevons-deep-green :where([class*="border-white/"]),
-[style*="#EF7700 0%, #EF7700 60%"] :where([class*="border-white/"]) {
+[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] :where([class*="border-white/"]) {
   border-color: rgba(26,26,26,0.25) !important;
 }
 
@@ -2339,9 +2339,9 @@ html.dark span.text-black > svg { color: #EF7700 !important; }
 html.dark :where(
   .bg-cevons-deep-green,
   .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\]
+  .bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\]
 ) {
-  background-color: #EF7700 !important;
+  background-color: var(--brand-orange) !important;
   color: #1A1A1A !important;
 }
 
@@ -2487,7 +2487,7 @@ html.dark :where(
     color: #fff !important;
   }
   [data-hero-scope] .hero-cta--schedule {
-    background: linear-gradient(135deg, #EF7700 0%, #C45F00 100%) !important;
+    background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%) !important;
     box-shadow: 0 12px 28px rgba(239,119,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22) !important;
     color: #fff !important;
   }
