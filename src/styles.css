@@ -2279,7 +2279,7 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 :where(
   .bg-cevons-deep-green,
   .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\],
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\],
   .bg-\[var\(--cevons-deep-green\,\#1A1A1A\)\]
 ) {
   background-color: var(--brand-orange) !important;
@@ -2304,7 +2304,7 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
    - the inline radial-gradient CTA blocks (matched via style attr) */
 .bg-cevons-deep-green :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
 .bg-\[var\(--cevons-deep-green\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
 [style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
 [style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
   color: #1A1A1A !important;
@@ -2313,7 +2313,7 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 /* Yellow accent / cevons-yellow text inside orange sections → charcoal */
 .bg-cevons-deep-green .text-cevons-yellow,
 .bg-\[var\(--cevons-deep-green\)\] .text-cevons-yellow,
-.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] .text-cevons-yellow,
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .text-cevons-yellow,
 [style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .text-cevons-yellow,
 [style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .text-cevons-yellow {
   color: #1A1A1A !important;
@@ -2323,7 +2323,7 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 [style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .btn-yellow,
 [style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .btn-yellow,
 .bg-cevons-deep-green .btn-yellow,
-.bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\] .btn-yellow {
+.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .btn-yellow {
   background-color: #1A1A1A !important;
   color: #FFFFFF !important;
   border-color: #1A1A1A !important;
@@ -2339,7 +2339,7 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 html.dark :where(
   .bg-cevons-deep-green,
   .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\var(--brand-orange)\)\]
+  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\]
 ) {
   background-color: var(--brand-orange) !important;
   color: #1A1A1A !important;
