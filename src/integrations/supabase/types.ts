@@ -47,6 +47,48 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          changed_fields: string[] | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          new_status: string | null
+          note: string | null
+          old_status: string | null
+          reference: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          changed_fields?: string[] | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          new_status?: string | null
+          note?: string | null
+          old_status?: string | null
+          reference?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          changed_fields?: string[] | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          new_status?: string | null
+          note?: string | null
+          old_status?: string | null
+          reference?: string | null
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           channel: string | null
