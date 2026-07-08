@@ -137,8 +137,8 @@ function AboutPage() {
         <div className="container-cevons">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Our Story</p>
-              <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))] leading-tight">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Our Story</p>
+              <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
                 Supporting a Cleaner, Safer Guyana
               </h2>
               <p className="mt-5 text-[var(--cevons-muted,#64748B)] leading-relaxed text-base md:text-lg">
@@ -187,8 +187,8 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Mission, Vision, and Values">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">What Drives Us</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">What Drives Us</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Mission, Vision & Values
             </h2>
           </div>
@@ -219,8 +219,8 @@ function AboutPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Standards</p>
-            <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Standards</p>
+            <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Certified. Compliant. Committed.
             </h2>
             <p className="mt-4 text-[var(--cevons-muted,#64748B)]">
@@ -235,10 +235,10 @@ function AboutPage() {
                 className={`card-glow flex h-full flex-col rounded-xl bg-white dark:bg-white/[0.04] p-7 text-center hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
-                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))] mb-4">
+                <span className="mx-auto inline-flex items-center justify-center w-14 h-14 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] mb-4">
                   <Icon className="size-7" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
                 <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70 leading-relaxed">{body}</p>
               </div>
             ))}
@@ -288,8 +288,8 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Operations gallery">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-3">Operations</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Operations</p>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Our Fleet & Team
             </h2>
           </div>
@@ -313,7 +313,7 @@ function AboutPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,var(--brand-orange))]">{caption}</h3>
+                  <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{caption}</h3>
                   <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70">{sub}</p>
                 </div>
               </div>
@@ -401,7 +401,7 @@ function AboutPage() {
 
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -410,8 +410,8 @@ function AboutPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
             </div>
           ))}
         </div>

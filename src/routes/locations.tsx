@@ -115,7 +115,7 @@ function LocationsPage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Where We Operate
             </h2>
             <p className="mt-3 text-cevons-muted max-w-2xl mx-auto">
@@ -123,7 +123,7 @@ function LocationsPage() {
             </p>
           </div>
 
-          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,var(--brand-orange))]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
+          <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#EF7700)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
               <GuyanaBranchMap
                 branches={mapBranches}
@@ -135,7 +135,7 @@ function LocationsPage() {
 
             <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-cevons-muted">
               <span className="inline-flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,var(--brand-orange))]" /> Branch
+                <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,#EF7700)]" /> Branch
               </span>
               <span className="inline-flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FFD200]" /> Selected
@@ -152,8 +152,8 @@ function LocationsPage() {
                     onClick={() => setActivePin(r.name)}
                     className={`rounded-xl border px-4 py-3 text-left transition-all ${
                       active
-                        ? "border-[var(--cevons-deep-green,var(--brand-orange))] bg-[var(--cevons-deep-green,var(--brand-orange))] text-white shadow-md"
-                        : "border-[var(--cevons-deep-green,var(--brand-orange))]/15 bg-white text-[var(--cevons-deep-green,var(--brand-orange))] hover:border-[var(--cevons-deep-green,var(--brand-orange))]/40"
+                        ? "border-[var(--cevons-deep-green,#EF7700)] bg-[var(--cevons-deep-green,#EF7700)] text-white shadow-md"
+                        : "border-[var(--cevons-deep-green,#EF7700)]/15 bg-white text-[var(--cevons-deep-green,#EF7700)] hover:border-[var(--cevons-deep-green,#EF7700)]/40"
                     }`}
                     aria-pressed={active}
                   >
@@ -175,7 +175,7 @@ function LocationsPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]">
         <div className="container-cevons">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Regional Offices
             </h2>
             <p className="mt-3 text-cevons-muted">Reach out to the team closest to you.</p>
@@ -253,15 +253,15 @@ function LocationsPage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Service Availability by Location
             </h2>
             <p className="mt-3 text-cevons-muted">A quick view of what's offered where.</p>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-[var(--cevons-deep-green,var(--brand-orange))]/15 shadow-sm">
+          <div className="overflow-x-auto rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/15 shadow-sm">
             <table className="w-full min-w-[600px] text-left">
-              <thead className="bg-[var(--cevons-deep-green,var(--brand-orange))] text-white">
+              <thead className="bg-[var(--cevons-deep-green,#EF7700)] text-white">
                 <tr>
                   <th className="px-5 py-4 text-sm font-semibold">Service</th>
                   {(["Georgetown", "Linden", "Berbice"] as Region[]).map((r) => (
@@ -275,7 +275,7 @@ function LocationsPage() {
                     key={row.service}
                     className={i % 2 === 0 ? "bg-white" : "bg-[var(--cevons-cream,#FBF7EE)]/60"}
                   >
-                    <td className="px-5 py-4 text-sm font-medium text-[var(--cevons-deep-green,var(--brand-orange))]">
+                    <td className="px-5 py-4 text-sm font-medium text-[var(--cevons-deep-green,#EF7700)]">
                       {row.service}
                     </td>
                     {(["Georgetown", "Linden", "Berbice"] as Region[]).map((r) => (
@@ -322,7 +322,7 @@ function LocationsPage() {
       </OrangeCTABanner>
 
       {/* TRUST STRIP */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
+      <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
         <div className="container-cevons py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { icon: ShieldCheck, label: "Licensed & Insured" },
@@ -331,8 +331,8 @@ function LocationsPage() {
             { icon: Headphones, label: "24/7 Support" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 justify-center text-center">
-              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,var(--brand-orange))]" />
-              <span className="text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))]">{label}</span>
+              <Icon className="w-6 h-6 text-[var(--cevons-deep-green,#EF7700)]" />
+              <span className="text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)]">{label}</span>
             </div>
           ))}
         </div>
