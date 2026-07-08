@@ -251,7 +251,7 @@ function ContactPage() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(120deg, #C45F00 0%, #EF7700 45%, #FF8A2A 100%)",
+                  "linear-gradient(120deg, #C45F00 0%, #EF7700 55%, #EF7700 100%)",
               }}
             />
             <div

@@ -226,7 +226,7 @@ function HomePage() {
             className="relative overflow-hidden rounded-[28px] px-6 py-14 md:px-16 md:py-20 text-center shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
             style={{
               background:
-                "linear-gradient(120deg, #C45F00 0%, #EF7700 45%, #FF8A2A 100%)",
+                "linear-gradient(120deg, #C45F00 0%, #EF7700 55%, #EF7700 100%)",
             }}
           >
             {/* Dot texture */}
