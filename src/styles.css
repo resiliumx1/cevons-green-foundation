@@ -1926,7 +1926,7 @@ html.dark .text-cevons-muted { color: var(--text-muted); }
 html.dark [class*="text-[var(--cevons-deep-green"],
 html.dark [class*="text-[var(--cevons-dark"] { color: var(--text-strong) !important; }
 html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
-html.dark [class*="text-[var(--cevons-green"] { color: #FF8A2A !important; }
+html.dark [class*="text-[var(--cevons-green"] { color: #EF7700 !important; }
 html.dark svg[class*="text-[var(--cevons-deep-green"],
 html.dark svg[class*="text-[var(--cevons-dark"] { color: #EF7700 !important; }
 
@@ -2130,7 +2130,7 @@ html.dark .logo-chip { background-color: #F5F4F1; border: 1px solid var(--hairli
 html.dark .text-\[var\(--cevons-deep-green\)\],
 html.dark .text-\[var\(--cevons-dark\)\] { color: var(--text-strong); }
 html.dark .text-\[var\(--cevons-muted\)\] { color: var(--text-muted); }
-html.dark .text-\[var\(--cevons-green\)\] { color: #FF8A2A; }
+html.dark .text-\[var\(--cevons-green\)\] { color: #EF7700; }
 html.dark .bg-\[var\(--cevons-cream\)\] { background-color: var(--surface-2); }
 html.dark .bg-\[var\(--cevons-deep-green\)\] { background-color: var(--surface-1); }
 html.dark .border-\[var\(--cevons-border\)\] { border-color: var(--hairline); }
@@ -2150,14 +2150,14 @@ html.dark .sticky.bg-white\/95 .bg-\[var\(--cevons-deep-green\)\] { background-c
 
 
 /* News-card accents and "Read article" links */
-html.dark .text-cevons-green { color: #FF8A2A; }
+html.dark .text-cevons-green { color: #EF7700; }
 
 /* Resources/Newsroom muted helper that used an arbitrary var() w/ fallback */
 html.dark [class*="text-[var(--cevons-muted"] { color: var(--text-muted) !important; }
 
 /* Footer links keep contrast */
 html.dark footer a:not(.btn-green):not(.btn-yellow) { color: var(--text-base); }
-html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #FF8A2A; }
+html.dark footer a:not(.btn-green):not(.btn-yellow):hover { color: #EF7700; }
 
 /* ============================================================
    Dark-mode icon recolor: black/dark-charcoal icons & decorative
