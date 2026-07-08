@@ -243,7 +243,7 @@ export function NewsroomSocialSection() {
           </p>
           <h2
             id="socials-heading"
-            className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,var(--brand-orange))] dark:text-white"
+            className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] dark:text-white"
             style={{ fontFamily: "Playfair Display, serif" }}
           >
             Follow CEVONS

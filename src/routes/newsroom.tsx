@@ -108,7 +108,7 @@ function MediaCard({ item }: { item: MediaItem }) {
   const href = item.external_url ?? undefined;
   const isExternal = !!href && /^https?:\/\//i.test(href);
   return (
-    <article className="group relative bg-white rounded-xl border border-[var(--cevons-deep-green,var(--brand-orange))]/10 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,var(--brand-orange))]/25 flex flex-col">
+    <article className="group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 flex flex-col">
       {item.image_url && (
         <div className="aspect-[16/9] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
           <img
@@ -121,7 +121,7 @@ function MediaCard({ item }: { item: MediaItem }) {
       )}
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--cevons-deep-green,var(--brand-orange))]/10 text-[var(--cevons-deep-green,var(--brand-orange))] text-[11px] font-bold uppercase tracking-wider px-2.5 py-1">
+          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)] text-[11px] font-bold uppercase tracking-wider px-2.5 py-1">
             <meta.icon className="size-3" />
             {item.outlet ?? meta.eyebrow}
           </span>
@@ -137,20 +137,20 @@ function MediaCard({ item }: { item: MediaItem }) {
           <p className="text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed flex-1">{item.summary}</p>
         )}
         {href && (
-          <div className="mt-5 pt-4 border-t border-[var(--cevons-deep-green,var(--brand-orange))]/10">
+          <div className="mt-5 pt-4 border-t border-[var(--cevons-deep-green,#EF7700)]/10">
             {isExternal ? (
               <a
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))] hover:gap-2 transition-all"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)] hover:gap-2 transition-all"
               >
                 {item.type === "news" ? "Read article" : "Read more"} <ArrowUpRight className="size-4" />
               </a>
             ) : (
               <Link
                 to={href}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,var(--brand-orange))] hover:gap-2 transition-all"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--cevons-deep-green,#EF7700)] hover:gap-2 transition-all"
               >
                 Learn more <ChevronRight className="size-4" />
               </Link>
@@ -169,14 +169,14 @@ function MediaSection({ type, items }: { type: MediaItem["type"]; items: MediaIt
     <section className="mb-16 last:mb-0" aria-labelledby={`media-${type}`}>
       <div className="flex items-end justify-between gap-4 mb-8">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,var(--brand-orange))] mb-2">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">
             {meta.eyebrow}
           </p>
           <h2 id={`media-${type}`} className="font-display text-3xl md:text-4xl font-extrabold text-[var(--cevons-dark,#101820)]">
             {meta.title}
           </h2>
         </div>
-        <meta.icon className="size-8 text-[var(--cevons-deep-green,var(--brand-orange))]/30 hidden md:block" />
+        <meta.icon className="size-8 text-[var(--cevons-deep-green,#EF7700)]/30 hidden md:block" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {items.map((it) => <MediaCard key={it.id} item={it} />)}
