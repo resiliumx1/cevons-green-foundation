@@ -1,40 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Building2,
-  Calendar,
-  CheckCircle2,
-  ChevronRight,
-  ClipboardCheck,
-  Container,
-  Factory,
-  FileText,
-  Hammer,
-  Home,
-  Leaf,
-  MessageCircle,
-  Recycle,
-  Trash2,
-  Truck,
-} from "lucide-react";
-import { SiteLayout } from "@/components/SiteLayout";
-import { Reveal } from "@/components/motion/Reveal";
-import { WhatsApp } from "@/components/icons/WhatsApp";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import logo from "@/assets/cevons-logo.png";
-import imgDumpster from "@/assets/svc-dumpster.jpg";
-import imgSkip from "@/assets/svc-skip.jpg";
-import imgGarbage from "@/assets/svc-garbage.jpg";
-import imgCommercial from "@/assets/svc-commercial.jpg";
+import { createFileRoute } from "@tanstack/react-router";
+import { Container, Home, Hammer, Leaf, Truck, Trees, Trash2, Building2, Recycle } from "lucide-react";
+import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import imgHero from "@/assets/svc-dumpster.jpg";
+import imgRel0 from "@/assets/svc-skip.jpg";
+import imgRel1 from "@/assets/svc-garbage.jpg";
+import imgRel2 from "@/assets/svc-commercial.jpg";
 
 const PAGE_TITLE = "Dumpster Rental in Guyana | CEVONS Environmental Services";
 const PAGE_DESC =
-  "Request dumpster rental services from CEVONS for construction, commercial, residential, and cleanup projects across Georgetown, Linden, and Berbice.";
+  "Roll-off dumpsters from 10 to 52 cubic yards for home clean-ups, renovations, and yard clearances — the only 10–52 yard range in Guyana.";
+const PAGE_URL = "/services/dumpster-rental";
 
 export const Route = createFileRoute("/services/dumpster-rental")({
   head: () => ({
@@ -44,335 +19,93 @@ export const Route = createFileRoute("/services/dumpster-rental")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/services/dumpster-rental" },
+      { property: "og:url", content: PAGE_URL },
     ],
-    links: [{ rel: "canonical", href: "/services/dumpster-rental" }],
+    links: [{ rel: "canonical", href: PAGE_URL }],
   }),
-  component: DumpsterRentalPage,
+  component: Page,
 });
 
-const benefits = [
-  "Multiple sizes available",
-  "Short and long-term rental",
-  "Timely delivery and pickup",
-  "Competitive pricing",
-  "Proper waste disposal",
-];
-
-const sizes = [
-  { size: "6 Yard", use: "Best for small cleanups" },
-  { size: "10 Yard", use: "Best for home renovations" },
-  { size: "15 Yard", use: "Best for medium projects" },
-  { size: "20 Yard", use: "Best for construction debris" },
-  { size: "30 Yard", use: "Best for large commercial jobs" },
-  { size: "40 Yard", use: "Best for major site cleanups" },
-];
-
 const uses = [
-  { icon: Hammer, title: "Construction Sites" },
   { icon: Home, title: "Home Renovations" },
-  { icon: Hammer, title: "Roofing Projects" },
-  { icon: Leaf, title: "Yard Cleanups" },
-  { icon: Building2, title: "Commercial Properties" },
-  { icon: Factory, title: "Industrial Waste" },
-];
-
-const steps = [
-  { icon: MessageCircle, title: "Tell us what you need", body: "Send your project details by WhatsApp or quote request." },
-  { icon: ClipboardCheck, title: "Confirm size and location", body: "We'll help you choose the right size for your job." },
-  { icon: Calendar, title: "Schedule delivery", body: "We deliver the dumpster on the day that works for you." },
-  { icon: Truck, title: "Pickup and disposal", body: "We collect the dumpster and dispose of waste responsibly." },
+  { icon: Hammer, title: "Construction Debris" },
+  { icon: Trees, title: "Yard Clearances" },
+  { icon: Leaf, title: "Garden Waste" },
+  { icon: Truck, title: "Bulky Item Removal" },
+  { icon: Trash2, title: "Household Clean-Ups" },
 ];
 
 const faqs = [
-  {
-    q: "What size dumpster do I need?",
-    a: "It depends on your project. Smaller cleanups and single rooms often fit a 6 or 10 yard dumpster, full home renovations typically need 15–20 yard, and construction or large commercial jobs usually call for 30 or 40 yard. Our team can recommend the right size based on what you're disposing of.",
-  },
-  {
-    q: "How long can I keep the dumpster?",
-    a: "Both short-term and long-term rentals are available. Let us know your timeline when you request service and we'll arrange a rental period that fits your project.",
-  },
-  {
-    q: "What types of waste can I place in a dumpster?",
-    a: "General construction debris, household waste, renovation material, yard waste and commercial waste are typically accepted. Hazardous materials, liquid waste, and certain regulated items must be handled separately — please confirm with our team before disposal.",
-  },
-  {
-    q: "Do you deliver to Georgetown, Linden, and Berbice?",
-    a: "Yes. CEVONS serves Georgetown, Linden, and Berbice, with coverage across Guyana. Reach out to confirm delivery to your specific location.",
-  },
-  {
-    q: "Can businesses schedule recurring dumpster service?",
-    a: "Yes. We support ongoing commercial and industrial waste needs with recurring delivery, swap-out, and pickup schedules tailored to your operation.",
-  },
-  {
-    q: "How do I request pricing?",
-    a: "Send us a message via WhatsApp or use the Request a Quote button. Share your project type, location, and preferred rental period, and we'll get back to you with options.",
-  },
+  { q: "Which size do I need for a home renovation?", a: "For most home renovations the 10 cubic yard skip is the workhorse — small enough to fit on a driveway, big enough to hold roughly sixty domestic garbage bags. Full home cleanouts with furniture and bulky items usually step up to the 40 yard. If you're unsure, tell us the rooms involved and we'll recommend the right size." },
+  { q: "How long can I keep the bin?", a: "Both short-term and long-term hires are arranged. Set the dates when you request the bin and we'll build the rental period around your project — one day, one week, or the length of your renovation." },
+  { q: "What can't go in the bin?", a: "The bin takes general household, renovation and yard waste. Hazardous materials, liquid waste, chemicals, and regulated items must be handled separately — flag anything unusual when you book and we'll advise the correct disposal route." },
+  { q: "Can you place the bin on my driveway without damaging it?", a: "Yes. Our drivers place the roll-off carefully and can use timber boards under the rollers on softer surfaces. Let us know where you'd like it and any access constraints when the truck arrives." },
+  { q: "How fast can you deliver?", a: "Bins are typically delivered within a couple of business days of confirmation, and often sooner depending on route availability. Tell us your target delivery date when you request the bin." },
 ];
 
 const related = [
-  { title: "Skip Bin & Dumpster Rental", body: "Commercial-grade skip bins for ongoing site needs.", img: imgSkip, to: "/services/skip-bin-dumpster-rental" },
-  { title: "General Trash Collection", body: "Reliable household pickup across Guyana.", img: imgGarbage, to: "/services/general-trash-collection" },
-  { title: "General Waste Management", body: "Scheduled commercial waste collection programs.", img: imgCommercial, to: "/services/general-waste-management" },
+  { title: "Skip Bin & Dumpster Rental", body: "Commercial roll-off service for job sites.", img: imgRel0, to: "/services/skip-bin-dumpster-rental", icon: Container },
+  { title: "General Trash Collection", body: "Reliable household pickup on a schedule.", img: imgRel1, to: "/services/general-trash-collection", icon: Trash2 },
+  { title: "General Waste Management", body: "Scheduled commercial collection programs.", img: imgRel2, to: "/services/general-waste-management", icon: Building2 },
 ];
 
-function DumpsterRentalPage() {
+const detailSections: DetailSection[] = [
+  {
+    variant: "split-right",
+    eyebrow: "The 10-yard workhorse",
+    heading: "The builder's waste bin — for the small job that still generates real waste",
+    paragraphs: [
+      "Whether you're tackling a small clean-up or a major home renovation, CEVONS supplies the right size bin at competitive pricing. The 10 cubic yard skip is the one we drop off most: about the size of a small car, roughly 12 ft long by 6 ft wide by 4 ft high — enough capacity to swallow the equivalent of around sixty domestic garbage bags.",
+      "It fits neatly on a standard driveway, doesn't dominate the front of your property, and handles the mixed load of bagged waste, timber, and small bulky items that a home clean-up or minor renovation produces.",
+      "As the preferred waste service provider in Guyana, we've placed thousands of these bins on residential drives and back yards — and we know which projects genuinely need something bigger before we drop one off.",
+    ],
+    images: [
+      { src: "/services/detail/skip-bin-10yd-1.webp", alt: "CEVONS 10 cubic yard skip bin loaded and ready for collection" },
+      { src: "/services/detail/skip-bin-10yd-2.webp", alt: "Second view of the CEVONS 10 cubic yard skip bin on-site" },
+    ],
+  },
+  {
+    variant: "split-left",
+    eyebrow: "Sizing up",
+    heading: "When the 10 yard isn't enough — the 30 and 40 cubic yard roll-offs",
+    paragraphs: [
+      "The 30 cubic yard bin — 22 ft long by 8 ft wide by 4.5 ft high — swallows roughly ten pickup-truck loads. It's the most popular size in our line-up because it hits the sweet spot between price, footprint, and capacity: big enough for a serious renovation, small enough to stage on most residential lots.",
+      "When the job includes a complete cleanout — furniture, appliances, room contents, or the aftermath of a full renovation — the 40 cubic yard steps in. Same 22 ft × 8 ft footprint as the 30, but 6 ft high, giving you an extra 10 cubic yards of overhead capacity for bulky items that would otherwise stack awkwardly.",
+    ],
+    images: [
+      { src: "/services/detail/dumpster-30yd.webp", alt: "CEVONS 30 cubic yard roll-off dumpster on a residential renovation site" },
+    ],
+  },
+  {
+    variant: "band",
+    bandEmphasis: true,
+    eyebrow: "The CEVONS Range",
+    heading: "The only 10 to 52 cubic yard roll-off fleet in Guyana",
+    paragraphs: [
+      "No other operator in the country carries the full 10 to 52 cubic yard range. That matters, because getting the size right on the first drop-off saves you money on rental days and saves you the hassle of a second bin arriving mid-project.",
+      "Tell us what you're clearing and we'll match the bin to the job — no upsell, no undersell.",
+    ],
+  },
+];
+
+function Page() {
   return (
-    <SiteLayout>
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
-        <div className="container-cevons py-4">
-          <ol className="flex items-center gap-1.5 text-xs md:text-sm">
-            <li>
-              <Link to="/" className="text-cevons-green font-semibold hover:underline">Home</Link>
-            </li>
-            <li aria-hidden="true"><ChevronRight className="size-3.5 text-cevons-muted" /></li>
-            <li>
-              <Link to="/services" className="text-cevons-green font-semibold hover:underline">Services</Link>
-            </li>
-            <li aria-hidden="true"><ChevronRight className="size-3.5 text-cevons-muted" /></li>
-            <li aria-current="page" className="text-cevons-muted">Dumpster Rental</li>
-          </ol>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
-        <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          <Reveal variant="up">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-4 inline-flex items-center gap-2">
-              <Container className="size-4" /> Dumpster Rental
-            </p>
-            <h1 id="svc-h1" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cevons-dark">
-              Dumpster Rental Solutions
-            </h1>
-            <p className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed">
-              Flexible dumpster rental for construction, renovations, cleanups, commercial projects, and long-term waste needs across Guyana.
-            </p>
-            <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
-              {benefits.map((b) => (
-                <li key={b} className="flex items-start gap-2.5 text-sm text-cevons-dark">
-                  <CheckCircle2 className="size-5 text-cevons-green shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
-                <WhatsApp className="size-5" /> WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
-                <FileText className="size-5" /> Request a Quote
-              </a>
-            </div>
-          </Reveal>
-
-          <Reveal variant="scale" delay={0.1}>
-            <div className="relative rounded-2xl overflow-hidden shadow-lift group">
-              <img
-                src={imgDumpster}
-                alt="Green CEVONS dumpster ready for rental on a Guyana job site"
-                className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
-                width={960}
-                height={720}
-              />
-              <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
-                <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVONS</span>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-
-      {/* Sizes */}
-      <section className="section-y bg-white" aria-labelledby="sizes-h">
-        <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">Service Options</p>
-            <h2 id="sizes-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
-              Choose the right size for your project
-            </h2>
-            <p className="mt-4 text-sm text-cevons-muted">
-              Typical size options — confirm availability with CEVONS.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sizes.map(({ size, use }, i) => (
-              <article
-                key={size}
-                className="group bg-white rounded-xl border border-cevons-border p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
-                style={{ animationDelay: `${i * 60}ms` }}
-              >
-                <div className="size-14 rounded-xl bg-cevons-green/10 text-cevons-green flex items-center justify-center mb-4">
-                  <Container className="size-7" aria-hidden="true" />
-                </div>
-                <h3 className="text-xl font-bold text-cevons-dark">{size}</h3>
-                <p className="mt-1.5 text-sm text-cevons-muted">{use}</p>
-                <a
-                  href="/contact"
-                  className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all"
-                  aria-label={`Ask about the ${size} dumpster`}
-                >
-                  Ask About This Size <ArrowRight className="size-4" />
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Common Uses */}
-      <section className="section-y bg-cevons-cream" aria-labelledby="uses-h">
-        <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">Common Uses</p>
-            <h2 id="uses-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
-              What our dumpsters are used for
-            </h2>
-          </div>
-          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {uses.map(({ icon: Icon, title }, i) => (
-              <li
-                key={title}
-                className="bg-white rounded-xl border border-cevons-border p-5 text-center shadow-soft transition-all hover:border-cevons-green hover:-translate-y-0.5"
-                style={{ animationDelay: `${i * 50}ms` }}
-              >
-                <span className="mx-auto mb-3 size-12 rounded-full bg-cevons-green/10 text-cevons-green flex items-center justify-center">
-                  <Icon className="size-6" aria-hidden="true" />
-                </span>
-                <p className="text-sm font-semibold text-cevons-dark leading-snug">{title}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="section-y bg-white" aria-labelledby="how-h">
-        <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
-            <h2 id="how-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
-              Simple, professional service
-            </h2>
-          </div>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map(({ icon: Icon, title, body }, i) => (
-              <li
-                key={title}
-                className="relative bg-white rounded-xl border border-cevons-border p-6 shadow-soft"
-                style={{ animationDelay: `${i * 70}ms` }}
-              >
-                <span className="absolute -top-3 left-6 bg-cevons-yellow text-cevons-dark text-xs font-extrabold px-2.5 py-1 rounded-md shadow-soft">
-                  Step {i + 1}
-                </span>
-                <span className="size-12 rounded-full bg-cevons-green text-white flex items-center justify-center mt-2">
-                  <Icon className="size-6" aria-hidden="true" />
-                </span>
-                <h3 className="mt-4 text-base font-bold text-cevons-dark">{title}</h3>
-                <p className="mt-1.5 text-sm text-cevons-muted leading-relaxed">{body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* Help choosing CTA */}
-      <section className="bg-white pb-16 md:pb-20" id="quote">
-        <div className="container-cevons">
-          <div className="rounded-2xl bg-cevons-cream border border-cevons-green/20 p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-soft">
-            <div className="max-w-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> We're Here to Help
-              </p>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-dark">Need Help Choosing?</h2>
-              <p className="mt-3 text-cevons-muted leading-relaxed">
-                Our team can help you select the right dumpster size for your project, timeline, and waste type.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
-                <WhatsApp className="size-5" /> WhatsApp Us
-              </a>
-              <a href="/request-service" className="btn-base btn-yellow px-6 py-3.5 text-base">
-                <FileText className="size-5" /> Request a Quote
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="section-y bg-cevons-cream" aria-labelledby="faq-h">
-        <div className="container-cevons max-w-3xl">
-          <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">FAQ</p>
-            <h2 id="faq-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((f, i) => (
-              <AccordionItem
-                key={f.q}
-                value={`faq-${i}`}
-                className="bg-white rounded-xl border border-cevons-border px-5 shadow-soft data-[state=open]:border-cevons-green transition-colors"
-              >
-                <AccordionTrigger className="text-left font-semibold text-cevons-dark hover:no-underline py-5">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-cevons-muted leading-relaxed pb-5">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* Related */}
-      <section className="section-y bg-white" aria-labelledby="related-h">
-        <div className="container-cevons">
-          <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVONS</p>
-              <h2 id="related-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Related Services</h2>
-            </div>
-            <Link to="/services" className="inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">
-              View all services <ArrowRight className="size-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {related.map(({ title, body, img, to }, i) => {
-              const Icon = title === "Skip Bin Rental" ? Container : title === "Garbage Collection" ? Trash2 : Recycle;
-              return (
-                <article
-                  key={title}
-                  className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
-                  style={{ animationDelay: `${i * 70}ms` }}
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
-                    <img src={img} alt={title} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <span className="absolute -bottom-5 left-5 size-12 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
-                      <Icon className="size-5" aria-hidden="true" />
-                    </span>
-                  </div>
-                  <div className="p-6 pt-8">
-                    <h3 className="text-lg font-bold text-cevons-dark">{title}</h3>
-                    <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                    <Link to={to} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">
-                      Learn More <ArrowRight className="size-4" />
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-    </SiteLayout>
+    <ServicePageTemplate
+      eyebrowIcon={Container}
+      eyebrowLabel="Residential"
+      breadcrumb="Dumpster Rental"
+      h1="Dumpster Rental"
+      subhead="Roll-off bins from 10 to 52 cubic yards for household clean-ups, home renovations, and yard waste across Guyana."
+      heroImage={imgHero}
+      heroAlt="Green CEVONS dumpster ready for rental on a residential Guyana driveway"
+      benefits={["10, 30, 40 & 52 cubic yard sizes", "Only 10–52 yd range in Guyana", "Short and long-term rental", "Timely delivery and pickup", "EPA-aligned disposal"]}
+      commonUses={uses}
+      faqs={faqs}
+      related={related}
+      ctaVariant="routine"
+      serviceSlug="dumpster-rental"
+      detailSections={detailSections}
+      showAssistBand
+    />
   );
 }
