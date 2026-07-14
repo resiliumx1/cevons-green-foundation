@@ -135,6 +135,25 @@ function RequestServicePage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
 
+  // Preselect from ?service= (and optional ?type=specialist which just skips ahead)
+  const didPreselect = useMemo(() => ({ done: false }), []);
+  if (typeof window !== "undefined" && !didPreselect.done) {
+    didPreselect.done = true;
+    const params = new URLSearchParams(window.location.search);
+    const svcParam = params.get("service");
+    if (svcParam) {
+      const match = SERVICES.find((s) => s.key === svcParam);
+      if (match) {
+        // apply synchronously so first render lands on Details
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        Promise.resolve().then(() => {
+          setData((d) => ({ ...d, category: match.category, service: match.key }));
+          setStep(2);
+        });
+      }
+    }
+  }
+
   const selected = SERVICES.find((s) => s.key === data.service) ?? null;
   const isSpecialist = !!(selected && SPECIALIST_KEYS.has(selected.key));
 
