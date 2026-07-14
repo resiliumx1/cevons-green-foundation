@@ -45,6 +45,7 @@ export type DetailSection = {
   images?: DetailImage[];
   variant: "split-right" | "split-left" | "band" | "gallery";
   bandEmphasis?: boolean;
+  videoEmbed?: { youtubeId: string; title: string };
 };
 
 export type ServicePageProps = {
@@ -448,10 +449,23 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           <div className={`mt-5 space-y-4 text-base leading-relaxed ${section.bandEmphasis ? "text-white/85" : "text-cevons-muted"}`}>
             {section.paragraphs.map((p, idx) => <p key={idx}>{p}</p>)}
           </div>
+          {section.videoEmbed && (
+            <div className="mt-8 relative w-full overflow-hidden rounded-2xl shadow-lift" style={{ paddingBottom: "56.25%" }}>
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${section.videoEmbed.youtubeId}`}
+                title={section.videoEmbed.title}
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            </div>
+          )}
         </div>
       </Reveal>
     );
   }
+
 
   if (section.variant === "gallery") {
     return (
