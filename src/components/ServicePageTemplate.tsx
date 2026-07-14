@@ -35,6 +35,18 @@ export type RelatedService = {
   icon: LucideIcon;
 };
 
+export type DetailImage = { src: string; alt: string; caption?: string };
+
+export type DetailSection = {
+  eyebrow?: string;
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+  images?: DetailImage[];
+  variant: "split-right" | "split-left" | "band" | "gallery";
+  bandEmphasis?: boolean;
+};
+
 export type ServicePageProps = {
   eyebrowIcon: LucideIcon;
   eyebrowLabel: string;
@@ -52,6 +64,12 @@ export type ServicePageProps = {
   optionsSection?: ReactNode;
   /** "routine" → Request a Quote. "specialist" → Request Specialist Review. */
   ctaVariant?: "routine" | "specialist";
+  /** Slug for /request-service?service=<slug> preselection */
+  serviceSlug?: string;
+  /** Rich long-form detail sections rendered between the hero and Common Uses */
+  detailSections?: DetailSection[];
+  /** Render the "Need Immediate Assistance" band after detailSections */
+  showAssistBand?: boolean;
 };
 
 const DEFAULT_STEPS = [
@@ -77,11 +95,17 @@ export function ServicePageTemplate(props: ServicePageProps) {
     related,
     optionsSection,
     ctaVariant = "routine",
+    serviceSlug,
+    detailSections,
+    showAssistBand,
   } = props;
 
   const isSpecialist = ctaVariant === "specialist";
   const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
-  const primaryCtaHref = isSpecialist ? "/request-service?type=specialist" : "/request-service";
+  const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
+  const primaryCtaHref = isSpecialist
+    ? `/request-service?type=specialist${serviceSlug ? `&service=${encodeURIComponent(serviceSlug)}` : ""}`
+    : `/request-service${svcQuery}`;
   const helpHeading = isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?";
   const helpBody = isSpecialist
     ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
