@@ -379,14 +379,14 @@ function ServicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href={`/services/${key}`}
+                    <Link
+                      to={`/services/${key}`}
                       className={`mt-6 inline-flex items-center gap-2 font-bold text-sm ${
                         isYellow ? "text-[var(--cevons-dark)] hover:gap-3" : "text-[var(--cevons-yellow)] hover:gap-3"
                       } transition-all`}
                     >
                       Explore {label} <ArrowRight className="size-4" />
-                    </a>
+                    </Link>
                   </div>
                 </article>
               );
