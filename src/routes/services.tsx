@@ -25,9 +25,8 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { whatsappHref } from "@/data/cevonsContact";
 import { CevonsIcon } from "@/components/CevonsIcon";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { useT } from "@/contexts/SettingsContext";
-import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
+import type { CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { getServicesForSection, type Service } from "@/data/services";
 const heroServices = "/assets/heroes/hero-services.webp";
 
@@ -83,61 +82,6 @@ const facilities: ServiceItem[] = getServicesForSection("facilities").map(toItem
 const recycling: ServiceItem[] = getServicesForSection("recycling").map(toItem);
 
 
-const categoryOverview: {
-  key: CategoryKey;
-  label: string;
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  blurb: string;
-  items: string[];
-  accent: string;
-}[] = [
-  {
-    key: "residential",
-    label: "Residential",
-    title: "Homes & Communities",
-    icon: Home,
-    blurb: "Reliable, neighbourly waste solutions for households across Guyana.",
-    items: residential.map((s) => s.title),
-    accent: "from-[var(--brand-orange)] to-[#1A1A1A]",
-  },
-  {
-    key: "commercial",
-    label: "Commercial",
-    title: "Businesses & Properties",
-    icon: Building2,
-    blurb: "Scheduled collection and sanitation for offices, retail, and institutions.",
-    items: commercial.map((s) => s.title),
-    accent: "from-[var(--brand-orange)] to-[var(--brand-orange-dark)]",
-  },
-  {
-    key: "industrial",
-    label: "Industrial",
-    title: "Specialized & Regulated",
-    icon: Factory,
-    blurb: "Compliance-grade handling for hazardous, liquid, and solid industrial waste.",
-    items: industrial.map((s) => s.title),
-    accent: "from-[#1A1A1A] to-[#0A0A0A]",
-  },
-  {
-    key: "facilities",
-    label: "Facilities",
-    title: "Environmental Infrastructure",
-    icon: Layers3,
-    blurb: "Large-scale recovery and landfill operations supporting cleaner Guyana.",
-    items: facilities.map((s) => s.title),
-    accent: "from-[#00563d] to-[#1A1A1A]",
-  },
-  {
-    key: "recycling",
-    label: "Recycling",
-    title: "Recovery & Circular Programs",
-    icon: Recycle,
-    blurb: "CEVONS's commitment to recycling and environmental preservation across Guyana.",
-    items: recycling.map((s) => s.title),
-    accent: "from-[#00563d] to-[#00432a]",
-  },
-];
 
 const tabs: { key: FilterKey; label: string }[] = [
   { key: "all", label: "All" },
@@ -324,76 +268,6 @@ function ServicesPage() {
       {/* SOCIAL PROOF MARQUEE */}
       <LogoCarousel showCta={false} />
 
-      {/* CATEGORY OVERVIEW */}
-      <section className="section-y bg-white">
-
-        <div className="container-cevons">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">Service Categories</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green)]">
-              Explore by Category
-            </h2>
-            <p className="mt-4 text-[var(--cevons-muted)]">
-              Five service families covering every waste and environmental need across Guyana.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {categoryOverview.map(({ key, label, title, icon: Icon, blurb, items, accent }) => {
-              const isYellow = key === "commercial";
-              return (
-                <article
-                  key={key}
-                  className={`relative overflow-hidden rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
-                    isYellow
-                      ? "bg-gradient-to-br from-[var(--brand-orange)] to-[var(--brand-orange-dark)] text-white border-[var(--brand-orange-dark)]"
-                      : `bg-gradient-to-br ${accent} text-white border-white/10`
-                  }`}
-                >
-                  <div
-                    aria-hidden="true"
-                    className="absolute -right-12 -top-12 size-48 rounded-full opacity-20"
-                    style={{ background: isYellow ? "rgba(16,24,32,0.15)" : "rgba(255,210,0,0.4)" }}
-                  />
-                  <div className="relative">
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] shadow-lg ring-1 ring-black/5">
-                        <CevonsIcon group="categories" name={key as CevonsCategoryKey} fill decorative />
-                      </span>
-                      <div>
-                        <p className={`text-xs font-bold uppercase tracking-wider ${isYellow ? "text-[var(--cevons-dark)]/70" : "text-[var(--cevons-yellow)]"}`}>{label}</p>
-                        <h3 className={`text-2xl font-extrabold ${isYellow ? "text-[var(--cevons-dark)]" : "text-white"}`}>{title}</h3>
-                      </div>
-                    </div>
-                    <p className={`text-sm leading-relaxed ${isYellow ? "text-[var(--cevons-dark)]/85" : "text-white/85"}`}>
-                      {blurb}
-                    </p>
-                    <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
-                      {items.map((it) => (
-                        <li
-                          key={it}
-                          className={`flex items-start gap-2 text-sm ${isYellow ? "text-[var(--cevons-dark)]/90" : "text-white/90"}`}
-                        >
-                          <span className={`mt-1.5 size-1.5 rounded-full shrink-0 ${isYellow ? "bg-[var(--cevons-dark)]" : "bg-[var(--cevons-yellow)]"}`} />
-                          {it}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link
-                      to={`/services/${key}`}
-                      className={`mt-6 inline-flex items-center gap-2 font-bold text-sm ${
-                        isYellow ? "text-[var(--cevons-dark)] hover:gap-3" : "text-[var(--cevons-yellow)] hover:gap-3"
-                      } transition-all`}
-                    >
-                      Explore {label} <ArrowRight className="size-4" />
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* RESIDENTIAL */}
       {showResidential && (
