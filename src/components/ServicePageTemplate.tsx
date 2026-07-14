@@ -134,6 +134,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdService }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdFaq }} />
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
         <div className="container-cevons py-4">
