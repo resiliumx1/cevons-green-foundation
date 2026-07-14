@@ -36,14 +36,51 @@ type ServiceSlug =
   | "general-trash-collection" | "dumpster-rental" | "septic-services" | "portable-toilet"
   | "general-waste-management" | "skip-bin-dumpster-rental" | "grease-trap-septic-tank" | "document-shredding"
   | "hazardous-waste" | "wastewater" | "used-waste-oil" | "contaminated-soil" | "tank-cleaning"
-  | "product-destruction" | "biohazardous-disposal" | "material-recovery-facility" | "landfill-operations";
+  | "product-destruction" | "biohazardous-disposal" | "material-recovery-facility" | "landfill-operations"
+  | "scrap-metal-recycling" | "used-cooking-oil" | "plastic-recycling" | "road-sweeping" | "compactor-rental";
 
-const servicesMenu: { groupKey: "residential" | "commercial" | "industrial" | "facilities"; items: ServiceSlug[] }[] = [
+type CategoryKey = "residential" | "commercial" | "industrial" | "facilities" | "recycling";
+
+const servicesMenu: { groupKey: CategoryKey; items: ServiceSlug[] }[] = [
   { groupKey: "residential", items: ["general-trash-collection", "dumpster-rental", "septic-services", "portable-toilet"] },
-  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding"] },
+  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding", "compactor-rental", "road-sweeping"] },
   { groupKey: "industrial", items: ["hazardous-waste", "wastewater", "used-waste-oil", "contaminated-soil", "tank-cleaning", "product-destruction", "biohazardous-disposal"] },
   { groupKey: "facilities", items: ["material-recovery-facility", "landfill-operations"] },
+  { groupKey: "recycling", items: ["material-recovery-facility", "scrap-metal-recycling", "used-cooking-oil", "plastic-recycling"] },
 ];
+
+const categoryLabels: Record<CategoryKey, string> = {
+  residential: "Residential",
+  commercial: "Commercial",
+  industrial: "Industrial",
+  facilities: "Facilities",
+  recycling: "Recycling",
+};
+
+const serviceLabels: Record<ServiceSlug, string> = {
+  "general-trash-collection": "General Trash Collection",
+  "dumpster-rental": "Dumpster Rental",
+  "septic-services": "Septic Services",
+  "portable-toilet": "Portable Toilet",
+  "general-waste-management": "General Waste Management",
+  "skip-bin-dumpster-rental": "Skip Bin & Dumpster Rental",
+  "grease-trap-septic-tank": "Grease Trap / Septic Tank",
+  "document-shredding": "Document Shredding",
+  "hazardous-waste": "Hazardous Waste",
+  "wastewater": "Wastewater",
+  "used-waste-oil": "Used Waste Oil",
+  "contaminated-soil": "Contaminated Soil",
+  "tank-cleaning": "Tank Cleaning",
+  "product-destruction": "Product Destruction",
+  "biohazardous-disposal": "Biohazardous Disposal",
+  "material-recovery-facility": "Material Recovery Facility",
+  "landfill-operations": "Landfill Operations",
+  "scrap-metal-recycling": "Scrap Metal Recycling",
+  "used-cooking-oil": "Used Cooking Oil",
+  "plastic-recycling": "Plastic Recycling",
+  "road-sweeping": "Road Sweeping",
+  "compactor-rental": "Compactor Rental",
+};
 
 const partnersMenu = [
   { label: "Wemco", href: "https://wemcosuriname.com", description: "Suriname" },
