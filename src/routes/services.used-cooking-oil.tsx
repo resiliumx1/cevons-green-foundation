@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Utensils, ChefHat, Hotel, Building2, Flame, Recycle, Container, Droplet } from "lucide-react";
-import { ServicePageTemplate } from "@/components/ServicePageTemplate";
+import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-oil.jpg";
 import imgRel0 from "@/assets/svc-grease.jpg";
 import imgRel1 from "@/assets/svc-recovery.jpg";
@@ -34,12 +34,33 @@ const uses = [
   { icon: Recycle, title: "Institutional Kitchens" },
 ];
 
+const detailSections: DetailSection[] = [
+  {
+    variant: "split-right",
+    eyebrow: "The Collection Program",
+    heading: "Right-sized receptacle, right schedule — oil out before it becomes a problem",
+    paragraphs: [
+      "Used cooking oil is one of the easiest kitchen streams to get wrong. Too small a container and it overflows between pickups; too infrequent a schedule and staff start looking for shortcuts. CEVONS sets both up correctly from day one — a receptacle sized to your actual fry volume and a pickup schedule matched to how fast you fill it.",
+      "Once the program is running, oil leaves the kitchen the same way every week: sealed, contained, and on a route. No overflowing drums by the back door, no drums doubling as prep-line hazards, and no last-minute calls when a fryer needs to be changed out.",
+    ],
+  },
+  {
+    variant: "band",
+    bandEmphasis: true,
+    eyebrow: "Fryer to Recycling — Not Down the Drain",
+    heading: "The wrong destination costs more than the right one",
+    paragraphs: [
+      "Cooking oil poured down a sink hardens into the pipes, chokes grease traps, and backs up the whole kitchen at the worst possible moment. A scheduled collection program routes the oil out of the building for recycling instead — protecting your plumbing, your grease trap, and your compliance record in one move.",
+    ],
+  },
+];
+
 const faqs = [
-  { q: "Who is this service for?", a: "Restaurants, hotels, cafeterias, and any commercial kitchen that produces used cooking oil on a regular basis." },
-  { q: "Do you provide the containers?", a: "Yes — we help you choose the right receptacle size for your volume and set up a pickup schedule that fits your operation." },
-  { q: "How often are pickups?", a: "Pickup frequency is set to match your usage — weekly, biweekly, or on-call. Adjust anytime as your volume changes." },
-  { q: "What happens to the oil?", a: "Collected oil is transported for recycling rather than dumped into drains or the environment." },
-  { q: "How do I sign up?", a: "WhatsApp us or use Request a Quote with your location and estimated monthly volume — we'll confirm containers and schedule." },
+  { q: "Who is this service for?", a: "Restaurants, hotels, cafeterias, resorts, and any commercial kitchen producing used cooking oil on a regular basis." },
+  { q: "How is the receptacle chosen?", a: "We look at your fryer setup and typical output, then recommend a container size that holds comfortably between scheduled pickups — no overflow, no wasted capacity." },
+  { q: "How often are pickups?", a: "Frequency is matched to your volume. Higher-output kitchens are on shorter cycles; lower-volume sites go on a longer schedule. It's adjusted anytime your operation changes." },
+  { q: "Does this help with grease trap issues?", a: "Yes — pulling used oil out of the kitchen through a proper container is the single biggest thing you can do to protect the grease trap and drainage lines. It's often the root cause behind repeat grease trap problems." },
+  { q: "What happens to the oil?", a: "Collected oil is transported for recycling rather than dumped into drains, waste bins, or the environment." },
 ];
 
 const related = [
@@ -68,6 +89,9 @@ function Page() {
       commonUses={uses}
       faqs={faqs}
       related={related}
+      serviceSlug="used-cooking-oil"
+      detailSections={detailSections}
+      showAssistBand
     />
   );
 }
