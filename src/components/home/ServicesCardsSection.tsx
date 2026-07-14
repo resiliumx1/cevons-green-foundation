@@ -37,7 +37,7 @@ export function ServicesCardsSection() {
               className="text-[#1A1A1A] font-extrabold text-3xl md:text-5xl font-display"
             >
               {t("home.services.title1")}{" "}
-              <span style={{ color: "#2E7D32" }}>{t("home.services.title2")}</span>
+              <span style={{ color: "var(--brand-orange)" }}>{t("home.services.title2")}</span>
             </h2>
           </div>
           <Link
@@ -75,7 +75,7 @@ export function ServicesCardsSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <span
                       className={`absolute top-3 left-3 inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-white shadow ${
-                        c.tagColor === "green" ? "bg-[#2E7D32]" : "bg-cevons-green"
+                        c.tagColor === "green" ? "bg-cevons-green" : "bg-cevons-green"
                       }`}
                     >
                       {tag}

@@ -22,7 +22,8 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { useT } from "@/contexts/SettingsContext";
 
 const BRAND_ORANGE = "var(--brand-orange)";
-const BRAND_GREEN = "#2DA339";
+const BRAND_GREEN = "#2DA339"; // reserved for WhatsApp brand + Guyana flag only
+const BRAND_ORANGE_SOFT = "rgba(239,119,0,0.18)";
 
 type FooterLink = { label: string; to: string };
 
@@ -175,7 +176,7 @@ export function Footer() {
               </div>
               <p
                 className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: BRAND_GREEN }}
+                style={{ color: BRAND_ORANGE }}
               >
                 Environmental Services Inc.
               </p>
@@ -225,7 +226,7 @@ export function Footer() {
                   <li key={title} className="flex items-start gap-2.5 min-w-0">
                     <span
                       className="shrink-0 size-8 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}
+                      style={{ backgroundColor: BRAND_ORANGE_SOFT, color: BRAND_ORANGE }}
                     >
                       <Icon className="size-4" />
                     </span>
@@ -306,7 +307,7 @@ function GetInTouch({ t, isExternalWA }: { t: (k: string) => string; isExternalW
   return (
     <div>
       <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-2 inline-flex items-center gap-2">
-        <Phone className="size-4" style={{ color: BRAND_GREEN }} />
+        <Phone className="size-4" style={{ color: BRAND_ORANGE }} />
         {t("footer.getInTouch")}
       </h4>
       <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: BRAND_ORANGE }} />
@@ -352,7 +353,7 @@ function GetInTouch({ t, isExternalWA }: { t: (k: string) => string; isExternalW
         </li>
         <li>
           <div className="flex items-start gap-3">
-            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(45,163,57,0.18)", color: BRAND_GREEN }}>
+            <span className="shrink-0 size-9 rounded-full flex items-center justify-center" style={{ backgroundColor: BRAND_ORANGE_SOFT, color: BRAND_ORANGE }}>
               <MapPin className="size-4" />
             </span>
             <div className="min-w-0">
