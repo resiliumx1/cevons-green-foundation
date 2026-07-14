@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2 } from "lucide-react";
-import { ServicePageTemplate } from "@/components/ServicePageTemplate";
+import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-scrap.jpg";
 import imgRel0 from "@/assets/svc-recovery.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
@@ -34,12 +34,58 @@ const uses = [
   { icon: Building2, title: "Facility Cleanouts" },
 ];
 
+const detailSections: DetailSection[] = [
+  {
+    variant: "split-right",
+    eyebrow: "Licensed & Accountable",
+    heading: "A licensed dealer and exporter — not an informal buyer",
+    paragraphs: [
+      "CEVONS is a licensed scrap metal dealer and exporter in Guyana. For sellers, that licence isn't a formality — it's what makes the transaction defensible. It means honest weights on calibrated scales, proper paperwork on every load, and a legal chain of custody from your yard through to export.",
+      "For construction firms, workshops, and manufacturers, working with a licensed partner protects the business. There's a documented buyer, a documented volume, and a documented destination — the kind of trail auditors, insurers, and clients expect to see when scrap leaves your site.",
+    ],
+  },
+  {
+    variant: "split-left",
+    eyebrow: "What We Handle",
+    heading: "What we buy and collect",
+    paragraphs: [
+      "We handle the full spread of scrap streams a working site produces, from mixed steel off a job to end-of-life batteries out of a fleet workshop.",
+    ],
+    bullets: [
+      "Ferrous metals — steel, iron, rebar, structural offcuts",
+      "Non-ferrous metals — copper, aluminium, brass, stainless",
+      "Scrap cable — insulated and bare",
+      "Lead batteries — automotive and industrial",
+      "Construction sites, workshops, manufacturers",
+      "One-off collections or recurring pickups",
+    ],
+  },
+  {
+    variant: "band",
+    eyebrow: "See it in action",
+    heading: "Recycling at CEVONS",
+    paragraphs: [
+      "A short look at how material moves through our recycling operation — from collection through the yard.",
+    ],
+    videoEmbed: { youtubeId: "tR3CBoB09qg", title: "CEVONS Recycling" },
+  },
+  {
+    variant: "band",
+    bandEmphasis: true,
+    eyebrow: "Turn Scrap Into Revenue",
+    heading: "A licensed partner for material that has value",
+    paragraphs: [
+      "Scrap piling up is stalled revenue and a site hazard. With a licensed buyer, calibrated weights, and clear paperwork, that pile becomes cash back to the business — handled legitimately from the first weigh-in to the export container.",
+    ],
+  },
+];
+
 const faqs = [
-  { q: "Is CEVONS a licensed scrap metal dealer?", a: "Yes — CEVONS is a licensed scrap metal dealer and exporter in Guyana, operating a scrap metal yard in Georgetown." },
-  { q: "What metals do you accept?", a: "We handle ferrous and non-ferrous metals, scrap cable, and lead batteries. Contact us to confirm your material." },
-  { q: "Do you offer one-off or recurring pickups?", a: "Both. We arrange one-off collections for cleanouts and recurring pickups for workshops, contractors, and manufacturers." },
-  { q: "Can I drop off scrap at the yard?", a: "Yes — our Georgetown scrap metal yard accepts drop-offs. Contact us for hours and directions." },
-  { q: "How do I request a collection?", a: "WhatsApp us or use Request a Quote with your location, material type, and estimated volume." },
+  { q: "What metals do you accept?", a: "Ferrous metals such as steel, iron, and rebar, plus non-ferrous streams including copper, aluminium, brass, and stainless. We also collect scrap cable and lead batteries." },
+  { q: "Do you offer one-off or recurring collections?", a: "Both. One-off pickups suit end-of-project cleanouts and site demobilizations. Recurring pickups work best for workshops, contractors, and manufacturers with steady scrap output." },
+  { q: "Can I deliver directly to the yard?", a: "Yes — our Georgetown scrap metal yard accepts drop-offs. Contact us ahead for hours, directions, and confirmation on your material." },
+  { q: "How does pricing work?", a: "Pricing is by weight and depends on the metal grade and current market rates. Weights are taken on calibrated scales and confirmed with paperwork at the point of sale." },
+  { q: "Why does the licence matter?", a: "A licensed dealer means legitimate weights, proper documentation, and a legal export chain. For your business, it's the audit trail that shows the material was handled through the right channels." },
 ];
 
 const related = [
@@ -68,6 +114,9 @@ function Page() {
       commonUses={uses}
       faqs={faqs}
       related={related}
+      serviceSlug="scrap-metal-recycling"
+      detailSections={detailSections}
+      showAssistBand
     />
   );
 }
