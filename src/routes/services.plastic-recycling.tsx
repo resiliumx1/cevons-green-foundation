@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Recycle, Factory, Building2, ShoppingBag, Package, Trash2, Container, Sprout } from "lucide-react";
-import { ServicePageTemplate } from "@/components/ServicePageTemplate";
+import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-recovery.jpg";
 import imgRel0 from "@/assets/svc-scrap.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
@@ -34,12 +34,42 @@ const uses = [
   { icon: Sprout, title: "Sustainability Programs" },
 ];
 
+const detailSections: DetailSection[] = [
+  {
+    variant: "split-right",
+    eyebrow: "A Program, Not a Bin-Drop",
+    heading: "Raising your recycling rate — measurably",
+    paragraphs: [
+      "Setting a recycling bin at the back door is not a recycling program. CEVONS builds actual programs — source separation designed for how your team already works, collection matched to your volume, and reporting that shows the rate moving in the right direction over time.",
+      "The goal is a bigger share of your plastic diverted from the landfill month over month. That takes design, not just containers. We start by understanding the streams your operation produces, then structure the program around what will actually get sorted correctly on the floor.",
+    ],
+  },
+  {
+    variant: "split-left",
+    eyebrow: "Verified End Destinations",
+    heading: "You can say where your plastic actually went",
+    paragraphs: [
+      "One of the hardest questions in corporate sustainability is a simple one: where did the plastic go? Too often the honest answer is \"we don't know.\" A CEVONS program answers that question with verified end destinations through a vetted partner network — not assumptions, not brochures, but a documented downstream path.",
+      "That's what turns a recycling program from a claim into a credential — reporting that stands up to scrutiny from clients, auditors, and sustainability teams.",
+    ],
+  },
+  {
+    variant: "band",
+    bandEmphasis: true,
+    eyebrow: "Varied Streams, One Program",
+    heading: "One accountable partner across your plastic streams",
+    paragraphs: [
+      "Business plastic isn't one material — it's shrink wrap, rigid containers, packaging, back-of-house film, and more. A CEVONS program covers varied streams under one accountable partner, so your team isn't juggling multiple vendors to hit a single recycling target.",
+    ],
+  },
+];
+
 const faqs = [
-  { q: "What kinds of plastic do you handle?", a: "We work across varied plastic waste streams. Share what your business produces and we'll confirm the right pathway during setup." },
-  { q: "How does the recycling program work?", a: "We help you separate plastics at source, arrange collection, and route material through our partner network — with verified end destinations." },
-  { q: "Can you help lift our recycling rate?", a: "Yes — that's the goal. We design programs that raise the share of plastic diverted from landfill for businesses of any size." },
-  { q: "Do you provide transparency on where material goes?", a: "Yes. Our partner network provides verified, transparent end destinations so you know how your material is being handled." },
-  { q: "How do I start?", a: "WhatsApp us or use Request a Quote with your industry, plastic types, and estimated volume." },
+  { q: "Which plastic types and streams do you handle?", a: "We work across varied plastic waste streams typical of commercial operations — packaging, film, and rigid containers among them. Share what your business produces and we'll confirm the pathway for each stream during setup." },
+  { q: "How does a program get started?", a: "We look at your current waste flow, identify the streams worth separating, and design a source-separation and collection setup that fits how your team already works. Roll-out follows, with training if needed." },
+  { q: "How do we keep contamination down?", a: "Contamination is the single biggest reason recyclables end up in landfill. We size bins, place them where the material is actually produced, and provide clear guidance so the right thing lands in the right container." },
+  { q: "Do you provide reporting for sustainability goals?", a: "Yes — verified end destinations through our partner network mean you can report where your material went, backed by documentation rather than assumption. That's what corporate sustainability reporting requires." },
+  { q: "How does this connect to the Material Recovery Facility?", a: "The Material Recovery Facility provides the industrial-scale sorting and recovery infrastructure behind the program — so material collected from your site has a real place to go." },
 ];
 
 const related = [
@@ -68,6 +98,9 @@ function Page() {
       commonUses={uses}
       faqs={faqs}
       related={related}
+      serviceSlug="plastic-recycling"
+      detailSections={detailSections}
+      showAssistBand
     />
   );
 }
