@@ -128,6 +128,15 @@ const categoryOverview: {
     items: facilities.map((s) => s.title),
     accent: "from-[#00563d] to-[#1A1A1A]",
   },
+  {
+    key: "recycling",
+    label: "Recycling",
+    title: "Recovery & Circular Programs",
+    icon: Recycle,
+    blurb: "CEVONS's commitment to recycling and environmental preservation across Guyana.",
+    items: recycling.map((s) => s.title),
+    accent: "from-[#00563d] to-[#00432a]",
+  },
 ];
 
 const tabs: { key: FilterKey; label: string }[] = [
