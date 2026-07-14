@@ -78,6 +78,12 @@ const detailSections: DetailSection[] = [
   },
 ];
 
+const related: RelatedService[] = [
+  { title: "Hazardous Waste", body: "Compliant handling of regulated waste streams.", img: imgRel1, to: "/services/hazardous-waste", icon: ShieldAlert },
+  { title: "Used Cooking Oil", body: "Scheduled collection from restaurants and kitchens.", img: imgRel2, to: "/services/used-cooking-oil", icon: Droplet },
+  { title: "Grease Trap / Septic Tank", body: "Servicing for kitchens and facilities.", img: imgRel0, to: "/services/grease-trap-septic-tank", icon: Recycle },
+];
+
 function Page() {
   return (
     <ServicePageTemplate
