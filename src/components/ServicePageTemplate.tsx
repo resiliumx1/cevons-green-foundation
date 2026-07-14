@@ -1,7 +1,7 @@
 import type { ComponentType, ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { serviceJsonLd, breadcrumbListJsonLd, faqPageJsonLd } from "@/lib/seo/jsonLd";
-import { Children, isValidElement } from "react";
+import { isValidElement } from "react";
 import {
   ArrowRight,
   Calendar,
