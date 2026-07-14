@@ -548,6 +548,34 @@ function ServicesPage() {
         </section>
       )}
 
+      {/* RECYCLING */}
+      {showRecycling && (
+        <section id="section-recycling" className="section-y bg-white scroll-mt-32">
+          <div className="container-cevons">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
+                  <Recycle className="size-4" /> Recycling
+                </p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
+                  Recycling & Resource Recovery
+                </h2>
+                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
+                  Programs that divert materials from landfill and return value to Guyana's supply chain.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {recycling.map((s) => (
+                <ServiceCard key={s.title} s={s} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+
+
 
       {/* "Not Sure" CTA */}
       <OrangeCTABanner
