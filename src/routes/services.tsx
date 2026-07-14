@@ -520,12 +520,12 @@ function ServicesPage() {
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
                         <h3 className="mt-1 text-2xl font-extrabold text-[var(--cevons-deep-green)]">{s.title}</h3>
                         <p className="mt-3 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
-                        <a
-                          href={s.slug}
+                        <Link
+                          to={s.slug}
                           className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
                         >
                           Learn more about {s.title} <ArrowRight className="size-4" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </article>
