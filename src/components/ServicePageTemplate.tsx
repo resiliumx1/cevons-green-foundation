@@ -331,41 +331,61 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {related && related.length > 0 && (
-        <section className="section-y bg-white" aria-labelledby="related-h">
+        <section className="py-12 md:py-16 bg-white" aria-labelledby="related-h">
           <div className="container-cevons">
-            <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-6">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2">More From CEVONS</p>
-                <h2 id="related-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Related Services</h2>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] mb-1.5" style={{ color: EYEBROW_ORANGE }}>More From CEVONS</p>
+                <h2 id="related-h" className="text-2xl md:text-3xl font-extrabold text-cevons-dark">Related Services</h2>
               </div>
-              <Link to="/services" className="inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">
+              <Link
+                to="/services"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-white bg-[var(--brand-orange,#EF7700)] hover:bg-[var(--brand-orange-dark,#C45F00)] px-4 py-2 rounded-full transition-colors shadow-soft"
+              >
                 View all services <ArrowRight className="size-4" />
               </Link>
             </div>
-            <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {related.map(({ title, body, img, to, icon: Icon }) => (
                 <StaggerItem
                   as="article"
                   key={title}
-                  className="group bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-cevons-green hover:shadow-lift"
+                  className="group relative bg-white rounded-xl border border-cevons-border overflow-hidden shadow-soft transition-all hover:-translate-y-0.5 hover:border-[var(--brand-orange,#EF7700)] hover:shadow-lift"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-cevons-cream">
-                    <img src={img} alt={title} loading="lazy" decoding="async" width={640} height={400} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <span className="absolute -bottom-5 left-5 size-12 rounded-full bg-cevons-green text-white border-4 border-white flex items-center justify-center shadow-soft">
-                      <Icon className="size-5" aria-hidden="true" />
-                    </span>
-                  </div>
-                  <div className="p-6 pt-8">
-                    <h3 className="text-lg font-bold text-cevons-dark">{title}</h3>
-                    <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                    <Link to={to} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cevons-green hover:gap-2 transition-all">
-                      Learn More <ArrowRight className="size-4" />
-                    </Link>
-                  </div>
+                  <Link to={to} className="flex gap-3 p-3 items-center" aria-label={title}>
+                    <div className="relative shrink-0 size-20 rounded-lg overflow-hidden bg-cevons-cream">
+                      <img
+                        src={img}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        width={160}
+                        height={160}
+                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <span className="absolute bottom-1 right-1 size-6 rounded-full bg-[var(--brand-orange,#EF7700)] text-white flex items-center justify-center ring-2 ring-white">
+                        <Icon className="size-3.5" aria-hidden="true" />
+                      </span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-bold text-cevons-dark leading-snug group-hover:text-[var(--brand-orange-dark,#C45F00)] transition-colors">
+                        {title}
+                      </h3>
+                      <p className="mt-1 text-xs text-cevons-muted leading-snug line-clamp-2">{body}</p>
+                    </div>
+                    <ArrowRight className="size-4 text-cevons-muted shrink-0 transition-all group-hover:text-[var(--brand-orange,#EF7700)] group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Link>
                 </StaggerItem>
               ))}
             </Stagger>
-
+            <div className="mt-8 text-center">
+              <Link
+                to="/services"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-orange-dark,#C45F00)] hover:gap-2.5 transition-all"
+              >
+                Browse all 22 services <ArrowRight className="size-4" />
+              </Link>
+            </div>
           </div>
         </section>
       )}
