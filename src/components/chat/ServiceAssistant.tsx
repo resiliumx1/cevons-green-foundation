@@ -24,8 +24,8 @@ const WHATSAPP_URL = whatsappHref;
 
 const BRAND_ORANGE = "var(--brand-orange)";
 const BRAND_ORANGE_DEEP = "#d96b00";
-const BRAND_GREEN = "#2E7D32";
-const BRAND_GREEN_DEEP = "#1e3a24";
+const BRAND_GREEN = "#EF7700"; // rebranded to CEVONS orange (assistant chrome)
+const BRAND_GREEN_DEEP = "#1A1A1A"; // rebranded to charcoal (assistant footer bar)
 const CHARCOAL = "#1A1A1A";
 
 type Message = {

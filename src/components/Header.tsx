@@ -101,13 +101,13 @@ export function Header() {
           <span className="flex flex-col justify-center leading-none">
             <span
               className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
-              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "#2DA339" }}
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "var(--brand-orange)" }}
             >
               CEVONS
             </span>
             <span
               className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: "#2DA339" }}
+              style={{ color: "var(--brand-orange)" }}
             >
               Environmental Services Inc.
             </span>

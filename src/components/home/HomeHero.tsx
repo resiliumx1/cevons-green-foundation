@@ -130,7 +130,7 @@ export function HomeHero() {
               { Icon: Leaf, label: t("home.hero.trust.sustainable") },
             ].map(({ Icon, label }, i, arr) => (
               <li key={label} className="flex items-center gap-2">
-                <Icon className="size-4" style={{ color: "#2E7D32" }} aria-hidden="true" />
+                <Icon className="size-4" style={{ color: "var(--brand-orange)" }} aria-hidden="true" />
                 <span className="font-medium">{label}</span>
                 {i < arr.length - 1 && (
                   <span aria-hidden="true" className="ml-3 h-3 w-px bg-white/25" />
