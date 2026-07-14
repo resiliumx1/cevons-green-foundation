@@ -149,7 +149,9 @@ const tabs: { key: FilterKey; label: string }[] = [
   { key: "commercial", label: "Commercial" },
   { key: "industrial", label: "Industrial" },
   { key: "facilities", label: "Facilities" },
+  { key: "recycling", label: "Recycling" },
 ];
+
 
 const faqs = [
   {
