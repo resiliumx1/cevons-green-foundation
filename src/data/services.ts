@@ -69,3 +69,53 @@ export function getServicesByCategory(category: ServiceCategory): Service[] {
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
+
+export const categorySectionOrder: Record<ServiceCategory, string[]> = {
+  residential: [
+    "general-trash-collection",
+    "dumpster-rental",
+    "septic-services",
+    "portable-toilet",
+  ],
+  commercial: [
+    "general-waste-management",
+    "skip-bin-dumpster-rental",
+    "portable-toilet",
+    "grease-trap-septic-tank",
+    "document-shredding",
+    "compactor-rental",
+    "road-sweeping",
+    "scrap-metal-recycling",
+    "used-cooking-oil",
+    "plastic-recycling",
+  ],
+  industrial: [
+    "hazardous-waste",
+    "wastewater",
+    "used-waste-oil",
+    "contaminated-soil",
+    "tank-cleaning",
+    "product-destruction",
+    "biohazardous-disposal",
+    "scrap-metal-recycling",
+    "plastic-recycling",
+    "compactor-rental",
+  ],
+  facilities: [
+    "material-recovery-facility",
+    "landfill-operations",
+    "road-sweeping",
+  ],
+  recycling: [
+    "material-recovery-facility",
+    "scrap-metal-recycling",
+    "used-cooking-oil",
+    "plastic-recycling",
+  ],
+};
+
+export function getServicesForSection(category: ServiceCategory): Service[] {
+  return categorySectionOrder[category]
+    .map((slug) => getServiceBySlug(slug))
+    .filter((s): s is Service => Boolean(s));
+}
