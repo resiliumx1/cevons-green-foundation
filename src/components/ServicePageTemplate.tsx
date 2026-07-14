@@ -90,7 +90,7 @@ function reactNodeToText(node: ReactNode): string {
   }
   return "";
 }
-void Children;
+
 
 export function ServicePageTemplate(props: ServicePageProps) {
   const {
