@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Wrench, Factory, Truck, Anchor, Building2 } from "lucide-react";
-import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { Flame, Wrench, Factory, Truck, Anchor, Building2, Droplet, ShieldAlert, Recycle } from "lucide-react";
+import { ServicePageTemplate, type DetailSection, type RelatedService } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-oil.jpg";
+import imgRel0 from "@/assets/svc-grease.jpg";
+import imgRel1 from "@/assets/svc-hazardous.jpg";
+import imgRel2 from "@/assets/svc-oil.jpg";
 
 const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVONS";
 const PAGE_DESC = "Collection of used engine, transmission, and hydraulic oils, plus used oil filter recycling for garages, dealerships, and industry.";
