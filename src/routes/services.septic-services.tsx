@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Droplet, Home, Building, AlertTriangle, Wrench, ClipboardCheck, Trash2, Waves } from "lucide-react";
-import { ServicePageTemplate } from "@/components/ServicePageTemplate";
+import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-septic.jpg";
 import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-toilet.jpg";
 import imgRel2 from "@/assets/svc-grease.jpg";
 
 const PAGE_TITLE = "Septic Services in Guyana | CEVONS";
-const PAGE_DESC = "Septic tank pumping, clearance, and maintenance for homes across Guyana — safe handling and responsible disposal every visit.";
+const PAGE_DESC = "The most experienced septic team in Guyana — 8,500 to 10,500 litre trucks, licensed disposal, service in every region.";
 const PAGE_URL = "/services/septic-services";
 
 export const Route = createFileRoute("/services/septic-services")({
@@ -35,17 +35,57 @@ const uses = [
 ];
 
 const faqs = [
-  { q: "How often should I pump my septic tank?", a: "Most homes benefit from septic pumping every 2–3 years depending on household size and tank capacity. Heavy use may require more frequent service." },
-  { q: "What are the signs my tank needs service?", a: "Slow drains, odors near the tank, lush patches over the drain field, or backups inside the home are common signs that pumping is needed." },
-  { q: "How long does septic pumping take?", a: "Most residential pumping is completed within 1–2 hours, depending on tank size and access." },
-  { q: "Is the waste disposed of safely?", a: "Yes. All collected waste is transported and disposed of through approved channels." },
-  { q: "Do you service emergency overflows?", a: "Yes. Contact us as soon as possible — we'll prioritize urgent septic situations to minimize damage." },
+  { q: "What are the signs my septic tank needs emptying?", a: "The clearest signs are smells or wet patches around the tank and drainage field, drains that overflow or gurgle, and toilets or sinks that empty more slowly than usual. If any of those show up, book a service — waiting rarely makes it cheaper." },
+  { q: "How often should I empty my septic tank?", a: "For a family of four, every three to four years is typical. Larger households should book at least every three years. Actual frequency depends on how much the tank is used, its capacity, and whether greywater is recycled — we'll advise once we've seen your setup." },
+  { q: "Will you fully empty my tank?", a: "Yes. Our fleet runs from 8,500 to 10,500 litres, so we bring a truck sized to your tank and pump it out completely. Smaller operators often leave tanks half-done because their trucks fill up before the job does — that's not how we work." },
+  { q: "How long does the job take?", a: "A straightforward empty takes around forty-five minutes from arrival to clean-up. Difficult access or unusually large tanks can extend that, but we'll flag it when we book." },
+  { q: "How close does the truck need to get to the tank?", a: "Our trucks routinely carry around fifty metres of hose, so we can service most properties without driving onto sensitive ground. If your tank sits further from a hard road than that, tell us when you book and we'll bring extra hose." },
+  { q: "Do your trucks leave a mess on my property?", a: "No. The fleet is modern and well-maintained, no oil drips, and the crew protects your driveway and lawn while they work. When we leave, the only sign we were there is a properly emptied tank." },
+  { q: "What areas do you service?", a: "Every region of Guyana. Wherever your property is, we can get a truck to it." },
 ];
 
 const related = [
   { title: "General Trash Collection", body: "Reliable household pickup on a schedule.", img: imgRel0, to: "/services/general-trash-collection", icon: Trash2 },
   { title: "Portable Toilet", body: "Clean portable toilet rentals for events and projects.", img: imgRel1, to: "/services/portable-toilet", icon: Waves },
   { title: "Grease Trap / Septic Tank", body: "Commercial grease trap and septic servicing.", img: imgRel2, to: "/services/grease-trap-septic-tank", icon: Droplet },
+];
+
+const detailSections: DetailSection[] = [
+  {
+    variant: "split-right",
+    eyebrow: "The most experienced team in Guyana",
+    heading: "Thousands of tanks emptied, in every region of the country",
+    paragraphs: [
+      "CEVONS has emptied thousands of septic tanks across Guyana over the years, and the crews doing that work today are the most experienced and qualified septic staff in the country. That experience is what turns a septic call from a disruption into a routine forty-five-minute job.",
+      "The service is clean and efficient — the truck arrives on time, the tank is emptied fully, the property is left the way it was found, and every load is taken to a licensed disposal site approved by the Government of Guyana. There is no shortcut on where the waste goes.",
+      "Pricing is fixed and competitive. What we quote is what you pay — no hidden charges, no surprise add-ons after the truck is on your driveway.",
+    ],
+    images: [
+      { src: "/services/detail/septic-emptying.webp", alt: "CEVONS septic team emptying a residential tank in Guyana" },
+    ],
+  },
+  {
+    variant: "split-left",
+    eyebrow: "The fleet advantage",
+    heading: "8,500 to 10,500 litre trucks — a truck suitable for every job",
+    paragraphs: [
+      "The fleet ranges from 8,500 up to 10,500 litres of capacity, so we can send a truck sized to your tank instead of asking your tank to fit the truck. That's the difference between a tank that's genuinely empty and one that's been drawn down to whatever the visiting truck could carry.",
+      "Our trucks also carry around fifty metres of hose as standard, which means we can service most properties without needing to drive onto lawns or sensitive ground. Longer runs are handled by bringing extra hose to the job — tell us when you book.",
+    ],
+    images: [
+      { src: "/services/detail/septic-fleet.webp", alt: "CEVONS septic tanker fleet lined up ready for dispatch" },
+    ],
+  },
+  {
+    variant: "band",
+    bandEmphasis: true,
+    eyebrow: "Clean, compliant, complete",
+    heading: "Licensed disposal, government-approved sites, every region of Guyana",
+    paragraphs: [
+      "Every load leaves your property in a sealed tanker and ends its journey at a disposal site licensed and approved by the Government of Guyana. That compliance is non-negotiable, and it's the reason municipal and commercial customers use us alongside residential clients.",
+      "Wherever you are in the country, we can get a truck to you — cleanly, on schedule, at a fixed price.",
+    ],
+  },
 ];
 
 function Page() {
@@ -55,14 +95,17 @@ function Page() {
       eyebrowLabel="Residential"
       breadcrumb="Septic Services"
       h1="Septic Services for Homes"
-      subhead="Professional septic tank pumping, clearance, and maintenance with safe handling and proper disposal."
+      subhead="The most experienced septic team in Guyana — 8,500 to 10,500 litre trucks, licensed disposal, and service in every region."
       heroImage={imgHero}
-      heroAlt="CEVONS septic service truck performing residential tank pumping"
-      benefits={["Trained, experienced crews","Modern vacuum equipment","Safe waste handling","Discreet, clean service","Coverage across Guyana"]}
+      heroAlt="CEVONS septic tanker performing a residential tank emptying in Guyana"
+      benefits={["Most experienced crews in Guyana","8,500–10,500 L truck sizes","~50 m of hose carried","Licensed government-approved disposal","Fixed, competitive prices"]}
       commonUses={uses}
       faqs={faqs}
       related={related}
       ctaVariant="routine"
+      serviceSlug="septic-services"
+      detailSections={detailSections}
+      showAssistBand
     />
   );
 }
