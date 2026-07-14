@@ -186,12 +186,9 @@ export function Header() {
                     <div className="grid grid-cols-5 gap-x-6 gap-y-2">
                       {servicesMenu.map((col) => (
                         <div key={col.groupKey}>
-                          <a
-                            href={`/services/${col.groupKey}`}
-                            className="block text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green hover:text-[var(--brand-orange)] mb-2 transition-colors"
-                          >
+                          <div className="block text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green mb-2">
                             {categoryLabels[col.groupKey]}
-                          </a>
+                          </div>
                           <ul className="space-y-1" role="menu">
                             {col.items.map((slug) => (
                               <li key={col.groupKey + slug} role="none">
