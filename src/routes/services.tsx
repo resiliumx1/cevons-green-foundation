@@ -340,7 +340,6 @@ function ServicesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {categoryOverview.map(({ key, label, title, icon: Icon, blurb, items, accent }) => {
-              const isIndustrial = key === "industrial";
               const isYellow = key === "commercial";
               return (
                 <article
