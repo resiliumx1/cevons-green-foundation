@@ -334,7 +334,7 @@ function ServicesPage() {
               Explore by Category
             </h2>
             <p className="mt-4 text-[var(--cevons-muted)]">
-              Four service families covering every waste and environmental need across Guyana.
+              Five service families covering every waste and environmental need across Guyana.
             </p>
           </div>
 
