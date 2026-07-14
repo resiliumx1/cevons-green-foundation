@@ -41,6 +41,7 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { useT } from "@/contexts/SettingsContext";
 import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
+import { getServicesForSection, type Service } from "@/data/services";
 const heroServices = "/assets/heroes/hero-services.webp";
 
 import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
@@ -74,46 +75,26 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-type CategoryKey = "residential" | "commercial" | "industrial" | "facilities";
+type CategoryKey = "residential" | "commercial" | "industrial" | "facilities" | "recycling";
 type FilterKey = "all" | CategoryKey;
 
 type ServiceItem = {
   title: string;
   body: string;
   slug: string;
-  icon: React.ComponentType<{ className?: string }>;
   iconKey: CevonsServiceKey;
 };
 
-const residential: ServiceItem[] = [
-  { title: "General Trash Collection", slug: "/services/general-trash-collection", icon: Trash2, iconKey: "general-trash-collection", body: "Reliable household waste pickup on a schedule that fits your community." },
-  { title: "Dumpster Rental", slug: "/services/dumpster-rental", icon: Container, iconKey: "dumpster-rental", body: "Short or long term dumpster rentals for home projects and cleanouts." },
-  { title: "Septic Services", slug: "/services/septic-services", icon: Droplet, iconKey: "septic-services", body: "Safe, efficient septic tank pumping and clearance for homes." },
-  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, iconKey: "portable-toilet", body: "Clean, hygienic portable toilet rentals for residential events and projects." },
-];
+function toItem(s: Service): ServiceItem {
+  return { title: s.title, body: s.shortBody, slug: s.path, iconKey: s.iconKey };
+}
 
-const commercial: ServiceItem[] = [
-  { title: "General Waste Management", slug: "/services/general-waste-management", icon: Trash2, iconKey: "general-waste-management", body: "Scheduled collection and waste programs for businesses and properties." },
-  { title: "Skip Bin & Dumpster Rental", slug: "/services/skip-bin-dumpster-rental", icon: Container, iconKey: "skip-bin", body: "Multiple sizes for construction, renovation, and ongoing site needs." },
-  { title: "Portable Toilet", slug: "/services/portable-toilet", icon: Waves, iconKey: "portable-toilet", body: "Sanitation units for sites, events, and commercial properties." },
-  { title: "Grease Trap / Septic Tank", slug: "/services/grease-trap-septic-tank", icon: Droplet, iconKey: "grease-trap", body: "Grease trap and septic servicing for restaurants and facilities." },
-  { title: "Document Shredding", slug: "/services/document-shredding", icon: FileText, iconKey: "document-shredding", body: "Secure on-site or off-site document destruction with chain-of-custody." },
-];
+const residential: ServiceItem[] = getServicesForSection("residential").map(toItem);
+const commercial: ServiceItem[] = getServicesForSection("commercial").map(toItem);
+const industrial: ServiceItem[] = getServicesForSection("industrial").map(toItem);
+const facilities: ServiceItem[] = getServicesForSection("facilities").map(toItem);
+const recycling: ServiceItem[] = getServicesForSection("recycling").map(toItem);
 
-const industrial: ServiceItem[] = [
-  { title: "Hazardous Waste", slug: "/services/hazardous-waste", icon: ShieldAlert, iconKey: "hazardous-waste", body: "Regulated handling, transport, and disposal of hazardous waste streams." },
-  { title: "Wastewater", slug: "/services/wastewater", icon: Waves, iconKey: "liquid-wastewater", body: "Industrial wastewater collection and treatment coordination." },
-  { title: "Used Waste Oil", slug: "/services/used-waste-oil", icon: Flame, iconKey: "used-waste-oil", body: "Compliant collection and responsible recycling of used waste oil." },
-  { title: "Contaminated Soil", slug: "/services/contaminated-soil", icon: Sprout, iconKey: "contaminated-soil", body: "Excavation, transport, and treatment of contaminated solid waste." },
-  { title: "Tank Cleaning", slug: "/services/tank-cleaning", icon: Beaker, iconKey: "tank-cleaning", body: "Industrial tank cleaning with safety controls and proper waste disposal." },
-  { title: "Product Destruction", slug: "/services/product-destruction", icon: PackageX, iconKey: "product-destruction", body: "Certified product destruction with auditable documentation." },
-  { title: "Biohazardous Disposal", slug: "/services/biohazardous-disposal", icon: Biohazard, iconKey: "biohazardous-disposal", body: "Safe biohazardous waste collection and compliant disposal." },
-];
-
-const facilities: ServiceItem[] = [
-  { title: "Material Recovery Facility", slug: "/services/material-recovery-facility", icon: Recycle, iconKey: "material-recovery", body: "Sorting and recovery infrastructure that turns waste into resources." },
-  { title: "Landfill Operations", slug: "/services/landfill-operations", icon: Mountain, iconKey: "landfill-operations", body: "Managed landfill operations with environmental safeguards." },
-];
 
 const categoryOverview: {
   key: CategoryKey;
