@@ -380,21 +380,14 @@ function ServicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <button
-                      onClick={() => {
-                        setActive(key);
-                        const el = document.getElementById(`section-${key}`);
-                        if (el) {
-                          const y = el.getBoundingClientRect().top + window.scrollY - 130;
-                          window.scrollTo({ top: y, behavior: "smooth" });
-                        }
-                      }}
+                    <Link
+                      to={`/services/${key}` as string}
                       className={`mt-6 inline-flex items-center gap-2 font-bold text-sm ${
                         isYellow ? "text-[var(--cevons-dark)] hover:gap-3" : "text-[var(--cevons-yellow)] hover:gap-3"
-                      } transition-all ${isIndustrial ? "" : ""}`}
+                      } transition-all`}
                     >
                       Explore {label} <ArrowRight className="size-4" />
-                    </button>
+                    </Link>
                   </div>
                 </article>
               );
