@@ -513,7 +513,7 @@ export function ServiceAssistant() {
                       const Icon = c.icon;
                       const tone = c.tone === "orange" ? BRAND_ORANGE : BRAND_GREEN;
                       const toneSoft =
-                        c.tone === "orange" ? "rgba(239,119,0,0.10)" : "rgba(46,125,50,0.10)";
+                        c.tone === "orange" ? "rgba(239,119,0,0.10)" : "rgba(239,119,0,0.10)";
                       return (
                         <button
                           key={c.label}
