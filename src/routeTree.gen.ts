@@ -22,6 +22,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
 import { Route as CrmIndexRouteImport } from './routes/crm.index'
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
@@ -123,6 +124,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
   id: '/request-service/',
@@ -367,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm/': typeof CrmIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRoutesByTo {
@@ -378,7 +385,6 @@ export interface FileRoutesByTo {
   '/locations': typeof LocationsRoute
   '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
@@ -417,6 +423,7 @@ export interface FileRoutesByTo {
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm': typeof CrmIndexRoute
   '/request-service': typeof RequestServiceIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRoutesById {
@@ -469,6 +476,7 @@ export interface FileRoutesById {
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/crm/': typeof CrmIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/crm/leads/$id': typeof CrmLeadsIdRoute
 }
 export interface FileRouteTypes {
@@ -522,6 +530,7 @@ export interface FileRouteTypes {
     | '/services/wastewater'
     | '/crm/'
     | '/request-service/'
+    | '/services/'
     | '/crm/leads/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -533,7 +542,6 @@ export interface FileRouteTypes {
     | '/locations'
     | '/newsroom'
     | '/resources'
-    | '/services'
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
@@ -572,6 +580,7 @@ export interface FileRouteTypes {
     | '/services/wastewater'
     | '/crm'
     | '/request-service'
+    | '/services'
     | '/crm/leads/$id'
   id:
     | '__root__'
@@ -623,6 +632,7 @@ export interface FileRouteTypes {
     | '/services/wastewater'
     | '/crm/'
     | '/request-service/'
+    | '/services/'
     | '/crm/leads/$id'
   fileRoutesById: FileRoutesById
 }
@@ -736,6 +746,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/request-service/': {
       id: '/request-service/'
@@ -1057,6 +1074,7 @@ interface ServicesRouteChildren {
   ServicesUsedCookingOilRoute: typeof ServicesUsedCookingOilRoute
   ServicesUsedWasteOilRoute: typeof ServicesUsedWasteOilRoute
   ServicesWastewaterRoute: typeof ServicesWastewaterRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
@@ -1082,6 +1100,7 @@ const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesUsedCookingOilRoute: ServicesUsedCookingOilRoute,
   ServicesUsedWasteOilRoute: ServicesUsedWasteOilRoute,
   ServicesWastewaterRoute: ServicesWastewaterRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
