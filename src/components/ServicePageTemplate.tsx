@@ -1,6 +1,7 @@
 import type { ComponentType, ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { serviceJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { serviceJsonLd, breadcrumbListJsonLd, faqPageJsonLd } from "@/lib/seo/jsonLd";
+import { isValidElement } from "react";
 import {
   ArrowRight,
   Calendar,
@@ -80,6 +81,17 @@ const DEFAULT_STEPS = [
   { icon: Truck, title: "Service & follow-up", body: "Our team performs the service and follows up as needed." },
 ];
 
+function reactNodeToText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(reactNodeToText).join(" ");
+  if (isValidElement(node)) {
+    return reactNodeToText((node.props as { children?: ReactNode }).children);
+  }
+  return "";
+}
+
+
 export function ServicePageTemplate(props: ServicePageProps) {
   const {
     eyebrowIcon: Eyebrow,
@@ -125,11 +137,15 @@ export function ServicePageTemplate(props: ServicePageProps) {
     { name: "Services", path: "/services" },
     { name: breadcrumb, path: pathname },
   ]));
+  const jsonLdFaq = JSON.stringify(
+    faqPageJsonLd(faqs.map((f) => ({ q: f.q, a: reactNodeToText(f.a) })))
+  );
 
   return (
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdService }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdFaq }} />
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
         <div className="container-cevons py-4">
