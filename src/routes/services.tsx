@@ -25,9 +25,8 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { whatsappHref } from "@/data/cevonsContact";
 import { CevonsIcon } from "@/components/CevonsIcon";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { useT } from "@/contexts/SettingsContext";
-import type { CevonsServiceKey, CevonsCategoryKey } from "@/data/cevonsIconRegistry";
+import type { CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { getServicesForSection, type Service } from "@/data/services";
 const heroServices = "/assets/heroes/hero-services.webp";
 
