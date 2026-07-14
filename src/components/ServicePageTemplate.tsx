@@ -359,19 +359,21 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
 /* ---------- Detail Sections ---------- */
 
-const assistStrip = [
-  "/services/detail/assist-band-1.webp",
-  "/services/detail/assist-band-2.webp",
-  "/services/detail/assist-band-3.webp",
-];
+const CHARCOAL = "#1A1A1A";
+const CREAM_ALT = "#F7F5F1";
+const EYEBROW_ORANGE = "var(--brand-orange-dark, #C45F00)";
 
 function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
   return (
     <>
       {sections.map((s, i) => {
-        const bg = i % 2 === 0 ? "bg-white" : "bg-cevons-cream";
+        const isAlt = i % 2 === 1;
         return (
-          <section key={i} className={`section-y ${bg}`}>
+          <section
+            key={i}
+            className="py-12 md:py-16"
+            style={isAlt ? { backgroundColor: CREAM_ALT } : { backgroundColor: "#ffffff" }}
+          >
             <div className="container-cevons">
               <DetailSectionRender section={s} />
             </div>
@@ -386,7 +388,10 @@ function SectionText({ section }: { section: DetailSection }) {
   return (
     <div>
       {section.eyebrow && (
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">
+        <p
+          className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
+          style={{ color: EYEBROW_ORANGE }}
+        >
           {section.eyebrow}
         </p>
       )}
@@ -402,7 +407,11 @@ function SectionText({ section }: { section: DetailSection }) {
         <ul className="mt-6 grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
           {section.bullets.map((b) => (
             <li key={b} className="flex items-start gap-2.5 text-sm text-cevons-dark">
-              <CheckCircle2 className="size-5 text-cevons-green shrink-0 mt-0.5" aria-hidden="true" />
+              <CheckCircle2
+                className="size-5 shrink-0 mt-0.5"
+                style={{ color: "var(--brand-orange)" }}
+                aria-hidden="true"
+              />
               <span>{b}</span>
             </li>
           ))}
@@ -435,28 +444,44 @@ function SectionImages({ images }: { images: DetailImage[] }) {
 
 function DetailSectionRender({ section }: { section: DetailSection }) {
   if (section.variant === "band") {
+    const emphasis = section.bandEmphasis;
     return (
       <Reveal variant="up">
-        <div className={`max-w-4xl mx-auto text-center ${section.bandEmphasis ? "rounded-2xl bg-cevons-dark text-white p-10 md:p-14 shadow-lift" : ""}`}>
+        <div
+          className={`max-w-3xl mx-auto text-center ${emphasis ? "rounded-2xl p-8 md:p-10 shadow-lift" : ""}`}
+          style={emphasis ? { backgroundColor: CHARCOAL } : undefined}
+        >
           {section.eyebrow && (
-            <p className={`text-xs font-bold uppercase tracking-[0.2em] mb-3 ${section.bandEmphasis ? "text-cevons-yellow" : "text-cevons-green"}`}>
+            <p
+              className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
+              style={{ color: emphasis ? "var(--brand-orange)" : EYEBROW_ORANGE }}
+            >
               {section.eyebrow}
             </p>
           )}
-          <h2 className={`text-3xl md:text-4xl font-extrabold ${section.bandEmphasis ? "text-white" : "text-cevons-dark"}`}>
+          <h2
+            className="text-3xl md:text-4xl font-extrabold"
+            style={{ color: emphasis ? "#ffffff" : "var(--cevons-dark, #1A1A1A)" }}
+          >
             {section.heading}
           </h2>
-          <div className={`mt-5 space-y-4 text-base leading-relaxed ${section.bandEmphasis ? "text-white/85" : "text-cevons-muted"}`}>
-            {section.paragraphs.map((p, idx) => <p key={idx}>{p}</p>)}
+          <div
+            className="mt-5 space-y-4 text-base leading-relaxed"
+            style={{ color: emphasis ? "rgba(255,255,255,0.88)" : undefined }}
+          >
+            {section.paragraphs.map((p, idx) => (
+              <p key={idx} className={emphasis ? "" : "text-cevons-muted"}>{p}</p>
+            ))}
           </div>
           {section.videoEmbed && (
             <figure
-              className="mt-8"
+              className="mt-8 mx-auto"
+              style={{ maxWidth: 820 }}
               aria-label={`${section.videoEmbed.title} video`}
             >
               <div
-                className="relative w-full overflow-hidden rounded-2xl shadow-lift bg-cevons-dark focus-within:ring-2 focus-within:ring-cevons-yellow focus-within:ring-offset-2 focus-within:ring-offset-white"
-                style={{ paddingBottom: "56.25%" }}
+                className="relative w-full overflow-hidden rounded-2xl shadow-lift focus-within:ring-2 focus-within:ring-offset-2"
+                style={{ paddingBottom: "56.25%", backgroundColor: "#000" }}
               >
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${section.videoEmbed.youtubeId}?rel=0`}
@@ -481,13 +506,13 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
   if (section.variant === "gallery") {
     return (
       <>
-        <div className="max-w-3xl mb-8">
+        <div className="max-w-3xl mx-auto text-center mb-8">
           <Reveal variant="up"><SectionText section={section} /></Reveal>
         </div>
         {section.images && section.images.length > 0 && (
-          <Stagger className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
+          <Stagger className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto justify-items-center">
             {section.images.map((img, idx) => (
-              <StaggerItem key={idx} className="rounded-xl overflow-hidden shadow-soft bg-white border border-cevons-border">
+              <StaggerItem key={idx} className="rounded-xl overflow-hidden shadow-soft bg-white border border-cevons-border w-full">
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -507,7 +532,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
   // split-right / split-left
   const reverse = section.variant === "split-left";
   return (
-    <div className={`grid lg:grid-cols-2 gap-10 lg:gap-14 items-center ${reverse ? "lg:[&>*:first-child]:order-2" : ""}`}>
+    <div className={`grid lg:grid-cols-2 gap-8 lg:gap-14 items-center ${reverse ? "lg:[&>*:first-child]:order-2" : ""}`}>
       <Reveal variant={reverse ? "right" : "left"}>
         <SectionText section={section} />
       </Reveal>
@@ -522,54 +547,53 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 /* ---------- Assist Band ---------- */
 
-function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
+function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
   return (
-    <section className="section-y bg-white" aria-labelledby="assist-h">
+    <section className="py-10 md:py-14 bg-white" aria-labelledby="assist-h">
       <div className="container-cevons">
-        <div className="rounded-2xl overflow-hidden shadow-lift border border-cevons-border">
-          <div className="p-8 md:p-12 bg-gradient-to-br from-[var(--brand-orange)] to-[var(--brand-orange-dark,#C45F00)] text-white">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              <div className="max-w-xl">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/85 mb-2">Talk to a specialist</p>
-                <h2 id="assist-h" className="text-3xl md:text-4xl font-extrabold">Need Immediate Assistance?</h2>
-                <p className="mt-3 text-white/90 leading-relaxed">
-                  Call our Georgetown Head Office and we'll route your request to the right team today.
-                </p>
-                <a
-                  href={primaryTelHref}
-                  className="mt-5 inline-flex items-center gap-3 text-2xl md:text-3xl font-extrabold text-white hover:text-cevons-yellow transition-colors"
-                >
-                  <Phone className="size-7" aria-hidden="true" />
-                  {cevonsContact.primaryPhone}
-                </a>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-                <a href={primaryCtaHref} className="btn-base btn-yellow px-6 py-3.5 text-base">
-                  <FileText className="size-5" /> Start a Service Request
-                </a>
-                <a
-                  href={whatsappHref}
-                  {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="btn-base bg-white text-cevons-dark hover:bg-cevons-cream px-6 py-3.5 text-base"
-                >
-                  <WhatsApp className="size-5" /> WhatsApp Us
-                </a>
-              </div>
+        <div
+          className="rounded-2xl overflow-hidden shadow-lift p-6 md:p-8"
+          style={{ backgroundColor: CHARCOAL }}
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="max-w-xl">
+              <p
+                className="text-xs font-bold uppercase tracking-[0.2em] mb-2"
+                style={{ color: "var(--brand-orange)" }}
+              >
+                Talk to a specialist
+              </p>
+              <h2 id="assist-h" className="text-2xl md:text-3xl font-extrabold text-white">
+                Need Immediate Assistance?
+              </h2>
+              <p className="mt-2 leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+                Call our Georgetown Head Office and we'll route your request to the right team today.
+              </p>
+              <a
+                href={primaryTelHref}
+                className="mt-4 inline-flex items-center gap-3 text-xl md:text-2xl font-extrabold transition-opacity hover:opacity-90"
+                style={{ color: "var(--brand-orange)" }}
+              >
+                <Phone className="size-6" aria-hidden="true" />
+                {cevonsContact.primaryPhone}
+              </a>
             </div>
-          </div>
-          <div className="grid grid-cols-3 gap-1 bg-cevons-border">
-            {assistStrip.map((src, i) => (
-              <div key={i} className="aspect-[16/9] overflow-hidden bg-white">
-                <img
-                  src={src}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a
+                href={primaryCtaHref}
+                className="btn-base px-6 py-3 text-base font-semibold rounded-lg hover:opacity-95 transition-opacity"
+                style={{ backgroundColor: "var(--brand-orange)", color: "#ffffff" }}
+              >
+                <FileText className="size-5" /> Start a Service Request
+              </a>
+              <a
+                href={whatsappHref}
+                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="btn-base px-6 py-3 text-base font-semibold rounded-lg border border-white/40 text-white hover:bg-white/10 transition-colors"
+              >
+                <WhatsApp className="size-5" /> WhatsApp Us
+              </a>
+            </div>
           </div>
         </div>
       </div>
