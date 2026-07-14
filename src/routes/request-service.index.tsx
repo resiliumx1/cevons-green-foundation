@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check, ChevronLeft, ChevronRight, Upload, MessageCircle, AlertCircle,
@@ -134,6 +134,19 @@ function RequestServicePage() {
   const [data, setData] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+
+  // Preselect from ?service=<slug>
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const svcParam = params.get("service");
+    if (!svcParam) return;
+    const match = SERVICES.find((s) => s.key === svcParam);
+    if (!match) return;
+    setData((d) => (d.service ? d : { ...d, category: match.category, service: match.key }));
+    setStep((s) => (s === 0 ? 2 : s));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selected = SERVICES.find((s) => s.key === data.service) ?? null;
   const isSpecialist = !!(selected && SPECIALIST_KEYS.has(selected.key));
