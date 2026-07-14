@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Flame, Wrench, Factory, Truck, Anchor, Building2 } from "lucide-react";
-import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { Flame, Wrench, Factory, Truck, Anchor, Building2, Droplet, ShieldAlert, Recycle } from "lucide-react";
+import { ServicePageTemplate, type DetailSection, type RelatedService } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-oil.jpg";
+import imgRel0 from "@/assets/svc-grease.jpg";
+import imgRel1 from "@/assets/svc-hazardous.jpg";
+import imgRel2 from "@/assets/svc-oil.jpg";
 
 const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVONS";
 const PAGE_DESC = "Collection of used engine, transmission, and hydraulic oils, plus used oil filter recycling for garages, dealerships, and industry.";
@@ -75,6 +78,12 @@ const detailSections: DetailSection[] = [
   },
 ];
 
+const related: RelatedService[] = [
+  { title: "Hazardous Waste", body: "Compliant handling of regulated waste streams.", img: imgRel1, to: "/services/hazardous-waste", icon: ShieldAlert },
+  { title: "Used Cooking Oil", body: "Scheduled collection from restaurants and kitchens.", img: imgRel2, to: "/services/used-cooking-oil", icon: Droplet },
+  { title: "Grease Trap / Septic Tank", body: "Servicing for kitchens and facilities.", img: imgRel0, to: "/services/grease-trap-septic-tank", icon: Recycle },
+];
+
 function Page() {
   return (
     <ServicePageTemplate
@@ -91,6 +100,7 @@ function Page() {
       ctaVariant="specialist"
       serviceSlug="used-waste-oil"
       detailSections={detailSections}
+      related={related}
       showAssistBand
     />
   );
