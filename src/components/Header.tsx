@@ -301,9 +301,13 @@ export function Header() {
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
                             <div key={col.groupKey} className="flex flex-col">
-                              <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green">
-                                {t(`servicesMenu.${col.groupKey}`)}
-                              </span>
+                              <a
+                                href={`/services/${col.groupKey}`}
+                                className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green hover:text-[var(--brand-orange)]"
+                                onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                              >
+                                {categoryLabels[col.groupKey]} →
+                              </a>
                               <div className="flex flex-col">
                                 {col.items.map((slug) => (
                                   <Link
@@ -313,12 +317,19 @@ export function Header() {
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                                    {t(`servicesMenu.items.${slug}`)}
+                                    {serviceLabels[slug]}
                                   </Link>
                                 ))}
                               </div>
                             </div>
                           ))}
+                          <Link
+                            to="/services"
+                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)]"
+                            onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                          >
+                            View all services →
+                          </Link>
                         </div>
                       )}
 
