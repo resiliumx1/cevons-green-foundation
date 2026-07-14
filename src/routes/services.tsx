@@ -253,6 +253,7 @@ function ServicesPage() {
   const showCommercial = active === "all" || active === "commercial";
   const showIndustrial = active === "all" || active === "industrial";
   const showFacilities = active === "all" || active === "facilities";
+  const showRecycling = active === "all" || active === "recycling";
 
   return (
     <SiteLayout>
