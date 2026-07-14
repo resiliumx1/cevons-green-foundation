@@ -178,26 +178,44 @@ export function Header() {
               </Link>
               {item.hasDropdown && item.key === "services" && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 grid grid-cols-4 gap-x-6 gap-y-2 min-w-[820px]">
-                    {servicesMenu.map((col) => (
-                      <div key={col.groupKey}>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cevons-green mb-2">
-                          {t(`servicesMenu.${col.groupKey}`)}
-                        </p>
-                        <ul className="space-y-1">
-                          {col.items.map((slug) => (
-                            <li key={col.groupKey + slug}>
-                              <Link
-                                to={`/services/${slug}`}
-                                className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
-                              >
-                                {t(`servicesMenu.items.${slug}`)}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  <div
+                    className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 min-w-[980px]"
+                    role="menu"
+                    aria-label="Services categories"
+                  >
+                    <div className="grid grid-cols-5 gap-x-6 gap-y-2">
+                      {servicesMenu.map((col) => (
+                        <div key={col.groupKey}>
+                          <a
+                            href={`/services/${col.groupKey}`}
+                            className="block text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green hover:text-[var(--brand-orange)] mb-2 transition-colors"
+                          >
+                            {categoryLabels[col.groupKey]}
+                          </a>
+                          <ul className="space-y-1" role="menu">
+                            {col.items.map((slug) => (
+                              <li key={col.groupKey + slug} role="none">
+                                <Link
+                                  to={`/services/${slug}`}
+                                  role="menuitem"
+                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                                >
+                                  {serviceLabels[slug]}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-cevons-border flex items-center justify-end">
+                      <Link
+                        to="/services"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)] hover:gap-2 transition-all"
+                      >
+                        View all services →
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
