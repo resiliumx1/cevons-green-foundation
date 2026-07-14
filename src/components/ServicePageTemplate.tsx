@@ -197,6 +197,17 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
       {optionsSection}
 
+      {detailSections && detailSections.length > 0 && (
+        <DetailSectionsBlock sections={detailSections} />
+      )}
+
+      {showAssistBand && (
+        <AssistBand
+          primaryCtaLabel={primaryCtaLabel}
+          primaryCtaHref={primaryCtaHref}
+        />
+      )}
+
       {/* Common Uses */}
       <section className="section-y bg-cevons-cream" aria-labelledby="uses-h">
         <div className="container-cevons">
