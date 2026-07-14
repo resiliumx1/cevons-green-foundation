@@ -81,6 +81,17 @@ const DEFAULT_STEPS = [
   { icon: Truck, title: "Service & follow-up", body: "Our team performs the service and follows up as needed." },
 ];
 
+function reactNodeToText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(reactNodeToText).join(" ");
+  if (isValidElement(node)) {
+    return reactNodeToText((node.props as { children?: ReactNode }).children);
+  }
+  return "";
+}
+void Children;
+
 export function ServicePageTemplate(props: ServicePageProps) {
   const {
     eyebrowIcon: Eyebrow,
