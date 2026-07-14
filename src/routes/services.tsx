@@ -197,12 +197,12 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
             <p className="text-sm text-white/70 leading-relaxed">{s.body}</p>
           </div>
         </div>
-        <a
-          href={s.slug}
+        <Link
+          to={s.slug}
           className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-yellow)] hover:gap-2 transition-all"
         >
           Request Specialist Review <ArrowRight className="size-4" />
-        </a>
+        </Link>
       </article>
     );
   }
