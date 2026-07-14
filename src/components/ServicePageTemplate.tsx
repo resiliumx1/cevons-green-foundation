@@ -10,11 +10,13 @@ import {
   FileText,
   Leaf,
   MessageCircle,
+  Phone,
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
 import {
   Accordion,
   AccordionContent,
