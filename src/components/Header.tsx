@@ -36,14 +36,51 @@ type ServiceSlug =
   | "general-trash-collection" | "dumpster-rental" | "septic-services" | "portable-toilet"
   | "general-waste-management" | "skip-bin-dumpster-rental" | "grease-trap-septic-tank" | "document-shredding"
   | "hazardous-waste" | "wastewater" | "used-waste-oil" | "contaminated-soil" | "tank-cleaning"
-  | "product-destruction" | "biohazardous-disposal" | "material-recovery-facility" | "landfill-operations";
+  | "product-destruction" | "biohazardous-disposal" | "material-recovery-facility" | "landfill-operations"
+  | "scrap-metal-recycling" | "used-cooking-oil" | "plastic-recycling" | "road-sweeping" | "compactor-rental";
 
-const servicesMenu: { groupKey: "residential" | "commercial" | "industrial" | "facilities"; items: ServiceSlug[] }[] = [
+type CategoryKey = "residential" | "commercial" | "industrial" | "facilities" | "recycling";
+
+const servicesMenu: { groupKey: CategoryKey; items: ServiceSlug[] }[] = [
   { groupKey: "residential", items: ["general-trash-collection", "dumpster-rental", "septic-services", "portable-toilet"] },
-  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding"] },
+  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding", "compactor-rental", "road-sweeping"] },
   { groupKey: "industrial", items: ["hazardous-waste", "wastewater", "used-waste-oil", "contaminated-soil", "tank-cleaning", "product-destruction", "biohazardous-disposal"] },
   { groupKey: "facilities", items: ["material-recovery-facility", "landfill-operations"] },
+  { groupKey: "recycling", items: ["material-recovery-facility", "scrap-metal-recycling", "used-cooking-oil", "plastic-recycling"] },
 ];
+
+const categoryLabels: Record<CategoryKey, string> = {
+  residential: "Residential",
+  commercial: "Commercial",
+  industrial: "Industrial",
+  facilities: "Facilities",
+  recycling: "Recycling",
+};
+
+const serviceLabels: Record<ServiceSlug, string> = {
+  "general-trash-collection": "General Trash Collection",
+  "dumpster-rental": "Dumpster Rental",
+  "septic-services": "Septic Services",
+  "portable-toilet": "Portable Toilet",
+  "general-waste-management": "General Waste Management",
+  "skip-bin-dumpster-rental": "Skip Bin & Dumpster Rental",
+  "grease-trap-septic-tank": "Grease Trap / Septic Tank",
+  "document-shredding": "Document Shredding",
+  "hazardous-waste": "Hazardous Waste",
+  "wastewater": "Wastewater",
+  "used-waste-oil": "Used Waste Oil",
+  "contaminated-soil": "Contaminated Soil",
+  "tank-cleaning": "Tank Cleaning",
+  "product-destruction": "Product Destruction",
+  "biohazardous-disposal": "Biohazardous Disposal",
+  "material-recovery-facility": "Material Recovery Facility",
+  "landfill-operations": "Landfill Operations",
+  "scrap-metal-recycling": "Scrap Metal Recycling",
+  "used-cooking-oil": "Used Cooking Oil",
+  "plastic-recycling": "Plastic Recycling",
+  "road-sweeping": "Road Sweeping",
+  "compactor-rental": "Compactor Rental",
+};
 
 const partnersMenu = [
   { label: "Wemco", href: "https://wemcosuriname.com", description: "Suriname" },
@@ -141,26 +178,44 @@ export function Header() {
               </Link>
               {item.hasDropdown && item.key === "services" && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                  <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 grid grid-cols-4 gap-x-6 gap-y-2 min-w-[820px]">
-                    {servicesMenu.map((col) => (
-                      <div key={col.groupKey}>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-cevons-green mb-2">
-                          {t(`servicesMenu.${col.groupKey}`)}
-                        </p>
-                        <ul className="space-y-1">
-                          {col.items.map((slug) => (
-                            <li key={col.groupKey + slug}>
-                              <Link
-                                to={`/services/${slug}`}
-                                className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
-                              >
-                                {t(`servicesMenu.items.${slug}`)}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  <div
+                    className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-5 min-w-[980px]"
+                    role="menu"
+                    aria-label="Services categories"
+                  >
+                    <div className="grid grid-cols-5 gap-x-6 gap-y-2">
+                      {servicesMenu.map((col) => (
+                        <div key={col.groupKey}>
+                          <a
+                            href={`/services/${col.groupKey}`}
+                            className="block text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green hover:text-[var(--brand-orange)] mb-2 transition-colors"
+                          >
+                            {categoryLabels[col.groupKey]}
+                          </a>
+                          <ul className="space-y-1" role="menu">
+                            {col.items.map((slug) => (
+                              <li key={col.groupKey + slug} role="none">
+                                <Link
+                                  to={`/services/${slug}`}
+                                  role="menuitem"
+                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                                >
+                                  {serviceLabels[slug]}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-cevons-border flex items-center justify-end">
+                      <Link
+                        to="/services"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)] hover:gap-2 transition-all"
+                      >
+                        View all services →
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
@@ -246,9 +301,13 @@ export function Header() {
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
                             <div key={col.groupKey} className="flex flex-col">
-                              <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green">
-                                {t(`servicesMenu.${col.groupKey}`)}
-                              </span>
+                              <a
+                                href={`/services/${col.groupKey}`}
+                                className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green hover:text-[var(--brand-orange)]"
+                                onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                              >
+                                {categoryLabels[col.groupKey]} →
+                              </a>
                               <div className="flex flex-col">
                                 {col.items.map((slug) => (
                                   <Link
@@ -258,12 +317,19 @@ export function Header() {
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                                    {t(`servicesMenu.items.${slug}`)}
+                                    {serviceLabels[slug]}
                                   </Link>
                                 ))}
                               </div>
                             </div>
                           ))}
+                          <Link
+                            to="/services"
+                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)]"
+                            onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                          >
+                            View all services →
+                          </Link>
                         </div>
                       )}
 

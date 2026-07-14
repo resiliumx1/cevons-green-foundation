@@ -128,6 +128,15 @@ const categoryOverview: {
     items: facilities.map((s) => s.title),
     accent: "from-[#00563d] to-[#1A1A1A]",
   },
+  {
+    key: "recycling",
+    label: "Recycling",
+    title: "Recovery & Circular Programs",
+    icon: Recycle,
+    blurb: "CEVONS's commitment to recycling and environmental preservation across Guyana.",
+    items: recycling.map((s) => s.title),
+    accent: "from-[#00563d] to-[#00432a]",
+  },
 ];
 
 const tabs: { key: FilterKey; label: string }[] = [
@@ -325,13 +334,12 @@ function ServicesPage() {
               Explore by Category
             </h2>
             <p className="mt-4 text-[var(--cevons-muted)]">
-              Four service families covering every waste and environmental need across Guyana.
+              Five service families covering every waste and environmental need across Guyana.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {categoryOverview.map(({ key, label, title, icon: Icon, blurb, items, accent }) => {
-              const isIndustrial = key === "industrial";
               const isYellow = key === "commercial";
               return (
                 <article
@@ -371,21 +379,14 @@ function ServicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <button
-                      onClick={() => {
-                        setActive(key);
-                        const el = document.getElementById(`section-${key}`);
-                        if (el) {
-                          const y = el.getBoundingClientRect().top + window.scrollY - 130;
-                          window.scrollTo({ top: y, behavior: "smooth" });
-                        }
-                      }}
+                    <a
+                      href={`/services/${key}`}
                       className={`mt-6 inline-flex items-center gap-2 font-bold text-sm ${
                         isYellow ? "text-[var(--cevons-dark)] hover:gap-3" : "text-[var(--cevons-yellow)] hover:gap-3"
-                      } transition-all ${isIndustrial ? "" : ""}`}
+                      } transition-all`}
                     >
                       Explore {label} <ArrowRight className="size-4" />
-                    </button>
+                    </a>
                   </div>
                 </article>
               );

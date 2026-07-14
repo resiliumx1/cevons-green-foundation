@@ -32,19 +32,24 @@ import { Route as ServicesSkipBinDumpsterRentalRouteImport } from './routes/serv
 import { Route as ServicesSepticServicesRouteImport } from './routes/services.septic-services'
 import { Route as ServicesScrapMetalRecyclingRouteImport } from './routes/services.scrap-metal-recycling'
 import { Route as ServicesRoadSweepingRouteImport } from './routes/services.road-sweeping'
+import { Route as ServicesResidentialRouteImport } from './routes/services.residential'
+import { Route as ServicesRecyclingRouteImport } from './routes/services.recycling'
 import { Route as ServicesProductDestructionRouteImport } from './routes/services.product-destruction'
 import { Route as ServicesPortableToiletRouteImport } from './routes/services.portable-toilet'
 import { Route as ServicesPlasticRecyclingRouteImport } from './routes/services.plastic-recycling'
 import { Route as ServicesMaterialRecoveryFacilityRouteImport } from './routes/services.material-recovery-facility'
 import { Route as ServicesLandfillOperationsRouteImport } from './routes/services.landfill-operations'
+import { Route as ServicesIndustrialRouteImport } from './routes/services.industrial'
 import { Route as ServicesHazardousWasteRouteImport } from './routes/services.hazardous-waste'
 import { Route as ServicesGreaseTrapSepticTankRouteImport } from './routes/services.grease-trap-septic-tank'
 import { Route as ServicesGeneralWasteManagementRouteImport } from './routes/services.general-waste-management'
 import { Route as ServicesGeneralTrashCollectionRouteImport } from './routes/services.general-trash-collection'
+import { Route as ServicesFacilitiesRouteImport } from './routes/services.facilities'
 import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
 import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
 import { Route as ServicesContaminatedSoilRouteImport } from './routes/services.contaminated-soil'
 import { Route as ServicesCompactorRentalRouteImport } from './routes/services.compactor-rental'
+import { Route as ServicesCommercialRouteImport } from './routes/services.commercial'
 import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/services.biohazardous-disposal'
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
@@ -176,6 +181,16 @@ const ServicesRoadSweepingRoute = ServicesRoadSweepingRouteImport.update({
   path: '/road-sweeping',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesResidentialRoute = ServicesResidentialRouteImport.update({
+  id: '/residential',
+  path: '/residential',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesRecyclingRoute = ServicesRecyclingRouteImport.update({
+  id: '/recycling',
+  path: '/recycling',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesProductDestructionRoute =
   ServicesProductDestructionRouteImport.update({
     id: '/product-destruction',
@@ -205,6 +220,11 @@ const ServicesLandfillOperationsRoute =
     path: '/landfill-operations',
     getParentRoute: () => ServicesRoute,
   } as any)
+const ServicesIndustrialRoute = ServicesIndustrialRouteImport.update({
+  id: '/industrial',
+  path: '/industrial',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesHazardousWasteRoute = ServicesHazardousWasteRouteImport.update({
   id: '/hazardous-waste',
   path: '/hazardous-waste',
@@ -228,6 +248,11 @@ const ServicesGeneralTrashCollectionRoute =
     path: '/general-trash-collection',
     getParentRoute: () => ServicesRoute,
   } as any)
+const ServicesFacilitiesRoute = ServicesFacilitiesRouteImport.update({
+  id: '/facilities',
+  path: '/facilities',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesDumpsterRentalRoute = ServicesDumpsterRentalRouteImport.update({
   id: '/dumpster-rental',
   path: '/dumpster-rental',
@@ -248,6 +273,11 @@ const ServicesContaminatedSoilRoute =
 const ServicesCompactorRentalRoute = ServicesCompactorRentalRouteImport.update({
   id: '/compactor-rental',
   path: '/compactor-rental',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesCommercialRoute = ServicesCommercialRouteImport.update({
+  id: '/commercial',
+  path: '/commercial',
   getParentRoute: () => ServicesRoute,
 } as any)
 const ServicesBiohazardousDisposalRoute =
@@ -344,19 +374,24 @@ export interface FileRoutesByFullPath {
   '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
+  '/services/commercial': typeof ServicesCommercialRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
   '/services/contaminated-soil': typeof ServicesContaminatedSoilRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/facilities': typeof ServicesFacilitiesRoute
   '/services/general-trash-collection': typeof ServicesGeneralTrashCollectionRoute
   '/services/general-waste-management': typeof ServicesGeneralWasteManagementRoute
   '/services/grease-trap-septic-tank': typeof ServicesGreaseTrapSepticTankRoute
   '/services/hazardous-waste': typeof ServicesHazardousWasteRoute
+  '/services/industrial': typeof ServicesIndustrialRoute
   '/services/landfill-operations': typeof ServicesLandfillOperationsRoute
   '/services/material-recovery-facility': typeof ServicesMaterialRecoveryFacilityRoute
   '/services/plastic-recycling': typeof ServicesPlasticRecyclingRoute
   '/services/portable-toilet': typeof ServicesPortableToiletRoute
   '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/recycling': typeof ServicesRecyclingRoute
+  '/services/residential': typeof ServicesResidentialRoute
   '/services/road-sweeping': typeof ServicesRoadSweepingRoute
   '/services/scrap-metal-recycling': typeof ServicesScrapMetalRecyclingRoute
   '/services/septic-services': typeof ServicesSepticServicesRoute
@@ -394,19 +429,24 @@ export interface FileRoutesByTo {
   '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
+  '/services/commercial': typeof ServicesCommercialRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
   '/services/contaminated-soil': typeof ServicesContaminatedSoilRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/facilities': typeof ServicesFacilitiesRoute
   '/services/general-trash-collection': typeof ServicesGeneralTrashCollectionRoute
   '/services/general-waste-management': typeof ServicesGeneralWasteManagementRoute
   '/services/grease-trap-septic-tank': typeof ServicesGreaseTrapSepticTankRoute
   '/services/hazardous-waste': typeof ServicesHazardousWasteRoute
+  '/services/industrial': typeof ServicesIndustrialRoute
   '/services/landfill-operations': typeof ServicesLandfillOperationsRoute
   '/services/material-recovery-facility': typeof ServicesMaterialRecoveryFacilityRoute
   '/services/plastic-recycling': typeof ServicesPlasticRecyclingRoute
   '/services/portable-toilet': typeof ServicesPortableToiletRoute
   '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/recycling': typeof ServicesRecyclingRoute
+  '/services/residential': typeof ServicesResidentialRoute
   '/services/road-sweeping': typeof ServicesRoadSweepingRoute
   '/services/scrap-metal-recycling': typeof ServicesScrapMetalRecyclingRoute
   '/services/septic-services': typeof ServicesSepticServicesRoute
@@ -446,19 +486,24 @@ export interface FileRoutesById {
   '/crm/settings': typeof CrmSettingsRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
+  '/services/commercial': typeof ServicesCommercialRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
   '/services/contaminated-soil': typeof ServicesContaminatedSoilRoute
   '/services/document-shredding': typeof ServicesDocumentShreddingRoute
   '/services/dumpster-rental': typeof ServicesDumpsterRentalRoute
+  '/services/facilities': typeof ServicesFacilitiesRoute
   '/services/general-trash-collection': typeof ServicesGeneralTrashCollectionRoute
   '/services/general-waste-management': typeof ServicesGeneralWasteManagementRoute
   '/services/grease-trap-septic-tank': typeof ServicesGreaseTrapSepticTankRoute
   '/services/hazardous-waste': typeof ServicesHazardousWasteRoute
+  '/services/industrial': typeof ServicesIndustrialRoute
   '/services/landfill-operations': typeof ServicesLandfillOperationsRoute
   '/services/material-recovery-facility': typeof ServicesMaterialRecoveryFacilityRoute
   '/services/plastic-recycling': typeof ServicesPlasticRecyclingRoute
   '/services/portable-toilet': typeof ServicesPortableToiletRoute
   '/services/product-destruction': typeof ServicesProductDestructionRoute
+  '/services/recycling': typeof ServicesRecyclingRoute
+  '/services/residential': typeof ServicesResidentialRoute
   '/services/road-sweeping': typeof ServicesRoadSweepingRoute
   '/services/scrap-metal-recycling': typeof ServicesScrapMetalRecyclingRoute
   '/services/septic-services': typeof ServicesSepticServicesRoute
@@ -499,19 +544,24 @@ export interface FileRouteTypes {
     | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
+    | '/services/commercial'
     | '/services/compactor-rental'
     | '/services/contaminated-soil'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/facilities'
     | '/services/general-trash-collection'
     | '/services/general-waste-management'
     | '/services/grease-trap-septic-tank'
     | '/services/hazardous-waste'
+    | '/services/industrial'
     | '/services/landfill-operations'
     | '/services/material-recovery-facility'
     | '/services/plastic-recycling'
     | '/services/portable-toilet'
     | '/services/product-destruction'
+    | '/services/recycling'
+    | '/services/residential'
     | '/services/road-sweeping'
     | '/services/scrap-metal-recycling'
     | '/services/septic-services'
@@ -549,19 +599,24 @@ export interface FileRouteTypes {
     | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
+    | '/services/commercial'
     | '/services/compactor-rental'
     | '/services/contaminated-soil'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/facilities'
     | '/services/general-trash-collection'
     | '/services/general-waste-management'
     | '/services/grease-trap-septic-tank'
     | '/services/hazardous-waste'
+    | '/services/industrial'
     | '/services/landfill-operations'
     | '/services/material-recovery-facility'
     | '/services/plastic-recycling'
     | '/services/portable-toilet'
     | '/services/product-destruction'
+    | '/services/recycling'
+    | '/services/residential'
     | '/services/road-sweeping'
     | '/services/scrap-metal-recycling'
     | '/services/septic-services'
@@ -600,19 +655,24 @@ export interface FileRouteTypes {
     | '/crm/settings'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
+    | '/services/commercial'
     | '/services/compactor-rental'
     | '/services/contaminated-soil'
     | '/services/document-shredding'
     | '/services/dumpster-rental'
+    | '/services/facilities'
     | '/services/general-trash-collection'
     | '/services/general-waste-management'
     | '/services/grease-trap-septic-tank'
     | '/services/hazardous-waste'
+    | '/services/industrial'
     | '/services/landfill-operations'
     | '/services/material-recovery-facility'
     | '/services/plastic-recycling'
     | '/services/portable-toilet'
     | '/services/product-destruction'
+    | '/services/recycling'
+    | '/services/residential'
     | '/services/road-sweeping'
     | '/services/scrap-metal-recycling'
     | '/services/septic-services'
@@ -807,6 +867,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRoadSweepingRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/residential': {
+      id: '/services/residential'
+      path: '/residential'
+      fullPath: '/services/residential'
+      preLoaderRoute: typeof ServicesResidentialRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/recycling': {
+      id: '/services/recycling'
+      path: '/recycling'
+      fullPath: '/services/recycling'
+      preLoaderRoute: typeof ServicesRecyclingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/product-destruction': {
       id: '/services/product-destruction'
       path: '/product-destruction'
@@ -842,6 +916,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesLandfillOperationsRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/industrial': {
+      id: '/services/industrial'
+      path: '/industrial'
+      fullPath: '/services/industrial'
+      preLoaderRoute: typeof ServicesIndustrialRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/hazardous-waste': {
       id: '/services/hazardous-waste'
       path: '/hazardous-waste'
@@ -870,6 +951,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesGeneralTrashCollectionRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/facilities': {
+      id: '/services/facilities'
+      path: '/facilities'
+      fullPath: '/services/facilities'
+      preLoaderRoute: typeof ServicesFacilitiesRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/dumpster-rental': {
       id: '/services/dumpster-rental'
       path: '/dumpster-rental'
@@ -896,6 +984,13 @@ declare module '@tanstack/react-router' {
       path: '/compactor-rental'
       fullPath: '/services/compactor-rental'
       preLoaderRoute: typeof ServicesCompactorRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/commercial': {
+      id: '/services/commercial'
+      path: '/commercial'
+      fullPath: '/services/commercial'
+      preLoaderRoute: typeof ServicesCommercialRouteImport
       parentRoute: typeof ServicesRoute
     }
     '/services/biohazardous-disposal': {
@@ -1036,19 +1131,24 @@ const CrmRouteWithChildren = CrmRoute._addFileChildren(CrmRouteChildren)
 
 interface ServicesRouteChildren {
   ServicesBiohazardousDisposalRoute: typeof ServicesBiohazardousDisposalRoute
+  ServicesCommercialRoute: typeof ServicesCommercialRoute
   ServicesCompactorRentalRoute: typeof ServicesCompactorRentalRoute
   ServicesContaminatedSoilRoute: typeof ServicesContaminatedSoilRoute
   ServicesDocumentShreddingRoute: typeof ServicesDocumentShreddingRoute
   ServicesDumpsterRentalRoute: typeof ServicesDumpsterRentalRoute
+  ServicesFacilitiesRoute: typeof ServicesFacilitiesRoute
   ServicesGeneralTrashCollectionRoute: typeof ServicesGeneralTrashCollectionRoute
   ServicesGeneralWasteManagementRoute: typeof ServicesGeneralWasteManagementRoute
   ServicesGreaseTrapSepticTankRoute: typeof ServicesGreaseTrapSepticTankRoute
   ServicesHazardousWasteRoute: typeof ServicesHazardousWasteRoute
+  ServicesIndustrialRoute: typeof ServicesIndustrialRoute
   ServicesLandfillOperationsRoute: typeof ServicesLandfillOperationsRoute
   ServicesMaterialRecoveryFacilityRoute: typeof ServicesMaterialRecoveryFacilityRoute
   ServicesPlasticRecyclingRoute: typeof ServicesPlasticRecyclingRoute
   ServicesPortableToiletRoute: typeof ServicesPortableToiletRoute
   ServicesProductDestructionRoute: typeof ServicesProductDestructionRoute
+  ServicesRecyclingRoute: typeof ServicesRecyclingRoute
+  ServicesResidentialRoute: typeof ServicesResidentialRoute
   ServicesRoadSweepingRoute: typeof ServicesRoadSweepingRoute
   ServicesScrapMetalRecyclingRoute: typeof ServicesScrapMetalRecyclingRoute
   ServicesSepticServicesRoute: typeof ServicesSepticServicesRoute
@@ -1061,19 +1161,24 @@ interface ServicesRouteChildren {
 
 const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesBiohazardousDisposalRoute: ServicesBiohazardousDisposalRoute,
+  ServicesCommercialRoute: ServicesCommercialRoute,
   ServicesCompactorRentalRoute: ServicesCompactorRentalRoute,
   ServicesContaminatedSoilRoute: ServicesContaminatedSoilRoute,
   ServicesDocumentShreddingRoute: ServicesDocumentShreddingRoute,
   ServicesDumpsterRentalRoute: ServicesDumpsterRentalRoute,
+  ServicesFacilitiesRoute: ServicesFacilitiesRoute,
   ServicesGeneralTrashCollectionRoute: ServicesGeneralTrashCollectionRoute,
   ServicesGeneralWasteManagementRoute: ServicesGeneralWasteManagementRoute,
   ServicesGreaseTrapSepticTankRoute: ServicesGreaseTrapSepticTankRoute,
   ServicesHazardousWasteRoute: ServicesHazardousWasteRoute,
+  ServicesIndustrialRoute: ServicesIndustrialRoute,
   ServicesLandfillOperationsRoute: ServicesLandfillOperationsRoute,
   ServicesMaterialRecoveryFacilityRoute: ServicesMaterialRecoveryFacilityRoute,
   ServicesPlasticRecyclingRoute: ServicesPlasticRecyclingRoute,
   ServicesPortableToiletRoute: ServicesPortableToiletRoute,
   ServicesProductDestructionRoute: ServicesProductDestructionRoute,
+  ServicesRecyclingRoute: ServicesRecyclingRoute,
+  ServicesResidentialRoute: ServicesResidentialRoute,
   ServicesRoadSweepingRoute: ServicesRoadSweepingRoute,
   ServicesScrapMetalRecyclingRoute: ServicesScrapMetalRecyclingRoute,
   ServicesSepticServicesRoute: ServicesSepticServicesRoute,
