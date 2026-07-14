@@ -126,6 +126,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
     { name: "Services", path: "/services" },
     { name: breadcrumb, path: pathname },
   ]));
+  const jsonLdFaq = JSON.stringify(
+    faqPageJsonLd(faqs.map((f) => ({ q: f.q, a: reactNodeToText(f.a) })))
+  );
 
   return (
     <SiteLayout>
