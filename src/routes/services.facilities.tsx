@@ -25,6 +25,10 @@ export const Route = createFileRoute("/services/facilities")({
           ]),
         ),
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(faqPageJsonLd(cfg.faqs)),
+      },
     ],
   }),
   component: () => <CategoryLandingPage category="facilities" />,
