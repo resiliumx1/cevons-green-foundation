@@ -298,13 +298,9 @@ export function Header() {
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
                             <div key={col.groupKey} className="flex flex-col">
-                              <a
-                                href={`/services/${col.groupKey}`}
-                                className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green hover:text-[var(--brand-orange)]"
-                                onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
-                              >
-                                {categoryLabels[col.groupKey]} →
-                              </a>
+                              <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green">
+                                {categoryLabels[col.groupKey]}
+                              </div>
                               <div className="flex flex-col">
                                 {col.items.map((slug) => (
                                   <Link
