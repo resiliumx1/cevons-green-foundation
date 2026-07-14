@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CategoryLandingPage, getCategoryConfig } from "@/components/category/CategoryLandingPage";
-import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { breadcrumbListJsonLd, faqPageJsonLd } from "@/lib/seo/jsonLd";
 
 const cfg = getCategoryConfig("industrial");
 
