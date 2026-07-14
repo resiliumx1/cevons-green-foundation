@@ -83,61 +83,6 @@ const facilities: ServiceItem[] = getServicesForSection("facilities").map(toItem
 const recycling: ServiceItem[] = getServicesForSection("recycling").map(toItem);
 
 
-const categoryOverview: {
-  key: CategoryKey;
-  label: string;
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  blurb: string;
-  items: string[];
-  accent: string;
-}[] = [
-  {
-    key: "residential",
-    label: "Residential",
-    title: "Homes & Communities",
-    icon: Home,
-    blurb: "Reliable, neighbourly waste solutions for households across Guyana.",
-    items: residential.map((s) => s.title),
-    accent: "from-[var(--brand-orange)] to-[#1A1A1A]",
-  },
-  {
-    key: "commercial",
-    label: "Commercial",
-    title: "Businesses & Properties",
-    icon: Building2,
-    blurb: "Scheduled collection and sanitation for offices, retail, and institutions.",
-    items: commercial.map((s) => s.title),
-    accent: "from-[var(--brand-orange)] to-[var(--brand-orange-dark)]",
-  },
-  {
-    key: "industrial",
-    label: "Industrial",
-    title: "Specialized & Regulated",
-    icon: Factory,
-    blurb: "Compliance-grade handling for hazardous, liquid, and solid industrial waste.",
-    items: industrial.map((s) => s.title),
-    accent: "from-[#1A1A1A] to-[#0A0A0A]",
-  },
-  {
-    key: "facilities",
-    label: "Facilities",
-    title: "Environmental Infrastructure",
-    icon: Layers3,
-    blurb: "Large-scale recovery and landfill operations supporting cleaner Guyana.",
-    items: facilities.map((s) => s.title),
-    accent: "from-[#00563d] to-[#1A1A1A]",
-  },
-  {
-    key: "recycling",
-    label: "Recycling",
-    title: "Recovery & Circular Programs",
-    icon: Recycle,
-    blurb: "CEVONS's commitment to recycling and environmental preservation across Guyana.",
-    items: recycling.map((s) => s.title),
-    accent: "from-[#00563d] to-[#00432a]",
-  },
-];
 
 const tabs: { key: FilterKey; label: string }[] = [
   { key: "all", label: "All" },
