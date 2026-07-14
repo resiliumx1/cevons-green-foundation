@@ -100,6 +100,7 @@ function Page() {
       ctaVariant="specialist"
       serviceSlug="used-waste-oil"
       detailSections={detailSections}
+      related={related}
       showAssistBand
     />
   );
