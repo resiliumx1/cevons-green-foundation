@@ -393,6 +393,32 @@
   }
 }
 
+/* Contact method card — hue-lift on hover per brand guideline. */
+.contact-card {
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.contact-card:hover {
+  border-color: var(--brand-orange);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px -12px rgba(239, 119, 0, 0.35);
+}
+.contact-card__chip {
+  transition: background-color 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.contact-card:hover .contact-card__chip {
+  background-color: color-mix(in oklab, var(--brand-orange) 22%, transparent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-card,
+  .contact-card:hover {
+    transform: none;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+}
+
 
 /* Service / content card */
 @utility card-cevons {
