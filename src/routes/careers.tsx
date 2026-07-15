@@ -146,47 +146,65 @@ function CareersPage() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative isolate overflow-hidden">
+      <section className="relative isolate overflow-hidden min-h-[640px] md:min-h-[720px] flex items-center">
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
             alt=""
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-[75%_center] md:object-[70%_center] scale-105 animate-[heroDrift_18s_ease-in-out_infinite_alternate]"
             loading="eager"
             fetchPriority="high"
+            width={1920}
+            height={1088}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/70" />
-          <div className="absolute inset-0 bg-[radial-gradient(closest-side,rgba(239,119,0,0.18),transparent_70%)]" />
+          {/* Left-weighted scrim: keeps text legible on the left, faces clean on the right */}
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,12,14,0.88)_0%,rgba(10,12,14,0.72)_35%,rgba(10,12,14,0.30)_60%,rgba(10,12,14,0.10)_85%,rgba(10,12,14,0.05)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.35)_0%,transparent_35%,transparent_65%,rgba(0,0,0,0.45)_100%)]" />
+          {/* Brand orange glow anchoring the copy block */}
+          <div className="absolute -left-24 top-1/3 h-[420px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(239,119,0,0.28),transparent_70%)] blur-2xl" />
         </div>
 
-        <div className="container-cevons py-24 md:py-32 lg:py-40 text-white">
-          <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
-            CAREERS
-          </p>
-          <h1
-            className="mt-4 text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] max-w-4xl"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            Build a Cleaner Tomorrow.{" "}
-            <span className="text-[var(--text-heading)]">Together.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg md:text-xl text-white/85 leading-relaxed">
-            Join a team that&rsquo;s committed to protecting our environment, strengthening our
-            communities, and creating opportunities that last.
-          </p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <a
-              href="#open-positions"
-              onClick={scrollToOpenPositions}
-              className="btn-base btn-green btn-shine"
+        <div className="container-cevons py-24 md:py-32 lg:py-36 text-white relative">
+          <div className="max-w-xl lg:max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-orange)]/50 bg-black/30 backdrop-blur-sm px-3.5 py-1.5">
+              <span className="size-1.5 rounded-full bg-[var(--brand-orange)] shadow-[0_0_10px_var(--brand-orange)]" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--brand-orange)]">
+                Careers at CEVONS
+              </p>
+            </div>
+            <h1
+              className="mt-5 text-4xl md:text-6xl lg:text-[68px] font-bold leading-[1.05] tracking-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              <Sparkles className="size-4" />
-              Explore Opportunities
-            </a>
-            <ApplyAction className="btn-base btn-outline-green !text-white !border-white/40 hover:!bg-white/10">
-              View All Positions
-              <ArrowRight className="size-4" />
-            </ApplyAction>
+              Build a Cleaner Tomorrow.
+              <span className="block mt-2 bg-gradient-to-r from-[var(--brand-orange)] via-[#FFB061] to-[var(--brand-orange)] bg-clip-text text-transparent italic">
+                Together.
+              </span>
+            </h1>
+            <p className="mt-6 max-w-xl text-base md:text-lg text-white/90 leading-relaxed">
+              Join a team that&rsquo;s committed to protecting our environment, strengthening our
+              communities, and creating opportunities that last.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <a
+                href="#open-positions"
+                onClick={scrollToOpenPositions}
+                className="group relative inline-flex items-center gap-2 rounded-xl bg-[var(--brand-orange)] px-6 py-3.5 text-[15px] font-semibold text-[var(--brand-grey-dark)] shadow-[0_10px_30px_-8px_rgba(239,119,0,0.6)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-10px_rgba(239,119,0,0.75)] hover:brightness-[1.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-orange)]"
+              >
+                <Sparkles className="size-4 transition-transform duration-300 group-hover:rotate-12" />
+                Explore Opportunities
+                <span className="absolute inset-0 rounded-xl bg-white/0 transition-colors duration-300 group-hover:bg-white/5" aria-hidden />
+              </a>
+              <ApplyAction className="group inline-flex items-center gap-2 rounded-xl border border-white/70 bg-white/10 backdrop-blur-sm px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white hover:text-[var(--brand-grey-dark)] hover:border-white">
+                View All Positions
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </ApplyAction>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-white/75">
+              <span className="inline-flex items-center gap-2"><CheckCircle2 className="size-4 text-[var(--brand-orange)]" /> Guyana-based team</span>
+              <span className="inline-flex items-center gap-2"><CheckCircle2 className="size-4 text-[var(--brand-orange)]" /> Full-time & apprenticeships</span>
+              <span className="inline-flex items-center gap-2"><CheckCircle2 className="size-4 text-[var(--brand-orange)]" /> Grow with us</span>
+            </div>
           </div>
         </div>
         <WaveHalftoneDivider height={56} />
