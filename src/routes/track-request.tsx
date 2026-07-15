@@ -124,7 +124,7 @@ function TrackRequestPage() {
 
 
       {/* Lookup form */}
-      <section className="bg-white">
+      <section className="bg-[var(--surface-page)]">
         <div className="container-cevons px-4 py-10 md:py-14">
           <div className={cn("max-w-lg mx-auto rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)] transition-all duration-700",
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6")}>
