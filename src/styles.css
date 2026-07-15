@@ -1308,6 +1308,13 @@
   85%  { opacity: 0.4; }
   100% { transform: translate(120%, 90%) rotate(40deg); opacity: 0; }
 }
+@keyframes heroDrift {
+  0%   { transform: scale(1.05) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[heroDrift_18s_ease-in-out_infinite_alternate\] { animation: none !important; }
+}
 
 /* Ambient falling-leaf field around "Greener" */
 .leaf-field {
