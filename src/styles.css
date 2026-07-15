@@ -2277,7 +2277,7 @@ html.dark select {
   border-color: var(--hairline-strong);
 }
 html.dark input::placeholder,
-html.dark textarea::placeholder { color: var(--text-faint); }
+html.dark textarea::placeholder { color: var(--text-placeholder); opacity: 1; }
 html.dark input:focus,
 html.dark textarea:focus,
 html.dark select:focus {
