@@ -139,14 +139,14 @@ export function SocialProofMarquee({
       <div className="container-cevons">
         {!isCompact && (
           <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
-            <p className="spm-eyebrow">
+            <p className="spm-eyebrow" style={{ color: "var(--brand-red)" }}>
               <span>Trusted Environmental Services</span>
               <span className="spm-eyebrow-dot" aria-hidden="true" />
             </p>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--cevons-deep-green,#1A1A1A)] leading-tight">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: "var(--brand-charcoal)" }}>
               Trusted by Homes, Businesses &amp; Industries Across Guyana
             </h2>
-            <p className="mt-4 text-[var(--text-body,#4A4A4A)] text-base md:text-lg">
+            <p className="mt-4 text-base md:text-lg" style={{ color: "var(--brand-grey-dark)" }}>
               From residential collection to industrial waste and facility
               operations, CEVONS supports communities and organizations
               across Georgetown, Linden, and Berbice.
@@ -156,7 +156,7 @@ export function SocialProofMarquee({
 
         {isCompact && (
           <div className="text-center mb-5">
-            <p className="spm-eyebrow justify-center">
+            <p className="spm-eyebrow justify-center" style={{ color: "var(--brand-red)" }}>
               <span>Trusted Across Guyana</span>
               <span className="spm-eyebrow-dot" aria-hidden="true" />
             </p>
