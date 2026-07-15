@@ -439,11 +439,11 @@ function DustTrail() {
 
 function FinalBadge({ prefersReduced }: { prefersReduced: boolean }) {
   const confetti = [
-    { c: "#F97316", x: -22, y: -28, d: 0 },
-    { c: "#2E9B3F", x: 14, y: -32, d: 0.08 },
-    { c: "#F59E0B", x: 30, y: -18, d: 0.16 },
-    { c: "#2E9B3F", x: -14, y: -16, d: 0.22 },
-    { c: "#F97316", x: 6, y: -38, d: 0.3 },
+    { c: "var(--brand-orange)", x: -22, y: -28, d: 0 },
+    { c: "var(--brand-yellow)", x: 14, y: -32, d: 0.08 },
+    { c: "var(--brand-orange)", x: 30, y: -18, d: 0.16 },
+    { c: "var(--brand-yellow)", x: -14, y: -16, d: 0.22 },
+    { c: "var(--brand-orange)", x: 6, y: -38, d: 0.3 },
   ];
   return (
     <>
@@ -451,9 +451,9 @@ function FinalBadge({ prefersReduced }: { prefersReduced: boolean }) {
         className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide"
         style={{
           top: -22,
-          background: "linear-gradient(135deg, #F97316 0%, #2E9B3F 100%)",
-          color: "#fff",
-          boxShadow: "0 6px 14px -6px rgba(15,23,42,0.35)",
+          background: "var(--brand-orange)",
+          color: "var(--text-on-orange)",
+          boxShadow: "0 6px 14px -6px rgba(0,0,0,0.35)",
         }}
         initial={prefersReduced ? false : { y: 6, opacity: 0, scale: 0.9 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
