@@ -24,8 +24,8 @@ const greenIcon = (active: boolean) =>
   L.divIcon({
     className: "cevons-leaflet-pin",
     html: `<span style="position:relative;display:inline-block;">
-      <span style="display:block;width:${active ? 30 : 24}px;height:${active ? 30 : 24}px;border-radius:9999px;background:${active ? "#FFD200" : "var(--brand-orange)"};box-shadow:0 4px 10px rgba(0,0,0,0.25);border:3px solid #fff;"></span>
-      <span style="position:absolute;left:50%;top:100%;transform:translate(-50%,-2px);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid ${active ? "#FFD200" : "var(--brand-orange)"};"></span>
+      <span style="display:block;width:${active ? 30 : 24}px;height:${active ? 30 : 24}px;border-radius:9999px;background:${active ? "#FCE722" : "var(--brand-orange)"};box-shadow:0 4px 10px rgba(0,0,0,0.25);border:3px solid #fff;"></span>
+      <span style="position:absolute;left:50%;top:100%;transform:translate(-50%,-2px);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid ${active ? "#FCE722" : "var(--brand-orange)"};"></span>
     </span>`,
     iconSize: [active ? 30 : 24, active ? 38 : 32],
     iconAnchor: [active ? 15 : 12, active ? 38 : 32],
@@ -113,7 +113,7 @@ export default function GuyanaBranchMapClient({ branches, selectedId, onSelect, 
               <div style={{ fontFamily: "inherit", minWidth: 160 }}>
                 <div style={{ fontWeight: 700, color: "var(--brand-orange)", fontSize: 14 }}>{b.name}</div>
                 {b.label && (
-                  <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em", color: "#B58900", fontWeight: 600 }}>
+                  <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em", color: "#D42229", fontWeight: 600 }}>
                     {b.label}
                   </div>
                 )}

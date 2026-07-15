@@ -138,7 +138,7 @@ function LocationsPage() {
                 <span className="w-3 h-3 rounded-full bg-[var(--cevons-deep-green,#EF7700)]" /> Branch
               </span>
               <span className="inline-flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[#FFD200]" /> Selected
+                <span className="w-3 h-3 rounded-full bg-[#FCE722]" /> Selected
               </span>
               <span className="text-cevons-muted/70">Click the map to enable scroll zoom</span>
             </div>
@@ -196,7 +196,7 @@ function LocationsPage() {
                       <h3 className="text-xl font-extrabold text-[var(--brand-orange)]">
                         {r.name}
                       </h3>
-                      <span className="text-xs font-semibold uppercase tracking-wide text-[#B58900]">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">
                         {r.label}
                       </span>
                     </div>

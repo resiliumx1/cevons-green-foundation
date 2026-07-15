@@ -47,8 +47,8 @@ export function BrandedPlaceholder({
         preserveAspectRatio="none"
         className="absolute -bottom-px left-0 right-0 w-full h-[40%]"
       >
-        <path d="M0,140 C180,80 380,60 600,30 L600,200 L0,200 Z" fill="#FFD200" opacity="0.95" />
-        <path d="M0,120 C200,70 400,55 600,10 L600,90 C400,60 200,80 0,150 Z" fill="#E31B23" opacity="0.9" />
+        <path d="M0,140 C180,80 380,60 600,30 L600,200 L0,200 Z" fill="#FCE722" opacity="0.95" />
+        <path d="M0,120 C200,70 400,55 600,10 L600,90 C400,60 200,80 0,150 Z" fill="#D42229" opacity="0.9" />
       </svg>
 
       <div className="relative h-full w-full flex flex-col items-center justify-center text-center p-5">

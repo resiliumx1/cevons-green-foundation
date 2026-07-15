@@ -26,7 +26,7 @@ export const Route = createFileRoute("/request-service/confirmation")({
   component: ConfirmationPage,
 });
 
-const CEVONS_COLORS = ["var(--brand-orange)", "#FFD200", "#E31B23", "#FFFFFF"];
+const CEVONS_COLORS = ["var(--brand-orange)", "#FCE722", "#D42229", "#FFFFFF"];
 
 function fireConfetti() {
   if (typeof window === "undefined") return;
