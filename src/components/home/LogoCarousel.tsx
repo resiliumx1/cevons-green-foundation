@@ -42,10 +42,10 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
             <span>Trusted Environmental Services</span>
             <span className="spm-eyebrow-dot" aria-hidden="true" />
           </p>
-          <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--cevons-deep-green,#1A1A1A)] leading-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--brand-charcoal)] leading-tight">
             Trusted &amp; Certified Across Guyana
           </h2>
-          <p className="mt-4 text-[var(--text-body,#4A4A4A)] text-base md:text-lg">
+          <p className="mt-4 text-[var(--brand-grey-dark)] text-base md:text-lg">
             Partnering with leading organizations and certified by the standards that matter — from Georgetown to Linden and Berbice.
           </p>
         </div>
