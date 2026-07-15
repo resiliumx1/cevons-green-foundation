@@ -213,25 +213,16 @@ function HomePage() {
             </h2>
           </Reveal>
 
-          <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10">
-            {steps.map(({ icon: Icon, key }, i) => {
-              const title = t(`home.process.items.${key}.title`);
-              const body = t(`home.process.items.${key}.body`);
-              return (
-                <StaggerItem as="li" key={key} className="relative text-center">
-                  {i < steps.length - 1 && (
-                    <ArrowRight aria-hidden="true" className="hidden lg:block absolute top-7 -right-3 size-5 text-cevons-green/40" />
-                  )}
-                  <div className="mx-auto size-16 rounded-full bg-white border-2 border-cevons-green/30 flex items-center justify-center text-cevons-green shadow-soft">
-                    <Icon className="size-7" />
-                  </div>
-                  <p className="mt-3 text-[11px] font-bold tracking-wider text-[var(--text-eyebrow)] uppercase">{t("home.process.step")} {i + 1}</p>
-                  <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
-                  <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
-                </StaggerItem>
-              );
-            })}
-          </Stagger>
+          <ProcessSteps
+            steps={steps.map(({ icon, key }, i) => ({
+              icon,
+              key,
+              step: t("home.process.step"),
+              index: i + 1,
+              title: t(`home.process.items.${key}.title`),
+              body: t(`home.process.items.${key}.body`),
+            }))}
+          />
         </div>
       </section>
 
