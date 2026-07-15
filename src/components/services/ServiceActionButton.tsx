@@ -125,6 +125,3 @@ export function ServiceActionRow({
     </div>
   );
 }
-
-// Silence unused import type in some tsconfig setups.
-export type _CPW = ComponentPropsWithoutRef<"a">;
