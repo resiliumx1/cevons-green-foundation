@@ -78,6 +78,7 @@
      ========================================================== */
   --text-heading: var(--brand-charcoal);
   --text-body: var(--brand-grey-dark);
+  --text-placeholder: var(--brand-grey-dark); /* #4A4A4A on white = 8.86:1 */
   --text-eyebrow: var(--brand-red);
   --text-link: var(--brand-navy);
   --text-on-dark: var(--brand-white);
