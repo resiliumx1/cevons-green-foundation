@@ -1293,20 +1293,25 @@
 }
 .hero-cta:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 5px #0FA34A;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 5px var(--brand-orange);
 }
 .hero-cta:active { transform: translateY(0) !important; }
 
 .hero-cta--whatsapp {
-  color: #fff;
-  background: linear-gradient(135deg, #15B85A 0%, #0FA34A 55%, #006B35 100%);
-  box-shadow: 0 10px 28px -10px rgba(15, 163, 74, 0.6), 0 2px 6px rgba(0,0,0,0.18);
+  color: var(--text-on-green);
+  background: linear-gradient(135deg, #2DA339 0%, rgba(45, 163, 57, 0.88) 55%, #2DA339 100%);
+  box-shadow: 0 10px 28px -10px rgba(45, 163, 57, 0.6), 0 2px 6px rgba(0,0,0,0.18);
 }
 .hero-cta--whatsapp:hover {
   transform: translateY(-2px);
   filter: brightness(1.06);
-  box-shadow: 0 16px 36px -12px rgba(15, 163, 74, 0.7), 0 4px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 16px 36px -12px rgba(45, 163, 57, 0.7), 0 4px 10px rgba(0,0,0,0.22);
 }
+.hero-cta--whatsapp .hero-cta__icon {
+  background: rgba(26, 26, 26, 0.15);
+  border: 1px solid rgba(26, 26, 26, 0.2);
+}
+.hero-cta--whatsapp .hero-cta__sub { color: rgba(26, 26, 26, 0.72); }
 .hero-cta__icon {
   display: grid;
   place-items: center;
