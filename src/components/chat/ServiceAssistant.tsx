@@ -692,7 +692,7 @@ function Bubble({
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[var(--brand-orange)] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
+        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[var(--brand-orange)] px-3.5 py-2 text-sm text-[#1A1A1A] whitespace-pre-wrap shadow-sm">
           {message.text}
         </div>
       </div>
