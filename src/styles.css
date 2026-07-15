@@ -635,7 +635,7 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #FFD200 35%, #E31B23 50%, #006B35 65%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--brand-yellow) 35%, var(--brand-red) 50%, var(--brand-green) 65%, transparent 100%);
   opacity: 0.65;
 }
 .spm-eyebrow {
