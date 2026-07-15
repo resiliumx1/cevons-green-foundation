@@ -315,9 +315,9 @@ function StepCircle({
   onClick: () => void;
   prefersReduced: boolean;
 }) {
-  const bg = isDone ? COLORS.green : isActive ? COLORS.orange : "#FFFFFF";
+  const bg = isDone ? COLORS.green : isActive ? COLORS.orange : COLORS.surface;
   const border = isDone ? COLORS.green : isActive ? COLORS.orange : COLORS.gray;
-  const fg = isDone || isActive ? "#FFFFFF" : COLORS.muted;
+  const fg = isDone || isActive ? COLORS.onOrange : COLORS.muted;
   const ring = isActive ? `0 0 0 6px ${COLORS.orangeSoft}` : isDone ? `0 0 0 4px ${COLORS.greenSoft}` : "none";
 
   const Comp: any = clickable ? "button" : "div";
