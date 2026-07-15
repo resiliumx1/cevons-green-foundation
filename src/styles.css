@@ -213,23 +213,25 @@
     box-shadow: 0 0 0 3px rgba(239, 119, 0, 0.35);
   }
 }
+/* Legacy button utility names — kept because many files reference them.
+   All four now enforce guideline-compliant contrast: charcoal text on
+   orange fills (white text on orange fails at 2.87:1). */
 @utility btn-green {
-  /* Repointed to brand orange per Brand Guideline. Charcoal text for AA contrast. */
-  background-color: var(--brand-orange);
-  color: var(--brand-charcoal);
+  background-color: var(--surface-cta);
+  color: var(--text-on-orange);
   &:hover {
     background-color: var(--brand-orange-dark);
-    color: var(--brand-charcoal);
+    color: var(--text-on-orange);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(239, 119, 0, 0.28);
   }
 }
 @utility btn-yellow {
-  background-color: var(--brand-orange);
-  color: #FFFFFF;
+  background-color: var(--surface-cta);
+  color: var(--text-on-orange);
   &:hover {
     background-color: var(--brand-orange-dark);
-    color: #FFFFFF;
+    color: var(--text-on-orange);
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgba(239, 119, 0, 0.40);
   }
@@ -258,19 +260,19 @@
   .btn-shine::before { transition: none; transform: translateX(-120%) skewX(-18deg) !important; }
 }
 @utility btn-outline-green {
-  border: 1.5px solid var(--cevons-green);
-  color: var(--cevons-green);
+  border: 1.5px solid var(--brand-orange);
+  color: var(--text-heading);
   background: transparent;
   &:hover {
-    background-color: var(--cevons-green);
-    color: #fff;
+    background-color: var(--brand-orange);
+    color: var(--text-on-orange);
   }
 }
 @utility btn-ghost-dark {
-  color: var(--cevons-dark);
+  color: var(--text-heading);
   &:hover {
-    background-color: rgba(0, 107, 53, 0.08);
-    color: var(--cevons-green);
+    background-color: rgba(239, 119, 0, 0.08);
+    color: var(--text-heading);
   }
 }
 
