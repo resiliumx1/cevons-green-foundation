@@ -2046,10 +2046,8 @@ html.dark .spm-eyebrow,
 html.dark .spm-section .spm-eyebrow,
 html.dark .spm-section-compact .spm-eyebrow { color: var(--brand-red) !important; }
 
-/* SocialProofStrip cards: keep dark text on light card bg.
-   .sp-card--dark variant (if any) keeps its own light text — only target plain .sp-card. */
-html.dark .sp-card:not(.sp-card--dark) .text-cevons-deep-green,
-html.dark .sp-card:not(.sp-card--dark) p { color: #1A1A1A !important; }
+/* SocialProofStrip cards now sit on --surface-2 in dark mode and use semantic
+   text tokens (--text-heading / --text-body). No manual color override needed. */
 html.dark .border-cevons-border { border-color: var(--hairline); }
 html.dark .border-cevons-border\/60 { border-color: color-mix(in srgb, var(--hairline) 60%, transparent); }
 html.dark .border-cevons-border\/50 { border-color: color-mix(in srgb, var(--hairline) 50%, transparent); }
