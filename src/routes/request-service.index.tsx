@@ -474,7 +474,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
             <button
               key={c.key}
               type="button"
-              onClick={() => setData({ ...data, category: c.key, service: null, details: {} })}
+              onClick={() => { setData({ ...data, category: c.key, service: null, details: {} }); onAdvance(); }}
               className={cn(
                 "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
                 active
