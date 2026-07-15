@@ -270,7 +270,7 @@ function AboutPage() {
                   <p className="mt-4 text-2xl md:text-3xl font-extrabold leading-tight text-[#1A1A1A] dark:text-white tracking-tight">
                     {value}
                   </p>
-                  <p className="mt-1.5 text-xs md:text-sm text-[#64748B] dark:text-white/70 font-medium">{label}</p>
+                  <p className="mt-1.5 text-xs md:text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/70 font-medium">{label}</p>
                   {i === 0 && (
                     <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-eyebrow)]">
                       {new Date().getFullYear() - 1997}+ Years

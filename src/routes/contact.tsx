@@ -209,7 +209,7 @@ function ContactPage() {
                       </span>
                       <div>
                         <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{b.name}</h3>
-                        <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">{b.label}</span>
+                        <span className="text-xs font-semibold uppercase tracking-wide text-[var(--text-eyebrow)]">{b.label}</span>
                       </div>
                     </div>
                     <ul className="space-y-1.5 text-sm text-[var(--text-body,#4A4A4A)]">
@@ -321,10 +321,10 @@ function ContactPage() {
                     {cevonsContact.primaryPhone}
                   </span>
                 </a>
-                <p className="mt-1 text-sm text-[#64748B]">Tap to call our dispatch line.</p>
+                <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">Tap to call our dispatch line.</p>
 
-                <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] font-bold text-[#64748B]">
-                  <span className="h-px flex-1 bg-[#E5E7EB]" /> or <span className="h-px flex-1 bg-[#E5E7EB]" />
+                <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] font-bold text-[var(--text-body,#4A4A4A)]">
+                  <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" /> or <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3">

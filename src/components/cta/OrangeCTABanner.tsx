@@ -98,7 +98,7 @@ export function OrangeCTABanner({
             {/* RIGHT: frosted action card */}
             <div className="relative rounded-2xl bg-white/95 dark:bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">Get Started</p>
-              <p className="mt-1 text-sm text-[#64748B]">Choose how you'd like to reach us.</p>
+              <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">Choose how you'd like to reach us.</p>
               <div className="mt-5 flex flex-col gap-3">
                 {children}
               </div>

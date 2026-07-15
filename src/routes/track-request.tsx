@@ -181,8 +181,8 @@ function TrackRequestPage() {
         <section className="bg-[var(--cevons-cream)] border-t border-[var(--cevons-border)]">
           <div className="container-cevons px-4 py-10 md:py-16 max-w-2xl mx-auto">
             <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-8 text-center">
-              <div className="mx-auto size-12 rounded-full bg-[#D42229]/10 flex items-center justify-center">
-                <AlertCircle className="size-6 text-[#D42229]" />
+              <div className="mx-auto size-12 rounded-full bg-[var(--brand-red)]/10 flex items-center justify-center">
+                <AlertCircle className="size-6 text-[var(--text-eyebrow)]" />
               </div>
               <h3 className="mt-4 text-xl font-bold text-[var(--cevons-dark)]">
                 {error === "network" ? "We couldn't reach our servers" : "Request not found"}
@@ -268,7 +268,7 @@ function ResultView({ result }: { result: TrackResult }) {
     : (STAGES.find((s) => s.key === request.status)?.label ?? "Received");
 
   const badgeClass = isLost
-    ? "bg-[#D42229]/10 text-[#D42229]"
+    ? "bg-[var(--brand-red)]/10 text-[var(--text-eyebrow)]"
     : request.status === "won"
     ? "bg-emerald-600 text-white"
     : "bg-[var(--brand-orange)] text-white";
