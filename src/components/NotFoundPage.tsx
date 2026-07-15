@@ -54,7 +54,7 @@ export function NotFoundPage() {
               <span className="text-[120px] md:text-[180px] font-black text-cevons-dark tracking-tighter">4</span>
             </div>
 
-            <h1 className="mt-6 text-3xl md:text-5xl font-extrabold text-cevons-green">
+            <h1 className="mt-6 text-3xl md:text-5xl font-extrabold text-[var(--text-heading)]">
               Oops! Page Not Found
             </h1>
             <p className="mt-4 text-base md:text-lg text-cevons-muted max-w-xl">
@@ -74,7 +74,7 @@ export function NotFoundPage() {
 
             <Link
               to="/services"
-              className="mt-5 inline-block text-sm font-semibold text-cevons-green hover:text-cevons-deep-green underline underline-offset-4"
+              className="mt-5 inline-block text-sm font-semibold text-[var(--text-link)] hover:underline underline underline-offset-4"
             >
               Browse Our Services →
             </Link>
@@ -97,7 +97,7 @@ export function NotFoundPage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <h2 className="text-2xl md:text-3xl font-extrabold text-center">
-            Here are some <span className="text-cevons-green">helpful links</span>
+            Here are some <span className="text-[var(--text-heading)]">helpful links</span>
           </h2>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {helpfulLinks.map(({ to, title, sub, Icon, branded }, i) => (

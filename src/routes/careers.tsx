@@ -160,7 +160,7 @@ function CareersPage() {
         </div>
 
         <div className="container-cevons py-24 md:py-32 lg:py-40 text-white">
-          <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
+          <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
             CAREERS
           </p>
           <h1
@@ -168,7 +168,7 @@ function CareersPage() {
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Build a Cleaner Tomorrow.{" "}
-            <span className="text-cevons-green">Together.</span>
+            <span className="text-[var(--text-heading)]">Together.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg md:text-xl text-white/85 leading-relaxed">
             Join a team that&rsquo;s committed to protecting our environment, strengthening our
@@ -196,7 +196,7 @@ function CareersPage() {
       <section className="section-y bg-background">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               WHY WORK WITH US
             </p>
             <h2
@@ -241,7 +241,7 @@ function CareersPage() {
       <section className="section-y bg-cevons-cream dark:bg-white/[0.02]">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               CAREER OPPORTUNITIES
             </p>
             <h2
@@ -305,7 +305,7 @@ function CareersPage() {
       <section id="open-positions" className="section-y bg-background scroll-mt-24">
         <div className="container-cevons">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-cevons-green">
+            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               OPEN POSITIONS
             </p>
             <h2

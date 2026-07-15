@@ -380,7 +380,7 @@ function ServicesPage() {
                         <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
                       <div className="min-w-0">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-eyebrow)]">Infrastructure</p>
                         <h3 className="mt-1 text-2xl font-extrabold text-[var(--cevons-deep-green)]">{s.title}</h3>
                         <p className="mt-3 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
                         <Link
