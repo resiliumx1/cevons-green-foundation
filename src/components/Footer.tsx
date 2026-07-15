@@ -35,11 +35,12 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
     <Link
       to={to}
       aria-current={isActive ? "page" : undefined}
-      className={`group/link inline-flex items-center gap-1.5 text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
+      className={`group/link inline-flex items-center gap-1.5 py-1.5 min-h-[32px] text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
         isActive
           ? "text-white font-semibold underline underline-offset-4 decoration-[color:var(--brand-yellow)] decoration-2"
           : "text-white/85 hover:text-white hover:underline hover:underline-offset-4 hover:decoration-white/70"
       }`}
+
     >
       <ArrowRight
         aria-hidden
