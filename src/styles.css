@@ -53,50 +53,79 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVONS brand palette — ORANGE-PRIMARY per Brand Guideline.
-     Green/yellow/red are accents only. `--cevons-green` token is
-     repointed to orange so existing utility classes (bg-cevons-green,
-     btn-green, etc.) cascade to the new brand color. The hero scopes
-     its own override to preserve its original green color treatment. */
-  --cevons-green: var(--brand-orange);          /* now Cevons Orange (dominant accent / CTA) */
-  --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
-  --cevons-yellow: var(--brand-orange);         /* sweep: yellow accent → orange */
-  --cevons-red: var(--brand-orange);            /* sweep: red decoration → orange */
-  --cevons-dark: #1A1A1A;           /* charcoal */
-  --cevons-cream: #FFFFFF;
-  --cevons-border: #D9D9D9;
-  --cevons-muted: #4A4A4A;
+  /* ==========================================================
+     CEVONS BRAND PALETTE — per Brand Guideline (complete, nine
+     colors, no others). Contrast-verified.
+     Orange = FILLS ONLY (2.87:1 on white — never a text color).
+     Yellow = FILLS/SHAPES ONLY (1.45:1 on white — never text on light).
+     Green  = accent, icons/large-text only on light.
+     Red    = eyebrows/kickers/alerts (5.2:1 on white — safe body).
+     ========================================================== */
+  --brand-orange: #EF7700;        /* PRIMARY, dominant. FILLS ONLY */
+  --brand-orange-dark: #C45F00;   /* hover/pressed fills only */
+  --brand-yellow: #FCE722;        /* accent — fills/shapes only */
+  --brand-green: #2DA339;         /* accent — eco signals, icons */
+  --brand-red: #D42229;           /* accent — eyebrows/kickers/alerts */
+  --brand-charcoal: #1A1A1A;      /* primary structural dark */
+  --brand-navy: #000080;          /* secondary structural dark */
+  --brand-grey-dark: #4A4A4A;     /* body text */
+  --brand-grey-light: #D9D9D9;    /* borders / hairlines */
+  --brand-white: #FFFFFF;
 
-  /* Explicit brand tokens (use these going forward) */
-  --brand-orange: #EF7700;
-  --brand-orange-dark: #C45F00;
-  --brand-charcoal: #1A1A1A;
-  --brand-navy: #000080;
-  --brand-dark-grey: #4A4A4A;
-  --brand-light-grey: #D9D9D9;
-  --brand-accent-green: #2DA339;    /* small accent only */
-  --brand-accent-yellow: var(--brand-orange);
-  --brand-accent-red: var(--brand-orange);
+  /* ==========================================================
+     SEMANTIC ROLES — new code should reference these, not the
+     raw palette or the legacy --cevons-* aliases.
+     ========================================================== */
+  --text-heading: var(--brand-charcoal);
+  --text-body: var(--brand-grey-dark);
+  --text-eyebrow: var(--brand-red);
+  --text-link: var(--brand-navy);
+  --text-on-dark: var(--brand-white);
+  --text-on-orange: var(--brand-charcoal);
+  --text-on-yellow: var(--brand-charcoal);
+  --text-on-green: var(--brand-charcoal);
+  --text-on-navy: var(--brand-white);
+  --surface-page: var(--brand-white);
+  --surface-dark: var(--brand-charcoal);
+  --surface-dark-alt: var(--brand-navy);
+  --surface-cta: var(--brand-orange);
+  --border-hairline: var(--brand-grey-light);
 
-  /* shadcn semantic tokens — orange primary, charcoal text on orange */
-  --background: #FFFFFF;
-  --foreground: #1A1A1A;
-  --card: #FFFFFF;
-  --card-foreground: #1A1A1A;
-  --popover: #FFFFFF;
-  --popover-foreground: #1A1A1A;
+  /* ==========================================================
+     LEGACY --cevons-* ALIASES.
+     Kept only because dozens of components still reference them
+     via utility classes (bg-cevons-green, text-cevons-yellow,
+     btn-green, etc.). New code should use the semantic roles
+     above. Names are intentionally wrong for historical reasons.
+     ========================================================== */
+  --cevons-green: var(--brand-orange);          /* legacy: "brand primary" slot = orange */
+  --cevons-deep-green: var(--brand-charcoal);   /* legacy: dark structural fill */
+  --cevons-dark: var(--brand-charcoal);
+  --cevons-yellow: var(--brand-yellow);         /* now REAL yellow — was orange */
+  --cevons-red: var(--brand-red);               /* now REAL red — was orange */
+  --cevons-muted: var(--brand-grey-dark);
+  --cevons-border: var(--brand-grey-light);
+  --cevons-cream: var(--brand-white);           /* guide has no cream */
+
+  /* shadcn semantic tokens */
+  --background: var(--brand-white);
+  --foreground: var(--brand-charcoal);
+  --card: var(--brand-white);
+  --card-foreground: var(--brand-charcoal);
+  --popover: var(--brand-white);
+  --popover-foreground: var(--brand-charcoal);
   --primary: var(--brand-orange);
-  --primary-foreground: #1A1A1A;
-  --secondary: #FFFFFF;
-  --secondary-foreground: #1A1A1A;
+  --primary-foreground: var(--brand-charcoal);  /* charcoal on orange = 6.0:1 */
+  --secondary: var(--brand-white);
+  --secondary-foreground: var(--brand-charcoal);
   --muted: #F3F4F6;
-  --muted-foreground: #4A4A4A;
+  --muted-foreground: var(--brand-grey-dark);
   --accent: var(--brand-orange);
-  --accent-foreground: #1A1A1A;
-  --destructive: #D42229;
-  --destructive-foreground: #FFFFFF;
-  --border: #D9D9D9;
-  --input: #D9D9D9;
+  --accent-foreground: var(--brand-charcoal);
+  --destructive: var(--brand-red);
+  --destructive-foreground: var(--brand-white);
+  --border: var(--brand-grey-light);
+  --input: var(--brand-grey-light);
   --ring: var(--brand-orange);
 }
 
