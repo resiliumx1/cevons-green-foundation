@@ -78,6 +78,7 @@
      ========================================================== */
   --text-heading: var(--brand-charcoal);
   --text-body: var(--brand-grey-dark);
+  --text-placeholder: var(--brand-grey-dark); /* #4A4A4A on white = 8.86:1 */
   --text-eyebrow: var(--brand-red);
   --text-link: var(--brand-navy);
   --text-on-dark: var(--brand-white);
@@ -2043,6 +2044,7 @@ html.dark {
   /* Semantic role overrides — everything downstream inherits correct contrast */
   --text-heading: var(--brand-white);
   --text-body: var(--brand-grey-light);
+  --text-placeholder: rgba(217,217,217,0.7); /* #D9D9D9 @ 70% → ≈5.82:1 on #2A2A2A, ≈5.5:1 on #1A1A1A */
   --text-eyebrow: var(--brand-orange);        /* 6.0:1 — orange works as text on dark */
   --text-link: var(--brand-orange);
   --surface-page: var(--surface-0);
@@ -2275,7 +2277,7 @@ html.dark select {
   border-color: var(--hairline-strong);
 }
 html.dark input::placeholder,
-html.dark textarea::placeholder { color: var(--text-faint); }
+html.dark textarea::placeholder { color: var(--text-placeholder); opacity: 1; }
 html.dark input:focus,
 html.dark textarea:focus,
 html.dark select:focus {
