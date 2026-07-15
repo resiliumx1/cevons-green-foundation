@@ -110,7 +110,7 @@ export function PageHero({
         }`}
       >
         {breadcrumb && breadcrumb.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-5">
+          <nav aria-label="Breadcrumb" className="mb-4">
             <ol
               className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 ${
                 align === "center" ? "justify-center" : ""
@@ -123,14 +123,14 @@ export function PageHero({
                     {c.href && !last ? (
                       <Link
                         to={c.href}
-                        className="hover:text-[var(--text-eyebrow)] transition-colors"
+                        className="hover:text-[var(--brand-orange)] transition-colors"
                       >
                         {c.label}
                       </Link>
                     ) : (
                       <span
                         aria-current={last ? "page" : undefined}
-                        className={last ? "text-[var(--text-eyebrow)] font-semibold" : ""}
+                        className={last ? "text-[var(--brand-orange)] font-semibold" : ""}
                       >
                         {c.label}
                       </span>
@@ -144,7 +144,7 @@ export function PageHero({
         )}
 
         {eyebrow && (
-          <p className="mb-3 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
+          <p className="mb-2.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">
             {eyebrow}
           </p>
         )}
