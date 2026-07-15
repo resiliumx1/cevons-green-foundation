@@ -222,40 +222,31 @@ function IndustriesPage() {
 
       {/* INDUSTRY-SPECIFIC SOLUTIONS */}
       <section
-        className="section-y relative overflow-hidden text-white"
-        style={{
-          background:
-            "radial-gradient(120% 100% at 0% 0%, var(--brand-orange) 0%, var(--brand-orange) 55%, var(--brand-orange-dark) 100%)",
-        }}
+        className="section-y relative overflow-hidden"
+        style={{ backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" }}
         aria-labelledby="solutions-heading"
       >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.16] pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.22) 1px, transparent 0)",
-            backgroundSize: "22px 22px",
-          }}
-        />
-        <div aria-hidden="true" className="absolute -top-32 -right-24 size-96 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+        {/* One restrained arc — brand yellow low opacity, per guideline */}
+        <svg aria-hidden="true" className="absolute -bottom-32 -right-24 w-[520px] h-[520px] pointer-events-none" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="100" fill="var(--brand-yellow)" opacity="0.14" />
+        </svg>
 
         <div className="container-cevons relative">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-white/90 mb-4 flex items-center justify-center gap-3">
-              <span aria-hidden className="h-px w-8 bg-white/40" />
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center justify-center gap-3" style={{ color: "var(--text-on-orange)" }}>
+              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
               Built Around Your Operations
-              <span aria-hidden className="h-px w-8 bg-white/40" />
+              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
             </p>
-            <h2 id="solutions-heading" className="font-display text-white text-3xl md:text-5xl font-extrabold tracking-tight">
+            <h2 id="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-orange)" }}>
               Custom Solutions for Your Industry
             </h2>
-            <div className="mt-4 flex items-center justify-center gap-3 text-white/90" aria-hidden>
-              <span className="h-px w-12 bg-white/40" />
+            <div className="mt-4 flex items-center justify-center gap-3" aria-hidden style={{ color: "var(--text-on-orange)" }}>
+              <span className="h-px w-12" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
               <Leaf className="size-4" />
-              <span className="h-px w-12 bg-white/40" />
+              <span className="h-px w-12" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
             </div>
-            <p className="mt-4 text-white/90 max-w-xl mx-auto">
+            <p className="mt-4 max-w-xl mx-auto" style={{ color: "var(--text-on-orange)", opacity: 0.85 }}>
               Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.
             </p>
           </div>
