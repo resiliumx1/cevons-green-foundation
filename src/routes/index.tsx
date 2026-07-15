@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
