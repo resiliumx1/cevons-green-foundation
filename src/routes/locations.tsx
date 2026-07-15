@@ -302,23 +302,19 @@ function LocationsPage() {
       {/* LOCAL CTA */}
       <OrangeCTABanner
         icon={MapPin}
-        flankIcon
         title="Need Service in Your Area?"
         subtitle="Tell us your location and the service you need. Our team will confirm availability and next steps quickly."
       >
+        <Link to="/request-service" className="cta-btn-primary">
+          Request Service <ArrowRight className="w-5 h-5" />
+        </Link>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="cta-btn-wa"
         >
           <WhatsApp className="w-5 h-5" /> WhatsApp Us
         </a>
-        <Link
-          to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border-2 border-[var(--brand-orange)] bg-white text-[var(--text-heading)] font-bold hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)] transition shadow-[0_6px_16px_rgba(239,119,0,0.18)]"
-        >
-          Request Service <ArrowRight className="w-5 h-5" />
-        </Link>
       </OrangeCTABanner>
 
       {/* TRUST STRIP */}

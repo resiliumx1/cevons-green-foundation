@@ -18,6 +18,7 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
@@ -287,52 +288,23 @@ function ResourcesPage() {
       </section>
 
       {/* CTA SECTION */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="container-cevons">
-          <div
-            className="relative overflow-hidden rounded-2xl px-6 py-14 md:px-16 md:py-20 text-center"
-            style={{
-              background:
-                "radial-gradient(120% 100% at 0% 0%, var(--brand-orange) 0%, var(--brand-orange) 60%, var(--brand-orange-dark) 100%)",
-            }}
-          >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="relative">
-              <p className="text-white text-xs font-bold uppercase tracking-[0.22em] mb-4 inline-flex items-center gap-2">
-                <Leaf className="size-4" /> Get Support
-              </p>
-              <h2 className="text-white text-3xl md:text-5xl font-extrabold">
-                Need Help With Waste Management?
-              </h2>
-              <p className="mt-4 text-white/80 max-w-xl mx-auto">
-                Our team can help you choose the right service for your home, business, or facility.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  to="/request-service"
-                  className="btn-base btn-green text-base px-6 py-3.5"
-                >
-                  Request Service <ArrowRight className="size-5" />
-                </Link>
-                <a
-                  href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="btn-base btn-yellow text-base px-6 py-3.5"
-                >
-                  <MessageCircle className="size-5" /> WhatsApp Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <OrangeCTABanner
+        icon={Leaf}
+        eyebrow="Get Support"
+        title="Need Help With Waste Management?"
+        subtitle="Our team can help you choose the right service for your home, business, or facility."
+      >
+        <Link to="/request-service" className="cta-btn-primary">
+          Request Service <ArrowRight className="size-5" />
+        </Link>
+        <a
+          href={whatsappHref}
+          {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="cta-btn-wa"
+        >
+          <MessageCircle className="size-5" /> WhatsApp Us
+        </a>
+      </OrangeCTABanner>
 
       {/* TRUST STRIP */}
       <section className="bg-[var(--cevons-cream,#FBF7EE)] border-t border-[var(--cevons-deep-green,#EF7700)]/10">
@@ -357,24 +329,6 @@ function ResourcesPage() {
         subheading="Practical waste management, compliance and recycling insights — once a month, no spam."
       />
 
-      {/* NEWSROOM CTA */}
-      <section className="bg-white py-16 md:py-20 border-t border-[var(--cevons-deep-green,#EF7700)]/10">
-        <div className="container-cevons">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/10 bg-[var(--cevons-cream,#FBF7EE)] p-8 md:p-10">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">Press & Milestones</p>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">Visit the CEVONS Newsroom</h3>
-              <p className="mt-2 text-[var(--text-body,#4A4A4A)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
-            </div>
-            <Link
-              to="/newsroom"
-              className="btn-base btn-green text-base px-6 py-3.5 shrink-0"
-            >
-              Go to Newsroom <ArrowRight className="size-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
     </SiteLayout>
   );
 }

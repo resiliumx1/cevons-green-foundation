@@ -11,7 +11,7 @@ const paths = [
   "/locations",
   "/contact",
   "/resources",
-  "/newsroom",
+  
   "/request-service",
   "/track-request",
   "/services/biohazardous-disposal",

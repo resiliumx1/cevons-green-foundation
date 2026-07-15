@@ -86,7 +86,9 @@
   --text-on-green: var(--brand-charcoal);
   --text-on-navy: var(--brand-white);
   --surface-page: var(--brand-white);
-  --surface-emphasis: var(--brand-charcoal);
+  /* Emphasis band in light mode: a soft neutral wash (not black). Dark mode
+     overrides this to charcoal in the html.dark block. */
+  --surface-emphasis: #F2F2F2;
   --surface-dark: var(--brand-charcoal);
   --surface-dark-alt: var(--brand-navy);
   --surface-cta: var(--brand-orange);
@@ -279,6 +281,77 @@
     color: var(--text-heading);
   }
 }
+
+/* ===== CTA banner buttons (used inside <OrangeCTABanner>) =====
+   Primary: charcoal fill, white text = 15:1. WhatsApp: green fill,
+   charcoal text = 5.1:1. Both premium: h-12, generous padding,
+   crisp shadow, hover lift. */
+@utility cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--brand-charcoal);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.005em;
+  box-shadow: 0 10px 24px -8px rgba(26, 26, 26, 0.45);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    background-color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -8px rgba(26, 26, 26, 0.55);
+  }
+}
+@utility cta-btn-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--brand-green);
+  color: var(--text-on-green);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  box-shadow: 0 10px 24px -8px rgba(45, 163, 57, 0.45);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    background-color: #258A30;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -8px rgba(45, 163, 57, 0.55);
+  }
+}
+
+/* Emphasis band (Service page detail band + AssistBand).
+   Light mode: soft neutral wash + charcoal text + a 3px orange
+   left rule. Dark mode: charcoal surface with white text — same
+   left rule delineates it. */
+@utility emphasis-band {
+  background-color: var(--surface-emphasis);
+  color: var(--text-heading);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px -6px rgba(16, 24, 32, 0.10);
+}
+.emphasis-band::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background-color: var(--brand-orange);
+}
+@media (min-width: 768px) {
+  .emphasis-band { padding: 2.5rem; }
+}
+
 
 /* Service / content card */
 @utility card-cevons {

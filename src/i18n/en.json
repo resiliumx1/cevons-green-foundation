@@ -5,7 +5,6 @@
     "industries": "Industries",
     "locations": "Locations",
     "resources": "Resources",
-    "newsroom": "Newsroom",
     "about": "About",
     "careers": "Careers",
     "contact": "Contact",
@@ -260,7 +259,7 @@
       "about": "About Us",
       "story": "Our Story",
       "careers": "Careers",
-      "newsroom": "Newsroom",
+      
       "locations": "Locations",
       "environment": "Environment",
       "resources": "Resources",

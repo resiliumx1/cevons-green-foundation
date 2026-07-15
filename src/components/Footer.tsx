@@ -121,7 +121,6 @@ export function Footer() {
     { label: t("footer.companyList.about"), to: "/about" },
     { label: t("footer.companyList.story"), to: "/about" },
     { label: t("footer.companyList.careers"), to: "/careers" },
-    { label: t("footer.companyList.newsroom"), to: "/newsroom" },
     { label: t("footer.companyList.locations"), to: "/locations" },
     { label: t("footer.companyList.environment"), to: "/resources" },
     { label: t("footer.companyList.contact"), to: "/contact" },

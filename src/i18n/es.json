@@ -5,7 +5,6 @@
     "industries": "Industrias",
     "locations": "Ubicaciones",
     "resources": "Recursos",
-    "newsroom": "Noticias",
     "about": "Nosotros",
     "careers": "Carreras",
     "contact": "Contacto",
@@ -172,7 +171,6 @@
       "careers": "Carreras",
       "locations": "Ubicaciones",
       "resources": "Recursos",
-      "newsroom": "Noticias",
       "contact": "Contacto"
     }
   }
