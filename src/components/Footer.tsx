@@ -199,15 +199,14 @@ export function Footer() {
               <p className="mt-5 text-white/85 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
 
 
-              {/* Social icons */}
-              <div className="mt-6 flex items-center gap-2.5">
+              {/* Social icons — uniform white chips, each holds its true-brand glyph */}
+              <div className="mt-6 flex items-center gap-3">
                 {socialLinksList.map((s) => {
                   const disabled = !s.enabled || !s.url;
                   const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
-                  const isBrandColored = s.platform === "facebook" || s.platform === "instagram";
-                  const common =
-                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)] overflow-hidden";
-                  const iconClass = isBrandColored ? "size-10" : "size-4";
+                  const chip =
+                    "size-11 rounded-full flex items-center justify-center bg-[var(--brand-white)] shadow-sm transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)]";
+                  const glyph = "size-5";
                   if (disabled) {
                     return (
                       <span
@@ -215,9 +214,9 @@ export function Footer() {
                         role="img"
                         aria-label={label}
                         title="Coming soon"
-                        className={`${common} ${isBrandColored ? "opacity-40" : "bg-white/5 text-white/35"} cursor-not-allowed`}
+                        className={`${chip} opacity-50 cursor-not-allowed`}
                       >
-                        <SocialGlyph platform={s.platform} className={iconClass} />
+                        <SocialGlyph platform={s.platform} className={glyph} />
                       </span>
                     );
                   }
@@ -229,19 +228,14 @@ export function Footer() {
                       rel="noopener noreferrer"
                       aria-label={label}
                       title={label}
-                      className={`${common} ${isBrandColored ? "" : "bg-white/10 text-white"} hover:-translate-y-0.5 hover:scale-110 motion-reduce:hover:transform-none`}
-                      onMouseEnter={(e) => {
-                        if (!isBrandColored) e.currentTarget.style.backgroundColor = BRAND_ORANGE;
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isBrandColored) e.currentTarget.style.backgroundColor = "";
-                      }}
+                      className={`${chip} hover:-translate-y-0.5 hover:shadow-md hover:ring-2 hover:ring-white/30 motion-reduce:hover:transform-none`}
                     >
-                      <SocialGlyph platform={s.platform} className={iconClass} />
+                      <SocialGlyph platform={s.platform} className={glyph} />
                     </a>
                   );
                 })}
               </div>
+
 
               {/* 2x2 trust mini items */}
               <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4 max-w-md">
