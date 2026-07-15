@@ -85,7 +85,7 @@ export function NewsletterSignup({
                   <Mail className="size-6" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
                     Stay Informed
                   </p>
                   <h3

@@ -293,7 +293,7 @@ function ContactPage() {
                   <div className="min-w-0">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
                       Need Urgent <br className="hidden sm:inline" />
-                      <span className="text-[#FCE722]">Assistance?</span>
+                      <span style={{ color: "var(--text-eyebrow)" }}>Assistance?</span>
                     </h2>
                     <p className="mt-4 text-white/90 text-base md:text-lg leading-relaxed max-w-xl">
                       Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana.
@@ -310,7 +310,7 @@ function ContactPage() {
 
               {/* RIGHT: action card */}
               <div className="relative rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">Talk to us now</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">Talk to us now</p>
 
                 <a
                   href={primaryTelHref}
@@ -331,7 +331,7 @@ function ContactPage() {
                   <a
                     href={whatsappHref}
                     {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
+                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
                   >
                     <WhatsApp className="size-5" /> WhatsApp
                   </a>

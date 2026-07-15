@@ -250,7 +250,7 @@ function AboutPage() {
       <section className="relative bg-[var(--cevons-cream,#FBF7EE)] dark:bg-[#0b0b0b] section-y" aria-label="Company impact">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)] mb-3">By the Numbers</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">By the Numbers</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#1A1A1A] dark:text-white">
               Built on Decades of Trust
             </h2>
@@ -272,7 +272,7 @@ function AboutPage() {
                   </p>
                   <p className="mt-1.5 text-xs md:text-sm text-[#64748B] dark:text-white/70 font-medium">{label}</p>
                   {i === 0 && (
-                    <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--brand-orange)]">
+                    <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-eyebrow)]">
                       {new Date().getFullYear() - 1997}+ Years
                     </span>
                   )}
@@ -338,7 +338,7 @@ function AboutPage() {
                 </p>
                 <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[#1A1A1A]">
                   Built for Impact.<br />
-                  <span className="text-[var(--brand-orange)]">Driven by Responsibility.</span>
+                  <span className="text-[var(--text-heading)]">Driven by Responsibility.</span>
                 </h2>
                 <p className="mt-5 text-[#4B5563] leading-relaxed text-base md:text-lg max-w-lg">
                   Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.
@@ -393,7 +393,7 @@ function AboutPage() {
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
         >
           <MessageCircle className="size-5" /> WhatsApp Us
         </a>
