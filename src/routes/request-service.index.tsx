@@ -350,117 +350,105 @@ function RequestServicePage() {
 
 
       <section className="container mx-auto px-4 py-10 md:py-14">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8">
-          {/* Form */}
-          <div className="min-w-0">
-            <AnimatedTruckStepper
-              currentStep={step}
-              steps={STEPS}
-              onStepClick={(i) => i < step && setStep(i)}
-              className="mb-2"
-            />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
-              >
-              {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} />}
-              {step === 1 && <StepService data={data} setData={setData} error={errors.service} />}
-              {step === 2 && (
-                <StepDetails
-                  service={selected}
-                  details={data.details}
-                  setDetail={setDetail}
-                  files={data.files}
-                  onFiles={onFiles}
-                  removeFile={removeFile}
-                />
-              )}
-              {step === 3 && (
-                <StepSchedule
-                  isSpecialist={isSpecialist}
-                  schedule={data.schedule}
-                  setSchedule={setSchedule}
-                />
-              )}
-              {step === 4 && <StepInfo info={data.info} setInfo={setInfo} errors={errors} />}
-              {step === 5 && (
-                <StepReview
-                  data={data}
-                  selected={selected}
-                  isSpecialist={isSpecialist}
-                  confirm={data.confirm}
-                  setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
-                  newsletterOptIn={data.newsletterOptIn}
-                  setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
-                  error={errors.confirm}
-                />
-              )}
-
-              {/* Nav */}
-              <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
-                <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
-                  <ChevronLeft className="size-4 mr-1" /> Back
-                </Button>
-                {step < STEPS.length - 1 ? (
-                  <Button
-                    onClick={next}
-                    disabled={!canContinue}
-                    className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
-                  >
-                    Continue <ChevronRight className="size-4 ml-1" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={submit}
-                    disabled={!data.confirm || submitting}
-                    className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
-                  >
-                    {submitting ? "Submitting…" : "Submit Request"}
-                  </Button>
-                )}
-              </div>
-              {submitError && (
-                <p className="mt-3 text-sm text-[var(--text-eyebrow)] font-medium">{submitError}</p>
-              )}
-              </motion.div>
-            </AnimatePresence>
+        <div className="max-w-3xl mx-auto min-w-0">
+          {/* SR-only live region announces the new step to assistive tech. */}
+          <div className="sr-only" role="status" aria-live="polite">
+            {`Step ${step + 1} of ${STEPS.length}, ${STEPS[step]}`}
           </div>
+          <AnimatedTruckStepper
+            currentStep={step}
+            steps={STEPS}
+            onStepClick={(i) => i < step && (clearAdvanceTimer(), setStep(i))}
+            className="mb-2"
+          />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
+            >
+            {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
+            {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
+            {step === 2 && (
+              <StepDetails
+                service={selected}
+                details={data.details}
+                setDetail={setDetail}
+                files={data.files}
+                onFiles={onFiles}
+                removeFile={removeFile}
+              />
+            )}
+            {step === 3 && (
+              <StepSchedule
+                isSpecialist={isSpecialist}
+                schedule={data.schedule}
+                setSchedule={setSchedule}
+              />
+            )}
+            {step === 4 && <StepInfo info={data.info} setInfo={setInfo} errors={errors} />}
+            {step === 5 && (
+              <StepReview
+                data={data}
+                selected={selected}
+                isSpecialist={isSpecialist}
+                confirm={data.confirm}
+                setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
+                newsletterOptIn={data.newsletterOptIn}
+                setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
+                error={errors.confirm}
+              />
+            )}
 
-          {/* Sidebar */}
-          <aside className="lg:sticky lg:top-28 lg:self-start space-y-4">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <h3 className="text-lg font-semibold">Need Help?</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Call our Georgetown Head Office at{" "}
-                <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
-                or email{" "}
-                <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>.
-                Or contact the branch closest to you.
-              </p>
-              {/* Confirm official WhatsApp number with CEVONS before launch. */}
-              <a
-                href={whatsappHref}
-                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[var(--brand-orange)] text-white hover:bg-[#1A1A1A] font-semibold transition-colors"
-              >
-                <MessageCircle className="size-4" /> WhatsApp Us
-              </a>
+            {/* Nav */}
+            <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
+              <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
+                <ChevronLeft className="size-4 mr-1" /> Back
+              </Button>
+              {/* Steps 0 and 1 auto-advance on selection — Continue would be redundant. */}
+              {step >= 2 && step < STEPS.length - 1 && (
+                <Button
+                  onClick={next}
+                  disabled={!canContinue}
+                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                >
+                  Continue <ChevronRight className="size-4 ml-1" />
+                </Button>
+              )}
+              {step === STEPS.length - 1 && (
+                <Button
+                  onClick={submit}
+                  disabled={!data.confirm || submitting}
+                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                >
+                  {submitting ? "Submitting…" : "Submit Request"}
+                </Button>
+              )}
             </div>
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <h4 className="text-sm font-semibold text-foreground">What happens next?</h4>
-              <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal pl-4">
-                <li>Submit your request</li>
-                <li>Our team reviews details</li>
-                <li>We confirm via WhatsApp or phone</li>
-                <li>Service is scheduled and delivered</li>
-              </ol>
-            </div>
-          </aside>
+            {submitError && (
+              <p className="mt-3 text-sm text-[var(--text-eyebrow)] font-medium">{submitError}</p>
+            )}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Compact help strip — footnote, not a second decision. */}
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Need help? Call{" "}
+            <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>
+            {" · "}
+            <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>
+            {" · "}
+            <a
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="font-semibold text-[var(--text-link)] hover:underline inline-flex items-center gap-1"
+            >
+              <MessageCircle className="size-3.5" /> WhatsApp
+            </a>
+          </p>
         </div>
       </section>
     </SiteLayout>
