@@ -214,7 +214,7 @@ export function Footer() {
                   const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
                   const isBrandColored = s.platform === "facebook" || s.platform === "instagram";
                   const common =
-                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0F0F] overflow-hidden";
+                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)] overflow-hidden";
                   const iconClass = isBrandColored ? "size-10" : "size-4";
                   if (disabled) {
                     return (
