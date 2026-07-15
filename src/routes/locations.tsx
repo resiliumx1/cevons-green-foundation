@@ -112,7 +112,7 @@ function LocationsPage() {
 
 
       {/* MAP SECTION */}
-      <section className="section-y bg-white">
+      <section className="section-y bg-[var(--surface-page)]">
         <div className="container-cevons">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
@@ -250,7 +250,7 @@ function LocationsPage() {
       </section>
 
       {/* SERVICE AVAILABILITY TABLE */}
-      <section className="section-y bg-white">
+      <section className="section-y bg-[var(--surface-page)]">
         <div className="container-cevons">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">

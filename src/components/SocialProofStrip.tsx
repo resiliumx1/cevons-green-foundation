@@ -21,7 +21,7 @@ export default function SocialProofStrip() {
   return (
     <section
       aria-label="Certifications and memberships"
-      className="bg-white border-t border-black/[0.06]"
+      className="bg-[var(--surface-page)] border-t border-[var(--hairline)]"
     >
       <div className="container-cevons md:h-[120px] py-6 md:py-0 flex items-center justify-center">
         <ul className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap items-center justify-center gap-4 md:gap-12 w-full">
@@ -31,7 +31,7 @@ export default function SocialProofStrip() {
               className={[
                 "sp-card group flex items-center gap-3 rounded-2xl px-5 py-4 md:px-7 md:h-[90px]",
                 "border transition-all duration-[250ms] motion-safe:animate-sp-in",
-                "border-black/[0.08] bg-white/75 backdrop-blur-md text-cevons-deep-green",
+                "border-[var(--hairline)] bg-[var(--surface-2)] backdrop-blur-md",
               ].join(" ")}
               style={{ animationDelay: `${i * 100}ms` }}
             >
@@ -43,10 +43,10 @@ export default function SocialProofStrip() {
                 className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"
               />
               <div className="min-w-0">
-                <p className="text-sm md:text-base font-bold leading-tight text-cevons-deep-green">
+                <p className="text-sm md:text-base font-bold leading-tight text-[var(--text-heading)]">
                   {it.title}
                 </p>
-                <p className="text-[11px] md:text-xs mt-0.5 text-black/60">
+                <p className="text-[11px] md:text-xs mt-0.5 text-[var(--text-body)]">
                   {it.subtitle}
                 </p>
               </div>

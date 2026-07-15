@@ -251,7 +251,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {/* How it works */}
-      <section className="section-y bg-white" aria-labelledby="how-h">
+      <section className="section-y bg-[var(--surface-page)]" aria-labelledby="how-h">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">How It Works</p>
@@ -280,7 +280,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {/* Help CTA */}
-      <section className="bg-white pb-16 md:pb-20" id="quote">
+      <section className="bg-[var(--surface-page)] pb-16 md:pb-20" id="quote">
         <div className="container-cevons">
           <div className="rounded-2xl bg-cevons-cream border border-cevons-green/20 p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-soft">
             <div className="max-w-xl">
@@ -331,7 +331,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {related && related.length > 0 && (
-        <section className="py-12 md:py-16 bg-white" aria-labelledby="related-h">
+        <section className="py-12 md:py-16 bg-[var(--surface-page)]" aria-labelledby="related-h">
           <div className="container-cevons">
             <div className="flex items-end justify-between flex-wrap gap-4 mb-6">
               <div>
