@@ -148,35 +148,27 @@ export function Footer() {
           style={{ backgroundColor: "var(--brand-orange)" }}
         />
 
-        {/* Decorative semi-circle — brand guideline "circles & semi-circles" */}
+        {/* Device A — large low-opacity ORANGE arc, bottom-right */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -right-40 -bottom-40 block rounded-full"
+          className="pointer-events-none absolute -right-48 -bottom-56 block rounded-full"
           style={{
-            width: "36rem",
-            height: "36rem",
-            background:
-              "radial-gradient(circle at center, rgba(252,231,34,0.08) 0%, rgba(239,119,0,0.06) 45%, transparent 70%)",
+            width: "40rem",
+            height: "40rem",
+            backgroundColor: "rgba(239,119,0,0.06)",
           }}
         />
+        {/* Device B — smaller YELLOW arc, top-left */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -left-32 -top-32 block rounded-full border"
+          className="pointer-events-none absolute -left-40 -top-40 block rounded-full"
           style={{
-            width: "22rem",
-            height: "22rem",
-            borderColor: "rgba(255,255,255,0.06)",
+            width: "24rem",
+            height: "24rem",
+            backgroundColor: "rgba(252,231,34,0.05)",
           }}
         />
 
-        {/* faint watermark C */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.04] select-none"
-          style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", fontSize: "28rem", fontWeight: 900, lineHeight: 1 }}
-        >
-          C
-        </span>
 
 
         {/* ZONE 3 — Main link grid */}
