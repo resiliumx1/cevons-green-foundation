@@ -210,23 +210,19 @@ function TrackRequestPage() {
       {/* Urgent Assistance CTA */}
       <OrangeCTABanner
         icon={Siren}
-        flankIcon
+        eyebrow="24/7 Emergency Line"
         title="Need Urgent Assistance?"
         subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance."
-        texture="flame"
       >
         <a
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="cta-btn-wa"
         >
           <WhatsApp className="size-5" /> WhatsApp Us
         </a>
-        <a
-          href="tel:+5922181455"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--text-heading)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
-        >
+        <a href="tel:+5922181455" className="cta-btn-primary">
           <Phone className="size-5" /> Call +592 218 1455
         </a>
       </OrangeCTABanner>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, FileText, Home, Map, Newspaper, Phone, Recycle, Truck } from "lucide-react";
+import { ArrowRight, Building2, FileText, Home, Map, Phone, Recycle, Truck } from "lucide-react";
 import { useT } from "@/contexts/SettingsContext";
 
 const BRAND_ORANGE = "var(--brand-orange)";
@@ -11,13 +11,13 @@ export const Route = createFileRoute("/sitemap")({
       {
         name: "description",
         content:
-          "Browse every page on the CEVONS Environmental Services website — services, industries, locations, careers, newsroom and more.",
+          "Browse every page on the CEVONS Environmental Services website — services, industries, locations, careers and more.",
       },
       { property: "og:title", content: "Sitemap — CEVONS Environmental Services" },
       {
         property: "og:description",
         content:
-          "Browse every page on the CEVONS Environmental Services website — services, industries, locations, careers, newsroom and more.",
+          "Browse every page on the CEVONS Environmental Services website — services, industries, locations, careers and more.",
       },
       { name: "robots", content: "index,follow" },
     ],
@@ -36,7 +36,7 @@ const MAIN: NavItem[] = [
   { label: "Locations", to: "/locations" },
   { label: "Industries", to: "/industries" },
   { label: "Resources", to: "/resources" },
-  { label: "Newsroom", to: "/newsroom" },
+  
   { label: "Careers", to: "/careers" },
 ];
 
@@ -205,9 +205,9 @@ function SitemapPage() {
           <span className="opacity-40">·</span>
           <span className="inline-flex items-center gap-2"><Building2 className="size-4" /> Industries</span>
           <span className="opacity-40">·</span>
-          <span className="inline-flex items-center gap-2"><Newspaper className="size-4" /> Newsroom</span>
-          <span className="opacity-40">·</span>
           <span className="inline-flex items-center gap-2"><Recycle className="size-4" /> Services</span>
+          <span className="opacity-40">·</span>
+          <span className="inline-flex items-center gap-2"><FileText className="size-4" /> Resources</span>
           <span className="opacity-40">·</span>
           <span className="inline-flex items-center gap-2"><FileText className="size-4" /> Resources</span>
         </div>

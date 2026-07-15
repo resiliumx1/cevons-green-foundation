@@ -23,7 +23,6 @@ vi.mock("@/components/NewsletterSignup", () => ({
 }));
 
 import { Footer } from "@/components/Footer";
-import { NewsroomSocialSection } from "@/components/newsroom/NewsroomSocialSection";
 
 async function runAxe(container: HTMLElement) {
   const results = await axe.run(container, {
@@ -106,49 +105,4 @@ describe("Footer social icons — accessibility", () => {
     document.documentElement.classList.remove("dark");
     expect(violations).toEqual([]);
   });
-});
-
-describe("Newsroom social section — accessibility", () => {
-  afterEach(() => cleanup());
-
-  it("every FollowCard exposes Follow/Coming-soon controls with accessible names", () => {
-    render(<NewsroomSocialSection />);
-
-    for (const s of socialLinksList) {
-      if (s.enabled && s.url) {
-        const links = screen.getAllByRole("link", {
-          name: new RegExp(`Follow CEVONS on ${s.name}`, "i"),
-        });
-        expect(links.length).toBeGreaterThan(0);
-        // Each enabled control links to the platform URL and opens in a new tab.
-        for (const a of links) {
-          expect(a).toHaveAttribute("href", s.url);
-          expect(a).toHaveAttribute("target", "_blank");
-          expect(a).toHaveAttribute("rel", expect.stringContaining("noopener"));
-        }
-      } else {
-        // Disabled cards render an inert "Coming soon" pill with aria-label.
-        const el = screen.getByLabelText(`${s.name} — Coming soon`);
-        expect(el).toBeInTheDocument();
-      }
-    }
-  });
-
-  it("passes axe ARIA/name checks in light and dark wrappers", async () => {
-    const light = render(
-      <div>
-        <NewsroomSocialSection />
-      </div>,
-    );
-    expect(await runAxe(light.container)).toEqual([]);
-    light.unmount();
-
-    const dark = render(
-      <div className="dark">
-        <NewsroomSocialSection />
-      </div>,
-    );
-    expect(await runAxe(dark.container)).toEqual([]);
-    dark.unmount();
-  }, 15000);
 });

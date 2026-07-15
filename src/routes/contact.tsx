@@ -21,6 +21,7 @@ import { PageHero } from "@/components/PageHero";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
@@ -242,111 +243,32 @@ function ContactPage() {
       </section>
 
       {/* URGENT CTA */}
-      <section className="bg-[var(--cevons-cream,#FBF7EE)] py-14 md:py-20" aria-label="Urgent assistance">
-        <div className="container-cevons">
-          <div className="relative overflow-hidden rounded-[28px] shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5">
-            {/* Background gradient + decorative texture */}
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
-              }}
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-[0.18] mix-blend-overlay"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.9) 1px, transparent 1.5px), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.7) 1px, transparent 1.5px)",
-                backgroundSize: "22px 22px, 32px 32px",
-              }}
-            />
-            <div
-              aria-hidden
-              className="absolute -left-24 -bottom-24 size-[420px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(255,210,0,0.35) 0%, transparent 65%)" }}
-            />
-            <div
-              aria-hidden
-              className="absolute -right-32 -top-32 size-[480px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%)" }}
-            />
+      <OrangeCTABanner
+        icon={Siren}
+        eyebrow="24/7 Emergency Line"
+        title="Need Urgent Assistance?"
+        subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana."
+        actionEyebrow="Talk to us now"
+        actionIntro="Tap to call our dispatch line — or reach us on WhatsApp / email."
+      >
+        <a href={primaryTelHref} className="cta-btn-primary">
+          <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
+        </a>
+        <a
+          href={whatsappHref}
+          {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          className="cta-btn-wa"
+        >
+          <WhatsApp className="size-5" /> WhatsApp Us
+        </a>
+        <a
+          href={primaryMailtoHref}
+          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl border-2 border-[var(--brand-charcoal)] text-[var(--text-heading)] font-bold hover:bg-[var(--brand-charcoal)] hover:text-white transition"
+        >
+          <Mail className="size-5" /> Email Us
+        </a>
+      </OrangeCTABanner>
 
-            {/* Content grid */}
-            <div className="relative grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-12 items-center p-8 sm:p-10 md:p-12 lg:p-14">
-              {/* LEFT: copy */}
-              <div className="text-white">
-                <span className="inline-flex items-center gap-2 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em]">
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-white/80 opacity-75 animate-ping" />
-                    <span className="relative inline-flex size-2 rounded-full bg-white" />
-                  </span>
-                  24/7 Emergency Line
-                </span>
-
-                <div className="mt-5 flex items-start gap-5">
-                  <span className="hidden sm:flex shrink-0 size-16 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-                    <Siren className="size-8 text-white drop-shadow" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
-                      Need Urgent <br className="hidden sm:inline" />
-                      <span style={{ color: "var(--text-eyebrow)" }}>Assistance?</span>
-                    </h2>
-                    <p className="mt-4 text-white/90 text-base md:text-lg leading-relaxed max-w-xl">
-                      Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana.
-                    </p>
-                  </div>
-                </div>
-
-                <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-white/90 text-sm font-semibold">
-                  <li className="flex items-center gap-2"><Clock3 className="size-4" /> Avg. response &lt; 30 min</li>
-                  <li className="flex items-center gap-2"><ShieldCheck className="size-4" /> Licensed &amp; insured</li>
-                  <li className="flex items-center gap-2"><Headphones className="size-4" /> Live dispatch</li>
-                </ul>
-              </div>
-
-              {/* RIGHT: action card */}
-              <div className="relative rounded-2xl bg-[var(--surface-page)] p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-[var(--hairline)]">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">Talk to us now</p>
-
-                <a
-                  href={primaryTelHref}
-                  className="mt-2 flex items-center gap-3 text-[var(--text-heading)] hover:text-[var(--brand-orange)] transition-colors group"
-                >
-                  <Phone className="size-6 text-[var(--brand-orange)] shrink-0" />
-                  <span className="text-2xl sm:text-3xl font-extrabold tracking-tight group-hover:underline underline-offset-4 decoration-[var(--brand-orange)]/40">
-                    {cevonsContact.primaryPhone}
-                  </span>
-                </a>
-                <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">Tap to call our dispatch line.</p>
-
-                <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] font-bold text-[var(--text-body,#4A4A4A)]">
-                  <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" /> or <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <a
-                    href={whatsappHref}
-                    {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
-                  >
-                    <WhatsApp className="size-5" /> WhatsApp
-                  </a>
-                  <a
-                    href={primaryMailtoHref}
-                    className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl border-2 border-[var(--brand-orange)] text-[var(--brand-orange)] font-bold hover:bg-[var(--brand-orange)] hover:text-white transition"
-                  >
-                    <Mail className="size-5" /> Email
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
 
       {/* TRUST STRIP */}

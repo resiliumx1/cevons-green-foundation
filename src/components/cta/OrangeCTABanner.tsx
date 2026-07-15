@@ -5,24 +5,34 @@ interface Props {
   icon: ComponentType<LucideProps>;
   /** Optional small uppercase eyebrow above the title. */
   eyebrow?: string;
-  /** @deprecated kept for backward compatibility (no visual effect in new layout). */
+  /** @deprecated no longer used — kept for backward compatibility. */
   flankIcon?: boolean;
   title: string;
   subtitle?: ReactNode;
+  /** Buttons / action content that renders inside the white action card. */
   children: ReactNode;
-  /** Decorative texture variant. */
+  /** @deprecated no longer used — the new banner uses a single restrained arc. */
   texture?: "dots" | "diagonal" | "flame";
+  /** Optional heading override in the white action card. */
+  actionEyebrow?: string;
+  /** Optional intro copy in the white action card. */
+  actionIntro?: string;
   className?: string;
 }
 
 /**
- * Reusable orange CTA banner — premium two-column layout.
+ * Reusable orange CTA banner.
  *
- * Layout:
- *  - Left: large icon halo, optional eyebrow, Playfair title, supporting copy.
- *  - Right: frosted white "action card" wrapping the CTA buttons for contrast.
+ * Contrast rule (non-negotiable): text on the orange field is ALWAYS
+ * charcoal (var(--text-on-orange) = #1A1A1A, 6.0:1). White on orange
+ * fails AA (2.87:1) and is banned.
  *
- * Stacks to a single column on mobile while preserving identical content.
+ * Layout: split (icon + eyebrow + Playfair heading + subtitle on the
+ * left; a solid white action card on the right). Stacks on mobile.
+ *
+ * Decoration: one restrained semi-circle arc anchored bottom-right,
+ * low opacity yellow — the guide's "circles for softness". No dot
+ * grids, no diagonals, no radial glows.
  */
 export function OrangeCTABanner({
   icon: Icon,
@@ -30,64 +40,77 @@ export function OrangeCTABanner({
   title,
   subtitle,
   children,
-  texture = "dots",
+  actionEyebrow = "Get Started",
+  actionIntro = "Choose how you'd like to reach us.",
   className = "",
 }: Props) {
-  const textureStyle =
-    texture === "diagonal"
-      ? {
-          backgroundImage:
-            "repeating-linear-gradient(135deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 16px)",
-        }
-      : texture === "flame"
-        ? {
-            backgroundImage:
-              "radial-gradient(circle at 92% 70%, rgba(255,255,255,0.10) 0, transparent 38%), radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0)",
-            backgroundSize: "auto, 22px 22px",
-          }
-        : {
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.22) 1px, transparent 0)",
-            backgroundSize: "22px 22px",
-          };
-
   return (
-    <section className={`bg-white dark:bg-[#0b0b0b] py-12 md:py-20 ${className}`}>
+    <section className={`bg-[var(--surface-page)] py-12 md:py-20 ${className}`}>
       <div className="container-cevons px-4">
         <div
-          className="relative overflow-hidden rounded-[28px] shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
+          className="relative overflow-hidden rounded-[28px] shadow-[0_24px_60px_-28px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
           style={{
             background:
-              "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
+              "linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%)",
           }}
         >
-          {/* Texture */}
-          <div aria-hidden className="absolute inset-0 opacity-[0.18] pointer-events-none mix-blend-overlay" style={textureStyle} />
-          {/* Soft corner glows */}
-          <div aria-hidden className="absolute -left-28 -bottom-28 size-[420px] rounded-full pointer-events-none"
-               style={{ background: "radial-gradient(circle, rgba(255,210,0,0.30) 0%, transparent 65%)" }} />
-          <div aria-hidden className="absolute -right-32 -top-32 size-[480px] rounded-full pointer-events-none"
-               style={{ background: "radial-gradient(circle, rgba(255,255,255,0.22) 0%, transparent 60%)" }} />
+          {/* ONE restrained semi-circle — brand yellow at low opacity,
+              anchored bottom-right, behind content, non-interactive. */}
+          <svg
+            aria-hidden="true"
+            className="absolute -bottom-24 -right-24 w-[420px] h-[420px] pointer-events-none"
+            viewBox="0 0 200 200"
+          >
+            <circle cx="100" cy="100" r="100" fill="var(--brand-yellow)" opacity="0.14" />
+          </svg>
+          {/* Second, smaller arc top-left for balance (very subtle). */}
+          <svg
+            aria-hidden="true"
+            className="absolute -top-16 -left-16 w-[220px] h-[220px] pointer-events-none"
+            viewBox="0 0 200 200"
+          >
+            <circle cx="100" cy="100" r="100" fill="var(--brand-white)" opacity="0.08" />
+          </svg>
 
           <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 items-center p-8 sm:p-10 md:p-12 lg:p-14">
-            {/* LEFT: copy */}
-            <div className="text-white">
+            {/* LEFT: copy — ALL charcoal for AA on orange. */}
+            <div style={{ color: "var(--text-on-orange)" }}>
               {eyebrow && (
-                <p className="inline-flex items-center gap-2 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em]">
+                <p
+                  className="inline-flex items-center gap-2 rounded-full ring-1 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em]"
+                  style={{
+                    color: "var(--text-on-orange)",
+                    backgroundColor: "rgba(26,26,26,0.08)",
+                    borderColor: "rgba(26,26,26,0.18)",
+                  }}
+                >
                   {eyebrow}
                 </p>
               )}
 
               <div className={`flex items-start gap-5 ${eyebrow ? "mt-5" : ""}`}>
-                <span className="hidden sm:flex shrink-0 size-16 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-                  <Icon className="size-8 text-white drop-shadow" strokeWidth={2} aria-hidden />
+                <span
+                  className="hidden sm:flex shrink-0 size-16 items-center justify-center rounded-2xl ring-1"
+                  style={{
+                    backgroundColor: "rgba(26,26,26,0.10)",
+                    borderColor: "rgba(26,26,26,0.15)",
+                    color: "var(--text-on-orange)",
+                  }}
+                >
+                  <Icon className="size-8" strokeWidth={2} aria-hidden />
                 </span>
                 <div className="min-w-0">
-                  <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
+                  <h2
+                    className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]"
+                    style={{ color: "var(--text-on-orange)" }}
+                  >
                     {title}
                   </h2>
                   {subtitle && (
-                    <p className="mt-4 text-white/90 text-base md:text-lg leading-relaxed max-w-xl">
+                    <p
+                      className="mt-4 text-base md:text-lg leading-relaxed max-w-xl"
+                      style={{ color: "var(--text-on-orange)", opacity: 0.85 }}
+                    >
                       {subtitle}
                     </p>
                   )}
@@ -95,13 +118,16 @@ export function OrangeCTABanner({
               </div>
             </div>
 
-            {/* RIGHT: frosted action card */}
-            <div className="relative rounded-2xl bg-white/95 dark:bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">Get Started</p>
-              <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">Choose how you'd like to reach us.</p>
-              <div className="mt-5 flex flex-col gap-3">
-                {children}
-              </div>
+            {/* RIGHT: solid white action card. */}
+            <div
+              className="relative rounded-2xl p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)]"
+              style={{ backgroundColor: "#FFFFFF" }}
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
+                {actionEyebrow}
+              </p>
+              <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">{actionIntro}</p>
+              <div className="mt-5 flex flex-col gap-3">{children}</div>
             </div>
           </div>
         </div>

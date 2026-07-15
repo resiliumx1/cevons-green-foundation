@@ -28,6 +28,7 @@ import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
+import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import svcResidentialAsset from "@/assets/svc-residential.png.asset.json";
 import svcCommercialAsset from "@/assets/svc-commercial.png.asset.json";
 import svcIndustrialAsset from "@/assets/svc-industrial.png.asset.json";
@@ -160,12 +161,17 @@ function HomePage() {
       </section>
 
       {/* IMPACT STATS BAND */}
-      <section className="relative bg-cevons-deep-green overflow-hidden">
+      <section
+        className="relative overflow-hidden"
+        style={{ backgroundColor: "var(--surface-dark-alt)" }}
+      >
+        {/* 3px orange top rule — delineates the band in both modes */}
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: "var(--brand-orange)" }} />
         <div aria-hidden="true" className="absolute right-0 top-0 bottom-0 w-1/2 lg:w-[38%] hidden md:block">
           <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="size-full">
             <path d="M40,0 L400,0 L400,200 L0,200 Z" fill="var(--brand-orange)" />
             <path d="M110,0 L400,0 L400,200 L70,200 Z" fill="var(--brand-orange-dark)" />
-            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="#1A1A1A" />
+            <path d="M170,0 L400,0 L400,200 L130,200 Z" fill="var(--brand-yellow)" opacity="0.28" />
           </svg>
         </div>
         <div className="container-cevons py-14 md:py-16 relative">
@@ -230,77 +236,21 @@ function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-white dark:bg-[#0b0b0b] py-14 md:py-20">
-        <div className="container-cevons">
-          <div
-            id="schedule"
-            className="relative overflow-hidden rounded-[28px] px-6 py-14 md:px-16 md:py-20 text-center shadow-[0_30px_60px_-25px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
-            style={{
-              background:
-                "linear-gradient(120deg, var(--brand-orange-dark) 0%, var(--brand-orange) 55%, var(--brand-orange) 100%)",
-            }}
-          >
-            {/* Dot texture */}
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.7) 1px, transparent 0)",
-                backgroundSize: "22px 22px",
-              }}
-            />
-            {/* Decorative curved swooshes */}
-            <svg
-              aria-hidden
-              className="absolute inset-0 size-full opacity-30 pointer-events-none"
-              viewBox="0 0 1200 360"
-              preserveAspectRatio="none"
-            >
-              <path d="M-50,260 C300,180 700,340 1300,160" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" fill="none" />
-              <path d="M-50,300 C350,220 750,380 1300,200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" fill="none" />
-            </svg>
-            {/* Soft corner glows */}
-            <div aria-hidden className="absolute -left-32 top-1/3 size-[420px] rounded-full pointer-events-none"
-                 style={{ background: "radial-gradient(circle, rgba(255,210,0,0.25) 0%, transparent 65%)" }} />
-            <div aria-hidden className="absolute -right-24 -top-24 size-[420px] rounded-full pointer-events-none"
-                 style={{ background: "radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%)" }} />
-
-            <div className="relative">
-              {/* Eyebrow with flanking lines */}
-              <div className="mx-auto mb-6 flex items-center justify-center gap-4 max-w-2xl">
-                <span aria-hidden className="hidden sm:block h-px flex-1 bg-white/50 max-w-[80px]" />
-                <p className="text-white text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em]">
-                  {t("home.cta.eyebrow")}
-                </p>
-                <span aria-hidden className="hidden sm:block h-px flex-1 bg-white/50 max-w-[80px]" />
-              </div>
-
-              <h2 className="font-display text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] drop-shadow-[0_4px_12px_rgba(0,0,0,0.18)]">
-                {t("home.cta.title")}
-              </h2>
-              <p className="mt-5 md:mt-6 text-white/90 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                {t("home.cta.lead")}
-              </p>
-
-              <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold text-base hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
-                >
-                  <WhatsApp className="size-5" /> {t("home.cta.whatsapp")}
-                </a>
-                <a
-                  href="/request-service"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--text-heading)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
-                >
-                  {t("home.cta.quote")} <ArrowRight className="size-5" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div id="schedule">
+        <OrangeCTABanner
+          icon={Leaf}
+          eyebrow={t("home.cta.eyebrow")}
+          title={t("home.cta.title")}
+          subtitle={t("home.cta.lead")}
+        >
+          <a href="/request-service" className="cta-btn-primary">
+            {t("home.cta.quote")} <ArrowRight className="size-5" />
+          </a>
+          <a href="/contact" className="cta-btn-wa">
+            <WhatsApp className="size-5" /> {t("home.cta.whatsapp")}
+          </a>
+        </OrangeCTABanner>
+      </div>
 
     </SiteLayout>
   );

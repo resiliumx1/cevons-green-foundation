@@ -484,29 +484,28 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
     return (
       <Reveal variant="up">
         <div
-          className={`max-w-3xl mx-auto text-center ${emphasis ? "rounded-2xl p-8 md:p-10 shadow-lift" : ""}`}
-          style={emphasis ? { backgroundColor: "var(--surface-emphasis)" } : undefined}
+          className={`max-w-3xl mx-auto text-center ${emphasis ? "emphasis-band" : ""}`}
         >
           {section.eyebrow && (
             <p
               className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
-              style={{ color: emphasis ? "var(--brand-orange)" : EYEBROW_ORANGE }}
+              style={{ color: EYEBROW_ORANGE }}
             >
               {section.eyebrow}
             </p>
           )}
           <h2
             className="text-3xl md:text-4xl font-extrabold"
-            style={{ color: emphasis ? "#ffffff" : "var(--text-heading)" }}
+            style={{ color: "var(--text-heading)" }}
           >
             {section.heading}
           </h2>
           <div
             className="mt-5 space-y-4 text-base leading-relaxed"
-            style={{ color: emphasis ? "rgba(255,255,255,0.88)" : undefined }}
+            style={{ color: "var(--text-body)" }}
           >
             {section.paragraphs.map((p, idx) => (
-              <p key={idx} className={emphasis ? "" : "text-cevons-muted"}>{p}</p>
+              <p key={idx}>{p}</p>
             ))}
           </div>
 
@@ -588,46 +587,45 @@ function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLab
   return (
     <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
-        <div
-          className="rounded-2xl overflow-hidden shadow-lift p-6 md:p-8"
-          style={{ backgroundColor: "var(--surface-emphasis)" }}
-        >
-
+        <div className="emphasis-band">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="max-w-xl">
               <p
                 className="text-xs font-bold uppercase tracking-[0.2em] mb-2"
-                style={{ color: "var(--brand-orange)" }}
+                style={{ color: "var(--text-eyebrow)" }}
               >
                 Talk to a specialist
               </p>
-              <h2 id="assist-h" className="text-2xl md:text-3xl font-extrabold text-white">
+              <h2
+                id="assist-h"
+                className="text-2xl md:text-3xl font-extrabold"
+                style={{ color: "var(--text-heading)" }}
+              >
                 Need Immediate Assistance?
               </h2>
-              <p className="mt-2 leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p
+                className="mt-2 leading-relaxed"
+                style={{ color: "var(--text-body)" }}
+              >
                 Call our Georgetown Head Office and we'll route your request to the right team today.
               </p>
               <a
                 href={primaryTelHref}
                 className="mt-4 inline-flex items-center gap-3 text-xl md:text-2xl font-extrabold transition-opacity hover:opacity-90"
-                style={{ color: "var(--brand-orange)" }}
+                style={{ color: "var(--text-link)" }}
               >
                 <Phone className="size-6" aria-hidden="true" />
                 {cevonsContact.primaryPhone}
               </a>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a
-                href={primaryCtaHref}
-                className="btn-base px-6 py-3 text-base font-semibold rounded-lg hover:opacity-95 transition-opacity"
-                style={{ backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" }}
-              >
+              <a href={primaryCtaHref} className="cta-btn-primary">
                 <FileText className="size-5" /> Start a Service Request
               </a>
               <a
                 href={whatsappHref}
                 {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="btn-base px-6 py-3 text-base font-semibold rounded-lg border border-white/40 text-white hover:bg-white/10 transition-colors"
+                className="cta-btn-wa"
               >
                 <WhatsApp className="size-5" /> WhatsApp Us
               </a>

@@ -14,7 +14,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as CrmRouteImport } from './routes/crm'
@@ -84,11 +83,6 @@ const ServicesRoute = ServicesRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsroomRoute = NewsroomRouteImport.update({
-  id: '/newsroom',
-  path: '/newsroom',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -338,7 +332,6 @@ export interface FileRoutesByFullPath {
   '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
-  '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -390,7 +383,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
-  '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -443,7 +435,6 @@ export interface FileRoutesById {
   '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
-  '/newsroom': typeof NewsroomRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -498,7 +489,6 @@ export interface FileRouteTypes {
     | '/crm'
     | '/industries'
     | '/locations'
-    | '/newsroom'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -550,7 +540,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/locations'
-    | '/newsroom'
     | '/resources'
     | '/sitemap'
     | '/sitemap.xml'
@@ -602,7 +591,6 @@ export interface FileRouteTypes {
     | '/crm'
     | '/industries'
     | '/locations'
-    | '/newsroom'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -656,7 +644,6 @@ export interface RootRouteChildren {
   CrmRoute: typeof CrmRouteWithChildren
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
-  NewsroomRoute: typeof NewsroomRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapRoute: typeof SitemapRoute
@@ -702,13 +689,6 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/newsroom': {
-      id: '/newsroom'
-      path: '/newsroom'
-      fullPath: '/newsroom'
-      preLoaderRoute: typeof NewsroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -1135,7 +1115,6 @@ const rootRouteChildren: RootRouteChildren = {
   CrmRoute: CrmRouteWithChildren,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
-  NewsroomRoute: NewsroomRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapRoute: SitemapRoute,
@@ -1148,13 +1127,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

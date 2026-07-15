@@ -160,12 +160,6 @@ function AboutPage() {
                 >
                   Our Locations <ArrowRight className="size-4" />
                 </Link>
-                <Link
-                  to="/newsroom"
-                  className="btn-base btn-outline-green"
-                >
-                  Newsroom <ArrowRight className="size-4" />
-                </Link>
               </div>
             </div>
             <div className={`relative rounded-2xl overflow-hidden shadow-soft group transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
@@ -382,18 +376,14 @@ function AboutPage() {
         eyebrow="Partner With Us"
         title="Ready to Work With CEVONS?"
         subtitle="Let us help you manage waste responsibly and efficiently across Guyana."
-        texture="dots"
       >
-        <Link
-          to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.35)]"
-        >
+        <Link to="/request-service" className="cta-btn-primary">
           Request Service <ArrowRight className="size-5" />
         </Link>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(45,163,57,0.35)]"
+          className="cta-btn-wa"
         >
           <MessageCircle className="size-5" /> WhatsApp Us
         </a>
