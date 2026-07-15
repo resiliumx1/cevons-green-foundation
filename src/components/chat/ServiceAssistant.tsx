@@ -585,7 +585,7 @@ export function ServiceAssistant() {
                     disabled={!input.trim() || loading}
                     aria-label="Send"
                     title="Send message"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[#1A1A1A] shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
                     style={{ background: orangeGradient }}
                   >
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
