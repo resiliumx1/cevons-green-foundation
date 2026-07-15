@@ -36,9 +36,10 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
       to={to}
       aria-current={isActive ? "page" : undefined}
       className={`group/link inline-flex items-center gap-1.5 text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
-        isActive ? "text-[color:var(--fa-orange)] font-semibold" : "text-white/75 hover:text-[color:var(--fa-orange)]"
+        isActive
+          ? "text-white font-semibold underline underline-offset-4 decoration-[color:var(--brand-yellow)] decoration-2"
+          : "text-white/85 hover:text-white hover:underline hover:underline-offset-4 hover:decoration-white/70"
       }`}
-      style={{ ["--fa-orange" as never]: BRAND_ORANGE }}
     >
       <ArrowRight
         aria-hidden
@@ -47,8 +48,9 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
             ? "opacity-100 translate-x-0"
             : "opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-focus-visible/link:opacity-100 group-focus-visible/link:translate-x-0"
         }`}
-        style={{ color: BRAND_ORANGE }}
+        style={{ color: "var(--brand-yellow)" }}
       />
+
       <span
         className={`transition-transform duration-200 motion-reduce:transition-none ${
           isActive ? "translate-x-0" : "group-hover/link:translate-x-0.5 group-focus-visible/link:translate-x-0.5"
