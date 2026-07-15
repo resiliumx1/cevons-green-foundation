@@ -133,7 +133,7 @@ function AboutPage() {
       </section>
 
       {/* COMPANY STORY */}
-      <section className="section-y bg-white" aria-labelledby="story-heading">
+      <section className="section-y bg-[var(--surface-page)]" aria-labelledby="story-heading">
         <div className="container-cevons">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
@@ -215,7 +215,7 @@ function AboutPage() {
 
 
       {/* COMPLIANCE SECTION */}
-      <section className="section-y bg-white" aria-labelledby="compliance-heading">
+      <section className="section-y bg-[var(--surface-page)]" aria-labelledby="compliance-heading">
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -323,9 +323,9 @@ function AboutPage() {
       </section>
 
       {/* ENVIRONMENTAL RESPONSIBILITY */}
-      <section className="section-y bg-white dark:bg-[#0b0b0b] relative" aria-labelledby="env-heading">
+      <section className="section-y bg-[var(--surface-page)] relative" aria-labelledby="env-heading">
         <div className="container-cevons">
-          <div className="relative overflow-hidden rounded-[28px] ring-1 ring-black/5 shadow-[0_30px_60px_-25px_rgba(26,26,26,0.18)] bg-white">
+          <div className="relative overflow-hidden rounded-[28px] ring-1 ring-black/5 dark:ring-white/10 shadow-[0_30px_60px_-25px_rgba(26,26,26,0.18)] bg-[var(--surface-page)]">
             <div aria-hidden className="absolute -top-24 -right-24 size-72 rounded-full"
                  style={{ background: "radial-gradient(circle, rgba(239,119,0,0.18) 0%, transparent 65%)" }} />
             <div aria-hidden className="absolute -bottom-24 -left-24 size-72 rounded-full"
@@ -333,14 +333,14 @@ function AboutPage() {
 
             <div className="relative grid md:grid-cols-2 gap-10 lg:gap-16 items-center p-8 sm:p-10 md:p-14">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)]/10 ring-1 ring-[var(--brand-orange)]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--brand-orange-dark)] mb-5">
+                <p className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)]/10 ring-1 ring-[var(--brand-orange)]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-5">
                   <Leaf className="size-3.5" /> Responsibility
                 </p>
-                <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[#1A1A1A]">
+                <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[var(--text-heading)]">
                   Built for Impact.<br />
                   <span className="text-[var(--text-heading)]">Driven by Responsibility.</span>
                 </h2>
-                <p className="mt-5 text-[#4B5563] leading-relaxed text-base md:text-lg max-w-lg">
+                <p className="mt-5 text-[var(--text-body)] leading-relaxed text-base md:text-lg max-w-lg">
                   Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.
                 </p>
                 <div className="mt-7 flex flex-wrap gap-3">
@@ -359,15 +359,15 @@ function AboutPage() {
                   { label: "Community Clean", value: "Local support", icon: Heart, tint: "#E53935" },
                   { label: "Sustainable Ops", value: "Long-term care", icon: Leaf, tint: "var(--brand-orange)" },
                 ].map((item) => (
-                  <div key={item.label} className="group relative rounded-xl bg-white border border-black/10 p-5 hover:border-[var(--brand-orange)]/50 hover:shadow-[0_10px_24px_-12px_rgba(26,26,26,0.18)] transition-all">
+                  <div key={item.label} className="group relative rounded-xl bg-[var(--surface-page)] border border-black/10 dark:border-white/10 p-5 hover:border-[var(--brand-orange)]/50 hover:shadow-[0_10px_24px_-12px_rgba(26,26,26,0.18)] transition-all">
                     <span
                       className="inline-flex size-10 items-center justify-center rounded-lg mb-3"
                       style={{ background: `${item.tint}1A`, color: item.tint }}
                     >
                       <item.icon className="size-5" />
                     </span>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">{item.label}</p>
-                    <p className="mt-1 text-sm text-[#4B5563] font-medium">{item.value}</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--text-heading)]">{item.label}</p>
+                    <p className="mt-1 text-sm text-[var(--text-body)] font-medium">{item.value}</p>
                   </div>
                 ))}
               </div>
