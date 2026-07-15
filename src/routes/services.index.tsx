@@ -18,6 +18,7 @@ import {
   Compass,
   ClipboardList,
 } from "lucide-react";
+import { ServiceActionRow } from "@/components/services/ServiceActionButton";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
@@ -157,21 +158,8 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
-      <div className="mt-auto pt-5 mt-5 grid grid-cols-2 gap-2.5 border-t border-[var(--cevons-deep-green)]/10">
-        <Link
-          to={s.slug}
-          aria-label={`Learn more about ${s.title}`}
-          className="inline-flex items-center justify-center gap-1.5 h-10 px-3 rounded-lg border border-[var(--cevons-deep-green)]/25 bg-white text-xs font-bold text-[var(--cevons-deep-green)] transition-all hover:bg-[var(--cevons-deep-green)] hover:text-white hover:border-[var(--cevons-deep-green)] hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green)]/40"
-        >
-          Learn more <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-        </Link>
-        <Link
-          to="/request-service"
-          aria-label={`Request ${s.title}`}
-          className="inline-flex items-center justify-center gap-1.5 h-10 px-3 rounded-lg bg-[var(--brand-orange)] text-xs font-bold text-white shadow-sm transition-all hover:bg-[var(--brand-orange-dark,#C45F00)] hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)]/50"
-        >
-          Request <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-        </Link>
+      <div className="mt-auto pt-5">
+        <ServiceActionRow learnTo={s.slug} ariaTitle={s.title} />
       </div>
     </article>
   );
