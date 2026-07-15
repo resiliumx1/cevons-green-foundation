@@ -77,8 +77,8 @@ export function PageHero({
   // darkening the photo's subject — grounds the text block on tall photos.
   const overlay =
     align === "center"
-      ? "linear-gradient(180deg, rgba(15,15,15,0.58) 0%, rgba(15,15,15,0.18) 30%, rgba(15,15,15,0.00) 55%), linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.55) 60%, rgba(15,15,15,0.30) 100%)"
-      : "linear-gradient(180deg, rgba(15,15,15,0.58) 0%, rgba(15,15,15,0.18) 30%, rgba(15,15,15,0.00) 55%), linear-gradient(90deg, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.72) 45%, rgba(15,15,15,0.30) 100%)";
+      ? "linear-gradient(180deg, rgba(15,15,15,0.58) 0%, rgba(15,15,15,0.42) 35%, rgba(15,15,15,0.00) 62%), linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.55) 60%, rgba(15,15,15,0.30) 100%)"
+      : "linear-gradient(180deg, rgba(15,15,15,0.58) 0%, rgba(15,15,15,0.42) 35%, rgba(15,15,15,0.00) 62%), linear-gradient(90deg, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.72) 45%, rgba(15,15,15,0.30) 100%)";
 
 
   return (
