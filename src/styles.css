@@ -1081,18 +1081,17 @@
   color: transparent;
   background: linear-gradient(
     100deg,
-    #0FA34A 0%,
-    #35E76B 22%,
-    #B6FF7A 42%,
-    #F5C518 54%,
-    #35E76B 70%,
-    #0FA34A 100%
+    #2DA339 0%,
+    #2DA339 20%,
+    #FCE722 50%,
+    #2DA339 80%,
+    #2DA339 100%
   );
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   animation: ecoGradientFlow 14s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(53, 231, 107, 0.24));
+  filter: drop-shadow(0 0 10px rgba(45, 163, 57, 0.28));
 }
 .eco-word.growth-flow::before {
   content: "";
@@ -1104,10 +1103,10 @@
   border-radius: 999px;
   background: linear-gradient(
     90deg,
-    rgba(53, 231, 107, 0),
-    rgba(53, 231, 107, 0.8),
-    rgba(245, 197, 24, 0.7),
-    rgba(53, 231, 107, 0)
+    rgba(45, 163, 57, 0),
+    rgba(45, 163, 57, 0.8),
+    rgba(252, 231, 34, 0.7),
+    rgba(45, 163, 57, 0)
   );
   transform-origin: left;
   animation: growthUnderlineDraw 950ms ease-out 420ms both;
@@ -1133,16 +1132,16 @@
   position: absolute;
   width: 0.22em;
   height: 0.4em;
-  background: linear-gradient(135deg, #B6FF7A, #35E76B 60%, #0FA34A);
+  background: linear-gradient(135deg, rgba(45, 163, 57, 0.45), rgba(45, 163, 57, 0.9) 60%, #2DA339);
   border-radius: 100% 0 100% 0;
   opacity: 0.55;
-  filter: drop-shadow(0 0 6px rgba(53, 231, 107, 0.35));
+  filter: drop-shadow(0 0 6px rgba(45, 163, 57, 0.4));
   transform-origin: bottom center;
   pointer-events: none;
 }
 .eco-leaf.gold {
-  background: linear-gradient(135deg, #FFE789, #F5C518 60%, #B8860B);
-  filter: drop-shadow(0 0 6px rgba(245, 197, 24, 0.4));
+  background: linear-gradient(135deg, rgba(252, 231, 34, 0.5), rgba(252, 231, 34, 0.9) 60%, #FCE722);
+  filter: drop-shadow(0 0 6px rgba(252, 231, 34, 0.45));
 }
 .leaf-one   { top: 0.05em;  left: -0.12em;   animation: leafFloatOne   11s  ease-in-out infinite; }
 .leaf-two   { top: -0.18em; left: 38%;       animation: leafFloatTwo   13s  ease-in-out infinite -2s; }
@@ -1216,9 +1215,9 @@
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: #F5C518;
+  background: var(--brand-yellow);
   opacity: 0;
-  box-shadow: 0 0 4px rgba(245, 197, 24, 0.75);
+  box-shadow: 0 0 4px rgba(252, 231, 34, 0.75);
   animation: sparkleTwinkle var(--dur, 4s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
   will-change: opacity, transform;
@@ -1234,7 +1233,7 @@
   font-family: var(--font-sans), "Hanken Grotesk", sans-serif;
   font-weight: 500;
   font-style: italic;
-  color: #F5C518;
+  color: var(--brand-yellow);
   font-size: clamp(1.1rem, 2.1vw, 1.5rem);
   letter-spacing: -0.005em;
   line-height: 1.35;
@@ -1246,7 +1245,7 @@
 }
 .hero-subhead-pro .for-guyana {
   position: relative;
-  color: #F5C518;
+  color: var(--brand-yellow);
   padding-bottom: 0.18em;
 }
 .hero-subhead-pro .for-guyana::after {
@@ -1257,7 +1256,7 @@
   width: 2.2em;
   height: 1.5px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #F5C518, rgba(245, 197, 24, 0));
+  background: linear-gradient(90deg, var(--brand-yellow), rgba(252, 231, 34, 0));
   transform-origin: left;
   animation: scriptUnderlineDraw 850ms ease-out 700ms both;
 }
@@ -1294,20 +1293,25 @@
 }
 .hero-cta:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 5px #0FA34A;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 5px var(--brand-orange);
 }
 .hero-cta:active { transform: translateY(0) !important; }
 
 .hero-cta--whatsapp {
-  color: #fff;
-  background: linear-gradient(135deg, #15B85A 0%, #0FA34A 55%, #006B35 100%);
-  box-shadow: 0 10px 28px -10px rgba(15, 163, 74, 0.6), 0 2px 6px rgba(0,0,0,0.18);
+  color: var(--text-on-green);
+  background: linear-gradient(135deg, #2DA339 0%, rgba(45, 163, 57, 0.88) 55%, #2DA339 100%);
+  box-shadow: 0 10px 28px -10px rgba(45, 163, 57, 0.6), 0 2px 6px rgba(0,0,0,0.18);
 }
 .hero-cta--whatsapp:hover {
   transform: translateY(-2px);
   filter: brightness(1.06);
-  box-shadow: 0 16px 36px -12px rgba(15, 163, 74, 0.7), 0 4px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 16px 36px -12px rgba(45, 163, 57, 0.7), 0 4px 10px rgba(0,0,0,0.22);
 }
+.hero-cta--whatsapp .hero-cta__icon {
+  background: rgba(26, 26, 26, 0.15);
+  border: 1px solid rgba(26, 26, 26, 0.2);
+}
+.hero-cta--whatsapp .hero-cta__sub { color: rgba(26, 26, 26, 0.72); }
 .hero-cta__icon {
   display: grid;
   place-items: center;
@@ -1816,11 +1820,7 @@
 :not([data-hero-scope]):not([data-hero-scope] *) .bg-cevons-green {
   color: var(--brand-charcoal) !important;
 }
-[data-hero-scope] .bg-cevons-green,
-[data-hero-scope].bg-cevons-green {
-  /* hero keeps its original green treatment; white text is AA on green */
-  color: #fff !important;
-}
+/* Note: no .bg-cevons-green usage exists inside [data-hero-scope]. */
 
 /* Hardcoded brand-orange backgrounds in components — same guard.
    IMPORTANT: exclude Tailwind opacity variants like /5, /10, /20 — those are
@@ -2450,9 +2450,9 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
     width: 30px;
     height: 30px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    color: #fff;
+    background: rgba(26, 26, 26, 0.18);
+    border: 1px solid rgba(26, 26, 26, 0.35);
+    color: #1A1A1A;
     display: grid;
     place-items: center;
     font-size: 15px;
@@ -2460,39 +2460,39 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
     line-height: 1;
   }
   [data-hero-scope] .hero-cta--whatsapp {
-    background: linear-gradient(135deg, #0FAF45 0%, #047A2B 100%) !important;
-    box-shadow: 0 12px 28px rgba(0,150,70,0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
-    color: #fff !important;
+    background: linear-gradient(135deg, #2DA339 0%, rgba(45, 163, 57, 0.85) 100%) !important;
+    box-shadow: 0 12px 28px rgba(45, 163, 57, 0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
+    color: var(--text-on-green) !important;
   }
   [data-hero-scope] .hero-cta--schedule {
     background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%) !important;
     box-shadow: 0 12px 28px rgba(239,119,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22) !important;
-    color: #fff !important;
+    color: var(--text-on-orange) !important;
   }
   [data-hero-scope] .hero-cta__icon,
   [data-hero-scope] .hero-cta > svg:first-child {
     width: 40px !important;
     height: 40px !important;
     border-radius: 12px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(26, 26, 26, 0.15);
+    border: 1px solid rgba(26, 26, 26, 0.24);
     display: grid;
     place-items: center;
     flex-shrink: 0;
-    color: #fff !important;
+    color: #1A1A1A !important;
   }
   [data-hero-scope] .hero-cta > svg:first-child { padding: 9px; }
   [data-hero-scope] .hero-cta__icon svg { width: 20px; height: 20px; }
   [data-hero-scope] .hero-cta__text { padding-right: 38px; }
-  [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #fff !important; line-height: 1.1; }
+  [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #1A1A1A !important; line-height: 1.1; }
   [data-hero-scope] .hero-cta__sub {
     font-size: 0.74rem;
-    color: rgba(255,255,255,0.88) !important;
+    color: rgba(26, 26, 26, 0.75) !important;
     font-weight: 500;
     margin-top: 2px;
     line-height: 1.15;
   }
-  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(255,255,255,0.9) !important; }
+  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.75) !important; }
 
   /* Trust chips — single glass bar with 3 columns + dividers */
   [data-hero-scope] ul[aria-label="Service guarantees"] {
