@@ -127,7 +127,7 @@ const faqs = [
 function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
   if (variant === "industrial") {
     return (
-      <article className="group relative rounded-2xl border border-white/10 bg-[#062a1c] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(0,107,53,0.6)]">
+      <article className="group relative rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
         <div className="flex items-start gap-4">
           <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
             <CevonsIcon group="services" name={s.iconKey} fill decorative />
@@ -317,7 +317,7 @@ function ServicesPage() {
           className="section-y relative overflow-hidden scroll-mt-32 text-white"
           style={{
             background:
-              "radial-gradient(120% 100% at 0% 0%, #00432a 0%, #002b1b 60%, #00190f 100%)",
+              "radial-gradient(120% 100% at 0% 0%, var(--brand-charcoal) 0%, #0a0a0a 60%, #000 100%)",
           }}
         >
           <div aria-hidden="true" className="absolute -top-20 -right-20 size-64 rounded-full bg-[var(--cevons-green)]/20 blur-3xl" />
