@@ -162,7 +162,7 @@ export function PageHero({
         {subtitle && (
           <p
             className={`mt-4 md:mt-5 text-white/90 text-base md:text-xl leading-relaxed ${
-              align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl"
+              align === "center" ? "mx-auto max-w-2xl" : "max-w-xl"
             }`}
           >
             {subtitle}
@@ -172,7 +172,7 @@ export function PageHero({
         {children && <div className="mt-7">{children}</div>}
       </div>
 
-      {showSwoosh && <WaveHalftoneDivider height={48} />}
+      {showSwoosh && <WaveHalftoneDivider height={56} />}
     </section>
   );
 }
