@@ -1687,9 +1687,9 @@
   transform-origin: center bottom;
   opacity: var(--wave-ribbon-opacity, 1);
 }
-.wave-divider__ribbon--green path { fill: #006B35; }
-.wave-divider__ribbon--gold  path { fill: var(--brand-orange); }
-.wave-divider__ribbon--red   path { fill: var(--brand-orange-dark); }
+.wave-divider__ribbon--green path { fill: var(--brand-green); }
+.wave-divider__ribbon--gold  path { fill: var(--brand-yellow); }
+.wave-divider__ribbon--red   path { fill: var(--brand-red); }
 
 .wave-divider__ribbon--green {
   animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
