@@ -151,25 +151,26 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
     );
   }
   return (
-    <article className="group relative rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
+    <article className="group relative flex flex-col rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
       <span className="relative flex h-20 w-20 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
         <CevonsIcon group="services" name={s.iconKey} fill decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
-      <div className="mt-5 flex items-center gap-4">
+      <div className="mt-auto pt-5 mt-5 grid grid-cols-2 gap-2.5 border-t border-[var(--cevons-deep-green)]/10">
         <Link
           to={s.slug}
-          className="inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
+          aria-label={`Learn more about ${s.title}`}
+          className="inline-flex items-center justify-center gap-1.5 h-10 px-3 rounded-lg border border-[var(--cevons-deep-green)]/25 bg-white text-xs font-bold text-[var(--cevons-deep-green)] transition-all hover:bg-[var(--cevons-deep-green)] hover:text-white hover:border-[var(--cevons-deep-green)] hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cevons-deep-green)]/40"
         >
-          Learn more about {s.title} <ArrowRight className="size-4" />
+          Learn more <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
-        <span className="text-[var(--cevons-border)]">•</span>
         <Link
           to="/request-service"
-          className="inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-green)] hover:gap-2 transition-all"
+          aria-label={`Request ${s.title}`}
+          className="inline-flex items-center justify-center gap-1.5 h-10 px-3 rounded-lg bg-[var(--brand-orange)] text-xs font-bold text-white shadow-sm transition-all hover:bg-[var(--brand-orange-dark,#C45F00)] hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)]/50"
         >
-          Request Service <ArrowRight className="size-4" />
+          Request <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
     </article>
