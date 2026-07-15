@@ -35,11 +35,12 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
     <Link
       to={to}
       aria-current={isActive ? "page" : undefined}
-      className={`group/link inline-flex items-center gap-1.5 text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
+      className={`group/link inline-flex items-center gap-1.5 py-1.5 min-h-[32px] text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
         isActive
           ? "text-white font-semibold underline underline-offset-4 decoration-[color:var(--brand-yellow)] decoration-2"
           : "text-white/85 hover:text-white hover:underline hover:underline-offset-4 hover:decoration-white/70"
       }`}
+
     >
       <ArrowRight
         aria-hidden
@@ -77,7 +78,7 @@ function LinkCol({
         {title}
       </h4>
       <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: "var(--brand-yellow)" }} />
-      <ul className="space-y-2.5">
+      <ul className="space-y-1">
         {items.map((l) => (
           <li key={l.label + l.to}>
             <FooterNavLink to={l.to} label={l.label} currentPath={currentPath} />
@@ -148,35 +149,27 @@ export function Footer() {
           style={{ backgroundColor: "var(--brand-orange)" }}
         />
 
-        {/* Decorative semi-circle — brand guideline "circles & semi-circles" */}
+        {/* Device A — large low-opacity ORANGE arc, bottom-right */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -right-40 -bottom-40 block rounded-full"
+          className="pointer-events-none absolute -right-48 -bottom-56 block rounded-full"
           style={{
-            width: "36rem",
-            height: "36rem",
-            background:
-              "radial-gradient(circle at center, rgba(252,231,34,0.08) 0%, rgba(239,119,0,0.06) 45%, transparent 70%)",
+            width: "40rem",
+            height: "40rem",
+            backgroundColor: "rgba(239,119,0,0.06)",
           }}
         />
+        {/* Device B — smaller YELLOW arc, top-left */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -left-32 -top-32 block rounded-full border"
+          className="pointer-events-none absolute -left-40 -top-40 block rounded-full"
           style={{
-            width: "22rem",
-            height: "22rem",
-            borderColor: "rgba(255,255,255,0.06)",
+            width: "24rem",
+            height: "24rem",
+            backgroundColor: "rgba(252,231,34,0.05)",
           }}
         />
 
-        {/* faint watermark C */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.04] select-none"
-          style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", fontSize: "28rem", fontWeight: 900, lineHeight: 1 }}
-        >
-          C
-        </span>
 
 
         {/* ZONE 3 — Main link grid */}
@@ -207,15 +200,14 @@ export function Footer() {
               <p className="mt-5 text-white/85 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
 
 
-              {/* Social icons */}
-              <div className="mt-6 flex items-center gap-2.5">
+              {/* Social icons — uniform white chips, each holds its true-brand glyph */}
+              <div className="mt-6 flex items-center gap-3">
                 {socialLinksList.map((s) => {
                   const disabled = !s.enabled || !s.url;
                   const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
-                  const isBrandColored = s.platform === "facebook" || s.platform === "instagram";
-                  const common =
-                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)] overflow-hidden";
-                  const iconClass = isBrandColored ? "size-10" : "size-4";
+                  const chip =
+                    "size-11 rounded-full flex items-center justify-center bg-[var(--brand-white)] shadow-sm transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)]";
+                  const glyph = "size-5";
                   if (disabled) {
                     return (
                       <span
@@ -223,9 +215,9 @@ export function Footer() {
                         role="img"
                         aria-label={label}
                         title="Coming soon"
-                        className={`${common} ${isBrandColored ? "opacity-40" : "bg-white/5 text-white/35"} cursor-not-allowed`}
+                        className={`${chip} opacity-50 cursor-not-allowed`}
                       >
-                        <SocialGlyph platform={s.platform} className={iconClass} />
+                        <SocialGlyph platform={s.platform} className={glyph} />
                       </span>
                     );
                   }
@@ -237,19 +229,14 @@ export function Footer() {
                       rel="noopener noreferrer"
                       aria-label={label}
                       title={label}
-                      className={`${common} ${isBrandColored ? "" : "bg-white/10 text-white"} hover:-translate-y-0.5 hover:scale-110 motion-reduce:hover:transform-none`}
-                      onMouseEnter={(e) => {
-                        if (!isBrandColored) e.currentTarget.style.backgroundColor = BRAND_ORANGE;
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isBrandColored) e.currentTarget.style.backgroundColor = "";
-                      }}
+                      className={`${chip} hover:-translate-y-0.5 hover:shadow-md hover:ring-2 hover:ring-white/30 motion-reduce:hover:transform-none`}
                     >
-                      <SocialGlyph platform={s.platform} className={iconClass} />
+                      <SocialGlyph platform={s.platform} className={glyph} />
                     </a>
                   );
                 })}
               </div>
+
 
               {/* 2x2 trust mini items */}
               <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4 max-w-md">
