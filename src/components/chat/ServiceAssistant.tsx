@@ -676,8 +676,8 @@ export function ServiceAssistant() {
                         <button
                           type="button"
                           onClick={confirmClearChat}
-                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-[#1A1A1A] hover:brightness-110 transition"
-                          style={{ background: orangeGradient }}
+                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold hover:brightness-110 transition"
+                          style={{ background: orangeGradient, color: "var(--text-on-orange)" }}
                         >
                           Clear chat
                         </button>
