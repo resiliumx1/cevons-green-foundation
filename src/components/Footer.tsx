@@ -76,7 +76,7 @@ function LinkCol({
       <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-2">
         {title}
       </h4>
-      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: BRAND_ORANGE }} />
+      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: "var(--brand-yellow)" }} />
       <ul className="space-y-2.5">
         {items.map((l) => (
           <li key={l.label + l.to}>
@@ -85,6 +85,7 @@ function LinkCol({
         ))}
       </ul>
     </div>
+
   );
 }
 
