@@ -2026,7 +2026,7 @@ html.dark .conveyor-band .text-cevons-muted { color: #64748B !important; }
 /* Preserve brand-green eyebrows in SocialProofStrip */
 html.dark .spm-eyebrow,
 html.dark .spm-section .spm-eyebrow,
-html.dark .spm-section-compact .spm-eyebrow { color: #006B35 !important; }
+html.dark .spm-section-compact .spm-eyebrow { color: var(--brand-red) !important; }
 
 /* SocialProofStrip cards: keep dark text on light card bg.
    .sp-card--dark variant (if any) keeps its own light text — only target plain .sp-card. */
