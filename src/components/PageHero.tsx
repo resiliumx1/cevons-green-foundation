@@ -73,10 +73,12 @@ export function PageHero({
   children,
 }: PageHeroProps) {
 
+  // Second vertical layer deepens the top where the breadcrumb sits without
+  // darkening the photo's subject — grounds the text block on tall photos.
   const overlay =
     align === "center"
       ? "linear-gradient(180deg, rgba(15,15,15,0.82) 0%, rgba(15,15,15,0.55) 60%, rgba(15,15,15,0.30) 100%)"
-      : "linear-gradient(90deg, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.72) 45%, rgba(15,15,15,0.30) 100%)";
+      : "linear-gradient(180deg, rgba(15,15,15,0.15) 0%, rgba(15,15,15,0.00) 40%), linear-gradient(90deg, rgba(15,15,15,0.92) 0%, rgba(15,15,15,0.72) 45%, rgba(15,15,15,0.30) 100%)";
 
 
   return (
@@ -108,7 +110,7 @@ export function PageHero({
         }`}
       >
         {breadcrumb && breadcrumb.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-5">
+          <nav aria-label="Breadcrumb" className="mb-4">
             <ol
               className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 ${
                 align === "center" ? "justify-center" : ""
@@ -121,14 +123,14 @@ export function PageHero({
                     {c.href && !last ? (
                       <Link
                         to={c.href}
-                        className="hover:text-[var(--text-eyebrow)] transition-colors"
+                        className="hover:text-[var(--brand-orange)] transition-colors"
                       >
                         {c.label}
                       </Link>
                     ) : (
                       <span
                         aria-current={last ? "page" : undefined}
-                        className={last ? "text-[var(--text-eyebrow)] font-semibold" : ""}
+                        className={last ? "text-[var(--brand-orange)] font-semibold" : ""}
                       >
                         {c.label}
                       </span>
@@ -142,7 +144,7 @@ export function PageHero({
         )}
 
         {eyebrow && (
-          <p className="mb-3 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
+          <p className="mb-2.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">
             {eyebrow}
           </p>
         )}
@@ -160,7 +162,7 @@ export function PageHero({
         {subtitle && (
           <p
             className={`mt-4 md:mt-5 text-white/90 text-base md:text-xl leading-relaxed ${
-              align === "center" ? "mx-auto max-w-2xl" : "max-w-2xl"
+              align === "center" ? "mx-auto max-w-2xl" : "max-w-xl"
             }`}
           >
             {subtitle}
@@ -170,7 +172,7 @@ export function PageHero({
         {children && <div className="mt-7">{children}</div>}
       </div>
 
-      {showSwoosh && <WaveHalftoneDivider height={48} />}
+      {showSwoosh && <WaveHalftoneDivider height={56} />}
     </section>
   );
 }

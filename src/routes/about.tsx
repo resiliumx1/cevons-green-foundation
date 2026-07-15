@@ -129,7 +129,7 @@ function AboutPage() {
           </p>
         </div>
 
-        <WaveHalftoneDivider height={48} />
+        <WaveHalftoneDivider height={56} />
       </section>
 
       {/* COMPANY STORY */}
