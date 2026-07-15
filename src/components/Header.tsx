@@ -225,7 +225,7 @@ export function Header() {
                     <div className="mt-4 pt-3 border-t border-cevons-border flex items-center justify-end">
                       <Link
                         to="/services"
-                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)] hover:gap-2 transition-all"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)] hover:gap-2 transition-all"
                       >
                         View all services →
                       </Link>
@@ -300,7 +300,7 @@ export function Header() {
                             ? "border-[var(--brand-orange)]"
                             : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
-                        style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
+                        style={active ? { backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" } : undefined}
                         aria-expanded={isOpen}
                         aria-current={active ? "page" : undefined}
                       >
@@ -323,7 +323,7 @@ export function Header() {
                                   <Link
                                     key={slug}
                                     to={`/services/${slug}`}
-                                    className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
@@ -335,7 +335,7 @@ export function Header() {
                           ))}
                           <Link
                             to="/services"
-                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)]"
+                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)]"
                             onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                           >
                             View all services →
@@ -351,7 +351,7 @@ export function Header() {
                               href={partner.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
                               onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                             >
                               <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
@@ -376,7 +376,7 @@ export function Header() {
                         ? "border-[var(--brand-orange)]"
                         : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                     }`}
-                    style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
+                    style={active ? { backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" } : undefined}
                     onClick={() => setMobileOpen(false)}
                     aria-current={active ? "page" : undefined}
                   >
