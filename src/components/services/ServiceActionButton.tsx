@@ -86,7 +86,7 @@ export function ServiceActionButton({
       {variant === "request" && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent_35%,rgba(255,255,255,0.35)_50%,transparent_65%)] transition-transform duration-700 ease-out group-hover/btn:translate-x-full"
+          className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent_35%,rgba(26,26,26,0.18)_50%,transparent_65%)] transition-transform duration-700 ease-out group-hover/btn:translate-x-full"
         />
       )}
       <span className="relative z-[1] inline-flex items-center gap-1.5">
