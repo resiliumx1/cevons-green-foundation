@@ -6,14 +6,16 @@ import { cn } from "@/lib/utils";
 const TRUCK_SRC = "/assets/cevons-orange-truck.png";
 
 const COLORS = {
-  orange: "#F97316",
-  orangeSoft: "rgba(249, 115, 22, 0.18)",
-  green: "#2E9B3F",
-  greenSoft: "rgba(46, 155, 63, 0.16)",
-  gray: "#D1D5DB",
-  graySoft: "#E5E7EB",
-  charcoal: "#1F2937",
-  muted: "#6B7280",
+  orange: "var(--brand-orange)",
+  orangeSoft: "rgba(239, 119, 0, 0.18)",
+  green: "var(--brand-orange)", // stepper stays on brand-orange for completed state
+  greenSoft: "rgba(239, 119, 0, 0.16)",
+  gray: "var(--border-hairline)",
+  graySoft: "var(--border-hairline)",
+  charcoal: "var(--text-heading)",
+  muted: "var(--text-body)",
+  onOrange: "var(--text-on-orange)",
+  surface: "var(--surface-page)",
 };
 
 export type AnimatedTruckStepperProps = {
@@ -313,9 +315,9 @@ function StepCircle({
   onClick: () => void;
   prefersReduced: boolean;
 }) {
-  const bg = isDone ? COLORS.green : isActive ? COLORS.orange : "#FFFFFF";
+  const bg = isDone ? COLORS.green : isActive ? COLORS.orange : COLORS.surface;
   const border = isDone ? COLORS.green : isActive ? COLORS.orange : COLORS.gray;
-  const fg = isDone || isActive ? "#FFFFFF" : COLORS.muted;
+  const fg = isDone || isActive ? COLORS.onOrange : COLORS.muted;
   const ring = isActive ? `0 0 0 6px ${COLORS.orangeSoft}` : isDone ? `0 0 0 4px ${COLORS.greenSoft}` : "none";
 
   const Comp: any = clickable ? "button" : "div";
@@ -437,11 +439,11 @@ function DustTrail() {
 
 function FinalBadge({ prefersReduced }: { prefersReduced: boolean }) {
   const confetti = [
-    { c: "#F97316", x: -22, y: -28, d: 0 },
-    { c: "#2E9B3F", x: 14, y: -32, d: 0.08 },
-    { c: "#F59E0B", x: 30, y: -18, d: 0.16 },
-    { c: "#2E9B3F", x: -14, y: -16, d: 0.22 },
-    { c: "#F97316", x: 6, y: -38, d: 0.3 },
+    { c: "var(--brand-orange)", x: -22, y: -28, d: 0 },
+    { c: "var(--brand-yellow)", x: 14, y: -32, d: 0.08 },
+    { c: "var(--brand-orange)", x: 30, y: -18, d: 0.16 },
+    { c: "var(--brand-yellow)", x: -14, y: -16, d: 0.22 },
+    { c: "var(--brand-orange)", x: 6, y: -38, d: 0.3 },
   ];
   return (
     <>
@@ -449,9 +451,9 @@ function FinalBadge({ prefersReduced }: { prefersReduced: boolean }) {
         className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide"
         style={{
           top: -22,
-          background: "linear-gradient(135deg, #F97316 0%, #2E9B3F 100%)",
-          color: "#fff",
-          boxShadow: "0 6px 14px -6px rgba(15,23,42,0.35)",
+          background: "var(--brand-orange)",
+          color: "var(--text-on-orange)",
+          boxShadow: "0 6px 14px -6px rgba(0,0,0,0.35)",
         }}
         initial={prefersReduced ? false : { y: 6, opacity: 0, scale: 0.9 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
