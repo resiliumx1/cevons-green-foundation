@@ -309,7 +309,7 @@ function ContactPage() {
               </div>
 
               {/* RIGHT: action card */}
-              <div className="relative rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
+              <div className="relative rounded-2xl bg-[var(--surface-page)] p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-[var(--hairline)]">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">Talk to us now</p>
 
                 <a
