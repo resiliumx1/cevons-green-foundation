@@ -104,7 +104,7 @@ export function AnimatedTruckStepper({
         <span className="font-semibold" style={{ color: COLORS.charcoal }}>
           Step {clampedStep + 1} of {total}
         </span>
-        <span className="font-semibold" style={{ color: COLORS.orange }}>
+        <span className="font-semibold" style={{ color: COLORS.charcoal }}>
           {steps[clampedStep]}
         </span>
       </div>

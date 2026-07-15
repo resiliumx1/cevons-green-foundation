@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check, ChevronLeft, ChevronRight, Upload, MessageCircle, AlertCircle,
@@ -177,14 +177,34 @@ function RequestServicePage() {
     return Object.keys(e).length === 0;
   }
 
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  function clearAdvanceTimer() {
+    if (advanceTimerRef.current !== null) {
+      clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
+  }
+  useEffect(() => () => clearAdvanceTimer(), []);
+
   function next() {
     if (!validate()) return;
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function back() {
+    clearAdvanceTimer();
     setStep((s) => Math.max(s - 1, 0));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  /** Schedule an auto-advance ~280ms after a single-select click so the
+   * user sees their choice register. Only ever called from user click
+   * handlers — never from mount — so hitting Back doesn't trap them. */
+  function scheduleAdvance() {
+    clearAdvanceTimer();
+    advanceTimerRef.current = setTimeout(() => {
+      advanceTimerRef.current = null;
+      next();
+    }, 280);
   }
 
   const [submitting, setSubmitting] = useState(false);
@@ -330,219 +350,117 @@ function RequestServicePage() {
 
 
       <section className="container mx-auto px-4 py-10 md:py-14">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8">
-          {/* Form */}
-          <div className="min-w-0">
-            <AnimatedTruckStepper
-              currentStep={step}
-              steps={STEPS}
-              onStepClick={(i) => i < step && setStep(i)}
-              className="mb-2"
-            />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
-              >
-              {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} />}
-              {step === 1 && <StepService data={data} setData={setData} error={errors.service} />}
-              {step === 2 && (
-                <StepDetails
-                  service={selected}
-                  details={data.details}
-                  setDetail={setDetail}
-                  files={data.files}
-                  onFiles={onFiles}
-                  removeFile={removeFile}
-                />
-              )}
-              {step === 3 && (
-                <StepSchedule
-                  isSpecialist={isSpecialist}
-                  schedule={data.schedule}
-                  setSchedule={setSchedule}
-                />
-              )}
-              {step === 4 && <StepInfo info={data.info} setInfo={setInfo} errors={errors} />}
-              {step === 5 && (
-                <StepReview
-                  data={data}
-                  selected={selected}
-                  isSpecialist={isSpecialist}
-                  confirm={data.confirm}
-                  setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
-                  newsletterOptIn={data.newsletterOptIn}
-                  setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
-                  error={errors.confirm}
-                />
-              )}
-
-              {/* Nav */}
-              <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
-                <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
-                  <ChevronLeft className="size-4 mr-1" /> Back
-                </Button>
-                {step < STEPS.length - 1 ? (
-                  <Button
-                    onClick={next}
-                    disabled={!canContinue}
-                    className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
-                  >
-                    Continue <ChevronRight className="size-4 ml-1" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={submit}
-                    disabled={!data.confirm || submitting}
-                    className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
-                  >
-                    {submitting ? "Submitting…" : "Submit Request"}
-                  </Button>
-                )}
-              </div>
-              {submitError && (
-                <p className="mt-3 text-sm text-[var(--text-eyebrow)] font-medium">{submitError}</p>
-              )}
-              </motion.div>
-            </AnimatePresence>
+        <div className="max-w-3xl mx-auto min-w-0">
+          {/* SR-only live region announces the new step to assistive tech. */}
+          <div className="sr-only" role="status" aria-live="polite">
+            {`Step ${step + 1} of ${STEPS.length}, ${STEPS[step]}`}
           </div>
+          <AnimatedTruckStepper
+            currentStep={step}
+            steps={STEPS}
+            onStepClick={(i) => i < step && (clearAdvanceTimer(), setStep(i))}
+            className="mb-2"
+          />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
+            >
+            {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
+            {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
+            {step === 2 && (
+              <StepDetails
+                service={selected}
+                details={data.details}
+                setDetail={setDetail}
+                files={data.files}
+                onFiles={onFiles}
+                removeFile={removeFile}
+              />
+            )}
+            {step === 3 && (
+              <StepSchedule
+                isSpecialist={isSpecialist}
+                schedule={data.schedule}
+                setSchedule={setSchedule}
+              />
+            )}
+            {step === 4 && <StepInfo info={data.info} setInfo={setInfo} errors={errors} />}
+            {step === 5 && (
+              <StepReview
+                data={data}
+                selected={selected}
+                isSpecialist={isSpecialist}
+                confirm={data.confirm}
+                setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
+                newsletterOptIn={data.newsletterOptIn}
+                setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
+                error={errors.confirm}
+              />
+            )}
 
-          {/* Sidebar */}
-          <aside className="lg:sticky lg:top-28 lg:self-start space-y-4">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <h3 className="text-lg font-semibold">Need Help?</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Call our Georgetown Head Office at{" "}
-                <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
-                or email{" "}
-                <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>.
-                Or contact the branch closest to you.
-              </p>
-              {/* Confirm official WhatsApp number with CEVONS before launch. */}
-              <a
-                href={whatsappHref}
-                {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 h-11 rounded-[10px] bg-[var(--brand-orange)] text-white hover:bg-[#1A1A1A] font-semibold transition-colors"
-              >
-                <MessageCircle className="size-4" /> WhatsApp Us
-              </a>
+            {/* Nav */}
+            <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
+              <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
+                <ChevronLeft className="size-4 mr-1" /> Back
+              </Button>
+              {/* Steps 0 and 1 auto-advance on selection — Continue would be redundant. */}
+              {step >= 2 && step < STEPS.length - 1 && (
+                <Button
+                  onClick={next}
+                  disabled={!canContinue}
+                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                >
+                  Continue <ChevronRight className="size-4 ml-1" />
+                </Button>
+              )}
+              {step === STEPS.length - 1 && (
+                <Button
+                  onClick={submit}
+                  disabled={!data.confirm || submitting}
+                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                >
+                  {submitting ? "Submitting…" : "Submit Request"}
+                </Button>
+              )}
             </div>
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <h4 className="text-sm font-semibold text-foreground">What happens next?</h4>
-              <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal pl-4">
-                <li>Submit your request</li>
-                <li>Our team reviews details</li>
-                <li>We confirm via WhatsApp or phone</li>
-                <li>Service is scheduled and delivered</li>
-              </ol>
-            </div>
-          </aside>
+            {submitError && (
+              <p className="mt-3 text-sm text-[var(--text-eyebrow)] font-medium">{submitError}</p>
+            )}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Compact help strip — footnote, not a second decision. */}
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Need help? Call{" "}
+            <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>
+            {" · "}
+            <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>
+            {" · "}
+            <a
+              href={whatsappHref}
+              {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="font-semibold text-[var(--text-link)] hover:underline inline-flex items-center gap-1"
+            >
+              <MessageCircle className="size-3.5" /> WhatsApp
+            </a>
+          </p>
         </div>
       </section>
     </SiteLayout>
   );
 }
 
-/* ---------------- Stepper ---------------- */
+/* Stepper removed — AnimatedTruckStepper is the sole progress indicator. */
 
-function Stepper({ step, onStepClick }: { step: number; onStepClick?: (i: number) => void }) {
-  const current = STEPS[step];
-  const pct = (step / (STEPS.length - 1)) * 100;
-
-  return (
-    <div>
-      {/* Mobile: compact label + slim progress */}
-      <div className="md:hidden">
-        <div className="flex items-center justify-between text-sm">
-          <span className="font-semibold text-[var(--cevons-dark)]">
-            Step {step + 1} of {STEPS.length}
-          </span>
-          <span className="text-[var(--brand-orange)] font-semibold">{current}</span>
-        </div>
-        <div className="mt-2 h-1.5 w-full rounded-full bg-border overflow-hidden">
-          <motion.div
-            className="h-full bg-[var(--brand-orange)]"
-            initial={false}
-            animate={{ width: `${pct}%` }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          />
-        </div>
-        <div className="mt-3 flex items-center justify-center gap-1.5">
-          {STEPS.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              disabled={i > step}
-              onClick={() => onStepClick?.(i)}
-              aria-label={`Go to step ${i + 1}`}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === step ? "w-6 bg-[var(--brand-orange)]" : i < step ? "w-3 bg-[var(--brand-orange)]/70 cursor-pointer" : "w-3 bg-border",
-              )}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Desktop: connected stepper */}
-      <ol className="hidden md:flex items-start justify-between gap-0 relative">
-        {STEPS.map((label, i) => {
-          const completed = i < step;
-          const active = i === step;
-          const clickable = i < step && onStepClick;
-          return (
-            <li key={label} className="flex-1 flex flex-col items-center relative min-w-0">
-              {/* Connector to next step */}
-              {i < STEPS.length - 1 && (
-                <div className="absolute top-5 left-1/2 right-[-50%] h-[3px] bg-border -z-0 overflow-hidden rounded-full">
-                  <motion.div
-                    className="h-full bg-[var(--brand-orange)] origin-left"
-                    initial={false}
-                    animate={{ scaleX: completed ? 1 : 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
-                </div>
-              )}
-              <button
-                type="button"
-                disabled={!clickable}
-                onClick={() => clickable && onStepClick?.(i)}
-                aria-current={active ? "step" : undefined}
-                className={cn(
-                  "relative z-10 size-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all bg-card",
-                  completed && "bg-[var(--brand-orange)] border-[var(--brand-orange)] text-white hover:scale-110 cursor-pointer",
-                  active && "bg-[var(--brand-orange)] border-[var(--brand-orange)] text-white ring-4 ring-[var(--brand-orange)]/20",
-                  !completed && !active && "border-border text-muted-foreground",
-                )}
-              >
-                {active && (
-                  <span className="absolute inset-0 rounded-full bg-[var(--brand-orange)] opacity-40 animate-ping" aria-hidden />
-                )}
-                <span className="relative">{completed ? <Check className="size-4" /> : i + 1}</span>
-              </button>
-              <span
-                className={cn(
-                  "mt-2 text-[11px] lg:text-xs text-center leading-tight px-1 max-w-[88px] break-words",
-                  active ? "text-[var(--cevons-dark)] font-bold" : completed ? "text-[var(--brand-orange)] font-semibold" : "text-muted-foreground",
-                )}
-              >
-                {label}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
-  );
-}
 
 /* ---------------- Step 1: Category ---------------- */
 
-function StepCategory({ data, setData, error }: { data: FormData; setData: (f: FormData) => void; error?: string }) {
+function StepCategory({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
   return (
     <div>
       <h2 className="text-2xl font-bold">What type of service do you need?</h2>
@@ -556,7 +474,7 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
             <button
               key={c.key}
               type="button"
-              onClick={() => setData({ ...data, category: c.key, service: null, details: {} })}
+              onClick={() => { setData({ ...data, category: c.key, service: null, details: {} }); onAdvance(); }}
               className={cn(
                 "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
                 active
@@ -589,7 +507,7 @@ function StepCategory({ data, setData, error }: { data: FormData; setData: (f: F
 
 /* ---------------- Step 2: Service ---------------- */
 
-function StepService({ data, setData, error }: { data: FormData; setData: (f: FormData) => void; error?: string }) {
+function StepService({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
   const list = SERVICES.filter((s) => s.category === data.category);
   return (
     <div>
@@ -605,7 +523,7 @@ function StepService({ data, setData, error }: { data: FormData; setData: (f: Fo
             <button
               key={s.key}
               type="button"
-              onClick={() => setData({ ...data, service: s.key, details: {} })}
+              onClick={() => { setData({ ...data, service: s.key, details: {} }); onAdvance(); }}
               className={cn(
                 "text-left rounded-xl border-2 p-4 transition-all bg-card group",
                 active
@@ -1046,6 +964,16 @@ function StepReview({
           Keep me updated with CEVONS news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
         </span>
       </label>
+
+      <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
+        <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What happens next?</div>
+        <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal pl-5">
+          <li>Submit your request</li>
+          <li>Our team reviews the details</li>
+          <li>We confirm via WhatsApp or phone</li>
+          <li>Service is scheduled and delivered</li>
+        </ol>
+      </div>
     </div>
   );
 }
