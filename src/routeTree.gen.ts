@@ -48,6 +48,7 @@ import { Route as ServicesContaminatedSoilRouteImport } from './routes/services.
 import { Route as ServicesCompactorRentalRouteImport } from './routes/services.compactor-rental'
 import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/services.biohazardous-disposal'
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
+import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
 import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
 import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
@@ -268,6 +269,11 @@ const RequestServiceConfirmationRoute =
     path: '/request-service/confirmation',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DevServiceActionButtonRoute = DevServiceActionButtonRouteImport.update({
+  id: '/dev/service-action-button',
+  path: '/dev/service-action-button',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CrmSettingsRoute = CrmSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -348,6 +354,7 @@ export interface FileRoutesByFullPath {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
@@ -398,6 +405,7 @@ export interface FileRoutesByTo {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
@@ -451,6 +459,7 @@ export interface FileRoutesById {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
   '/services/compactor-rental': typeof ServicesCompactorRentalRoute
@@ -505,6 +514,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
     | '/services/compactor-rental'
@@ -555,6 +565,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
     | '/services/compactor-rental'
@@ -607,6 +618,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
     | '/services/compactor-rental'
@@ -650,6 +662,7 @@ export interface RootRouteChildren {
   SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
+  DevServiceActionButtonRoute: typeof DevServiceActionButtonRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
 }
@@ -929,6 +942,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestServiceConfirmationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dev/service-action-button': {
+      id: '/dev/service-action-button'
+      path: '/dev/service-action-button'
+      fullPath: '/dev/service-action-button'
+      preLoaderRoute: typeof DevServiceActionButtonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crm/settings': {
       id: '/crm/settings'
       path: '/settings'
@@ -1121,6 +1141,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
+  DevServiceActionButtonRoute: DevServiceActionButtonRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
 }
