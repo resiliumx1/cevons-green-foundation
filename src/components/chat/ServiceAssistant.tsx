@@ -328,7 +328,7 @@ export function ServiceAssistant() {
     ? { duration: 0.2 }
     : { duration: 0.32, ease: [0.16, 1, 0.3, 1] as const };
 
-  const orangeGradient = `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND_ORANGE_DEEP} 100%)`;
+  const orangeGradient = `var(--brand-orange)`;
 
   return (
     <>
@@ -337,7 +337,7 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed z-[60] text-left text-white transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
+        className={`group fixed z-[60] text-left text-[#1A1A1A] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
           sm:flex sm:items-center sm:gap-3 sm:rounded-full sm:pl-3 sm:pr-5 sm:py-2.5 sm:min-h-[64px] sm:shadow-[0_14px_34px_rgba(239,119,0,0.35)]
           grid place-items-center h-16 w-16 rounded-full shadow-[0_10px_24px_rgba(239,119,0,0.4)]
           ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"} ${open ? "pointer-events-none opacity-0" : ""}`}
@@ -372,16 +372,16 @@ export function ServiceAssistant() {
         </span>
         <span className="hidden sm:flex flex-col leading-tight">
           <span
-            className="text-[16px] font-bold text-white"
+            className="text-[16px] font-bold text-[#1A1A1A]"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Ask CEVONS
           </span>
           <span
-            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-white/85"
+            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-[#1A1A1A]/80"
             style={{ fontFamily: "'Open Sans', system-ui, sans-serif", letterSpacing: "0.16em" }}
           >
-            <Leaf className="h-2.5 w-2.5" style={{ color: "#A8E6A0" }} />
+            <Leaf className="h-2.5 w-2.5" style={{ color: "#1A1A1A" }} />
             AI Assistant
           </span>
         </span>
@@ -416,31 +416,31 @@ export function ServiceAssistant() {
             >
               {/* ============ HEADER ============ */}
               <div
-                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-white"
+                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-[#1A1A1A]"
                 style={{ background: orangeGradient }}
               >
                 <EmblemBadge size={42} />
                 <div className="min-w-0 flex-1">
                   <p
-                    className="font-bold truncate text-[15px] leading-tight"
+                    className="font-bold truncate text-[15px] leading-tight text-[#1A1A1A]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     Cev — CEVONS Assistant
                   </p>
                   <p
-                    className="text-[11px] text-white/90 flex items-center gap-1.5 mt-0.5"
+                    className="text-[11px] text-[#1A1A1A]/85 flex items-center gap-1.5 mt-0.5"
                     style={{ fontFamily: "'Open Sans', system-ui, sans-serif" }}
                   >
                     <span className="relative inline-flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#7CE2A0] opacity-70 animate-ping" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#3DDC84]" />
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#0F5F27] opacity-70 animate-ping" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#0F5F27]" />
                     </span>
                     Online · Replies in seconds
                   </p>
                 </div>
                 <button
                   onClick={handleResetClick}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Start a new conversation"
                   title="New conversation"
                 >
@@ -448,7 +448,7 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Minimize chat"
                   title="Minimize"
                 >
@@ -456,7 +456,7 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Close chat"
                   title="Close"
                 >
@@ -548,7 +548,7 @@ export function ServiceAssistant() {
                     </a>
                     <Link
                       to="/request-service"
-                      className="inline-flex items-center rounded-full border border-[var(--brand-orange)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-white transition"
+                      className="inline-flex items-center rounded-full border border-[var(--brand-orange)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-[#1A1A1A] transition"
                     >
                       Open request form
                     </Link>
@@ -585,7 +585,7 @@ export function ServiceAssistant() {
                     disabled={!input.trim() || loading}
                     aria-label="Send"
                     title="Send message"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-white shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[#1A1A1A] shadow-[0_4px_12px_rgba(239,119,0,0.45)] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition"
                     style={{ background: orangeGradient }}
                   >
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
@@ -658,7 +658,7 @@ export function ServiceAssistant() {
                         <button
                           type="button"
                           onClick={confirmClearChat}
-                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-white hover:brightness-110 transition"
+                          className="rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-[#1A1A1A] hover:brightness-110 transition"
                           style={{ background: orangeGradient }}
                         >
                           Clear chat
@@ -692,7 +692,7 @@ function Bubble({
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[var(--brand-orange)] px-3.5 py-2 text-sm text-white whitespace-pre-wrap shadow-sm">
+        <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[var(--brand-orange)] px-3.5 py-2 text-sm text-[#1A1A1A] whitespace-pre-wrap shadow-sm">
           {message.text}
         </div>
       </div>

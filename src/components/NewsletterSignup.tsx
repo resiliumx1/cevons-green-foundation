@@ -186,7 +186,7 @@ export function NewsletterSignup({
     <section className="bg-cevons-cream border-y border-cevons-deep-green/10">
       <div className="container-cevons py-12 md:py-14">
         <div className="max-w-3xl mx-auto rounded-2xl bg-white border border-cevons-deep-green/10 shadow-sm p-6 md:p-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2 inline-flex items-center gap-2">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-2 inline-flex items-center gap-2">
             <Mail className="size-4" /> Newsletter
           </p>
           <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-deep-green">{heading}</h2>
