@@ -137,7 +137,7 @@ function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
                   </div>
                   <div className="relative p-6 pt-12 flex flex-col flex-1">
-                    <span className="absolute -top-8 left-5 h-16 w-16 rounded-2xl bg-[#101820] border-4 border-white overflow-hidden shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
+                    <span className="icon-tile absolute -top-8 left-5 h-16 w-16 rounded-2xl overflow-hidden">
                       <CevonsIcon group="categories" name={iconKey} fill decorative />
                     </span>
                     <h3 className="text-xl font-bold text-cevons-dark min-h-[2rem]">{title}</h3>

@@ -131,25 +131,25 @@ function ContactPage() {
 
 
       {/* CONTACT METHODS */}
-      <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Contact methods">
+      <section className="section-y bg-[var(--surface-page)]" aria-label="Contact methods">
         <div className="container-cevons">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {contactMethods.map(({ icon: Icon, title, body, action, href, primary }, i) => (
               <div
                 key={title}
-                className={`rounded-2xl bg-white border p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
-                  primary
-                    ? "border-[var(--cevons-deep-green,#EF7700)]/20 ring-1 ring-[var(--cevons-deep-green,#EF7700)]/10"
-                    : "border-[var(--cevons-deep-green,#EF7700)]/10"
-                } ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                className={`contact-card group rounded-2xl bg-[var(--brand-white)] border border-[var(--border-hairline)] p-7 shadow-sm ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
-                <span className={`flex w-12 h-12 items-center justify-center rounded-xl mb-4 ${
-                  primary ? "bg-[var(--cevons-deep-green,#EF7700)] text-white" : "bg-[var(--cevons-deep-green,#EF7700)]/10 text-[var(--cevons-deep-green,#EF7700)]"
-                }`}>
+                <span
+                  className="contact-card__chip flex w-12 h-12 items-center justify-center rounded-xl mb-4"
+                  style={{
+                    backgroundColor: "color-mix(in oklab, var(--brand-orange) 12%, transparent)",
+                    color: "var(--brand-orange)",
+                  }}
+                >
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
+                <h3 className="text-lg font-bold text-[var(--text-heading)]">{title}</h3>
                 <p className="mt-1.5 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
                 <a
                   href={href}
@@ -157,8 +157,8 @@ function ContactPage() {
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className={`mt-5 inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2.5 text-sm transition-colors w-full ${
                     primary
-                      ? "bg-[var(--cevons-deep-green,#EF7700)] text-white hover:bg-[var(--cevons-deep-green,#EF7700)]/90"
-                      : "border-2 border-[var(--cevons-deep-green,#EF7700)] text-[var(--cevons-deep-green,#EF7700)] hover:bg-[var(--cevons-deep-green,#EF7700)] hover:text-white"
+                      ? "bg-[var(--brand-green)] text-[var(--text-on-green)] hover:brightness-110"
+                      : "border-2 border-[var(--brand-orange)] text-[var(--text-heading)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
                   }`}
                 >
                   {action} <ArrowRight className="size-4" />
@@ -168,6 +168,7 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
 
       {/* CONTACT FORM + BRANCH INFO */}
       <section className="section-y bg-[var(--surface-page)]" aria-label="Contact form and branches">
