@@ -162,11 +162,11 @@ function ResourcesPage() {
             Tips, updates, and insights on waste management and environmental responsibility.
           </p>
         </div>
-        <WaveHalftoneDivider height={56} underFill="#FFFFFF" />
+        <WaveHalftoneDivider height={56} />
       </section>
 
       {/* CATEGORY FILTERS */}
-      <section aria-label="Filter articles by category" className="border-b border-[var(--cevons-deep-green,#EF7700)]/10 bg-white sticky top-[72px] z-30">
+      <section aria-label="Filter articles by category" className="border-b border-[var(--cevons-deep-green,#EF7700)]/10 bg-[var(--surface-page)] sticky top-[72px] z-30">
         <div className="container-cevons py-4 flex flex-wrap gap-2">
           {categories.map((c) => {
             const isActive = active === c;
