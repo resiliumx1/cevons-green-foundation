@@ -345,13 +345,13 @@ function RequestServicePage() {
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
         imageSrc="/assets/heroes/hero-request-service.webp"
         imageAlt="Customer requesting a CEVONS service online"
-        height="standard"
+        height="compact"
         waveVariant="minimal"
       />
 
 
 
-      <section className="container mx-auto px-4 py-10 md:py-14">
+      <section className="container mx-auto px-4 py-6 md:py-8">
         <div className="max-w-3xl mx-auto min-w-0">
           {/* SR-only live region announces the new step to assistive tech. */}
           <div className="sr-only" role="status" aria-live="polite">
@@ -370,7 +370,7 @@ function RequestServicePage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -16 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="mt-8 rounded-2xl border border-border bg-card shadow-sm p-6 md:p-8"
+              className="mt-5 rounded-2xl border border-border bg-card shadow-sm p-5 md:p-6"
             >
             {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
             {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
@@ -469,7 +469,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
       <p className="text-muted-foreground mt-1">Choose the category that best matches your project.</p>
       {error && <p className="mt-3 text-sm text-destructive flex items-center gap-1"><AlertCircle className="size-4" />{error}</p>}
 
-      <div className="mt-6 grid sm:grid-cols-2 gap-4">
+      <div className="mt-6 grid sm:grid-cols-2 gap-3">
         {CATEGORIES.map((c) => {
           const active = data.category === c.key;
           return (
@@ -478,27 +478,27 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
               type="button"
               onClick={() => { setData({ ...data, category: c.key, service: null, details: {} }); onAdvance(); }}
               className={cn(
-                "text-left rounded-2xl border-2 p-6 transition-all bg-card group",
+                "text-left rounded-2xl border-2 p-4 transition-all bg-card group flex items-center gap-4",
                 active
                   ? "border-[var(--brand-orange)] bg-[var(--brand-orange)]/5 shadow-md"
                   : "border-border hover:border-[var(--brand-orange)]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
-              <div className="flex items-start justify-between">
-                <div
-                  className={cn(
-                    "relative h-24 w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
-                    active
-                      ? "ring-2 ring-[var(--brand-orange)] ring-offset-2 ring-offset-card"
-                      : "ring-1 ring-black/5",
-                  )}
-                >
-                  <CevonsIcon group="categories" name={c.iconKey} fill decorative />
-                </div>
-                {active && <Check className="size-5 text-[var(--brand-orange)]" />}
+              <div
+                className={cn(
+                  "relative h-14 w-14 shrink-0 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
+                  active
+                    ? "ring-2 ring-[var(--brand-orange)] ring-offset-2 ring-offset-card"
+                    : "ring-1 ring-black/5",
+                )}
+              >
+                <CevonsIcon group="categories" name={c.iconKey} fill decorative />
               </div>
-              <div className="mt-4 text-lg font-bold">{c.name}</div>
-              <div className="text-sm text-muted-foreground mt-1">{c.desc}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-bold">{c.name}</div>
+                <div className="text-sm text-muted-foreground mt-0.5">{c.desc}</div>
+              </div>
+              {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
             </button>
           );
         })}
@@ -527,32 +527,32 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
               type="button"
               onClick={() => { setData({ ...data, service: s.key, details: {} }); onAdvance(); }}
               className={cn(
-                "text-left rounded-xl border-2 p-4 transition-all bg-card group",
+                "text-left rounded-xl border-2 p-3 transition-all bg-card group flex items-center gap-3",
                 active
                   ? "border-[var(--brand-orange)] bg-[var(--brand-orange)]/5 shadow-md"
                   : "border-border hover:border-[var(--brand-orange)]/60 hover:-translate-y-0.5 hover:shadow-md",
               )}
             >
-              <div className="flex items-start justify-between gap-2">
-                <div
-                  className={cn(
-                    "relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
-                    active
-                      ? "ring-2 ring-[var(--brand-orange)] ring-offset-2 ring-offset-card"
-                      : "ring-1 ring-black/5",
-                  )}
-                >
-                  <CevonsIcon group="services" name={s.iconKey} fill decorative />
-                </div>
-                {active && <Check className="size-5 text-[var(--brand-orange)]" />}
+              <div
+                className={cn(
+                  "relative h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
+                  active
+                    ? "ring-2 ring-[var(--brand-orange)] ring-offset-2 ring-offset-card"
+                    : "ring-1 ring-black/5",
+                )}
+              >
+                <CevonsIcon group="services" name={s.iconKey} fill decorative />
               </div>
-              <div className="mt-3 font-semibold">{s.name}</div>
-              <div className="text-sm text-muted-foreground">{s.desc}</div>
-              {specialist && (
-                <div className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-wide text-[var(--brand-orange)]">
-                  Specialist Review
-                </div>
-              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm leading-snug">{s.name}</div>
+                <div className="text-xs text-muted-foreground mt-0.5 leading-snug">{s.desc}</div>
+                {specialist && (
+                  <div className="mt-1 inline-block text-[10px] font-semibold uppercase tracking-wide text-[var(--brand-orange)]">
+                    Specialist Review
+                  </div>
+                )}
+              </div>
+              {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
             </button>
           );
         })}
