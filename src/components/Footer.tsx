@@ -365,7 +365,7 @@ function GetInTouch({ t, isExternalWA }: { t: (k: string) => string; isExternalW
               <Phone className="size-4" />
             </span>
             <div className="min-w-0">
-              <p className="text-white text-sm font-semibold leading-tight" style={{ color: BRAND_ORANGE }}>
+              <p className="text-white text-sm font-semibold leading-tight" style={{ color: "var(--brand-yellow)" }}>
                 {cevonsContact.primaryPhone}
               </p>
               <p className="text-white/60 text-xs">{t("footer.callHours")}</p>
