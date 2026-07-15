@@ -10,15 +10,16 @@ export interface WaveHalftoneDividerProps {
   showDots?: boolean;
 }
 
-// Slim, level wave centered around y=40 in a 1440x100 viewBox.
+// Calmer two-crest curve centred on y=50 in a 1440x100 viewBox.
 const WAVE_TOP_D =
-  "M0,40 C180,28 360,54 540,40 C720,28 900,52 1080,40 C1260,28 1380,50 1440,40 L1440,100 L0,100 Z";
+  "M0,50 C360,36 720,64 1080,50 C1260,43 1380,46 1440,44 L1440,100 L0,100 Z";
 const WAVE_HIGHLIGHT_D =
-  "M0,40 C180,28 360,54 540,40 C720,28 900,52 1080,40 C1260,28 1380,50 1440,40";
+  "M0,50 C360,36 720,64 1080,50 C1260,43 1380,46 1440,44";
 
 function WaveHalftoneDividerImpl({
   className = "",
-  height = 90,
+  height = 56,
+  underFill = "var(--surface-page)",
 }: WaveHalftoneDividerProps) {
   return (
     <div
@@ -31,26 +32,15 @@ function WaveHalftoneDividerImpl({
         preserveAspectRatio="none"
         className="block w-full h-full"
       >
-        <defs>
-          <linearGradient id="whd-wave" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--brand-orange)" />
-            <stop offset="100%" stopColor="var(--brand-orange-dark)" />
-          </linearGradient>
-          <linearGradient id="whd-highlight" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.0" />
-            <stop offset="35%" stopColor="#ffffff" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
-          </linearGradient>
-        </defs>
-
-        {/* Orange wave crest */}
-        <path d={WAVE_TOP_D} fill="url(#whd-wave)" />
-        {/* Thin glossy highlight along the crest */}
+        {/* Wave body reads as the NEXT section rising over the hero photo. */}
+        <path d={WAVE_TOP_D} fill={underFill} />
+        {/* Orange hairline crest — a line that guides the eye, not a slab. */}
         <path
           d={WAVE_HIGHLIGHT_D}
           fill="none"
-          stroke="url(#whd-highlight)"
-          strokeWidth="1.25"
+          stroke="var(--brand-orange)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
         />
       </svg>
