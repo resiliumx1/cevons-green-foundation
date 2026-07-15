@@ -307,7 +307,7 @@ export function Header() {
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
                           className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${isOpen ? "rotate-180" : ""}`}
-                          style={active ? { color: "#ffffff" } : undefined}
+                          style={active ? { color: "var(--text-on-orange)" } : undefined}
                         />
                       </button>
 
