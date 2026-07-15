@@ -149,8 +149,8 @@ function ContactPage() {
                 >
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--text-heading)]">{title}</h3>
-                <p className="mt-1.5 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
+                <h3 className="text-lg font-bold text-[var(--brand-charcoal)]">{title}</h3>
+                <p className="mt-1.5 text-sm text-[var(--brand-grey-dark)] leading-relaxed">{body}</p>
                 <a
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
