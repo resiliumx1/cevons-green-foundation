@@ -78,7 +78,7 @@ function LinkCol({
         {title}
       </h4>
       <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: "var(--brand-yellow)" }} />
-      <ul className="space-y-2.5">
+      <ul className="space-y-1">">
         {items.map((l) => (
           <li key={l.label + l.to}>
             <FooterNavLink to={l.to} label={l.label} currentPath={currentPath} />
