@@ -301,7 +301,7 @@ function NewsroomPage() {
                             {year}
                           </span>
                         ) : (
-                          <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] rounded-full bg-[var(--brand-orange)]/10 text-[var(--brand-orange)] ring-1 ring-[var(--brand-orange)]/30">
+                          <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] rounded-full bg-[var(--brand-orange)]/10 text-[var(--text-eyebrow)] ring-1 ring-[var(--brand-orange)]/30">
                             Milestone
                           </span>
                         )}
