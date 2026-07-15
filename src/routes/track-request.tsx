@@ -231,7 +231,7 @@ function TrackRequestPage() {
         </a>
       </OrangeCTABanner>
 
-      <section className="bg-white border-t border-[var(--cevons-border)]">
+      <section className="bg-[var(--surface-page)] border-t border-[var(--cevons-border)]">
         <div className="container-cevons px-4 py-8">
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
             {[
