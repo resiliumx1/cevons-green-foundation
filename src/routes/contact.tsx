@@ -158,7 +158,7 @@ function ContactPage() {
                   className={`mt-5 inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2.5 text-sm transition-colors w-full ${
                     primary
                       ? "bg-[var(--brand-green)] text-[var(--text-on-green)] hover:brightness-110"
-                      : "border-2 border-[var(--brand-orange)] text-[var(--text-heading)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
+                      : "border-2 border-[var(--brand-orange)] text-[var(--brand-charcoal)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
                   }`}
                 >
                   {action} <ArrowRight className="size-4" />
