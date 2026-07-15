@@ -331,7 +331,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {related && related.length > 0 && (
-        <section className="py-12 md:py-16 bg-white" aria-labelledby="related-h">
+        <section className="py-12 md:py-16 bg-[var(--surface-page)]" aria-labelledby="related-h">
           <div className="container-cevons">
             <div className="flex items-end justify-between flex-wrap gap-4 mb-6">
               <div>
