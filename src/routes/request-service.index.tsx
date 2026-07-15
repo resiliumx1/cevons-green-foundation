@@ -523,7 +523,7 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
             <button
               key={s.key}
               type="button"
-              onClick={() => setData({ ...data, service: s.key, details: {} })}
+              onClick={() => { setData({ ...data, service: s.key, details: {} }); onAdvance(); }}
               className={cn(
                 "text-left rounded-xl border-2 p-4 transition-all bg-card group",
                 active
