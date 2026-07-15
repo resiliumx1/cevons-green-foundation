@@ -125,7 +125,7 @@ export function NotFoundPage() {
       </section>
 
       {/* WHATSAPP BANNER */}
-      <section className="pb-16 md:pb-20 bg-white">
+      <section className="pb-16 md:pb-20 bg-[var(--surface-page)]">
         <div className="container-cevons">
           <div className="rounded-2xl bg-cevons-deep-green p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-lift">
             <div className="flex items-start md:items-center gap-4">
