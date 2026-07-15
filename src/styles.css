@@ -1233,7 +1233,7 @@
   font-family: var(--font-sans), "Hanken Grotesk", sans-serif;
   font-weight: 500;
   font-style: italic;
-  color: #F5C518;
+  color: var(--brand-yellow);
   font-size: clamp(1.1rem, 2.1vw, 1.5rem);
   letter-spacing: -0.005em;
   line-height: 1.35;
@@ -1245,7 +1245,7 @@
 }
 .hero-subhead-pro .for-guyana {
   position: relative;
-  color: #F5C518;
+  color: var(--brand-yellow);
   padding-bottom: 0.18em;
 }
 .hero-subhead-pro .for-guyana::after {
@@ -1256,7 +1256,7 @@
   width: 2.2em;
   height: 1.5px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #F5C518, rgba(245, 197, 24, 0));
+  background: linear-gradient(90deg, var(--brand-yellow), rgba(252, 231, 34, 0));
   transform-origin: left;
   animation: scriptUnderlineDraw 850ms ease-out 700ms both;
 }
