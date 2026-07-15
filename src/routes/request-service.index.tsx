@@ -964,6 +964,16 @@ function StepReview({
           Keep me updated with CEVONS news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
         </span>
       </label>
+
+      <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
+        <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What happens next?</div>
+        <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal pl-5">
+          <li>Submit your request</li>
+          <li>Our team reviews the details</li>
+          <li>We confirm via WhatsApp or phone</li>
+          <li>Service is scheduled and delivered</li>
+        </ol>
+      </div>
     </div>
   );
 }
