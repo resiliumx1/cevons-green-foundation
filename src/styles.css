@@ -646,7 +646,7 @@
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #006B35;
+  color: var(--text-eyebrow);
 }
 .spm-eyebrow-dot {
   display: inline-block;
