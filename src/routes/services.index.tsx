@@ -18,6 +18,7 @@ import {
   Compass,
   ClipboardList,
 } from "lucide-react";
+import { ServiceActionRow } from "@/components/services/ServiceActionButton";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
