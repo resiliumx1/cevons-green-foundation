@@ -149,8 +149,8 @@ function ContactPage() {
                 >
                   <Icon className="size-6" />
                 </span>
-                <h3 className="text-lg font-bold text-[var(--text-heading)]">{title}</h3>
-                <p className="mt-1.5 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
+                <h3 className="text-lg font-bold text-[var(--brand-charcoal)]">{title}</h3>
+                <p className="mt-1.5 text-sm text-[var(--brand-grey-dark)] leading-relaxed">{body}</p>
                 <a
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
@@ -158,7 +158,7 @@ function ContactPage() {
                   className={`mt-5 inline-flex items-center justify-center gap-2 rounded-xl font-semibold px-4 py-2.5 text-sm transition-colors w-full ${
                     primary
                       ? "bg-[var(--brand-green)] text-[var(--text-on-green)] hover:brightness-110"
-                      : "border-2 border-[var(--brand-orange)] text-[var(--text-heading)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
+                      : "border-2 border-[var(--brand-orange)] text-[var(--brand-charcoal)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
                   }`}
                 >
                   {action} <ArrowRight className="size-4" />
