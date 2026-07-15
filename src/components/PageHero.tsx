@@ -142,7 +142,7 @@ export function PageHero({
         )}
 
         {eyebrow && (
-          <p className="mb-3 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[#FCE722]">
+          <p className="mb-3 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
             {eyebrow}
           </p>
         )}
