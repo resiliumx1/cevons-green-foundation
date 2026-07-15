@@ -203,7 +203,9 @@ function RequestServicePage() {
     clearAdvanceTimer();
     advanceTimerRef.current = setTimeout(() => {
       advanceTimerRef.current = null;
-      next();
+      setErrors({});
+      setStep((s) => Math.min(s + 1, STEPS.length - 1));
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }, 280);
   }
 
