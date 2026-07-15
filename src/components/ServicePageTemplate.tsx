@@ -150,9 +150,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
         <div className="container-cevons py-4">
           <ol className="flex items-center gap-1.5 text-xs md:text-sm">
-            <li><Link to="/" className="text-cevons-green font-semibold hover:underline">Home</Link></li>
+            <li><Link to="/" className="text-[var(--text-link)] font-semibold hover:underline">Home</Link></li>
             <li aria-hidden="true"><ChevronRight className="size-3.5 text-cevons-muted" /></li>
-            <li><Link to="/services" className="text-cevons-green font-semibold hover:underline">Services</Link></li>
+            <li><Link to="/services" className="text-[var(--text-link)] font-semibold hover:underline">Services</Link></li>
             <li aria-hidden="true"><ChevronRight className="size-3.5 text-cevons-muted" /></li>
             <li aria-current="page" className="text-cevons-muted">{breadcrumb}</li>
           </ol>
@@ -163,7 +163,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
         <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <Reveal variant="up">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-4 inline-flex items-center gap-2">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
               <Eyebrow className="size-4" /> {eyebrowLabel}
             </p>
             <h1 id="svc-h1" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cevons-dark">
@@ -229,7 +229,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <section className="section-y bg-cevons-cream" aria-labelledby="uses-h">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">Common Uses</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">Common Uses</p>
             <h2 id="uses-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Where this service helps</h2>
           </div>
           <Stagger as="ul" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -254,7 +254,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <section className="section-y bg-white" aria-labelledby="how-h">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">How It Works</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">How It Works</p>
             <h2 id="how-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Simple, professional service</h2>
           </div>
           <Stagger as="ol" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -284,7 +284,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
         <div className="container-cevons">
           <div className="rounded-2xl bg-cevons-cream border border-cevons-green/20 p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-soft">
             <div className="max-w-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-2 inline-flex items-center gap-2">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-2 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> We're Here to Help
               </p>
               <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-dark">{helpHeading}</h2>
@@ -308,7 +308,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <section className="section-y bg-cevons-cream" aria-labelledby="faq-h">
         <div className="container-cevons max-w-3xl">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">FAQ</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">FAQ</p>
             <h2 id="faq-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Frequently Asked Questions</h2>
           </div>
           <Accordion type="single" collapsible className="space-y-3">
@@ -340,7 +340,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
               </div>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-white bg-[var(--brand-orange,#EF7700)] hover:bg-[var(--brand-orange-dark,#C45F00)] px-4 py-2 rounded-full transition-colors shadow-soft"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--text-on-orange)] bg-[var(--brand-orange,#EF7700)] hover:bg-[var(--brand-orange-dark,#C45F00)] px-4 py-2 rounded-full transition-colors shadow-soft"
               >
                 View all services <ArrowRight className="size-4" />
               </Link>
@@ -368,7 +368,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-bold text-cevons-dark leading-snug group-hover:text-[var(--brand-orange-dark,#C45F00)] transition-colors">
+                      <h3 className="text-sm font-bold text-cevons-dark leading-snug group-hover:text-[var(--text-link)] transition-colors">
                         {title}
                       </h3>
                       <p className="mt-1 text-xs text-cevons-muted leading-snug line-clamp-2">{body}</p>
@@ -381,7 +381,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <div className="mt-8 text-center">
               <Link
                 to="/services"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-orange-dark,#C45F00)] hover:gap-2.5 transition-all"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--text-link)] hover:gap-2.5 transition-all"
               >
                 Browse all 22 services <ArrowRight className="size-4" />
               </Link>
@@ -396,8 +396,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 /* ---------- Detail Sections ---------- */
 
 const CHARCOAL = "#1A1A1A";
-const CREAM_ALT = "#F7F5F1";
-const EYEBROW_ORANGE = "var(--brand-orange-dark, #C45F00)";
+const EYEBROW_ORANGE = "var(--text-eyebrow)";
 
 function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
   return (
@@ -407,8 +406,9 @@ function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
         return (
           <section
             key={i}
-            className="py-12 md:py-16"
-            style={isAlt ? { backgroundColor: CREAM_ALT } : { backgroundColor: "#ffffff" }}
+            className={`py-12 md:py-16 ${isAlt ? "border-t border-[var(--border-hairline)]" : ""}`}
+            style={{ backgroundColor: "var(--brand-white)" }}
+            data-alt={isAlt ? "true" : undefined}
           >
             <div className="container-cevons">
               <DetailSectionRender section={s} />
@@ -618,7 +618,7 @@ function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLab
               <a
                 href={primaryCtaHref}
                 className="btn-base px-6 py-3 text-base font-semibold rounded-lg hover:opacity-95 transition-opacity"
-                style={{ backgroundColor: "var(--brand-orange)", color: "#ffffff" }}
+                style={{ backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" }}
               >
                 <FileText className="size-5" /> Start a Service Request
               </a>
