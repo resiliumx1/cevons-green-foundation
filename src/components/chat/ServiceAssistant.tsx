@@ -548,7 +548,7 @@ export function ServiceAssistant() {
                     </a>
                     <Link
                       to="/request-service"
-                      className="inline-flex items-center rounded-full border border-[var(--brand-orange)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-white transition"
+                      className="inline-flex items-center rounded-full border border-[var(--brand-orange)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-orange)] hover:bg-[var(--brand-orange)] hover:text-[#1A1A1A] transition"
                     >
                       Open request form
                     </Link>
