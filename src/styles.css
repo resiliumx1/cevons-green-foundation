@@ -445,6 +445,21 @@
   }
 }
 
+/* Permanent white-surface card: pin text to fixed brand tokens in dark mode
+   so descriptions and headings retain AA contrast on the white background. */
+html.dark .card-cevons,
+html.dark .card-cevons .text-cevons-dark,
+html.dark .card-cevons .text-cevons-muted,
+html.dark .card-cevons [class*="text-[var(--cevons-dark"],
+html.dark .card-cevons [class*="text-[var(--cevons-muted"] {
+  color: unset;
+}
+html.dark .card-cevons { color: var(--brand-grey-dark); }
+html.dark .card-cevons .text-cevons-dark,
+html.dark .card-cevons [class*="text-[var(--cevons-dark"] { color: var(--brand-charcoal) !important; }
+html.dark .card-cevons .text-cevons-muted,
+html.dark .card-cevons [class*="text-[var(--cevons-muted"] { color: var(--brand-grey-dark) !important; }
+
 /* Decorative brand swoosh — curved red band over yellow band, logo-inspired */
 @utility brand-ribbon {
   position: absolute;
