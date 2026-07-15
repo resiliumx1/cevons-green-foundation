@@ -1822,9 +1822,13 @@
   color: #fff !important;
 }
 
-/* Hardcoded brand-orange backgrounds in components — same guard. */
-:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[var(--brand-orange)]"],
-[class*="bg-[var(--brand-orange)]"]:not([data-hero-scope] *) {
+/* Hardcoded brand-orange backgrounds in components — same guard.
+   IMPORTANT: exclude Tailwind opacity variants like /5, /10, /20 — those are
+   faint tints, not solid orange fills, and forcing charcoal text onto a tint
+   sitting on a dark card yields ~1.2:1 contrast. Substring selectors are
+   greedy; the :not() below scopes this to solid orange fills only. */
+:not([data-hero-scope]):not([data-hero-scope] *) [class*="bg-[var(--brand-orange)]"]:not([class*="bg-[var(--brand-orange)]/"]),
+[class*="bg-[var(--brand-orange)]"]:not([class*="bg-[var(--brand-orange)]/"]):not([data-hero-scope] *) {
   color: var(--brand-charcoal) !important;
 }
 
