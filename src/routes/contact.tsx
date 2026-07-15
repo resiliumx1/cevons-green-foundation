@@ -314,7 +314,7 @@ function ContactPage() {
 
                 <a
                   href={primaryTelHref}
-                  className="mt-2 flex items-center gap-3 text-[#1A1A1A] hover:text-[var(--brand-orange)] transition-colors group"
+                  className="mt-2 flex items-center gap-3 text-[var(--text-heading)] hover:text-[var(--brand-orange)] transition-colors group"
                 >
                   <Phone className="size-6 text-[var(--brand-orange)] shrink-0" />
                   <span className="text-2xl sm:text-3xl font-extrabold tracking-tight group-hover:underline underline-offset-4 decoration-[var(--brand-orange)]/40">
