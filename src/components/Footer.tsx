@@ -201,11 +201,12 @@ export function Footer() {
               </div>
               <p
                 className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: BRAND_ORANGE }}
+                style={{ color: "var(--brand-yellow)" }}
               >
                 Environmental Services Inc.
               </p>
-              <p className="mt-5 text-white/70 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
+              <p className="mt-5 text-white/85 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
+
 
               {/* Social icons */}
               <div className="mt-6 flex items-center gap-2.5">
