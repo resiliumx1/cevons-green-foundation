@@ -127,7 +127,7 @@ const faqs = [
 function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
   if (variant === "industrial") {
     return (
-      <article className="group relative rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
+      <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
         <div className="flex items-start gap-4">
           <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
             <CevonsIcon group="services" name={s.iconKey} fill decorative />
@@ -142,12 +142,9 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
             <p className="text-sm text-white/70 leading-relaxed">{s.body}</p>
           </div>
         </div>
-        <Link
-          to={s.slug}
-          className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-yellow)] hover:gap-2 transition-all"
-        >
-          Request Specialist Review <ArrowRight className="size-4" />
-        </Link>
+        <div className="mt-auto pt-5">
+          <ServiceActionRow learnTo={s.slug} ariaTitle={s.title} tone="dark" />
+        </div>
       </article>
     );
   }
@@ -164,6 +161,7 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
     </article>
   );
 }
+
 
 function ServicesPage() {
   const t = useT();
@@ -379,17 +377,15 @@ function ServicesPage() {
                       <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
                         <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-eyebrow)]">Infrastructure</p>
                         <h3 className="mt-1 text-2xl font-extrabold text-[var(--cevons-deep-green)]">{s.title}</h3>
                         <p className="mt-3 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
-                        <Link
-                          to={s.slug}
-                          className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[var(--cevons-deep-green)] hover:gap-2 transition-all"
-                        >
-                          Learn more about {s.title} <ArrowRight className="size-4" />
-                        </Link>
+                        <div className="mt-5">
+                          <ServiceActionRow learnTo={s.slug} ariaTitle={s.title} />
+                        </div>
                       </div>
+
                     </div>
                   </article>
                 );
