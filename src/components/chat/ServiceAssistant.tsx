@@ -416,31 +416,31 @@ export function ServiceAssistant() {
             >
               {/* ============ HEADER ============ */}
               <div
-                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-white"
+                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-[#1A1A1A]"
                 style={{ background: orangeGradient }}
               >
                 <EmblemBadge size={42} />
                 <div className="min-w-0 flex-1">
                   <p
-                    className="font-bold truncate text-[15px] leading-tight"
+                    className="font-bold truncate text-[15px] leading-tight text-[#1A1A1A]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     Cev — CEVONS Assistant
                   </p>
                   <p
-                    className="text-[11px] text-white/90 flex items-center gap-1.5 mt-0.5"
+                    className="text-[11px] text-[#1A1A1A]/85 flex items-center gap-1.5 mt-0.5"
                     style={{ fontFamily: "'Open Sans', system-ui, sans-serif" }}
                   >
                     <span className="relative inline-flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#7CE2A0] opacity-70 animate-ping" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#3DDC84]" />
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#0F5F27] opacity-70 animate-ping" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#0F5F27]" />
                     </span>
                     Online · Replies in seconds
                   </p>
                 </div>
                 <button
                   onClick={handleResetClick}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Start a new conversation"
                   title="New conversation"
                 >
@@ -448,7 +448,7 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Minimize chat"
                   title="Minimize"
                 >
@@ -456,7 +456,7 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-white/15 hover:bg-white/25 transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
                   aria-label="Close chat"
                   title="Close"
                 >
