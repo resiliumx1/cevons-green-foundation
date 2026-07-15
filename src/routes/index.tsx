@@ -286,13 +286,13 @@ function HomePage() {
               <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
                 <a
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-[#2DA339] text-white font-bold text-base hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold text-base hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
                 >
                   <WhatsApp className="size-5" /> {t("home.cta.whatsapp")}
                 </a>
                 <a
                   href="/request-service"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--brand-orange)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--text-heading)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
                 >
                   {t("home.cta.quote")} <ArrowRight className="size-5" />
                 </a>

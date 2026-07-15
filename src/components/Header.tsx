@@ -144,7 +144,7 @@ export function Header() {
             </span>
             <span
               className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: "var(--brand-green)" }}
+              style={{ color: "var(--text-heading)" }}
             >
               Environmental Services Inc.
             </span>

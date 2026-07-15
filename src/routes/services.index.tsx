@@ -436,14 +436,14 @@ function ServicesPage() {
       >
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--brand-orange)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--text-heading)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
         >
           <ClipboardList className="size-5" /> Request a Service
         </Link>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-white font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-[#2DA339] text-[var(--text-on-green)] font-bold hover:bg-[#258A30] hover:-translate-y-0.5 transition shadow-[0_8px_22px_rgba(0,0,0,0.18)]"
         >
           <WhatsApp className="size-5" /> WhatsApp Us
         </a>

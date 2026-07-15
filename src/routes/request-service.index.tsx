@@ -417,9 +417,9 @@ function RequestServicePage() {
               <h3 className="text-lg font-semibold">Need Help?</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 Call our Georgetown Head Office at{" "}
-                <a href={primaryTelHref} className="font-semibold text-[var(--brand-orange)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+                <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
                 or email{" "}
-                <a href={primaryMailtoHref} className="font-semibold text-[var(--brand-orange)] hover:underline">{cevonsContact.email}</a>.
+                <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>.
                 Or contact the branch closest to you.
               </p>
               {/* Confirm official WhatsApp number with CEVONS before launch. */}

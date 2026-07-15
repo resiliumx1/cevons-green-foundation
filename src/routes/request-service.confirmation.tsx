@@ -234,9 +234,9 @@ function ConfirmationPage() {
               Need help with your request?
             </h2>
             <p className="mt-2 text-[var(--cevons-muted)] max-w-md mx-auto">
-              Call <a href={primaryTelHref} className="font-semibold text-[var(--brand-orange)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
+              Call <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>{" "}
               or email{" "}
-              <a href={primaryMailtoHref} className="font-semibold text-[var(--brand-orange)] hover:underline">{cevonsContact.email}</a>.
+              <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>.
             </p>
           </div>
         </div>
