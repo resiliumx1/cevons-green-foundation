@@ -124,7 +124,19 @@ const faqs = [
 
 
 
-function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
+function ServiceCard({
+  s,
+  variant = "light",
+  compact = false,
+}: {
+  s: ServiceItem;
+  variant?: "light" | "industrial";
+  compact?: boolean;
+}) {
+  // In 4-across grids (residential) cards are narrower — use the small button
+  // size and shorter "Learn" label so CTAs never overflow their column.
+  const actionSize = compact ? "sm" : "md";
+  const learnLabel = compact ? "Learn" : "Learn more";
   if (variant === "industrial") {
     return (
       <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
@@ -143,7 +155,13 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
           </div>
         </div>
         <div className="mt-auto pt-5">
-          <ServiceActionRow learnTo={s.slug} ariaTitle={s.title} tone="dark" />
+          <ServiceActionRow
+            learnTo={s.slug}
+            ariaTitle={s.title}
+            tone="dark"
+            size={actionSize}
+            learnLabel={learnLabel}
+          />
         </div>
       </article>
     );
@@ -156,7 +174,12 @@ function ServiceCard({ s, variant = "light" }: { s: ServiceItem; variant?: "ligh
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
       <p className="mt-2 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
       <div className="mt-auto pt-5">
-        <ServiceActionRow learnTo={s.slug} ariaTitle={s.title} />
+        <ServiceActionRow
+          learnTo={s.slug}
+          ariaTitle={s.title}
+          size={actionSize}
+          learnLabel={learnLabel}
+        />
       </div>
     </article>
   );
@@ -275,7 +298,7 @@ function ServicesPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {residential.map((s) => (
-                <ServiceCard key={s.title} s={s} />
+                <ServiceCard key={s.title} s={s} compact />
               ))}
             </div>
           </div>
