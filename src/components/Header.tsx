@@ -138,13 +138,13 @@ export function Header() {
           <span className="flex flex-col justify-center leading-none">
             <span
               className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
-              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "#000000" }}
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "var(--brand-green)" }}
             >
               CEVONS
             </span>
             <span
               className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: "#000000" }}
+              style={{ color: "var(--brand-green)" }}
             >
               Environmental Services Inc.
             </span>
@@ -158,8 +158,8 @@ export function Header() {
             const isPartners = item.key === "partners";
             const triggerClass = `relative px-2 py-2 text-[13px] font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap ${
               active
-                ? "text-[var(--brand-orange)]"
-                : "text-cevons-dark hover:text-[var(--brand-orange)]/80"
+                ? "text-[var(--text-link)]"
+                : "text-cevons-dark hover:text-[var(--text-link)]"
             }`;
             const underline = (
               <span
@@ -203,7 +203,7 @@ export function Header() {
                     <div className="grid grid-cols-5 gap-x-6 gap-y-2">
                       {servicesMenu.map((col) => (
                         <div key={col.groupKey}>
-                          <div className="block text-[11px] font-bold uppercase tracking-[0.18em] text-cevons-green mb-2">
+                          <div className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-eyebrow)] mb-2">
                             {categoryLabels[col.groupKey]}
                           </div>
                           <ul className="space-y-1" role="menu">
@@ -212,7 +212,7 @@ export function Header() {
                                 <Link
                                   to={`/services/${slug}`}
                                   role="menuitem"
-                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
                                 >
                                   {serviceLabels[slug]}
                                 </Link>
@@ -225,7 +225,7 @@ export function Header() {
                     <div className="mt-4 pt-3 border-t border-cevons-border flex items-center justify-end">
                       <Link
                         to="/services"
-                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)] hover:gap-2 transition-all"
+                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)] hover:gap-2 transition-all"
                       >
                         View all services →
                       </Link>
@@ -243,7 +243,7 @@ export function Header() {
                             href={partner.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-cevons-green rounded-md transition-colors"
+                            className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
                           >
                             <span className="flex flex-col">
                               <span className="font-semibold">{partner.label}</span>
@@ -300,14 +300,14 @@ export function Header() {
                             ? "border-[var(--brand-orange)]"
                             : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                         }`}
-                        style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
+                        style={active ? { backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" } : undefined}
                         aria-expanded={isOpen}
                         aria-current={active ? "page" : undefined}
                       >
                         <span>{t(`nav.${item.key}`)}</span>
                         <ChevronDown
                           className={`size-5 transition-transform duration-200 ${active ? "" : "text-cevons-muted"} ${isOpen ? "rotate-180" : ""}`}
-                          style={active ? { color: "#ffffff" } : undefined}
+                          style={active ? { color: "var(--text-on-orange)" } : undefined}
                         />
                       </button>
 
@@ -315,7 +315,7 @@ export function Header() {
                         <div className="pl-3 pr-1 pb-2 flex flex-col gap-3">
                           {servicesMenu.map((col) => (
                             <div key={col.groupKey} className="flex flex-col">
-                              <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-cevons-green">
+                              <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--text-eyebrow)]">
                                 {categoryLabels[col.groupKey]}
                               </div>
                               <div className="flex flex-col">
@@ -323,7 +323,7 @@ export function Header() {
                                   <Link
                                     key={slug}
                                     to={`/services/${slug}`}
-                                    className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
@@ -335,7 +335,7 @@ export function Header() {
                           ))}
                           <Link
                             to="/services"
-                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--brand-orange)]"
+                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)]"
                             onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                           >
                             View all services →
@@ -351,7 +351,7 @@ export function Header() {
                               href={partner.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-cevons-green transition-colors"
+                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
                               onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                             >
                               <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
@@ -376,7 +376,7 @@ export function Header() {
                         ? "border-[var(--brand-orange)]"
                         : "text-cevons-dark border-transparent hover:bg-cevons-cream"
                     }`}
-                    style={active ? { backgroundColor: "var(--brand-orange)", color: "#ffffff" } : undefined}
+                    style={active ? { backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" } : undefined}
                     onClick={() => setMobileOpen(false)}
                     aria-current={active ? "page" : undefined}
                   >

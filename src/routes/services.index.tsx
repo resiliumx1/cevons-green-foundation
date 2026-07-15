@@ -202,9 +202,9 @@ function ServicesPage() {
         <div className="container-cevons relative min-h-[360px] md:min-h-[440px] flex flex-col justify-center py-20 md:py-24 z-10">
           <nav aria-label="Breadcrumb" className="mb-5">
             <ol className="flex items-center gap-1.5 text-xs md:text-sm text-white/80">
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow)] transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-[var(--text-eyebrow)] transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow)] font-semibold">Services</li>
+              <li aria-current="page" className="text-[var(--text-eyebrow)] font-semibold">Services</li>
             </ol>
           </nav>
           <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
@@ -380,7 +380,7 @@ function ServicesPage() {
                         <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
                       <div className="min-w-0">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--cevons-green)]">Infrastructure</p>
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-eyebrow)]">Infrastructure</p>
                         <h3 className="mt-1 text-2xl font-extrabold text-[var(--cevons-deep-green)]">{s.title}</h3>
                         <p className="mt-3 text-sm text-[var(--cevons-muted)] leading-relaxed">{s.body}</p>
                         <Link

@@ -120,9 +120,9 @@ function HomePage() {
       <section className="section-y bg-white">
         <div className="container-cevons">
           <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">{t("home.pillars.eyebrow")}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">{t("home.pillars.eyebrow")}</p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">
-              {t("home.pillars.titleA")} <span className="text-cevons-green">{t("home.pillars.titleB")}</span> {t("home.pillars.titleC")}
+              {t("home.pillars.titleA")} <span className="text-[var(--text-heading)]">{t("home.pillars.titleB")}</span> {t("home.pillars.titleC")}
             </h2>
           </Reveal>
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
@@ -144,7 +144,7 @@ function HomePage() {
                     <div className="mt-auto pt-6">
                       <a
                         href="/services"
-                        className="group/cta inline-flex items-center justify-center gap-1.5 rounded-full border border-cevons-green/30 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-cevons-green transition-all duration-300 hover:border-cevons-green hover:bg-cevons-green hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-10px_rgba(0,107,53,0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2"
+                        className="group/cta inline-flex items-center justify-center gap-1.5 rounded-full border border-cevons-green/30 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-link)] transition-all duration-300 hover:border-cevons-green hover:bg-cevons-green hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-10px_rgba(0,107,53,0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2"
                       >
                         {t("home.pillars.explore")}
                         <ArrowRight className="size-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5" />
@@ -201,9 +201,9 @@ function HomePage() {
       <section className="section-y bg-cevons-cream">
         <div className="container-cevons">
           <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cevons-green mb-3">{t("home.process.eyebrow")}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">{t("home.process.eyebrow")}</p>
             <h2 className="text-3xl md:text-5xl font-extrabold">
-              {t("home.process.titleA")} <span className="text-cevons-green">{t("home.process.titleB")}</span> {t("home.process.titleC")}
+              {t("home.process.titleA")} <span className="text-[var(--text-heading)]">{t("home.process.titleB")}</span> {t("home.process.titleC")}
             </h2>
           </Reveal>
 
@@ -219,7 +219,7 @@ function HomePage() {
                   <div className="mx-auto size-16 rounded-full bg-white border-2 border-cevons-green/30 flex items-center justify-center text-cevons-green shadow-soft">
                     <Icon className="size-7" />
                   </div>
-                  <p className="mt-3 text-[11px] font-bold tracking-wider text-cevons-green uppercase">{t("home.process.step")} {i + 1}</p>
+                  <p className="mt-3 text-[11px] font-bold tracking-wider text-[var(--text-eyebrow)] uppercase">{t("home.process.step")} {i + 1}</p>
                   <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{title}</h3>
                   <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{body}</p>
                 </StaggerItem>

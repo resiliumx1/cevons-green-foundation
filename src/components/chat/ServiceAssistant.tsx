@@ -541,7 +541,7 @@ export function ServiceAssistant() {
                       href={WHATSAPP_URL}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110 transition"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-semibold text-[var(--text-on-green)] hover:brightness-110 transition"
                     >
                       <WhatsApp className="h-3.5 w-3.5" />
                       Chat on WhatsApp
