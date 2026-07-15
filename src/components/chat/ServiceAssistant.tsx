@@ -328,7 +328,7 @@ export function ServiceAssistant() {
     ? { duration: 0.2 }
     : { duration: 0.32, ease: [0.16, 1, 0.3, 1] as const };
 
-  const orangeGradient = `linear-gradient(135deg, ${BRAND_ORANGE} 0%, ${BRAND_ORANGE_DEEP} 100%)`;
+  const orangeGradient = `var(--brand-orange)`;
 
   return (
     <>
