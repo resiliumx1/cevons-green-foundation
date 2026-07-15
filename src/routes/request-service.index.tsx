@@ -460,7 +460,7 @@ function RequestServicePage() {
 
 /* ---------------- Step 1: Category ---------------- */
 
-function StepCategory({ data, setData, error }: { data: FormData; setData: (f: FormData) => void; error?: string }) {
+function StepCategory({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
   return (
     <div>
       <h2 className="text-2xl font-bold">What type of service do you need?</h2>
