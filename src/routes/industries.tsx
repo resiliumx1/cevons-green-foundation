@@ -173,7 +173,7 @@ function IndustriesPage() {
             Reliable waste management and environmental services for Guyana’s most important sectors.
           </p>
         </div>
-        <WaveHalftoneDivider height={48} />
+        <WaveHalftoneDivider height={56} underFill="#FFFFFF" />
       </section>
 
       {/* SOCIAL PROOF MARQUEE */}
