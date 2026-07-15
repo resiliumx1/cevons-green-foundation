@@ -209,7 +209,7 @@ function ContactPage() {
                       </span>
                       <div>
                         <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{b.name}</h3>
-                        <span className="text-xs font-semibold uppercase tracking-wide text-[#B58900]">{b.label}</span>
+                        <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">{b.label}</span>
                       </div>
                     </div>
                     <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
@@ -293,7 +293,7 @@ function ContactPage() {
                   <div className="min-w-0">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
                       Need Urgent <br className="hidden sm:inline" />
-                      <span className="text-[#FFE9B8]">Assistance?</span>
+                      <span className="text-[#FCE722]">Assistance?</span>
                     </h2>
                     <p className="mt-4 text-white/90 text-base md:text-lg leading-relaxed max-w-xl">
                       Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana.

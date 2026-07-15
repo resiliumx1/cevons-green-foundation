@@ -161,9 +161,9 @@ function IndustriesPage() {
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-5">
             <ol className={`flex items-center gap-1.5 text-xs md:text-sm text-white/80 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FFD200)] transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-[var(--cevons-yellow,#FCE722)] transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow,#FFD200)] font-semibold">Industries</li>
+              <li aria-current="page" className="text-[var(--cevons-yellow,#FCE722)] font-semibold">Industries</li>
             </ol>
           </nav>
           <h1 id="industries-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>

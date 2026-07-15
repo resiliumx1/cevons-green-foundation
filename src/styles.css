@@ -53,50 +53,79 @@
 :root {
   --radius: 0.75rem;
 
-  /* CEVONS brand palette — ORANGE-PRIMARY per Brand Guideline.
-     Green/yellow/red are accents only. `--cevons-green` token is
-     repointed to orange so existing utility classes (bg-cevons-green,
-     btn-green, etc.) cascade to the new brand color. The hero scopes
-     its own override to preserve its original green color treatment. */
-  --cevons-green: var(--brand-orange);          /* now Cevons Orange (dominant accent / CTA) */
-  --cevons-deep-green: #1A1A1A;     /* now charcoal — used for large structural dark fills */
-  --cevons-yellow: var(--brand-orange);         /* sweep: yellow accent → orange */
-  --cevons-red: var(--brand-orange);            /* sweep: red decoration → orange */
-  --cevons-dark: #1A1A1A;           /* charcoal */
-  --cevons-cream: #FFFFFF;
-  --cevons-border: #D9D9D9;
-  --cevons-muted: #4A4A4A;
+  /* ==========================================================
+     CEVONS BRAND PALETTE — per Brand Guideline (complete, nine
+     colors, no others). Contrast-verified.
+     Orange = FILLS ONLY (2.87:1 on white — never a text color).
+     Yellow = FILLS/SHAPES ONLY (1.45:1 on white — never text on light).
+     Green  = accent, icons/large-text only on light.
+     Red    = eyebrows/kickers/alerts (5.2:1 on white — safe body).
+     ========================================================== */
+  --brand-orange: #EF7700;        /* PRIMARY, dominant. FILLS ONLY */
+  --brand-orange-dark: #C45F00;   /* hover/pressed fills only */
+  --brand-yellow: #FCE722;        /* accent — fills/shapes only */
+  --brand-green: #2DA339;         /* accent — eco signals, icons */
+  --brand-red: #D42229;           /* accent — eyebrows/kickers/alerts */
+  --brand-charcoal: #1A1A1A;      /* primary structural dark */
+  --brand-navy: #000080;          /* secondary structural dark */
+  --brand-grey-dark: #4A4A4A;     /* body text */
+  --brand-grey-light: #D9D9D9;    /* borders / hairlines */
+  --brand-white: #FFFFFF;
 
-  /* Explicit brand tokens (use these going forward) */
-  --brand-orange: #EF7700;
-  --brand-orange-dark: #C45F00;
-  --brand-charcoal: #1A1A1A;
-  --brand-navy: #000080;
-  --brand-dark-grey: #4A4A4A;
-  --brand-light-grey: #D9D9D9;
-  --brand-accent-green: #2DA339;    /* small accent only */
-  --brand-accent-yellow: var(--brand-orange);
-  --brand-accent-red: var(--brand-orange);
+  /* ==========================================================
+     SEMANTIC ROLES — new code should reference these, not the
+     raw palette or the legacy --cevons-* aliases.
+     ========================================================== */
+  --text-heading: var(--brand-charcoal);
+  --text-body: var(--brand-grey-dark);
+  --text-eyebrow: var(--brand-red);
+  --text-link: var(--brand-navy);
+  --text-on-dark: var(--brand-white);
+  --text-on-orange: var(--brand-charcoal);
+  --text-on-yellow: var(--brand-charcoal);
+  --text-on-green: var(--brand-charcoal);
+  --text-on-navy: var(--brand-white);
+  --surface-page: var(--brand-white);
+  --surface-dark: var(--brand-charcoal);
+  --surface-dark-alt: var(--brand-navy);
+  --surface-cta: var(--brand-orange);
+  --border-hairline: var(--brand-grey-light);
 
-  /* shadcn semantic tokens — orange primary, charcoal text on orange */
-  --background: #FFFFFF;
-  --foreground: #1A1A1A;
-  --card: #FFFFFF;
-  --card-foreground: #1A1A1A;
-  --popover: #FFFFFF;
-  --popover-foreground: #1A1A1A;
+  /* ==========================================================
+     LEGACY --cevons-* ALIASES.
+     Kept only because dozens of components still reference them
+     via utility classes (bg-cevons-green, text-cevons-yellow,
+     btn-green, etc.). New code should use the semantic roles
+     above. Names are intentionally wrong for historical reasons.
+     ========================================================== */
+  --cevons-green: var(--brand-orange);          /* legacy: "brand primary" slot = orange */
+  --cevons-deep-green: var(--brand-charcoal);   /* legacy: dark structural fill */
+  --cevons-dark: var(--brand-charcoal);
+  --cevons-yellow: var(--brand-yellow);         /* now REAL yellow — was orange */
+  --cevons-red: var(--brand-red);               /* now REAL red — was orange */
+  --cevons-muted: var(--brand-grey-dark);
+  --cevons-border: var(--brand-grey-light);
+  --cevons-cream: var(--brand-white);           /* guide has no cream */
+
+  /* shadcn semantic tokens */
+  --background: var(--brand-white);
+  --foreground: var(--brand-charcoal);
+  --card: var(--brand-white);
+  --card-foreground: var(--brand-charcoal);
+  --popover: var(--brand-white);
+  --popover-foreground: var(--brand-charcoal);
   --primary: var(--brand-orange);
-  --primary-foreground: #1A1A1A;
-  --secondary: #FFFFFF;
-  --secondary-foreground: #1A1A1A;
+  --primary-foreground: var(--brand-charcoal);  /* charcoal on orange = 6.0:1 */
+  --secondary: var(--brand-white);
+  --secondary-foreground: var(--brand-charcoal);
   --muted: #F3F4F6;
-  --muted-foreground: #4A4A4A;
+  --muted-foreground: var(--brand-grey-dark);
   --accent: var(--brand-orange);
-  --accent-foreground: #1A1A1A;
-  --destructive: #D42229;
-  --destructive-foreground: #FFFFFF;
-  --border: #D9D9D9;
-  --input: #D9D9D9;
+  --accent-foreground: var(--brand-charcoal);
+  --destructive: var(--brand-red);
+  --destructive-foreground: var(--brand-white);
+  --border: var(--brand-grey-light);
+  --input: var(--brand-grey-light);
   --ring: var(--brand-orange);
 }
 
@@ -184,23 +213,25 @@
     box-shadow: 0 0 0 3px rgba(239, 119, 0, 0.35);
   }
 }
+/* Legacy button utility names — kept because many files reference them.
+   All four now enforce guideline-compliant contrast: charcoal text on
+   orange fills (white text on orange fails at 2.87:1). */
 @utility btn-green {
-  /* Repointed to brand orange per Brand Guideline. Charcoal text for AA contrast. */
-  background-color: var(--brand-orange);
-  color: var(--brand-charcoal);
+  background-color: var(--surface-cta);
+  color: var(--text-on-orange);
   &:hover {
     background-color: var(--brand-orange-dark);
-    color: var(--brand-charcoal);
+    color: var(--text-on-orange);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(239, 119, 0, 0.28);
   }
 }
 @utility btn-yellow {
-  background-color: var(--brand-orange);
-  color: #FFFFFF;
+  background-color: var(--surface-cta);
+  color: var(--text-on-orange);
   &:hover {
     background-color: var(--brand-orange-dark);
-    color: #FFFFFF;
+    color: var(--text-on-orange);
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgba(239, 119, 0, 0.40);
   }
@@ -229,19 +260,19 @@
   .btn-shine::before { transition: none; transform: translateX(-120%) skewX(-18deg) !important; }
 }
 @utility btn-outline-green {
-  border: 1.5px solid var(--cevons-green);
-  color: var(--cevons-green);
+  border: 1.5px solid var(--brand-orange);
+  color: var(--text-heading);
   background: transparent;
   &:hover {
-    background-color: var(--cevons-green);
-    color: #fff;
+    background-color: var(--brand-orange);
+    color: var(--text-on-orange);
   }
 }
 @utility btn-ghost-dark {
-  color: var(--cevons-dark);
+  color: var(--text-heading);
   &:hover {
-    background-color: rgba(0, 107, 53, 0.08);
-    color: var(--cevons-green);
+    background-color: rgba(239, 119, 0, 0.08);
+    color: var(--text-heading);
   }
 }
 
@@ -604,7 +635,7 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #FFD200 35%, #E31B23 50%, #006B35 65%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--brand-yellow) 35%, var(--brand-red) 50%, var(--brand-green) 65%, transparent 100%);
   opacity: 0.65;
 }
 .spm-eyebrow {
@@ -615,15 +646,15 @@
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #006B35;
+  color: var(--text-eyebrow);
 }
 .spm-eyebrow-dot {
   display: inline-block;
   width: 22px;
   height: 3px;
   border-radius: 999px;
-  background: #FFD200;
-  box-shadow: 0 0 0 1px rgba(255, 210, 0, 0.35);
+  background: var(--brand-yellow);
+  box-shadow: 0 0 0 1px rgba(252, 231, 34, 0.35);
 }
 
 .spm-marquee {
@@ -667,19 +698,19 @@
   gap: 0.625rem;
   padding: 10px 18px;
   background: #FFFFFF;
-  border: 1px solid rgba(0, 107, 53, 0.12);
+  border: 1px solid rgba(239, 119, 0, 0.12);
   border-radius: 999px;
   color: #101820;
   font-size: 13.5px;
   font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 1px 2px rgba(16, 24, 32, 0.04), 0 4px 12px rgba(0, 63, 39, 0.04);
+  box-shadow: 0 1px 2px rgba(16, 24, 32, 0.04), 0 4px 12px rgba(239, 119, 0, 0.05);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .spm-pill:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 107, 53, 0.45);
-  box-shadow: 0 8px 20px rgba(0, 63, 39, 0.10);
+  border-color: rgba(239, 119, 0, 0.45);
+  box-shadow: 0 8px 20px rgba(239, 119, 0, 0.12);
 }
 .spm-pill-icon {
   display: inline-flex;
@@ -688,8 +719,8 @@
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  background: rgba(0, 107, 53, 0.10);
-  color: #006B35;
+  background: rgba(239, 119, 0, 0.10);
+  color: var(--brand-orange);
 }
 .spm-pill-icon-img {
   width: 28px;
@@ -1348,7 +1379,7 @@
   box-shadow: 0 18px 40px -16px rgba(15, 58, 46, 0.25), 0 4px 12px rgba(0,0,0,0.08);
 }
 .sp-card--dark {
-  background: linear-gradient(135deg, #0F3A2E, #14523F);
+  background: linear-gradient(135deg, var(--brand-charcoal), var(--brand-navy));
   box-shadow: 0 6px 18px -8px rgba(15, 58, 46, 0.45);
 }
 .sp-card--dark:hover {
@@ -1656,9 +1687,9 @@
   transform-origin: center bottom;
   opacity: var(--wave-ribbon-opacity, 1);
 }
-.wave-divider__ribbon--green path { fill: #006B35; }
-.wave-divider__ribbon--gold  path { fill: var(--brand-orange); }
-.wave-divider__ribbon--red   path { fill: var(--brand-orange-dark); }
+.wave-divider__ribbon--green path { fill: var(--brand-green); }
+.wave-divider__ribbon--gold  path { fill: var(--brand-yellow); }
+.wave-divider__ribbon--red   path { fill: var(--brand-red); }
 
 .wave-divider__ribbon--green {
   animation: wave-divider-undulate-a var(--wave-undulate-a, 18s) ease-in-out infinite;
@@ -1995,7 +2026,7 @@ html.dark .conveyor-band .text-cevons-muted { color: #64748B !important; }
 /* Preserve brand-green eyebrows in SocialProofStrip */
 html.dark .spm-eyebrow,
 html.dark .spm-section .spm-eyebrow,
-html.dark .spm-section-compact .spm-eyebrow { color: #006B35 !important; }
+html.dark .spm-section-compact .spm-eyebrow { color: var(--brand-red) !important; }
 
 /* SocialProofStrip cards: keep dark text on light card bg.
    .sp-card--dark variant (if any) keeps its own light text — only target plain .sp-card. */
@@ -2268,82 +2299,11 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 }
 
 
-/* ============================================================
-   COLOR SWEEP OVERRIDES — orange-forward + readable contrast
-   - Black-by-design SECTION backgrounds (bg-cevons-deep-green
-     and its CSS-var-fallback variants) → solid Cevons Orange.
-   - White text descendants on those sections → charcoal.
-   - Yellow accent text → charcoal (was already orange via tokens
-     but inside an orange section it must drop to dark for AA).
-   ============================================================ */
-:where(
-  .bg-cevons-deep-green,
-  .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\],
-  .bg-\[var\(--cevons-deep-green\,\#1A1A1A\)\]
-) {
-  background-color: var(--brand-orange) !important;
-  color: #1A1A1A;
-}
+/* COLOR SWEEP OVERRIDES block removed in the brand-alignment pass
+   (Stage 1). bg-cevons-deep-green now cascades to charcoal (#1A1A1A)
+   via the updated legacy alias, and white text on charcoal reads at
+   15.3:1 — no !important hack needed. */
 
-/* Gradients referencing the deep-green token in their from/via/to slots */
-:where(
-  [class*="from-cevons-deep-green"],
-  [class*="via-cevons-deep-green"],
-  [class*="to-cevons-deep-green"],
-  [class*="from-[var(--cevons-deep-green"],
-  [class*="via-[var(--cevons-deep-green"],
-  [class*="to-[var(--cevons-deep-green"]
-) {
-  /* allow gradients but tint floor to orange */
-  background-color: var(--brand-orange);
-}
-
-/* Force readable charcoal text inside any block that ends up orange:
-   - bg-cevons-deep-green family
-   - the inline radial-gradient CTA blocks (matched via style attr) */
-.bg-cevons-deep-green :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-.bg-\[var\(--cevons-deep-green\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60),
-[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60, .text-white\/50),
-[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] :where(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70, .text-white\/60) {
-  color: #1A1A1A !important;
-}
-
-/* Yellow accent / cevons-yellow text inside orange sections → charcoal */
-.bg-cevons-deep-green .text-cevons-yellow,
-.bg-\[var\(--cevons-deep-green\)\] .text-cevons-yellow,
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .text-cevons-yellow,
-[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .text-cevons-yellow,
-[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .text-cevons-yellow {
-  color: #1A1A1A !important;
-}
-
-/* Buttons inside orange CTA sections: charcoal solid for contrast */
-[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] .btn-yellow,
-[style*="var(--brand-orange) 0%, var(--brand-orange) 55%"] .btn-yellow,
-.bg-cevons-deep-green .btn-yellow,
-.bg-\[var\(--cevons-deep-green\,\#EF7700\)\] .btn-yellow {
-  background-color: #1A1A1A !important;
-  color: #FFFFFF !important;
-  border-color: #1A1A1A !important;
-}
-
-/* Borders/dividers using deep-green border become orange-toned on orange */
-.bg-cevons-deep-green :where([class*="border-white/"]),
-[style*="var(--brand-orange) 0%, var(--brand-orange) 60%"] :where([class*="border-white/"]) {
-  border-color: rgba(26,26,26,0.25) !important;
-}
-
-/* Dark mode: keep these section blocks orange too (already AA: charcoal on orange) */
-html.dark :where(
-  .bg-cevons-deep-green,
-  .bg-\[var\(--cevons-deep-green\)\],
-  .bg-\[var\(--cevons-deep-green\,\#EF7700\)\]
-) {
-  background-color: var(--brand-orange) !important;
-  color: #1A1A1A !important;
-}
 
 /* ============================================================
    Card glow — shared accent for locations / careers / about cards

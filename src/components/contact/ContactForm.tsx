@@ -239,7 +239,7 @@ export function ContactForm() {
       <div ref={panelRef} aria-live="polite" className="rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/20 bg-white shadow-lg overflow-hidden">
         <div className="bg-gradient-to-br from-[var(--cevons-deep-green,#EF7700)] to-[#1A1A1A] px-6 py-10 text-center">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/15 ring-4 ring-white/20 animate-[pop_0.5s_ease-out]">
-            <svg viewBox="0 0 52 52" className="h-12 w-12 text-[var(--cevons-yellow,#FFD200)]" aria-hidden="true">
+            <svg viewBox="0 0 52 52" className="h-12 w-12 text-[var(--cevons-yellow,#FCE722)]" aria-hidden="true">
               <circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="151" strokeDashoffset="151" style={{ animation: "draw 0.8s ease-out forwards" }} />
               <path d="M14 27 l8 8 l16 -18" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="48" strokeDashoffset="48" style={{ animation: "draw 0.5s ease-out 0.5s forwards" }} />
             </svg>
@@ -432,7 +432,7 @@ export function ContactForm() {
           <div ref={dialogRef} className="bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col animate-[slideUp_0.25s_ease-out]">
             <div className="px-6 py-5 bg-[var(--cevons-deep-green,#EF7700)] text-white flex items-center justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-yellow,#FFD200)]">Almost there</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-yellow,#FCE722)]">Almost there</p>
                 <h3 id="confirm-heading" className="text-xl font-extrabold mt-0.5">Review your message</h3>
               </div>
               <button type="button" onClick={() => !submitting && setShowConfirm(false)} aria-label="Close" className="rounded-lg p-1.5 hover:bg-white/10 transition disabled:opacity-50" disabled={submitting}>
