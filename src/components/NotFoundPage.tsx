@@ -155,7 +155,7 @@ export function NotFoundPage() {
       </section>
 
       {/* BENEFITS */}
-      <section className="pb-16 md:pb-20 bg-white">
+      <section className="pb-16 md:pb-20 bg-[var(--surface-page)]">
         <div className="container-cevons">
           <ul className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {benefits.map(({ Icon, title, sub }) => (
