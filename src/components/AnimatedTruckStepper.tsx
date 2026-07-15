@@ -6,14 +6,16 @@ import { cn } from "@/lib/utils";
 const TRUCK_SRC = "/assets/cevons-orange-truck.png";
 
 const COLORS = {
-  orange: "#F97316",
-  orangeSoft: "rgba(249, 115, 22, 0.18)",
-  green: "#2E9B3F",
-  greenSoft: "rgba(46, 155, 63, 0.16)",
-  gray: "#D1D5DB",
-  graySoft: "#E5E7EB",
-  charcoal: "#1F2937",
-  muted: "#6B7280",
+  orange: "var(--brand-orange)",
+  orangeSoft: "rgba(239, 119, 0, 0.18)",
+  green: "var(--brand-orange)", // stepper stays on brand-orange for completed state
+  greenSoft: "rgba(239, 119, 0, 0.16)",
+  gray: "var(--border-hairline)",
+  graySoft: "var(--border-hairline)",
+  charcoal: "var(--text-heading)",
+  muted: "var(--text-body)",
+  onOrange: "var(--text-on-orange)",
+  surface: "var(--surface-page)",
 };
 
 export type AnimatedTruckStepperProps = {
