@@ -251,7 +251,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {/* How it works */}
-      <section className="section-y bg-white" aria-labelledby="how-h">
+      <section className="section-y bg-[var(--surface-page)]" aria-labelledby="how-h">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">How It Works</p>
