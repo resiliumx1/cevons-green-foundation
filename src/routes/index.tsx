@@ -292,7 +292,7 @@ function HomePage() {
                 </a>
                 <a
                   href="/request-service"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--brand-orange)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
+                  className="inline-flex items-center justify-center gap-2.5 h-14 px-8 rounded-xl bg-white text-[var(--text-heading)] font-bold text-base hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_12px_28px_rgba(0,0,0,0.25)]"
                 >
                   {t("home.cta.quote")} <ArrowRight className="size-5" />
                 </a>

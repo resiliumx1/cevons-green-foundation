@@ -315,7 +315,7 @@ function LocationsPage() {
         </a>
         <Link
           to="/request-service"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border-2 border-[var(--brand-orange)] bg-white text-[var(--brand-orange)] font-bold hover:bg-[var(--brand-orange)] hover:text-white transition shadow-[0_6px_16px_rgba(239,119,0,0.18)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border-2 border-[var(--brand-orange)] bg-white text-[var(--text-heading)] font-bold hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)] transition shadow-[0_6px_16px_rgba(239,119,0,0.18)]"
         >
           Request Service <ArrowRight className="w-5 h-5" />
         </Link>

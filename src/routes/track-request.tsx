@@ -225,7 +225,7 @@ function TrackRequestPage() {
         </a>
         <a
           href="tel:+5922181455"
-          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--brand-orange)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+          className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[var(--text-heading)] font-bold hover:bg-white/95 hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
         >
           <Phone className="size-5" /> Call +592 218 1455
         </a>
