@@ -94,7 +94,7 @@ export function NotFoundPage() {
       </section>
 
       {/* HELPFUL LINKS */}
-      <section className="section-y bg-white">
+      <section className="section-y bg-[var(--surface-page)]">
         <div className="container-cevons">
           <h2 className="text-2xl md:text-3xl font-extrabold text-center">
             Here are some <span className="text-[var(--text-heading)]">helpful links</span>
