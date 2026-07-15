@@ -121,14 +121,14 @@ export function PageHero({
                     {c.href && !last ? (
                       <Link
                         to={c.href}
-                        className="hover:text-[#FCE722] transition-colors"
+                        className="hover:text-[var(--text-eyebrow)] transition-colors"
                       >
                         {c.label}
                       </Link>
                     ) : (
                       <span
                         aria-current={last ? "page" : undefined}
-                        className={last ? "text-[#FCE722] font-semibold" : ""}
+                        className={last ? "text-[var(--text-eyebrow)] font-semibold" : ""}
                       >
                         {c.label}
                       </span>

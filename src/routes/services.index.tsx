@@ -202,9 +202,9 @@ function ServicesPage() {
         <div className="container-cevons relative min-h-[360px] md:min-h-[440px] flex flex-col justify-center py-20 md:py-24 z-10">
           <nav aria-label="Breadcrumb" className="mb-5">
             <ol className="flex items-center gap-1.5 text-xs md:text-sm text-white/80">
-              <li><Link to="/" className="hover:text-[var(--cevons-yellow)] transition-colors">Home</Link></li>
+              <li><Link to="/" className="hover:text-[var(--text-eyebrow)] transition-colors">Home</Link></li>
               <li aria-hidden="true"><ChevronRight className="size-3.5 text-white/50" /></li>
-              <li aria-current="page" className="text-[var(--cevons-yellow)] font-semibold">Services</li>
+              <li aria-current="page" className="text-[var(--text-eyebrow)] font-semibold">Services</li>
             </ol>
           </nav>
           <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
