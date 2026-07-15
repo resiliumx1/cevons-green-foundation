@@ -285,27 +285,27 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 relative">
           <div className="container-cevons py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <p className="text-white/60 text-xs">
+            <p className="text-white/75 text-xs">
               © {year} CEVONS Environmental Services Inc. All rights reserved.
             </p>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
-              <span className="text-white/20">|</span>
-              <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
-              <span className="text-white/20">|</span>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/75">
+              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/50">{t("footer.privacy")}</span>
+              <span className="text-white/30">|</span>
+              <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/50">{t("footer.terms")}</span>
+              <span className="text-white/30">|</span>
               <Link
                 to="/sitemap"
-                className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
-                style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
+                className="group/sm inline-flex items-center gap-1 text-white/85 hover:text-white hover:underline underline-offset-4 focus-visible:text-white focus-visible:underline transition-colors motion-reduce:transition-none"
               >
                 <ArrowRight
                   aria-hidden
                   className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
-                  style={{ color: BRAND_ORANGE }}
+                  style={{ color: "var(--brand-yellow)" }}
                 />
                 {t("footer.sitemap")}
               </Link>
             </div>
+
             <div className="flex items-center gap-3 text-xs">
               <span className="text-white/60">{t("footer.serving")}</span>
               <span
