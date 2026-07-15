@@ -48,6 +48,7 @@ import { Route as ServicesCompactorRentalRouteImport } from './routes/services.c
 import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/services.biohazardous-disposal'
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
+import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
 import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
 import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
@@ -268,6 +269,11 @@ const DevServiceActionButtonRoute = DevServiceActionButtonRouteImport.update({
   path: '/dev/service-action-button',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
+  id: '/dev/motion-debug',
+  path: '/dev/motion-debug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CrmSettingsRoute = CrmSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -347,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
@@ -397,6 +404,7 @@ export interface FileRoutesByTo {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
@@ -450,6 +458,7 @@ export interface FileRoutesById {
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
   '/crm/settings': typeof CrmSettingsRoute
+  '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
   '/services/biohazardous-disposal': typeof ServicesBiohazardousDisposalRoute
@@ -504,6 +513,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
@@ -554,6 +564,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
@@ -606,6 +617,7 @@ export interface FileRouteTypes {
     | '/crm/reports'
     | '/crm/reviews'
     | '/crm/settings'
+    | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
     | '/services/biohazardous-disposal'
@@ -649,6 +661,7 @@ export interface RootRouteChildren {
   SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
+  DevMotionDebugRoute: typeof DevMotionDebugRoute
   DevServiceActionButtonRoute: typeof DevServiceActionButtonRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
@@ -929,6 +942,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevServiceActionButtonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dev/motion-debug': {
+      id: '/dev/motion-debug'
+      path: '/dev/motion-debug'
+      fullPath: '/dev/motion-debug'
+      preLoaderRoute: typeof DevMotionDebugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crm/settings': {
       id: '/crm/settings'
       path: '/settings'
@@ -1120,6 +1140,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
+  DevMotionDebugRoute: DevMotionDebugRoute,
   DevServiceActionButtonRoute: DevServiceActionButtonRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
@@ -1127,13 +1148,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
