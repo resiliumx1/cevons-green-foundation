@@ -90,7 +90,9 @@
   --surface-dark: var(--brand-charcoal);
   --surface-dark-alt: var(--brand-navy);
   --surface-cta: var(--brand-orange);
+  --surface-footer: var(--brand-navy);
   --border-hairline: var(--brand-grey-light);
+
 
 
   /* ==========================================================
