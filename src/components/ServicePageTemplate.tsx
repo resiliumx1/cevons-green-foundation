@@ -395,7 +395,6 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
 /* ---------- Detail Sections ---------- */
 
-const CHARCOAL = "#1A1A1A";
 const EYEBROW_ORANGE = "var(--text-eyebrow)";
 
 function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
@@ -407,7 +406,7 @@ function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
           <section
             key={i}
             className={`py-12 md:py-16 ${isAlt ? "border-t border-[var(--border-hairline)]" : ""}`}
-            style={{ backgroundColor: "var(--brand-white)" }}
+            style={{ backgroundColor: "var(--surface-page)" }}
             data-alt={isAlt ? "true" : undefined}
           >
             <div className="container-cevons">
@@ -419,6 +418,7 @@ function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
     </>
   );
 }
+
 
 function SectionText({ section }: { section: DetailSection }) {
   return (
@@ -485,7 +485,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
       <Reveal variant="up">
         <div
           className={`max-w-3xl mx-auto text-center ${emphasis ? "rounded-2xl p-8 md:p-10 shadow-lift" : ""}`}
-          style={emphasis ? { backgroundColor: CHARCOAL } : undefined}
+          style={emphasis ? { backgroundColor: "var(--surface-emphasis)" } : undefined}
         >
           {section.eyebrow && (
             <p
@@ -497,7 +497,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           )}
           <h2
             className="text-3xl md:text-4xl font-extrabold"
-            style={{ color: emphasis ? "#ffffff" : "var(--cevons-dark, #1A1A1A)" }}
+            style={{ color: emphasis ? "#ffffff" : "var(--text-heading)" }}
           >
             {section.heading}
           </h2>
@@ -509,6 +509,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
               <p key={idx} className={emphasis ? "" : "text-cevons-muted"}>{p}</p>
             ))}
           </div>
+
           {section.videoEmbed && (
             <figure
               className="mt-8 mx-auto"
@@ -585,12 +586,13 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
   return (
-    <section className="py-10 md:py-14 bg-white" aria-labelledby="assist-h">
+    <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
         <div
           className="rounded-2xl overflow-hidden shadow-lift p-6 md:p-8"
-          style={{ backgroundColor: CHARCOAL }}
+          style={{ backgroundColor: "var(--surface-emphasis)" }}
         >
+
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="max-w-xl">
               <p
