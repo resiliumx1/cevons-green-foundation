@@ -653,8 +653,8 @@
   width: 22px;
   height: 3px;
   border-radius: 999px;
-  background: #FFD200;
-  box-shadow: 0 0 0 1px rgba(255, 210, 0, 0.35);
+  background: var(--brand-yellow);
+  box-shadow: 0 0 0 1px rgba(252, 231, 34, 0.35);
 }
 
 .spm-marquee {
