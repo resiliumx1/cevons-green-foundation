@@ -2044,6 +2044,7 @@ html.dark {
   /* Semantic role overrides — everything downstream inherits correct contrast */
   --text-heading: var(--brand-white);
   --text-body: var(--brand-grey-light);
+  --text-placeholder: rgba(217,217,217,0.7); /* #D9D9D9 @ 70% → ≈5.82:1 on #2A2A2A, ≈5.5:1 on #1A1A1A */
   --text-eyebrow: var(--brand-orange);        /* 6.0:1 — orange works as text on dark */
   --text-link: var(--brand-orange);
   --surface-page: var(--surface-0);
