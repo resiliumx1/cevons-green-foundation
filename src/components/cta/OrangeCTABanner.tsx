@@ -50,8 +50,9 @@ export function OrangeCTABanner({
         <div
           className="relative overflow-hidden rounded-[28px] shadow-[0_24px_60px_-28px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
           style={{
-            background:
-              "linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%)",
+            /* FLAT var(--brand-orange) field. Charcoal on #EF7700 = 6.06:1 (AA).
+               A gradient to #C45F00 would drop charcoal to 4.13:1 — banned. */
+            backgroundColor: "var(--brand-orange)",
           }}
         >
           {/* ONE restrained semi-circle — brand yellow at low opacity,
