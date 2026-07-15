@@ -280,7 +280,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       </section>
 
       {/* Help CTA */}
-      <section className="bg-white pb-16 md:pb-20" id="quote">
+      <section className="bg-[var(--surface-page)] pb-16 md:pb-20" id="quote">
         <div className="container-cevons">
           <div className="rounded-2xl bg-cevons-cream border border-cevons-green/20 p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-soft">
             <div className="max-w-xl">
