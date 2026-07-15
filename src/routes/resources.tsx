@@ -213,18 +213,18 @@ function ResourcesPage() {
                   <span className={`inline-flex items-center gap-1.5 rounded-full text-xs font-semibold px-3 py-1 border ${categoryColors[featured.category]}`}>
                     <Tag className="size-3" /> {featured.category}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 text-xs text-[var(--cevons-muted,#64748B)]">
+                  <span className="inline-flex items-center gap-1.5 text-xs text-[var(--text-body,#4A4A4A)]">
                     <Calendar className="size-3" /> {featured.date}
                   </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
                   {featured.title}
                 </h2>
-                <p className="mt-3 text-[var(--cevons-muted,#64748B)] leading-relaxed">
+                <p className="mt-3 text-[var(--text-body,#4A4A4A)] leading-relaxed">
                   {featured.excerpt}
                 </p>
                 <div className="mt-6">
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--cevons-muted,#64748B)]">
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-body,#4A4A4A)]">
                     <BookOpen className="size-4" /> Full article coming soon
                   </span>
                 </div>
@@ -265,12 +265,12 @@ function ResourcesPage() {
                   </span>
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-1.5 text-xs text-[var(--cevons-muted,#64748B)] mb-2">
+                  <div className="flex items-center gap-1.5 text-xs text-[var(--text-body,#4A4A4A)] mb-2">
                     <Calendar className="size-3" /> {date}
                   </div>
                   <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)] leading-snug">{title}</h3>
-                  <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{excerpt}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--cevons-muted,#64748B)]">
+                  <p className="mt-2 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{excerpt}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--text-body,#4A4A4A)]">
                     Coming soon <ArrowRight className="size-4 opacity-60" />
                   </span>
                 </div>
@@ -280,7 +280,7 @@ function ResourcesPage() {
 
           {gridArticles.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-[var(--cevons-muted,#64748B)]">No articles in this category yet. Check back soon.</p>
+              <p className="text-[var(--text-body,#4A4A4A)]">No articles in this category yet. Check back soon.</p>
             </div>
           )}
         </div>
@@ -364,7 +364,7 @@ function ResourcesPage() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-2">Press & Milestones</p>
               <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">Visit the CEVONS Newsroom</h3>
-              <p className="mt-2 text-[var(--cevons-muted,#64748B)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
+              <p className="mt-2 text-[var(--text-body,#4A4A4A)] max-w-xl">Press coverage, company milestones, and the latest updates from Guyana’s leading environmental services provider.</p>
             </div>
             <Link
               to="/newsroom"

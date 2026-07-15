@@ -212,7 +212,7 @@ function IndustriesPage() {
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
                   <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                  <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{description}</p>
+                  <p className="mt-2 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{description}</p>
                 </div>
               </article>
             ))}
@@ -303,7 +303,7 @@ function IndustriesPage() {
                   <Icon className="size-6" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
+                <p className="mt-2 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
               </div>
             ))}
           </div>

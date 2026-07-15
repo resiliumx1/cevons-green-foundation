@@ -125,7 +125,7 @@ function MediaCard({ item }: { item: MediaItem }) {
             <meta.icon className="size-3" />
             {item.outlet ?? meta.eyebrow}
           </span>
-          <span className="inline-flex items-center gap-1 text-xs text-[var(--cevons-muted,#64748B)]">
+          <span className="inline-flex items-center gap-1 text-xs text-[var(--text-body,#4A4A4A)]">
             <Calendar className="size-3" />
             {formatDate(item.published_at)}
           </span>
@@ -134,7 +134,7 @@ function MediaCard({ item }: { item: MediaItem }) {
           {item.title}
         </h3>
         {item.summary && (
-          <p className="text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed flex-1">{item.summary}</p>
+          <p className="text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed flex-1">{item.summary}</p>
         )}
         {href && (
           <div className="mt-5 pt-4 border-t border-[var(--cevons-deep-green,#EF7700)]/10">
@@ -237,9 +237,9 @@ function NewsroomPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]">
         <div className="container-cevons">
           {isLoading ? (
-            <div className="text-center py-16 text-[var(--cevons-muted,#64748B)]">Loading newsroom…</div>
+            <div className="text-center py-16 text-[var(--text-body,#4A4A4A)]">Loading newsroom…</div>
           ) : items.length === 0 ? (
-            <div className="text-center py-16 text-[var(--cevons-muted,#64748B)]">No items published yet. Check back soon.</div>
+            <div className="text-center py-16 text-[var(--text-body,#4A4A4A)]">No items published yet. Check back soon.</div>
           ) : (
             <>
               <MediaSection type="release" items={releases} />

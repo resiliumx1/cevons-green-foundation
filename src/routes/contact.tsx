@@ -149,7 +149,7 @@ function ContactPage() {
                   <Icon className="size-6" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-1.5 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
+                <p className="mt-1.5 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
                 <a
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
@@ -212,7 +212,7 @@ function ContactPage() {
                         <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">{b.label}</span>
                       </div>
                     </div>
-                    <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
+                    <ul className="space-y-1.5 text-sm text-[var(--text-body,#4A4A4A)]">
                       <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{b.address}</li>
                       <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
                         <span className="flex flex-wrap gap-x-2 gap-y-0.5">
