@@ -1820,11 +1820,7 @@
 :not([data-hero-scope]):not([data-hero-scope] *) .bg-cevons-green {
   color: var(--brand-charcoal) !important;
 }
-[data-hero-scope] .bg-cevons-green,
-[data-hero-scope].bg-cevons-green {
-  /* hero keeps its original green treatment; white text is AA on green */
-  color: #fff !important;
-}
+/* Note: no .bg-cevons-green usage exists inside [data-hero-scope]. */
 
 /* Hardcoded brand-orange backgrounds in components — same guard.
    IMPORTANT: exclude Tailwind opacity variants like /5, /10, /20 — those are
