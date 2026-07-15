@@ -1379,7 +1379,7 @@
   box-shadow: 0 18px 40px -16px rgba(15, 58, 46, 0.25), 0 4px 12px rgba(0,0,0,0.08);
 }
 .sp-card--dark {
-  background: linear-gradient(135deg, #0F3A2E, #14523F);
+  background: linear-gradient(135deg, var(--brand-charcoal), var(--brand-navy));
   box-shadow: 0 6px 18px -8px rgba(15, 58, 46, 0.45);
 }
 .sp-card--dark:hover {
