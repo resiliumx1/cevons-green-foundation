@@ -141,22 +141,44 @@ export function Footer() {
         <NewsletterSignup source="footer-card" variant="card" />
       </section>
 
-      <div className="bg-[#0F0F0F] text-white relative overflow-hidden">
-        {/* thin gradient accent divider */}
+      <div className="relative overflow-hidden text-white" style={{ backgroundColor: "var(--surface-footer)" }}>
+        {/* Solid orange top rule — delineates the footer in both light and dark modes */}
         <div
           aria-hidden
           className="h-[3px] w-full"
-          style={{ background: "linear-gradient(90deg, transparent 0%, var(--brand-orange) 30%, #F5A300 50%, var(--brand-orange) 70%, transparent 100%)" }}
+          style={{ backgroundColor: "var(--brand-orange)" }}
+        />
+
+        {/* Decorative semi-circle — brand guideline "circles & semi-circles" */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-40 -bottom-40 block rounded-full"
+          style={{
+            width: "36rem",
+            height: "36rem",
+            background:
+              "radial-gradient(circle at center, rgba(252,231,34,0.08) 0%, rgba(239,119,0,0.06) 45%, transparent 70%)",
+          }}
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -left-32 -top-32 block rounded-full border"
+          style={{
+            width: "22rem",
+            height: "22rem",
+            borderColor: "rgba(255,255,255,0.06)",
+          }}
         />
 
         {/* faint watermark C */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.025] select-none"
+          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.04] select-none"
           style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", fontSize: "28rem", fontWeight: 900, lineHeight: 1 }}
         >
           C
         </span>
+
 
         {/* ZONE 3 — Main link grid */}
         <div className="container-cevons py-14 md:py-16 relative">
