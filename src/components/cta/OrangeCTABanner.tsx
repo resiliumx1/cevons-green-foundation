@@ -119,15 +119,27 @@ export function OrangeCTABanner({
               </div>
             </div>
 
-            {/* RIGHT: solid white action card. */}
+            {/* RIGHT: solid white action card.
+                This card is DELIBERATELY white in BOTH light and dark modes
+                because it sits on the orange brand field, which does not
+                flip. Its text must therefore use FIXED brand values, not
+                mode-aware semantic tokens (var(--text-eyebrow),
+                var(--text-heading), var(--text-body)) — those tokens flip to
+                orange / white / grey-light in dark mode and become invisible
+                on the white surface. */}
             <div
               className="relative rounded-2xl p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)]"
               style={{ backgroundColor: "#FFFFFF" }}
             >
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">
+              <p
+                className="text-xs font-bold uppercase tracking-[0.2em]"
+                style={{ color: "var(--brand-red)" }}
+              >
                 {actionEyebrow}
               </p>
-              <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">{actionIntro}</p>
+              <p className="mt-1 text-sm" style={{ color: "var(--brand-grey-dark)" }}>
+                {actionIntro}
+              </p>
               <div className="mt-5 flex flex-col gap-3">{children}</div>
             </div>
           </div>
