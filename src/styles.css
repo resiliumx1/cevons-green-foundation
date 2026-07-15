@@ -1215,9 +1215,9 @@
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: #F5C518;
+  background: var(--brand-yellow);
   opacity: 0;
-  box-shadow: 0 0 4px rgba(245, 197, 24, 0.75);
+  box-shadow: 0 0 4px rgba(252, 231, 34, 0.75);
   animation: sparkleTwinkle var(--dur, 4s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
   will-change: opacity, transform;
