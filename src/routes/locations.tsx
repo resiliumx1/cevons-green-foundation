@@ -196,7 +196,7 @@ function LocationsPage() {
                       <h3 className="text-xl font-extrabold text-[var(--text-heading)]">
                         {r.name}
                       </h3>
-                      <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-[var(--text-eyebrow)]">
                         {r.label}
                       </span>
                     </div>

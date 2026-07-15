@@ -149,7 +149,7 @@ function ContactPage() {
                   <Icon className="size-6" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-1.5 text-sm text-[var(--cevons-muted,#64748B)] leading-relaxed">{body}</p>
+                <p className="mt-1.5 text-sm text-[var(--text-body,#4A4A4A)] leading-relaxed">{body}</p>
                 <a
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
@@ -209,10 +209,10 @@ function ContactPage() {
                       </span>
                       <div>
                         <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{b.name}</h3>
-                        <span className="text-xs font-semibold uppercase tracking-wide text-[#D42229]">{b.label}</span>
+                        <span className="text-xs font-semibold uppercase tracking-wide text-[var(--text-eyebrow)]">{b.label}</span>
                       </div>
                     </div>
-                    <ul className="space-y-1.5 text-sm text-[var(--cevons-muted,#64748B)]">
+                    <ul className="space-y-1.5 text-sm text-[var(--text-body,#4A4A4A)]">
                       <li className="flex gap-2"><MapPin className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />{b.address}</li>
                       <li className="flex gap-2"><Phone className="size-4 mt-0.5 shrink-0 text-[var(--cevons-deep-green,#EF7700)]" />
                         <span className="flex flex-wrap gap-x-2 gap-y-0.5">
@@ -309,22 +309,22 @@ function ContactPage() {
               </div>
 
               {/* RIGHT: action card */}
-              <div className="relative rounded-2xl bg-white/95 backdrop-blur-sm p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-white/60">
+              <div className="relative rounded-2xl bg-[var(--surface-page)] p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)] ring-1 ring-[var(--hairline)]">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)]">Talk to us now</p>
 
                 <a
                   href={primaryTelHref}
-                  className="mt-2 flex items-center gap-3 text-[#1A1A1A] hover:text-[var(--brand-orange)] transition-colors group"
+                  className="mt-2 flex items-center gap-3 text-[var(--text-heading)] hover:text-[var(--brand-orange)] transition-colors group"
                 >
                   <Phone className="size-6 text-[var(--brand-orange)] shrink-0" />
                   <span className="text-2xl sm:text-3xl font-extrabold tracking-tight group-hover:underline underline-offset-4 decoration-[var(--brand-orange)]/40">
                     {cevonsContact.primaryPhone}
                   </span>
                 </a>
-                <p className="mt-1 text-sm text-[#64748B]">Tap to call our dispatch line.</p>
+                <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)]">Tap to call our dispatch line.</p>
 
-                <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] font-bold text-[#64748B]">
-                  <span className="h-px flex-1 bg-[#E5E7EB]" /> or <span className="h-px flex-1 bg-[#E5E7EB]" />
+                <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] font-bold text-[var(--text-body,#4A4A4A)]">
+                  <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" /> or <span className="h-px flex-1 bg-[var(--hairline,#E5E7EB)]" />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3">

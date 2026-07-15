@@ -36,9 +36,10 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
       to={to}
       aria-current={isActive ? "page" : undefined}
       className={`group/link inline-flex items-center gap-1.5 text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
-        isActive ? "text-[color:var(--fa-orange)] font-semibold" : "text-white/75 hover:text-[color:var(--fa-orange)]"
+        isActive
+          ? "text-white font-semibold underline underline-offset-4 decoration-[color:var(--brand-yellow)] decoration-2"
+          : "text-white/85 hover:text-white hover:underline hover:underline-offset-4 hover:decoration-white/70"
       }`}
-      style={{ ["--fa-orange" as never]: BRAND_ORANGE }}
     >
       <ArrowRight
         aria-hidden
@@ -47,8 +48,9 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
             ? "opacity-100 translate-x-0"
             : "opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-focus-visible/link:opacity-100 group-focus-visible/link:translate-x-0"
         }`}
-        style={{ color: BRAND_ORANGE }}
+        style={{ color: "var(--brand-yellow)" }}
       />
+
       <span
         className={`transition-transform duration-200 motion-reduce:transition-none ${
           isActive ? "translate-x-0" : "group-hover/link:translate-x-0.5 group-focus-visible/link:translate-x-0.5"
@@ -74,7 +76,7 @@ function LinkCol({
       <h4 className="text-white text-xs font-bold uppercase tracking-[0.18em] mb-2">
         {title}
       </h4>
-      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: BRAND_ORANGE }} />
+      <span aria-hidden className="block h-[3px] w-8 rounded-full mb-5" style={{ backgroundColor: "var(--brand-yellow)" }} />
       <ul className="space-y-2.5">
         {items.map((l) => (
           <li key={l.label + l.to}>
@@ -83,6 +85,7 @@ function LinkCol({
         ))}
       </ul>
     </div>
+
   );
 }
 
@@ -138,22 +141,44 @@ export function Footer() {
         <NewsletterSignup source="footer-card" variant="card" />
       </section>
 
-      <div className="bg-[#0F0F0F] text-white relative overflow-hidden">
-        {/* thin gradient accent divider */}
+      <div className="relative overflow-hidden text-white" style={{ backgroundColor: "var(--surface-footer)" }}>
+        {/* Solid orange top rule — delineates the footer in both light and dark modes */}
         <div
           aria-hidden
           className="h-[3px] w-full"
-          style={{ background: "linear-gradient(90deg, transparent 0%, var(--brand-orange) 30%, #F5A300 50%, var(--brand-orange) 70%, transparent 100%)" }}
+          style={{ backgroundColor: "var(--brand-orange)" }}
+        />
+
+        {/* Decorative semi-circle — brand guideline "circles & semi-circles" */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-40 -bottom-40 block rounded-full"
+          style={{
+            width: "36rem",
+            height: "36rem",
+            background:
+              "radial-gradient(circle at center, rgba(252,231,34,0.08) 0%, rgba(239,119,0,0.06) 45%, transparent 70%)",
+          }}
+        />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -left-32 -top-32 block rounded-full border"
+          style={{
+            width: "22rem",
+            height: "22rem",
+            borderColor: "rgba(255,255,255,0.06)",
+          }}
         />
 
         {/* faint watermark C */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.025] select-none"
+          className="pointer-events-none absolute -right-10 -bottom-24 text-white/[0.04] select-none"
           style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", fontSize: "28rem", fontWeight: 900, lineHeight: 1 }}
         >
           C
         </span>
+
 
         {/* ZONE 3 — Main link grid */}
         <div className="container-cevons py-14 md:py-16 relative">
@@ -176,11 +201,12 @@ export function Footer() {
               </div>
               <p
                 className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: BRAND_ORANGE }}
+                style={{ color: "var(--brand-yellow)" }}
               >
                 Environmental Services Inc.
               </p>
-              <p className="mt-5 text-white/70 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
+              <p className="mt-5 text-white/85 text-sm leading-relaxed max-w-sm">{t("footer.tagline")}</p>
+
 
               {/* Social icons */}
               <div className="mt-6 flex items-center gap-2.5">
@@ -189,7 +215,7 @@ export function Footer() {
                   const label = disabled ? `${s.name} — Coming soon` : `Follow CEVONS on ${s.name}`;
                   const isBrandColored = s.platform === "facebook" || s.platform === "instagram";
                   const common =
-                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0F0F] overflow-hidden";
+                    "size-10 rounded-full flex items-center justify-center transition-all duration-300 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cevons-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-footer)] overflow-hidden";
                   const iconClass = isBrandColored ? "size-10" : "size-4";
                   if (disabled) {
                     return (
@@ -259,27 +285,27 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 relative">
           <div className="container-cevons py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <p className="text-white/60 text-xs">
+            <p className="text-white/75 text-xs">
               © {year} CEVONS Environmental Services Inc. All rights reserved.
             </p>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.privacy")}</span>
-              <span className="text-white/20">|</span>
-              <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/40">{t("footer.terms")}</span>
-              <span className="text-white/20">|</span>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/75">
+              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/50">{t("footer.privacy")}</span>
+              <span className="text-white/30">|</span>
+              <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/50">{t("footer.terms")}</span>
+              <span className="text-white/30">|</span>
               <Link
                 to="/sitemap"
-                className="group/sm inline-flex items-center gap-1 text-white/60 hover:text-[color:var(--brand-orange)] focus-visible:text-[color:var(--brand-orange)] transition-colors motion-reduce:transition-none"
-                style={{ ["--brand-orange" as never]: BRAND_ORANGE }}
+                className="group/sm inline-flex items-center gap-1 text-white/85 hover:text-white hover:underline underline-offset-4 focus-visible:text-white focus-visible:underline transition-colors motion-reduce:transition-none"
               >
                 <ArrowRight
                   aria-hidden
                   className="size-3 opacity-0 -translate-x-1 group-hover/sm:opacity-100 group-hover/sm:translate-x-0 group-focus-visible/sm:opacity-100 group-focus-visible/sm:translate-x-0 transition-all duration-200 motion-reduce:transition-none"
-                  style={{ color: BRAND_ORANGE }}
+                  style={{ color: "var(--brand-yellow)" }}
                 />
                 {t("footer.sitemap")}
               </Link>
             </div>
+
             <div className="flex items-center gap-3 text-xs">
               <span className="text-white/60">{t("footer.serving")}</span>
               <span
@@ -339,7 +365,7 @@ function GetInTouch({ t, isExternalWA }: { t: (k: string) => string; isExternalW
               <Phone className="size-4" />
             </span>
             <div className="min-w-0">
-              <p className="text-white text-sm font-semibold leading-tight" style={{ color: BRAND_ORANGE }}>
+              <p className="text-white text-sm font-semibold leading-tight" style={{ color: "var(--brand-yellow)" }}>
                 {cevonsContact.primaryPhone}
               </p>
               <p className="text-white/60 text-xs">{t("footer.callHours")}</p>

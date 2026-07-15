@@ -146,7 +146,7 @@ export function SocialProofMarquee({
             <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-extrabold text-[var(--cevons-deep-green,#1A1A1A)] leading-tight">
               Trusted by Homes, Businesses &amp; Industries Across Guyana
             </h2>
-            <p className="mt-4 text-[var(--cevons-muted,#64748B)] text-base md:text-lg">
+            <p className="mt-4 text-[var(--text-body,#4A4A4A)] text-base md:text-lg">
               From residential collection to industrial waste and facility
               operations, CEVONS supports communities and organizations
               across Georgetown, Linden, and Berbice.

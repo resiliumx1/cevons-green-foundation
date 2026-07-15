@@ -405,7 +405,7 @@ function RequestServicePage() {
                 )}
               </div>
               {submitError && (
-                <p className="mt-3 text-sm text-[#D42229] font-medium">{submitError}</p>
+                <p className="mt-3 text-sm text-[var(--text-eyebrow)] font-medium">{submitError}</p>
               )}
               </motion.div>
             </AnimatePresence>

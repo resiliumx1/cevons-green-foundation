@@ -68,7 +68,7 @@ function FollowCard({ s, index }: { s: SocialLink; index: number }) {
           >
             {s.name}
           </p>
-          <p className="text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/60 truncate">
+          <p className="text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/60 truncate">
             {s.handle}
           </p>
         </div>
@@ -77,7 +77,7 @@ function FollowCard({ s, index }: { s: SocialLink; index: number }) {
       <div className="relative mt-5">
         {disabled ? (
           <span
-            className="inline-flex items-center gap-1.5 rounded-full bg-black/5 dark:bg-white/10 text-[var(--cevons-muted,#64748B)] dark:text-white/60 text-xs font-semibold px-3 py-1.5 cursor-not-allowed"
+            className="inline-flex items-center gap-1.5 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-body,#4A4A4A)] dark:text-white/60 text-xs font-semibold px-3 py-1.5 cursor-not-allowed"
             aria-label={`${s.name} — Coming soon`}
             title="Coming soon"
           >
@@ -205,7 +205,7 @@ function FallbackCard({ s }: { s: SocialLink }) {
       >
         View our latest posts on {s.name}
       </h4>
-      <p className="mt-2 max-w-sm text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/65">
+      <p className="mt-2 max-w-sm text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/65">
         Follow {s.handle} to stay up to date with CEVONS news, community events,
         and behind-the-scenes from across Guyana.
       </p>
@@ -220,7 +220,7 @@ function FallbackCard({ s }: { s: SocialLink }) {
           Visit {s.name} <ArrowUpRight className="size-4" />
         </a>
       ) : (
-        <span className="mt-6 inline-flex items-center rounded-full bg-black/5 dark:bg-white/10 text-[var(--cevons-muted,#64748B)] dark:text-white/60 text-xs font-semibold px-4 py-2">
+        <span className="mt-6 inline-flex items-center rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-body,#4A4A4A)] dark:text-white/60 text-xs font-semibold px-4 py-2">
           Coming soon
         </span>
       )}
@@ -248,7 +248,7 @@ export function NewsroomSocialSection() {
           >
             Follow CEVONS
           </h2>
-          <p className="mt-3 text-[var(--cevons-muted,#64748B)] dark:text-white/65">
+          <p className="mt-3 text-[var(--text-body,#4A4A4A)] dark:text-white/65">
             From our trucks to the community — follow along for the latest
             updates from across Guyana.
           </p>

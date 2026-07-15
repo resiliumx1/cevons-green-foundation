@@ -141,10 +141,10 @@ function AboutPage() {
               <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
                 Supporting a Cleaner, Safer Guyana
               </h2>
-              <p className="mt-5 text-[var(--cevons-muted,#64748B)] leading-relaxed text-base md:text-lg">
+              <p className="mt-5 text-[var(--text-body,#4A4A4A)] leading-relaxed text-base md:text-lg">
                 For over 25 years, CEVONS Environmental Services Inc. has helped homes, businesses, industries, and communities manage waste responsibly. From collection and rentals to specialized environmental services, our team is committed to reliable service, safety, and environmental responsibility.
               </p>
-              <p className="mt-4 text-[var(--cevons-muted,#64748B)] leading-relaxed">
+              <p className="mt-4 text-[var(--text-body,#4A4A4A)] leading-relaxed">
                 We serve Georgetown, Linden, and Berbice with a growing fleet and a dedicated team focused on protecting the environment while delivering dependable customer support.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
@@ -204,7 +204,7 @@ function AboutPage() {
                   <Icon className="size-7" />
                 </span>
                 <h3 className="text-2xl font-extrabold text-[#1A1A1A] dark:text-white">{title}</h3>
-                <p className="mt-3 leading-relaxed text-[var(--cevons-muted,#64748B)] dark:text-white/75">
+                <p className="mt-3 leading-relaxed text-[var(--text-body,#4A4A4A)] dark:text-white/75">
                   {body}
                 </p>
               </div>
@@ -223,7 +223,7 @@ function AboutPage() {
             <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Certified. Compliant. Committed.
             </h2>
-            <p className="mt-4 text-[var(--cevons-muted,#64748B)]">
+            <p className="mt-4 text-[var(--text-body,#4A4A4A)]">
               CEVONS is committed to responsible environmental practices and professional service standards.
             </p>
           </div>
@@ -239,7 +239,7 @@ function AboutPage() {
                   <Icon className="size-7" />
                 </span>
                 <h3 className="text-lg font-bold text-[var(--cevons-deep-green,#EF7700)]">{title}</h3>
-                <p className="mt-2 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70 leading-relaxed">{body}</p>
+                <p className="mt-2 text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/70 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -270,7 +270,7 @@ function AboutPage() {
                   <p className="mt-4 text-2xl md:text-3xl font-extrabold leading-tight text-[#1A1A1A] dark:text-white tracking-tight">
                     {value}
                   </p>
-                  <p className="mt-1.5 text-xs md:text-sm text-[#64748B] dark:text-white/70 font-medium">{label}</p>
+                  <p className="mt-1.5 text-xs md:text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/70 font-medium">{label}</p>
                   {i === 0 && (
                     <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-eyebrow)]">
                       {new Date().getFullYear() - 1997}+ Years
@@ -314,7 +314,7 @@ function AboutPage() {
                 </div>
                 <div className="p-5">
                   <h3 className="text-base font-bold text-[var(--cevons-deep-green,#EF7700)]">{caption}</h3>
-                  <p className="mt-1 text-sm text-[var(--cevons-muted,#64748B)] dark:text-white/70">{sub}</p>
+                  <p className="mt-1 text-sm text-[var(--text-body,#4A4A4A)] dark:text-white/70">{sub}</p>
                 </div>
               </div>
             ))}

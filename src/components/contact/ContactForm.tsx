@@ -52,7 +52,7 @@ const initialForm: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--cevons-muted,#64748B)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#EF7700)]/30 focus:border-[var(--cevons-deep-green,#EF7700)] transition";
+  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--text-body,#4A4A4A)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#EF7700)]/30 focus:border-[var(--cevons-deep-green,#EF7700)] transition";
 const inputErrClass =
   "border-red-400 focus:ring-red-300 focus:border-red-500";
 
@@ -255,7 +255,7 @@ export function ContactForm() {
         <div className="px-6 py-7 space-y-5">
           <div className="rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/15 bg-[var(--cevons-cream,#FBF7EE)] px-5 py-4 flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-muted,#64748B)]">Reference</p>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-body,#4A4A4A)]">Reference</p>
               <p className="mt-1 font-mono text-xl font-bold text-[var(--cevons-deep-green,#EF7700)]">{result.reference}</p>
             </div>
             <button
@@ -270,13 +270,13 @@ export function ContactForm() {
           </div>
 
           <div className="rounded-xl border border-[var(--cevons-border,#E5E7EB)] p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--cevons-muted,#64748B)] mb-3">What you sent</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-body,#4A4A4A)] mb-3">What you sent</p>
             <dl className="text-sm space-y-2 text-[var(--cevons-dark,#101820)]">
-              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--cevons-muted,#64748B)]">Subject</dt><dd className="font-medium">{form.subject}</dd></div>
-              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--cevons-muted,#64748B)]">Email</dt><dd>{form.email}</dd></div>
-              {form.phone && <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--cevons-muted,#64748B)]">Phone</dt><dd>{form.phone}</dd></div>}
-              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--cevons-muted,#64748B)]">Message</dt><dd className="whitespace-pre-wrap">{form.message}</dd></div>
-              {file && <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--cevons-muted,#64748B)]">File</dt><dd className="flex items-center gap-1"><FileText className="size-4" />{file.name}</dd></div>}
+              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Subject</dt><dd className="font-medium">{form.subject}</dd></div>
+              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Email</dt><dd>{form.email}</dd></div>
+              {form.phone && <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Phone</dt><dd>{form.phone}</dd></div>}
+              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Message</dt><dd className="whitespace-pre-wrap">{form.message}</dd></div>
+              {file && <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">File</dt><dd className="flex items-center gap-1"><FileText className="size-4" />{file.name}</dd></div>}
             </dl>
           </div>
 
@@ -324,7 +324,7 @@ export function ContactForm() {
           </p>
         </div>
         <div className="px-6 py-7 space-y-5">
-          <p className="text-sm text-[var(--cevons-muted,#64748B)]">
+          <p className="text-sm text-[var(--text-body,#4A4A4A)]">
             If it&rsquo;s urgent, send us a quick WhatsApp and we&rsquo;ll prioritize your reference.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -396,12 +396,12 @@ export function ContactForm() {
 
         <div>
           <label className="flex items-center gap-3 rounded-xl border border-dashed border-[var(--cevons-border,#E5E7EB)] px-4 py-3 cursor-pointer hover:bg-[var(--cevons-cream,#FBF7EE)] transition-colors">
-            <Upload className="size-5 text-[var(--cevons-muted,#64748B)]" />
-            <span className="text-sm text-[var(--cevons-muted,#64748B)] flex-1 truncate">
+            <Upload className="size-5 text-[var(--text-body,#4A4A4A)]" />
+            <span className="text-sm text-[var(--text-body,#4A4A4A)] flex-1 truncate">
               {file ? file.name : "Upload attachment (optional) — JPG, PNG, PDF, DOC · max 10MB"}
             </span>
             {file && (
-              <button type="button" onClick={(e) => { e.preventDefault(); setFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }} className="text-xs text-[var(--cevons-muted,#64748B)] hover:text-red-600">Remove</button>
+              <button type="button" onClick={(e) => { e.preventDefault(); setFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }} className="text-xs text-[var(--text-body,#4A4A4A)] hover:text-red-600">Remove</button>
             )}
             <input ref={fileInputRef} type="file" className="sr-only" onChange={onFile}
               accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.pdf,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
@@ -447,7 +447,7 @@ export function ContactForm() {
                 {form.phone && <Row label="Phone" value={form.phone} />}
                 <Row label="Subject" value={form.subject} />
                 <div>
-                  <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--cevons-muted,#64748B)] mb-1">Message</dt>
+                  <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-body,#4A4A4A)] mb-1">Message</dt>
                   <dd className="rounded-lg bg-[var(--cevons-cream,#FBF7EE)] px-4 py-3 text-[var(--cevons-dark,#101820)] max-h-44 overflow-y-auto whitespace-pre-wrap">{form.message}</dd>
                 </div>
                 {file && (
@@ -492,7 +492,7 @@ export function ContactForm() {
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex gap-3">
-      <dt className="w-24 shrink-0 text-xs font-bold uppercase tracking-[0.14em] text-[var(--cevons-muted,#64748B)] pt-0.5">{label}</dt>
+      <dt className="w-24 shrink-0 text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-body,#4A4A4A)] pt-0.5">{label}</dt>
       <dd className="text-[var(--cevons-dark,#101820)] break-words min-w-0">{value}</dd>
     </div>
   );
