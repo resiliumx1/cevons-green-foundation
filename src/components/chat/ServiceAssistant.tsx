@@ -422,22 +422,29 @@ export function ServiceAssistant() {
                          md:inset-auto md:bottom-5 md:right-5 md:left-auto md:top-auto md:w-[440px] md:h-[680px] md:max-h-[85vh] md:rounded-[28px]
                          border border-black/5"
             >
-              {/* ============ HEADER ============ */}
+              {/* ============ HEADER ============
+                  Fixed charcoal on the orange fill (6.06:1). Same reason as
+                  the launcher: the text-[#1A1A1A] utility is globally
+                  remapped to white in dark mode and would collapse contrast
+                  on the orange field, so we use inline var(--text-on-orange). */}
               <div
-                className="relative flex items-center gap-3 px-4 pt-3 pb-4 text-[#1A1A1A]"
-                style={{ background: orangeGradient }}
+                className="relative flex items-center gap-3 px-4 pt-3 pb-4"
+                style={{ background: orangeGradient, color: "var(--text-on-orange)" }}
               >
                 <EmblemBadge size={42} />
                 <div className="min-w-0 flex-1">
                   <p
-                    className="font-bold truncate text-[15px] leading-tight text-[#1A1A1A]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    className="font-bold truncate text-[15px] leading-tight"
+                    style={{ fontFamily: "'Playfair Display', serif", color: "var(--text-on-orange)" }}
                   >
                     Cev — CEVONS Assistant
                   </p>
                   <p
-                    className="text-[11px] text-[#1A1A1A]/85 flex items-center gap-1.5 mt-0.5"
-                    style={{ fontFamily: "'Open Sans', system-ui, sans-serif" }}
+                    className="text-[11px] flex items-center gap-1.5 mt-0.5"
+                    style={{
+                      fontFamily: "'Open Sans', system-ui, sans-serif",
+                      color: "color-mix(in srgb, var(--text-on-orange) 85%, transparent)",
+                    }}
                   >
                     <span className="relative inline-flex h-2 w-2">
                       <span className="absolute inline-flex h-full w-full rounded-full bg-[#0F5F27] opacity-70 animate-ping" />
@@ -448,7 +455,8 @@ export function ServiceAssistant() {
                 </div>
                 <button
                   onClick={handleResetClick}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 transition"
+                  style={{ color: "var(--text-on-orange)" }}
                   aria-label="Start a new conversation"
                   title="New conversation"
                 >
@@ -456,7 +464,8 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 transition"
+                  style={{ color: "var(--text-on-orange)" }}
                   aria-label="Minimize chat"
                   title="Minimize"
                 >
@@ -464,7 +473,8 @@ export function ServiceAssistant() {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 text-[#1A1A1A] transition"
+                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 hover:bg-black/20 transition"
+                  style={{ color: "var(--text-on-orange)" }}
                   aria-label="Close chat"
                   title="Close"
                 >
