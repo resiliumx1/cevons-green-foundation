@@ -138,13 +138,13 @@ export function Header() {
           <span className="flex flex-col justify-center leading-none">
             <span
               className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
-              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "var(--brand-orange)" }}
+              style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "#000000" }}
             >
               CEVONS
             </span>
             <span
               className="hidden md:block mt-0.5 text-[9px] lg:text-[9.5px] font-semibold uppercase tracking-[0.18em]"
-              style={{ color: "var(--brand-orange)" }}
+              style={{ color: "#000000" }}
             >
               Environmental Services Inc.
             </span>
@@ -155,27 +155,44 @@ export function Header() {
         <nav className="hidden lg:flex items-center justify-center gap-0.5 flex-1 min-w-0" aria-label="Primary">
           {nav.map((item) => {
             const active = isActive(item.to);
+            const isPartners = item.key === "partners";
+            const triggerClass = `relative px-2 py-2 text-[13px] font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap ${
+              active
+                ? "text-[var(--brand-orange)]"
+                : "text-cevons-dark hover:text-[var(--brand-orange)]/80"
+            }`;
+            const underline = (
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2.5px] rounded-full motion-safe:transition-all motion-safe:duration-300 ${
+                  active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                } origin-center`}
+                style={{ backgroundColor: ACTIVE_ORANGE }}
+              />
+            );
             return (
             <div key={item.to} className="relative group">
-              <Link
-                to={item.to}
-                className={`relative px-2 py-2 text-[13px] font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap ${
-                  active
-                    ? "text-[var(--brand-orange)]"
-                    : "text-cevons-dark hover:text-[var(--brand-orange)]/80"
-                }`}
-                aria-current={active ? "page" : undefined}
-              >
-                {t(`nav.${item.key}`)}
-                {item.hasDropdown && <ChevronDown className="size-3.5" />}
-                <span
-                  aria-hidden
-                  className={`pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2.5px] rounded-full bg-[${ACTIVE_ORANGE}] motion-safe:transition-all motion-safe:duration-300 ${
-                    active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-                  } origin-center`}
-                  style={{ backgroundColor: ACTIVE_ORANGE }}
-                />
-              </Link>
+              {isPartners ? (
+                <button
+                  type="button"
+                  className={triggerClass}
+                  aria-haspopup="menu"
+                >
+                  {t(`nav.${item.key}`)}
+                  <ChevronDown className="size-3.5" />
+                  {underline}
+                </button>
+              ) : (
+                <Link
+                  to={item.to}
+                  className={triggerClass}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {t(`nav.${item.key}`)}
+                  {item.hasDropdown && <ChevronDown className="size-3.5" />}
+                  {underline}
+                </Link>
+              )}
               {item.hasDropdown && item.key === "services" && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <div
