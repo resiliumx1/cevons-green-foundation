@@ -337,12 +337,16 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
-        className={`group fixed z-[60] text-left text-[#1A1A1A] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
+        className={`group fixed z-[60] text-left transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
           sm:flex sm:items-center sm:gap-3 sm:rounded-full sm:pl-3 sm:pr-5 sm:py-2.5 sm:min-h-[64px] sm:shadow-[0_14px_34px_rgba(239,119,0,0.35)]
           grid place-items-center h-16 w-16 rounded-full shadow-[0_10px_24px_rgba(239,119,0,0.4)]
           ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"} ${open ? "pointer-events-none opacity-0" : ""}`}
         style={{
           background: orangeGradient,
+          /* Fixed charcoal on orange (6.06:1). Do NOT use text-[#1A1A1A] utility —
+             a global dark-mode override remaps that class to white, which would
+             collapse to 2.87:1 on the orange launcher. */
+          color: "var(--text-on-orange)",
           bottom: "calc(20px + env(safe-area-inset-bottom))",
           right: 18,
         }}
@@ -372,16 +376,20 @@ export function ServiceAssistant() {
         </span>
         <span className="hidden sm:flex flex-col leading-tight">
           <span
-            className="text-[16px] font-bold text-[#1A1A1A]"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="text-[16px] font-bold"
+            style={{ fontFamily: "'Playfair Display', serif", color: "var(--text-on-orange)" }}
           >
             Ask CEVONS
           </span>
           <span
-            className="flex items-center gap-1 text-[10px] font-semibold uppercase text-[#1A1A1A]/80"
-            style={{ fontFamily: "'Open Sans', system-ui, sans-serif", letterSpacing: "0.16em" }}
+            className="flex items-center gap-1 text-[10px] font-semibold uppercase"
+            style={{
+              fontFamily: "'Open Sans', system-ui, sans-serif",
+              letterSpacing: "0.16em",
+              color: "color-mix(in srgb, var(--text-on-orange) 82%, transparent)",
+            }}
           >
-            <Leaf className="h-2.5 w-2.5" style={{ color: "#1A1A1A" }} />
+            <Leaf className="h-2.5 w-2.5" style={{ color: "var(--text-on-orange)" }} />
             AI Assistant
           </span>
         </span>
