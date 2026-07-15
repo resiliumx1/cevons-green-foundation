@@ -1132,16 +1132,16 @@
   position: absolute;
   width: 0.22em;
   height: 0.4em;
-  background: linear-gradient(135deg, #B6FF7A, #35E76B 60%, #0FA34A);
+  background: linear-gradient(135deg, rgba(45, 163, 57, 0.45), rgba(45, 163, 57, 0.9) 60%, #2DA339);
   border-radius: 100% 0 100% 0;
   opacity: 0.55;
-  filter: drop-shadow(0 0 6px rgba(53, 231, 107, 0.35));
+  filter: drop-shadow(0 0 6px rgba(45, 163, 57, 0.4));
   transform-origin: bottom center;
   pointer-events: none;
 }
 .eco-leaf.gold {
-  background: linear-gradient(135deg, #FFE789, #F5C518 60%, #B8860B);
-  filter: drop-shadow(0 0 6px rgba(245, 197, 24, 0.4));
+  background: linear-gradient(135deg, rgba(252, 231, 34, 0.5), rgba(252, 231, 34, 0.9) 60%, #FCE722);
+  filter: drop-shadow(0 0 6px rgba(252, 231, 34, 0.45));
 }
 .leaf-one   { top: 0.05em;  left: -0.12em;   animation: leafFloatOne   11s  ease-in-out infinite; }
 .leaf-two   { top: -0.18em; left: 38%;       animation: leafFloatTwo   13s  ease-in-out infinite -2s; }
