@@ -177,14 +177,34 @@ function RequestServicePage() {
     return Object.keys(e).length === 0;
   }
 
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  function clearAdvanceTimer() {
+    if (advanceTimerRef.current !== null) {
+      clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
+  }
+  useEffect(() => () => clearAdvanceTimer(), []);
+
   function next() {
     if (!validate()) return;
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function back() {
+    clearAdvanceTimer();
     setStep((s) => Math.max(s - 1, 0));
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  /** Schedule an auto-advance ~280ms after a single-select click so the
+   * user sees their choice register. Only ever called from user click
+   * handlers — never from mount — so hitting Back doesn't trap them. */
+  function scheduleAdvance() {
+    clearAdvanceTimer();
+    advanceTimerRef.current = setTimeout(() => {
+      advanceTimerRef.current = null;
+      next();
+    }, 280);
   }
 
   const [submitting, setSubmitting] = useState(false);
