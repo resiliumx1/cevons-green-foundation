@@ -125,30 +125,37 @@ function HomePage() {
               {t("home.pillars.titleA")} <span className="text-cevons-green">{t("home.pillars.titleB")}</span> {t("home.pillars.titleC")}
             </h2>
           </Reveal>
-          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {pillars.map(({ img, key, iconKey }) => {
               const title = t(`home.pillars.items.${key}.title`);
               const body = t(`home.pillars.items.${key}.body`);
               return (
-                <StaggerItem as="article" key={key} className="card-cevons group">
+                <StaggerItem as="article" key={key} className="card-cevons group flex flex-col h-full">
                   <div className="relative aspect-[4/3] overflow-hidden">
-                    <img src={img} alt={`${title} waste management services in Guyana`} loading="lazy" className="size-full object-cover transition-transform duration-500" />
+                    <img src={img} alt={`${title} waste management services in Guyana`} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-cevons-dark/30 to-transparent" />
                   </div>
-                  <div className="relative p-6 pt-12">
+                  <div className="relative p-6 pt-12 flex flex-col flex-1">
                     <span className="absolute -top-8 left-5 h-16 w-16 rounded-2xl bg-[#101820] border-4 border-white overflow-hidden shadow-lift transition-transform duration-300 group-hover:scale-[1.04]">
                       <CevonsIcon group="categories" name={iconKey} fill decorative />
                     </span>
-                    <h3 className="text-xl font-bold text-cevons-dark">{title}</h3>
+                    <h3 className="text-xl font-bold text-cevons-dark min-h-[2rem]">{title}</h3>
                     <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{body}</p>
-                    <a href="/services" className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-cevons-green hover:gap-2 transition-all">
-                      {t("home.pillars.explore")} <ArrowRight className="size-4" />
-                    </a>
+                    <div className="mt-auto pt-6">
+                      <a
+                        href="/services"
+                        className="group/cta inline-flex items-center justify-center gap-1.5 rounded-full border border-cevons-green/30 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-cevons-green transition-all duration-300 hover:border-cevons-green hover:bg-cevons-green hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-10px_rgba(0,107,53,0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2"
+                      >
+                        {t("home.pillars.explore")}
+                        <ArrowRight className="size-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5" />
+                      </a>
+                    </div>
                   </div>
                 </StaggerItem>
               );
             })}
           </Stagger>
+
         </div>
       </section>
 
