@@ -64,10 +64,12 @@ export function ServiceActionButton({
   ].join(" ");
 
   const requestCls = [
-    "text-white shadow-[0_6px_18px_-8px_rgba(239,119,0,0.65)]",
-    "bg-[linear-gradient(135deg,var(--brand-orange)_0%,var(--brand-orange-dark,#C45F00)_100%)]",
-    "ring-1 ring-inset ring-white/15",
-    "hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(239,119,0,0.7)]",
+    /* Flat brand-orange keeps charcoal text at 6.06:1 (AA) across the entire fill.
+       A gradient to #C45F00 would drop charcoal to 4.13:1 — banned. */
+    "text-[var(--text-on-orange)] shadow-[0_6px_18px_-8px_rgba(239,119,0,0.55)]",
+    "bg-[var(--brand-orange)]",
+    "ring-1 ring-inset ring-black/10",
+    "hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(239,119,0,0.7)] hover:brightness-[1.04]",
     "focus-visible:ring-[var(--brand-orange)]",
   ].join(" ");
 
