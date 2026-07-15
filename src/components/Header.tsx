@@ -137,7 +137,7 @@ export function Header() {
           </span>
           <span className="flex flex-col justify-center leading-none">
             <span
-              className="text-[17px] lg:text-[19px] font-extrabold tracking-tight"
+              className="text-[19px] font-extrabold tracking-tight"
               style={{ fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif", color: "var(--brand-green)" }}
             >
               CEVONS
