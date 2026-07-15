@@ -2450,9 +2450,9 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
     width: 30px;
     height: 30px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    color: #fff;
+    background: rgba(26, 26, 26, 0.18);
+    border: 1px solid rgba(26, 26, 26, 0.35);
+    color: #1A1A1A;
     display: grid;
     place-items: center;
     font-size: 15px;
@@ -2460,39 +2460,39 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
     line-height: 1;
   }
   [data-hero-scope] .hero-cta--whatsapp {
-    background: linear-gradient(135deg, #0FAF45 0%, #047A2B 100%) !important;
-    box-shadow: 0 12px 28px rgba(0,150,70,0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
-    color: #fff !important;
+    background: linear-gradient(135deg, #2DA339 0%, rgba(45, 163, 57, 0.85) 100%) !important;
+    box-shadow: 0 12px 28px rgba(45, 163, 57, 0.32), inset 0 1px 0 rgba(255,255,255,0.22) !important;
+    color: var(--text-on-green) !important;
   }
   [data-hero-scope] .hero-cta--schedule {
     background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-orange-dark) 100%) !important;
     box-shadow: 0 12px 28px rgba(239,119,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22) !important;
-    color: #fff !important;
+    color: var(--text-on-orange) !important;
   }
   [data-hero-scope] .hero-cta__icon,
   [data-hero-scope] .hero-cta > svg:first-child {
     width: 40px !important;
     height: 40px !important;
     border-radius: 12px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(26, 26, 26, 0.15);
+    border: 1px solid rgba(26, 26, 26, 0.24);
     display: grid;
     place-items: center;
     flex-shrink: 0;
-    color: #fff !important;
+    color: #1A1A1A !important;
   }
   [data-hero-scope] .hero-cta > svg:first-child { padding: 9px; }
   [data-hero-scope] .hero-cta__icon svg { width: 20px; height: 20px; }
   [data-hero-scope] .hero-cta__text { padding-right: 38px; }
-  [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #fff !important; line-height: 1.1; }
+  [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #1A1A1A !important; line-height: 1.1; }
   [data-hero-scope] .hero-cta__sub {
     font-size: 0.74rem;
-    color: rgba(255,255,255,0.88) !important;
+    color: rgba(26, 26, 26, 0.75) !important;
     font-weight: 500;
     margin-top: 2px;
     line-height: 1.15;
   }
-  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(255,255,255,0.9) !important; }
+  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.75) !important; }
 
   /* Trust chips — single glass bar with 3 columns + dividers */
   [data-hero-scope] ul[aria-label="Service guarantees"] {
