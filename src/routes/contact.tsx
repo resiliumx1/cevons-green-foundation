@@ -169,7 +169,7 @@ function ContactPage() {
       </section>
 
       {/* CONTACT FORM + BRANCH INFO */}
-      <section className="section-y bg-white" aria-label="Contact form and branches">
+      <section className="section-y bg-[var(--surface-page)]" aria-label="Contact form and branches">
         <div className="container-cevons">
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
             {/* FORM */}
