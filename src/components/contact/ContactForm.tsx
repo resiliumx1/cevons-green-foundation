@@ -52,7 +52,7 @@ const initialForm: FormState = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--text-body,#4A4A4A)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#EF7700)]/30 focus:border-[var(--cevons-deep-green,#EF7700)] transition";
+  "w-full rounded-xl border border-[var(--cevons-border,#E5E7EB)] bg-white px-4 py-3 text-sm text-[var(--cevons-dark,#101820)] placeholder:text-[var(--text-placeholder)] focus:outline-none focus:ring-2 focus:ring-[var(--cevons-deep-green,#EF7700)]/30 focus:border-[var(--cevons-deep-green,#EF7700)] transition";
 const inputErrClass =
   "border-red-400 focus:ring-red-300 focus:border-red-500";
 
