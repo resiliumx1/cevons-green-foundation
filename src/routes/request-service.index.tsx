@@ -598,6 +598,58 @@ function StepDetails({
       <div className="mt-6 grid md:grid-cols-2 gap-4">
         {type === "dumpster" && (
           <>
+            <Field label="Bin size" full>
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  { size: "10 cu yd", dims: "12 ft × 6 ft × 4 ft", equiv: "≈ 60 garbage bags — about the size of a small car", best: "Small clean-ups and home renovations", badge: "Most common" },
+                  { size: "30 cu yd", dims: "22 ft × 8 ft × 4.5 ft", equiv: "≈ 10 pickup truck loads", best: "Medium to large construction and larger cleanups", badge: "Most popular" },
+                  { size: "40 cu yd", dims: "22 ft × 8 ft × 6 ft", equiv: "Room for bulky items like tables and chairs", best: "Complete residential cleanouts and commercial cleanup" },
+                  { size: "52 cu yd", dims: "22 ft × 8 ft × 9 ft", equiv: "The Mother of all Bins — our largest skip", best: "Very large demolition and industrial applications" },
+                  { size: "Not sure — help me choose", dims: "", equiv: "We'll recommend the right bin based on your project.", best: "" },
+                ].map((opt) => {
+                  const active = details.size === opt.size;
+                  return (
+                    <button
+                      type="button"
+                      key={opt.size}
+                      onClick={() => setDetail("size", opt.size)}
+                      className={`w-full text-left rounded-xl border p-3 flex items-start gap-3 transition-colors ${active ? "border-[var(--brand-orange)] bg-[var(--brand-orange)]/5" : "border-border hover:border-[var(--brand-orange)]/50"}`}
+                    >
+                      <div className="shrink-0 w-16 text-center">
+                        {opt.size.startsWith("Not sure") ? (
+                          <div className="text-xs font-semibold leading-tight pt-1">Not sure</div>
+                        ) : (
+                          <>
+                            <div className="text-2xl font-bold leading-none">{opt.size.split(" ")[0]}</div>
+                            <div className="text-[10px] uppercase tracking-wide text-muted-foreground mt-0.5">cu yd</div>
+                          </>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm">{opt.size}</span>
+                          {opt.badge && (
+                            <span
+                              className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                              style={{ background: "var(--brand-orange)", color: "var(--text-on-orange)" }}
+                            >
+                              {opt.badge}
+                            </span>
+                          )}
+                        </div>
+                        {opt.dims && <div className="text-xs text-muted-foreground mt-0.5">{opt.dims}</div>}
+                        {opt.equiv && <div className="text-xs mt-1 leading-snug">{opt.equiv}</div>}
+                        {opt.best && <div className="text-xs text-muted-foreground mt-1 leading-snug"><span className="font-medium">Best for:</span> {opt.best}</div>}
+                      </div>
+                      {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </Field>
+            <Field label="How many bins?">
+              <Input type="number" min="1" max="10" className="h-12" value={details.quantity ?? "1"} onChange={(e) => setDetail("quantity", e.target.value)} />
+            </Field>
             <Field label="Waste type">
               <Select value={details.wasteType ?? ""} onValueChange={(v) => setDetail("wasteType", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select waste type" /></SelectTrigger>
@@ -606,11 +658,14 @@ function StepDetails({
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Estimated volume / size needed"><Input className="h-12" value={details.volume ?? ""} onChange={(e) => setDetail("volume", e.target.value)} placeholder="e.g. 10 yard, 20 yard" /></Field>
-            <Field label="Rental duration"><Input className="h-12" value={details.duration ?? ""} onChange={(e) => setDetail("duration", e.target.value)} placeholder="e.g. 5 days" /></Field>
-            <Field label="Delivery location" full><Input className="h-12" value={details.location ?? ""} onChange={(e) => setDetail("location", e.target.value)} /></Field>
-            <Field label="Preferred delivery date"><Input type="date" className="h-12" value={details.delivery ?? ""} onChange={(e) => setDetail("delivery", e.target.value)} /></Field>
-            <Field label="Preferred pickup date"><Input type="date" className="h-12" value={details.pickup ?? ""} onChange={(e) => setDetail("pickup", e.target.value)} /></Field>
+            <Field label="Rental duration">
+              <Select value={details.duration ?? ""} onValueChange={(v) => setDetail("duration", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select duration" /></SelectTrigger>
+                <SelectContent>
+                  {["1 day", "3 days", "1 week", "2 weeks", "1 month", "Ongoing", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </Field>
             <Field label="Site access notes" full><Textarea value={details.access ?? ""} onChange={(e) => setDetail("access", e.target.value)} placeholder="Gates, narrow streets, parking, etc." /></Field>
           </>
         )}
