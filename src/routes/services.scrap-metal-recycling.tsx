@@ -94,6 +94,41 @@ const related = [
   { title: "Skip Bin & Dumpster Rental", body: "Right-sized containers for projects and sites.", img: imgRel2, to: "/services/skip-bin-dumpster-rental", icon: Container },
 ];
 
+const galleryImages = [
+  { src: "/assets/services/scrap-metal-loading.webp", alt: "A CEVONS worker loading scrap steel into the baling press at the CEVONS recycling facility", w: 800, h: 1200 },
+  { src: "/assets/services/scrap-metal-yard.webp", alt: "CEVONS crew feeding scrap metal into the baler beside stacked IBC cages at the recycling yard", w: 1200, h: 800 },
+  { src: "/assets/services/scrap-metal-bales.webp", alt: "Compressed scrap metal bales at the CEVONS recycling facility, ready for export", w: 800, h: 1200 },
+  { src: "/assets/services/scrap-metal-shear.webp", alt: "The CEVONS baling press with its jaw raised, being loaded with scrap metal", w: 800, h: 1200 },
+];
+
+function GallerySection() {
+  return (
+    <section className="section-y bg-[var(--surface-page)]" aria-labelledby="gallery-h">
+      <div className="container-cevons">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">On the Ground</p>
+          <h2 id="gallery-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">Inside our recycling operation</h2>
+          <p className="mt-4 text-cevons-muted leading-relaxed">Real photos from the CEVONS scrap yard — the crew, the equipment, and the bales headed for export.</p>
+        </div>
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+          {galleryImages.map((img) => (
+            <img
+              key={img.src}
+              src={img.src}
+              alt={img.alt}
+              width={img.w}
+              height={img.h}
+              loading="lazy"
+              decoding="async"
+              className="w-full mb-4 break-inside-avoid rounded-xl shadow-soft"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Page() {
   return (
     <ServicePageTemplate
@@ -116,6 +151,7 @@ function Page() {
       related={related}
       serviceSlug="scrap-metal-recycling"
       detailSections={detailSections}
+      optionsSection={<GallerySection />}
       showAssistBand
     />
   );
