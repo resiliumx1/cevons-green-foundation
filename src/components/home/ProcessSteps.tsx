@@ -80,11 +80,11 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
         />
       </div>
 
-      {/* Vertical connector — mobile (<sm) only */}
+      {/* Vertical connector — mobile (<sm) only: left rail behind circles */}
       <div
         aria-hidden="true"
-        className="block sm:hidden absolute left-1/2 -translate-x-1/2 w-[2px] pointer-events-none"
-        style={{ zIndex: 0, top: vLine.top, height: vLine.height }}
+        className="block sm:hidden absolute w-[2px] pointer-events-none"
+        style={{ zIndex: 0, top: vLine.top, height: vLine.height, left: 32 }}
       >
         <div className="absolute inset-0 bg-[var(--border-hairline)]" />
         <motion.div
@@ -96,7 +96,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
         />
       </div>
 
-      <ol className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-10" style={{ zIndex: 1 }}>
+      <ol className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-8 sm:gap-y-10" style={{ zIndex: 1 }}>
         {steps.map((s, i) => {
           const Icon = s.icon;
           const isFirst = i === 0;
@@ -104,7 +104,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           return (
             <motion.li
               key={s.key}
-              className="relative text-center"
+              className="relative flex items-start gap-4 text-left sm:block sm:text-center"
               custom={i}
               initial="hidden"
               whileInView="show"
@@ -113,16 +113,18 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
             >
               <div
                 ref={isFirst ? firstCircleRef : isLast ? lastCircleRef : undefined}
-                className="mx-auto size-16 rounded-full flex items-center justify-center shadow-soft"
-                style={{ background: "var(--brand-orange)", color: "var(--text-on-orange)" }}
+                className="relative shrink-0 size-16 rounded-full flex items-center justify-center shadow-soft sm:mx-auto"
+                style={{ background: "var(--brand-orange)", color: "var(--text-on-orange)", zIndex: 1 }}
               >
                 <Icon className="size-7" />
               </div>
-              <p className="mt-3 text-[11px] font-bold tracking-wider text-[var(--text-eyebrow)] uppercase">
-                {s.step} {s.index}
-              </p>
-              <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{s.title}</h3>
-              <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed px-2">{s.body}</p>
+              <div className="min-w-0 flex-1 sm:flex-none pt-1 sm:pt-0">
+                <p className="text-[11px] font-bold tracking-wider text-[var(--text-eyebrow)] uppercase sm:mt-3">
+                  {s.step} {s.index}
+                </p>
+                <h3 className="text-base font-bold mt-0.5 text-cevons-dark">{s.title}</h3>
+                <p className="text-xs text-cevons-muted mt-1.5 leading-relaxed sm:px-2">{s.body}</p>
+              </div>
             </motion.li>
           );
         })}
