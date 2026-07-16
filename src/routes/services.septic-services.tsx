@@ -150,6 +150,7 @@ function Page() {
       ctaVariant="routine"
       serviceSlug="septic-services"
       detailSections={detailSections}
+      optionsSection={<FleetSection />}
       showAssistBand
     />
   );
