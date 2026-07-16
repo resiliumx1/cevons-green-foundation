@@ -558,9 +558,12 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
                 <div className="font-semibold text-sm leading-snug">{s.name}</div>
                 <div className="text-xs text-muted-foreground mt-0.5 leading-snug">{s.desc}</div>
                 {specialist && (
-                  <div className="mt-1 inline-block text-[10px] font-semibold uppercase tracking-wide text-[var(--brand-orange)]">
+                  <span
+                    className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                    style={{ background: "var(--brand-orange)", color: "var(--text-on-orange)" }}
+                  >
                     Specialist Review
-                  </div>
+                  </span>
                 )}
               </div>
               {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
