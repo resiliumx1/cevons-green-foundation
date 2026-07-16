@@ -2283,22 +2283,92 @@ html.dark .shadow-2xl {
   box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 8px 24px rgba(0,0,0,0.45);
 }
 
-/* Inputs */
+/* ---------- Dark-mode form controls: contrast + focus + errors ---------- */
+/* Inputs, textareas, selects: raised surface, bright body text, visible 1.5px border */
 html.dark input,
 html.dark textarea,
 html.dark select {
   background-color: var(--surface-2);
   color: var(--text-strong);
-  border-color: var(--hairline-strong);
+  border-color: #6B6B6B;              /* ≥ 3:1 vs #2A2A2A card and #1A1A1A page */
+  border-width: 1.5px;
+  caret-color: var(--brand-orange);
 }
+/* Placeholders: brighter than body-muted so they stay legible but distinguishable */
 html.dark input::placeholder,
-html.dark textarea::placeholder { color: var(--text-placeholder); opacity: 1; }
-html.dark input:focus,
-html.dark textarea:focus,
-html.dark select:focus {
+html.dark textarea::placeholder {
+  color: rgba(217,217,217,0.82);      /* ≈6.8:1 on #2A2A2A, ≈6.4:1 on #1A1A1A */
+  opacity: 1;
+}
+/* Focus ring: solid orange border + wider halo, offset for clarity on any surface */
+html.dark input:focus-visible,
+html.dark textarea:focus-visible,
+html.dark select:focus-visible {
   border-color: var(--brand-orange);
-  outline: 2px solid rgba(239,119,0,0.35);
-  outline-offset: 0;
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(239,119,0,0.28);
+}
+/* Disabled: still 4.5:1 legible */
+html.dark input:disabled,
+html.dark textarea:disabled,
+html.dark select:disabled {
+  color: #9A9A9A;
+  border-color: var(--hairline);
+  background-color: var(--surface-1);
+}
+
+/* Labels & helper text: promote to strong text in dark mode */
+html.dark label,
+html.dark .form-label,
+html.dark legend { color: var(--text-strong); }
+html.dark .form-help,
+html.dark .form-hint,
+html.dark .help-text,
+html.dark small { color: var(--text-base); }
+
+/* Error state — inputs marked aria-invalid, or wrapped with .has-error / .field-error */
+html.dark [aria-invalid="true"],
+html.dark input.is-invalid,
+html.dark textarea.is-invalid,
+html.dark select.is-invalid,
+html.dark .has-error > input,
+html.dark .has-error > textarea,
+html.dark .has-error > select {
+  border-color: #FF7A80 !important;   /* brighter red — 5.9:1 on #1A1A1A */
+  color: var(--text-strong);
+  background-color: color-mix(in oklab, #FF5C61 8%, var(--surface-2));
+}
+html.dark [aria-invalid="true"]:focus-visible,
+html.dark input.is-invalid:focus-visible,
+html.dark textarea.is-invalid:focus-visible,
+html.dark select.is-invalid:focus-visible {
+  outline-color: #FF7A80;
+  box-shadow: 0 0 0 4px rgba(255,122,128,0.32);
+}
+/* Error messages */
+html.dark .form-error,
+html.dark .field-error,
+html.dark .error-message,
+html.dark [role="alert"],
+html.dark [data-error="true"] {
+  color: #FF9AA0;                     /* 7.4:1 on #1A1A1A */
+  font-weight: 500;
+}
+
+/* Focus ring — global override for stronger visibility in dark mode */
+html.dark a:focus-visible,
+html.dark button:focus-visible,
+html.dark summary:focus-visible,
+html.dark [role="button"]:focus-visible,
+html.dark [role="link"]:focus-visible,
+html.dark [role="menuitem"]:focus-visible,
+html.dark [role="tab"]:focus-visible,
+html.dark [role="option"]:focus-visible,
+html.dark [tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 2px solid var(--brand-orange);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(239,119,0,0.28);
 }
 
 /* Buttons that were outline-on-light should now read on dark */
