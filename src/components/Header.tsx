@@ -102,9 +102,41 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => { document.body.style.overflow = ""; };
+    if (!mobileOpen) return;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const html = document.documentElement;
+    const prev = {
+      bodyPos: body.style.position,
+      bodyTop: body.style.top,
+      bodyWidth: body.style.width,
+      bodyOverflow: body.style.overflow,
+      htmlOverflow: html.style.overflow,
+    };
+    // Lock scroll without losing position (works on iOS Safari)
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    return () => {
+      body.style.position = prev.bodyPos;
+      body.style.top = prev.bodyTop;
+      body.style.width = prev.bodyWidth;
+      body.style.overflow = prev.bodyOverflow;
+      html.style.overflow = prev.htmlOverflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [mobileOpen]);
+
+  // Close on Escape and on route change
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => { setMobileOpen(false); setOpenDropdown(null); }, [pathname]);
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
   return (
@@ -284,8 +316,21 @@ export function Header() {
       </div>
 
       {mobileOpen && typeof document !== "undefined" && createPortal(
-        <div className="lg:hidden fixed inset-x-0 bottom-0 top-[72px] z-[200] bg-white flex flex-col overscroll-contain">
-          <div className="flex-1 overflow-y-auto px-5 py-4 pb-8" style={{ WebkitOverflowScrolling: "touch" }}>
+        <div
+          className="lg:hidden fixed inset-x-0 z-[90] bg-white flex flex-col overscroll-contain"
+          style={{ top: "72px", bottom: 0, height: "calc(100dvh - 72px)" }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Main menu"
+        >
+          <div
+            className="flex-1 min-h-0 overflow-y-auto px-5 py-4"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              overscrollBehavior: "contain",
+              paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 32px)",
+            }}
+          >
             <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
               {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
