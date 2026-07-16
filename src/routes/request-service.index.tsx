@@ -862,6 +862,7 @@ function StepDetails({
             <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
           </>
         )}
+      </div>
 
       {/* Upload */}
       <div className="mt-8">
