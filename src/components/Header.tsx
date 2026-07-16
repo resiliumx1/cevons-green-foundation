@@ -316,8 +316,21 @@ export function Header() {
       </div>
 
       {mobileOpen && typeof document !== "undefined" && createPortal(
-        <div className="lg:hidden fixed inset-x-0 bottom-0 top-[72px] z-[200] bg-white flex flex-col overscroll-contain">
-          <div className="flex-1 overflow-y-auto px-5 py-4 pb-8" style={{ WebkitOverflowScrolling: "touch" }}>
+        <div
+          className="lg:hidden fixed inset-0 z-[200] bg-white flex flex-col overscroll-contain"
+          style={{ height: "100dvh", paddingTop: "72px" }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Main menu"
+        >
+          <div
+            className="flex-1 min-h-0 overflow-y-auto px-5 py-4"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              overscrollBehavior: "contain",
+              paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 32px)",
+            }}
+          >
             <nav className="flex flex-col gap-0.5" aria-label="Mobile primary">
               {[...nav, ...utilityNav].map((item) => {
                 if (item.hasDropdown) {
