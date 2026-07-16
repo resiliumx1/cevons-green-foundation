@@ -88,6 +88,51 @@ const detailSections: DetailSection[] = [
   },
 ];
 
+function FleetSection() {
+  return (
+    <section className="section-y bg-[var(--surface-page)]" aria-labelledby="fleet-h">
+      <div className="container-cevons">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">Our Fleet</p>
+          <h2 id="fleet-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">The equipment we bring to your property</h2>
+          <p className="mt-4 text-cevons-muted leading-relaxed">Modern vacuum tankers from 8,500 to 10,500 litres — sized to your tank, maintained to leave no mess behind.</p>
+        </div>
+        <div className="grid lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-10 items-center mb-10">
+          <img
+            src="/assets/services/septic-tanker-angle.webp"
+            alt="CEVONS vacuum tanker truck used for septic tank emptying, front three-quarter view"
+            width={1200}
+            height={857}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto"
+          />
+          <img
+            src="/assets/services/septic-tanker-side.webp"
+            alt="CEVONS vacuum tanker truck, side profile showing the tank and suction equipment"
+            width={600}
+            height={272}
+            loading="lazy"
+            decoding="async"
+            className="w-full max-w-[420px] mx-auto h-auto"
+          />
+        </div>
+        <div className="rounded-2xl overflow-hidden shadow-lift max-w-4xl mx-auto">
+          <img
+            src="/assets/services/septic-truck-onsite.webp"
+            alt="A CEVONS vacuum tanker on site in Guyana with a CEVONS operator in high-visibility gear"
+            width={1200}
+            height={1200}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto block"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Page() {
   return (
     <ServicePageTemplate
