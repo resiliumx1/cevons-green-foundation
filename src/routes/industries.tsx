@@ -220,36 +220,40 @@ function IndustriesPage() {
         </div>
       </section>
 
-      {/* INDUSTRY-SPECIFIC SOLUTIONS */}
+      {/* INDUSTRY-SPECIFIC SOLUTIONS
+          Navy field (fixed in both modes). All text uses fixed light
+          tokens (white / grey-light / yellow) — NEVER mode-aware
+          tokens on this fill. */}
       <section
         className="section-y relative overflow-hidden"
-        style={{ backgroundColor: "var(--brand-orange)", color: "var(--text-on-orange)" }}
+        style={{ backgroundColor: "var(--brand-navy)", color: "var(--text-on-navy)" }}
         aria-labelledby="solutions-heading"
       >
-        {/* One restrained arc — brand yellow low opacity, per guideline */}
+        {/* One restrained arc — low-opacity orange on navy. */}
         <svg aria-hidden="true" className="absolute -bottom-32 -right-24 w-[520px] h-[520px] pointer-events-none" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="100" fill="var(--brand-yellow)" opacity="0.14" />
+          <circle cx="100" cy="100" r="100" fill="var(--brand-orange)" opacity="0.18" />
         </svg>
 
         <div className="container-cevons relative">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center justify-center gap-3" style={{ color: "var(--text-on-orange)" }}>
-              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
+            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center justify-center gap-3" style={{ color: "var(--brand-yellow)" }}>
+              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
               Built Around Your Operations
-              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
+              <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
             </p>
-            <h2 id="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-orange)" }}>
+            <h2 id="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-navy)" }}>
               Custom Solutions for Your Industry
             </h2>
-            <div className="mt-4 flex items-center justify-center gap-3" aria-hidden style={{ color: "var(--text-on-orange)" }}>
-              <span className="h-px w-12" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
+            <div className="mt-4 flex items-center justify-center gap-3" aria-hidden style={{ color: "var(--brand-yellow)" }}>
+              <span className="h-px w-12" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
               <Leaf className="size-4" />
-              <span className="h-px w-12" style={{ backgroundColor: "rgba(26,26,26,0.35)" }} />
+              <span className="h-px w-12" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
             </div>
-            <p className="mt-4 max-w-xl mx-auto" style={{ color: "var(--text-on-orange)", opacity: 0.85 }}>
+            <p className="mt-4 max-w-xl mx-auto" style={{ color: "var(--brand-grey-light)" }}>
               Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.
             </p>
           </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {solutionFeatures.map(({ icon: Icon, title, body }, i) => (
