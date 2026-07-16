@@ -317,8 +317,8 @@ export function Header() {
 
       {mobileOpen && typeof document !== "undefined" && createPortal(
         <div
-          className="lg:hidden fixed inset-0 z-[200] bg-white flex flex-col overscroll-contain"
-          style={{ height: "100dvh", paddingTop: "72px" }}
+          className="lg:hidden fixed inset-x-0 z-[90] bg-white flex flex-col overscroll-contain"
+          style={{ top: "72px", bottom: 0, height: "calc(100dvh - 72px)" }}
           role="dialog"
           aria-modal="true"
           aria-label="Main menu"
