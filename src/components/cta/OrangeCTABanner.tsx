@@ -48,41 +48,44 @@ export function OrangeCTABanner({
     <section className={`bg-[var(--surface-page)] py-12 md:py-20 ${className}`}>
       <div className="container-cevons px-4">
         <div
-          className="relative overflow-hidden rounded-[28px] shadow-[0_24px_60px_-28px_rgba(239,119,0,0.55)] ring-1 ring-black/5"
+          className="relative overflow-hidden rounded-[28px] shadow-[0_24px_60px_-28px_rgba(0,0,64,0.55)] ring-1 ring-black/5"
           style={{
-            /* FLAT var(--brand-orange) field. Charcoal on #EF7700 = 6.06:1 (AA).
-               A gradient to #C45F00 would drop charcoal to 4.13:1 — banned. */
-            backgroundColor: "var(--brand-orange)",
+            /* FIXED navy fill — does not flip in dark mode. All text on
+               this band MUST use fixed / fill-relative tokens (white,
+               grey-light, yellow), NEVER mode-aware tokens like
+               --text-heading / --text-body / --text-eyebrow, or they will
+               drop out in one mode. White on navy = 16:1; grey-light on
+               navy ≈ 11.7:1; yellow on navy ≈ 12.8:1. */
+            backgroundColor: "var(--brand-navy)",
           }}
         >
-          {/* ONE restrained semi-circle — brand yellow at low opacity,
-              anchored bottom-right, behind content, non-interactive. */}
+          {/* One restrained arc — low-opacity orange on navy, per guide. */}
           <svg
             aria-hidden="true"
             className="absolute -bottom-24 -right-24 w-[420px] h-[420px] pointer-events-none"
             viewBox="0 0 200 200"
           >
-            <circle cx="100" cy="100" r="100" fill="var(--brand-yellow)" opacity="0.14" />
+            <circle cx="100" cy="100" r="100" fill="var(--brand-orange)" opacity="0.18" />
           </svg>
-          {/* Second, smaller arc top-left for balance (very subtle). */}
+          {/* Smaller balancing arc top-left, very subtle yellow. */}
           <svg
             aria-hidden="true"
             className="absolute -top-16 -left-16 w-[220px] h-[220px] pointer-events-none"
             viewBox="0 0 200 200"
           >
-            <circle cx="100" cy="100" r="100" fill="var(--brand-white)" opacity="0.08" />
+            <circle cx="100" cy="100" r="100" fill="var(--brand-yellow)" opacity="0.08" />
           </svg>
 
           <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 items-center p-8 sm:p-10 md:p-12 lg:p-14">
-            {/* LEFT: copy — ALL charcoal for AA on orange. */}
-            <div style={{ color: "var(--text-on-orange)" }}>
+            {/* LEFT: copy — fixed light values for navy field. */}
+            <div style={{ color: "var(--text-on-navy)" }}>
               {eyebrow && (
                 <p
                   className="inline-flex items-center gap-2 rounded-full ring-1 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em]"
                   style={{
-                    color: "var(--text-on-orange)",
-                    backgroundColor: "rgba(26,26,26,0.08)",
-                    borderColor: "rgba(26,26,26,0.18)",
+                    color: "var(--brand-yellow)",
+                    backgroundColor: "rgba(255,255,255,0.12)",
+                    borderColor: "rgba(255,255,255,0.25)",
                   }}
                 >
                   {eyebrow}
@@ -93,24 +96,24 @@ export function OrangeCTABanner({
                 <span
                   className="hidden sm:flex shrink-0 size-16 items-center justify-center rounded-2xl ring-1"
                   style={{
-                    backgroundColor: "rgba(26,26,26,0.10)",
-                    borderColor: "rgba(26,26,26,0.15)",
-                    color: "var(--text-on-orange)",
+                    backgroundColor: "var(--brand-white)",
+                    borderColor: "rgba(255,255,255,0.4)",
+                    color: "var(--brand-green)",
                   }}
                 >
-                  <Icon className="size-8" strokeWidth={2} aria-hidden />
+                  <Icon className="size-8" strokeWidth={2.25} aria-hidden />
                 </span>
                 <div className="min-w-0">
                   <h2
                     className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05]"
-                    style={{ color: "var(--text-on-orange)" }}
+                    style={{ color: "var(--text-on-navy)" }}
                   >
                     {title}
                   </h2>
                   {subtitle && (
                     <p
                       className="mt-4 text-base md:text-lg leading-relaxed max-w-xl"
-                      style={{ color: "var(--text-on-orange)", opacity: 0.85 }}
+                      style={{ color: "var(--brand-grey-light)" }}
                     >
                       {subtitle}
                     </p>
@@ -121,12 +124,12 @@ export function OrangeCTABanner({
 
             {/* RIGHT: solid white action card.
                 This card is DELIBERATELY white in BOTH light and dark modes
-                because it sits on the orange brand field, which does not
+                because it sits on the navy brand field, which does not
                 flip. Its text must therefore use FIXED brand values, not
                 mode-aware semantic tokens (var(--text-eyebrow),
-                var(--text-heading), var(--text-body)) — those tokens flip to
-                orange / white / grey-light in dark mode and become invisible
-                on the white surface. */}
+                var(--text-heading), var(--text-body)) — those tokens flip
+                and become invisible on the white surface. */}
+
             <div
               className="relative rounded-2xl p-6 sm:p-7 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.4)]"
               style={{ backgroundColor: "#FFFFFF" }}
