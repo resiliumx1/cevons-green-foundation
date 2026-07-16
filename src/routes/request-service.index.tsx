@@ -154,7 +154,7 @@ function RequestServicePage() {
     if (!svcParam) return;
     const match = SERVICES.find((s) => s.key === svcParam);
     if (!match) return;
-    setData((d) => (d.service ? d : { ...d, category: match.category, service: match.key }));
+    setData((d) => (d.service ? d : { ...d, category: match.categories[0], service: match.key }));
     setStep((s) => (s === 0 ? 2 : s));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
