@@ -151,6 +151,7 @@ function Page() {
       related={related}
       serviceSlug="scrap-metal-recycling"
       detailSections={detailSections}
+      optionsSection={<GallerySection />}
       showAssistBand
     />
   );
