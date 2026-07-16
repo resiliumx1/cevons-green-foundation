@@ -601,11 +601,11 @@ function StepDetails({
             <Field label="Bin size" full>
               <div className="grid grid-cols-1 gap-2">
                 {[
-                  { size: "10 cu yd", dims: "12 ft × 6 ft × 4 ft", equiv: "≈ 60 garbage bags — about the size of a small car", best: "Small clean-ups and home renovations", badge: "Most common" },
-                  { size: "30 cu yd", dims: "22 ft × 8 ft × 4.5 ft", equiv: "≈ 10 pickup truck loads", best: "Medium to large construction and larger cleanups", badge: "Most popular" },
-                  { size: "40 cu yd", dims: "22 ft × 8 ft × 6 ft", equiv: "Room for bulky items like tables and chairs", best: "Complete residential cleanouts and commercial cleanup" },
-                  { size: "52 cu yd", dims: "22 ft × 8 ft × 9 ft", equiv: "The Mother of all Bins — our largest skip", best: "Very large demolition and industrial applications" },
-                  { size: "Not sure — help me choose", dims: "", equiv: "We'll recommend the right bin based on your project.", best: "" },
+                  { size: "10 cu yd", title: "Builders waste bin", dims: "12 ft × 6 ft × 4 ft", equiv: "≈ 60 garbage bags — about the size of a small car", badge: "Most common" },
+                  { size: "30 cu yd", title: "Large cleanups & construction", dims: "22 ft × 8 ft × 4.5 ft", equiv: "≈ 10 pickup truck loads", badge: "Most popular" },
+                  { size: "40 cu yd", title: "Full cleanouts & bulky items", dims: "22 ft × 8 ft × 6 ft", equiv: "Room for bulky items like tables and chairs" },
+                  { size: "52 cu yd", title: "Mother of all Bins", dims: "22 ft × 8 ft × 9 ft", equiv: "Our largest skip — for major demolition and industrial jobs" },
+                  { size: "Not sure — help me choose", title: "Not sure — help me choose", dims: "", equiv: "We'll recommend the right bin based on your project." },
                 ].map((opt) => {
                   const active = details.size === opt.size;
                   return (
@@ -627,7 +627,7 @@ function StepDetails({
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold text-sm">{opt.size}</span>
+                          <span className="font-semibold text-sm">{opt.title}</span>
                           {opt.badge && (
                             <span
                               className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
@@ -639,7 +639,6 @@ function StepDetails({
                         </div>
                         {opt.dims && <div className="text-xs text-muted-foreground mt-0.5">{opt.dims}</div>}
                         {opt.equiv && <div className="text-xs mt-1 leading-snug">{opt.equiv}</div>}
-                        {opt.best && <div className="text-xs text-muted-foreground mt-1 leading-snug"><span className="font-medium">Best for:</span> {opt.best}</div>}
                       </div>
                       {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
                     </button>
