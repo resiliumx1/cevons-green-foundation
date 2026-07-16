@@ -197,15 +197,28 @@ function RequestServicePage() {
   }
   useEffect(() => () => clearAdvanceTimer(), []);
 
+  const wizardRef = useRef<HTMLDivElement>(null);
+  function keepWizardInView() {
+    if (typeof window === "undefined") return;
+    const el = wizardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    // Only scroll if the top of the wizard is above the viewport (user has
+    // scrolled past it). Never yank a user who's already focused on the form.
+    if (rect.top < 0) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   function next() {
     if (!validate()) return;
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    keepWizardInView();
   }
   function back() {
     clearAdvanceTimer();
     setStep((s) => Math.max(s - 1, 0));
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    keepWizardInView();
   }
   /** Schedule an auto-advance ~280ms after a single-select click so the
    * user sees their choice register. Only ever called from user click
@@ -216,9 +229,10 @@ function RequestServicePage() {
       advanceTimerRef.current = null;
       setErrors({});
       setStep((s) => Math.min(s + 1, STEPS.length - 1));
-      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+      keepWizardInView();
     }, 280);
   }
+
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
