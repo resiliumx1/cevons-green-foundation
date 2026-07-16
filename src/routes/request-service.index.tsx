@@ -733,7 +733,135 @@ function StepDetails({
             <Field label="Message / details" full><Textarea value={details.message ?? ""} onChange={(e) => setDetail("message", e.target.value)} placeholder="Material types, expected volumes, frequency, timeline." /></Field>
           </>
         )}
-      </div>
+
+        {type === "compactor" && (
+          <>
+            <Field label="Compactor type">
+              <Select value={details.compactorType ?? ""} onValueChange={(v) => setDetail("compactorType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Static", "Self-contained", "Not sure — advise me"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Waste stream">
+              <Select value={details.wasteStream ?? ""} onValueChange={(v) => setDetail("wasteStream", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["General waste", "Cardboard & paper", "Mixed recyclables", "Wet waste", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated volume per week"><Input className="h-12" value={details.volumePerWeek ?? ""} onChange={(e) => setDetail("volumePerWeek", e.target.value)} placeholder="e.g. 6 m³" /></Field>
+            <Field label="Rental duration">
+              <Select value={details.duration ?? ""} onValueChange={(v) => setDetail("duration", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["1 month", "3 months", "6 months", "12 months", "Ongoing", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Power available on site">
+              <Select value={details.power ?? ""} onValueChange={(v) => setDetail("power", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Site access notes" full><Textarea value={details.access ?? ""} onChange={(e) => setDetail("access", e.target.value)} /></Field>
+          </>
+        )}
+
+        {type === "sweeping" && (
+          <>
+            <Field label="Area type">
+              <Select value={details.areaType ?? ""} onValueChange={(v) => setDetail("areaType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Road", "Car park", "Industrial yard", "Construction site", "Compound", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Approximate area or length"><Input className="h-12" value={details.area ?? ""} onChange={(e) => setDetail("area", e.target.value)} placeholder="e.g. 2 km, or 500 m²" /></Field>
+            <Field label="One-time or recurring">
+              <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["One-time", "Recurring"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Frequency">
+              <Select value={details.frequency ?? ""} onValueChange={(v) => setDetail("frequency", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Daily", "Weekly", "Bi-weekly", "Monthly"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Debris type">
+              <Select value={details.debris ?? ""} onValueChange={(v) => setDetail("debris", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Sand & silt", "Construction debris", "General litter", "Post-event cleanup", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Timing constraints" full><Textarea value={details.timing ?? ""} onChange={(e) => setDetail("timing", e.target.value)} placeholder="e.g. must be done overnight, before opening hours" /></Field>
+          </>
+        )}
+
+        {type === "recyclables" && (
+          <>
+            <Field label="Material type">
+              <Select value={details.materialType ?? ""} onValueChange={(v) => setDetail("materialType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>
+                  {(service.key === "scrap-metal-recycling"
+                    ? ["Ferrous (steel, iron)", "Non-ferrous (copper, aluminium, brass)", "Scrap cable", "Lead batteries", "Mixed", "Not sure"]
+                    : ["PET", "HDPE", "Plastic film", "Mixed plastics", "Not sure"]
+                  ).map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated quantity / weight"><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
+            <Field label="Collection type">
+              <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["One-off", "Periodic"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="How is it stored">
+              <Select value={details.storage ?? ""} onValueChange={(v) => setDetail("storage", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Loose", "Baled", "In containers", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Do you need a container on site">
+              <Select value={details.container ?? ""} onValueChange={(v) => setDetail("container", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
+          </>
+        )}
+
+        {type === "cooking-oil" && (
+          <>
+            <Field label="Business type">
+              <Select value={details.businessType ?? ""} onValueChange={(v) => setDetail("businessType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Restaurant", "Hotel", "Bakery", "Food processor", "Caterer", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated litres per collection"><Input className="h-12" value={details.litres ?? ""} onChange={(e) => setDetail("litres", e.target.value)} placeholder="e.g. 200 L" /></Field>
+            <Field label="Collection frequency">
+              <Select value={details.frequency ?? ""} onValueChange={(v) => setDetail("frequency", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Weekly", "Bi-weekly", "Monthly", "On-call", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Current storage">
+              <Select value={details.storage ?? ""} onValueChange={(v) => setDetail("storage", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Drums", "IBC tank", "Loose containers", "None yet"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Do you need collection containers supplied">
+              <Select value={details.containersNeeded ?? ""} onValueChange={(v) => setDetail("containersNeeded", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
+          </>
+        )}
 
       {/* Upload */}
       <div className="mt-8">
