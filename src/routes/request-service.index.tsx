@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   Check, ChevronLeft, ChevronRight, Upload, MessageCircle, AlertCircle,
   Home, Building2, Factory, Recycle,
-  Trash2, Container, Droplet, Waves, FileText, ShieldAlert, Flame, Sprout, Beaker, PackageX, Biohazard, Mountain,
+  Trash2, Container, Droplet, Waves, FileText, ShieldAlert, Flame, Sprout, Beaker, PackageX, Biohazard, Mountain, Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
@@ -55,13 +55,17 @@ type ServiceKey =
   | "hazardous-waste" | "wastewater" | "used-waste-oil" | "contaminated-soil"
   | "tank-cleaning" | "product-destruction" | "biohazardous-disposal"
   // facilities
-  | "material-recovery-facility" | "landfill-operations";
+  | "material-recovery-facility" | "landfill-operations"
+  // cross-category additions
+  | "compactor-rental" | "road-sweeping" | "scrap-metal-recycling"
+  | "plastic-recycling" | "used-cooking-oil";
 
 type DetailType =
   | "dumpster" | "toilet" | "septic" | "trash" | "shred"
-  | "industrial" | "facilities";
+  | "industrial" | "facilities"
+  | "compactor" | "sweeping" | "recyclables" | "cooking-oil";
 
-type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; iconKey: CevonsServiceKey; detailType: DetailType; category: CategoryKey };
+type ServiceMeta = { key: ServiceKey; name: string; desc: string; icon: any; iconKey: CevonsServiceKey; detailType: DetailType; categories: CategoryKey[] };
 
 const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; iconKey: CevonsCategoryKey }[] = [
   { key: "residential", name: "Residential", desc: "Homes, neighborhoods, and small properties.", icon: Home, iconKey: "residential" },
@@ -72,27 +76,33 @@ const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; ico
 
 const SERVICES: ServiceMeta[] = [
   // residential
-  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, iconKey: "general-trash-collection", detailType: "trash", category: "residential" },
-  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, iconKey: "dumpster-rental", detailType: "dumpster", category: "residential" },
-  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, iconKey: "septic-services", detailType: "septic", category: "residential" },
-  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "residential" },
+  { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, iconKey: "general-trash-collection", detailType: "trash", categories: ["residential"] },
+  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, iconKey: "dumpster-rental", detailType: "dumpster", categories: ["residential"] },
+  { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, iconKey: "septic-services", detailType: "septic", categories: ["residential"] },
+  { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", categories: ["residential"] },
   // commercial
-  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, iconKey: "general-waste-management", detailType: "trash", category: "commercial" },
-  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", category: "commercial" },
-  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", category: "commercial" },
-  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, iconKey: "grease-trap", detailType: "septic", category: "commercial" },
-  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, iconKey: "document-shredding", detailType: "shred", category: "commercial" },
+  { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, iconKey: "general-waste-management", detailType: "trash", categories: ["commercial"] },
+  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", categories: ["commercial"] },
+  { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", categories: ["commercial"] },
+  { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, iconKey: "grease-trap", detailType: "septic", categories: ["commercial"] },
+  { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, iconKey: "document-shredding", detailType: "shred", categories: ["commercial"] },
   // industrial
-  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, iconKey: "hazardous-waste", detailType: "industrial", category: "industrial" },
-  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, iconKey: "liquid-wastewater", detailType: "industrial", category: "industrial" },
-  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, iconKey: "used-waste-oil", detailType: "industrial", category: "industrial" },
-  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, iconKey: "contaminated-soil", detailType: "industrial", category: "industrial" },
-  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, iconKey: "tank-cleaning", detailType: "industrial", category: "industrial" },
-  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", category: "industrial" },
-  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, iconKey: "biohazardous-disposal", detailType: "industrial", category: "industrial" },
+  { key: "hazardous-waste", name: "Hazardous Waste", desc: "Regulated handling and disposal.", icon: ShieldAlert, iconKey: "hazardous-waste", detailType: "industrial", categories: ["industrial"] },
+  { key: "wastewater", name: "Wastewater", desc: "Industrial wastewater services.", icon: Waves, iconKey: "liquid-wastewater", detailType: "industrial", categories: ["industrial"] },
+  { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, iconKey: "used-waste-oil", detailType: "industrial", categories: ["industrial"] },
+  { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, iconKey: "contaminated-soil", detailType: "industrial", categories: ["industrial"] },
+  { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, iconKey: "tank-cleaning", detailType: "industrial", categories: ["industrial"] },
+  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", categories: ["industrial"] },
+  { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, iconKey: "biohazardous-disposal", detailType: "industrial", categories: ["industrial"] },
   // facilities
-  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, iconKey: "material-recovery", detailType: "facilities", category: "facilities" },
-  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, iconKey: "landfill-operations", detailType: "facilities", category: "facilities" },
+  { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, iconKey: "material-recovery", detailType: "facilities", categories: ["facilities"] },
+  { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, iconKey: "landfill-operations", detailType: "facilities", categories: ["facilities"] },
+  // cross-category additions
+  { key: "compactor-rental", name: "Compactor Rental", desc: "Shrink waste volume and cut pickup frequency.", icon: Container, iconKey: "compactor-rental", detailType: "compactor", categories: ["commercial", "industrial"] },
+  { key: "road-sweeping", name: "Road Sweeping", desc: "Mechanical sweeper hire for streets, sites, and events.", icon: Truck, iconKey: "road-sweeping", detailType: "sweeping", categories: ["commercial", "facilities"] },
+  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "Licensed scrap metal collection — we buy ferrous and non-ferrous.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
+  { key: "plastic-recycling", name: "Plastic Recycling", desc: "Business plastics recycling with verified end destinations.", icon: Recycle, iconKey: "plastic-shredding", detailType: "recyclables", categories: ["commercial", "industrial"] },
+  { key: "used-cooking-oil", name: "Used Cooking Oil Collection", desc: "Scheduled kitchen oil collection — routed for recycling.", icon: Flame, iconKey: "cooking-oil-recycling", detailType: "cooking-oil", categories: ["commercial"] },
 ];
 
 // Specialist review services
@@ -100,6 +110,7 @@ const SPECIALIST_KEYS: Set<ServiceKey> = new Set([
   "hazardous-waste", "wastewater", "used-waste-oil", "contaminated-soil",
   "tank-cleaning", "product-destruction", "biohazardous-disposal",
   "material-recovery-facility", "landfill-operations",
+  "compactor-rental", "road-sweeping", "scrap-metal-recycling",
 ]);
 
 const STEPS = ["Category", "Service", "Details", "Schedule", "Your Info", "Review"];
@@ -143,7 +154,7 @@ function RequestServicePage() {
     if (!svcParam) return;
     const match = SERVICES.find((s) => s.key === svcParam);
     if (!match) return;
-    setData((d) => (d.service ? d : { ...d, category: match.category, service: match.key }));
+    setData((d) => (d.service ? d : { ...d, category: match.categories[0], service: match.key }));
     setStep((s) => (s === 0 ? 2 : s));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -510,7 +521,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
 /* ---------------- Step 2: Service ---------------- */
 
 function StepService({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
-  const list = SERVICES.filter((s) => s.category === data.category);
+  const list = SERVICES.filter((s) => data.category != null && s.categories.includes(data.category));
   return (
     <div>
       <h2 className="text-2xl font-bold">Which service?</h2>
@@ -720,6 +731,135 @@ function StepDetails({
             <Field label="Organization / company"><Input className="h-12" value={details.org ?? ""} onChange={(e) => setDetail("org", e.target.value)} /></Field>
             <Field label="Location" full><Input className="h-12" value={details.location ?? ""} onChange={(e) => setDetail("location", e.target.value)} /></Field>
             <Field label="Message / details" full><Textarea value={details.message ?? ""} onChange={(e) => setDetail("message", e.target.value)} placeholder="Material types, expected volumes, frequency, timeline." /></Field>
+          </>
+        )}
+
+        {type === "compactor" && (
+          <>
+            <Field label="Compactor type">
+              <Select value={details.compactorType ?? ""} onValueChange={(v) => setDetail("compactorType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Static", "Self-contained", "Not sure — advise me"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Waste stream">
+              <Select value={details.wasteStream ?? ""} onValueChange={(v) => setDetail("wasteStream", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["General waste", "Cardboard & paper", "Mixed recyclables", "Wet waste", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated volume per week"><Input className="h-12" value={details.volumePerWeek ?? ""} onChange={(e) => setDetail("volumePerWeek", e.target.value)} placeholder="e.g. 6 m³" /></Field>
+            <Field label="Rental duration">
+              <Select value={details.duration ?? ""} onValueChange={(v) => setDetail("duration", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["1 month", "3 months", "6 months", "12 months", "Ongoing", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Power available on site">
+              <Select value={details.power ?? ""} onValueChange={(v) => setDetail("power", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Site access notes" full><Textarea value={details.access ?? ""} onChange={(e) => setDetail("access", e.target.value)} /></Field>
+          </>
+        )}
+
+        {type === "sweeping" && (
+          <>
+            <Field label="Area type">
+              <Select value={details.areaType ?? ""} onValueChange={(v) => setDetail("areaType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Road", "Car park", "Industrial yard", "Construction site", "Compound", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Approximate area or length"><Input className="h-12" value={details.area ?? ""} onChange={(e) => setDetail("area", e.target.value)} placeholder="e.g. 2 km, or 500 m²" /></Field>
+            <Field label="One-time or recurring">
+              <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["One-time", "Recurring"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Frequency">
+              <Select value={details.frequency ?? ""} onValueChange={(v) => setDetail("frequency", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Daily", "Weekly", "Bi-weekly", "Monthly"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Debris type">
+              <Select value={details.debris ?? ""} onValueChange={(v) => setDetail("debris", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Sand & silt", "Construction debris", "General litter", "Post-event cleanup", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Timing constraints" full><Textarea value={details.timing ?? ""} onChange={(e) => setDetail("timing", e.target.value)} placeholder="e.g. must be done overnight, before opening hours" /></Field>
+          </>
+        )}
+
+        {type === "recyclables" && (
+          <>
+            <Field label="Material type">
+              <Select value={details.materialType ?? ""} onValueChange={(v) => setDetail("materialType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>
+                  {(service.key === "scrap-metal-recycling"
+                    ? ["Ferrous (steel, iron)", "Non-ferrous (copper, aluminium, brass)", "Scrap cable", "Lead batteries", "Mixed", "Not sure"]
+                    : ["PET", "HDPE", "Plastic film", "Mixed plastics", "Not sure"]
+                  ).map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated quantity / weight"><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
+            <Field label="Collection type">
+              <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["One-off", "Periodic"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="How is it stored">
+              <Select value={details.storage ?? ""} onValueChange={(v) => setDetail("storage", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Loose", "Baled", "In containers", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Do you need a container on site">
+              <Select value={details.container ?? ""} onValueChange={(v) => setDetail("container", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
+          </>
+        )}
+
+        {type === "cooking-oil" && (
+          <>
+            <Field label="Business type">
+              <Select value={details.businessType ?? ""} onValueChange={(v) => setDetail("businessType", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Restaurant", "Hotel", "Bakery", "Food processor", "Caterer", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Estimated litres per collection"><Input className="h-12" value={details.litres ?? ""} onChange={(e) => setDetail("litres", e.target.value)} placeholder="e.g. 200 L" /></Field>
+            <Field label="Collection frequency">
+              <Select value={details.frequency ?? ""} onValueChange={(v) => setDetail("frequency", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Weekly", "Bi-weekly", "Monthly", "On-call", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Current storage">
+              <Select value={details.storage ?? ""} onValueChange={(v) => setDetail("storage", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Drums", "IBC tank", "Loose containers", "None yet"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Do you need collection containers supplied">
+              <Select value={details.containersNeeded ?? ""} onValueChange={(v) => setDetail("containersNeeded", v)}>
+                <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+              </Select>
+            </Field>
+            <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
           </>
         )}
       </div>
