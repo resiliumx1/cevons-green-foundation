@@ -521,7 +521,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
 /* ---------------- Step 2: Service ---------------- */
 
 function StepService({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
-  const list = SERVICES.filter((s) => s.category === data.category);
+  const list = SERVICES.filter((s) => data.category != null && s.categories.includes(data.category));
   return (
     <div>
       <h2 className="text-2xl font-bold">Which service?</h2>
