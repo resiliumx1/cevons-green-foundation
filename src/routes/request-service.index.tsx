@@ -377,7 +377,7 @@ function RequestServicePage() {
 
 
       <section className="container mx-auto px-4 py-6 md:py-8">
-        <div className="max-w-3xl mx-auto min-w-0">
+        <div ref={wizardRef} className="max-w-3xl mx-auto min-w-0 scroll-mt-24">
           {/* SR-only live region announces the new step to assistive tech. */}
           <div className="sr-only" role="status" aria-live="polite">
             {`Step ${step + 1} of ${STEPS.length}, ${STEPS[step]}`}
