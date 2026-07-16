@@ -95,7 +95,7 @@ function FleetSection() {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">Our Fleet</p>
           <h2 id="fleet-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">The equipment we bring to your property</h2>
-          <p className="mt-4 text-cevons-muted leading-relaxed">Modern vacuum tankers from 8,500 to 10,500 litres — sized to your tank, maintained to leave no mess behind.</p>
+          <p className="mt-4 text-cevons-muted leading-relaxed">Purpose-built vacuum tankers and trained CEVONS crews, serving homes and businesses across Georgetown, Linden and Berbice.</p>
         </div>
         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-10 items-center mb-10">
           <img
