@@ -67,7 +67,7 @@ const detailSections: DetailSection[] = [
     paragraphs: [
       "A short look at how material moves through our recycling operation — from collection through the yard.",
     ],
-    videoEmbed: { youtubeId: "tR3CBoB09qg", title: "CEVONS Recycling" },
+    videoEmbed: { youtubeId: "tR3CBoB09qg", title: "Recycling at CEVONS", poster: "/assets/services/recycling-video-poster.webp" },
   },
   {
     variant: "band",
