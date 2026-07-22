@@ -2858,14 +2858,13 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 .branded-video-play:hover,
 .branded-video-play:focus-visible {
   transform: translate(-50%, -50%) scale(1.08);
-  background: var(--brand-orange-dark) !important;
 }
 .branded-video-play::after {
   content: "";
   position: absolute;
   inset: -6px;
   border-radius: 9999px;
-  border: 2px solid var(--brand-orange);
+  border: 2px solid var(--brand-navy);
   opacity: 0.6;
   animation: brandedVideoPulse 2.4s ease-out infinite;
   pointer-events: none;
