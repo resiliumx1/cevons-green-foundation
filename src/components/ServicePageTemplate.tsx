@@ -15,6 +15,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { BrandedVideo } from "@/components/media/BrandedVideo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
@@ -46,7 +47,7 @@ export type DetailSection = {
   images?: DetailImage[];
   variant: "split-right" | "split-left" | "band" | "gallery";
   bandEmphasis?: boolean;
-  videoEmbed?: { youtubeId: string; title: string };
+  videoEmbed?: { youtubeId: string; title: string; poster?: string };
 };
 
 export type ServicePageProps = {
@@ -515,21 +516,14 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
               style={{ maxWidth: 820 }}
               aria-label={`${section.videoEmbed.title} video`}
             >
-              <div
-                className="relative w-full overflow-hidden rounded-2xl shadow-lift focus-within:ring-2 focus-within:ring-offset-2"
-                style={{ paddingBottom: "56.25%", backgroundColor: "#000" }}
-              >
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${section.videoEmbed.youtubeId}?rel=0`}
-                  title={`${section.videoEmbed.title} — video`}
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                  allowFullScreen
-                  tabIndex={0}
-                  className="absolute inset-0 w-full h-full border-0 focus:outline-none"
-                />
-              </div>
+              <BrandedVideo
+                videoId={section.videoEmbed.youtubeId}
+                title={section.videoEmbed.title}
+                poster={
+                  section.videoEmbed.poster ??
+                  `https://i.ytimg.com/vi/${section.videoEmbed.youtubeId}/hqdefault.jpg`
+                }
+              />
               <figcaption className="sr-only">{section.videoEmbed.title}</figcaption>
             </figure>
           )}

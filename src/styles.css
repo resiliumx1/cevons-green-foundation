@@ -2849,3 +2849,35 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 
 
 
+
+/* Branded video facade play button */
+.branded-video-play {
+  position: relative;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.branded-video-play:hover,
+.branded-video-play:focus-visible {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: var(--brand-orange-dark) !important;
+}
+.branded-video-play::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid var(--brand-orange);
+  opacity: 0.6;
+  animation: brandedVideoPulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes brandedVideoPulse {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  80%  { transform: scale(1.55); opacity: 0;   }
+  100% { transform: scale(1.55); opacity: 0;   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .branded-video-play { transition: none; }
+  .branded-video-play:hover,
+  .branded-video-play:focus-visible { transform: translate(-50%, -50%); }
+  .branded-video-play::after { animation: none; opacity: 0; }
+}
