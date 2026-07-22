@@ -80,8 +80,9 @@ export function BrandedVideo({ videoId, title, poster, className }: BrandedVideo
               height: 76,
               minWidth: 44,
               minHeight: 44,
-              background: "var(--brand-orange)",
-              boxShadow: "0 0 0 8px rgba(255,124,15,0.18), 0 12px 32px rgba(0,0,0,0.35)",
+              background: "#FFFFFF",
+              border: "3px solid var(--brand-navy)",
+              boxShadow: "0 8px 26px rgba(0,0,0,0.45)",
             }}
           >
             <svg
@@ -89,7 +90,7 @@ export function BrandedVideo({ videoId, title, poster, className }: BrandedVideo
               height="28"
               viewBox="0 0 24 24"
               aria-hidden
-              style={{ color: "var(--text-on-orange)", marginLeft: 4 }}
+              style={{ color: "var(--brand-navy)", marginLeft: 4 }}
             >
               <path fill="currentColor" d="M8 5v14l11-7z" />
             </svg>
