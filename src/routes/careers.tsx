@@ -153,12 +153,12 @@ function CareersPage() {
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
-            alt="CEVONS team reviewing the company services line-up during a boardroom presentation in Georgetown"
-            className="h-full w-full object-cover object-[65%_45%] hero-img"
+            alt="CEVONS front-office staff supporting a colleague at the workstation in the Georgetown office"
+            className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"
-            width={1448}
-            height={1930}
+            width={1920}
+            height={1280}
           />
           {/* Left-weighted scrim: keeps text legible on the left, faces clean on the right */}
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,12,14,0.88)_0%,rgba(10,12,14,0.72)_35%,rgba(10,12,14,0.30)_60%,rgba(10,12,14,0.10)_85%,rgba(10,12,14,0.05)_100%)]" />
