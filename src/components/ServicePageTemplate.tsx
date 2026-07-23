@@ -597,6 +597,38 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
     );
   }
 
+  if (section.variant === "specGrid") {
+    return (
+      <>
+        <div className="max-w-3xl mx-auto text-center mb-10">
+          <Reveal variant="up"><SectionText section={section} /></Reveal>
+        </div>
+        {section.images && section.images.length > 0 && (
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+            {section.images.map((img, idx) => (
+              <StaggerItem key={idx} className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border flex flex-col">
+                <div className="aspect-[16/9] bg-white flex items-center justify-center p-2">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                {img.caption && (
+                  <div className="px-4 py-3 text-sm font-semibold text-center" style={{ color: "var(--brand-charcoal)" }}>
+                    {img.caption}
+                  </div>
+                )}
+              </StaggerItem>
+            ))}
+          </Stagger>
+        )}
+      </>
+    );
+  }
+
   // split-right / split-left
   const reverse = section.variant === "split-left";
   return (
