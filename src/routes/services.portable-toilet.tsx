@@ -60,7 +60,7 @@ const detailSections: DetailSection[] = [
       "That matters because \"portable toilet\" covers a huge range of quality. A CEVONS unit is at the top of that range: a properly finished interior, working fixtures, and the small details — hand towel dispenser, coat hanger, shelf for personal effects — that guests actually notice.",
     ],
     images: [
-      { src: "/services/detail/toilet-servicing-1.webp", alt: "CEVONS portable toilet unit being serviced by a sealed vacuum tanker" },
+      { src: toiletTruckAsset.url, alt: "CEVONS service truck transporting a sealed vacuum tank and red portable toilet unit" },
     ],
   },
   {
