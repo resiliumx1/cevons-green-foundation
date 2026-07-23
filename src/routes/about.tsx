@@ -23,7 +23,8 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
-const heroAbout = "/assets/heroes/hero-about.webp";
+import aboutHeroAsset from "@/assets/about-front-office-support.webp.asset.json";
+const heroAbout = aboutHeroAsset.url;
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -103,7 +104,7 @@ function AboutPage() {
         <div className="absolute inset-0">
           <img
             src={heroAbout}
-            alt="CEVONS team outside company facility"
+            alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
             className="size-full object-cover hero-img hero-img-mobile"
             width={1920}
             height={1080}
