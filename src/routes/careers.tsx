@@ -19,7 +19,10 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 // when it's available. External https URLs automatically render as new-tab links below.
 const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
-import heroCareersAsset from "@/assets/front-office-training.webp.asset.json";
+// Careers hero reuses the wider About office/team photo (1920x1280, downscales
+// sharp to a landscape hero) — front-office-training.webp is portrait
+// (1200x1600) and got 1.33x upscaled + heads clipped when used here.
+import heroCareersAsset from "@/assets/about-front-office-support.webp.asset.json";
 const heroCareers = heroCareersAsset.url;
 
 export const Route = createFileRoute("/careers")({
