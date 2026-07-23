@@ -483,11 +483,11 @@ function SectionImages({ images }: { images: DetailImage[] }) {
       </figure>
     );
   }
-  // If every image supplies width/height, opt into per-image aspect ratios and
+  // If any image supplies width/height, opt into per-image aspect ratios and
   // stack vertically so each image fills the available column width instead of
   // being squeezed into a small square tile.
-  const allHaveRatio = images.every((i) => i.width && i.height);
-  const gridClass = allHaveRatio ? "grid grid-cols-1 gap-3" : "grid grid-cols-2 gap-3";
+  const anyHasRatio = images.some((i) => i.width && i.height);
+  const gridClass = anyHasRatio ? "grid grid-cols-1 gap-3" : "grid grid-cols-2 gap-3";
   return (
     <div className={gridClass}>
       {images.map((img, idx) => {
