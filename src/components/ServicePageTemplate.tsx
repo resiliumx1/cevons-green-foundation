@@ -73,6 +73,9 @@ export type ServicePageProps = {
   detailSections?: DetailSection[];
   /** Render the "Need Immediate Assistance" band after detailSections */
   showAssistBand?: boolean;
+  /** Hide the hero image column and render the intro copy full-width */
+  hideHeroImage?: boolean;
+
 };
 
 const DEFAULT_STEPS = [
