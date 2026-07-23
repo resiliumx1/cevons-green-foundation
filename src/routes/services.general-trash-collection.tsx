@@ -5,7 +5,7 @@ import imgHero from "@/assets/svc-garbage.jpg";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-septic.jpg";
 import imgRel2 from "@/assets/svc-toilet.jpg";
-import wheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
+import wheelieBinAsset from "@/assets/orange-garbage-truck.webp.asset.json";
 
 const PAGE_TITLE = "General Trash Collection in Guyana | CEVONS";
 const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean.";
