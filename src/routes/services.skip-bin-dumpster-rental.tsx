@@ -1,14 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Container, Hammer, Building2, Wrench, Factory, Trees, Trash2, Recycle } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { BinSizeSelector, type BinSizeOption } from "@/components/services/BinSizeSelector";
 import imgHero from "@/assets/svc-skip.jpg";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
-import imgBin660 from "@/assets/bin-660l.webp.asset.json";
-import imgBin1100 from "@/assets/bin-1100l.webp.asset.json";
-import imgSkip10b from "@/assets/skip-10yd-b.webp.asset.json";
-import imgDumpster20 from "@/assets/dumpster-20yd.webp.asset.json";
+import imgSkip10Asset from "@/assets/skip-10yd-diagram.png.asset.json";
+import imgDumpster20Asset from "@/assets/dumpster-20yd-diagram.png.asset.json";
+import imgDumpster40Asset from "@/assets/commercial-orange-dumpster.png.asset.json";
+import imgDumpster52Asset from "@/assets/dumpster-20yd.webp.asset.json";
+
+const imgSkip10 = imgSkip10Asset as { url: string };
+const imgDumpster20 = imgDumpster20Asset as { url: string };
+const imgDumpster40 = imgDumpster40Asset as { url: string };
+const imgDumpster52 = imgDumpster52Asset as { url: string };
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
 const PAGE_DESC = "Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana.";
