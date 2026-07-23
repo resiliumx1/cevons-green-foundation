@@ -92,6 +92,20 @@ const detailSections: DetailSection[] = [
     ],
   },
   {
+    variant: "specGrid",
+    eyebrow: "Size guide",
+    heading: "Bin sizes and types at a glance — dimensions before you book",
+    paragraphs: [
+      "Every CEVONS container is dimensioned so site managers and facility teams can plan access, placement, and swap-out cadence before the truck rolls. From wheeled commercial bins to the flagship 52 cu yd roll-off, the range is built to match how sites actually generate waste.",
+    ],
+    images: [
+      { src: imgBin660.url, alt: "660 L CEVONS wheeled commercial bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheeled Bin — 4 × 4.1 × 2.4 ft" },
+      { src: imgBin1100.url, alt: "1100 L CEVONS wheeled commercial bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheeled Bin — 4.9 × 4.55 × 3.65 ft" },
+      { src: imgSkip10b.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
+      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Roll-off — 22 × 8 × 4.6 ft" },
+    ],
+  },
+  {
     variant: "band",
     bandEmphasis: true,
     eyebrow: "Short-term or long-term",
