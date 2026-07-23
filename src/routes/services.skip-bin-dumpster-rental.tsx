@@ -5,6 +5,10 @@ import imgHero from "@/assets/svc-skip.jpg";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
+import imgBin660 from "@/assets/bin-660l.webp.asset.json";
+import imgBin1100 from "@/assets/bin-1100l.webp.asset.json";
+import imgSkip10b from "@/assets/skip-10yd-b.webp.asset.json";
+import imgDumpster20 from "@/assets/dumpster-20yd.webp.asset.json";
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
 const PAGE_DESC = "Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana.";
@@ -85,6 +89,20 @@ const detailSections: DetailSection[] = [
     images: [
       { src: "/services/detail/dumpster-52yd.webp", alt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana" },
       { src: "/services/detail/rolloff-container-loaded.webp", alt: "CEVONS roll-off container loaded with construction and demolition debris at the CEVONS yard", width: 1086, height: 1448 },
+    ],
+  },
+  {
+    variant: "specGrid",
+    eyebrow: "Size guide",
+    heading: "Bin sizes and types at a glance — dimensions before you book",
+    paragraphs: [
+      "Every CEVONS container is dimensioned so site managers and facility teams can plan access, placement, and swap-out cadence before the truck rolls. From wheeled commercial bins to the flagship 52 cu yd roll-off, the range is built to match how sites actually generate waste.",
+    ],
+    images: [
+      { src: imgBin660.url, alt: "660 L CEVONS wheeled commercial bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheeled Bin — 4 × 4.1 × 2.4 ft" },
+      { src: imgBin1100.url, alt: "1100 L CEVONS wheeled commercial bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheeled Bin — 4.9 × 4.55 × 3.65 ft" },
+      { src: imgSkip10b.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
+      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Roll-off — 22 × 8 × 4.6 ft" },
     ],
   },
   {
