@@ -74,8 +74,8 @@ export function HomeHero() {
             custom={2}
             className="hero-subhead-pro mt-2"
           >
-            <span>{t("home.hero.subFor")}</span>{" "}
-            <span>{t("home.hero.subForB")}</span>{" "}
+            <span className="for-amber">{t("home.hero.subFor")}</span>{" "}
+            <span className="for-amber">{t("home.hero.subForB")}</span>{" "}
             <span className="for-guyana">{t("home.hero.subForC")}</span>
           </motion.p>
 
