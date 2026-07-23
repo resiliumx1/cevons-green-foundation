@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShieldAlert, Factory, Beaker, Wrench, Hospital, Flame, Building2, Waves, Sprout, Biohazard } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-hazardous.jpg";
+import imgHeroAsset from "@/assets/hazardous-waste-drums.webp.asset.json";
+const imgHero = imgHeroAsset.url;
+
 import imgRel0 from "@/assets/svc-wastewater.jpg";
 import imgRel1 from "@/assets/svc-soil.jpg";
 import imgRel2 from "@/assets/svc-biohazard.jpg";
