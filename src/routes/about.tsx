@@ -23,8 +23,10 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
-import aboutHeroAsset from "@/assets/about-front-office-support.webp.asset.json";
-const heroAbout = aboutHeroAsset.url;
+// Landscape hero recut from the 3024x4032 original (1920x1280 native).
+// Byte-for-byte in public/assets/heroes/ so the hero renders sharp — the
+// prior 1200x1600 portrait had to be upscaled 1.2x to fill the strip.
+const heroAbout = "/assets/heroes/about-support-hero.webp";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
