@@ -17,6 +17,16 @@ const SLIDES: Slide[] = [
   { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right" },
 ];
 
+// Per-slide object-position for the framed card layout. Desktop crop favors
+// full-truck composition; mobile crop shifts slightly up to keep the cab and
+// CEVONS branding visible in a shorter landscape card.
+export const HERO_SLIDES = SLIDES.map((s, i) => ({
+  src: s.src,
+  alt: s.alt,
+  positionDesktop: ["50% 55%", "50% 50%", "50% 45%"][i] ?? s.position,
+  positionMobile: ["55% 55%", "50% 50%", "50% 45%"][i] ?? s.position,
+}));
+
 
 const DURATION_MS = 6000;
 const FADE_MS = 1200;
