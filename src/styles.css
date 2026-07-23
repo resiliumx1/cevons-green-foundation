@@ -495,14 +495,32 @@ html.dark .card-cevons [class*="text-[var(--cevons-muted"] { color: var(--brand-
   }
 }
 
-/* Hero image subtle scale-in (still used by hero <img> tags). */
+/* Hero image subtle scale-in (still used by hero <img> tags).
+   ENDS at scale(1) — the final state must not permanently magnify the photo
+   (heroes are already downscale-cropped; a persistent >1 scale would worsen
+   the crop). Kenburns drift on the slideshow also starts at scale(1), so the
+   settle hands off without a visible jump. */
 @keyframes hero-scale {
   from { transform: scale(1.08); }
   to { transform: scale(1); }
 }
 @utility hero-img {
-  animation: hero-scale 1.8s ease-out forwards;
+  animation: hero-scale 1.8s ease-out both;
+  will-change: transform;
 }
+/* Slideshow settle wrapper — same reveal as .hero-img but as a class (utility
+   layer isn't visible here). Applied on the wrapper of an incoming active
+   slide; kenburns keeps running on the inner <img>. */
+.hero-slide-settle {
+  animation: hero-scale 1.8s ease-out both;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-img,
+  .hero-slide-settle { animation: none !important; transform: none !important; }
+}
+html.reduce-motion .hero-img,
+html.reduce-motion .hero-slide-settle { animation: none !important; transform: none !important; }
 
 /* Photographic hero overlay: dark gradient (left strong → right transparent) so text reads
    on the left and the photo is visible on the right. Use on inner-page hero <img> overlays. */
