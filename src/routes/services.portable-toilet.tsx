@@ -5,6 +5,7 @@ import imgHero from "@/assets/svc-toilet.jpg";
 import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-septic.jpg";
+import toiletTruckAsset from "@/assets/portable-toilet-truck.png.asset.json";
 
 const PAGE_TITLE = "Portable Toilet Rental in Guyana | CEVONS";
 const PAGE_DESC = "Luxury-spec portable toilets, EPA-compliant servicing, and event-grade units for weddings, festivals, and worksites across Guyana.";
