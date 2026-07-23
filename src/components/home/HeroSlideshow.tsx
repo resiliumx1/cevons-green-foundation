@@ -13,7 +13,6 @@ const SLIDES: Slide[] = [
   { src: "/hero-slides/slide-3.webp", alt: "CEVONS office team collaborating around a laptop with product brochures on the desk", position: "center", pan: "left" },
   { src: "/hero-slides/slide-4.webp", alt: "Two CEVONS customer-service teammates smiling at a workstation while handling a request", position: "center", pan: "up" },
   { src: "/hero-slides/slide-5.webp", alt: "CEVONS front-office team member in pink uniform standing confidently in the Georgetown office", position: "center 25%", pan: "down" },
-  { src: "/hero-slides/slide-6.webp", alt: "CEVONS field crew member in hi-vis vest standing beside a branded orange CEVONS truck", position: "center", pan: "left" },
 ];
 
 const DURATION_MS = 6000;
