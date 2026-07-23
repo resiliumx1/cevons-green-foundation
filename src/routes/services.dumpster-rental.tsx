@@ -6,8 +6,7 @@ import imgRel0 from "@/assets/svc-skip.jpg";
 import imgRel1 from "@/assets/svc-garbage.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
 import imgBin240 from "@/assets/bin-240l.webp.asset.json";
-import imgBin660 from "@/assets/bin-660l.webp.asset.json";
-import imgBin1100 from "@/assets/bin-1100l.webp.asset.json";
+
 import imgSkip10a from "@/assets/skip-10yd-a.webp.asset.json";
 import imgDumpster20 from "@/assets/dumpster-20yd.webp.asset.json";
 
