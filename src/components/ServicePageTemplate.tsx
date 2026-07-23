@@ -472,6 +472,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
           alt={img.alt}
           loading="lazy"
           decoding="async"
+          width={img.width}
+          height={img.height}
           className={`w-full aspect-[4/3] ${isContain ? "object-contain p-4 md:p-6" : "object-cover"}`}
         />
         {img.caption && <figcaption className="mt-2 text-xs text-cevons-muted">{img.caption}</figcaption>}
