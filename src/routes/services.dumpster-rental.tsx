@@ -126,6 +126,8 @@ function Page() {
       serviceSlug="dumpster-rental"
       detailSections={detailSections}
       showAssistBand
+      hideHeroImage
+
     />
   );
 }
