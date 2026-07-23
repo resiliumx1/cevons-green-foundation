@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2 } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-scrap.jpg";
+import imgHeroAsset from "@/assets/scrap-metal-bales.webp.asset.json";
+const imgHero = imgHeroAsset.url;
 import imgRel0 from "@/assets/svc-recovery.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
