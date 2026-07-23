@@ -115,7 +115,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
     serviceSlug,
     detailSections,
     showAssistBand,
+    hideHeroImage,
   } = props;
+
 
   const isSpecialist = ctaVariant === "specialist";
   const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
