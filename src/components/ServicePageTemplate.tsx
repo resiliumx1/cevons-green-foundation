@@ -45,7 +45,7 @@ export type DetailSection = {
   paragraphs: string[];
   bullets?: string[];
   images?: DetailImage[];
-  variant: "split-right" | "split-left" | "band" | "gallery";
+  variant: "split-right" | "split-left" | "band" | "gallery" | "specGrid";
   bandEmphasis?: boolean;
   videoEmbed?: { youtubeId: string; title: string; poster?: string };
 };
