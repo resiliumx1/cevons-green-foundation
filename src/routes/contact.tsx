@@ -126,7 +126,7 @@ function ContactPage() {
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         imageSrc={contactHero}
         imageAlt="CEVONS front-office team member welcoming customer inquiries at the Georgetown office"
-        imagePosition="center 30%"
+        imagePosition="center 75%"
         height="standard"
         waveVariant="drift"
       />
