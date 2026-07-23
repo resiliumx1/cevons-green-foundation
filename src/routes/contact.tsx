@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
+import frontOfficePortrait from "@/assets/front-office-portrait.webp.asset.json";
 import { GuyanaBranchMap, type BranchPoint } from "@/components/GuyanaBranchMap";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsApp } from "@/components/icons/WhatsApp";
