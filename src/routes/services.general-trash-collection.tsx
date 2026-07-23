@@ -5,7 +5,7 @@ import imgHero from "@/assets/svc-garbage.jpg";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-septic.jpg";
 import imgRel2 from "@/assets/svc-toilet.jpg";
-import wheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
+import wheelieBinAsset from "@/assets/orange-garbage-truck.webp.asset.json";
 
 const PAGE_TITLE = "General Trash Collection in Guyana | CEVONS";
 const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean.";
@@ -61,7 +61,7 @@ const detailSections: DetailSection[] = [
       "Every collection is performed by highly trained CEVONS drivers operating the largest waste-collection fleet in Guyana — a level of coverage that lets us hold reliable schedules week after week.",
     ],
     images: [
-      { src: wheelieBinAsset.url, alt: "Branded CEVONS wheelie bin set out at a Guyana residential driveway", fit: "contain", bg: "#FFFFFF" },
+      { src: wheelieBinAsset.url, alt: "CEVONS orange rear-loader garbage collection truck on a Guyana residential street", fit: "cover" },
     ],
   },
   {
