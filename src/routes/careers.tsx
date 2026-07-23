@@ -19,10 +19,10 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 // when it's available. External https URLs automatically render as new-tab links below.
 const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
-// Careers hero reuses the wider About office/team photo (1920x1280, downscales
-// sharp to a landscape hero) — front-office-training.webp is portrait
-// (1200x1600) and got 1.33x upscaled + heads clipped when used here.
-import heroCareersAsset from "@/assets/about-front-office-support.webp.asset.json";
+// Careers hero: CEVONS boardroom presentation photo — team reviewing the
+// services line-up on the big screen. Portrait source; focal point is the
+// screen + presenter in the mid-frame, so object-position centres on that.
+import heroCareersAsset from "@/assets/careers-boardroom-presentation.webp.asset.json";
 const heroCareers = heroCareersAsset.url;
 
 export const Route = createFileRoute("/careers")({
@@ -154,12 +154,12 @@ function CareersPage() {
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
-            alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
-            className="h-full w-full object-cover object-[60%_35%] scale-105 animate-[heroDrift_18s_ease-in-out_infinite_alternate]"
+            alt="CEVONS team reviewing the company services line-up during a boardroom presentation in Georgetown"
+            className="h-full w-full object-cover object-[65%_45%] scale-105 animate-[heroDrift_18s_ease-in-out_infinite_alternate]"
             loading="eager"
             fetchPriority="high"
-            width={1920}
-            height={1280}
+            width={1448}
+            height={1930}
           />
           {/* Left-weighted scrim: keeps text legible on the left, faces clean on the right */}
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,12,14,0.88)_0%,rgba(10,12,14,0.72)_35%,rgba(10,12,14,0.30)_60%,rgba(10,12,14,0.10)_85%,rgba(10,12,14,0.05)_100%)]" />
