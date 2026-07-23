@@ -5,7 +5,7 @@ import imgHero from "@/assets/svc-shred.jpg";
 import imgRel0 from "@/assets/svc-destruction.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
-import shreddingContainersAsset from "@/assets/shredding-containers.png.asset.json";
+
 
 const TITLE = "Document Shredding in Guyana | CEVONS Environmental Services";
 const DESC = "Ongoing and one-time verified document destruction — secure, convenient, environmentally friendly, and open to witnessing.";
