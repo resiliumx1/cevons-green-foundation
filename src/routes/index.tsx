@@ -33,7 +33,7 @@ import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
 import svcIndustrialAsset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
-import svcRecoveryAsset from "@/assets/svc-recovery.png.asset.json";
+import svcRecoveryAsset from "@/assets/recycling-facility.jpg.asset.json";
 const imgResidential = residentialWheelieBinAsset.url;
 const imgCommercial = svcCommercialAsset.url;
 const imgIndustrial = svcIndustrialAsset.url;
