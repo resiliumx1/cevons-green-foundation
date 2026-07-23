@@ -58,7 +58,7 @@ const detailSections: DetailSection[] = [
       "It's the right size for small clean-up jobs and home renovations, where a larger container would sit half-empty and take up more of the driveway than the job needs.",
     ],
     images: [
-      { src: "/services/detail/dumpster-30yd.webp", alt: "CEVONS 10 cubic yard skip bin on a residential clean-up" },
+      { src: "/services/detail/skip-truck-delivery.webp", alt: "CEVONS skip truck carrying a skip bin marked Rent Me at the CEVONS depot", width: 1086, height: 1448 },
     ],
   },
   {
@@ -70,7 +70,7 @@ const detailSections: DetailSection[] = [
       "The 40 cubic yard uses the same 22 ft × 8 ft footprint but climbs to six feet high, delivering an extra ten cubic yards of overhead. That headroom is why it's the right choice for complete site cleanups and jobs producing bulky items like furniture, cabinetry, and demolition debris that stack tall rather than heavy.",
     ],
     images: [
-      { src: "/services/detail/dumpster-30yd.webp", alt: "CEVONS 30 cubic yard roll-off dumpster staged on a commercial job site" },
+      { src: "/services/detail/rolloff-truck-side.webp", alt: "CEVONS roll-off truck with a loaded roll-off container on the road in Guyana", width: 1448, height: 1086 },
       { src: "/services/detail/dumpster-40yd.webp", alt: "CEVONS 40 cubic yard roll-off dumpster on a commercial cleanup" },
     ],
   },
@@ -84,6 +84,7 @@ const detailSections: DetailSection[] = [
     ],
     images: [
       { src: "/services/detail/dumpster-52yd.webp", alt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana" },
+      { src: "/services/detail/rolloff-container-loaded.webp", alt: "CEVONS roll-off container loaded with construction and demolition debris at the CEVONS yard", width: 1086, height: 1448 },
     ],
   },
   {

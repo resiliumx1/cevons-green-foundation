@@ -37,7 +37,7 @@ export type RelatedService = {
   icon: LucideIcon;
 };
 
-export type DetailImage = { src: string; alt: string; caption?: string; fit?: "cover" | "contain"; bg?: string };
+export type DetailImage = { src: string; alt: string; caption?: string; fit?: "cover" | "contain"; bg?: string; width?: number; height?: number };
 
 export type DetailSection = {
   eyebrow?: string;
@@ -472,6 +472,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
           alt={img.alt}
           loading="lazy"
           decoding="async"
+          width={img.width}
+          height={img.height}
           className={`w-full aspect-[4/3] ${isContain ? "object-contain p-4 md:p-6" : "object-cover"}`}
         />
         {img.caption && <figcaption className="mt-2 text-xs text-cevons-muted">{img.caption}</figcaption>}
@@ -493,6 +495,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
               alt={img.alt}
               loading="lazy"
               decoding="async"
+              width={img.width}
+              height={img.height}
               className={`w-full aspect-square ${isContain ? "object-contain p-3" : "object-cover"}`}
             />
           </figure>
