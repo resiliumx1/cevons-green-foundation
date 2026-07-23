@@ -132,6 +132,8 @@ function Page() {
       serviceSlug="skip-bin-dumpster-rental"
       detailSections={detailSections}
       showAssistBand
+      hideHeroImage
+
     />
   );
 }
