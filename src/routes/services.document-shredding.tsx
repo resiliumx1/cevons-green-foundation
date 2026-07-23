@@ -58,7 +58,9 @@ const detailSections: DetailSection[] = [
       "CEVONS document shredding is the right service for any organisation that needs ongoing or bulk verified destruction of sensitive documents. It's secure by design, convenient enough that staff actually use it, and environmentally friendly because the paper ends up recycled rather than in landfill.",
       "Clients are always welcome to witness the shredding of their own documents. That option is the whole point of using a service rather than a corner shredder — the outcome is verifiable, not assumed.",
     ],
-    images: [],
+    images: [
+      { src: "/services/detail/shredding-consoles.webp", alt: "CEVONS document shredding collection console" },
+    ],
   },
   {
     variant: "split-left",
