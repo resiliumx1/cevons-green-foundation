@@ -73,6 +73,9 @@ export type ServicePageProps = {
   detailSections?: DetailSection[];
   /** Render the "Need Immediate Assistance" band after detailSections */
   showAssistBand?: boolean;
+  /** Hide the hero image column and render the intro copy full-width */
+  hideHeroImage?: boolean;
+
 };
 
 const DEFAULT_STEPS = [
@@ -112,7 +115,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
     serviceSlug,
     detailSections,
     showAssistBand,
+    hideHeroImage,
   } = props;
+
 
   const isSpecialist = ctaVariant === "specialist";
   const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
@@ -162,7 +167,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
       {/* Hero */}
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
-        <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className={`container-cevons section-y grid gap-10 lg:gap-14 items-center ${hideHeroImage ? "" : "lg:grid-cols-2"}`}>
           <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
               <Eyebrow className="size-4" /> {eyebrowLabel}
@@ -191,27 +196,31 @@ export function ServicePageTemplate(props: ServicePageProps) {
             </div>
           </Reveal>
 
-          <Reveal variant="scale" delay={0.1}>
-            <div className="relative rounded-2xl overflow-hidden shadow-lift group">
-              <img
-                src={heroImage}
-                alt={heroAlt}
-                className="w-full aspect-[4/3] object-cover hero-img transition-transform duration-700 group-hover:scale-105"
-                width={960}
-                height={720}
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
-              <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
-                <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVONS</span>
+          {!hideHeroImage && (
+            <Reveal variant="scale" delay={0.1}>
+              <div className="relative rounded-2xl overflow-hidden shadow-lift group">
+                <img
+                  src={heroImage}
+                  alt={heroAlt}
+                  className="w-full aspect-[4/3] object-cover hero-img transition-transform duration-700 group-hover:scale-105"
+                  width={960}
+                  height={720}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+                <div className="absolute top-4 left-4 bg-white rounded-lg px-2.5 py-1.5 shadow-soft flex items-center gap-2">
+                  <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-cevons-dark">CEVONS</span>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          )}
 
         </div>
       </section>
+
+
 
       {optionsSection}
 
