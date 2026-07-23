@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Waves, Calendar, Hammer, Home, Building, Users, Truck, Trash2, Container, Droplet } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-toilet.jpg";
+import portableToiletHeroAsset from "@/assets/portable-toilet-hero.png.asset.json";
 import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-septic.jpg";
@@ -119,7 +119,7 @@ function Page() {
       breadcrumb="Portable Toilet"
       h1="Portable Toilet Rental"
       subhead="Luxury-spec portable toilets, EPA-compliant servicing, and event-grade units for weddings, festivals, and worksites across Guyana."
-      heroImage={imgHero}
+      heroImage={portableToiletHeroAsset.url}
       heroAlt="Row of CEVONS portable toilets set up at an outdoor event in Guyana"
       benefits={["World Cup spec since 2007","Foot-flush, foot-wash hygiene package","Separate event and site fleet","Sealed vacuum tanker servicing","EPA-compliant disposal"]}
       commonUses={uses}
