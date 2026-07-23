@@ -54,15 +54,26 @@ const related = [
 
 const detailSections: DetailSection[] = [
   {
-    variant: "split-left",
+    variant: "specGrid",
+    eyebrow: "Size guide",
+    heading: "Bin sizes and types at a glance — dimensions before you book",
+    paragraphs: [
+      "Every CEVONS container is dimensioned so site managers and facility teams can plan access, placement, and swap-out cadence before the truck rolls. From wheeled commercial bins to the flagship 52 cu yd roll-off, the range is built to match how sites actually generate waste.",
+    ],
+    images: [
+      { src: imgBin660.url, alt: "660 L CEVONS wheeled commercial bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheeled Bin — 4 × 4.1 × 2.4 ft" },
+      { src: imgBin1100.url, alt: "1100 L CEVONS wheeled commercial bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheeled Bin — 4.9 × 4.55 × 3.65 ft" },
+      { src: imgSkip10b.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
+      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Roll-off — 22 × 8 × 4.6 ft" },
+    ],
+  },
+  {
+    variant: "band",
     eyebrow: "The builders waste bin",
     heading: "The 10 cubic yard — the most commonly used skip bin",
     paragraphs: [
       "Twelve feet long, six feet wide, four feet high — about the size of a small car, and equivalent to roughly 60 domestic garbage bags of waste. The 10 cubic yard is the most commonly used skip bin, also known as the builders waste bin.",
       "It's the right size for small clean-up jobs and home renovations, where a larger container would sit half-empty and take up more of the driveway than the job needs.",
-    ],
-    images: [
-      { src: "/services/detail/skip-truck-delivery.webp", alt: "CEVONS skip truck carrying a skip bin marked Rent Me at the CEVONS depot", width: 1086, height: 1448 },
     ],
   },
   {
@@ -89,20 +100,6 @@ const detailSections: DetailSection[] = [
     images: [
       { src: "/services/detail/dumpster-52yd.webp", alt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana" },
       { src: "/services/detail/rolloff-container-loaded.webp", alt: "CEVONS roll-off container loaded with construction and demolition debris at the CEVONS yard", width: 1086, height: 1448 },
-    ],
-  },
-  {
-    variant: "specGrid",
-    eyebrow: "Size guide",
-    heading: "Bin sizes and types at a glance — dimensions before you book",
-    paragraphs: [
-      "Every CEVONS container is dimensioned so site managers and facility teams can plan access, placement, and swap-out cadence before the truck rolls. From wheeled commercial bins to the flagship 52 cu yd roll-off, the range is built to match how sites actually generate waste.",
-    ],
-    images: [
-      { src: imgBin660.url, alt: "660 L CEVONS wheeled commercial bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheeled Bin — 4 × 4.1 × 2.4 ft" },
-      { src: imgBin1100.url, alt: "1100 L CEVONS wheeled commercial bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheeled Bin — 4.9 × 4.55 × 3.65 ft" },
-      { src: imgSkip10b.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
-      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Roll-off — 22 × 8 × 4.6 ft" },
     ],
   },
   {
