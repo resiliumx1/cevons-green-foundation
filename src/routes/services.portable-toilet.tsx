@@ -5,6 +5,7 @@ import imgHero from "@/assets/svc-toilet.jpg";
 import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-septic.jpg";
+import toiletTruckAsset from "@/assets/portable-toilet-truck.png.asset.json";
 
 const PAGE_TITLE = "Portable Toilet Rental in Guyana | CEVONS";
 const PAGE_DESC = "Luxury-spec portable toilets, EPA-compliant servicing, and event-grade units for weddings, festivals, and worksites across Guyana.";
@@ -59,7 +60,7 @@ const detailSections: DetailSection[] = [
       "That matters because \"portable toilet\" covers a huge range of quality. A CEVONS unit is at the top of that range: a properly finished interior, working fixtures, and the small details — hand towel dispenser, coat hanger, shelf for personal effects — that guests actually notice.",
     ],
     images: [
-      { src: "/services/detail/toilet-servicing-1.webp", alt: "CEVONS portable toilet unit being serviced by a sealed vacuum tanker" },
+      { src: toiletTruckAsset.url, alt: "CEVONS service truck transporting a sealed vacuum tank and red portable toilet unit" },
     ],
   },
   {
