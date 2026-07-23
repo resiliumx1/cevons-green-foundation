@@ -2562,40 +2562,19 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 .hero-kenburns-down  { animation-name: hero-kb-down; }
 
 /* Per-slide focal points, tuned for mobile & tablet where the hero container
-   is taller/narrower than the source 16:9 photo. Desktop keeps the inline
+   is taller/narrower than the source landscape photos. Desktop keeps the inline
    objectPosition from the component (center by default). */
 @media (max-width: 767px) {
-  .hero-slide-img[data-slide="0"],
-  .hero-slide-img[data-slide="1"],
-  .hero-slide-img[data-slide="5"] { object-position: 60% 35% !important; }
-  .hero-slide-img[data-slide="2"],
-  .hero-slide-img[data-slide="3"] { object-position: 55% 30% !important; }
-  .hero-slide-img[data-slide="4"] { object-position: 40% 25% !important; }
+  .hero-slide-img[data-slide="0"] { object-position: 50% 50% !important; }
+  .hero-slide-img[data-slide="1"] { object-position: 55% 50% !important; }
+  .hero-slide-img[data-slide="2"] { object-position: 50% 50% !important; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-slide-img[data-slide="0"],
-  .hero-slide-img[data-slide="1"] { object-position: 55% 40% !important; }
-  .hero-slide-img[data-slide="2"],
-  .hero-slide-img[data-slide="3"] { object-position: 50% 35% !important; }
-  .hero-slide-img[data-slide="4"] { object-position: 45% 30% !important; }
-  .hero-slide-img[data-slide="5"] { object-position: 55% 40% !important; }
+  .hero-slide-img[data-slide="1"],
+  .hero-slide-img[data-slide="2"] { object-position: 50% 50% !important; }
 }
 
-/* Slide 6 (index 5): reveal much more of the frame. Use `contain` so the full
-   photo is visible, and give the Ken Burns a gentler start scale so it settles
-   further out than the cover-cropped slides. */
-.hero-slide-img[data-slide="5"] {
-  object-fit: contain !important;
-  object-position: center center !important;
-  background-color: #000;
-}
-.hero-slide-img[data-slide="5"].hero-kenburns {
-  animation-name: hero-kb-slide6 !important;
-}
-@keyframes hero-kb-slide6 {
-  0%   { transform: scale(1.06) translate3d(0, 0.3%, 0); }
-  100% { transform: scale(1.00) translate3d(0, 0, 0); }
-}
 
 @keyframes hero-tint-flash {
   0%   { opacity: 0; }
