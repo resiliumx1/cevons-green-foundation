@@ -37,7 +37,7 @@ export type RelatedService = {
   icon: LucideIcon;
 };
 
-export type DetailImage = { src: string; alt: string; caption?: string; fit?: "cover" | "contain"; bg?: string };
+export type DetailImage = { src: string; alt: string; caption?: string; fit?: "cover" | "contain"; bg?: string; width?: number; height?: number };
 
 export type DetailSection = {
   eyebrow?: string;
