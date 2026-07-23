@@ -2536,27 +2536,50 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 
 
 /* ============== Hero slideshow: Ken-Burns + tint flash ============== */
+/* Zoom-OUT Ken Burns: each slide begins slightly magnified and settles to
+   scale(1) so more of the frame is revealed over its dwell time. Pairs with
+   the removal of the counter-scaling settle wrapper. */
 @keyframes hero-kb-left {
-  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
-  100% { transform: scale(1.08) translate3d(-1.5%, -0.8%, 0); }
+  0%   { transform: scale(1.14) translate3d(1.2%, 0.6%, 0); }
+  100% { transform: scale(1.00) translate3d(0, 0, 0); }
 }
 @keyframes hero-kb-right {
-  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
-  100% { transform: scale(1.08) translate3d(1.5%, -0.8%, 0); }
+  0%   { transform: scale(1.14) translate3d(-1.2%, 0.6%, 0); }
+  100% { transform: scale(1.00) translate3d(0, 0, 0); }
 }
 @keyframes hero-kb-up {
-  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
-  100% { transform: scale(1.08) translate3d(-0.6%, -1.6%, 0); }
+  0%   { transform: scale(1.14) translate3d(0.5%, 1.3%, 0); }
+  100% { transform: scale(1.00) translate3d(0, 0, 0); }
 }
 @keyframes hero-kb-down {
-  0%   { transform: scale(1.00) translate3d(0, 0, 0); }
-  100% { transform: scale(1.08) translate3d(0.6%, 1.6%, 0); }
+  0%   { transform: scale(1.14) translate3d(-0.5%, -1.3%, 0); }
+  100% { transform: scale(1.00) translate3d(0, 0, 0); }
 }
-.hero-kenburns { will-change: transform; transform-origin: center center; animation-duration: 7200ms; animation-timing-function: cubic-bezier(.22,.61,.36,1); animation-fill-mode: both; }
+.hero-kenburns { will-change: transform; transform-origin: center center; animation-duration: 6800ms; animation-timing-function: cubic-bezier(.22,.61,.36,1); animation-fill-mode: both; }
 .hero-kenburns-left  { animation-name: hero-kb-left; }
 .hero-kenburns-right { animation-name: hero-kb-right; }
 .hero-kenburns-up    { animation-name: hero-kb-up; }
 .hero-kenburns-down  { animation-name: hero-kb-down; }
+
+/* Per-slide focal points, tuned for mobile & tablet where the hero container
+   is taller/narrower than the source 16:9 photo. Desktop keeps the inline
+   objectPosition from the component (center by default). */
+@media (max-width: 767px) {
+  .hero-slide-img[data-slide="0"],
+  .hero-slide-img[data-slide="1"],
+  .hero-slide-img[data-slide="5"] { object-position: 60% 35% !important; }
+  .hero-slide-img[data-slide="2"],
+  .hero-slide-img[data-slide="3"] { object-position: 55% 30% !important; }
+  .hero-slide-img[data-slide="4"] { object-position: 40% 25% !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-slide-img[data-slide="0"],
+  .hero-slide-img[data-slide="1"] { object-position: 55% 40% !important; }
+  .hero-slide-img[data-slide="2"],
+  .hero-slide-img[data-slide="3"] { object-position: 50% 35% !important; }
+  .hero-slide-img[data-slide="4"] { object-position: 45% 30% !important; }
+  .hero-slide-img[data-slide="5"] { object-position: 55% 40% !important; }
+}
 
 @keyframes hero-tint-flash {
   0%   { opacity: 0; }
