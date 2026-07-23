@@ -5,6 +5,10 @@ import imgHero from "@/assets/svc-skip.jpg";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
+import imgBin660 from "@/assets/bin-660l.webp.asset.json";
+import imgBin1100 from "@/assets/bin-1100l.webp.asset.json";
+import imgSkip10b from "@/assets/skip-10yd-b.webp.asset.json";
+import imgDumpster20 from "@/assets/dumpster-20yd.webp.asset.json";
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
 const PAGE_DESC = "Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana.";
