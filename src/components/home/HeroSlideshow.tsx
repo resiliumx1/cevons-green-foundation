@@ -13,7 +13,6 @@ type Slide = {
 const SLIDES: Slide[] = [
   { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left" },
   { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right" },
-  { src: shredAsset.url, alt: "CEVONS Waste orange document destruction shredding truck loading confidential material", position: "center", pan: "left" },
 ];
 
 
