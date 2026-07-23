@@ -19,7 +19,8 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 // when it's available. External https URLs automatically render as new-tab links below.
 const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
-import heroCareers from "@/assets/hero-careers-crew.jpg";
+import heroCareersAsset from "@/assets/front-office-training.webp.asset.json";
+const heroCareers = heroCareersAsset.url;
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
