@@ -14,7 +14,7 @@ type ServiceCard = {
 const cards: ServiceCard[] = [
   { key: "industrial", tagColor: "orange", img: "/services/svc-industrial.webp", to: "/services/hazardous-waste" },
   { key: "recyclables", tagColor: "green", img: "/services/svc-recycling.webp", to: "/services/material-recovery-facility" },
-  { key: "residential", tagColor: "green", img: "/services/svc-residential.webp", to: "/services/general-trash-collection" },
+  { key: "residential", tagColor: "green", img: wheelieBinAsset.url, to: "/services/general-trash-collection" },
   { key: "commercial", tagColor: "orange", img: "/services/svc-commercial.webp", to: "/services/general-waste-management" },
   { key: "specialised", tagColor: "orange", img: "/services/svc-industrial.webp", to: "/services/biohazardous-disposal" },
 ];
