@@ -86,16 +86,25 @@ const detailSections: DetailSection[] = [
     eyebrow: "Size guide",
     heading: "The full CEVONS bin range — pick the size that matches the job",
     paragraphs: [
-      "From a 240 L wheelie bin at the kerb to a 20 cubic yard roll-off on a renovation site, every container is dimensioned so you can plan access, placement, and capacity before we deliver.",
+      "The 240 L wheelie bin covers weekly household waste at the kerb — dimensioned so you can plan placement and collection access before we deliver.",
     ],
     images: [
       { src: imgBin240.url, alt: "240 L CEVONS wheelie bin — 3.6 ft tall, 4.55 ft × 3.65 ft footprint", caption: "240 L Wheelie Bin — 3.6 × 4.55 × 3.65 ft" },
-      { src: imgBin660.url, alt: "660 L CEVONS wheelie bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheelie Bin — 4 × 4.1 × 2.4 ft" },
-      { src: imgBin1100.url, alt: "1100 L CEVONS wheelie bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheelie Bin — 4.9 × 4.55 × 3.65 ft" },
-      { src: imgSkip10a.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
-      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Dumpster — 22 × 8 × 4.6 ft" },
     ],
   },
+  {
+    variant: "specGrid",
+    eyebrow: "Orange roll-offs",
+    heading: "The orange bins — 10 cubic yard skip and 20 cubic yard dumpster",
+    paragraphs: [
+      "The two orange containers cover the bulk of residential clean-ups and renovations. The 10 cubic yard skip bin is the driveway workhorse for small jobs; the 20 cubic yard dumpster steps up when the load is bigger but the site still needs a manageable footprint.",
+    ],
+    images: [
+      { src: imgSkip10a.url, alt: "10 cubic yard CEVONS orange skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
+      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS orange roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Dumpster — 22 × 8 × 4.6 ft" },
+    ],
+  },
+
   {
     variant: "band",
     bandEmphasis: true,
