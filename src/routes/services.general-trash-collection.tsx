@@ -61,7 +61,7 @@ const detailSections: DetailSection[] = [
       "Every collection is performed by highly trained CEVONS drivers operating the largest waste-collection fleet in Guyana — a level of coverage that lets us hold reliable schedules week after week.",
     ],
     images: [
-      { src: wheelieBinAsset.url, alt: "Branded CEVONS wheelie bin set out at a Guyana residential driveway" },
+      { src: wheelieBinAsset.url, alt: "Branded CEVONS wheelie bin set out at a Guyana residential driveway", fit: "contain", bg: "#FFFFFF" },
     ],
   },
   {

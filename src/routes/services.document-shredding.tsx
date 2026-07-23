@@ -5,6 +5,7 @@ import imgHero from "@/assets/svc-shred.jpg";
 import imgRel0 from "@/assets/svc-destruction.jpg";
 import imgRel1 from "@/assets/svc-dumpster.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
+import shreddingContainersAsset from "@/assets/shredding-containers.png.asset.json";
 
 const TITLE = "Document Shredding in Guyana | CEVONS Environmental Services";
 const DESC = "Ongoing and one-time verified document destruction — secure, convenient, environmentally friendly, and open to witnessing.";
@@ -58,7 +59,7 @@ const detailSections: DetailSection[] = [
       "Clients are always welcome to witness the shredding of their own documents. That option is the whole point of using a service rather than a corner shredder — the outcome is verifiable, not assumed.",
     ],
     images: [
-      { src: "/services/detail/shredding-operation.webp", alt: "CEVONS document shredding operation in progress" },
+      { src: shreddingContainersAsset.url, alt: "CEVONS 64-gallon secured shredding container and executive console", fit: "contain", bg: "#FFFFFF" },
     ],
   },
   {

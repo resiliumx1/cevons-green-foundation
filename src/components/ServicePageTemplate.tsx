@@ -37,7 +37,7 @@ export type RelatedService = {
   icon: LucideIcon;
 };
 
-export type DetailImage = { src: string; alt: string; caption?: string };
+export type DetailImage = { src: string; alt: string; caption?: string; fit?: "cover" | "contain"; bg?: string };
 
 export type DetailSection = {
   eyebrow?: string;
@@ -461,20 +461,43 @@ function SectionText({ section }: { section: DetailSection }) {
 function SectionImages({ images }: { images: DetailImage[] }) {
   if (images.length === 1) {
     const img = images[0];
+    const isContain = img.fit === "contain";
     return (
-      <figure className="rounded-2xl overflow-hidden shadow-lift">
-        <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="w-full aspect-[4/3] object-cover" />
+      <figure
+        className="rounded-2xl overflow-hidden shadow-lift"
+        style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
+      >
+        <img
+          src={img.src}
+          alt={img.alt}
+          loading="lazy"
+          decoding="async"
+          className={`w-full aspect-[4/3] ${isContain ? "object-contain p-4 md:p-6" : "object-cover"}`}
+        />
         {img.caption && <figcaption className="mt-2 text-xs text-cevons-muted">{img.caption}</figcaption>}
       </figure>
     );
   }
   return (
     <div className="grid grid-cols-2 gap-3">
-      {images.map((img, idx) => (
-        <figure key={idx} className="rounded-xl overflow-hidden shadow-soft">
-          <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
-        </figure>
-      ))}
+      {images.map((img, idx) => {
+        const isContain = img.fit === "contain";
+        return (
+          <figure
+            key={idx}
+            className="rounded-xl overflow-hidden shadow-soft"
+            style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              decoding="async"
+              className={`w-full aspect-square ${isContain ? "object-contain p-3" : "object-cover"}`}
+            />
+          </figure>
+        );
+      })}
     </div>
   );
 }
