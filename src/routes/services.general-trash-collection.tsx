@@ -116,6 +116,7 @@ function Page() {
       serviceSlug="general-trash-collection"
       detailSections={detailSections}
       showAssistBand
+      hideHeroImage
     />
   );
 }
