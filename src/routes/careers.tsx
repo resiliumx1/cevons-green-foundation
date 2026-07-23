@@ -152,7 +152,7 @@ function CareersPage() {
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
-            alt="CEVONS front-office staff supporting a colleague at the workstation in the Georgetown office"
+            alt="CEVONS team members reviewing service offerings during a boardroom presentation"
             className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"
