@@ -124,9 +124,9 @@ function ContactPage() {
         eyebrow="Contact"
         subtitle="We're here to help. Reach out — we typically respond the same business day."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        imageSrc={frontOfficePortrait.url}
-        imageAlt="CEVONS front-office team member welcoming customer inquiries"
-        imagePosition="center 25%"
+        imageSrc={contactHero}
+        imageAlt="CEVONS front-office team member welcoming customer inquiries at the Georgetown office"
+        imagePosition="center"
         height="standard"
         waveVariant="drift"
       />
