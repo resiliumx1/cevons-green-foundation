@@ -167,7 +167,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
       {/* Hero */}
       <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
-        <div className="container-cevons section-y grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className={`container-cevons section-y grid gap-10 lg:gap-14 items-center ${hideHeroImage ? "" : "lg:grid-cols-2"}`}>
           <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
               <Eyebrow className="size-4" /> {eyebrowLabel}
