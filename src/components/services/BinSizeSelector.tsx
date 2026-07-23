@@ -77,7 +77,7 @@ export function BinSizeSelector({ options, eyebrow, heading, intro }: {
               src={active.image}
               alt={active.imageAlt}
               loading="lazy"
-              className="w-full h-full object-contain aspect-[4/3] p-4 md:p-8 animate-in fade-in duration-300"
+              className="block w-full h-auto animate-in fade-in duration-300"
             />
           </div>
           <div className="flex flex-col justify-center">
