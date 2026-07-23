@@ -102,14 +102,15 @@ function AboutPage() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative overflow-hidden min-h-[60vh] md:min-h-[68vh] flex items-center" aria-labelledby="about-h1">
+      <section className="relative overflow-hidden min-h-[70vh] md:min-h-[82vh] flex items-center" aria-labelledby="about-h1">
         <div className="absolute inset-0">
           <img
             src={heroAbout}
             alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
             className="size-full object-cover hero-img hero-img-mobile"
+            style={{ objectPosition: "center 35%" }}
             width={1920}
-            height={1080}
+            height={1280}
             loading="eager"
           />
           <div className="absolute inset-0 hero-photo-overlay" />

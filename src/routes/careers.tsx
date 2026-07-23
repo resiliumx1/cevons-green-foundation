@@ -19,10 +19,9 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 // when it's available. External https URLs automatically render as new-tab links below.
 const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
-// Landscape hero (1920x1280) recut from the 3024x4032 original — shared
-// with /about because it's thematically right for careers. Byte-for-byte
-// in public/assets/heroes/ so the hero renders sharp.
-const heroCareers = "/assets/heroes/about-support-hero.webp";
+// Landscape hero (1920x1280) recut from the boardroom presentation photo —
+// keeps the TV, presenter, and attendees in frame at wide viewports.
+const heroCareers = "/assets/heroes/careers-boardroom-hero.webp";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -153,7 +152,7 @@ function CareersPage() {
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
-            alt="CEVONS front-office staff supporting a colleague at the workstation in the Georgetown office"
+            alt="CEVONS team members reviewing service offerings during a boardroom presentation"
             className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"
