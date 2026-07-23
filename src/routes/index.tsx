@@ -31,6 +31,7 @@ import { HomeHero } from "@/components/home/HomeHero";
 import { CertificationPanel } from "@/components/home/CertificationPanel";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
+import heroSlide1Asset from "@/assets/slide-skip-hi.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
 import svcIndustrialAsset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
 import svcRecoveryAsset from "@/assets/recycling-facility.jpg.asset.json";
@@ -61,7 +62,8 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "/" },
-      { rel: "preload", as: "image", href: "/assets/heroes/hero-homepage.webp" },
+      // Warm the first slideshow frame (LCP) before JS hydrates the carousel.
+      { rel: "preload", as: "image", href: heroSlide1Asset.url, type: "image/webp", fetchpriority: "high" },
     ],
 
     scripts: [
