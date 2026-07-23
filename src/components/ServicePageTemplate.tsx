@@ -495,6 +495,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
               alt={img.alt}
               loading="lazy"
               decoding="async"
+              width={img.width}
+              height={img.height}
               className={`w-full aspect-square ${isContain ? "object-contain p-3" : "object-cover"}`}
             />
           </figure>
