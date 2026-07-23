@@ -221,6 +221,11 @@ export function HeroSlideshowBackground() {
           // React onLoad event, which can fire after the image is already
           // decoded and waste 1.2s on a fade against the placeholder.
           const visible = isActive && (i === 0 || isLoaded);
+          // `settleKey` bumps whenever this slide becomes active — the wrapper
+          // remounts so the hero-scale settle animation re-runs on activation
+          // (scale 1.08 → 1). Kenburns on the inner <img> starts at scale(1),
+          // so the handoff is seamless.
+          const settleKey = isActive ? `active-${active}` : `idle-${i}`;
           return (
             <div
               key={s.src}
@@ -233,20 +238,25 @@ export function HeroSlideshowBackground() {
               aria-hidden={!isActive}
             >
               {shouldLoad && (
-                <img
-                  ref={(el) => { imgRefs.current[i] = el; }}
-                  src={s.src}
-                  alt={s.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding={i === 0 ? "sync" : "async"}
-                  {...(i === 0 ? { fetchPriority: "high" as const } : {})}
-                  width={1920}
-                  height={1080}
-                  onLoad={() => markLoaded(i)}
-                  onError={() => markLoaded(i)}
-                  className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
-                  style={{ objectPosition: s.position }}
-                />
+                <div
+                  key={settleKey}
+                  className={isActive && isLoaded && !reduced ? "size-full hero-slide-settle" : "size-full"}
+                >
+                  <img
+                    ref={(el) => { imgRefs.current[i] = el; }}
+                    src={s.src}
+                    alt={s.alt}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding={i === 0 ? "sync" : "async"}
+                    {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                    width={1920}
+                    height={1080}
+                    onLoad={() => markLoaded(i)}
+                    onError={() => markLoaded(i)}
+                    className={`size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+                    style={{ objectPosition: s.position }}
+                  />
+                </div>
               )}
             </div>
           );
