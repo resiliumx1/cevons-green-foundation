@@ -64,15 +64,66 @@ const detailSections: DetailSection[] = [
     eyebrow: "Size guide",
     heading: "Bin sizes and types at a glance — dimensions before you book",
     paragraphs: [
-      "Every CEVONS container is dimensioned so site managers and facility teams can plan access, placement, and swap-out cadence before the truck rolls. From wheeled commercial bins to the flagship 52 cu yd roll-off, the range is built to match how sites actually generate waste.",
+const sizeOptions: BinSizeOption[] = [
+  {
+    id: "skip-10",
+    label: "10 cu yd Skip Bin",
+    tagline: "The builders waste bin — small clean-ups and home renovations",
+    dimensions: "12 ft L × 5.6 ft W × 4 ft H",
+    capacity: "≈ 60 domestic garbage bags",
+    bestFor: [
+      "Small clean-up jobs and home renovations",
+      "Tight driveways where footprint matters",
+      "Short-term drops on residential streets",
     ],
-    images: [
-      { src: imgBin660.url, alt: "660 L CEVONS wheeled commercial bin — 4 ft tall, 4.1 ft × 2.4 ft footprint", caption: "660 L Wheeled Bin — 4 × 4.1 × 2.4 ft" },
-      { src: imgBin1100.url, alt: "1100 L CEVONS wheeled commercial bin — 4.9 ft tall, 4.55 ft × 3.65 ft footprint", caption: "1100 L Wheeled Bin — 4.9 × 4.55 × 3.65 ft" },
-      { src: imgSkip10b.url, alt: "10 cubic yard CEVONS skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
-      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Roll-off — 22 × 8 × 4.6 ft" },
-    ],
+    image: imgSkip10.url,
+    imageAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
   },
+  {
+    id: "dumpster-30",
+    label: "30 cu yd Roll-off",
+    tagline: "The commercial workhorse — price, footprint, and capacity in balance",
+    dimensions: "22 ft L × 8 ft W × 4.5 ft H",
+    capacity: "≈ 10 pickup-truck loads",
+    bestFor: [
+      "Medium commercial builds and ongoing renovations",
+      "Steady weekly waste streams on active sites",
+      "Tight sites needing a compact 22 ft footprint",
+    ],
+    image: imgDumpster20.url,
+    imageAlt: "CEVONS 30 cubic yard orange roll-off dumpster with dimensions labelled",
+  },
+  {
+    id: "dumpster-40",
+    label: "40 cu yd Roll-off",
+    tagline: "The tall-load option — extra headroom for bulky material",
+    dimensions: "22 ft L × 8 ft W × 6 ft H",
+    capacity: "10 additional cu yd of overhead vs the 30",
+    bestFor: [
+      "Complete site cleanups and full clear-outs",
+      "Bulky items — furniture, cabinetry, demolition debris",
+      "Jobs where material stacks tall rather than heavy",
+    ],
+    image: imgDumpster40.url,
+    imageAlt: "CEVONS 40 cubic yard commercial roll-off dumpster",
+  },
+  {
+    id: "dumpster-52",
+    label: "52 cu yd Roll-off",
+    tagline: "The Mother of all Bins — the largest roll-off in Guyana",
+    dimensions: "22 ft L × 8 ft W × 9 ft H",
+    capacity: "Fewer swap-outs on high-volume jobs",
+    bestFor: [
+      "Demolition and industrial-scale clearances",
+      "Full commercial cleanups and large residential projects",
+      "Sites where a smaller bin would mean back-to-back swap-outs",
+    ],
+    image: imgDumpster52.url,
+    imageAlt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana",
+  },
+];
+
+const detailSections: DetailSection[] = [
   {
     variant: "band",
     eyebrow: "The builders waste bin",
@@ -80,32 +131,6 @@ const detailSections: DetailSection[] = [
     paragraphs: [
       "Twelve feet long, six feet wide, four feet high — about the size of a small car, and equivalent to roughly 60 domestic garbage bags of waste. The 10 cubic yard is the most commonly used skip bin, also known as the builders waste bin.",
       "It's the right size for small clean-up jobs and home renovations, where a larger container would sit half-empty and take up more of the driveway than the job needs.",
-    ],
-  },
-  {
-    variant: "split-right",
-    eyebrow: "The commercial range",
-    heading: "30 and 40 cubic yard roll-offs — sized for the way sites actually generate waste",
-    paragraphs: [
-      "The 30 cubic yard is one of the most popular sizes — price, compact footprint and capacity together. Twenty-two feet long, eight feet wide, four and a half feet high — enough capacity to absorb roughly ten pickup-truck loads while keeping a compact footprint on tight sites. A strong fit for medium commercial builds, ongoing renovations, and steady weekly waste streams.",
-      "The 40 cubic yard uses the same 22 ft × 8 ft footprint but climbs to six feet high, delivering an extra ten cubic yards of overhead. That headroom is why it's the right choice for complete site cleanups and jobs producing bulky items like furniture, cabinetry, and demolition debris that stack tall rather than heavy.",
-    ],
-    images: [
-      { src: "/services/detail/rolloff-truck-side.webp", alt: "CEVONS roll-off truck with a loaded roll-off container on the road in Guyana", width: 1448, height: 1086 },
-      { src: "/services/detail/dumpster-40yd.webp", alt: "CEVONS 40 cubic yard roll-off dumpster on a commercial cleanup" },
-    ],
-  },
-  {
-    variant: "split-left",
-    eyebrow: "The flagship",
-    heading: "The 52 cubic yard — the Mother of all Bins",
-    paragraphs: [
-      "The 52 cubic yard is the largest container CEVONS runs — CEVONS is the only company in Guyana offering roll-off containers from 10 to 52 cubic yards. Twenty-two feet long, eight feet wide, and nine feet tall — a scale that makes it the right tool for large residential projects, full commercial cleanups, demolition, and industrial applications where a smaller bin would mean back-to-back swap-outs.",
-      "When the material volume is genuinely large, the 52 keeps a site moving with fewer swap-outs.",
-    ],
-    images: [
-      { src: "/services/detail/dumpster-52yd.webp", alt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana" },
-      { src: "/services/detail/rolloff-container-loaded.webp", alt: "CEVONS roll-off container loaded with construction and demolition debris at the CEVONS yard", width: 1086, height: 1448 },
     ],
   },
   {
