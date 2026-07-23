@@ -58,12 +58,6 @@ const related = [
   { title: "Material Recovery Facility", body: "Sorting and recovery that turns waste into resources.", img: imgRel2, to: "/services/material-recovery-facility", icon: Recycle },
 ];
 
-const detailSections: DetailSection[] = [
-  {
-    variant: "specGrid",
-    eyebrow: "Size guide",
-    heading: "Bin sizes and types at a glance — dimensions before you book",
-    paragraphs: [
 const sizeOptions: BinSizeOption[] = [
   {
     id: "skip-10",
