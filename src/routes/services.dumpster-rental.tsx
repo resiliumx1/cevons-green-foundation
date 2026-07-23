@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Home, Hammer, Leaf, Truck, Trees, Trash2, Building2, Recycle } from "lucide-react";
+import { Container, Home, Hammer, Leaf, Truck, Trees, Trash2, Building2 } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { BinSizeSelector, type BinSizeOption } from "@/components/services/BinSizeSelector";
 import imgHero from "@/assets/svc-dumpster.jpg";
 import imgRel0 from "@/assets/svc-skip.jpg";
 import imgRel1 from "@/assets/svc-garbage.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
-import imgBin240 from "@/assets/bin-240l.webp.asset.json";
-
-import imgSkip10a from "@/assets/skip-10yd-a.webp.asset.json";
-import imgDumpster20 from "@/assets/dumpster-20yd.webp.asset.json";
+import imgSkip10 from "@/assets/skip-10yd-orange.jpg.asset.json";
+import imgDumpster20 from "@/assets/dumpster-20yd-orange.jpg.asset.json";
 
 const PAGE_TITLE = "Dumpster Rental in Guyana | CEVONS Environmental Services";
 const PAGE_DESC =
@@ -40,7 +39,7 @@ const uses = [
 ];
 
 const faqs = [
-  { q: "Which size do I need for a home renovation?", a: "For most home renovations the 10 cubic yard skip is the workhorse — small enough to fit on a driveway, big enough to hold roughly sixty domestic garbage bags. Full home cleanouts with furniture and bulky items usually step up to the 40 yard. If you're unsure, tell us the rooms involved and we'll recommend the right size." },
+  { q: "Which size do I need for a home renovation?", a: "For most home renovations the 10 cubic yard skip is the workhorse — small enough to fit on a driveway, big enough to hold roughly sixty domestic garbage bags. When the job includes bulky items, furniture, or a full room strip-out, step up to the 20 cubic yard dumpster. If you're unsure, tell us the rooms involved and we'll recommend the right size." },
   { q: "How long can I keep the bin?", a: "Both short-term and long-term hires are arranged. Set the dates when you request the bin and we'll build the rental period around your project — one day, one week, or the length of your renovation." },
   { q: "What can't go in the bin?", a: "The bin takes general household, renovation and yard waste. Hazardous materials, liquid waste, chemicals, and regulated items must be handled separately — flag anything unusual when you book and we'll advise the correct disposal route." },
   { q: "Can you place the bin on my driveway without damaging it?", a: "Yes. Our drivers place the roll-off carefully and can use timber boards under the rollers on softer surfaces. Let us know where you'd like it and any access constraints when the truck arrives." },
@@ -53,57 +52,47 @@ const related = [
   { title: "General Waste Management", body: "Scheduled commercial collection programs.", img: imgRel2, to: "/services/general-waste-management", icon: Building2 },
 ];
 
+const sizeOptions: BinSizeOption[] = [
+  {
+    id: "skip-10",
+    label: "10 cu yd Skip Bin",
+    tagline: "The driveway workhorse for small clean-ups and home renovations",
+    dimensions: "12 ft L × 5.6 ft W × 4 ft H",
+    capacity: "≈ 60 domestic garbage bags",
+    bestFor: [
+      "Single-room renovations and small clean-outs",
+      "Yard clearances and green waste",
+      "Driveways where footprint matters",
+    ],
+    image: imgSkip10.url,
+    imageAlt: "CEVONS 10 cubic yard orange skip bin, front three-quarter view",
+  },
+  {
+    id: "dumpster-20",
+    label: "20 cu yd Dumpster",
+    tagline: "The step-up for bigger loads that still need a manageable footprint",
+    dimensions: "22 ft L × 8 ft W × 4.6 ft H",
+    capacity: "≈ 120 domestic garbage bags",
+    bestFor: [
+      "Multi-room renovations and full clean-outs",
+      "Bulky items, furniture, and appliances",
+      "Extended projects with sustained waste output",
+    ],
+    image: imgDumpster20.url,
+    imageAlt: "CEVONS 20 cubic yard orange roll-off dumpster, side three-quarter view",
+  },
+];
+
 const detailSections: DetailSection[] = [
   {
-    variant: "split-right",
-    eyebrow: "The 10-yard workhorse",
-    heading: "The builder's waste bin — for the small job that still generates real waste",
+    variant: "band",
+    eyebrow: "The right bin, first time",
+    heading: "Two orange containers cover the bulk of residential clean-ups and renovations",
     paragraphs: [
-      "Whether you're tackling a small clean-up or a major home renovation, CEVONS supplies the right size bin at competitive pricing. The 10 cubic yard skip is the one we drop off most: about the size of a small car, roughly 12 ft long by 6 ft wide by 4 ft high — enough capacity to swallow the equivalent of around sixty domestic garbage bags.",
-      "It fits neatly on a standard driveway, doesn't dominate the front of your property, and handles the mixed load of bagged waste, timber, and small bulky items that a home clean-up or minor renovation produces.",
-      "As the preferred waste service provider in Guyana, we've placed thousands of these bins on residential drives and back yards — and we know which projects genuinely need something bigger before we drop one off.",
-    ],
-    images: [
-      { src: "/services/detail/skip-bin-10yd-1.webp", alt: "CEVONS 10 cubic yard skip bin loaded and ready for collection" },
-      { src: "/services/detail/skip-bin-10yd-2.webp", alt: "Second view of the CEVONS 10 cubic yard skip bin on-site" },
+      "The 10 cubic yard skip and the 20 cubic yard dumpster are the two bins CEVONS drops most on residential streets. The skip fits neatly on a standard driveway and handles bagged waste, timber, and small bulky items. The dumpster steps in when the job runs longer, the load runs heavier, or the material stacks bulkier than the skip can hold.",
+      "As the preferred waste service provider in Guyana, we've placed thousands of these bins across Georgetown, Linden, and Berbice — and we know which projects genuinely need something bigger before we drop one off.",
     ],
   },
-  {
-    variant: "split-left",
-    eyebrow: "Sizing up",
-    heading: "When the 10 yard isn't enough — the 30 and 40 cubic yard roll-offs",
-    paragraphs: [
-      "The 30 cubic yard bin — 22 ft long by 8 ft wide by 4.5 ft high — swallows roughly ten pickup-truck loads. It's the most popular size in our line-up because it hits the sweet spot between price, footprint, and capacity: big enough for a serious renovation, small enough to stage on most residential lots.",
-      "When the job includes a complete cleanout — furniture, appliances, room contents, or the aftermath of a full renovation — the 40 cubic yard steps in. Same 22 ft × 8 ft footprint as the 30, but 6 ft high, giving you an extra 10 cubic yards of overhead capacity for bulky items that would otherwise stack awkwardly.",
-    ],
-    images: [
-      { src: "/services/detail/dumpster-30yd.webp", alt: "CEVONS 30 cubic yard roll-off dumpster on a residential renovation site" },
-    ],
-  },
-  {
-    variant: "specGrid",
-    eyebrow: "Size guide",
-    heading: "The full CEVONS bin range — pick the size that matches the job",
-    paragraphs: [
-      "The 240 L wheelie bin covers weekly household waste at the kerb — dimensioned so you can plan placement and collection access before we deliver.",
-    ],
-    images: [
-      { src: imgBin240.url, alt: "240 L CEVONS wheelie bin — 3.6 ft tall, 4.55 ft × 3.65 ft footprint", caption: "240 L Wheelie Bin — 3.6 × 4.55 × 3.65 ft" },
-    ],
-  },
-  {
-    variant: "specGrid",
-    eyebrow: "Orange roll-offs",
-    heading: "The orange bins — 10 cubic yard skip and 20 cubic yard dumpster",
-    paragraphs: [
-      "The two orange containers cover the bulk of residential clean-ups and renovations. The 10 cubic yard skip bin is the driveway workhorse for small jobs; the 20 cubic yard dumpster steps up when the load is bigger but the site still needs a manageable footprint.",
-    ],
-    images: [
-      { src: imgSkip10a.url, alt: "10 cubic yard CEVONS orange skip bin — 12 ft long, 5.6 ft wide, 4 ft high", caption: "10 cu yd Skip Bin — 12 × 5.6 × 4 ft" },
-      { src: imgDumpster20.url, alt: "20 cubic yard CEVONS orange roll-off dumpster — 22 ft long, 8 ft wide, 4.6 ft high", caption: "20 cu yd Dumpster — 22 × 8 × 4.6 ft" },
-    ],
-  },
-
   {
     variant: "band",
     bandEmphasis: true,
@@ -126,16 +115,23 @@ function Page() {
       subhead="Roll-off bins from 10 to 52 cubic yards for household clean-ups, home renovations, and yard waste across Guyana."
       heroImage={imgHero}
       heroAlt="Green CEVONS dumpster ready for rental on a residential Guyana driveway"
-      benefits={["10, 30, 40 & 52 cubic yard sizes", "Only 10–52 yd range in Guyana", "Short and long-term rental", "Timely delivery and pickup", "EPA-aligned disposal"]}
+      benefits={["10 & 20 cu yd residential bins", "Only 10–52 yd range in Guyana", "Short and long-term rental", "Timely delivery and pickup", "EPA-aligned disposal"]}
       commonUses={uses}
       faqs={faqs}
       related={related}
       ctaVariant="routine"
       serviceSlug="dumpster-rental"
+      optionsSection={
+        <BinSizeSelector
+          eyebrow="Size selector"
+          heading="Pick the bin that matches your job"
+          intro="Tap a size to see dimensions, capacity, and the projects it handles best. Not sure? Choose either and we'll confirm the fit when you book."
+          options={sizeOptions}
+        />
+      }
       detailSections={detailSections}
       showAssistBand
       hideHeroImage
-
     />
   );
 }
