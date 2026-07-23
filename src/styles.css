@@ -1429,6 +1429,36 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   text-shadow: none;
 }
 
+/* "For Homes." / "For Businesses." — warm amber crystalline treatment,
+   mirrors the green Guyana treatment so the trio reads as one system. */
+.hero-subhead-pro .for-amber {
+  position: relative;
+  font-weight: 700;
+  font-style: italic;
+  color: transparent;
+  background: linear-gradient(
+    100deg,
+    #E8A21A 0%,
+    #F4B72A 22%,
+    #FFD34D 48%,
+    #FFF0A8 62%,
+    #FFD34D 78%,
+    #F4B72A 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter:
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 0 14px rgba(244, 183, 42, 0.5))
+    drop-shadow(0 0 28px rgba(255, 211, 77, 0.3));
+  animation: forGuyanaShine 9s ease-in-out infinite;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero-subhead-pro .for-amber { color: #FFD34D; background: none; filter: none; }
+}
+
 /* "For Guyana." — crystalline green treatment.
    Deep green base ensures AA contrast on light surfaces (#137a2b on #fff ≈ 6.1:1),
    with a soft emerald→lime gradient sheen and a gentle glow that feels like
