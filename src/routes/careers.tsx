@@ -155,7 +155,7 @@ function CareersPage() {
           <img
             src={heroCareers}
             alt="CEVONS team reviewing the company services line-up during a boardroom presentation in Georgetown"
-            className="h-full w-full object-cover object-[65%_45%] scale-105 animate-[heroDrift_18s_ease-in-out_infinite_alternate]"
+            className="h-full w-full object-cover object-[65%_45%] hero-img"
             loading="eager"
             fetchPriority="high"
             width={1448}
