@@ -6,8 +6,11 @@ import imgHero from "@/assets/svc-dumpster.jpg";
 import imgRel0 from "@/assets/svc-skip.jpg";
 import imgRel1 from "@/assets/svc-garbage.jpg";
 import imgRel2 from "@/assets/svc-commercial.jpg";
-import imgSkip10 from "@/assets/skip-10yd-orange.jpg.asset.json";
-import imgDumpster20 from "@/assets/dumpster-20yd-orange.jpg.asset.json";
+import imgSkip10Asset from "@/assets/skip-10yd-orange.jpg.asset.json";
+import imgDumpster20Asset from "@/assets/dumpster-20yd-orange.jpg.asset.json";
+
+const imgSkip10 = imgSkip10Asset as { url: string };
+const imgDumpster20 = imgDumpster20Asset as { url: string };
 
 const PAGE_TITLE = "Dumpster Rental in Guyana | CEVONS Environmental Services";
 const PAGE_DESC =
