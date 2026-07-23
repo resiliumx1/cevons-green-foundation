@@ -1440,25 +1440,28 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   color: transparent;
   background: linear-gradient(
     100deg,
-    #0F5F22 0%,
-    #137A2B 22%,
-    #2DA339 48%,
-    #6BD37F 62%,
-    #2DA339 78%,
-    #137A2B 100%
+    #1F9D3A 0%,
+    #34D057 22%,
+    #6BF08A 48%,
+    #B6FFC6 62%,
+    #6BF08A 78%,
+    #34D057 100%
   );
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   padding-bottom: 0.22em;
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6))
-          drop-shadow(0 0 10px rgba(45, 163, 57, 0.35));
+  filter:
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55))
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 0 14px rgba(52, 208, 87, 0.55))
+    drop-shadow(0 0 28px rgba(107, 240, 138, 0.35));
   animation: forGuyanaShine 9s ease-in-out infinite;
 }
 
 /* Fallback solid color for browsers that don't clip gradient to text. */
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-  .hero-subhead-pro .for-guyana { color: #137A2B; background: none; filter: none; }
+  .hero-subhead-pro .for-guyana { color: #6BF08A; background: none; filter: none; }
 }
 
 /* Crystalline underline: two-stop gradient with a soft highlight sweep. */
@@ -1472,13 +1475,13 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   border-radius: 2px;
   background: linear-gradient(
     90deg,
-    rgba(19, 122, 43, 0) 0%,
-    rgba(19, 122, 43, 0.85) 20%,
-    rgba(107, 211, 127, 1) 55%,
-    rgba(19, 122, 43, 0.85) 80%,
-    rgba(19, 122, 43, 0) 100%
+    rgba(52, 208, 87, 0) 0%,
+    rgba(52, 208, 87, 0.9) 20%,
+    rgba(182, 255, 198, 1) 55%,
+    rgba(52, 208, 87, 0.9) 80%,
+    rgba(52, 208, 87, 0) 100%
   );
-  box-shadow: 0 0 8px rgba(45, 163, 57, 0.45);
+  box-shadow: 0 0 10px rgba(107, 240, 138, 0.7);
   transform-origin: left;
   animation: scriptUnderlineDraw 850ms ease-out 700ms both;
 }
