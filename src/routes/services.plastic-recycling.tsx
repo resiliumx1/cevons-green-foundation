@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Recycle, Factory, Building2, ShoppingBag, Package, Trash2, Container, Sprout } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-recovery.jpg";
+import imgHeroAsset from "@/assets/plastic-recycling-hero.jpg.asset.json";
+const imgHero = (imgHeroAsset as { url: string }).url;
 import imgRel0 from "@/assets/svc-scrap.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-industrial.jpg";
@@ -87,7 +88,7 @@ function Page() {
       h1="Plastic Recycling"
       subhead="Business plastics programs designed to raise your recycling rate — backed by a partner network with verified, transparent end destinations."
       heroImage={imgHero}
-      heroAlt="Sorted plastic material bales at a CEVONS recycling operation"
+      heroAlt="CEVONS crew in high-visibility PPE sorting baled plastic containers for recycling"
       benefits={[
         "Programs that raise your recycling rate",
         "Verified, transparent end destinations",
