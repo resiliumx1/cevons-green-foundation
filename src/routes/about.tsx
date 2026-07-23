@@ -104,7 +104,7 @@ function AboutPage() {
         <div className="absolute inset-0">
           <img
             src={heroAbout}
-            alt="CEVONS team outside company facility"
+            alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
             className="size-full object-cover hero-img hero-img-mobile"
             width={1920}
             height={1080}
