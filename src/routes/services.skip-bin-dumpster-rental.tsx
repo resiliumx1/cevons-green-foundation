@@ -155,6 +155,14 @@ function Page() {
       related={related}
       ctaVariant="routine"
       serviceSlug="skip-bin-dumpster-rental"
+      optionsSection={
+        <BinSizeSelector
+          eyebrow="Size selector"
+          heading="Pick the roll-off that matches your site"
+          intro="Tap a size to see dimensions, capacity, and the projects it handles best. Not sure? Choose the closest fit and we'll confirm on the site walk-through."
+          options={sizeOptions}
+        />
+      }
       detailSections={detailSections}
       showAssistBand
       hideHeroImage
