@@ -196,7 +196,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
               <img
                 src={heroImage}
                 alt={heroAlt}
-                className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full aspect-[4/3] object-cover hero-img transition-transform duration-700 group-hover:scale-105"
                 width={960}
                 height={720}
                 loading="eager"

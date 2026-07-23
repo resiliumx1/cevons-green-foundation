@@ -19,11 +19,10 @@ import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 // when it's available. External https URLs automatically render as new-tab links below.
 const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR careers portal
 
-// Careers hero: CEVONS boardroom presentation photo — team reviewing the
-// services line-up on the big screen. Portrait source; focal point is the
-// screen + presenter in the mid-frame, so object-position centres on that.
-import heroCareersAsset from "@/assets/careers-boardroom-presentation.webp.asset.json";
-const heroCareers = heroCareersAsset.url;
+// Landscape hero (1920x1280) recut from the 3024x4032 original — shared
+// with /about because it's thematically right for careers. Byte-for-byte
+// in public/assets/heroes/ so the hero renders sharp.
+const heroCareers = "/assets/heroes/about-support-hero.webp";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -154,12 +153,12 @@ function CareersPage() {
         <div className="absolute inset-0 -z-10">
           <img
             src={heroCareers}
-            alt="CEVONS team reviewing the company services line-up during a boardroom presentation in Georgetown"
-            className="h-full w-full object-cover object-[65%_45%] hero-img"
+            alt="CEVONS front-office staff supporting a colleague at the workstation in the Georgetown office"
+            className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"
-            width={1448}
-            height={1930}
+            width={1920}
+            height={1280}
           />
           {/* Left-weighted scrim: keeps text legible on the left, faces clean on the right */}
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,12,14,0.88)_0%,rgba(10,12,14,0.72)_35%,rgba(10,12,14,0.30)_60%,rgba(10,12,14,0.10)_85%,rgba(10,12,14,0.05)_100%)]" />
