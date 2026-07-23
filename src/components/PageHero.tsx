@@ -95,7 +95,7 @@ export function PageHero({
           {...(priority ? { fetchPriority: "high" as const } : {})}
           width={1920}
           height={1080}
-          className="size-full object-cover hero-img-mobile"
+          className="size-full object-cover hero-img hero-img-mobile"
           style={{ objectPosition: imagePosition }}
 
         />
