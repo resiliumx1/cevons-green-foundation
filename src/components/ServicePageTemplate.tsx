@@ -462,6 +462,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
   if (images.length === 1) {
     const img = images[0];
     const isContain = img.fit === "contain";
+    const hasRatio = !!(img.width && img.height);
+    const imgStyle = hasRatio ? { aspectRatio: `${img.width} / ${img.height}` } : undefined;
     return (
       <figure
         className="rounded-2xl overflow-hidden shadow-lift"
@@ -474,16 +476,24 @@ function SectionImages({ images }: { images: DetailImage[] }) {
           decoding="async"
           width={img.width}
           height={img.height}
-          className={`w-full aspect-[4/3] ${isContain ? "object-contain p-4 md:p-6" : "object-cover"}`}
+          style={imgStyle}
+          className={`w-full ${hasRatio ? "" : "aspect-[4/3]"} ${isContain ? "object-contain p-4 md:p-6" : "object-cover"}`}
         />
         {img.caption && <figcaption className="mt-2 text-xs text-cevons-muted">{img.caption}</figcaption>}
       </figure>
     );
   }
+  // If every image supplies width/height, opt into per-image aspect ratios and
+  // stack vertically so each image fills the available column width instead of
+  // being squeezed into a small square tile.
+  const allHaveRatio = images.every((i) => i.width && i.height);
+  const gridClass = allHaveRatio ? "grid grid-cols-1 gap-3" : "grid grid-cols-2 gap-3";
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className={gridClass}>
       {images.map((img, idx) => {
         const isContain = img.fit === "contain";
+        const hasRatio = !!(img.width && img.height);
+        const imgStyle = hasRatio ? { aspectRatio: `${img.width} / ${img.height}` } : undefined;
         return (
           <figure
             key={idx}
@@ -497,7 +507,8 @@ function SectionImages({ images }: { images: DetailImage[] }) {
               decoding="async"
               width={img.width}
               height={img.height}
-              className={`w-full aspect-square ${isContain ? "object-contain p-3" : "object-cover"}`}
+              style={imgStyle}
+              className={`w-full ${hasRatio ? "" : "aspect-square"} ${isContain ? "object-contain p-3" : "object-cover"}`}
             />
           </figure>
         );
