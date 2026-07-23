@@ -616,13 +616,13 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border flex flex-col">
-                <div className="aspect-[16/9] bg-white flex items-center justify-center p-2">
+                <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
                   <img
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-contain"
+                    className="max-w-full max-h-full w-auto h-auto object-contain"
                   />
                 </div>
                 {img.caption && (
