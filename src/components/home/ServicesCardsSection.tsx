@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useT } from "@/contexts/SettingsContext";
 import wheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
+import commercialRedBinAsset from "@/assets/commercial-red-bin.jpeg.asset.json";
 
 type ServiceCard = {
   key: "industrial" | "recyclables" | "residential" | "commercial" | "specialised";
