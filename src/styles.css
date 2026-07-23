@@ -1418,7 +1418,7 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   font-family: var(--font-sans), "Hanken Grotesk", sans-serif;
   font-weight: 500;
   font-style: italic;
-  color: var(--brand-yellow);
+  color: var(--brand-charcoal, #1A1A1A);
   font-size: clamp(1.1rem, 2.1vw, 1.5rem);
   letter-spacing: -0.005em;
   line-height: 1.35;
@@ -1426,25 +1426,68 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   flex-wrap: wrap;
   gap: 0.35em;
   align-items: baseline;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: none;
 }
+
+/* "For Guyana." — crystalline green treatment.
+   Deep green base ensures AA contrast on light surfaces (#137a2b on #fff ≈ 6.1:1),
+   with a soft emerald→lime gradient sheen and a gentle glow that feels like
+   polished glass rather than a neon highlight. */
 .hero-subhead-pro .for-guyana {
   position: relative;
-  color: var(--brand-yellow);
-  padding-bottom: 0.18em;
+  font-weight: 700;
+  font-style: italic;
+  color: transparent;
+  background: linear-gradient(
+    100deg,
+    #0F5F22 0%,
+    #137A2B 22%,
+    #2DA339 48%,
+    #6BD37F 62%,
+    #2DA339 78%,
+    #137A2B 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  padding-bottom: 0.22em;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6))
+          drop-shadow(0 0 10px rgba(45, 163, 57, 0.35));
+  animation: forGuyanaShine 9s ease-in-out infinite;
 }
+
+/* Fallback solid color for browsers that don't clip gradient to text. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero-subhead-pro .for-guyana { color: #137A2B; background: none; filter: none; }
+}
+
+/* Crystalline underline: two-stop gradient with a soft highlight sweep. */
 .hero-subhead-pro .for-guyana::after {
   content: "";
   position: absolute;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 2.2em;
-  height: 1.5px;
+  height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--brand-yellow), rgba(252, 231, 34, 0));
+  background: linear-gradient(
+    90deg,
+    rgba(19, 122, 43, 0) 0%,
+    rgba(19, 122, 43, 0.85) 20%,
+    rgba(107, 211, 127, 1) 55%,
+    rgba(19, 122, 43, 0.85) 80%,
+    rgba(19, 122, 43, 0) 100%
+  );
+  box-shadow: 0 0 8px rgba(45, 163, 57, 0.45);
   transform-origin: left;
   animation: scriptUnderlineDraw 850ms ease-out 700ms both;
 }
+
+@keyframes forGuyanaShine {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
 /* Option B alternative: add .hero-subhead-pro.kicker on the <p> to switch */
 .hero-subhead-pro.kicker {
   font-style: normal;
@@ -1459,6 +1502,7 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   from { transform: scaleX(0); opacity: 0; }
   to   { transform: scaleX(1); opacity: 1; }
 }
+
 
 /* Hero CTA buttons — premium, AA-compliant.
    All colors verified on flat brand-orange (#EF7700) or brand-green.
