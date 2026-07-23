@@ -23,7 +23,7 @@ export const cevonsContact = {
   /** Primary phone for general inquiries (Georgetown Head Office). */
   primaryPhone: "+592 218 1455",
   /** Official CEVONS WhatsApp number. */
-  whatsapp: "+592 62 5211" as string,
+  whatsapp: "+592 625 5211" as string,
   hours: "Monday \u2013 Saturday, 8:00am to 5:00pm",
   regions: [
     {
