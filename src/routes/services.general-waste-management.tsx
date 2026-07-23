@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Building2, ShoppingBag, Utensils, School, Hospital, Warehouse, Container, FileText, Droplet } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-commercial.jpg";
+import commercialWasteHeroAsset from "@/assets/commercial-waste-hero.jpeg.asset.json";
 import imgRel0 from "@/assets/svc-skip.jpg";
 import imgRel1 from "@/assets/svc-shred.jpg";
 import imgRel2 from "@/assets/svc-grease.jpg";
@@ -98,7 +98,7 @@ function Page() {
       breadcrumb="General Waste Management"
       h1="Commercial Waste Management"
       subhead="Scheduled collection programs and waste solutions for offices, retail, hospitality, and multi-tenant properties."
-      heroImage={imgHero}
+      heroImage={commercialWasteHeroAsset.url}
       heroAlt="CEVONS commercial waste collection at a Guyana business property"
       benefits={["Custom collection schedules", "Right-sized containers", "Reliable, professional crews", "Multi-site coordination", "Recycling programs on request"]}
       commonUses={uses}
