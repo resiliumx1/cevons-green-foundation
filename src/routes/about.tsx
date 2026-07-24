@@ -346,7 +346,7 @@ function AboutPage() {
                     to="/services"
                     className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
                   >
-                    <Recycle className="size-5" /> Work With CEVONS
+                    <Recycle className="size-5" /> Partner With Us
                   </Link>
                 </div>
               </div>
