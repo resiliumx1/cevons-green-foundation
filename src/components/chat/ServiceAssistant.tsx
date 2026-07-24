@@ -337,6 +337,7 @@ export function ServiceAssistant() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open CEVONS Assistant"
+        data-chat-scope
         className={`group fixed z-[60] text-left transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-orange)]/40
           sm:flex sm:items-center sm:gap-3 sm:rounded-full sm:pl-3 sm:pr-5 sm:py-2.5 sm:min-h-[64px] sm:shadow-[0_14px_34px_rgba(239,119,0,0.35)]
           grid place-items-center h-16 w-16 rounded-full shadow-[0_10px_24px_rgba(239,119,0,0.4)]
