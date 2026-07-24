@@ -2259,6 +2259,21 @@ html.dark svg[class*="text-[#101820]"],
 html.dark svg[class*="text-[#1a1a1a]"] { color: var(--brand-orange) !important; }
 
 /* ===========================================================================
+   Cev AI chat widget — permanent white panel. Undo the dark-mode charcoal→white
+   remap so bubbles, chips, and controls stay legible on the light chat surface.
+   Applies to both the launcher (orange fill) and the dialog (white fill).
+   =========================================================================== */
+html.dark [data-chat-scope] [class*="text-[#1A1A1A]"],
+html.dark [data-chat-scope] [class*="text-[#1a1a1a]"],
+html.dark [data-chat-scope] [class*="text-[#0F0F0F]"],
+html.dark [data-chat-scope] [class*="text-[#0f0f0f]"],
+html.dark [data-chat-scope][class*="text-[#1A1A1A]"],
+html.dark [data-chat-scope][class*="text-[#1a1a1a]"] { color: #1A1A1A !important; }
+html.dark [data-chat-scope] svg[class*="text-[#1A1A1A]"],
+html.dark [data-chat-scope] svg[class*="text-[#1a1a1a]"] { color: #1A1A1A !important; }
+
+
+/* ===========================================================================
    Carousels / marquees are dark-mode-immune — always render light appearance.
    Must come AFTER the broad attribute-selector dark text rules above.
    =========================================================================== */
