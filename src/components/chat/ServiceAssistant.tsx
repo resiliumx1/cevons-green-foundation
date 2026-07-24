@@ -413,6 +413,7 @@ export function ServiceAssistant() {
               role="dialog"
               aria-modal="true"
               aria-label="CEVONS Assistant"
+              data-chat-scope
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
               animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
