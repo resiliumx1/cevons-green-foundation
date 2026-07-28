@@ -214,10 +214,8 @@ function RequestServicePage() {
 
   function next() {
     if (!validate()) return;
-    setStep((s) => {
-      trackWizardStep({ stepIndex: s, stepName: STEPS[s], method: "next", service: data.service, category: data.category });
-      return Math.min(s + 1, STEPS.length - 1);
-    });
+    trackWizardStep({ stepIndex: step, stepName: STEPS[step], method: "next", service: data.service, category: data.category });
+    setStep((s) => Math.min(s + 1, STEPS.length - 1));
     keepWizardInView();
   }
   function back() {
@@ -233,10 +231,7 @@ function RequestServicePage() {
     advanceTimerRef.current = setTimeout(() => {
       advanceTimerRef.current = null;
       setErrors({});
-      setStep((s) => {
-        trackWizardStep({ stepIndex: s, stepName: STEPS[s], method: "auto", service: data.service, category: data.category });
-        return Math.min(s + 1, STEPS.length - 1);
-      });
+      setStep((s) => Math.min(s + 1, STEPS.length - 1));
       keepWizardInView();
     }, 280);
   }
