@@ -285,6 +285,17 @@ export function Header() {
                           </a>
                         </li>
                       ))}
+                      <li>
+                        <span
+                          aria-disabled="true"
+                          className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark rounded-md opacity-50 cursor-default select-none"
+                        >
+                          <span className="flex flex-col">
+                            <span className="font-semibold">New partner</span>
+                            <span className="text-[11px] text-cevons-muted">Coming soon</span>
+                          </span>
+                        </span>
+                      </li>
                     </ul>
                   </div>
                 </div>
