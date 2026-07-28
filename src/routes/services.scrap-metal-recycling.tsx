@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2 } from "lucide-react";
+import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2, Phone } from "lucide-react";
+import { WhatsApp } from "@/components/icons/WhatsApp";
+import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHeroAsset from "@/assets/scrap-metal-bales.webp.asset.json";
 const imgHero = imgHeroAsset.url;
@@ -7,8 +9,8 @@ import imgRel0 from "@/assets/svc-recovery.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
-const PAGE_TITLE = "Scrap Metal Recycling in Guyana | CEVONS";
-const PAGE_DESC = "Licensed scrap metal collection, processing, and export from CEVONS. Ferrous and non-ferrous metals, scrap cable, and lead batteries across Guyana.";
+const PAGE_TITLE = "We Buy Scrap Metal in Guyana | CEVONS";
+const PAGE_DESC = "CEVONS buys scrap metal in Guyana — ferrous, non-ferrous, scrap cable and lead batteries. Licensed scrap metal dealer and exporter. Contact us for today\u2019s rates.";
 const PAGE_URL = "/services/scrap-metal-recycling";
 
 export const Route = createFileRoute("/services/scrap-metal-recycling")({
