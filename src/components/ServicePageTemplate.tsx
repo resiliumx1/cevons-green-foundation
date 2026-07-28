@@ -668,7 +668,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 /* ---------- Assist Band ---------- */
 
-function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
+function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
   return (
     <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
@@ -705,7 +705,7 @@ function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLab
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a href={primaryCtaHref} className="cta-btn-primary">
-                <FileText className="size-5" /> Start a Service Request
+                <FileText className="size-5" /> {primaryCtaLabel}
               </a>
               <a
                 href={whatsappHref}
