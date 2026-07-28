@@ -12,12 +12,14 @@ const fadeUp: Variants = {
 const items = [
   { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Chamber of Commerce & Industry" },
   { img: "/assets/social-proof/psc-logo.webp", t: "PSC Member", s: "Private Sector Commission" },
-  {
-    img: "/assets/social-proof/suriname-guyana-chamber.webp",
-    t: "Suriname-Guyana Chamber of Commerce",
-    s: "Suriname-Guyana Chamber of Commerce",
-  },
 ];
+
+const featured = {
+  img: "/assets/social-proof/sgcc-mark.png",
+  t: "Member of SGCC",
+  s: "Suriname-Guyana Chamber of Commerce",
+};
+
 
 export function CertificationPanel() {
   return (
