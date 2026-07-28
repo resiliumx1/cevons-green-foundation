@@ -144,30 +144,70 @@ function GallerySection() {
   );
 }
 
+function RatesPanel() {
+  return (
+    <section className="bg-[var(--surface-page)] pb-4" aria-labelledby="rates-h">
+      <div className="container-cevons">
+        <div
+          className="relative overflow-hidden rounded-[28px] p-8 sm:p-10 md:p-12 shadow-[0_24px_60px_-28px_rgba(0,0,64,0.55)] ring-1 ring-black/5"
+          style={{ backgroundColor: "var(--brand-navy)" }}
+        >
+          <svg aria-hidden="true" className="absolute -bottom-24 -right-24 w-[360px] h-[360px] pointer-events-none" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="100" fill="var(--brand-orange)" opacity="0.18" />
+          </svg>
+          <div className="relative max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: "var(--brand-yellow)" }}>
+              Current Rates
+            </p>
+            <h2 id="rates-h" className="text-2xl md:text-3xl font-extrabold" style={{ color: "#FFFFFF" }}>
+              Scrap metal rates are updated every two weeks in line with the market.
+            </h2>
+            <p className="mt-3 text-base md:text-lg" style={{ color: "var(--brand-grey-light, #E8EAED)" }}>
+              Contact us for today&rsquo;s rates.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="cta-btn-wa">
+                <WhatsApp className="size-5" /> WhatsApp Us
+              </a>
+              <a href={primaryTelHref} className="cta-btn-primary">
+                <Phone className="size-5" /> {cevonsContact.primaryPhone}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Page() {
   return (
     <ServicePageTemplate
       eyebrowIcon={Recycle}
       eyebrowLabel="Recycling"
       breadcrumb="Scrap Metal Recycling"
-      h1="Scrap Metal Recycling"
-      subhead="Licensed scrap metal collection, processing, and export for ferrous and non-ferrous streams — one-off cleanouts or recurring pickups across Guyana."
+      h1="We Buy Scrap Metal"
+      subhead="CEVONS pays for ferrous and non-ferrous metals, scrap cable, and lead batteries — a licensed scrap metal dealer and exporter in Guyana. Sell a one-off load or set up recurring pickups."
       heroImage={imgHero}
       heroAlt="CEVONS scrap metal yard with ferrous and non-ferrous material sorted for export"
       benefits={[
+        "We buy — you get paid for your scrap",
         "Licensed scrap metal dealer and exporter",
-        "Ferrous and non-ferrous metals accepted",
-        "Scrap cable and lead batteries handled",
-        "One-off and recurring collections",
-        "Georgetown scrap metal yard",
+        "Ferrous and non-ferrous metals purchased",
+        "Scrap cable and lead batteries bought",
+        "Sell at our Georgetown yard or book a pickup",
       ]}
       commonUses={uses}
       faqs={faqs}
       related={related}
       serviceSlug="scrap-metal-recycling"
+      ctaLabel="Sell Your Scrap Metal"
+      helpHeading="Ready to Sell?"
+      helpBody="Tell us what you have and how much, and our buying team will weigh, inspect, and make you an offer."
       detailSections={detailSections}
-      optionsSection={<GallerySection />}
+      optionsSection={<><RatesPanel /><GallerySection /></>}
       showAssistBand
     />
+
   );
 }
