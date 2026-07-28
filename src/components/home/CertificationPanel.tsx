@@ -15,7 +15,7 @@ const items = [
 ];
 
 const featured = {
-  img: "/assets/social-proof/sgcc-mark.png",
+  img: "/assets/social-proof/suriname-guyana-chamber.webp",
   t: "Member of SGCC",
   s: "Suriname-Guyana Chamber of Commerce",
 };
