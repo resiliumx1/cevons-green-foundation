@@ -58,8 +58,8 @@ export function trackWizardStep(props: {
   stepIndex: number;
   stepName: string;
   method: "next" | "auto" | "submit";
-  service?: string;
-  category?: string;
+  service?: string | null;
+  category?: string | null;
 }): void {
   trackEvent("wizard_step_complete", {
     step_index: props.stepIndex + 1,
