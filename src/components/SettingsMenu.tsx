@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import {
-  Accessibility,
+  Settings,
   Check,
   DollarSign,
   Globe,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useSettings, type ThemeMode, type Language, type TextSize } from "@/contexts/SettingsContext";
 import { useCurrency, type CurrencyCode } from "@/contexts/CurrencyContext";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Option<T extends string> = { value: T; label: string; icon?: React.ReactNode };
 
@@ -95,16 +96,24 @@ export function SettingsMenu({ className = "" }: { className?: string }) {
 
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
-      <Popover.Trigger asChild>
-        <button
-          type="button"
-          aria-label={t("settings.open")}
-          title={t("settings.open")}
-          className={`inline-flex items-center justify-center size-10 rounded-full border border-cevons-border dark:border-white/15 bg-white dark:bg-white/[0.06] text-cevons-dark dark:text-white hover:bg-cevons-cream dark:hover:bg-white/10 hover:border-cevons-green transition-colors shadow-soft ${className}`}
-        >
-          <Accessibility className="size-[18px]" />
-        </button>
-      </Popover.Trigger>
+      <TooltipProvider delayDuration={300}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Popover.Trigger asChild>
+              <button
+                type="button"
+                aria-label={t("settings.open")}
+                className={`inline-flex items-center justify-center size-10 rounded-full border border-cevons-border dark:border-white/15 bg-white dark:bg-white/[0.06] text-cevons-dark dark:text-white hover:bg-cevons-cream dark:hover:bg-white/10 hover:border-cevons-green transition-colors shadow-soft ${className}`}
+              >
+                <Settings className="size-[18px]" />
+              </button>
+            </Popover.Trigger>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={8} className="text-xs font-semibold">
+            Accessibility &amp; display settings
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <Popover.Portal>
         <Popover.Content
           align="end"
