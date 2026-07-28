@@ -9,6 +9,7 @@ const logos: Logo[] = [
   { src: "/certifications/epa.webp", alt: "EPA Certified" },
   { src: "/partners/ramps-logistics.webp", alt: "Ramps Logistics" },
   { src: "/partners/gysbi.webp", alt: "GYSBI" },
+  { src: "/partners/g-mining.webp", alt: "G Mining Ventures" },
   { src: "/certifications/iso.webp", alt: "ISO 9001:2015" },
   { src: "/partners/baker-hughes.webp", alt: "Baker Hughes" },
   { src: "/partners/edison-chouest-offshore.webp", alt: "Edison Chouest Offshore" },
