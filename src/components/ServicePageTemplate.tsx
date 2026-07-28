@@ -242,7 +242,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
       {showAssistBand && (
         <AssistBand
-          primaryCtaLabel={primaryCtaLabel}
+          primaryCtaLabel={ctaLabel ?? "Start a Service Request"}
           primaryCtaHref={primaryCtaHref}
         />
       )}
