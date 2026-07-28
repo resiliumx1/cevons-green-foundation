@@ -869,7 +869,7 @@ function StepDetails({
 
         {type === "recyclables" && (
           <>
-            <Field label="Material type">
+            <Field label={service.key === "scrap-metal-recycling" ? "What are you selling?" : "Material type"}>
               <Select value={details.materialType ?? ""} onValueChange={(v) => setDetail("materialType", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
                 <SelectContent>
@@ -880,7 +880,7 @@ function StepDetails({
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Estimated quantity / weight"><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
+            <Field label={service.key === "scrap-metal-recycling" ? "Estimated quantity you're selling" : "Estimated quantity / weight"}><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
             <Field label="Collection type">
               <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
@@ -893,11 +893,12 @@ function StepDetails({
                 <SelectContent>{["Loose", "Baled", "In containers", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
-            <Field label="Do you need a container on site">
+            <Field label={service.key === "scrap-metal-recycling" ? "Do you need us to collect it?" : "Do you need a container on site"}>
               <Select value={details.container ?? ""} onValueChange={(v) => setDetail("container", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
                 <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
               </Select>
+
             </Field>
             <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
           </>
