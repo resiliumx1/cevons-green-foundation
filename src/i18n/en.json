@@ -12,8 +12,8 @@
     "trackRequest": "Track Request",
     "trackMyRequest": "Track My Request",
     "requestService": "Request a Service",
-    "schedule": "Schedule",
-    "scheduleService": "Schedule a Service",
+    "schedule": "Book now",
+    "scheduleService": "Book now",
     "whatsapp": "WhatsApp Us"
   },
   "servicesMenu": {
