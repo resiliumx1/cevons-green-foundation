@@ -100,7 +100,7 @@ const SERVICES: ServiceMeta[] = [
   // cross-category additions
   { key: "compactor-rental", name: "Compactor Rental", desc: "Shrink waste volume and cut pickup frequency.", icon: Container, iconKey: "compactor-rental", detailType: "compactor", categories: ["commercial", "industrial"] },
   { key: "road-sweeping", name: "Road Sweeping", desc: "Mechanical sweeper hire for streets, sites, and events.", icon: Truck, iconKey: "road-sweeping", detailType: "sweeping", categories: ["commercial", "facilities"] },
-  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "Licensed scrap metal collection — we buy ferrous and non-ferrous.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
+  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "We buy ferrous and non-ferrous metals, cable and lead batteries — licensed dealer and exporter.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
   { key: "plastic-recycling", name: "Plastic Recycling", desc: "Business plastics recycling with verified end destinations.", icon: Recycle, iconKey: "plastic-shredding", detailType: "recyclables", categories: ["commercial", "industrial"] },
   { key: "used-cooking-oil", name: "Used Cooking Oil Collection", desc: "Scheduled kitchen oil collection — routed for recycling.", icon: Flame, iconKey: "cooking-oil-recycling", detailType: "cooking-oil", categories: ["commercial"] },
 ];
