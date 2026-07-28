@@ -119,6 +119,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
     related,
     optionsSection,
     ctaVariant = "routine",
+    ctaLabel,
+    helpHeading: helpHeadingProp,
+    helpBody: helpBodyProp,
     serviceSlug,
     detailSections,
     showAssistBand,
@@ -127,15 +130,17 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
 
   const isSpecialist = ctaVariant === "specialist";
-  const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
+  const primaryCtaLabel = ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote");
   const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
   const primaryCtaHref = isSpecialist
     ? `/request-service?type=specialist${serviceSlug ? `&service=${encodeURIComponent(serviceSlug)}` : ""}`
     : `/request-service${svcQuery}`;
-  const helpHeading = isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?";
-  const helpBody = isSpecialist
-    ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
-    : "Our team can help you select the right option for your project, timeline, and waste type.";
+  const helpHeading = helpHeadingProp ?? (isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?");
+  const helpBody = helpBodyProp ??
+    (isSpecialist
+      ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
+      : "Our team can help you select the right option for your project, timeline, and waste type.");
+
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const jsonLdService = JSON.stringify(serviceJsonLd({
