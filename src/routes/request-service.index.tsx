@@ -113,6 +113,8 @@ const SPECIALIST_KEYS: Set<ServiceKey> = new Set([
   "compactor-rental", "road-sweeping", "scrap-metal-recycling",
 ]);
 
+import { trackWizardStep, trackEvent } from "@/lib/analytics";
+
 const STEPS = ["Category", "Service", "Details", "Schedule", "Your Info", "Review"];
 
 type FormData = {
@@ -145,6 +147,9 @@ function RequestServicePage() {
   const [data, setData] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+  /** Latest step/data for the deferred auto-advance analytics event. */
+  const latestRef = useRef({ step: 0, data: EMPTY });
+  latestRef.current = { step, data };
 
   // Preselect from ?service=<slug>
   useEffect(() => {
@@ -212,6 +217,7 @@ function RequestServicePage() {
 
   function next() {
     if (!validate()) return;
+    trackWizardStep({ stepIndex: step, stepName: STEPS[step], method: "next", service: data.service, category: data.category });
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
     keepWizardInView();
   }
@@ -228,6 +234,8 @@ function RequestServicePage() {
     advanceTimerRef.current = setTimeout(() => {
       advanceTimerRef.current = null;
       setErrors({});
+      const { step: curStep, data: curData } = latestRef.current;
+      trackWizardStep({ stepIndex: curStep, stepName: STEPS[curStep], method: "auto", service: curData.service, category: curData.category });
       setStep((s) => Math.min(s + 1, STEPS.length - 1));
       keepWizardInView();
     }, 280);
@@ -291,6 +299,8 @@ function RequestServicePage() {
       );
       if (error || !fnRes?.reference) throw error ?? new Error(fnRes?.error || "Submission failed");
       const ref = fnRes.reference;
+      trackWizardStep({ stepIndex: STEPS.length - 1, stepName: STEPS[STEPS.length - 1], method: "submit", service: data.service, category: data.category });
+      trackEvent("service_request_submitted", { service: data.service || null, category: data.category || null, reference: ref });
 
       // Persist summary for the confirmation page (refresh-safe via sessionStorage).
       if (typeof window !== "undefined") {

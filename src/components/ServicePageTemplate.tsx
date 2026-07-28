@@ -18,6 +18,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { BrandedVideo } from "@/components/media/BrandedVideo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { trackCtaClick } from "@/lib/analytics";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
 import {
   Accordion,
@@ -199,7 +200,11 @@ export function ServicePageTemplate(props: ServicePageProps) {
               ))}
             </ul>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href={primaryCtaHref} className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a
+                href={primaryCtaHref}
+                className="btn-base btn-yellow px-6 py-3.5 text-base"
+                onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_hero", service: serviceSlug, destination: primaryCtaHref })}
+              >
                 <FileText className="size-5" /> {primaryCtaLabel}
               </a>
               <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
@@ -243,6 +248,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       {showAssistBand && (
         <AssistBand
           primaryCtaLabel={ctaLabel ?? "Start a Service Request"}
+          serviceSlug={serviceSlug}
           primaryCtaHref={primaryCtaHref}
         />
       )}
@@ -315,7 +321,11 @@ export function ServicePageTemplate(props: ServicePageProps) {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href={primaryCtaHref} className="btn-base btn-yellow px-6 py-3.5 text-base">
+              <a
+                href={primaryCtaHref}
+                className="btn-base btn-yellow px-6 py-3.5 text-base"
+                onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_help_band", service: serviceSlug, destination: primaryCtaHref })}
+              >
                 <FileText className="size-5" /> {primaryCtaLabel}
               </a>
               <a href="/contact" className="btn-base btn-green px-6 py-3.5 text-base">
@@ -668,7 +678,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 /* ---------- Assist Band ---------- */
 
-function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
+function AssistBand({ primaryCtaLabel, primaryCtaHref, serviceSlug }: { primaryCtaLabel: string; primaryCtaHref: string; serviceSlug?: string }) {
   return (
     <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
@@ -704,7 +714,11 @@ function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: stri
               </a>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a href={primaryCtaHref} className="cta-btn-primary">
+              <a
+                href={primaryCtaHref}
+                className="cta-btn-primary"
+                onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_assist_band", service: serviceSlug, destination: primaryCtaHref })}
+              >
                 <FileText className="size-5" /> {primaryCtaLabel}
               </a>
               <a
