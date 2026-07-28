@@ -607,7 +607,12 @@ function StepDetails({
   return (
     <div>
       <h2 className="text-2xl font-bold">Service Details</h2>
-      <p className="text-muted-foreground mt-1">Share a few specifics so our team can prepare.</p>
+      <p className="text-muted-foreground mt-1">
+        {service.key === "scrap-metal-recycling"
+          ? "Tell us what you're selling so our buying team can prepare an offer."
+          : "Share a few specifics so our team can prepare."}
+      </p>
+
 
       <div className="mt-6 grid md:grid-cols-2 gap-4">
         {type === "dumpster" && (
