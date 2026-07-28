@@ -147,6 +147,9 @@ function RequestServicePage() {
   const [data, setData] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+  /** Latest step/data for the deferred auto-advance analytics event. */
+  const latestRef = useRef({ step: 0, data: EMPTY });
+  latestRef.current = { step, data };
 
   // Preselect from ?service=<slug>
   useEffect(() => {
@@ -231,6 +234,8 @@ function RequestServicePage() {
     advanceTimerRef.current = setTimeout(() => {
       advanceTimerRef.current = null;
       setErrors({});
+      const { step: curStep, data: curData } = latestRef.current;
+      trackWizardStep({ stepIndex: curStep, stepName: STEPS[curStep], method: "auto", service: curData.service, category: curData.category });
       setStep((s) => Math.min(s + 1, STEPS.length - 1));
       keepWizardInView();
     }, 280);
