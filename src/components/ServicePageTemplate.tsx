@@ -67,6 +67,13 @@ export type ServicePageProps = {
   optionsSection?: ReactNode;
   /** "routine" → Request a Quote. "specialist" → Request Specialist Review. */
   ctaVariant?: "routine" | "specialist";
+  /** Override the primary CTA label everywhere on the page. */
+  ctaLabel?: string;
+  /** Override the "Need Help Choosing?" heading. */
+  helpHeading?: string;
+  /** Override the help section body copy. */
+  helpBody?: string;
+
   /** Slug for /request-service?service=<slug> preselection */
   serviceSlug?: string;
   /** Rich long-form detail sections rendered between the hero and Common Uses */
@@ -112,6 +119,9 @@ export function ServicePageTemplate(props: ServicePageProps) {
     related,
     optionsSection,
     ctaVariant = "routine",
+    ctaLabel,
+    helpHeading: helpHeadingProp,
+    helpBody: helpBodyProp,
     serviceSlug,
     detailSections,
     showAssistBand,
@@ -120,15 +130,17 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
 
   const isSpecialist = ctaVariant === "specialist";
-  const primaryCtaLabel = isSpecialist ? "Request Specialist Review" : "Request a Quote";
+  const primaryCtaLabel = ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote");
   const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
   const primaryCtaHref = isSpecialist
     ? `/request-service?type=specialist${serviceSlug ? `&service=${encodeURIComponent(serviceSlug)}` : ""}`
     : `/request-service${svcQuery}`;
-  const helpHeading = isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?";
-  const helpBody = isSpecialist
-    ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
-    : "Our team can help you select the right option for your project, timeline, and waste type.";
+  const helpHeading = helpHeadingProp ?? (isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?");
+  const helpBody = helpBodyProp ??
+    (isSpecialist
+      ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
+      : "Our team can help you select the right option for your project, timeline, and waste type.");
+
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const jsonLdService = JSON.stringify(serviceJsonLd({
@@ -230,7 +242,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
       {showAssistBand && (
         <AssistBand
-          primaryCtaLabel={primaryCtaLabel}
+          primaryCtaLabel={ctaLabel ?? "Start a Service Request"}
           primaryCtaHref={primaryCtaHref}
         />
       )}
@@ -656,7 +668,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 /* ---------- Assist Band ---------- */
 
-function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
+function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
   return (
     <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
@@ -693,7 +705,7 @@ function AssistBand({ primaryCtaLabel: _label, primaryCtaHref }: { primaryCtaLab
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a href={primaryCtaHref} className="cta-btn-primary">
-                <FileText className="size-5" /> Start a Service Request
+                <FileText className="size-5" /> {primaryCtaLabel}
               </a>
               <a
                 href={whatsappHref}

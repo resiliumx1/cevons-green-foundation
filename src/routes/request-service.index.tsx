@@ -100,7 +100,7 @@ const SERVICES: ServiceMeta[] = [
   // cross-category additions
   { key: "compactor-rental", name: "Compactor Rental", desc: "Shrink waste volume and cut pickup frequency.", icon: Container, iconKey: "compactor-rental", detailType: "compactor", categories: ["commercial", "industrial"] },
   { key: "road-sweeping", name: "Road Sweeping", desc: "Mechanical sweeper hire for streets, sites, and events.", icon: Truck, iconKey: "road-sweeping", detailType: "sweeping", categories: ["commercial", "facilities"] },
-  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "Licensed scrap metal collection — we buy ferrous and non-ferrous.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
+  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "We buy ferrous and non-ferrous metals, cable and lead batteries — licensed dealer and exporter.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
   { key: "plastic-recycling", name: "Plastic Recycling", desc: "Business plastics recycling with verified end destinations.", icon: Recycle, iconKey: "plastic-shredding", detailType: "recyclables", categories: ["commercial", "industrial"] },
   { key: "used-cooking-oil", name: "Used Cooking Oil Collection", desc: "Scheduled kitchen oil collection — routed for recycling.", icon: Flame, iconKey: "cooking-oil-recycling", detailType: "cooking-oil", categories: ["commercial"] },
 ];
@@ -607,7 +607,12 @@ function StepDetails({
   return (
     <div>
       <h2 className="text-2xl font-bold">Service Details</h2>
-      <p className="text-muted-foreground mt-1">Share a few specifics so our team can prepare.</p>
+      <p className="text-muted-foreground mt-1">
+        {service.key === "scrap-metal-recycling"
+          ? "Tell us what you're selling so our buying team can prepare an offer."
+          : "Share a few specifics so our team can prepare."}
+      </p>
+
 
       <div className="mt-6 grid md:grid-cols-2 gap-4">
         {type === "dumpster" && (
@@ -869,7 +874,7 @@ function StepDetails({
 
         {type === "recyclables" && (
           <>
-            <Field label="Material type">
+            <Field label={service.key === "scrap-metal-recycling" ? "What are you selling?" : "Material type"}>
               <Select value={details.materialType ?? ""} onValueChange={(v) => setDetail("materialType", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
                 <SelectContent>
@@ -880,7 +885,7 @@ function StepDetails({
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Estimated quantity / weight"><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
+            <Field label={service.key === "scrap-metal-recycling" ? "Estimated quantity you're selling" : "Estimated quantity / weight"}><Input className="h-12" value={details.quantity ?? ""} onChange={(e) => setDetail("quantity", e.target.value)} placeholder="e.g. 2 tonnes, 10 drums" /></Field>
             <Field label="Collection type">
               <Select value={details.cadence ?? ""} onValueChange={(v) => setDetail("cadence", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
@@ -893,11 +898,12 @@ function StepDetails({
                 <SelectContent>{["Loose", "Baled", "In containers", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
-            <Field label="Do you need a container on site">
+            <Field label={service.key === "scrap-metal-recycling" ? "Do you need us to collect it?" : "Do you need a container on site"}>
               <Select value={details.container ?? ""} onValueChange={(v) => setDetail("container", v)}>
                 <SelectTrigger className="h-12"><SelectValue placeholder="Select" /></SelectTrigger>
                 <SelectContent>{["Yes", "No", "Not sure"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
               </Select>
+
             </Field>
             <Field label="Notes" full><Textarea value={details.notes ?? ""} onChange={(e) => setDetail("notes", e.target.value)} /></Field>
           </>
