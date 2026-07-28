@@ -12,12 +12,14 @@ const fadeUp: Variants = {
 const items = [
   { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Chamber of Commerce & Industry" },
   { img: "/assets/social-proof/psc-logo.webp", t: "PSC Member", s: "Private Sector Commission" },
-  {
-    img: "/assets/social-proof/suriname-guyana-chamber.webp",
-    t: "Suriname-Guyana Chamber of Commerce",
-    s: "Suriname-Guyana Chamber of Commerce",
-  },
 ];
+
+const featured = {
+  img: "/assets/social-proof/sgcc-mark.png",
+  t: "Member of SGCC",
+  s: "Suriname-Guyana Chamber of Commerce",
+};
+
 
 export function CertificationPanel() {
   return (
@@ -60,7 +62,27 @@ export function CertificationPanel() {
                 </div>
               </li>
             ))}
+            <li className="sm:col-span-2 mx-auto flex w-full max-w-sm items-center gap-4 rounded-xl border border-cevons-border bg-white px-4 py-3">
+              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white p-1.5 ring-1 ring-cevons-border md:h-[72px] md:w-[72px]">
+                <img
+                  src={featured.img}
+                  alt="Suriname-Guyana Chamber of Commerce"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-contain"
+                />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-cevons-muted">
+                  {featured.t}
+                </p>
+                <p className="text-sm font-semibold leading-tight text-cevons-dark">
+                  {featured.s}
+                </p>
+              </div>
+            </li>
           </ul>
+
         </motion.div>
       </div>
     </section>
