@@ -113,6 +113,8 @@ const SPECIALIST_KEYS: Set<ServiceKey> = new Set([
   "compactor-rental", "road-sweeping", "scrap-metal-recycling",
 ]);
 
+import { trackWizardStep, trackEvent } from "@/lib/analytics";
+
 const STEPS = ["Category", "Service", "Details", "Schedule", "Your Info", "Review"];
 
 type FormData = {
@@ -212,7 +214,10 @@ function RequestServicePage() {
 
   function next() {
     if (!validate()) return;
-    setStep((s) => Math.min(s + 1, STEPS.length - 1));
+    setStep((s) => {
+      trackWizardStep({ stepIndex: s, stepName: STEPS[s], method: "next", service: data.service, category: data.category });
+      return Math.min(s + 1, STEPS.length - 1);
+    });
     keepWizardInView();
   }
   function back() {
@@ -228,7 +233,10 @@ function RequestServicePage() {
     advanceTimerRef.current = setTimeout(() => {
       advanceTimerRef.current = null;
       setErrors({});
-      setStep((s) => Math.min(s + 1, STEPS.length - 1));
+      setStep((s) => {
+        trackWizardStep({ stepIndex: s, stepName: STEPS[s], method: "auto", service: data.service, category: data.category });
+        return Math.min(s + 1, STEPS.length - 1);
+      });
       keepWizardInView();
     }, 280);
   }
@@ -291,6 +299,8 @@ function RequestServicePage() {
       );
       if (error || !fnRes?.reference) throw error ?? new Error(fnRes?.error || "Submission failed");
       const ref = fnRes.reference;
+      trackWizardStep({ stepIndex: STEPS.length - 1, stepName: STEPS[STEPS.length - 1], method: "submit", service: data.service, category: data.category });
+      trackEvent("service_request_submitted", { service: data.service || null, category: data.category || null, reference: ref });
 
       // Persist summary for the confirmation page (refresh-safe via sessionStorage).
       if (typeof window !== "undefined") {

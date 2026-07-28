@@ -248,6 +248,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       {showAssistBand && (
         <AssistBand
           primaryCtaLabel={ctaLabel ?? "Start a Service Request"}
+          serviceSlug={serviceSlug}
           primaryCtaHref={primaryCtaHref}
         />
       )}
@@ -677,7 +678,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
 
 /* ---------- Assist Band ---------- */
 
-function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: string; primaryCtaHref: string }) {
+function AssistBand({ primaryCtaLabel, primaryCtaHref, serviceSlug }: { primaryCtaLabel: string; primaryCtaHref: string; serviceSlug?: string }) {
   return (
     <section className="py-10 md:py-14" style={{ backgroundColor: "var(--surface-page)" }} aria-labelledby="assist-h">
       <div className="container-cevons">
@@ -716,7 +717,7 @@ function AssistBand({ primaryCtaLabel, primaryCtaHref }: { primaryCtaLabel: stri
               <a
                 href={primaryCtaHref}
                 className="cta-btn-primary"
-                onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_assist_band", destination: primaryCtaHref })}
+                onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_assist_band", service: serviceSlug, destination: primaryCtaHref })}
               >
                 <FileText className="size-5" /> {primaryCtaLabel}
               </a>
