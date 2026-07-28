@@ -67,6 +67,13 @@ export type ServicePageProps = {
   optionsSection?: ReactNode;
   /** "routine" → Request a Quote. "specialist" → Request Specialist Review. */
   ctaVariant?: "routine" | "specialist";
+  /** Override the primary CTA label everywhere on the page. */
+  ctaLabel?: string;
+  /** Override the "Need Help Choosing?" heading. */
+  helpHeading?: string;
+  /** Override the help section body copy. */
+  helpBody?: string;
+
   /** Slug for /request-service?service=<slug> preselection */
   serviceSlug?: string;
   /** Rich long-form detail sections rendered between the hero and Common Uses */
