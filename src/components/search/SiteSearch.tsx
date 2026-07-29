@@ -56,7 +56,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [listening, setListening] = useState(false);
   const [micNote, setMicNote] = useState<string | null>(null);
   const [hasSpeech, setHasSpeech] = useState(false);
@@ -78,7 +78,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
   const flat = useMemo(() => grouped.flatMap((g) => g.items), [grouped]);
   const noResults = query.trim().length > 0 && flat.length === 0;
 
-  useEffect(() => setActiveIndex(0), [query]);
+  useEffect(() => setActiveIndex(-1), [query]);
 
   const stopListening = useCallback(() => {
     try {
@@ -134,16 +134,16 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
     }
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      if (flat.length) setActiveIndex((i) => (i + 1) % flat.length);
+      if (flat.length) setActiveIndex((i) => (i + 1 + flat.length) % flat.length);
       return;
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      if (flat.length) setActiveIndex((i) => (i - 1 + flat.length) % flat.length);
+      if (flat.length) setActiveIndex((i) => (i <= 0 ? flat.length - 1 : i - 1));
       return;
     }
     if (e.key === "Enter") {
-      const entry = flat[activeIndex];
+      const entry = flat[activeIndex < 0 ? 0 : activeIndex];
       if (entry) {
         e.preventDefault();
         go(entry);
