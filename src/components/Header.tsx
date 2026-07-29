@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, ExternalLink, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
+import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
 
 const ACTIVE_ORANGE = "var(--brand-orange)";
@@ -306,6 +307,7 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <SiteSearch />
           <SettingsMenu />
           <a href="/request-service" className="btn-base btn-green btn-shine group/sched text-[13.5px] px-4 py-2.5 shrink-0">
             <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
@@ -314,6 +316,7 @@ export function Header() {
         </div>
 
         <div className="lg:hidden ml-auto flex items-center gap-1 shrink-0">
+          <SiteSearch mobile />
           <SettingsMenu />
           <button
             className="p-2 -mr-2 text-cevons-dark"
