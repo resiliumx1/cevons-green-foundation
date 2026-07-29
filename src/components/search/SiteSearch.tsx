@@ -217,7 +217,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
       </TooltipProvider>
 
       {open && (
-        <div className={`${panelPos} z-[200] relative`}>
+        <div className={`${panelPos} z-[200]`}>
           <div
             className="relative flex items-center gap-1 rounded-full border pl-3 pr-1.5 py-1 shadow-[0_10px_30px_rgba(16,24,32,0.16)]"
             style={{
