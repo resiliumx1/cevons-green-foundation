@@ -217,7 +217,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
       </TooltipProvider>
 
       {open && (
-        <div className={`${panelPos} z-[200]`}>
+        <div className={`${panelPos} z-[200] relative`}>
           <div
             className="relative flex items-center gap-1 rounded-full border pl-3 pr-1.5 py-1 shadow-[0_10px_30px_rgba(16,24,32,0.16)]"
             style={{
@@ -263,13 +263,13 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
           </div>
 
           {micNote && (
-            <p className="mt-1 px-3 text-[11px] font-semibold" style={{ color: "var(--text-body)" }}>
+            <p className="absolute left-0 top-full mt-1 px-3 text-[11px] font-semibold" style={{ color: "var(--text-body)" }}>
               {micNote}
             </p>
           )}
 
           <div
-            className="mt-2 rounded-2xl border overflow-hidden shadow-[0_20px_44px_rgba(16,24,32,0.18)]"
+            className="absolute left-0 right-0 top-full mt-2 rounded-2xl border overflow-hidden shadow-[0_20px_44px_rgba(16,24,32,0.18)]"
             style={{
               backgroundColor: "var(--surface-page)",
               borderColor: "var(--border-hairline)",
