@@ -10,7 +10,12 @@ const fadeUp: Variants = {
 };
 
 const items = [
-  { img: "/assets/social-proof/gcci-logo.webp", t: "GCCI Member", s: "Chamber of Commerce & Industry" },
+  {
+    img: "/assets/social-proof/gcci-logo.webp",
+    t: "GCCI Member",
+    s: "Chamber of Commerce & Industry",
+    scale: "scale-[1.28]",
+  },
   { img: "/assets/social-proof/psc-logo.webp", t: "PSC Member", s: "Private Sector Commission" },
 ];
 
