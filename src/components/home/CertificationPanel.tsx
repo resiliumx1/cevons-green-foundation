@@ -43,18 +43,18 @@ export function CertificationPanel() {
             Professional Membership
           </p>
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 max-w-2xl mx-auto">
-            {items.map(({ img, t, s }) => (
+            {items.map(({ img, t, s, scale }) => (
               <li
                 key={t}
                 className="flex items-center gap-3 rounded-xl border border-cevons-border bg-white px-3 py-2.5 md:px-4 md:py-3"
               >
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white p-1.5 ring-1 ring-cevons-border md:h-[52px] md:w-[52px] md:p-2">
+                <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-white p-1 ring-1 ring-cevons-border md:h-[52px] md:w-[52px] md:p-1.5">
                   <img
                     src={img}
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-contain"
+                    className={`h-full w-full object-contain ${scale ?? ""}`}
                   />
                 </span>
                 <div className="min-w-0 flex-1">
