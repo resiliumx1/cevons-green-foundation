@@ -41,7 +41,7 @@ const quickActions: SearchEntry[] = [
   { id: "qa-bin", name: "Book a bin", desc: "Reserve a dumpster or skip bin for your project.", to: "/request-service?service=dumpster-rental", group: "Quick actions", keywords: ["bin", "dumpster", "skip", "container", "book a bin"] },
   { id: "qa-scrap", name: "Sell scrap metal", desc: "We buy ferrous, non-ferrous, cable, and lead batteries.", to: "/services/scrap-metal-recycling", group: "Quick actions", keywords: ["sell", "scrap", "metal", "copper", "buy"] },
   { id: "qa-rates", name: "Prices & rates", desc: "Scrap metal rates are updated every two weeks — contact us for today's rates.", to: "/services/scrap-metal-recycling", group: "Quick actions", keywords: ["price", "prices", "rate", "rates", "cost", "pricing"] },
-  { id: "qa-sizes", name: "Skip bin sizes", desc: "Compare 10 cu yd skip bins and 20 cu yd roll-off dumpsters.", to: "/services/skip-bin-dumpster-rental", group: "Quick actions", keywords: ["size", "sizes", "10", "20", "cubic"] },
+  { id: "qa-sizes", name: "Skip bin sizes", desc: "Compare 10, 30, 40 and 52 cu yd bins", to: "/services/skip-bin-dumpster-rental", group: "Quick actions", keywords: ["size", "sizes", "10", "20", "cubic"] },
   { id: "qa-contact", name: "Contact us", desc: "Phone, WhatsApp, and email — talk to the team.", to: "/contact", group: "Quick actions", keywords: ["phone", "whatsapp", "call", "email", "contact"] },
 ];
 
