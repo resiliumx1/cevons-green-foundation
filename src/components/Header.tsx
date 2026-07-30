@@ -399,7 +399,8 @@ export function Header() {
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                                    {serviceLabels[slug]}
+                                    <span>{serviceLabels[slug]}</span>
+                                    {slug === "scrap-metal-recycling" && <WeBuyBadge />}
                                   </Link>
                                 ))}
                               </div>
