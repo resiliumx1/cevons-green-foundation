@@ -6,6 +6,8 @@ import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 const ACTIVE_ORANGE = "var(--brand-orange)";
 
@@ -90,15 +92,29 @@ const partnersMenu = [
 
 function WeBuyBadge() {
   return (
-    <span
-      className="we-buy-badge shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-[2px] text-[9px] font-extrabold uppercase tracking-[0.12em]"
-      style={{ backgroundColor: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
-    >
-      <span className="we-buy-dot" aria-hidden="true" />
-      We Buy
-    </span>
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            tabIndex={0}
+            role="note"
+            aria-label="We buy scrap metal"
+            title="We buy scrap metal"
+            className="we-buy-badge shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-[2px] text-[9px] font-extrabold uppercase tracking-[0.12em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)] focus-visible:ring-offset-1"
+            style={{ backgroundColor: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
+          >
+            <span className="we-buy-dot" aria-hidden="true" />
+            <span aria-hidden="true">We Buy</span>
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" sideOffset={8} className="text-xs font-semibold">
+          We Buy Scrap Metal
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
+
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
