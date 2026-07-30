@@ -611,7 +611,7 @@ export function ServiceAssistant() {
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                   </button>
                 </div>
-                <p className="mt-2 flex items-center justify-center gap-1.5 text-[10.5px] text-[#7A7A7A]">
+                <p className="mt-2 flex items-center justify-center gap-1.5 text-[10.5px] text-[#5A5A5A]">
                   <Lock className="h-3 w-3" />
                   AI assistant. For urgent help, reach us on{" "}
                   <a

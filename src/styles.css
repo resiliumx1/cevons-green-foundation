@@ -3055,3 +3055,16 @@ html.dark #BambooHR p {
   color: #1A1A1A !important;
 }
 html.dark #BambooHR a { color: #B34700 !important; }
+
+/* ---------------------------------------------------------------
+   AI assistant ("Cev") — the chat panel is a FIXED light surface in
+   both modes. Global dark-mode bg-white overrides were repainting its
+   bubbles/chips dark while the text stayed charcoal, making messages
+   invisible. Re-pin the white fills inside the chat scope.
+   --------------------------------------------------------------- */
+html.dark [data-chat-scope][class*="bg-white"],
+html.dark [data-chat-scope] [class*="bg-white"] {
+  background-color: #FFFFFF !important;
+}
+/* Footnote grey lifted from #7A7A7A (3.9:1) to #5A5A5A (7.0:1 on white). */
+html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !important; }
