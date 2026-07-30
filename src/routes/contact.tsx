@@ -266,7 +266,7 @@ function ContactPage() {
         </a>
         <a
           href={primaryMailtoHref}
-          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl border-2 border-[var(--brand-charcoal)] text-[var(--text-heading)] font-bold hover:bg-[var(--brand-charcoal)] hover:text-white transition"
+          className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl border-2 border-[var(--brand-charcoal)] text-[var(--brand-charcoal)] font-bold hover:bg-[var(--brand-charcoal)] hover:text-white transition"
         >
           <Mail className="size-5" /> Email Us
         </a>
