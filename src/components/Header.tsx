@@ -6,6 +6,8 @@ import logo from "@/assets/cevons-logo-transparent.png";
 import { SettingsMenu } from "./SettingsMenu";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 const ACTIVE_ORANGE = "var(--brand-orange)";
 
