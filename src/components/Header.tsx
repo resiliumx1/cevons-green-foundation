@@ -88,6 +88,18 @@ const partnersMenu = [
   { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
 ];
 
+function WeBuyBadge() {
+  return (
+    <span
+      className="we-buy-badge shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-[2px] text-[9px] font-extrabold uppercase tracking-[0.12em]"
+      style={{ backgroundColor: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
+    >
+      <span className="we-buy-dot" aria-hidden="true" />
+      We Buy
+    </span>
+  );
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
