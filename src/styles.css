@@ -3034,3 +3034,24 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
 @media (prefers-reduced-motion: reduce) {
   .we-buy-badge, .we-buy-badge .we-buy-dot { animation: none; }
 }
+
+/* ---------------------------------------------------------------
+   Careers — BambooHR embed (third-party markup we cannot restyle
+   element-by-element). In dark mode their charcoal-on-white styling
+   inverts into low-contrast grey on our dark page, so we give the
+   embed a fixed light card and pin text to charcoal.
+   --------------------------------------------------------------- */
+html.dark #BambooHR {
+  background-color: #FFFFFF;
+  color: #1A1A1A;
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+html.dark #BambooHR *,
+html.dark #BambooHR div,
+html.dark #BambooHR span,
+html.dark #BambooHR li,
+html.dark #BambooHR p {
+  color: #1A1A1A !important;
+}
+html.dark #BambooHR a { color: #B34700 !important; }
