@@ -53,6 +53,7 @@ import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
 import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
 import { Route as CrmReportsRouteImport } from './routes/crm.reports'
 import { Route as CrmNewsroomRouteImport } from './routes/crm.newsroom'
+import { Route as CrmMediaRouteImport } from './routes/crm.media'
 import { Route as CrmMarketingRouteImport } from './routes/crm.marketing'
 import { Route as CrmLoginRouteImport } from './routes/crm.login'
 import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
@@ -294,6 +295,11 @@ const CrmNewsroomRoute = CrmNewsroomRouteImport.update({
   path: '/newsroom',
   getParentRoute: () => CrmRoute,
 } as any)
+const CrmMediaRoute = CrmMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => CrmRoute,
+} as any)
 const CrmMarketingRoute = CrmMarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
@@ -349,6 +355,7 @@ export interface FileRoutesByFullPath {
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/media': typeof CrmMediaRoute
   '/crm/newsroom': typeof CrmNewsroomRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
@@ -400,6 +407,7 @@ export interface FileRoutesByTo {
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/media': typeof CrmMediaRoute
   '/crm/newsroom': typeof CrmNewsroomRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
@@ -454,6 +462,7 @@ export interface FileRoutesById {
   '/crm/leads': typeof CrmLeadsRouteWithChildren
   '/crm/login': typeof CrmLoginRoute
   '/crm/marketing': typeof CrmMarketingRoute
+  '/crm/media': typeof CrmMediaRoute
   '/crm/newsroom': typeof CrmNewsroomRoute
   '/crm/reports': typeof CrmReportsRoute
   '/crm/reviews': typeof CrmReviewsRoute
@@ -509,6 +518,7 @@ export interface FileRouteTypes {
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
+    | '/crm/media'
     | '/crm/newsroom'
     | '/crm/reports'
     | '/crm/reviews'
@@ -560,6 +570,7 @@ export interface FileRouteTypes {
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
+    | '/crm/media'
     | '/crm/newsroom'
     | '/crm/reports'
     | '/crm/reviews'
@@ -613,6 +624,7 @@ export interface FileRouteTypes {
     | '/crm/leads'
     | '/crm/login'
     | '/crm/marketing'
+    | '/crm/media'
     | '/crm/newsroom'
     | '/crm/reports'
     | '/crm/reviews'
@@ -977,6 +989,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrmNewsroomRouteImport
       parentRoute: typeof CrmRoute
     }
+    '/crm/media': {
+      id: '/crm/media'
+      path: '/media'
+      fullPath: '/crm/media'
+      preLoaderRoute: typeof CrmMediaRouteImport
+      parentRoute: typeof CrmRoute
+    }
     '/crm/marketing': {
       id: '/crm/marketing'
       path: '/marketing'
@@ -1048,6 +1067,7 @@ interface CrmRouteChildren {
   CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
   CrmLoginRoute: typeof CrmLoginRoute
   CrmMarketingRoute: typeof CrmMarketingRoute
+  CrmMediaRoute: typeof CrmMediaRoute
   CrmNewsroomRoute: typeof CrmNewsroomRoute
   CrmReportsRoute: typeof CrmReportsRoute
   CrmReviewsRoute: typeof CrmReviewsRoute
@@ -1062,6 +1082,7 @@ const CrmRouteChildren: CrmRouteChildren = {
   CrmLeadsRoute: CrmLeadsRouteWithChildren,
   CrmLoginRoute: CrmLoginRoute,
   CrmMarketingRoute: CrmMarketingRoute,
+  CrmMediaRoute: CrmMediaRoute,
   CrmNewsroomRoute: CrmNewsroomRoute,
   CrmReportsRoute: CrmReportsRoute,
   CrmReviewsRoute: CrmReviewsRoute,

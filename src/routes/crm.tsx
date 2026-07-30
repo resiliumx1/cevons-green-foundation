@@ -59,6 +59,8 @@ const nav = [
   { to: "/crm/reports", label: "Reports", icon: BarChart3 },
   { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
   { to: "/crm/newsroom", label: "Newsroom", icon: Newspaper },
+  { to: "/crm/media", label: "Media", icon: ImageIcon },
+
   { to: "/crm/audit", label: "Audit Log", icon: FileClock },
   { to: "/crm/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
