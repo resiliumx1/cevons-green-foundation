@@ -367,7 +367,8 @@ export function Header() {
           aria-label="Main menu"
         >
           <div
-            className="flex-1 min-h-0 overflow-y-auto px-5 py-4"
+            data-lenis-prevent
+            className="flex-1 min-h-0 overflow-y-auto px-5 py-4 touch-pan-y"
             style={{
               WebkitOverflowScrolling: "touch",
               overscrollBehavior: "contain",
