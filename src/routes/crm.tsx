@@ -11,6 +11,8 @@ import {
   Star,
   Newspaper,
   FileClock,
+  Image as ImageIcon,
+
   Settings,
   Search,
   PanelLeftClose,
