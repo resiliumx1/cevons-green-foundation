@@ -226,7 +226,7 @@ function LocationsPage() {
                     {r.services.map((s) => (
                       <span
                         key={s}
-                        className="rounded-full bg-[var(--brand-orange)]/10 text-[var(--text-eyebrow)] text-xs font-medium px-2.5 py-1 border border-[var(--brand-orange)]/20"
+                        className="rounded-full bg-[var(--brand-orange)]/10 text-[var(--text-heading)] text-xs font-semibold px-2.5 py-1 border border-[var(--brand-orange)]/30"
                       >
                         {s}
                       </span>
