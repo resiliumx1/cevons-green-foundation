@@ -31,11 +31,11 @@ export function BinSizeSelector({ options, eyebrow, heading, intro }: {
               {eyebrow}
             </p>
           )}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-[var(--brand-charcoal)]">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight text-[var(--text-heading)]">
             {heading}
           </h2>
           {intro && (
-            <p className="mt-4 text-base md:text-lg text-[var(--brand-grey-dark)] leading-relaxed">
+            <p className="mt-4 text-base md:text-lg text-[var(--text-body)] leading-relaxed">
               {intro}
             </p>
           )}
@@ -59,7 +59,7 @@ export function BinSizeSelector({ options, eyebrow, heading, intro }: {
                   "group relative inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm md:text-base font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)] focus-visible:ring-offset-2",
                   isActive
                     ? "bg-[var(--brand-orange)] text-[var(--brand-charcoal)] shadow-[0_8px_24px_-8px_rgba(239,119,0,0.55)]"
-                    : "bg-white text-[var(--brand-charcoal)] border-2 border-[var(--brand-grey-light,#e5e7eb)] hover:border-[var(--brand-orange)]",
+                    : "bg-[var(--surface-emphasis)] text-[var(--text-heading)] border-2 border-[var(--border-hairline,#e5e7eb)] hover:border-[var(--brand-orange)]",
                 ].join(" ")}
               >
                 {isActive && <Check className="size-4" strokeWidth={3} />}
@@ -84,23 +84,23 @@ export function BinSizeSelector({ options, eyebrow, heading, intro }: {
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)] mb-3">
               {active.label}
             </p>
-            <h3 className="text-xl md:text-2xl font-extrabold text-[var(--brand-charcoal)] mb-4 leading-tight">
+            <h3 className="text-xl md:text-2xl font-extrabold text-[var(--text-heading)] mb-4 leading-tight">
               {active.tagline}
             </h3>
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <div className="rounded-xl bg-white ring-1 ring-black/5 p-4">
-                <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--brand-grey-dark)]">Dimensions</dt>
-                <dd className="mt-1 text-base font-semibold text-[var(--brand-charcoal)]">{active.dimensions}</dd>
+              <div className="rounded-xl bg-[var(--surface-emphasis)] ring-1 ring-black/5 p-4">
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-body)]">Dimensions</dt>
+                <dd className="mt-1 text-base font-semibold text-[var(--text-heading)]">{active.dimensions}</dd>
               </div>
-              <div className="rounded-xl bg-white ring-1 ring-black/5 p-4">
-                <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--brand-grey-dark)]">Capacity</dt>
-                <dd className="mt-1 text-base font-semibold text-[var(--brand-charcoal)]">{active.capacity}</dd>
+              <div className="rounded-xl bg-[var(--surface-emphasis)] ring-1 ring-black/5 p-4">
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-body)]">Capacity</dt>
+                <dd className="mt-1 text-base font-semibold text-[var(--text-heading)]">{active.capacity}</dd>
               </div>
             </dl>
-            <p className="text-sm font-bold uppercase tracking-wider text-[var(--brand-grey-dark)] mb-3">Best for</p>
+            <p className="text-sm font-bold uppercase tracking-wider text-[var(--text-body)] mb-3">Best for</p>
             <ul className="space-y-2">
               {active.bestFor.map((b) => (
-                <li key={b} className="flex items-start gap-2 text-[var(--brand-charcoal)]">
+                <li key={b} className="flex items-start gap-2 text-[var(--text-heading)]">
                   <Check className="size-5 shrink-0 text-[var(--brand-orange)] mt-0.5" strokeWidth={2.5} />
                   <span>{b}</span>
                 </li>
