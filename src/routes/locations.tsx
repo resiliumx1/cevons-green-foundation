@@ -140,7 +140,7 @@ function LocationsPage() {
               <span className="inline-flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FCE722]" /> Selected
               </span>
-              <span className="text-cevons-muted/70">Click the map to enable scroll zoom</span>
+              <span className="text-[var(--text-body)]">Click the map to enable scroll zoom</span>
             </div>
 
             <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2">
