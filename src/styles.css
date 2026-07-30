@@ -1571,7 +1571,7 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   filter: brightness(1.06);
   box-shadow: 0 18px 34px -14px rgba(45, 163, 57, 0.7), 0 4px 10px rgba(0,0,0,0.2);
 }
-.hero-cta--whatsapp .hero-cta__sub { color: rgba(26, 26, 26, 0.72); }
+.hero-cta--whatsapp .hero-cta__sub { color: rgba(26, 26, 26, 0.92); }
 
 /* Solid white icon chip — this is the single change that makes the CTAs
    read as "designed" rather than flat. Icon rendered in charcoal. */
@@ -1613,7 +1613,7 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   margin-top: 2px;
 }
 /* Sub-label at 72% of charcoal on flat orange = 4.66:1 (AA normal). */
-.hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.72); }
+.hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.92); }
 
 /* Mobile — keep word effect, soften leaf clutter & ensure no clipping */
 @media (max-width: 640px) {
@@ -2859,12 +2859,12 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
   [data-hero-scope] .hero-cta__label { font-size: 0.95rem; font-weight: 700; color: #1A1A1A !important; line-height: 1.1; }
   [data-hero-scope] .hero-cta__sub {
     font-size: 0.74rem;
-    color: rgba(26, 26, 26, 0.75) !important;
+    color: rgba(26, 26, 26, 0.92) !important;
     font-weight: 500;
     margin-top: 2px;
     line-height: 1.15;
   }
-  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.75) !important; }
+  [data-hero-scope] .hero-cta--schedule .hero-cta__sub { color: rgba(26, 26, 26, 0.92) !important; }
 
   /* Trust chips — single glass bar with 3 columns + dividers */
   [data-hero-scope] ul[aria-label="Service guarantees"] {
