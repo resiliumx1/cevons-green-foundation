@@ -245,9 +245,10 @@ export function Header() {
                                 <Link
                                   to={`/services/${slug}`}
                                   role="menuitem"
-                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
+                                  className="flex items-center gap-2 px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
                                 >
-                                  {serviceLabels[slug]}
+                                  <span>{serviceLabels[slug]}</span>
+                                  {slug === "scrap-metal-recycling" && <WeBuyBadge />}
                                 </Link>
                               </li>
                             ))}
