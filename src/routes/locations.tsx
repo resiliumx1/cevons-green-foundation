@@ -140,7 +140,7 @@ function LocationsPage() {
               <span className="inline-flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-[#FCE722]" /> Selected
               </span>
-              <span className="text-cevons-muted/70">Click the map to enable scroll zoom</span>
+              <span className="text-[var(--text-body)]">Click the map to enable scroll zoom</span>
             </div>
 
             <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -226,7 +226,7 @@ function LocationsPage() {
                     {r.services.map((s) => (
                       <span
                         key={s}
-                        className="rounded-full bg-[var(--brand-orange)]/10 text-[var(--text-eyebrow)] text-xs font-medium px-2.5 py-1 border border-[var(--brand-orange)]/20"
+                        className="rounded-full bg-[var(--brand-orange)]/10 text-[var(--text-heading)] text-xs font-semibold px-2.5 py-1 border border-[var(--brand-orange)]/30"
                       >
                         {s}
                       </span>
