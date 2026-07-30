@@ -360,6 +360,7 @@ export function Header() {
 
       {mobileOpen && typeof document !== "undefined" && createPortal(
         <div
+          data-lenis-prevent
           className="lg:hidden fixed inset-x-0 z-[90] bg-white flex flex-col overscroll-contain"
           style={{ top: "72px", bottom: 0, height: "calc(100dvh - 72px)" }}
           role="dialog"
@@ -367,7 +368,8 @@ export function Header() {
           aria-label="Main menu"
         >
           <div
-            className="flex-1 min-h-0 overflow-y-auto px-5 py-4"
+            data-lenis-prevent
+            className="flex-1 min-h-0 overflow-y-auto px-5 py-4 touch-pan-y"
             style={{
               WebkitOverflowScrolling: "touch",
               overscrollBehavior: "contain",
