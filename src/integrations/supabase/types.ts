@@ -410,6 +410,45 @@ export type Database = {
         }
         Relationships: []
       }
+      media_posts: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          image_h: number | null
+          image_path: string | null
+          image_w: number | null
+          kind: string
+          published: boolean
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_h?: number | null
+          image_path?: string | null
+          image_w?: number | null
+          kind: string
+          published?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_h?: number | null
+          image_path?: string | null
+          image_w?: number | null
+          kind?: string
+          published?: boolean
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           consent: boolean
