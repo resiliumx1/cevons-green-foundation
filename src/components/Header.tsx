@@ -88,6 +88,18 @@ const partnersMenu = [
   { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
 ];
 
+function WeBuyBadge() {
+  return (
+    <span
+      className="we-buy-badge shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-[2px] text-[9px] font-extrabold uppercase tracking-[0.12em]"
+      style={{ backgroundColor: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
+    >
+      <span className="we-buy-dot" aria-hidden="true" />
+      We Buy
+    </span>
+  );
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -245,9 +257,10 @@ export function Header() {
                                 <Link
                                   to={`/services/${slug}`}
                                   role="menuitem"
-                                  className="block px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
+                                  className="flex items-center gap-2 px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
                                 >
-                                  {serviceLabels[slug]}
+                                  <span>{serviceLabels[slug]}</span>
+                                  {slug === "scrap-metal-recycling" && <WeBuyBadge />}
                                 </Link>
                               </li>
                             ))}
@@ -386,7 +399,8 @@ export function Header() {
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
                                     <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                                    {serviceLabels[slug]}
+                                    <span>{serviceLabels[slug]}</span>
+                                    {slug === "scrap-metal-recycling" && <WeBuyBadge />}
                                   </Link>
                                 ))}
                               </div>
