@@ -3008,3 +3008,29 @@ html.dark span.text-black > svg { color: var(--brand-orange) !important; }
   .branded-video-play:focus-visible { transform: translate(-50%, -50%); }
   .branded-video-play::after { animation: none; opacity: 0; }
 }
+
+/* "We Buy" indicator on the Scrap Metal Recycling menu entry */
+.we-buy-badge {
+  line-height: 1;
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 60%, transparent);
+  animation: weBuyPulse 2.4s ease-out infinite;
+}
+.we-buy-badge .we-buy-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--brand-charcoal);
+  animation: weBuyBlink 2.4s ease-in-out infinite;
+}
+@keyframes weBuyPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 60%, transparent); }
+  60% { box-shadow: 0 0 0 6px color-mix(in oklab, var(--brand-orange) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 0%, transparent); }
+}
+@keyframes weBuyBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .we-buy-badge, .we-buy-badge .we-buy-dot { animation: none; }
+}
