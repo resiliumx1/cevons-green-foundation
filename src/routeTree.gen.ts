@@ -57,6 +57,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminNewsroomRouteImport } from './routes/admin.newsroom'
@@ -321,6 +322,11 @@ const AdminReportsRoute = AdminReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
+  id: '/promotions',
+  path: '/promotions',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPeopleRoute = AdminPeopleRouteImport.update({
   id: '/people',
   path: '/people',
@@ -395,6 +401,7 @@ export interface FileRoutesByFullPath {
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -453,6 +460,7 @@ export interface FileRoutesByTo {
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -514,6 +522,7 @@ export interface FileRoutesById {
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -576,6 +585,7 @@ export interface FileRouteTypes {
     | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -634,6 +644,7 @@ export interface FileRouteTypes {
     | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -694,6 +705,7 @@ export interface FileRouteTypes {
     | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -1094,6 +1106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/promotions': {
+      id: '/admin/promotions'
+      path: '/promotions'
+      fullPath: '/admin/promotions'
+      preLoaderRoute: typeof AdminPromotionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/people': {
       id: '/admin/people'
       path: '/people'
@@ -1189,6 +1208,7 @@ interface AdminRouteChildren {
   AdminNewsroomRoute: typeof AdminNewsroomRoute
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
+  AdminPromotionsRoute: typeof AdminPromotionsRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -1205,6 +1225,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminNewsroomRoute: AdminNewsroomRoute,
   AdminPagesRoute: AdminPagesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
+  AdminPromotionsRoute: AdminPromotionsRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
