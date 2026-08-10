@@ -142,7 +142,7 @@ function ServiceCard({
     return (
       <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
         <div className="flex items-start gap-4">
-          <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+          <span className="icon-tile relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl">
             <CevonsIcon group="services" name={s.iconKey} fill decorative />
           </span>
           <div className="min-w-0">
