@@ -142,7 +142,7 @@ function ServiceCard({
     return (
       <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
         <div className="flex items-start gap-4">
-          <span className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-yellow)]/30 shadow-md">
+          <span className="icon-tile relative flex h-16 w-16 shrink-0 overflow-hidden rounded-2xl">
             <CevonsIcon group="services" name={s.iconKey} fill decorative />
           </span>
           <div className="min-w-0">
@@ -169,7 +169,7 @@ function ServiceCard({
   }
   return (
     <article className="group relative flex flex-col rounded-2xl border border-[var(--cevons-deep-green)]/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-green)] hover:shadow-xl">
-      <span className="relative flex h-20 w-20 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/15 shadow-sm mb-4 transition-transform duration-300 group-hover:scale-[1.04]">
+      <span className="icon-tile relative flex h-20 w-20 overflow-hidden rounded-2xl mb-4">
         <CevonsIcon group="services" name={s.iconKey} fill decorative />
       </span>
       <h3 className="text-lg font-bold text-[var(--cevons-deep-green)]">{s.title}</h3>
@@ -400,7 +400,7 @@ function ServicesPage() {
                       className="absolute -right-10 -bottom-10 size-40 rounded-full bg-[var(--cevons-deep-green)]/5"
                     />
                     <div className="relative flex items-start gap-5">
-                      <span className="relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#101820] ring-1 ring-[var(--cevons-green)]/20 shadow-sm transition-transform duration-300 group-hover:scale-[1.04]">
+                      <span className="icon-tile relative flex h-24 w-24 shrink-0 overflow-hidden rounded-2xl">
                         <CevonsIcon group="services" name={s.iconKey} fill decorative />
                       </span>
                       <div className="min-w-0 flex-1">
