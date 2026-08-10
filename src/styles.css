@@ -765,8 +765,8 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 [data-crm-theme] { background-color: var(--crm-bg); color: var(--crm-text); }
 
 [data-crm-theme] .crm-sidebar {
-  background-color: var(--crm-sidebar) !important;
-  color: var(--crm-sidebar-text);
+  background-color: #000080 !important;
+  color: #FFFFFF !important;
   border-color: transparent !important;
   background-image:
     radial-gradient(120% 60% at 0% 0%, rgba(245, 197, 24, 0.06), transparent 60%),
@@ -880,9 +880,6 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 [data-crm-theme] .divide-white\/5 > * + * { border-color: var(--crm-border) !important; }
 
 /* Sunset accents (subtle gradient surfaces for metric cards) */
-[data-crm-theme="sunset"] .crm-stat-mint { background: linear-gradient(135deg, #ECFDF5, #FFFFFF) !important; }
-[data-crm-theme="sunset"] .crm-stat-amber { background: linear-gradient(135deg, #FFF1D6, #FFFFFF) !important; }
-[data-crm-theme="sunset"] .crm-stat-coral { background: linear-gradient(135deg, #FFE3E3, #FFFFFF) !important; }
 
 /* Service Assistant chat widget */
 .assistant-fab { transition: opacity 0.5s ease, transform 0.25s ease, box-shadow 0.25s ease; }
