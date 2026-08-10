@@ -33,7 +33,7 @@ export const Route = createFileRoute("/news-media")({
 function GalleryFigure({ item, index }: { item: ResolvedMediaPost; index: number }) {
   if (!item.url) return null;
   return (
-    <figure className="mb-4 break-inside-avoid overflow-hidden rounded-xl border border-black/10 bg-[var(--surface-card)]">
+    <figure className="mb-4 break-inside-avoid overflow-hidden card-cevons rounded-xl p-0">
       <img
         src={item.url}
         alt={item.title || "CEVONS Environmental Services photo"}
@@ -86,13 +86,11 @@ function NewsMediaPage() {
         <div className="py-12" style={{ background: "var(--surface-page)" }}>
           <div className="container-cevons">
             {loading && (
-              <p className="text-sm" style={{ color: "var(--text-muted, #4a4a4a)" }}>
-                Loading…
-              </p>
+              <p className="text-sm text-cevons-muted">Loading…</p>
             )}
 
             {isEmpty && (
-              <p className="text-base" style={{ color: "var(--brand-grey-dark)" }}>
+              <p className="text-base text-cevons-muted">
                 Nothing has been published here yet. Please check back soon.
               </p>
             )}
@@ -101,8 +99,7 @@ function NewsMediaPage() {
               <section aria-labelledby="announcements-heading" className="mb-14">
                 <h2
                   id="announcements-heading"
-                  className="mb-6 text-2xl font-bold"
-                  style={{ color: "var(--brand-charcoal)" }}
+                  className="mb-6 text-2xl font-bold text-cevons-dark"
                 >
                   Announcements
                 </h2>
@@ -110,7 +107,7 @@ function NewsMediaPage() {
                   {announcementItems.map((a, i) => (
                     <li
                       key={a.id}
-                      className="overflow-hidden rounded-xl border border-black/10 bg-[var(--surface-card)]"
+                      className="overflow-hidden card-cevons rounded-xl p-0"
                     >
                       {a.url && (
                         <img
@@ -155,8 +152,7 @@ function NewsMediaPage() {
               <section aria-labelledby="gallery-heading">
                 <h2
                   id="gallery-heading"
-                  className="mb-6 text-2xl font-bold"
-                  style={{ color: "var(--brand-charcoal)" }}
+                  className="mb-6 text-2xl font-bold text-cevons-dark"
                 >
                   Gallery
                 </h2>
