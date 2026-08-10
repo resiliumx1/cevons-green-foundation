@@ -23,6 +23,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
+import { Route as CrmIndexRouteImport } from './routes/crm.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used-waste-oil'
@@ -131,6 +132,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
 const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
   id: '/request-service/',
   path: '/request-service/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrmIndexRoute = CrmIndexRouteImport.update({
+  id: '/crm/',
+  path: '/crm/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -393,6 +399,7 @@ export interface FileRoutesByFullPath {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/admin/': typeof AdminIndexRoute
+  '/crm/': typeof CrmIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
@@ -446,6 +453,7 @@ export interface FileRoutesByTo {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/admin': typeof AdminIndexRoute
+  '/crm': typeof CrmIndexRoute
   '/request-service': typeof RequestServiceIndexRoute
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
@@ -502,6 +510,7 @@ export interface FileRoutesById {
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
   '/admin/': typeof AdminIndexRoute
+  '/crm/': typeof CrmIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
@@ -559,6 +568,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/admin/'
+    | '/crm/'
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
@@ -612,6 +622,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/admin'
+    | '/crm'
     | '/request-service'
     | '/services'
     | '/admin/leads/$id'
@@ -667,6 +678,7 @@ export interface FileRouteTypes {
     | '/services/used-waste-oil'
     | '/services/wastewater'
     | '/admin/'
+    | '/crm/'
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
@@ -690,6 +702,7 @@ export interface RootRouteChildren {
   DevMotionDebugRoute: typeof DevMotionDebugRoute
   DevServiceActionButtonRoute: typeof DevServiceActionButtonRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
+  CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
 }
 
@@ -791,6 +804,13 @@ declare module '@tanstack/react-router' {
       path: '/request-service'
       fullPath: '/request-service/'
       preLoaderRoute: typeof RequestServiceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/': {
+      id: '/crm/'
+      path: '/crm'
+      fullPath: '/crm/'
+      preLoaderRoute: typeof CrmIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -1185,6 +1205,7 @@ const rootRouteChildren: RootRouteChildren = {
   DevMotionDebugRoute: DevMotionDebugRoute,
   DevServiceActionButtonRoute: DevServiceActionButtonRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
+  CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
 }
 export const routeTree = rootRouteImport
