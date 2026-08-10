@@ -93,27 +93,34 @@ function InviteForm() {
   const qc = useQueryClient();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<AdminRole>("editor");
+  const sendInvite = useServerFn(inviteAdminUser);
 
   const invite = useMutation({
     mutationFn: async () => {
       const clean = email.trim().toLowerCase();
       if (!clean) throw new Error("Enter an email address.");
-      const { error } = await supabase.from("invitations").insert({ email: clean, role });
-      if (error) throw error;
-      // Supabase sends the set-a-password email; the role is applied server-side
-      // from the invitation row on first sign-in.
-      const { error: mailError } = await supabase.auth.resetPasswordForEmail(clean, {
-        redirectTo: `${window.location.origin}/admin/reset-password`,
+      // The account is created and the email sent server-side, so a brand-new
+      // colleague actually receives something they can use.
+      return sendInvite({
+        data: {
+          email: clean,
+          role,
+          redirectTo: `${window.location.origin}/admin/reset-password`,
+        },
       });
-      if (mailError) throw mailError;
     },
-    onSuccess: () => {
-      toast.success(`Invitation sent to ${email.trim().toLowerCase()}`);
+    onSuccess: (res) => {
+      toast.success(
+        res.existingAccount
+          ? `${res.email} already had an account — we sent them a link to set a new password.`
+          : `Invitation sent to ${res.email}`,
+      );
       setEmail("");
       void qc.invalidateQueries({ queryKey: ["admin", "invitations"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not send the invitation."),
   });
+
 
   return (
     <Panel title="Invite someone" code="P-10">
