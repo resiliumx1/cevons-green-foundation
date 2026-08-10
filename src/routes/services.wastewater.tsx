@@ -102,6 +102,7 @@ function Page() {
       h1="Industrial Wastewater Services"
       subhead="Collection, treatment, and compliant disposal for the full range of industrial wastewater streams — from acids and organics to latex, paints, and tank rinse water."
       heroImage={imgHero}
+      heroSlot="svc_wastewater_hero"
       heroAlt="CEVONS wastewater service vehicle at an industrial facility in Guyana"
       benefits={["Full contaminant range accepted","Advanced treatment technology","Hands-on operational expertise","Vacuum tankers, pumps, totes","Documented compliant disposal"]}
       commonUses={uses}

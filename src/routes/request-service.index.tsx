@@ -380,6 +380,7 @@ function RequestServicePage() {
         subtitle="Tell us what you need and we’ll take care of the rest."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
         imageSrc="/assets/heroes/hero-request-service.webp"
+        slot="request_service_hero"
         imageAlt="Customer requesting a CEVONS service online"
         height="compact"
         waveVariant="minimal"

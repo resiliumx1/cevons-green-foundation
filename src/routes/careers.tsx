@@ -22,6 +22,8 @@ const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR
 // Landscape hero (1920x1280) recut from the boardroom presentation photo —
 // keeps the TV, presenter, and attendees in frame at wide viewports.
 const heroCareers = "/assets/heroes/careers-boardroom-hero.webp";
+import { useSiteImage } from "@/lib/siteImages";
+import { useSectionPayload, type PageIntroPayload } from "@/lib/pageSections";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -145,14 +147,16 @@ function scrollToOpenPositions(e: React.MouseEvent) {
 }
 
 function CareersPage() {
+  const intro = useSectionPayload<PageIntroPayload>("careers", "page_intro");
+  const hero = useSiteImage("careers_hero", heroCareers, "CEVONS team members reviewing service offerings during a boardroom presentation");
   return (
     <SiteLayout>
       {/* HERO */}
       <section className="relative isolate overflow-hidden min-h-[640px] md:min-h-[720px] flex items-center">
         <div className="absolute inset-0 -z-10">
           <img
-            src={heroCareers}
-            alt="CEVONS team members reviewing service offerings during a boardroom presentation"
+            src={hero.src}
+            alt={hero.alt}
             className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"
@@ -171,21 +175,27 @@ function CareersPage() {
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-orange)]/50 bg-black/30 backdrop-blur-sm px-3.5 py-1.5">
               <span className="size-1.5 rounded-full bg-[var(--brand-orange)] shadow-[0_0_10px_var(--brand-orange)]" />
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--brand-orange)]">
-                Careers at CEVONS
+                {intro?.eyebrow || "Careers at CEVONS"}
               </p>
             </div>
             <h1
               className="mt-5 text-4xl md:text-6xl lg:text-[68px] font-bold leading-[1.05] tracking-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
-              Build a Cleaner Tomorrow.
-              <span className="block mt-2 bg-gradient-to-r from-[var(--brand-orange)] via-[#FFB061] to-[var(--brand-orange)] bg-clip-text text-transparent italic">
-                Together.
-              </span>
+              {intro?.title ? (
+                intro.title
+              ) : (
+                <>
+                  Build a Cleaner Tomorrow.
+                  <span className="block mt-2 bg-gradient-to-r from-[var(--brand-orange)] via-[#FFB061] to-[var(--brand-orange)] bg-clip-text text-transparent italic">
+                    Together.
+                  </span>
+                </>
+              )}
             </h1>
             <p className="mt-6 max-w-xl text-base md:text-lg text-white/90 leading-relaxed">
-              Join a team that&rsquo;s committed to protecting our environment, strengthening our
-              communities, and creating opportunities that last.
+              {intro?.subtitle ||
+                "Join a team that\u2019s committed to protecting our environment, strengthening our communities, and creating opportunities that last."}
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
               <a

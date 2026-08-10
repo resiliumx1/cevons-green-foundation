@@ -927,6 +927,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_images: {
+        Row: {
+          alt: string
+          image_h: number | null
+          image_path: string
+          image_w: number | null
+          slot: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          alt: string
+          image_h?: number | null
+          image_path: string
+          image_w?: number | null
+          slot: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          alt?: string
+          image_h?: number | null
+          image_path?: string
+          image_w?: number | null
+          slot?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

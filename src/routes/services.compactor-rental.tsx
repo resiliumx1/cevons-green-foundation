@@ -78,6 +78,7 @@ function Page() {
       h1="Commercial Compactor Rental"
       subhead="Stationary waste compactors for supermarkets, hotels, manufacturing, and institutions — supplied, serviced, and emptied under one CEVONS program."
       heroImage={imgHero}
+      heroSlot="svc_compactor_rental_hero"
       heroAlt="Commercial waste compactor installed at a CEVONS client loading dock"
       benefits={[
         "Reduces waste volume on-site",

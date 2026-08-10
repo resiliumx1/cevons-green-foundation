@@ -97,6 +97,7 @@ function Page() {
       h1="Hazardous Waste Management"
       subhead="High-temperature incineration, barrel incineration for oil & gas PPE, and universal waste handling for industrial operators across Guyana."
       heroImage={imgHero}
+      heroSlot="svc_hazardous_waste_hero"
       heroAlt="CEVONS crew handling labelled hazardous waste drums at an industrial site"
       benefits={["Rotary kiln + custom main chamber","Barrel incinerator for oil & gas","~3% ash, no smoke, no smell","Universal waste program","Documented chain-of-custody"]}
       commonUses={uses}

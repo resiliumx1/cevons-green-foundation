@@ -79,6 +79,7 @@ function Page() {
       h1="Material Recovery Facility"
       subhead="The sorting engine behind CEVONS's commercial recycling — cardboard, paper, plastics, and metals returned to productive use instead of landfill."
       heroImage={imgHero}
+      heroSlot="svc_material_recovery_hero"
       heroAlt="Sorting lines and recovered materials inside the CEVONS material recovery facility"
       benefits={["Cardboard, paper, plastics & metals","Feeds source-separated collections","Transparent diversion outcomes","Tipping and intake support","Reporting for sustainability goals"]}
       commonUses={uses}

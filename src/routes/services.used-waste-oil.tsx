@@ -93,6 +93,7 @@ function Page() {
       h1="Used Waste Oil Collection & Filter Recycling"
       subhead="Collection of used engine, transmission, and hydraulic oils, plus used oil filter recycling for garages, dealerships, and industrial operations."
       heroImage={imgHero}
+      heroSlot="svc_used_waste_oil_hero"
       heroAlt="CEVONS waste oil collection truck servicing an industrial workshop"
       benefits={["Engine, transmission & hydraulic oils","Storage containers supplied","Filter totes and fuel-filter drums","Scheduled or call-in service","Compliant transport and disposal"]}
       commonUses={uses}

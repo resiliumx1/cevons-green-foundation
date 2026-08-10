@@ -94,6 +94,7 @@ function Page() {
       h1="Grease Trap & Septic Tank Services"
       subhead="Scheduled grease trap servicing, commercial septic emptying, and high-pressure jetting for restaurants and facilities across Guyana."
       heroImage={imgHero}
+      heroSlot="svc_grease_trap_septic_hero"
       heroAlt="CEVONS service vehicle performing grease trap cleaning at a commercial kitchen"
       benefits={["Scheduled grease trap programmes","High-pressure jetting rigs","8,500–10,500 L tanker fleet","Licensed government-approved disposal","Service records for compliance"]}
       commonUses={uses}

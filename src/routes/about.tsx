@@ -27,11 +27,13 @@ import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 // Byte-for-byte in public/assets/heroes/ so the hero renders sharp — the
 // prior 1200x1600 portrait had to be upscaled 1.2x to fill the strip.
 const heroAbout = "/assets/heroes/about-support-hero.webp";
+import { useSiteImage } from "@/lib/siteImages";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgDumpster from "@/assets/svc-dumpster.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
+import { useSectionPayload, type PageIntroPayload, type CtaBannerPayload } from "@/lib/pageSections";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -96,6 +98,9 @@ const operationsImages = [
 
 
 function AboutPage() {
+  const intro = useSectionPayload<PageIntroPayload>("about", "page_intro");
+  const ctaCopy = useSectionPayload<CtaBannerPayload>("about", "cta_banner");
+  const hero = useSiteImage("about_hero", heroAbout, "CEVONS front-office team supporting a customer inquiry at the Georgetown office");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -105,8 +110,8 @@ function AboutPage() {
       <section className="relative overflow-hidden min-h-[70vh] md:min-h-[82vh] flex items-center" aria-labelledby="about-h1">
         <div className="absolute inset-0">
           <img
-            src={heroAbout}
-            alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
+            src={hero.src}
+            alt={hero.alt}
             className="size-full object-cover hero-img hero-img-mobile"
             style={{ objectPosition: "center 35%" }}
             width={1920}
@@ -126,10 +131,10 @@ function AboutPage() {
             </ol>
           </nav>
           <h1 id="about-h1" className={`text-white text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            About CEVONS
+            {intro?.title || "About CEVONS"}
           </h1>
           <p className={`mt-5 text-white/85 text-base md:text-xl max-w-xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Guyana’s trusted environmental services partner since 1997.
+            {intro?.subtitle || "Guyana’s trusted environmental services partner since 1997."}
           </p>
         </div>
 
@@ -377,9 +382,9 @@ function AboutPage() {
       {/* FINAL CTA */}
       <OrangeCTABanner
         icon={Leaf}
-        eyebrow="Partner With Us"
-        title="Ready to Work With CEVONS?"
-        subtitle="Let us help you manage waste responsibly and efficiently across Guyana."
+        eyebrow={ctaCopy?.eyebrow || "Partner With Us"}
+        title={ctaCopy?.title || "Ready to Work With CEVONS?"}
+        subtitle={ctaCopy?.subtitle || "Let us help you manage waste responsibly and efficiently across Guyana."}
       >
         <Link to="/request-service" className="cta-btn-primary">
           Request Service <ArrowRight className="size-5" />

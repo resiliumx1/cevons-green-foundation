@@ -26,6 +26,7 @@ import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 
 import { cevonsContact, telHref, mailtoHref, whatsappHref, primaryTelHref, primaryMailtoHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { useSectionPayload, type PageIntroPayload, type CtaBannerPayload } from "@/lib/pageSections";
 
 const mapBranches: BranchPoint[] = cevonsContact.regions.map((r) => ({
   id: r.name,
@@ -116,15 +117,19 @@ function ContactPage() {
 
 
 
+  const intro = useSectionPayload<PageIntroPayload>("contact", "page_intro");
+  const ctaCopy = useSectionPayload<CtaBannerPayload>("contact", "cta_banner");
+
   return (
     <SiteLayout>
       {/* HERO */}
       <PageHero
-        title="Get in Touch"
-        eyebrow="Contact"
-        subtitle="We're here to help. Reach out — we typically respond the same business day."
+        title={intro?.title || "Get in Touch"}
+        eyebrow={intro?.eyebrow || "Contact"}
+        subtitle={intro?.subtitle || "We're here to help. Reach out — we typically respond the same business day."}
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         imageSrc={contactHero}
+        slot="contact_hero"
         imageAlt="CEVONS front-office team member welcoming customer inquiries at the Georgetown office"
         imagePosition="center 75%"
         height="standard"
@@ -248,9 +253,9 @@ function ContactPage() {
       {/* URGENT CTA */}
       <OrangeCTABanner
         icon={Siren}
-        eyebrow="24/7 Emergency Line"
-        title="Need Urgent Assistance?"
-        subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana."
+        eyebrow={ctaCopy?.eyebrow || "24/7 Emergency Line"}
+        title={ctaCopy?.title || "Need Urgent Assistance?"}
+        subtitle={ctaCopy?.subtitle || "Contact our team right away for fast support, urgent service coordination, or immediate guidance — anywhere in Guyana."}
         actionEyebrow="Talk to us now"
         actionIntro="Tap to call our dispatch line — or reach us on WhatsApp / email."
       >

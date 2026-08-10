@@ -285,7 +285,7 @@ function PagesEditor() {
   const rows = sectionsQuery.data ?? [];
   const refresh = () => qc.invalidateQueries({ queryKey: ["admin", "page_sections", page] });
 
-  const kindsForPage = useMemo(() => SECTION_KINDS.filter((k) => k.page === page), [page]);
+  const kindsForPage = useMemo(() => SECTION_KINDS.filter((k) => k.pages.includes(page)), [page]);
 
   async function addSection(kind: string) {
     const def = kindDef(kind);

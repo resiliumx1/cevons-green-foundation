@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import logoMark from "@/assets/cevons-logo.png";
 import { type WaveVariant } from "@/components/WaveDivider";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
+import { useSiteImage } from "@/lib/siteImages";
 
 type Crumb = { label: string; href?: string };
 type Height = "compact" | "standard" | "large";
@@ -16,6 +17,8 @@ export interface PageHeroProps {
   breadcrumb?: Crumb[];
   imageSrc: string;
   imageAlt: string;
+  /** Named site-image slot. When an override exists it replaces imageSrc/imageAlt. */
+  slot?: string;
   align?: Align;
   height?: Height;
   showSwoosh?: boolean;
@@ -63,6 +66,7 @@ export function PageHero({
   breadcrumb,
   imageSrc,
   imageAlt,
+  slot,
   align = "left",
   height = "standard",
   showSwoosh = true,
@@ -72,6 +76,7 @@ export function PageHero({
   priority = false,
   children,
 }: PageHeroProps) {
+  const hero = useSiteImage(slot ?? "", imageSrc, imageAlt);
 
   // Second vertical layer deepens the top where the breadcrumb sits without
   // darkening the photo's subject — grounds the text block on tall photos.
@@ -88,8 +93,8 @@ export function PageHero({
     >
       <div className="absolute inset-0">
         <img
-          src={imageSrc}
-          alt={imageAlt}
+          src={hero.src}
+          alt={hero.alt}
           loading={priority ? "eager" : "lazy"}
           decoding={priority ? "sync" : "async"}
           {...(priority ? { fetchPriority: "high" as const } : {})}

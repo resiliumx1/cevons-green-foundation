@@ -28,6 +28,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logo from "@/assets/cevons-logo.png";
+import { useSiteImage } from "@/lib/siteImages";
 
 type LucideIcon = ComponentType<{ className?: string }>;
 
@@ -59,6 +60,8 @@ export type ServicePageProps = {
   h1: string;
   subhead: string;
   heroImage: string;
+  /** Named site-image slot for the hero photo. */
+  heroSlot?: string;
   heroAlt: string;
   benefits: string[];
   commonUses: { icon: LucideIcon; title: string }[];
@@ -113,6 +116,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
     h1,
     subhead,
     heroImage,
+    heroSlot,
     heroAlt,
     benefits,
     commonUses,
@@ -131,6 +135,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
   } = props;
 
 
+  const heroPhoto = useSiteImage(heroSlot ?? "", heroImage, heroAlt);
   const isSpecialist = ctaVariant === "specialist";
   const primaryCtaLabel = ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote");
   const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
@@ -219,8 +224,8 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <Reveal variant="scale" delay={0.1}>
               <div className="relative rounded-2xl overflow-hidden shadow-lift group">
                 <img
-                  src={heroImage}
-                  alt={heroAlt}
+                  src={heroPhoto.src}
+                  alt={heroPhoto.alt}
                   className="w-full aspect-[4/3] object-cover hero-img transition-transform duration-700 group-hover:scale-105"
                   width={960}
                   height={720}

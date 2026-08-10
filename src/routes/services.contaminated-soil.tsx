@@ -78,6 +78,7 @@ function Page() {
       h1="Contaminated Soil Management"
       subhead="Profiling, secure transport, and compliant disposal for petroleum-impacted and chemically contaminated soils across Guyana."
       heroImage={imgHero}
+      heroSlot="svc_contaminated_soil_hero"
       heroAlt="CEVONS crew loading contaminated soil into a covered transport at an industrial site"
       benefits={["Waste profiling & characterisation","Covered, compliant transport","Documented disposal chain","Coordinated with remediation teams","Specialist project review"]}
       commonUses={uses}

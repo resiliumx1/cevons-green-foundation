@@ -189,6 +189,7 @@ function Page() {
       h1="We Buy Scrap Metal"
       subhead="CEVONS pays for ferrous and non-ferrous metals, scrap cable, and lead batteries — a licensed scrap metal dealer and exporter in Guyana. Sell a one-off load or set up recurring pickups."
       heroImage={imgHero}
+      heroSlot="svc_scrap_metal_hero"
       heroAlt="CEVONS scrap metal yard with ferrous and non-ferrous material sorted for export"
       benefits={[
         "We buy — you get paid for your scrap",
