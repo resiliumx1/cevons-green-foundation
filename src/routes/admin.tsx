@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
+import { isAdminRole, useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -80,9 +80,10 @@ const nav = [
   { to: "/admin/newsroom", label: "Newsroom", icon: Newspaper },
   { to: "/admin/media", label: "Media", icon: ImageIcon },
 
+  { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
   { to: "/admin/audit", label: "Audit Log", icon: FileClock },
   { to: "/admin/settings", label: "Settings", icon: Settings },
-] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
+] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType; adminOnly?: boolean }>;
 
 
 function CrmRoot() {
@@ -164,6 +165,10 @@ function CrmLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const { unreadByType, markTypeRead } = useNotifications();
+  // People is owner/admin only — hide the nav entry for everyone else. The
+  // screen itself and RLS both enforce this independently.
+  const layoutIdentity = useAdminIdentity();
+  const visibleNav = nav.filter((item) => !item.adminOnly || isAdminRole(layoutIdentity.roles));
 
   // Cmd/Ctrl+K opens the global command palette
   useEffect(() => {
@@ -217,7 +222,7 @@ function CrmLayout() {
 
       {/* Nav */}
       <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 space-y-1 ${collapsed ? "px-2" : "px-3"}`}>
-        {nav.map((item) => {
+        {visibleNav.map((item) => {
           const active = item.exact
             ? pathname === item.to
             : pathname === item.to || pathname.startsWith(item.to + "/");
@@ -419,7 +424,7 @@ function CrmLayout() {
           aria-label="CRM sections"
         >
           <div className="flex min-w-max items-stretch px-1">
-            {nav.map((item) => {
+            {visibleNav.map((item) => {
               const active = item.exact
                 ? pathname === item.to
                 : pathname === item.to || pathname.startsWith(item.to + "/");
