@@ -186,6 +186,7 @@ function SettingsPage() {
     { id: "pipeline", label: "Pipeline", icon: GitBranch },
     { id: "services", label: "Service Catalog", icon: Award },
     { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
+    { id: "security", label: "Password & Security", icon: Lock },
   ];
 
   return (
