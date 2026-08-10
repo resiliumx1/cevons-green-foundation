@@ -58,9 +58,9 @@ export const Route = createFileRoute("/")({
   // `?preview=<token>` is the staff draft-preview switch. The token itself is
   // verified server-side inside getPageContent; an invalid one simply yields
   // published copy.
-  validateSearch: (search: Record<string, unknown>) => ({
-    preview: typeof search.preview === "string" ? search.preview : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+
   loaderDeps: ({ search }) => ({ preview: search.preview }),
   loader: ({ deps }) => getPageContent({ data: { page: "home", token: deps.preview ?? null } }),
   head: () => ({
