@@ -683,3 +683,52 @@ function StatusTape() {
     </div>
   );
 }
+
+/**
+ * First sign-in nudge: accounts created for someone else start with a shared
+ * password, so we ask them to set their own until they do.
+ */
+function PasswordChangePrompt() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const read = () =>
+      void supabase.auth.getUser().then(({ data }) => {
+        if (!cancelled) setShow(data.user?.user_metadata?.["must_change_password"] === true);
+      });
+    read();
+    const onChanged = () => setShow(false);
+    window.addEventListener("admin:password-changed", onChanged);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("admin:password-changed", onChanged);
+    };
+  }, []);
+
+  if (!show) return null;
+
+  return (
+    <div
+      role="status"
+      className="mb-5 flex flex-wrap items-center gap-3 rounded-xl border px-4 py-3 text-sm"
+      style={{
+        borderColor: "var(--crm-primary)",
+        background: "color-mix(in srgb, var(--crm-primary) 12%, transparent)",
+        color: "var(--crm-text)",
+      }}
+    >
+      <span className="font-medium">
+        For your security, set your own password — you're still using the one you were given.
+      </span>
+      <Link
+        to="/admin/settings"
+        hash="security"
+        className="ml-auto rounded-lg px-3 py-1.5 text-xs font-semibold"
+        style={{ background: "var(--crm-primary)", color: "#101820" }}
+      >
+        Change password
+      </Link>
+    </div>
+  );
+}
