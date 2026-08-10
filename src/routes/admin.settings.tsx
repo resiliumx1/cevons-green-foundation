@@ -11,7 +11,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/settings")({
-  head: () => ({ meta: [{ title: "Settings | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Settings | CEVONS Website Admin" }, { name: "robots", content: "noindex,nofollow" }] }),
   component: SettingsPage,
 });
 
@@ -796,7 +796,7 @@ function AppearanceSection() {
     <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-semibold text-white text-lg">CRM Theme</h2>
+          <h2 className="font-semibold text-white text-lg">Appearance</h2>
           <p className="mt-1 text-sm text-white/60">Choose how CEVONS Website Admin looks for your team.</p>
         </div>
         <Sun className="h-5 w-5 text-white/40" />
