@@ -191,6 +191,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <p className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed">
               {subhead}
             </p>
+            <PromoSlot placement="service_hero" serviceSlug={serviceSlug} className="mt-6 max-w-xl" />
             <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
               {benefits.map((b) => (
                 <li key={b} className="flex items-start gap-2.5 text-sm text-cevons-dark">
