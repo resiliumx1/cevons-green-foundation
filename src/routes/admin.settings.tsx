@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Building2, Users, Bell, GitBranch, Palette, Sparkles, Sun,
   Check, Save, RefreshCw, AlertCircle, Plus, X, Trash2,
-  Phone, MapPin, Clock, Award, MessageCircle,
+  Phone, MapPin, Clock, Award, MessageCircle, Lock,
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -186,6 +186,7 @@ function SettingsPage() {
     { id: "pipeline", label: "Pipeline", icon: GitBranch },
     { id: "services", label: "Service Catalog", icon: Award },
     { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
+    { id: "security", label: "Password & Security", icon: Lock },
   ];
 
   return (
@@ -293,6 +294,7 @@ function SettingsPage() {
                 />
               )}
               {active === "appearance" && <AppearanceSection />}
+              {active === "security" && <SecuritySection />}
             </>
           )}
         </div>
@@ -922,5 +924,103 @@ function Toggle({ active, onChange }: { active: boolean; onChange: () => void })
     >
       <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${active ? "left-[18px]" : "left-0.5"}`} />
     </button>
+  );
+}
+
+/* ─── security: change your password ────────────────────────────────────── */
+
+function SecuritySection() {
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    void supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+  }, []);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setDone(false);
+    if (password.length < 8) {
+      setError("Choose a password of at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setError("The two passwords don't match.");
+      return;
+    }
+    setSaving(true);
+    const { error: updateError } = await supabase.auth.updateUser({ password });
+    setSaving(false);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    setPassword("");
+    setConfirm("");
+    setDone(true);
+  };
+
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+      <h2 className="text-lg font-semibold text-white">Change your password</h2>
+      <p className="mt-1 text-sm text-white/60">
+        {email ? `Signed in as ${email}.` : "Update the password for your admin account."}
+      </p>
+
+      {error && (
+        <div className="mt-4 flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+      {done && (
+        <div className="mt-4 flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3 text-sm text-emerald-200">
+          <Check className="h-4 w-4 shrink-0" />
+          <span>Password updated.</span>
+        </div>
+      )}
+
+      <form onSubmit={submit} className="mt-5 grid max-w-md grid-cols-1 gap-4">
+        <div>
+          <label htmlFor="admin-new-password" className="text-xs font-medium text-white/60">New password</label>
+          <input
+            id="admin-new-password"
+            type="password"
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="At least 8 characters"
+            className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none focus:border-[#FFD200]/50"
+          />
+        </div>
+        <div>
+          <label htmlFor="admin-confirm-password" className="text-xs font-medium text-white/60">Confirm new password</label>
+          <input
+            id="admin-confirm-password"
+            type="password"
+            autoComplete="new-password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            placeholder="Repeat the password"
+            className="mt-1 w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none focus:border-[#FFD200]/50"
+          />
+        </div>
+        <div>
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-[#101820] disabled:opacity-60"
+          >
+            <Save className="h-4 w-4" />
+            {saving ? "Updating…" : "Update password"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
