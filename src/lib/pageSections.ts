@@ -101,12 +101,14 @@ export type Field =
 type KindDef = {
   kind: SectionKind;
   label: string;
-  /** Which existing homepage component this section drives. */
+  /** Which existing component this section drives. */
   maps: string;
-  page: string;
+  /** Pages this kind may be added to. */
+  pages: string[];
   schema: z.ZodTypeAny;
   fields: Field[];
 };
+
 
 export const SECTION_KINDS: KindDef[] = [
   {
