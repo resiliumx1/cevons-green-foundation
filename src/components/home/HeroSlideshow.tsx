@@ -428,3 +428,31 @@ export function HeroSlideshowControls({ className = "" }: { className?: string }
     </div>
   );
 }
+
+/**
+ * Optional per-slide text (CRM-managed slides only). Renders nothing when the
+ * active slide has neither a title nor a caption, so the static fallback hero
+ * stays exactly as it was. Fixed colours — this sits over a photo.
+ */
+export function HeroSlideCaption({ className = "" }: { className?: string }) {
+  const { slides, active } = useSlideshow();
+  const s = slides[active];
+  if (!s || (!s.title && !s.caption)) return null;
+  return (
+    <div className={className}>
+      <div
+        className="max-w-sm rounded-xl px-4 py-3 backdrop-blur-sm"
+        style={{ background: "rgba(0,0,0,0.55)" }}
+      >
+        {s.title && (
+          <p className="text-sm font-semibold" style={{ color: "#FFFFFF" }}>{s.title}</p>
+        )}
+        {s.caption && (
+          <p className="mt-1 text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+            {s.caption}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
