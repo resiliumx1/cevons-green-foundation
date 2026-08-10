@@ -3160,3 +3160,149 @@ html.dark [data-chat-scope] [class*="bg-white"] {
 }
 /* Footnote grey lifted from #7A7A7A (3.9:1) to #5A5A5A (7.0:1 on white). */
 html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !important; }
+
+/* ============================================================
+   CEVONS Website Admin — Manifest auth screens (login / reset)
+   ============================================================ */
+.admin-auth-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background:
+    radial-gradient(90% 60% at 50% -10%, var(--panel-2), transparent 70%),
+    var(--ink);
+  color: var(--text);
+  padding: 24px 16px 48px;
+}
+[data-theme="light"].admin-auth-page { background: radial-gradient(90% 60% at 50% -10%, #FFFFFF, transparent 70%), var(--ink); }
+.admin-auth-rule {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--admin-orange);
+}
+.admin-auth-back {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.admin-auth-back:hover { color: var(--emph); }
+.admin-auth-main {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 140px);
+}
+.admin-auth-card {
+  width: 460px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: var(--crm-card-shadow);
+}
+@media (min-width: 768px) { .admin-auth-card { padding: 40px 36px; } }
+.admin-auth-logo {
+  display: grid;
+  place-items: center;
+  height: 64px;
+  width: 64px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+}
+.admin-auth-eyebrow { margin-top: 16px; color: var(--emph); }
+.admin-auth-title { margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text); }
+.admin-auth-sub { margin-top: 8px; font-size: 14px; color: var(--text-2); }
+.admin-auth-alert {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+.admin-auth-alert-error { background: var(--admin-red); color: #FFFFFF; }
+.admin-auth-alert-ok { background: var(--admin-green); color: #1A1A1A; }
+.admin-auth-label { display: block; margin-bottom: 6px; color: var(--text-2); }
+.admin-auth-icon {
+  pointer-events: none;
+  position: absolute;
+  left: 14px;
+  bottom: 17px;
+  height: 18px;
+  width: 18px;
+  color: var(--text-2);
+}
+.admin-auth-input {
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--rule-strong);
+  color: var(--text);
+  padding: 0 16px 0 44px;
+  font-size: 15px;
+  outline: none;
+}
+.admin-auth-input::placeholder { color: var(--text-2); }
+.admin-auth-input:focus { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 45%, transparent); }
+.admin-auth-eye {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  height: 44px;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--text-2);
+}
+.admin-auth-eye:hover { background: var(--hover); color: var(--text); }
+.admin-auth-remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--text);
+  cursor: pointer;
+}
+.admin-auth-remember input { height: 18px; width: 18px; accent-color: var(--admin-orange); }
+.admin-auth-link {
+  min-height: 44px;
+  padding: 0 6px;
+  font-weight: 600;
+  color: var(--emph);
+}
+.admin-auth-link:hover { text-decoration: underline; }
+.admin-auth-submit {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  width: 100%;
+  border-radius: 12px;
+  background: var(--admin-orange);
+  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 700;
+}
+.admin-auth-submit:hover { filter: brightness(1.05); }
+.admin-auth-submit:disabled { cursor: wait; opacity: 0.9; }
+.admin-auth-foot { margin-top: 18px; text-align: center; font-size: 14px; color: var(--text-2); }
+.admin-auth-legal {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+  color: var(--text-2);
+}
