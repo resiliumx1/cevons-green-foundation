@@ -1,10 +1,21 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import bg from "@/assets/cevons-login-bg.jpg";
+import { supabase } from "@/integrations/supabase/client";
+import { describeAuthError } from "@/lib/adminAuth";
+
+type LoginSearch = { redirect?: string };
 
 export const Route = createFileRoute("/admin_/login")({
+  ssr: false,
+  validateSearch: (search: Record<string, unknown>): LoginSearch => ({
+    redirect:
+      typeof search.redirect === "string" && search.redirect.startsWith("/admin")
+        ? search.redirect
+        : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Log In | CEVONS Website Admin" },
@@ -16,21 +27,75 @@ export const Route = createFileRoute("/admin_/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [remember, setRemember] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [resetting, setResetting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // If a session already exists, skip the form.
+  useEffect(() => {
+    let cancelled = false;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (!cancelled && data.session) {
+        navigate({ to: redirect ?? "/admin", replace: true });
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate, redirect]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setNotice(null);
     setLoading(true);
-    // FUTURE INTEGRATION: connect real authentication here
-    // (validate credentials, establish session, persist remember-me).
-    setTimeout(() => {
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (authError) {
+        setError(describeAuthError(authError));
+        return;
+      }
+      navigate({ to: redirect ?? "/admin", replace: true });
+    } catch (err) {
+      setError(describeAuthError(err as { message?: string }));
+    } finally {
       setLoading(false);
-      navigate({ to: "/admin" });
-    }, 1000);
+    }
+  };
+
+  const handleForgot = async () => {
+    setError(null);
+    setNotice(null);
+    if (!email.trim()) {
+      setError("Enter your email address above first, then choose “Forgot password?”.");
+      return;
+    }
+    setResetting(true);
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/admin/reset-password`,
+      });
+      if (resetError) {
+        setError(describeAuthError(resetError));
+        return;
+      }
+      setNotice(
+        "If an account exists for that email, a password reset link is on its way. The link opens the reset page and expires shortly.",
+      );
+    } catch (err) {
+      setError(describeAuthError(err as { message?: string }));
+    } finally {
+      setResetting(false);
+    }
   };
 
   return (
@@ -41,7 +106,6 @@ function LoginPage() {
         style={{ backgroundImage: `url(${bg})`, filter: "blur(6px) saturate(110%) brightness(0.7)" }}
         aria-hidden
       />
-      {/* Cinematic dark green vignette */}
       <div
         className="absolute inset-0"
         style={{
@@ -50,18 +114,15 @@ function LoginPage() {
         }}
         aria-hidden
       />
-      {/* Subtle film grain via noise gradient */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
         style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
           backgroundSize: "3px 3px",
         }}
         aria-hidden
       />
 
-      {/* Atmospheric brand accent glows — green / yellow / red ambient behind card */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
         style={{ background: "radial-gradient(circle, rgba(0,168,90,0.45), transparent 70%)" }}
@@ -78,7 +139,6 @@ function LoginPage() {
         aria-hidden
       />
 
-      {/* Top-left brand */}
       <Link
         to="/"
         className="absolute left-6 top-6 z-10 flex items-center gap-2 text-white/90 transition hover:text-white"
@@ -89,17 +149,12 @@ function LoginPage() {
         <span className="hidden text-sm font-semibold tracking-wide sm:block">CEVONS</span>
       </Link>
 
-      {/* Card */}
       <main className="relative z-10 flex min-h-screen items-center justify-center p-4">
         <form
           onSubmit={handleSubmit}
           className="liquid-glass relative w-[460px] max-w-[92vw] animate-[cardIn_0.9s_cubic-bezier(0.2,0.8,0.2,1)_forwards] p-7 md:p-11"
         >
-          {/* Liquid sheen — diagonal light reflection across the card */}
-          <div
-            className="pointer-events-none absolute inset-0 overflow-hidden rounded-[32px]"
-            aria-hidden
-          >
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[32px]" aria-hidden>
             <div
               className="absolute -inset-[1px] rounded-[32px]"
               style={{
@@ -108,25 +163,24 @@ function LoginPage() {
                 mixBlendMode: "overlay",
               }}
             />
-            {/* Top highlight */}
             <div
               className="absolute inset-x-8 top-0 h-px"
               style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent)" }}
             />
-            {/* Side highlight */}
             <div
               className="absolute left-0 inset-y-10 w-px"
               style={{ background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.35), transparent)" }}
             />
           </div>
 
-
-          {/* Logo */}
           <div className="flex flex-col items-center text-center">
             <div className="relative">
               <div
                 className="absolute inset-0 -m-3 animate-[logoPulse_3s_ease-in-out_infinite] rounded-full blur-xl"
-                style={{ background: "radial-gradient(circle, rgba(255,210,0,0.55), rgba(0,168,90,0.3) 60%, transparent 75%)" }}
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(255,210,0,0.55), rgba(0,168,90,0.3) 60%, transparent 75%)",
+                }}
                 aria-hidden
               />
               <div className="relative grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-lg ring-1 ring-white/40">
@@ -137,12 +191,9 @@ function LoginPage() {
               CEVONS Website Admin
             </div>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white">Welcome Back</h1>
-            <p className="mt-2 text-sm text-white/75">
-              Log in to access CEVONS Website Admin.
-            </p>
+            <p className="mt-2 text-sm text-white/75">Log in to access CEVONS Website Admin.</p>
           </div>
 
-          {/* Error */}
           {error && (
             <div
               role="alert"
@@ -153,29 +204,46 @@ function LoginPage() {
             </div>
           )}
 
-          {/* Fields */}
+          {notice && (
+            <div
+              role="status"
+              className="mt-5 flex items-start gap-2 rounded-2xl border border-emerald-300/40 bg-emerald-500/15 px-4 py-3 text-sm text-emerald-50"
+            >
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>{notice}</span>
+            </div>
+          )}
+
           <div className="mt-7 space-y-4">
             <Field delay="0.15s">
-              <label htmlFor="login-username" className="sr-only">Email or username</label>
+              <label htmlFor="login-email" className="sr-only">
+                Email address
+              </label>
               <Mail className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/80" />
               <input
-                id="login-username"
-                type="text"
+                id="login-email"
+                type="email"
                 autoComplete="username"
                 required
-                placeholder="Email or username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
                 className="glass-input"
               />
             </Field>
 
             <Field delay="0.25s">
-              <label htmlFor="login-password" className="sr-only">Password</label>
+              <label htmlFor="login-password" className="sr-only">
+                Password
+              </label>
               <Lock className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/80" />
               <input
                 id="login-password"
                 type={showPw ? "text" : "password"}
                 autoComplete="current-password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 className="glass-input pr-12"
               />
@@ -190,10 +258,7 @@ function LoginPage() {
             </Field>
           </div>
 
-          {/* Options row */}
-          <div
-            className="mt-5 flex items-center justify-between text-sm opacity-0 animate-[fadeUp_0.6s_ease-out_0.35s_forwards]"
-          >
+          <div className="mt-5 flex items-center justify-between text-sm opacity-0 animate-[fadeUp_0.6s_ease-out_0.35s_forwards]">
             <label className="flex cursor-pointer items-center gap-2 select-none text-white/85">
               <span className="relative grid h-5 w-5 place-items-center">
                 <input
@@ -204,7 +269,12 @@ function LoginPage() {
                 />
                 <svg
                   className="pointer-events-none relative h-3 w-3 scale-0 text-[#FFD200] transition-transform peer-checked:scale-100"
-                  viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <polyline points="3,8 7,12 13,4" />
                 </svg>
@@ -213,13 +283,14 @@ function LoginPage() {
             </label>
             <button
               type="button"
-              className="text-white/85 transition hover:text-[#FFD200]"
+              onClick={handleForgot}
+              disabled={resetting}
+              className="text-white/85 transition hover:text-[#FFD200] disabled:opacity-60"
             >
-              Forgot password?
+              {resetting ? "Sending…" : "Forgot password?"}
             </button>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -236,16 +307,10 @@ function LoginPage() {
             )}
           </button>
 
-          {/* Secondary */}
           <p className="mt-5 text-center text-sm text-white/80 opacity-0 animate-[fadeUp_0.6s_ease-out_0.55s_forwards]">
-            Need access?{" "}
-            <button type="button" className="font-medium text-[#FFD200] transition hover:text-white">
-              Contact your administrator
-            </button>
-            .
+            Need access? Contact your administrator.
           </p>
 
-          {/* Security note */}
           <p className="mt-6 border-t border-white/10 pt-4 text-center text-[11px] uppercase tracking-wider text-white/55">
             Secure internal access for CEVONS team members
           </p>
@@ -306,7 +371,6 @@ function LoginPage() {
             0 0 0 3px rgba(255,210,0,0.25),
             0 0 28px rgba(0,168,90,0.3);
         }
-
       `}</style>
     </div>
   );
@@ -314,10 +378,7 @@ function LoginPage() {
 
 function Field({ children, delay }: { children: React.ReactNode; delay: string }) {
   return (
-    <div
-      className="relative opacity-0"
-      style={{ animation: `fadeUp 0.6s ease-out ${delay} forwards` }}
-    >
+    <div className="relative opacity-0" style={{ animation: `fadeUp 0.6s ease-out ${delay} forwards` }}>
       {children}
     </div>
   );
