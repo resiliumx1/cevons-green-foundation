@@ -1,7 +1,7 @@
 // Shared AI assistant edge function for CEVONS
 // Modes:
 //   - "public" → Cev (customer-facing site assistant)
-//   - "crm"    → Growth Command Assistant (internal CRM helper)
+//   - "crm"    → Website Admin Assistant (internal admin helper)
 //
 // Model: google/gemini-2.5-flash via Lovable AI Gateway.
 // LOVABLE_API_KEY is auto-provisioned and must stay server-side.
