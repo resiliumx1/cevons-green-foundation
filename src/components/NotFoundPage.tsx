@@ -114,7 +114,7 @@ export function NotFoundPage() {
                 }}
               >
                 {branded ? (
-                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cevons-cream to-cevons-green/10 ring-1 ring-cevons-green/15 shadow-sm transition-transform group-hover:scale-[1.04]">
+                  <span className="icon-tile inline-flex h-16 w-16 items-center justify-center rounded-2xl">
                     <CevonsIcon icon={branded} size="md" decorative />
                   </span>
                 ) : (
