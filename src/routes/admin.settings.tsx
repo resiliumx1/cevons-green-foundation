@@ -293,6 +293,7 @@ function SettingsPage() {
                 />
               )}
               {active === "appearance" && <AppearanceSection />}
+              {active === "security" && <SecuritySection />}
             </>
           )}
         </div>

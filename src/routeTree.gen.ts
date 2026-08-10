@@ -66,7 +66,6 @@ import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
-import { Route as ApiPublicSeedAdminsRouteImport } from './routes/api/public/seed-admins'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -367,11 +366,6 @@ const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
   path: '/admin/preview/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicSeedAdminsRoute = ApiPublicSeedAdminsRouteImport.update({
-  id: '/api/public/seed-admins',
-  path: '/api/public/seed-admins',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -437,7 +431,6 @@ export interface FileRoutesByFullPath {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
-  '/api/public/seed-admins': typeof ApiPublicSeedAdminsRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
@@ -496,7 +489,6 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
-  '/api/public/seed-admins': typeof ApiPublicSeedAdminsRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
@@ -558,7 +550,6 @@ export interface FileRoutesById {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
-  '/api/public/seed-admins': typeof ApiPublicSeedAdminsRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
@@ -621,7 +612,6 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
-    | '/api/public/seed-admins'
     | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -680,7 +670,6 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
-    | '/api/public/seed-admins'
     | '/lovable/email/queue/process'
   id:
     | '__root__'
@@ -741,7 +730,6 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
-    | '/api/public/seed-admins'
     | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
@@ -768,7 +756,6 @@ export interface RootRouteChildren {
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
-  ApiPublicSeedAdminsRoute: typeof ApiPublicSeedAdminsRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
@@ -1173,13 +1160,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPreviewPageRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/seed-admins': {
-      id: '/api/public/seed-admins'
-      path: '/api/public/seed-admins'
-      fullPath: '/api/public/seed-admins'
-      preLoaderRoute: typeof ApiPublicSeedAdminsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -1311,7 +1291,6 @@ const rootRouteChildren: RootRouteChildren = {
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
-  ApiPublicSeedAdminsRoute: ApiPublicSeedAdminsRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
