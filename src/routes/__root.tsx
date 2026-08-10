@@ -136,14 +136,40 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Password-recovery and invitation links always come back to the site root,
+ * because that is the only redirect target the auth service accepts. Forward
+ * those arrivals to the admin "Set a new password" screen, keeping the link
+ * fragment intact so the session (or the error) is still readable there.
+ */
+function RecoveryLinkRedirect() {
+  useEffect(() => {
+    const { hash, pathname } = window.location;
+    if (!hash || pathname.startsWith("/admin/reset-password")) return;
+    const params = new URLSearchParams(hash.replace(/^#/, ""));
+    const type = params.get("type");
+    const isRecovery =
+      type === "recovery" ||
+      type === "invite" ||
+      (params.has("access_token") && params.has("refresh_token")) ||
+      params.get("error_code") === "otp_expired";
+    if (!isRecovery) return;
+    window.location.replace(`/admin/reset-password${hash}`);
+  }, []);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isCrm = pathname.startsWith("/admin");
 
+
   return (
     <QueryClientProvider client={queryClient}>
+      <RecoveryLinkRedirect />
       <SettingsProvider>
+
         <CurrencyProvider>
           <SmoothScrollProvider enabled={!isCrm}>
             <Outlet />

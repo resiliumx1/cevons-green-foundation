@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Lock, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
@@ -27,7 +27,7 @@ function ResetPasswordPage() {
 
 function ResetPasswordScreen() {
   const { theme } = useCrmTheme();
-  const navigate = useNavigate();
+  
   const [ready, setReady] = useState(false);
   const [hasRecoverySession, setHasRecoverySession] = useState(false);
   const [password, setPassword] = useState("");
@@ -75,7 +75,10 @@ function ResetPasswordScreen() {
         return;
       }
       setDone(true);
-      setTimeout(() => navigate({ to: "/admin", replace: true }), 1200);
+      // Hard navigation: the admin shell re-reads the session and claims the
+      // invited role on this first load.
+      setTimeout(() => window.location.assign("/admin"), 1200);
+
     } catch (err) {
       setError(describeAuthError(err as { message?: string }));
     } finally {
