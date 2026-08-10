@@ -3600,3 +3600,13 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   padding: 8px; border-radius: 12px; background: var(--panel-2);
 }
 [data-crm-theme] .admin-spark-bar { flex: 1 1 0; min-width: 3px; border-radius: 3px 3px 0 0; background: var(--admin-orange); }
+
+/* ── Legacy admin screens: map dark-only utility colours onto Manifest ───
+   Requests, Activity log and Settings were built before the design system.
+   Rather than leave them white-on-white in light mode, their hardcoded
+   foreground utilities resolve to the themed text tokens.               */
+[data-crm-theme] .crm-main :is(.text-white, .text-slate-100, .text-slate-200) { color: var(--text) !important; }
+[data-crm-theme] .crm-main :is(.text-slate-300, .text-slate-400, .text-slate-500, .text-white\/70, .text-white\/60, .text-white\/50) { color: var(--text-2) !important; }
+[data-crm-theme] .crm-main :is(.hover\:text-white:hover) { color: var(--text) !important; }
+/* Orange is fill only: anything on an orange fill takes charcoal. */
+[data-crm-theme] .crm-main :is(.bg-\[\#EF7700\], .bg-\[\#FCE722\], .bg-\[\#FFD200\]) { color: #1A1A1A !important; }
