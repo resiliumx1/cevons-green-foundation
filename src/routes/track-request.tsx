@@ -117,6 +117,7 @@ function TrackRequestPage() {
         subtitle="Enter your reference and contact to check the status of your service request."
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Track Request" }]}
         imageSrc="/assets/heroes/hero-track-request.webp"
+        slot="track_request_hero"
         imageAlt="Customer tracking a CEVONS service request online"
         height="standard"
         waveVariant="minimal"

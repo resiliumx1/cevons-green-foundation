@@ -120,6 +120,7 @@ function Page() {
       h1="Portable Toilet Rental"
       subhead="Luxury-spec portable toilets, EPA-compliant servicing, and event-grade units for weddings, festivals, and worksites across Guyana."
       heroImage={portableToiletHeroAsset.url}
+      heroSlot="svc_portable_toilet_hero"
       heroAlt="Row of CEVONS portable toilets set up at an outdoor event in Guyana"
       benefits={["World Cup spec since 2007","Foot-flush, foot-wash hygiene package","Separate event and site fleet","Sealed vacuum tanker servicing","EPA-compliant disposal"]}
       commonUses={uses}

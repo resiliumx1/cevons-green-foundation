@@ -99,6 +99,7 @@ function Page() {
       h1="Commercial Waste Management"
       subhead="Scheduled collection programs and waste solutions for offices, retail, hospitality, and multi-tenant properties."
       heroImage={commercialWasteHeroAsset.url}
+      heroSlot="svc_general_waste_management_hero"
       heroAlt="CEVONS commercial waste collection at a Guyana business property"
       benefits={["Custom collection schedules", "Right-sized containers", "Reliable, professional crews", "Multi-site coordination", "Recycling programs on request"]}
       commonUses={uses}

@@ -93,6 +93,7 @@ function ProductDestructionPage() {
       h1="Product Destruction"
       subhead="Verified destruction of expired food and beverages, pharmaceuticals, and recalled stock — with a Certificate of Destruction on every job."
       heroImage={imgHero}
+      heroSlot="svc_product_destruction_hero"
       heroAlt="Secure product destruction handled by CEVONS"
       benefits={[
         "Food, beverage & pharmaceutical",

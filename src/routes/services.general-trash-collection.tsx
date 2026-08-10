@@ -107,6 +107,7 @@ function Page() {
       h1="General Trash Collection"
       subhead="Dependable household waste pickup on a schedule that fits your home and community across Guyana."
       heroImage={imgHero}
+      heroSlot="svc_general_trash_collection_hero"
       heroAlt="CEVONS residential garbage collection truck on a Guyana street"
       benefits={["Scheduled weekly pickup", "Friendly, uniformed crews", "Modern collection vehicles", "Coverage across Guyana", "EPA-aligned disposal"]}
       commonUses={uses}

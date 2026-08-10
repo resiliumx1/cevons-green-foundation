@@ -96,6 +96,7 @@ function ShreddingPage() {
       h1="Document Shredding"
       subhead="Ongoing and one-time verified document destruction — secure, convenient, environmentally friendly, and open to witnessing at any time."
       heroImage={imgHero}
+      heroSlot="svc_document_shredding_hero"
       heroAlt="Secure document shredding bins ready for collection"
       benefits={[
         "Ongoing or one-time service",

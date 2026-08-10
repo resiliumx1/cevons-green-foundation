@@ -79,6 +79,7 @@ function Page() {
       h1="Road Sweeping"
       subhead="Mechanical road sweeper hire for municipalities, business frontages, and event sites — because clean streets protect air quality, water quality, and community health."
       heroImage={imgHero}
+      heroSlot="svc_road_sweeping_hero"
       heroAlt="CEVONS road sweeper cleaning a commercial street in Guyana"
       benefits={[
         "Fleet of road sweepers for hire",

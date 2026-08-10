@@ -112,6 +112,7 @@ function Page() {
       h1="Biohazardous Waste Disposal"
       subhead="Safe handling, sealed transport, and compliant treatment of biohazardous waste from hospitals, clinics, health centres, and laboratories."
       heroImage={imgHero}
+      heroSlot="svc_biohazardous_disposal_hero"
       heroAlt="CEVONS team collecting labelled biohazard containers at a healthcare facility"
       benefits={["Approved containers and labelling","Sealed, compliant transport","Controlled treatment and disposal","Documented chain-of-custody","Scheduled or on-call collection"]}
       commonUses={uses}

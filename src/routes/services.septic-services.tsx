@@ -142,6 +142,7 @@ function Page() {
       h1="Septic Services for Homes"
       subhead="The most experienced septic team in Guyana — 8,500 to 10,500 litre trucks, licensed disposal, and service in every region."
       heroImage={imgHero}
+      heroSlot="svc_septic_services_hero"
       heroAlt="CEVONS septic tanker performing a residential tank emptying in Guyana"
       benefits={["Most experienced crews in Guyana","8,500–10,500 L truck sizes","~50 m of hose carried","Licensed government-approved disposal","Fixed, competitive prices"]}
       commonUses={uses}

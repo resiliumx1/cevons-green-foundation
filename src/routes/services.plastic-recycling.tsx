@@ -88,6 +88,7 @@ function Page() {
       h1="Plastic Recycling"
       subhead="Business plastics programs designed to raise your recycling rate — backed by a partner network with verified, transparent end destinations."
       heroImage={imgHero}
+      heroSlot="svc_plastic_recycling_hero"
       heroAlt="CEVONS crew in high-visibility PPE sorting baled plastic containers for recycling"
       benefits={[
         "Programs that raise your recycling rate",

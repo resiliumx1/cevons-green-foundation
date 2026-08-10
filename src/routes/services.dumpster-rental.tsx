@@ -117,6 +117,7 @@ function Page() {
       h1="Dumpster Rental"
       subhead="Roll-off bins from 10 to 52 cubic yards for household clean-ups, home renovations, and yard waste across Guyana."
       heroImage={imgHero}
+      heroSlot="svc_dumpster_rental_hero"
       heroAlt="Green CEVONS dumpster ready for rental on a residential Guyana driveway"
       benefits={["10 & 20 cu yd residential bins", "Only 10–52 yd range in Guyana", "Short and long-term rental", "Timely delivery and pickup", "EPA-aligned disposal"]}
       commonUses={uses}

@@ -78,6 +78,7 @@ function Page() {
       h1="Used Cooking Oil Collection"
       subhead="Scheduled collection of used cooking oil from restaurants, hotels, and commercial kitchens — right-sized receptacles, reliable pickups, responsible recycling."
       heroImage={imgHero}
+      heroSlot="svc_used_cooking_oil_hero"
       heroAlt="CEVONS used cooking oil collection service at a commercial restaurant kitchen"
       benefits={[
         "Right-sized receptacles for your kitchen",

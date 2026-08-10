@@ -87,6 +87,7 @@ function Page() {
       h1="Industrial Tank Cleaning"
       subhead="Professional cleaning of fuel, chemical, water, and industrial tanks — inspection, high-pressure washing, and final rinse, delivered safe and certified."
       heroImage={imgHero}
+      heroSlot="svc_tank_cleaning_hero"
       heroAlt="CEVONS industrial tank cleaning crew working at a fuel storage facility"
       benefits={["Three-phase certified process","Confined-space safety protocols","High-pressure washing systems","Documented residue disposal","Scheduled around your turnaround"]}
       commonUses={uses}

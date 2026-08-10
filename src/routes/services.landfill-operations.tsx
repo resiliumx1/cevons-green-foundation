@@ -103,6 +103,7 @@ function Page() {
       h1="Landfill Operations"
       subhead="Operators of Haag Bosch, Esplanade, and De Kora — non-hazardous sanitary landfill managed to strict EPA parameters."
       heroImage={imgHero}
+      heroSlot="svc_landfill_operations_hero"
       heroAlt="Aerial view of the CEVONS-operated Haag Bosch Sanitary Landfill"
       benefits={["Three sanitary landfill sites","Only sanitary landfill in Guyana","EPA-approved daily tarp cover","Certificate of Disposal on request","Special waste pathway"]}
       commonUses={uses}
