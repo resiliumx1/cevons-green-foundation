@@ -49,12 +49,20 @@ function getSpeechCtor(): (new () => SpeechRecognitionLike) | null {
 
 /* ---------------------------------------------------------------------- */
 
-export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
+export function SiteSearch({
+  mobile = false,
+  inline = false,
+}: {
+  mobile?: boolean;
+  /** Renders the field permanently expanded and in normal document flow
+   *  (used on the 404 page). Same component, same index, same behaviour. */
+  inline?: boolean;
+}) {
   const navigate = useNavigate();
   const uid = useId().replace(/:/g, "");
   const listboxId = `site-search-list-${uid}`;
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(inline);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
   const [listening, setListening] = useState(false);
@@ -93,12 +101,12 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
   const close = useCallback(
     (refocus = true) => {
       stopListening();
-      setOpen(false);
+      if (!inline) setOpen(false);
       setQuery("");
       setMicNote(null);
-      if (refocus) requestAnimationFrame(() => triggerRef.current?.focus());
+      if (refocus && !inline) requestAnimationFrame(() => triggerRef.current?.focus());
     },
-    [stopListening],
+    [stopListening, inline],
   );
 
   // outside click
@@ -116,8 +124,8 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
   }, [open, close]);
 
   useEffect(() => {
-    if (open) requestAnimationFrame(() => inputRef.current?.focus());
-  }, [open]);
+    if (open && !inline) requestAnimationFrame(() => inputRef.current?.focus());
+  }, [open, inline]);
 
   useEffect(() => () => stopListening(), [stopListening]);
 
@@ -188,14 +196,18 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
     }
   }
 
-  const panelPos = mobile
-    ? "fixed left-0 right-0 top-[72px] px-4"
-    : "absolute right-0 top-1/2 -translate-y-1/2 w-[280px]";
+  const panelPos = inline
+    ? "relative w-full"
+    : mobile
+      ? "fixed left-0 right-0 top-[72px] px-4"
+      : "absolute right-0 top-1/2 -translate-y-1/2 w-[280px]";
+  const showSuggestions = !inline || query.trim().length > 0;
 
   let flatIndex = -1;
 
   return (
-    <div ref={wrapRef} className={mobile ? "" : "relative"}>
+    <div ref={wrapRef} className={inline ? "relative w-full" : mobile ? "" : "relative"}>
+      {!inline && (
       <TooltipProvider delayDuration={300}>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -215,6 +227,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      )}
 
       {open && (
         <div className={`${panelPos} z-[200]`}>
@@ -268,8 +281,9 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
             </p>
           )}
 
+          {showSuggestions && (
           <div
-            className="absolute left-0 right-0 top-full mt-2 rounded-2xl border overflow-hidden shadow-[0_20px_44px_rgba(16,24,32,0.18)]"
+            className="absolute left-0 right-0 top-full mt-2 z-[210] rounded-2xl border overflow-hidden shadow-[0_20px_44px_rgba(16,24,32,0.18)]"
             style={{
               backgroundColor: "var(--surface-page)",
               borderColor: "var(--border-hairline)",
@@ -360,6 +374,7 @@ export function SiteSearch({ mobile = false }: { mobile?: boolean }) {
               )}
             </ul>
           </div>
+          )}
         </div>
       )}
     </div>
