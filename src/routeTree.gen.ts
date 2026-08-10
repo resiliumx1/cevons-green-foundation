@@ -59,6 +59,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminImagesRouteImport } from './routes/admin.images'
@@ -329,6 +330,11 @@ const AdminPagesRoute = AdminPagesRouteImport.update({
   path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -378,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
@@ -434,6 +441,7 @@ export interface FileRoutesByTo {
   '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
@@ -493,6 +501,7 @@ export interface FileRoutesById {
   '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
+  '/admin/messages': typeof AdminMessagesRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
@@ -553,6 +562,7 @@ export interface FileRouteTypes {
     | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
@@ -609,6 +619,7 @@ export interface FileRouteTypes {
     | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
@@ -667,6 +678,7 @@ export interface FileRouteTypes {
     | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
@@ -1085,6 +1097,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/media': {
       id: '/admin/media'
       path: '/media'
@@ -1147,6 +1166,7 @@ interface AdminRouteChildren {
   AdminImagesRoute: typeof AdminImagesRoute
   AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
   AdminMediaRoute: typeof AdminMediaRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPromotionsRoute: typeof AdminPromotionsRoute
@@ -1160,6 +1180,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminImagesRoute: AdminImagesRoute,
   AdminLeadsRoute: AdminLeadsRouteWithChildren,
   AdminMediaRoute: AdminMediaRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
   AdminPagesRoute: AdminPagesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPromotionsRoute: AdminPromotionsRoute,
