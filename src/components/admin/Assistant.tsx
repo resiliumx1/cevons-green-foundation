@@ -296,7 +296,7 @@ export function CrmAssistant() {
                     }
                   }}
                   disabled={loading}
-                  placeholder={loading ? "Thinking…" : "Ask about leads, campaigns, reports…"}
+                  placeholder={loading ? "Thinking…" : "Ask about pages, media, requests…"}
                   aria-label="Type your message"
                   className="flex-1 resize-none rounded-2xl border px-4 py-2.5 text-sm leading-snug max-h-28 focus:outline-none focus:ring-2 disabled:opacity-60"
                   style={
