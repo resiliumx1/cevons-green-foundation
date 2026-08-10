@@ -67,6 +67,7 @@ import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminConversationsRouteImport } from './routes/admin.conversations'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
@@ -372,6 +373,11 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
+  id: '/admin_/preview/$page',
+  path: '/admin/preview/$page',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLeadsIdRoute = AdminLeadsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -438,6 +444,7 @@ export interface FileRoutesByFullPath {
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -497,6 +504,7 @@ export interface FileRoutesByTo {
   '/request-service': typeof RequestServiceIndexRoute
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -559,6 +567,7 @@ export interface FileRoutesById {
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin_/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -622,6 +631,7 @@ export interface FileRouteTypes {
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
+    | '/admin/preview/$page'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -681,6 +691,7 @@ export interface FileRouteTypes {
     | '/request-service'
     | '/services'
     | '/admin/leads/$id'
+    | '/admin/preview/$page'
   id:
     | '__root__'
     | '/'
@@ -742,6 +753,7 @@ export interface FileRouteTypes {
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
+    | '/admin_/preview/$page'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -766,6 +778,7 @@ export interface RootRouteChildren {
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
+  AdminPreviewPageRoute: typeof AdminPreviewPageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1176,6 +1189,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin_/preview/$page': {
+      id: '/admin_/preview/$page'
+      path: '/admin/preview/$page'
+      fullPath: '/admin/preview/$page'
+      preLoaderRoute: typeof AdminPreviewPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/leads/$id': {
       id: '/admin/leads/$id'
       path: '/$id'
@@ -1312,6 +1332,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
+  AdminPreviewPageRoute: AdminPreviewPageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
