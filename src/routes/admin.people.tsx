@@ -1,6 +1,9 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { inviteAdminUser, resendAdminInvite } from "@/lib/adminPeople.functions";
+
 import { Loader2, Mail, RotateCcw, ShieldAlert, Trash2, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -93,27 +96,34 @@ function InviteForm() {
   const qc = useQueryClient();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<AdminRole>("editor");
+  const sendInvite = useServerFn(inviteAdminUser);
 
   const invite = useMutation({
     mutationFn: async () => {
       const clean = email.trim().toLowerCase();
       if (!clean) throw new Error("Enter an email address.");
-      const { error } = await supabase.from("invitations").insert({ email: clean, role });
-      if (error) throw error;
-      // Supabase sends the set-a-password email; the role is applied server-side
-      // from the invitation row on first sign-in.
-      const { error: mailError } = await supabase.auth.resetPasswordForEmail(clean, {
-        redirectTo: `${window.location.origin}/admin/reset-password`,
+      // The account is created and the email sent server-side, so a brand-new
+      // colleague actually receives something they can use.
+      return sendInvite({
+        data: {
+          email: clean,
+          role,
+          redirectTo: `${window.location.origin}/admin/reset-password`,
+        },
       });
-      if (mailError) throw mailError;
     },
-    onSuccess: () => {
-      toast.success(`Invitation sent to ${email.trim().toLowerCase()}`);
+    onSuccess: (res) => {
+      toast.success(
+        res.existingAccount
+          ? `${res.email} already had an account — we sent them a link to set a new password.`
+          : `Invitation sent to ${res.email}`,
+      );
       setEmail("");
       void qc.invalidateQueries({ queryKey: ["admin", "invitations"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not send the invitation."),
   });
+
 
   return (
     <Panel title="Invite someone" code="P-10">
@@ -344,24 +354,20 @@ function PendingInvites() {
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not revoke."),
   });
 
+  const resendFn = useServerFn(resendAdminInvite);
+
   const resend = useMutation({
-    mutationFn: async (inv: { id: string; email: string }) => {
-      const { error } = await supabase
-        .from("invitations")
-        .update({ expires_at: new Date(Date.now() + 7 * 86400000).toISOString() })
-        .eq("id", inv.id);
-      if (error) throw error;
-      const { error: mailError } = await supabase.auth.resetPasswordForEmail(inv.email, {
-        redirectTo: `${window.location.origin}/admin/reset-password`,
-      });
-      if (mailError) throw mailError;
-    },
+    mutationFn: async (inv: { id: string; email: string }) =>
+      resendFn({
+        data: { id: inv.id, redirectTo: `${window.location.origin}/admin/reset-password` },
+      }),
     onSuccess: () => {
       toast.success("Invitation re-sent and expiry extended.");
       void qc.invalidateQueries({ queryKey: ["admin", "invitations"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not resend."),
   });
+
 
   const rows = q.data ?? [];
 
