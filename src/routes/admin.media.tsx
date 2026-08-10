@@ -21,6 +21,12 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, invalidateMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
 import { processImage } from "@/lib/imageProcess";
+import {
+  GEORGETOWN_LABEL,
+  georgetownInputToUtc,
+  georgetownLabel,
+  utcToGeorgetownInput,
+} from "@/lib/georgetown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -57,6 +63,8 @@ type MediaPost = {
   image_h: number | null;
   published: boolean;
   sort_order: number;
+  publish_at: string | null;
+  unpublish_at: string | null;
 };
 
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
@@ -527,6 +535,8 @@ function MediaRow({
           <span>Position {post.sort_order}</span>
         </div>
 
+        <Scheduling post={post} disabled={!mayPublish} onPatch={onPatch} />
+
         {isPortraitSlide && (
           <div
             className="flex items-start gap-2 rounded-lg border px-3 py-2 text-[12px]"
@@ -596,6 +606,72 @@ function MediaRow({
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Scheduling — Georgetown in, UTC stored, evaluated at read time      */
+/* ------------------------------------------------------------------ */
+
+function Scheduling({
+  post,
+  disabled,
+  onPatch,
+}: {
+  post: MediaPost;
+  disabled: boolean;
+  onPatch: (patch: Partial<MediaPost>) => void;
+}) {
+  const inputStyle = {
+    background: "var(--crm-surface-muted)",
+    borderColor: "var(--crm-border)",
+    color: "var(--crm-text)",
+  } as const;
+
+  const now = Date.now();
+  const live =
+    post.published &&
+    (!post.publish_at || new Date(post.publish_at).getTime() <= now) &&
+    (!post.unpublish_at || new Date(post.unpublish_at).getTime() > now);
+
+  return (
+    <div className="rounded-lg border p-2 space-y-2" style={{ borderColor: "var(--crm-border)" }}>
+      <p className="admin-mono" style={{ color: "var(--crm-text-muted)" }}>
+        Scheduling — {GEORGETOWN_LABEL}, stored as UTC and checked each time a visitor loads the page.
+      </p>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <label className="space-y-1 block">
+          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Goes live</span>
+          <Input
+            type="datetime-local"
+            disabled={disabled}
+            value={utcToGeorgetownInput(post.publish_at)}
+            onChange={(e) => onPatch({ publish_at: georgetownInputToUtc(e.target.value) })}
+            style={inputStyle}
+          />
+        </label>
+        <label className="space-y-1 block">
+          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Comes down</span>
+          <Input
+            type="datetime-local"
+            disabled={disabled}
+            value={utcToGeorgetownInput(post.unpublish_at)}
+            onChange={(e) => onPatch({ unpublish_at: georgetownInputToUtc(e.target.value) })}
+            style={inputStyle}
+          />
+        </label>
+      </div>
+      <p className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>
+        {post.published
+          ? live
+            ? "Showing on the public site now."
+            : post.publish_at && new Date(post.publish_at).getTime() > now
+              ? `Scheduled for ${georgetownLabel(post.publish_at)}.`
+              : "Outside its window, so it is not showing."
+          : "Draft — it will not show even inside the window."}
+      </p>
     </div>
   );
 }

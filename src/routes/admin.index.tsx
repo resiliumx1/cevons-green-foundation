@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Image as ImageIcon, Inbox, ShieldAlert } from "lucide-react";
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { georgetownLabel } from "@/lib/georgetown";
 import { supabase } from "@/integrations/supabase/client";
 import {
   DocketStrip,
@@ -135,6 +136,8 @@ function Dashboard() {
         <LatestRequests />
         <MediaAtAGlance />
       </div>
+
+      <GoingLiveNext />
 
       <NeedsAttention />
     </CrmPage>
@@ -350,6 +353,100 @@ function NeedsAttention() {
         <Inbox className="mr-1 inline h-3 w-3" aria-hidden />
         Checks run against media_posts only. Traffic and performance checks need an analytics provider.
       </p>
+    </Panel>
+  );
+}
+
+
+/* ── Going live next — genuinely scheduled items only ──────────────────── */
+
+type ScheduledRow = { id: string; label: string; kind: string; at: string };
+
+function GoingLiveNext() {
+  const q = useQuery({
+    queryKey: ["admin", "going-live-next"],
+    queryFn: async (): Promise<ScheduledRow[]> => {
+      const nowIso = new Date().toISOString();
+      const [media, promos, sections] = await Promise.all([
+        supabase
+          .from("media_posts")
+          .select("id, title, kind, publish_at")
+          .eq("published", true)
+          .gt("publish_at", nowIso)
+          .order("publish_at", { ascending: true })
+          .limit(10),
+        supabase
+          .from("promotions")
+          .select("id, title, starts_at")
+          .eq("published", true)
+          .gt("starts_at", nowIso)
+          .order("starts_at", { ascending: true })
+          .limit(10),
+        supabase
+          .from("page_sections")
+          .select("id, kind, updated_at, payload, draft_payload, published")
+          .limit(50),
+      ]);
+      if (media.error) throw media.error;
+      if (promos.error) throw promos.error;
+      if (sections.error) throw sections.error;
+
+      const rows: ScheduledRow[] = [
+        ...(media.data ?? []).map((m) => ({
+          id: `m-${m.id}`,
+          label: m.title || "Untitled media",
+          kind: `Media · ${m.kind}`,
+          at: m.publish_at as string,
+        })),
+        ...(promos.data ?? []).map((p) => ({
+          id: `p-${p.id}`,
+          label: p.title,
+          kind: "Promotion",
+          at: p.starts_at as string,
+        })),
+      ];
+      return rows.sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime()).slice(0, 8);
+    },
+  });
+
+  const rows = q.data ?? [];
+
+  return (
+    <Panel
+      title="Going live next"
+      code="P-04"
+      action={
+        <Link to="/admin/promotions" className="admin-link-btn">
+          Promotions <ArrowRight className="h-4 w-4" aria-hidden />
+        </Link>
+      }
+    >
+      {q.isLoading ? (
+        <PanelSkeleton rows={2} />
+      ) : q.isError ? (
+        <PanelError what="the schedule" error={q.error} />
+      ) : rows.length === 0 ? (
+        <PanelEmpty headline="Nothing is scheduled ahead. Media items and promotions with a future start time appear here." />
+      ) : (
+        <table className="admin-stack admin-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Type</th>
+              <th>Goes live</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.id}>
+                <td data-label="Item">{r.label}</td>
+                <td data-label="Type">{r.kind}</td>
+                <td data-label="Goes live" className="admin-mono">{georgetownLabel(r.at)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </Panel>
   );
 }

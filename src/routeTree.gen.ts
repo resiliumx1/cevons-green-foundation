@@ -57,7 +57,9 @@ import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminNewsroomRouteImport } from './routes/admin.newsroom'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminMarketingRouteImport } from './routes/admin.marketing'
@@ -65,6 +67,7 @@ import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminConversationsRouteImport } from './routes/admin.conversations'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
@@ -320,9 +323,19 @@ const AdminReportsRoute = AdminReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
+  id: '/promotions',
+  path: '/promotions',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPeopleRoute = AdminPeopleRouteImport.update({
   id: '/people',
   path: '/people',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminNewsroomRoute = AdminNewsroomRouteImport.update({
@@ -360,6 +373,11 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
+  id: '/admin_/preview/$page',
+  path: '/admin/preview/$page',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLeadsIdRoute = AdminLeadsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -387,7 +405,9 @@ export interface FileRoutesByFullPath {
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -424,6 +444,7 @@ export interface FileRoutesByFullPath {
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -444,7 +465,9 @@ export interface FileRoutesByTo {
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -481,6 +504,7 @@ export interface FileRoutesByTo {
   '/request-service': typeof RequestServiceIndexRoute
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -504,7 +528,9 @@ export interface FileRoutesById {
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
+  '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -541,6 +567,7 @@ export interface FileRoutesById {
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
+  '/admin_/preview/$page': typeof AdminPreviewPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -565,7 +592,9 @@ export interface FileRouteTypes {
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
+    | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -602,6 +631,7 @@ export interface FileRouteTypes {
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
+    | '/admin/preview/$page'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -622,7 +652,9 @@ export interface FileRouteTypes {
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
+    | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -659,6 +691,7 @@ export interface FileRouteTypes {
     | '/request-service'
     | '/services'
     | '/admin/leads/$id'
+    | '/admin/preview/$page'
   id:
     | '__root__'
     | '/'
@@ -681,7 +714,9 @@ export interface FileRouteTypes {
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
+    | '/admin/pages'
     | '/admin/people'
+    | '/admin/promotions'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
@@ -718,6 +753,7 @@ export interface FileRouteTypes {
     | '/request-service/'
     | '/services/'
     | '/admin/leads/$id'
+    | '/admin_/preview/$page'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -742,6 +778,7 @@ export interface RootRouteChildren {
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
+  AdminPreviewPageRoute: typeof AdminPreviewPageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1082,11 +1119,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/promotions': {
+      id: '/admin/promotions'
+      path: '/promotions'
+      fullPath: '/admin/promotions'
+      preLoaderRoute: typeof AdminPromotionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/people': {
       id: '/admin/people'
       path: '/people'
       fullPath: '/admin/people'
       preLoaderRoute: typeof AdminPeopleRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/newsroom': {
@@ -1138,6 +1189,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin_/preview/$page': {
+      id: '/admin_/preview/$page'
+      path: '/admin/preview/$page'
+      fullPath: '/admin/preview/$page'
+      preLoaderRoute: typeof AdminPreviewPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/leads/$id': {
       id: '/admin/leads/$id'
       path: '/$id'
@@ -1168,7 +1226,9 @@ interface AdminRouteChildren {
   AdminMarketingRoute: typeof AdminMarketingRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNewsroomRoute: typeof AdminNewsroomRoute
+  AdminPagesRoute: typeof AdminPagesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
+  AdminPromotionsRoute: typeof AdminPromotionsRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -1183,7 +1243,9 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMarketingRoute: AdminMarketingRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNewsroomRoute: AdminNewsroomRoute,
+  AdminPagesRoute: AdminPagesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
+  AdminPromotionsRoute: AdminPromotionsRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
@@ -1270,6 +1332,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
+  AdminPreviewPageRoute: AdminPreviewPageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

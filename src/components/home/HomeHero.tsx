@@ -16,9 +16,24 @@ const fadeUp: Variants = {
   }),
 };
 
-export function HomeHero() {
+/** Optional CRM-managed copy overrides. Anything omitted falls back to i18n. */
+export type HeroContent = Partial<{
+  lineA: string;
+  lineB1: string;
+  lineB2: string;
+  lead: string;
+  ctaPrimaryLabel: string;
+  ctaSecondaryLabel: string;
+}>;
+
+export function HomeHero({ content }: { content?: HeroContent } = {}) {
   const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
+  const c = (key: keyof HeroContent, fallback: string) => {
+    const v = content?.[key];
+    return v && v.trim() ? v : fallback;
+  };
+
 
   return (
     <HeroSlideshowProvider>
@@ -60,12 +75,12 @@ export function HomeHero() {
             style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
 
           >
-            <span className="hero-heading-line">{t("home.hero.lineA")}</span>
+            <span className="hero-heading-line">{c("lineA", t("home.hero.lineA"))}</span>
             <span className="hero-heading-line">
-              <span className="eco-word growth-flow" aria-label={t("home.hero.lineB1")}>
-                {t("home.hero.lineB1")}
+              <span className="eco-word growth-flow" aria-label={c("lineB1", t("home.hero.lineB1"))}>
+                {c("lineB1", t("home.hero.lineB1"))}
               </span>{" "}
-              {t("home.hero.lineB2")}
+              {c("lineB2", t("home.hero.lineB2"))}
             </span>
           </motion.h1>
 
@@ -89,7 +104,7 @@ export function HomeHero() {
             custom={3}
             className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
-            {t("home.hero.lead")}{" "}
+            {c("lead", t("home.hero.lead"))}{" "}
             <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
           </motion.p>
 
@@ -105,14 +120,14 @@ export function HomeHero() {
                 <WhatsApp className="size-4" />
               </span>
               <span className="hero-cta__text">
-                <span className="hero-cta__label">{t("home.hero.ctaWhatsappLabel")}</span>
+                <span className="hero-cta__label">{c("ctaPrimaryLabel", t("home.hero.ctaWhatsappLabel"))}</span>
                 <span className="hero-cta__sub">{t("home.hero.ctaWhatsappSub")}</span>
               </span>
             </a>
             <a href="/request-service" className="hero-cta hero-cta--schedule hero-cta--stacked group">
               <Calendar className="size-5 shrink-0 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
               <span className="hero-cta__text">
-                <span className="hero-cta__label">{t("home.hero.ctaScheduleLabel")}</span>
+                <span className="hero-cta__label">{c("ctaSecondaryLabel", t("home.hero.ctaScheduleLabel"))}</span>
                 <span className="hero-cta__sub">{t("home.hero.ctaScheduleSub")}</span>
               </span>
             </a>

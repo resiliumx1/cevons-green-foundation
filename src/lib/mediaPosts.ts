@@ -26,11 +26,16 @@ export type MediaPost = {
 export type ResolvedMediaPost = MediaPost & { url: string | null };
 
 async function fetchPublished(kind: MediaKind): Promise<ResolvedMediaPost[]> {
+  // Scheduling is evaluated at READ TIME, mirroring the anon SELECT policy:
+  // published AND inside the publish_at / unpublish_at window.
+  const nowIso = new Date().toISOString();
   const { data, error } = await supabase
     .from("media_posts")
     .select("id, kind, title, caption, image_path, image_w, image_h, sort_order")
     .eq("kind", kind)
     .eq("published", true)
+    .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
+    .or(`unpublish_at.is.null,unpublish_at.gt.${nowIso}`)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
 
@@ -46,7 +51,7 @@ export function usePublishedMedia(kind: MediaKind) {
   return useQuery({
     queryKey: ["published_media", kind],
     queryFn: () => fetchPublished(kind),
-    staleTime: 5 * 60_000,
+    staleTime: 60_000,
     retry: 1,
   });
 }

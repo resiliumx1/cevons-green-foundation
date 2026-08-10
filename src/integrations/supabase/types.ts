@@ -452,9 +452,11 @@ export type Database = {
           image_path: string | null
           image_w: number | null
           kind: string
+          publish_at: string | null
           published: boolean
           sort_order: number
           title: string
+          unpublish_at: string | null
         }
         Insert: {
           caption?: string | null
@@ -464,9 +466,11 @@ export type Database = {
           image_path?: string | null
           image_w?: number | null
           kind: string
+          publish_at?: string | null
           published?: boolean
           sort_order?: number
           title?: string
+          unpublish_at?: string | null
         }
         Update: {
           caption?: string | null
@@ -476,9 +480,11 @@ export type Database = {
           image_path?: string | null
           image_w?: number | null
           kind?: string
+          publish_at?: string | null
           published?: boolean
           sort_order?: number
           title?: string
+          unpublish_at?: string | null
         }
         Relationships: []
       }
@@ -563,6 +569,134 @@ export type Database = {
           read?: boolean
           title?: string
           type?: Database["public"]["Enums"]["notification_type"]
+        }
+        Relationships: []
+      }
+      page_section_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: string
+          page: string
+          payload: Json
+          section_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind: string
+          page: string
+          payload: Json
+          section_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          page?: string
+          payload?: Json
+          section_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_section_versions_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "page_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      page_sections: {
+        Row: {
+          created_at: string
+          draft_payload: Json
+          id: string
+          kind: string
+          page: string
+          payload: Json
+          position: number
+          published: boolean
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          draft_payload?: Json
+          id?: string
+          kind: string
+          page: string
+          payload?: Json
+          position?: number
+          published?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          draft_payload?: Json
+          id?: string
+          kind?: string
+          page?: string
+          payload?: Json
+          position?: number
+          published?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      promotions: {
+        Row: {
+          body: string | null
+          click_count: number
+          created_at: string
+          cta_href: string | null
+          cta_label: string | null
+          ends_at: string | null
+          id: string
+          palette: string
+          placement: string
+          published: boolean
+          starts_at: string
+          target_services: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          click_count?: number
+          created_at?: string
+          cta_href?: string | null
+          cta_label?: string | null
+          ends_at?: string | null
+          id?: string
+          palette?: string
+          placement?: string
+          published?: boolean
+          starts_at?: string
+          target_services?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          click_count?: number
+          created_at?: string
+          cta_href?: string | null
+          cta_label?: string | null
+          ends_at?: string | null
+          id?: string
+          palette?: string
+          placement?: string
+          published?: boolean
+          starts_at?: string
+          target_services?: string[]
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -892,6 +1026,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_promotion_click: { Args: { _id: string }; Returns: undefined }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       list_admin_people: {
