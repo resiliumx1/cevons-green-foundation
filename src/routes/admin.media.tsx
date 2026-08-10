@@ -484,6 +484,11 @@ function MediaRow({
 }) {
   const [title, setTitle] = useState(post.title);
   const [caption, setCaption] = useState(post.caption ?? "");
+  // Contributors may create and edit drafts but never publish. The database
+  // enforces the same rule through the media_posts insert/update policies.
+  const { roles } = useAdminIdentity();
+  const mayPublish = canPublish(roles);
+
 
   useEffect(() => setTitle(post.title), [post.title]);
   useEffect(() => setCaption(post.caption ?? ""), [post.caption]);
