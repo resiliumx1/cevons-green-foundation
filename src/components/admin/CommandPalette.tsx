@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
-  Users,
-  ContactRound,
-  MessageSquare,
-  Megaphone,
   LayoutGrid,
-  BarChart3,
-  Star,
+  LayoutTemplate,
+  Activity,
+  Image as ImageIcon,
+  Tag,
+  Inbox,
+  UsersRound,
+  FileClock,
   Settings,
-  Upload,
   Plus,
   ArrowRight,
   Loader2,
@@ -28,19 +28,19 @@ import {
 } from "@/components/ui/command";
 import { supabase } from "@/integrations/supabase/client";
 
-type LeadRow = { id: string; reference: string; name: string | null; service: string | null; status: string | null };
-type CustomerRow = { id: string; name: string; type: string | null; region: string | null };
-type MessageRow = { id: string; reference: string | null; name: string; subject: string | null };
-type CampaignRow = { id: string; name: string; channel: string | null; utm_campaign: string | null };
+/**
+ * Command palette for the WEBSITE admin: the things this product manages —
+ * requests submitted from the site, media, promotions and the screens
+ * themselves. It no longer searches CRM entities.
+ */
 
-type Results = {
-  leads: LeadRow[];
-  customers: CustomerRow[];
-  messages: MessageRow[];
-  campaigns: CampaignRow[];
-};
+type RequestRow = { id: string; reference: string; name: string | null; service: string | null; status: string | null };
+type MediaRow = { id: string; title: string | null; kind: string | null };
+type PromoRow = { id: string; title: string; placement: string | null };
 
-const EMPTY: Results = { leads: [], customers: [], messages: [], campaigns: [] };
+type Results = { requests: RequestRow[]; media: MediaRow[]; promotions: PromoRow[] };
+
+const EMPTY: Results = { requests: [], media: [], promotions: [] };
 const RECENT_KEY = "crm-cmdk-recent";
 
 function loadRecent(): string[] {
@@ -57,11 +57,12 @@ function pushRecent(q: string) {
   const next = [q, ...loadRecent().filter((x) => x.toLowerCase() !== q.toLowerCase())].slice(0, 5);
   try {
     localStorage.setItem(RECENT_KEY, JSON.stringify(next));
-  } catch {}
+  } catch {
+    // storage unavailable — recents are a convenience only
+  }
 }
 
 function escapeIlike(s: string) {
-  // escape % and _ for ilike
   return s.replace(/[%_]/g, (m) => `\\${m}`);
 }
 
@@ -72,20 +73,11 @@ function Highlight({ text, q }: { text: string; q: string }) {
   return (
     <>
       {text.slice(0, i)}
-      <mark className="bg-[#FFD200]/30 text-inherit rounded-sm px-0.5">{text.slice(i, i + q.length)}</mark>
+      <mark className="rounded-sm bg-[#FCE722]/40 px-0.5 text-inherit">{text.slice(i, i + q.length)}</mark>
       {text.slice(i + q.length)}
     </>
   );
 }
-
-const STATUS_COLORS: Record<string, string> = {
-  new: "bg-blue-500/15 text-blue-300 border-blue-400/30",
-  contacted: "bg-purple-500/15 text-purple-300 border-purple-400/30",
-  quoted: "bg-amber-500/15 text-amber-300 border-amber-400/30",
-  scheduled: "bg-cyan-500/15 text-cyan-300 border-cyan-400/30",
-  completed: "bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
-  lost: "bg-red-500/15 text-red-300 border-red-400/30",
-};
 
 export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const navigate = useNavigate();
@@ -96,7 +88,6 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
   const [recent, setRecent] = useState<string[]>(() => loadRecent());
   const reqId = useRef(0);
 
-  // Reset on close
   useEffect(() => {
     if (!open) {
       setQuery("");
@@ -108,13 +99,11 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
     }
   }, [open]);
 
-  // Debounce
   useEffect(() => {
     const t = setTimeout(() => setDebounced(query.trim()), 250);
     return () => clearTimeout(t);
   }, [query]);
 
-  // Query
   useEffect(() => {
     if (!open) return;
     if (!debounced) {
@@ -122,46 +111,36 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
       setLoading(false);
       return;
     }
-    const q = escapeIlike(debounced);
+    const like = `%${escapeIlike(debounced)}%`;
     const myId = ++reqId.current;
     setLoading(true);
-    const like = `%${q}%`;
 
     Promise.all([
       supabase
         .from("service_requests")
         .select("id, reference, name, service, status")
-        .or(
-          `name.ilike.${like},reference.ilike.${like},phone.ilike.${like},email.ilike.${like},service.ilike.${like}`,
-        )
+        .or(`name.ilike.${like},reference.ilike.${like},phone.ilike.${like},email.ilike.${like},service.ilike.${like}`)
         .order("created_at", { ascending: false })
         .limit(5),
       supabase
-        .from("customers")
-        .select("id, name, type, region")
-        .or(`name.ilike.${like},contact_name.ilike.${like},email.ilike.${like},phone.ilike.${like}`)
+        .from("media_posts")
+        .select("id, title, kind")
+        .or(`title.ilike.${like},caption.ilike.${like}`)
         .order("created_at", { ascending: false })
         .limit(5),
       supabase
-        .from("contact_messages")
-        .select("id, reference, name, subject")
-        .or(`name.ilike.${like},subject.ilike.${like},reference.ilike.${like},email.ilike.${like}`)
-        .order("created_at", { ascending: false })
-        .limit(5),
-      supabase
-        .from("campaigns")
-        .select("id, name, channel, utm_campaign")
-        .or(`name.ilike.${like},utm_campaign.ilike.${like}`)
+        .from("promotions")
+        .select("id, title, placement")
+        .or(`title.ilike.${like},body.ilike.${like}`)
         .order("created_at", { ascending: false })
         .limit(5),
     ])
-      .then(([leads, customers, messages, campaigns]) => {
+      .then(([requests, media, promotions]) => {
         if (myId !== reqId.current) return;
         setResults({
-          leads: (leads.data as LeadRow[]) ?? [],
-          customers: (customers.data as CustomerRow[]) ?? [],
-          messages: (messages.data as MessageRow[]) ?? [],
-          campaigns: (campaigns.data as CampaignRow[]) ?? [],
+          requests: (requests.data as RequestRow[]) ?? [],
+          media: (media.data as MediaRow[]) ?? [],
+          promotions: (promotions.data as PromoRow[]) ?? [],
         });
       })
       .catch(() => {
@@ -179,21 +158,20 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
     setTimeout(to, 0);
   }
 
-  const hasAny =
-    results.leads.length + results.customers.length + results.messages.length + results.campaigns.length > 0;
+  const hasAny = results.requests.length + results.media.length + results.promotions.length > 0;
 
   const pages = useMemo(
-    () =>
-      [
-        { label: "Dashboard", icon: LayoutGrid, to: "/admin" as const },
-        { label: "Leads / Requests", icon: Users, to: "/admin/leads" as const },
-        { label: "Conversations", icon: MessageSquare, to: "/admin/conversations" as const },
-        { label: "Customers", icon: ContactRound, to: "/admin/customers" as const },
-        { label: "Marketing", icon: Megaphone, to: "/admin/marketing" as const },
-        { label: "Reports", icon: BarChart3, to: "/admin/reports" as const },
-        { label: "Reviews", icon: Star, to: "/admin/reviews" as const },
-        { label: "Settings", icon: Settings, to: "/admin/settings" as const },
-      ],
+    () => [
+      { label: "Dashboard", icon: LayoutGrid, to: "/admin" as const },
+      { label: "Traffic", icon: Activity, to: "/admin/traffic" as const },
+      { label: "Pages", icon: LayoutTemplate, to: "/admin/pages" as const },
+      { label: "Media", icon: ImageIcon, to: "/admin/media" as const },
+      { label: "Promotions", icon: Tag, to: "/admin/promotions" as const },
+      { label: "Requests", icon: Inbox, to: "/admin/leads" as const },
+      { label: "People", icon: UsersRound, to: "/admin/people" as const },
+      { label: "Activity log", icon: FileClock, to: "/admin/audit" as const },
+      { label: "Settings", icon: Settings, to: "/admin/settings" as const },
+    ],
     [],
   );
 
@@ -209,10 +187,10 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
         <CommandInput
           value={query}
           onValueChange={setQuery}
-          placeholder="Search leads, customers, messages, campaigns…"
+          placeholder="Search pages, media, requests, settings…"
         />
         {loading && (
-          <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-[#FFD200]" />
+          <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[#EF7700]" />
         )}
       </div>
 
@@ -234,18 +212,18 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
           </CommandEmpty>
         )}
 
-        {results.leads.length > 0 && (
-          <CommandGroup heading="Leads / Requests">
-            {results.leads.map((l) => (
+        {results.requests.length > 0 && (
+          <CommandGroup heading="Requests">
+            {results.requests.map((l) => (
               <CommandItem
-                key={`lead-${l.id}`}
-                value={`lead-${l.id}-${l.reference}-${l.name ?? ""}`}
+                key={`req-${l.id}`}
+                value={`req-${l.id}-${l.reference}-${l.name ?? ""}`}
                 onSelect={() => go(() => navigate({ to: "/admin/leads/$id", params: { id: l.id } }))}
               >
-                <Users className="h-4 w-4 text-[#FFD200]" />
-                <div className="flex flex-col min-w-0 flex-1">
+                <Inbox className="h-4 w-4 text-muted-foreground" />
+                <div className="flex min-w-0 flex-1 flex-col">
                   <span className="truncate text-sm font-medium">
-                    <Highlight text={l.name || "Unnamed lead"} q={debounced} />
+                    <Highlight text={l.name || "Unnamed request"} q={debounced} />
                   </span>
                   <span className="truncate text-xs text-muted-foreground">
                     <Highlight text={l.reference} q={debounced} />
@@ -253,120 +231,62 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
                   </span>
                 </div>
                 {l.status && (
-                  <span
-                    className={`ml-auto rounded-full border px-2 py-0.5 text-[10px] font-medium capitalize ${
-                      STATUS_COLORS[l.status] || "bg-white/5 text-white/70 border-white/10"
-                    }`}
-                  >
+                  <span className="ml-auto rounded-full border px-2 py-0.5 text-[10px] font-medium capitalize">
                     {l.status}
                   </span>
                 )}
               </CommandItem>
             ))}
-            <CommandItem
-              value={`view-all-leads`}
-              onSelect={() => go(() => navigate({ to: "/admin/leads" }))}
-              className="text-xs text-[#FFD200]"
-            >
-              <ArrowRight className="h-3.5 w-3.5" /> View all in Leads
+            <CommandItem value="view-all-requests" onSelect={() => go(() => navigate({ to: "/admin/leads" }))} className="text-xs">
+              <ArrowRight className="h-3.5 w-3.5" /> View all in Requests
             </CommandItem>
           </CommandGroup>
         )}
 
-        {results.customers.length > 0 && (
+        {results.media.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading="Customers">
-              {results.customers.map((c) => (
+            <CommandGroup heading="Media">
+              {results.media.map((m) => (
                 <CommandItem
-                  key={`cust-${c.id}`}
-                  value={`cust-${c.id}-${c.name}`}
-                  onSelect={() => go(() => navigate({ to: "/admin/customers" }))}
+                  key={`media-${m.id}`}
+                  value={`media-${m.id}-${m.title ?? ""}`}
+                  onSelect={() => go(() => navigate({ to: "/admin/media" }))}
                 >
-                  <ContactRound className="h-4 w-4 text-[#FFD200]" />
-                  <div className="flex flex-col min-w-0 flex-1">
+                  <ImageIcon className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-sm font-medium">
-                      <Highlight text={c.name} q={debounced} />
+                      <Highlight text={m.title || "Untitled"} q={debounced} />
                     </span>
-                    <span className="truncate text-xs text-muted-foreground capitalize">
-                      {[c.type, c.region].filter(Boolean).join(" · ") || "Customer"}
-                    </span>
+                    <span className="truncate text-xs capitalize text-muted-foreground">{m.kind ?? "media"}</span>
                   </div>
                 </CommandItem>
               ))}
-              <CommandItem
-                value="view-all-customers"
-                onSelect={() => go(() => navigate({ to: "/admin/customers" }))}
-                className="text-xs text-[#FFD200]"
-              >
-                <ArrowRight className="h-3.5 w-3.5" /> View all in Customers
-              </CommandItem>
             </CommandGroup>
           </>
         )}
 
-        {results.messages.length > 0 && (
+        {results.promotions.length > 0 && (
           <>
             <CommandSeparator />
-            <CommandGroup heading="Messages">
-              {results.messages.map((m) => (
+            <CommandGroup heading="Promotions">
+              {results.promotions.map((p) => (
                 <CommandItem
-                  key={`msg-${m.id}`}
-                  value={`msg-${m.id}-${m.reference ?? ""}-${m.name}`}
-                  onSelect={() => go(() => navigate({ to: "/admin/conversations" }))}
+                  key={`promo-${p.id}`}
+                  value={`promo-${p.id}-${p.title}`}
+                  onSelect={() => go(() => navigate({ to: "/admin/promotions" }))}
                 >
-                  <MessageSquare className="h-4 w-4 text-[#FFD200]" />
-                  <div className="flex flex-col min-w-0 flex-1">
+                  <Tag className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-sm font-medium">
-                      <Highlight text={m.subject || "(no subject)"} q={debounced} />
+                      <Highlight text={p.title} q={debounced} />
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
-                      <Highlight text={m.name} q={debounced} />
-                      {m.reference ? <> · <Highlight text={m.reference} q={debounced} /></> : null}
+                      {(p.placement ?? "").replace(/_/g, " ")}
                     </span>
                   </div>
                 </CommandItem>
               ))}
-              <CommandItem
-                value="view-all-messages"
-                onSelect={() => go(() => navigate({ to: "/admin/conversations" }))}
-                className="text-xs text-[#FFD200]"
-              >
-                <ArrowRight className="h-3.5 w-3.5" /> View all in Conversations
-              </CommandItem>
-            </CommandGroup>
-          </>
-        )}
-
-        {results.campaigns.length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Campaigns">
-              {results.campaigns.map((c) => (
-                <CommandItem
-                  key={`camp-${c.id}`}
-                  value={`camp-${c.id}-${c.name}-${c.utm_campaign ?? ""}`}
-                  onSelect={() => go(() => navigate({ to: "/admin/marketing" }))}
-                >
-                  <Megaphone className="h-4 w-4 text-[#FFD200]" />
-                  <div className="flex flex-col min-w-0 flex-1">
-                    <span className="truncate text-sm font-medium">
-                      <Highlight text={c.name} q={debounced} />
-                    </span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      {c.channel ? <span className="capitalize">{c.channel.replace("_", " ")}</span> : null}
-                      {c.utm_campaign ? <> · <Highlight text={c.utm_campaign} q={debounced} /></> : null}
-                    </span>
-                  </div>
-                </CommandItem>
-              ))}
-              <CommandItem
-                value="view-all-campaigns"
-                onSelect={() => go(() => navigate({ to: "/admin/marketing" }))}
-                className="text-xs text-[#FFD200]"
-              >
-                <ArrowRight className="h-3.5 w-3.5" /> View all in Marketing
-              </CommandItem>
             </CommandGroup>
           </>
         )}
@@ -374,15 +294,11 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
         {filteredPages.length > 0 && (
           <>
             {hasAny && <CommandSeparator />}
-            <CommandGroup heading="Pages">
+            <CommandGroup heading="Screens">
               {filteredPages.map((p) => {
                 const Icon = p.icon;
                 return (
-                  <CommandItem
-                    key={p.to}
-                    value={`page-${p.label}`}
-                    onSelect={() => go(() => navigate({ to: p.to }), p.label)}
-                  >
+                  <CommandItem key={p.to} value={`page-${p.label}`} onSelect={() => go(() => navigate({ to: p.to }), p.label)}>
                     <Icon className="h-4 w-4 text-muted-foreground" />
                     <span>
                       <Highlight text={p.label} q={debounced} />
@@ -394,19 +310,13 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
 
             <CommandSeparator />
             <CommandGroup heading="Actions">
-              <CommandItem
-                value="action-new-campaign"
-                onSelect={() => go(() => navigate({ to: "/admin/marketing" }), "New campaign")}
-              >
+              <CommandItem value="action-upload-media" onSelect={() => go(() => navigate({ to: "/admin/media" }), "Upload media")}>
                 <Plus className="h-4 w-4 text-muted-foreground" />
-                <span>New campaign</span>
+                <span>Upload media</span>
               </CommandItem>
-              <CommandItem
-                value="action-import-customers"
-                onSelect={() => go(() => navigate({ to: "/admin/customers" }), "Import customers")}
-              >
-                <Upload className="h-4 w-4 text-muted-foreground" />
-                <span>Import customers</span>
+              <CommandItem value="action-new-promotion" onSelect={() => go(() => navigate({ to: "/admin/promotions" }), "New promotion")}>
+                <Plus className="h-4 w-4 text-muted-foreground" />
+                <span>New promotion</span>
               </CommandItem>
             </CommandGroup>
           </>
@@ -415,7 +325,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
         {!debounced && recent.length === 0 && (
           <div className="px-4 py-8 text-center text-xs text-muted-foreground">
             <Search className="mx-auto mb-2 h-5 w-5 opacity-50" />
-            Search leads, customers, messages, campaigns, or pages.
+            Search pages, media, promotions, requests or any admin screen.
           </div>
         )}
       </CommandList>

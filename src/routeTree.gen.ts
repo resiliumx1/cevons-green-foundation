@@ -54,18 +54,13 @@ import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
 import { Route as CrmSplatRouteImport } from './routes/crm.$'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
+import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
-import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
-import { Route as AdminNewsroomRouteImport } from './routes/admin.newsroom'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
-import { Route as AdminMarketingRouteImport } from './routes/admin.marketing'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
-import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
-import { Route as AdminConversationsRouteImport } from './routes/admin.conversations'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
@@ -308,19 +303,14 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTrafficRoute = AdminTrafficRouteImport.update({
+  id: '/traffic',
+  path: '/traffic',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminReviewsRoute = AdminReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminReportsRoute = AdminReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
@@ -338,34 +328,14 @@ const AdminPagesRoute = AdminPagesRouteImport.update({
   path: '/pages',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminNewsroomRoute = AdminNewsroomRouteImport.update({
-  id: '/newsroom',
-  path: '/newsroom',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminMarketingRoute = AdminMarketingRouteImport.update({
-  id: '/marketing',
-  path: '/marketing',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminLeadsRoute = AdminLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminCustomersRoute = AdminCustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminConversationsRoute = AdminConversationsRouteImport.update({
-  id: '/conversations',
-  path: '/conversations',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
@@ -399,18 +369,13 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
-  '/admin/conversations': typeof AdminConversationsRoute
-  '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reports': typeof AdminReportsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/traffic': typeof AdminTrafficRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -459,18 +424,13 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
-  '/admin/conversations': typeof AdminConversationsRoute
-  '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reports': typeof AdminReportsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/traffic': typeof AdminTrafficRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -522,18 +482,13 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
-  '/admin/conversations': typeof AdminConversationsRoute
-  '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reports': typeof AdminReportsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/traffic': typeof AdminTrafficRoute
   '/admin_/login': typeof AdminLoginRoute
   '/admin_/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -586,18 +541,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
-    | '/admin/conversations'
-    | '/admin/customers'
     | '/admin/leads'
-    | '/admin/marketing'
     | '/admin/media'
-    | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reports'
-    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/traffic'
     | '/admin/login'
     | '/admin/reset-password'
     | '/crm/$'
@@ -646,18 +596,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
-    | '/admin/conversations'
-    | '/admin/customers'
     | '/admin/leads'
-    | '/admin/marketing'
     | '/admin/media'
-    | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reports'
-    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/traffic'
     | '/admin/login'
     | '/admin/reset-password'
     | '/crm/$'
@@ -708,18 +653,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
-    | '/admin/conversations'
-    | '/admin/customers'
     | '/admin/leads'
-    | '/admin/marketing'
     | '/admin/media'
-    | '/admin/newsroom'
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reports'
-    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/traffic'
     | '/admin_/login'
     | '/admin_/reset-password'
     | '/crm/$'
@@ -1098,25 +1038,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/traffic': {
+      id: '/admin/traffic'
+      path: '/traffic'
+      fullPath: '/admin/traffic'
+      preLoaderRoute: typeof AdminTrafficRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reviews': {
-      id: '/admin/reviews'
-      path: '/reviews'
-      fullPath: '/admin/reviews'
-      preLoaderRoute: typeof AdminReviewsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reports': {
-      id: '/admin/reports'
-      path: '/reports'
-      fullPath: '/admin/reports'
-      preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/promotions': {
@@ -1140,13 +1073,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPagesRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/newsroom': {
-      id: '/admin/newsroom'
-      path: '/newsroom'
-      fullPath: '/admin/newsroom'
-      preLoaderRoute: typeof AdminNewsroomRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/media': {
       id: '/admin/media'
       path: '/media'
@@ -1154,32 +1080,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMediaRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/marketing': {
-      id: '/admin/marketing'
-      path: '/marketing'
-      fullPath: '/admin/marketing'
-      preLoaderRoute: typeof AdminMarketingRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/leads': {
       id: '/admin/leads'
       path: '/leads'
       fullPath: '/admin/leads'
       preLoaderRoute: typeof AdminLeadsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/customers': {
-      id: '/admin/customers'
-      path: '/customers'
-      fullPath: '/admin/customers'
-      preLoaderRoute: typeof AdminCustomersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/conversations': {
-      id: '/admin/conversations'
-      path: '/conversations'
-      fullPath: '/admin/conversations'
-      preLoaderRoute: typeof AdminConversationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/audit': {
@@ -1220,35 +1125,25 @@ const AdminLeadsRouteWithChildren = AdminLeadsRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
-  AdminConversationsRoute: typeof AdminConversationsRoute
-  AdminCustomersRoute: typeof AdminCustomersRoute
   AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
-  AdminMarketingRoute: typeof AdminMarketingRoute
   AdminMediaRoute: typeof AdminMediaRoute
-  AdminNewsroomRoute: typeof AdminNewsroomRoute
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPromotionsRoute: typeof AdminPromotionsRoute
-  AdminReportsRoute: typeof AdminReportsRoute
-  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminTrafficRoute: typeof AdminTrafficRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
-  AdminConversationsRoute: AdminConversationsRoute,
-  AdminCustomersRoute: AdminCustomersRoute,
   AdminLeadsRoute: AdminLeadsRouteWithChildren,
-  AdminMarketingRoute: AdminMarketingRoute,
   AdminMediaRoute: AdminMediaRoute,
-  AdminNewsroomRoute: AdminNewsroomRoute,
   AdminPagesRoute: AdminPagesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPromotionsRoute: AdminPromotionsRoute,
-  AdminReportsRoute: AdminReportsRoute,
-  AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminTrafficRoute: AdminTrafficRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

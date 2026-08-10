@@ -2,22 +2,16 @@ import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } 
 import { supabase } from "@/integrations/supabase/client";
 import { isAdminRole, useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   LayoutGrid,
   LayoutTemplate,
   Tag,
-  Users,
   UsersRound,
-  MessageSquare,
-  ContactRound,
-  Megaphone,
-  BarChart3,
-  Star,
-  Newspaper,
+  Inbox,
+  Activity,
   FileClock,
   Image as ImageIcon,
-
   Settings,
   Search,
   PanelLeftClose,
@@ -29,6 +23,7 @@ import {
   Moon,
   LogOut,
   UserCircle,
+  MoreHorizontal,
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo-transparent.png";
@@ -72,23 +67,68 @@ export const Route = createFileRoute("/admin")({
   component: CrmRoot,
 });
 
-const nav = [
-  { to: "/admin", label: "Dashboard", icon: LayoutGrid, exact: true },
-  { to: "/admin/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
-  { to: "/admin/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
-  { to: "/admin/customers", label: "Customers", icon: ContactRound },
-  { to: "/admin/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
-  { to: "/admin/reports", label: "Reports", icon: BarChart3 },
-  { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
-  { to: "/admin/newsroom", label: "Newsroom", icon: Newspaper },
-  { to: "/admin/media", label: "Media", icon: ImageIcon },
-  { to: "/admin/pages", label: "Pages", icon: LayoutTemplate },
-  { to: "/admin/promotions", label: "Promotions", icon: Tag },
+/**
+ * One motion system for the whole shell: three durations and one curve.
+ * Screens must not invent their own timings.
+ */
+export const MOTION = { fast: 0.12, base: 0.2, slow: 0.32 } as const;
+export const EASE = [0.2, 0, 0, 1] as const;
 
-  { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
-  { to: "/admin/audit", label: "Audit Log", icon: FileClock },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
-] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType; adminOnly?: boolean }>;
+type NavItem = {
+  to: string;
+  label: string;
+  /** Short label for the mobile bar. */
+  short?: string;
+  icon: typeof LayoutGrid;
+  exact?: boolean;
+  notifType?: NotifType;
+  adminOnly?: boolean;
+};
+
+/**
+ * The nav describes the WEBSITE, not a sales pipeline: what the site shows,
+ * what came in from it, and who may change it.
+ */
+const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
+  {
+    heading: "Overview",
+    items: [
+      { to: "/admin", label: "Dashboard", icon: LayoutGrid, exact: true },
+      { to: "/admin/traffic", label: "Traffic", icon: Activity },
+    ],
+  },
+  {
+    heading: "The site",
+    items: [
+      { to: "/admin/pages", label: "Pages", icon: LayoutTemplate },
+      { to: "/admin/media", label: "Media", icon: ImageIcon },
+      { to: "/admin/promotions", label: "Promotions", short: "Promos", icon: Tag },
+    ],
+  },
+  {
+    heading: "Inbound",
+    items: [
+      { to: "/admin/leads", label: "Requests", icon: Inbox, notifType: "lead" as NotifType },
+    ],
+  },
+  {
+    heading: "Admin",
+    items: [
+      { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
+      { to: "/admin/audit", label: "Activity log", short: "Activity", icon: FileClock },
+      { to: "/admin/settings", label: "Settings", icon: Settings },
+    ],
+  },
+];
+
+const nav: NavItem[] = NAV_GROUPS.flatMap((g) => g.items);
+
+/** The five destinations the mobile bar shows; the rest live behind "More". */
+const MOBILE_PRIMARY = ["/admin", "/admin/pages", "/admin/media", "/admin/leads", "/admin/traffic"];
+
+function isActivePath(pathname: string, item: NavItem) {
+  return item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
+}
 
 
 function CrmRoot() {
@@ -168,12 +208,20 @@ function CrmLayout() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const reduce = useReducedMotion();
   const { unreadByType, markTypeRead } = useNotifications();
   // People is owner/admin only — hide the nav entry for everyone else. The
   // screen itself and RLS both enforce this independently.
   const layoutIdentity = useAdminIdentity();
-  const visibleNav = nav.filter((item) => !item.adminOnly || isAdminRole(layoutIdentity.roles));
+  const canSee = (item: NavItem) => !item.adminOnly || isAdminRole(layoutIdentity.roles);
+  const visibleNav = nav.filter(canSee);
+  const visibleGroups = NAV_GROUPS
+    .map((g) => ({ heading: g.heading, items: g.items.filter(canSee) }))
+    .filter((g) => g.items.length > 0);
+  const primaryNav = visibleNav.filter((i) => MOBILE_PRIMARY.includes(i.to));
+  const overflowNav = visibleNav.filter((i) => !MOBILE_PRIMARY.includes(i.to));
 
   // Cmd/Ctrl+K opens the global command palette
   useEffect(() => {
@@ -226,92 +274,83 @@ function CrmLayout() {
       <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,197,24,0.35), transparent)" }} />
 
       {/* Nav */}
-      <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 space-y-1 ${collapsed ? "px-2" : "px-3"}`}>
-        {visibleNav.map((item) => {
-          const active = item.exact
-            ? pathname === item.to
-            : pathname === item.to || pathname.startsWith(item.to + "/");
-          const Icon = item.icon;
-          const count = item.notifType ? unreadByType[item.notifType] : 0;
+      <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 ${collapsed ? "px-2" : "px-3"}`}>
+        {visibleGroups.map((group, gi) => (
+          <div key={group.heading} className={gi > 0 ? "mt-5" : ""}>
+            {!collapsed && (
+              <div className="admin-nav-heading px-3 pb-2">{group.heading}</div>
+            )}
+            {collapsed && gi > 0 && (
+              <div className="admin-nav-divider mx-auto mb-3" aria-hidden />
+            )}
+            <div className="space-y-1">
+              {group.items.map((item) => {
+                const active = isActivePath(pathname, item);
+                const Icon = item.icon;
+                const count = item.notifType ? unreadByType[item.notifType] : 0;
 
-          const row = (
-            <Link
-              key={item.to}
-              to={item.to as "/admin"}
-              onClick={() => setMobileOpen(false)}
-              aria-current={active ? "page" : undefined}
-              className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] transition-colors ${
-                collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
-              } ${active ? "is-active" : ""}`}
-              style={{ color: active ? "#1A1A1A" : "#FFFFFF" }}
-            >
-              {/* Active background pill (shared element) */}
-              {active && (
-                <motion.span
-                  layoutId="crm-nav-active"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  className="absolute inset-0 rounded-xl -z-0"
-                  style={{
-                    background: "#EF7700",
-                    boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.20)",
-                  }}
-                />
-              )}
-              {/* Gold left accent bar */}
-              {active && !collapsed && (
-                <motion.span
-                  layoutId="crm-nav-accent"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full"
-                  style={{ background: "#FCE722" }}
-                />
-              )}
-
-              <span className="relative shrink-0 z-10 grid place-items-center">
-                <Icon size={20} strokeWidth={1.75} className="transition-colors" />
-                <AnimatePresence>
-                  {collapsed && count > 0 && (
-                    <motion.span
-                      key="dot"
-                      initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      className="absolute -top-1 -right-1 h-2 w-2 rounded-full ring-2"
-                      style={{ background: "#F5C518", boxShadow: "0 0 6px rgba(245,197,24,0.8)", ["--tw-ring-color" as never]: "var(--crm-sidebar)" }}
-                    />
-                  )}
-                </AnimatePresence>
-              </span>
-              {!collapsed && (
-                <span className="truncate flex-1 z-10">{item.label}</span>
-              )}
-              <AnimatePresence>
-                {!collapsed && count > 0 && (
-                  <motion.span
-                    key="badge"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                    className="relative z-10 ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
-                    style={{ background: "#FCE722", color: "#1A1A1A" }}
+                const row = (
+                  <Link
+                    key={item.to}
+                    to={item.to as "/admin"}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] ${
+                      collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
+                    } ${active ? "is-active" : ""}`}
+                    style={{ color: active ? "#1A1A1A" : "#FFFFFF" }}
                   >
-                    {count > 99 ? "99+" : count}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
-          );
+                    {active && (
+                      <motion.span
+                        layoutId="crm-nav-active"
+                        transition={reduce ? { duration: 0 } : { duration: MOTION.base, ease: EASE }}
+                        className="absolute inset-0 rounded-xl -z-0"
+                        style={{ background: "#EF7700", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.20)" }}
+                      />
+                    )}
 
-          if (!collapsed) return <div key={item.to}>{row}</div>;
-          return (
-            <Tooltip key={item.to}>
-              <TooltipTrigger asChild>{row}</TooltipTrigger>
-              <TooltipContent side="right" sideOffset={8} className="font-medium">
-                {item.label}
-                {count > 0 && <span className="ml-1.5 text-[#EF7700]">· {count}</span>}
-              </TooltipContent>
-            </Tooltip>
-          );
-        })}
+                    <span className="relative shrink-0 z-10 grid place-items-center">
+                      <Icon size={20} strokeWidth={1.75} />
+                      {collapsed && count > 0 && (
+                        <span
+                          className="absolute -top-1 -right-1 h-2 w-2 rounded-full ring-2"
+                          style={{ background: "#FCE722", ["--tw-ring-color" as never]: "var(--crm-sidebar)" }}
+                        />
+                      )}
+                    </span>
+                    {!collapsed && <span className="truncate flex-1 z-10">{item.label}</span>}
+                    <AnimatePresence>
+                      {!collapsed && count > 0 && (
+                        <motion.span
+                          key="badge"
+                          initial={reduce ? false : { scale: 0.7, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={reduce ? { opacity: 0 } : { scale: 0.7, opacity: 0 }}
+                          transition={{ duration: MOTION.fast, ease: EASE }}
+                          className="relative z-10 ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
+                          style={{ background: "#FCE722", color: "#1A1A1A" }}
+                        >
+                          {count > 99 ? "99+" : count}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                );
+
+                if (!collapsed) return <div key={item.to}>{row}</div>;
+                return (
+                  <Tooltip key={item.to}>
+                    <TooltipTrigger asChild>{row}</TooltipTrigger>
+                    <TooltipContent side="right" sideOffset={8} className="font-medium">
+                      {item.label}
+                      {count > 0 && <span className="ml-1.5">· {count}</span>}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Footer / collapse */}
@@ -391,7 +430,7 @@ function CrmLayout() {
             aria-label="Open search"
           >
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
-            <span className="truncate">Search leads, services, customers…</span>
+            <span className="truncate">Search pages, media, requests, settings…</span>
             <kbd
               className="ml-auto hidden sm:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[10px] font-mono"
               style={{ borderColor: "var(--crm-border)", color: "var(--crm-text-muted)", background: "var(--crm-surface)" }}
@@ -422,42 +461,35 @@ function CrmLayout() {
           </CrmSectionTransition>
         </main>
 
-        {/* Mobile bottom nav — scrollable, all sections, active highlight */}
+        {/* Mobile bottom bar — a fixed set of five, everything else in "More". */}
         <nav
-          className="admin-tabbar crm-bottom-nav min-[900px]:hidden fixed bottom-0 left-0 right-0 z-30 overflow-x-auto overflow-y-hidden"
-          style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
-          aria-label="CRM sections"
+          className="admin-tabbar min-[900px]:hidden fixed bottom-0 left-0 right-0 z-30"
+          aria-label="Admin sections"
         >
-          <div className="flex min-w-max items-stretch px-1">
-            {visibleNav.map((item) => {
-              const active = item.exact
-                ? pathname === item.to
-                : pathname === item.to || pathname.startsWith(item.to + "/");
+          <div className="grid grid-cols-5 items-stretch">
+            {primaryNav.map((item) => {
+              const active = isActivePath(pathname, item);
               const Icon = item.icon;
               const count = item.notifType ? unreadByType[item.notifType] : 0;
-              const shortLabel = item.label.split(" ")[0].replace("/", "");
               return (
                 <Link
                   key={item.to}
                   to={item.to as "/admin"}
-                  className="crm-nav-item relative flex min-w-[68px] flex-col items-center justify-center gap-1 px-3 py-2 text-[10px] font-medium snap-start"
-                  style={
-                    active
-                      ? { color: "#FCE722" }
-                      : { color: "#FFFFFF" }
-                  }
+                  onClick={() => setMoreOpen(false)}
+                  className="crm-nav-item relative flex min-h-[56px] flex-col items-center justify-center gap-1 px-1 py-2 text-[10.5px] font-semibold"
+                  style={{ color: active ? "#FCE722" : "#FFFFFF" }}
                   aria-current={active ? "page" : undefined}
                 >
                   {active && (
                     <motion.span
                       layoutId="crm-bottom-active"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      className="absolute top-0 left-2 right-2 h-[3px] rounded-b-full"
+                      transition={reduce ? { duration: 0 } : { duration: MOTION.base, ease: EASE }}
+                      className="absolute top-0 left-3 right-3 h-[3px] rounded-b-full"
                       style={{ background: "#FCE722" }}
                     />
                   )}
                   <span className="relative">
-                    <Icon className="h-[20px] w-[20px]" strokeWidth={active ? 2.2 : 1.75} />
+                    <Icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.75} />
                     {count > 0 && (
                       <span
                         className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-1 grid place-items-center rounded-full text-[9px] font-bold"
@@ -467,12 +499,87 @@ function CrmLayout() {
                       </span>
                     )}
                   </span>
-                  <span className="truncate max-w-[64px] leading-none">{shortLabel}</span>
+                  <span className="truncate max-w-full leading-none">{item.short ?? item.label}</span>
                 </Link>
               );
             })}
+
+            <button
+              type="button"
+              onClick={() => setMoreOpen(true)}
+              aria-expanded={moreOpen}
+              aria-haspopup="dialog"
+              className="crm-nav-item relative flex min-h-[56px] flex-col items-center justify-center gap-1 px-1 py-2 text-[10.5px] font-semibold"
+              style={{ color: "#FFFFFF" }}
+            >
+              <MoreHorizontal className="h-5 w-5" strokeWidth={1.75} />
+              <span className="leading-none">More</span>
+            </button>
           </div>
         </nav>
+
+        {/* "More" sheet — the destinations that don't fit the bar. */}
+        <AnimatePresence>
+          {moreOpen && (
+            <div className="min-[900px]:hidden">
+              <motion.div
+                className="fixed inset-0 z-40 bg-black/60"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: MOTION.fast, ease: EASE }}
+                onClick={() => setMoreOpen(false)}
+              />
+              <motion.div
+                role="dialog"
+                aria-label="More sections"
+                className="admin-more-sheet fixed bottom-0 left-0 right-0 z-50"
+                initial={reduce ? false : { y: 24, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={reduce ? { opacity: 0 } : { y: 24, opacity: 0 }}
+                transition={{ duration: MOTION.base, ease: EASE }}
+              >
+                <div className="flex items-center justify-between px-5 pt-4">
+                  <span className="admin-mono" style={{ color: "var(--text-2)" }}>More</span>
+                  <button
+                    type="button"
+                    onClick={() => setMoreOpen(false)}
+                    className="h-11 w-11 grid place-items-center rounded-lg"
+                    style={{ color: "var(--text)" }}
+                    aria-label="Close"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <ul className="px-3 pb-6 pt-1">
+                  {overflowNav.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActivePath(pathname, item);
+                    return (
+                      <li key={item.to}>
+                        <Link
+                          to={item.to as "/admin"}
+                          onClick={() => setMoreOpen(false)}
+                          className="admin-more-item"
+                          data-active={active ? "true" : undefined}
+                        >
+                          <Icon className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden />
+                          <span>{item.label}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                  <li>
+                    <Link to="/" className="admin-more-item" onClick={() => setMoreOpen(false)}>
+                      <Globe className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden />
+                      <span>Back to site</span>
+                    </Link>
+                  </li>
+                </ul>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

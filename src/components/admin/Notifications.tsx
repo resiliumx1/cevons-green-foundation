@@ -2,12 +2,16 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Bell, Check, Settings as SettingsIcon, X, Users, Star, MessageSquare,
-  Megaphone, Info, Inbox,
+  Bell, Check, Settings as SettingsIcon, X, Info, Inbox,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export type NotifType = "lead" | "review" | "message" | "campaign" | "system";
+/**
+ * The admin only surfaces two notification kinds now: inbound website
+ * requests, and system messages. Legacy rows of retired kinds stay in the
+ * table but are never rendered.
+ */
+export type NotifType = "lead" | "system";
 
 export interface NotificationRow {
   id: string;
@@ -33,19 +37,16 @@ const DEFAULT_PREFS: NotifPrefs = {
 
 const PREF_KEY: Record<NotifType, keyof NotifPrefs> = {
   lead: "leads",
-  review: "reviews",
-  message: "messages",
-  campaign: "campaigns",
   system: "system",
 };
 
-const TYPE_META: Record<NotifType, { label: string; icon: typeof Users; color: string }> = {
-  lead: { label: "Leads", icon: Users, color: "var(--crm-primary-bright)" },
-  review: { label: "Reviews", icon: Star, color: "#f5c451" },
-  message: { label: "Messages", icon: MessageSquare, color: "#5ec3ff" },
-  campaign: { label: "Campaigns", icon: Megaphone, color: "#c084fc" },
+const TYPE_META: Record<NotifType, { label: string; icon: typeof Inbox; color: string }> = {
+  lead: { label: "Requests", icon: Inbox, color: "var(--crm-primary-bright)" },
   system: { label: "System", icon: Info, color: "var(--crm-text-muted)" },
 };
+
+const FALLBACK_META = { label: "System", icon: Info, color: "var(--crm-text-muted)" };
+const KNOWN_TYPES: NotifType[] = ["lead", "system"];
 
 function relTime(iso: string): string {
   const d = new Date(iso).getTime();
@@ -100,14 +101,14 @@ export function useNotifications() {
   }, []);
 
   const visible = useMemo(
-    () => items.filter((n) => prefs[PREF_KEY[n.type]]),
+    () => items.filter((n) => KNOWN_TYPES.includes(n.type) && prefs[PREF_KEY[n.type]]),
     [items, prefs],
   );
 
   const unreadCount = useMemo(() => visible.filter((n) => !n.read).length, [visible]);
 
   const unreadByType = useMemo(() => {
-    const m: Record<NotifType, number> = { lead: 0, review: 0, message: 0, campaign: 0, system: 0 };
+    const m: Record<NotifType, number> = { lead: 0, system: 0 };
     for (const n of visible) if (!n.read) m[n.type]++;
     return m;
   }, [visible]);
@@ -299,9 +300,9 @@ export function NotificationsBell() {
 
               {/* Filters + actions */}
               <div className="flex items-center gap-1 px-3 py-2 border-b overflow-x-auto" style={{ borderColor: "var(--crm-border)" }}>
-                {(["all", "unread", "lead", "review", "message", "campaign"] as FilterKey[]).map((k) => {
+                {(["all", "unread", "lead", "system"] as FilterKey[]).map((k) => {
                   const active = filter === k;
-                  const label = k === "all" ? "All" : k === "unread" ? "Unread" : TYPE_META[k as NotifType].label;
+                  const label = k === "all" ? "All" : k === "unread" ? "Unread" : (TYPE_META[k as NotifType]?.label ?? "System");
                   return (
                     <button
                       key={k}
@@ -338,7 +339,7 @@ export function NotificationsBell() {
                   <ul>
                     <AnimatePresence initial={false}>
                       {filtered.map((item) => {
-                        const meta = TYPE_META[item.type];
+                        const meta = TYPE_META[item.type] ?? FALLBACK_META;
                         const Icon = meta.icon;
                         return (
                           <motion.li
