@@ -1,4 +1,6 @@
-import { createFileRoute, Outlet, Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
