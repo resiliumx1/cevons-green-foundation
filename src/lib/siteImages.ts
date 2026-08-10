@@ -27,8 +27,6 @@ import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
 import svcIndustrialAsset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
 import svcRecoveryAsset from "@/assets/recycling-facility.jpg.asset.json";
 
-import heroAbout from "@/assets/hero-about.jpg";
-import heroCareers from "@/assets/hero-careers.jpg";
 
 import svcBiohazard from "@/assets/svc-biohazard.jpg";
 import svcIndustrial from "@/assets/svc-industrial.jpg";
@@ -141,7 +139,7 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
     label: "About — hero photo",
     page: "About",
     ratio: [3, 2],
-    defaultSrc: heroAbout,
+    defaultSrc: "/assets/heroes/about-support-hero.webp",
     defaultAlt: "CEVONS front-office team supporting a customer inquiry at the Georgetown office",
     usedIn: "src/routes/about.tsx hero",
   },
@@ -150,7 +148,7 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
     label: "Careers — hero photo",
     page: "Careers",
     ratio: [3, 2],
-    defaultSrc: heroCareers,
+    defaultSrc: "/assets/heroes/careers-boardroom-hero.webp",
     defaultAlt: "CEVONS team members reviewing service offerings during a boardroom presentation",
     usedIn: "src/routes/careers.tsx hero",
   },
