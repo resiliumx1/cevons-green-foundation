@@ -366,6 +366,8 @@ function PagesEditor() {
           <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
             <Eye className="size-4" aria-hidden /> Preview draft
           </a>
+          <EditCopyButton page={page} />
+
         </div>
       </header>
 
