@@ -22,13 +22,15 @@ import {
   Menu,
   X,
   Globe,
+  Sun,
+  Moon,
   LogOut,
   UserCircle,
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo-transparent.png";
 import { NotificationsBell, useNotifications, type NotifType } from "@/components/admin/Notifications";
-import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
+import { CrmThemeProvider, useCrmTheme, formatGeorgetown } from "@/components/admin/theme";
 import { CrmAssistant } from "@/components/admin/Assistant";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -202,10 +204,10 @@ function CrmLayout() {
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
-            <div className="text-[15px] font-extrabold tracking-[0.04em]" style={{ color: "#ffffff" }}>
+            <div className="admin-display text-[16px] font-extrabold tracking-[0.02em]" style={{ color: "#FFFFFF" }}>
               CEVONS
             </div>
-            <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
+            <div className="admin-mono mt-0.5" style={{ color: "#FCE722" }}>
               Website Admin
             </div>
           </div>
@@ -231,6 +233,7 @@ function CrmLayout() {
               className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] transition-colors ${
                 collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
               } ${active ? "is-active" : ""}`}
+              style={{ color: active ? "#1A1A1A" : "#FFFFFF" }}
             >
               {/* Active background pill (shared element) */}
               {active && (
@@ -239,8 +242,8 @@ function CrmLayout() {
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   className="absolute inset-0 rounded-xl -z-0"
                   style={{
-                    background: "linear-gradient(180deg, rgba(0,107,53,0.22), rgba(0,107,53,0.12))",
-                    boxShadow: "inset 0 0 0 1px rgba(0,107,53,0.30)",
+                    background: "#EF7700",
+                    boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.20)",
                   }}
                 />
               )}
@@ -250,7 +253,7 @@ function CrmLayout() {
                   layoutId="crm-nav-accent"
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full"
-                  style={{ background: "#F5C518", boxShadow: "0 0 12px rgba(245,197,24,0.6)" }}
+                  style={{ background: "#FCE722" }}
                 />
               )}
 
@@ -279,7 +282,7 @@ function CrmLayout() {
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
                     className="relative z-10 ml-auto min-w-[20px] h-[18px] px-1.5 grid place-items-center rounded-full text-[10px] font-bold"
-                    style={{ background: "#F5C518", color: "#1a1a1a" }}
+                    style={{ background: "#FCE722", color: "#1A1A1A" }}
                   >
                     {count > 99 ? "99+" : count}
                   </motion.span>
@@ -294,7 +297,7 @@ function CrmLayout() {
               <TooltipTrigger asChild>{row}</TooltipTrigger>
               <TooltipContent side="right" sideOffset={8} className="font-medium">
                 {item.label}
-                {count > 0 && <span className="ml-1.5 text-[#F5C518]">· {count}</span>}
+                {count > 0 && <span className="ml-1.5 text-[#EF7700]">· {count}</span>}
               </TooltipContent>
             </Tooltip>
           );
@@ -305,7 +308,7 @@ function CrmLayout() {
       <div className="mt-2 px-3 pt-3 pb-3 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         <button
           onClick={() => setCollapsed((c) => !c)}
-          className={`crm-nav-item w-full hidden md:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
+          className={`crm-nav-item w-full hidden min-[900px]:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
             collapsed ? "justify-center" : ""
           }`}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -321,12 +324,12 @@ function CrmLayout() {
   );
 
   return (
-    <div data-crm-theme={theme} className="flex min-h-screen">
+    <div data-crm-theme="manifest" data-theme={theme} className="flex min-h-screen">
       <Toaster richColors position="top-right" />
       <CrmCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
       {/* Desktop sidebar */}
       <aside
-        className={`crm-sidebar hidden md:flex flex-col transition-[width] duration-200 ${
+        className={`crm-sidebar hidden min-[900px]:flex flex-col transition-[width] duration-200 ${
           collapsed ? "w-[72px]" : "w-64 lg:w-72"
         }`}
       >
@@ -336,8 +339,8 @@ function CrmLayout() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 md:hidden" onClick={() => setMobileOpen(false)} />
-          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 md:hidden flex flex-col">
+          <div className="fixed inset-0 bg-black/60 z-40 min-[900px]:hidden" onClick={() => setMobileOpen(false)} />
+          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 min-[900px]:hidden flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute top-4 right-4 opacity-70 hover:opacity-100"
@@ -353,10 +356,12 @@ function CrmLayout() {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
+        <StatusTape />
+
         <header className="crm-header h-16 flex items-center gap-3 px-4 md:px-6">
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden h-9 w-9 grid place-items-center rounded-lg border"
+            className="min-[900px]:hidden h-11 w-11 grid place-items-center rounded-lg border"
             style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
             aria-label="Open menu"
           >
@@ -401,7 +406,7 @@ function CrmLayout() {
           </div>
         </header>
 
-        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-20 md:pb-8">
+        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-24 min-[900px]:pb-8">
           <CrmSectionTransition>
             <Outlet />
           </CrmSectionTransition>
@@ -409,7 +414,7 @@ function CrmLayout() {
 
         {/* Mobile bottom nav — scrollable, all sections, active highlight */}
         <nav
-          className="crm-bottom-nav md:hidden fixed bottom-0 left-0 right-0 z-30 overflow-x-auto overflow-y-hidden"
+          className="admin-tabbar crm-bottom-nav min-[900px]:hidden fixed bottom-0 left-0 right-0 z-30 overflow-x-auto overflow-y-hidden"
           style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
           aria-label="CRM sections"
         >
@@ -428,8 +433,8 @@ function CrmLayout() {
                   className="crm-nav-item relative flex min-w-[68px] flex-col items-center justify-center gap-1 px-3 py-2 text-[10px] font-medium snap-start"
                   style={
                     active
-                      ? { color: "#FFD200" }
-                      : { color: "rgba(255,255,255,0.7)" }
+                      ? { color: "#FCE722" }
+                      : { color: "#FFFFFF" }
                   }
                   aria-current={active ? "page" : undefined}
                 >
@@ -438,7 +443,7 @@ function CrmLayout() {
                       layoutId="crm-bottom-active"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       className="absolute top-0 left-2 right-2 h-[3px] rounded-b-full"
-                      style={{ background: "#FFD200", boxShadow: "0 0 10px rgba(255,210,0,0.6)" }}
+                      style={{ background: "#FCE722" }}
                     />
                   )}
                   <span className="relative">
@@ -446,7 +451,7 @@ function CrmLayout() {
                     {count > 0 && (
                       <span
                         className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-1 grid place-items-center rounded-full text-[9px] font-bold"
-                        style={{ background: "#FFD200", color: "#1a1a1a" }}
+                        style={{ background: "#FCE722", color: "#1A1A1A" }}
                       >
                         {count > 9 ? "9+" : count}
                       </span>
@@ -522,5 +527,34 @@ function ProfileMenu() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+
+/**
+ * Status tape — a weighbridge-ticket style strip across the top of the shell.
+ * Shows Georgetown (UTC-4) time; all timestamps are stored in UTC.
+ */
+function StatusTape() {
+  const { theme, toggleTheme } = useCrmTheme();
+  const [now, setNow] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <div className="admin-tape">
+      <span className="admin-mono admin-tape-item">CEVONS Website Admin</span>
+      <span className="admin-tape-sep" aria-hidden />
+      <span className="admin-mono admin-tape-item">
+        Georgetown {formatGeorgetown(now, { hour: "2-digit", minute: "2-digit", hour12: false })} · UTC−4
+      </span>
+      <button type="button" onClick={toggleTheme} className="admin-tape-toggle admin-mono ml-auto">
+        {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
+        <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+      </button>
+    </div>
   );
 }

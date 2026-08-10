@@ -3306,3 +3306,91 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   text-align: center;
   color: var(--text-2);
 }
+
+/* ── Admin typography utilities ───────────────────────────────────────── */
+.admin-display {
+  font-family: "Playfair Display", Georgia, serif;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+.admin-mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+/* ── Admin status tape ────────────────────────────────────────────────── */
+.admin-tape {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  padding: 0 16px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--hairline);
+  color: var(--text-2);
+}
+.admin-tape-item { color: var(--text-2); }
+.admin-tape-sep { width: 1px; height: 14px; background: var(--rule); }
+.admin-tape-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  color: var(--text);
+}
+.admin-tape-toggle:hover { background: var(--hover); }
+
+/* Fixed navy tab bar — foreground values are fixed white in BOTH modes. */
+[data-crm-theme] .admin-tabbar {
+  background: #000080 !important;
+  color: #FFFFFF !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* Visible focus rings across the admin */
+[data-crm-theme] a:focus-visible,
+[data-crm-theme] button:focus-visible,
+[data-crm-theme] input:focus-visible,
+[data-crm-theme] select:focus-visible,
+[data-crm-theme] textarea:focus-visible,
+[data-crm-theme] [tabindex]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Tables collapse to stacked labelled rows on small screens */
+@media (max-width: 560px) {
+  [data-crm-theme] table.admin-stack,
+  [data-crm-theme] table.admin-stack tbody,
+  [data-crm-theme] table.admin-stack tr,
+  [data-crm-theme] table.admin-stack td { display: block; width: 100%; }
+  [data-crm-theme] table.admin-stack thead { display: none; }
+  [data-crm-theme] table.admin-stack tr {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+  }
+  [data-crm-theme] table.admin-stack td {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  [data-crm-theme] table.admin-stack td:last-child { border-bottom: 0; }
+  [data-crm-theme] table.admin-stack td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10.5px;
+    color: var(--text-2);
+  }
+}
