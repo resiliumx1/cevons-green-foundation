@@ -22,9 +22,12 @@ type Slide = {
  * in the CRM. The hero must never be empty.
  */
 const SLIDES: Slide[] = [
-  { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right", width: 1920, height: 1080, portrait: false },
-  { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left", width: 1920, height: 1080, portrait: false },
-  { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right", width: 1920, height: 1080, portrait: false },
+  // Dimensions below are the MEASURED natural sizes of the bundled files, so
+  // the width/height attributes prevent layout shift and `portrait` is derived
+  // (h > w) rather than assumed — portrait photos need the blurred-fill guard.
+  { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right", width: 1920, height: 2560, portrait: 2560 > 1920 },
+  { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left", width: 1800, height: 1350, portrait: 1350 > 1800 },
+  { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right", width: 749, height: 500, portrait: 500 > 749 },
 ];
 
 // Per-slide object-position for the framed card layout. Desktop crop favors

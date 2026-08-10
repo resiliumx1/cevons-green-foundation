@@ -615,60 +615,158 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
    so individual page files don't need to be rewritten.
    ============================================================ */
 
-[data-crm-theme="emerald"] {
-  --crm-bg: #F7F8F5;
-  --crm-surface: #FFFFFF;
-  --crm-surface-muted: #F1F5F2;
-  --crm-sidebar: #003F27;
-  --crm-sidebar-hover: rgba(255, 255, 255, 0.08);
-  --crm-sidebar-active: #FFFFFF;
-  --crm-sidebar-text: #DFF5E9;
-  --crm-sidebar-text-active: #003F27;
-  --crm-header-bg: #FFFFFF;
-  --crm-primary: #006B35;
-  --crm-primary-bright: #006B35;
-  --crm-yellow: #FFD200;
-  --crm-orange: #FF8A3D;
-  --crm-coral: #FF5A5F;
-  --crm-red: #E31B23;
-  --crm-text: #101820;
-  --crm-text-muted: #525C6B;
-  --crm-text-faint: #94A3B8;
-  --crm-border: #E5E7EB;
-  --crm-input-bg: #FFFFFF;
-  --crm-card-shadow: 0 10px 30px rgba(16, 24, 32, 0.08);
+/* ── Manifest token layer (dark is the default) ───────────────────────────
+   New Manifest names are the source of truth; the legacy --crm-* variables
+   are aliased onto them so existing admin pages inherit the new system. */
+[data-crm-theme] {
+  --ink: #060A28;
+  --panel: #0C1240;
+  --panel-2: #111a55;
+  --text: #FFFFFF;
+  --text-2: #B9BFDC;
+  --rule: rgba(255, 255, 255, 0.16);
+  --rule-strong: rgba(255, 255, 255, 0.30);
+  --hover: rgba(255, 255, 255, 0.10);
+  --track: rgba(255, 255, 255, 0.10);
+  --hairline: rgba(255, 255, 255, 0.09);
+  --focus: #FCE722;
+  --emph: #FCE722;
+  --range-on-bg: #FFFFFF;
+  --range-on-fg: #1A1A1A;
+  --chip-draft-bg: #33385F;
+  --chip-draft-fg: #FFFFFF;
+  --chip-ended-bg: #242953;
+  --chip-ended-fg: #C7CCE6;
+  --docket-bg: #FFFFFF;
+  --docket-fg: #1A1A1A;
+  --docket-muted: #4A4A4A;
+  --docket-tear: rgba(26, 26, 26, 0.32);
+  --docket-up: #1C7A26;
+  --docket-down: #B01B21;
+  --spark-neutral: #1A1A1A;
+
+  /* Fixed brand constants — identical in both modes */
+  --admin-navy: #000080;
+  --admin-on-navy: #FFFFFF;
+  --admin-orange: #EF7700;
+  --admin-charcoal: #1A1A1A;
+  --admin-green: #2DA339;
+  --admin-yellow: #FCE722;
+  --admin-red: #D42229;
+
+  /* Legacy --crm-* mapping */
+  --crm-bg: var(--ink);
+  --crm-surface: var(--panel);
+  --crm-surface-muted: var(--panel-2);
+  --crm-sidebar: var(--admin-navy);
+  --crm-sidebar-hover: var(--hover);
+  --crm-sidebar-active: var(--admin-orange);
+  --crm-sidebar-text: var(--admin-on-navy);
+  --crm-sidebar-text-active: var(--admin-charcoal);
+  --crm-header-bg: var(--panel);
+  --crm-primary: var(--admin-orange);
+  --crm-primary-bright: var(--admin-yellow);
+  --crm-yellow: var(--admin-yellow);
+  --crm-orange: var(--admin-orange);
+  --crm-coral: var(--admin-red);
+  --crm-red: var(--admin-red);
+  --crm-text: var(--text);
+  --crm-text-muted: var(--text-2);
+  --crm-text-faint: var(--text-2);
+  --crm-border: var(--rule);
+  --crm-input-bg: var(--panel-2);
+  --crm-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-[data-crm-theme="sunset"] {
-  --crm-bg: #FFF8F1;
-  --crm-surface: #FFFFFF;
-  --crm-surface-muted: #FFF0E3;
-  --crm-sidebar: #FFF4EA;
-  --crm-sidebar-hover: rgba(0, 107, 53, 0.08);
-  --crm-sidebar-active: #006B35;
-  --crm-sidebar-text: #334155;
-  --crm-sidebar-text-active: #FFFFFF;
-  --crm-header-bg: #FFFFFF;
-  --crm-primary: #006B35;
-  --crm-primary-bright: #006B35;
-  --crm-yellow: #FFD200;
-  --crm-orange: #FF8A3D;
-  --crm-coral: #FF5A5F;
-  --crm-red: #E31B23;
-  --crm-text: #101820;
-  --crm-text-muted: #525C6B;
-  --crm-text-faint: #94A3B8;
-  --crm-border: #F1D8C5;
-  --crm-input-bg: #FFFFFF;
-  --crm-card-shadow: 0 10px 30px rgba(120, 54, 20, 0.08);
+[data-crm-theme][data-theme="light"] {
+  --ink: #E9ECF6;
+  --panel: #FFFFFF;
+  --panel-2: #F1F3FA;
+  --text: #12163A;
+  --text-2: #4A4A4A;
+  --rule: rgba(6, 10, 40, 0.16);
+  --rule-strong: rgba(6, 10, 40, 0.34);
+  --hover: rgba(6, 10, 40, 0.07);
+  --track: rgba(6, 10, 40, 0.12);
+  --hairline: rgba(6, 10, 40, 0.11);
+  --focus: #000080;
+  --emph: #8A5200;
+  --range-on-bg: #000080;
+  --range-on-fg: #FFFFFF;
+  --chip-draft-bg: #DFE3F1;
+  --chip-draft-fg: #12163A;
+  --chip-ended-bg: #E9EBF3;
+  --chip-ended-fg: #4A4A4A;
+  --docket-bg: #000080;
+  --docket-fg: #FFFFFF;
+  --docket-muted: #C9CEEA;
+  --docket-tear: rgba(255, 255, 255, 0.38);
+  --docket-up: #7DE08A;
+  --docket-down: #FF8E92;
+  --spark-neutral: #C9CEEA;
+  --crm-card-shadow: 0 10px 30px rgba(6, 10, 40, 0.10);
 }
+
+/* Typography utilities for the admin */
+[data-crm-theme] { font-family: "Open Sans", system-ui, sans-serif; }
+.admin-display {
+  font-family: "Playfair Display", Georgia, serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.admin-mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+[data-crm-theme] :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Fixed navy surfaces: rail + mobile tab bar. Foreground is FIXED white in
+   BOTH modes — never var(--text), which flips to near-black in light mode. */
+.admin-rail,
+.admin-tabbar {
+  background-color: #000080 !important;
+  color: #FFFFFF !important;
+}
+.admin-rail a,
+.admin-rail button,
+.admin-tabbar a,
+.admin-tabbar button { color: #FFFFFF; }
+
+/* Stacked, labelled table rows under 560px */
+@media (max-width: 560px) {
+  .admin-table thead { display: none; }
+  .admin-table, .admin-table tbody, .admin-table tr, .admin-table td { display: block; width: 100%; }
+  .admin-table tr {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+  }
+  .admin-table td { display: flex; justify-content: space-between; gap: 12px; border: 0; padding: 6px 0; }
+  .admin-table td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10px;
+    color: var(--text-2);
+  }
+}
+
 
 /* Themed wrapper backgrounds */
 [data-crm-theme] { background-color: var(--crm-bg); color: var(--crm-text); }
 
 [data-crm-theme] .crm-sidebar {
-  background-color: var(--crm-sidebar) !important;
-  color: var(--crm-sidebar-text);
+  background-color: #000080 !important;
+  color: #FFFFFF !important;
   border-color: transparent !important;
   background-image:
     radial-gradient(120% 60% at 0% 0%, rgba(245, 197, 24, 0.06), transparent 60%),
@@ -693,37 +791,34 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 }
 [data-crm-theme] .crm-main { background-color: var(--crm-bg) !important; }
 [data-crm-theme] .crm-bottom-nav {
-  background-color: var(--crm-sidebar) !important;
-  border-top: 1px solid var(--crm-border) !important;
+  background-color: #000080 !important;
+  color: #FFFFFF !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
   padding-bottom: env(safe-area-inset-bottom);
   scroll-snap-type: x proximity;
 }
 [data-crm-theme] .crm-bottom-nav::-webkit-scrollbar { display: none; }
 [data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] {
-  color: #006B35 !important;
+  color: #1A1A1A !important;
+  background-color: var(--admin-orange) !important;
   font-weight: 700;
 }
-[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #F5C518 !important; }
+[data-crm-theme] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #1A1A1A !important; }
 [data-crm-theme] .crm-nav-item {
-  color: var(--crm-sidebar-text) !important;
+  color: #FFFFFF !important;
   background-color: transparent !important;
 }
 [data-crm-theme] .crm-nav-item:hover:not(.is-active) {
-  background-color: rgba(255,255,255,0.06) !important;
-  color: #ffffff !important;
+  background-color: rgba(255,255,255,0.10) !important;
+  color: #FFFFFF !important;
 }
 [data-crm-theme] .crm-nav-item.is-active {
-  color: #ffffff !important;
-  font-weight: 600;
+  color: #1A1A1A !important;
+  background-color: var(--admin-orange) !important;
+  font-weight: 700;
 }
-[data-crm-theme] .crm-nav-item.is-active svg { color: #F5C518 !important; }
-/* Sunset has a light sidebar — active label must be dark green, not white */
-[data-crm-theme="sunset"] .crm-nav-item.is-active { color: #003F27 !important; }
-[data-crm-theme="sunset"] .crm-nav-item:hover:not(.is-active) {
-  background-color: rgba(0, 107, 53, 0.08) !important;
-  color: #003F27 !important;
-}
-[data-crm-theme="sunset"] .crm-bottom-nav .crm-nav-item[aria-current="page"] svg { color: #006B35 !important; }
+[data-crm-theme] .crm-nav-item.is-active svg { color: #1A1A1A !important; }
+
 
 /* Re-map legacy dark CRM page utility classes to themed surfaces */
 [data-crm-theme] .bg-\[\#101820\],
@@ -785,9 +880,6 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 [data-crm-theme] .divide-white\/5 > * + * { border-color: var(--crm-border) !important; }
 
 /* Sunset accents (subtle gradient surfaces for metric cards) */
-[data-crm-theme="sunset"] .crm-stat-mint { background: linear-gradient(135deg, #ECFDF5, #FFFFFF) !important; }
-[data-crm-theme="sunset"] .crm-stat-amber { background: linear-gradient(135deg, #FFF1D6, #FFFFFF) !important; }
-[data-crm-theme="sunset"] .crm-stat-coral { background: linear-gradient(135deg, #FFE3E3, #FFFFFF) !important; }
 
 /* Service Assistant chat widget */
 .assistant-fab { transition: opacity 0.5s ease, transform 0.25s ease, box-shadow 0.25s ease; }
@@ -3068,3 +3160,237 @@ html.dark [data-chat-scope] [class*="bg-white"] {
 }
 /* Footnote grey lifted from #7A7A7A (3.9:1) to #5A5A5A (7.0:1 on white). */
 html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !important; }
+
+/* ============================================================
+   CEVONS Website Admin — Manifest auth screens (login / reset)
+   ============================================================ */
+.admin-auth-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background:
+    radial-gradient(90% 60% at 50% -10%, var(--panel-2), transparent 70%),
+    var(--ink);
+  color: var(--text);
+  padding: 24px 16px 48px;
+}
+[data-theme="light"].admin-auth-page { background: radial-gradient(90% 60% at 50% -10%, #FFFFFF, transparent 70%), var(--ink); }
+.admin-auth-rule {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--admin-orange);
+}
+.admin-auth-back {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.admin-auth-back:hover { color: var(--emph); }
+.admin-auth-main {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  min-height: calc(100vh - 140px);
+}
+.admin-auth-card {
+  width: min(460px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: var(--crm-card-shadow);
+}
+@media (min-width: 768px) { .admin-auth-card { padding: 40px 36px; } }
+.admin-auth-logo {
+  display: grid;
+  place-items: center;
+  height: 64px;
+  width: 64px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid var(--rule);
+}
+.admin-auth-eyebrow { margin-top: 16px; color: var(--emph); }
+.admin-auth-title { margin-top: 8px; font-size: clamp(21px, 6vw, 28px); overflow-wrap: break-word; font-weight: 800; color: var(--text); }
+.admin-auth-sub { margin-top: 8px; font-size: 14px; color: var(--text-2); }
+.admin-auth-alert {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+.admin-auth-alert-error { background: var(--admin-red); color: #FFFFFF; }
+.admin-auth-alert-ok { background: var(--admin-green); color: #1A1A1A; }
+.admin-auth-label { display: block; margin-bottom: 6px; color: var(--text-2); }
+.admin-auth-icon {
+  pointer-events: none;
+  position: absolute;
+  left: 14px;
+  bottom: 17px;
+  height: 18px;
+  width: 18px;
+  color: var(--text-2);
+}
+.admin-auth-input {
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--rule-strong);
+  color: var(--text);
+  padding: 0 16px 0 44px;
+  font-size: 15px;
+  outline: none;
+}
+.admin-auth-input::placeholder { color: var(--text-2); }
+.admin-auth-input:focus { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 45%, transparent); }
+.admin-auth-eye {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  height: 44px;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--text-2);
+}
+.admin-auth-eye:hover { background: var(--hover); color: var(--text); }
+.admin-auth-remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--text);
+  cursor: pointer;
+}
+.admin-auth-remember input { height: 18px; width: 18px; accent-color: var(--admin-orange); }
+.admin-auth-link {
+  min-height: 44px;
+  padding: 0 6px;
+  font-weight: 600;
+  color: var(--emph);
+}
+.admin-auth-link:hover { text-decoration: underline; }
+.admin-auth-submit {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  width: 100%;
+  border-radius: 12px;
+  background: var(--admin-orange);
+  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 700;
+}
+.admin-auth-submit:hover { filter: brightness(1.05); }
+.admin-auth-submit:disabled { cursor: wait; opacity: 0.9; }
+.admin-auth-foot { margin-top: 18px; text-align: center; font-size: 14px; color: var(--text-2); }
+.admin-auth-legal {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+  color: var(--text-2);
+}
+
+/* ── Admin typography utilities ───────────────────────────────────────── */
+.admin-display {
+  font-family: "Playfair Display", Georgia, serif;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+.admin-mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+/* ── Admin status tape ────────────────────────────────────────────────── */
+.admin-tape {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  padding: 0 16px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--hairline);
+  color: var(--text-2);
+}
+.admin-tape-item { color: var(--text-2); }
+.admin-tape-sep { width: 1px; height: 14px; background: var(--rule); }
+.admin-tape-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  color: var(--text);
+}
+.admin-tape-toggle:hover { background: var(--hover); }
+
+/* Fixed navy tab bar — foreground values are fixed white in BOTH modes. */
+[data-crm-theme] .admin-tabbar {
+  background: #000080 !important;
+  color: #FFFFFF !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* Visible focus rings across the admin */
+[data-crm-theme] a:focus-visible,
+[data-crm-theme] button:focus-visible,
+[data-crm-theme] input:focus-visible,
+[data-crm-theme] select:focus-visible,
+[data-crm-theme] textarea:focus-visible,
+[data-crm-theme] [tabindex]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Tables collapse to stacked labelled rows on small screens */
+@media (max-width: 560px) {
+  [data-crm-theme] table.admin-stack,
+  [data-crm-theme] table.admin-stack tbody,
+  [data-crm-theme] table.admin-stack tr,
+  [data-crm-theme] table.admin-stack td { display: block; width: 100%; }
+  [data-crm-theme] table.admin-stack thead { display: none; }
+  [data-crm-theme] table.admin-stack tr {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+  }
+  [data-crm-theme] table.admin-stack td {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  [data-crm-theme] table.admin-stack td:last-child { border-bottom: 0; }
+  [data-crm-theme] table.admin-stack td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10.5px;
+    color: var(--text-2);
+  }
+}

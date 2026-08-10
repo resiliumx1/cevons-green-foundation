@@ -1,10 +1,10 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
-import logo from "@/assets/cevons-logo.png";
-import bg from "@/assets/cevons-login-bg.jpg";
+import logo from "@/assets/cevons-logo-transparent.png";
 import { supabase } from "@/integrations/supabase/client";
 import { describeAuthError } from "@/lib/adminAuth";
+import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
 
 type LoginSearch = { redirect?: string };
 
@@ -26,6 +26,15 @@ export const Route = createFileRoute("/admin_/login")({
 });
 
 function LoginPage() {
+  return (
+    <CrmThemeProvider>
+      <LoginScreen />
+    </CrmThemeProvider>
+  );
+}
+
+function LoginScreen() {
+  const { theme } = useCrmTheme();
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
   const [showPw, setShowPw] = useState(false);
@@ -99,127 +108,46 @@ function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#020f08] text-white">
-      {/* Background image — softly blurred so the glass card stays the hero */}
-      <div
-        className="absolute inset-0 scale-[1.08] animate-[bgZoom_22s_ease-out_forwards] bg-cover bg-center"
-        style={{ backgroundImage: `url(${bg})`, filter: "blur(6px) saturate(110%) brightness(0.7)" }}
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 42%, rgba(0,46,28,0.35) 0%, rgba(0,18,11,0.85) 65%, rgba(0,10,6,0.97) 100%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
-        style={{
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
-          backgroundSize: "3px 3px",
-        }}
-        aria-hidden
-      />
+    <div data-crm-theme="manifest" data-theme={theme} className="admin-auth-page">
+      {/* Navy field with a single orange rule — no glass, no off-palette green */}
+      <div className="admin-auth-rule" aria-hidden />
 
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
-        style={{ background: "radial-gradient(circle, rgba(0,168,90,0.45), transparent 70%)" }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -left-32 top-1/4 h-[460px] w-[460px] rounded-full opacity-50 blur-[100px]"
-        style={{ background: "radial-gradient(circle, rgba(255,210,0,0.35), transparent 70%)" }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -right-32 bottom-1/4 h-[460px] w-[460px] rounded-full opacity-40 blur-[110px]"
-        style={{ background: "radial-gradient(circle, rgba(227,27,35,0.28), transparent 70%)" }}
-        aria-hidden
-      />
-
-      <Link
-        to="/"
-        className="absolute left-6 top-6 z-10 flex items-center gap-2 text-white/90 transition hover:text-white"
-      >
-        <div className="grid h-9 w-9 place-items-center rounded-lg bg-white shadow-md">
-          <img src={logo} alt="CEVONS" className="h-7 w-7 object-contain" />
-        </div>
-        <span className="hidden text-sm font-semibold tracking-wide sm:block">CEVONS</span>
+      <Link to="/" className="admin-auth-back">
+        <img src={logo} alt="" className="h-7 w-7 object-contain" aria-hidden />
+        <span>Back to cevons.com</span>
       </Link>
 
-      <main className="relative z-10 flex min-h-screen items-center justify-center p-4">
-        <form
-          onSubmit={handleSubmit}
-          className="liquid-glass relative w-[460px] max-w-[92vw] animate-[cardIn_0.9s_cubic-bezier(0.2,0.8,0.2,1)_forwards] p-7 md:p-11"
-        >
-          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[32px]" aria-hidden>
-            <div
-              className="absolute -inset-[1px] rounded-[32px]"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 35%, transparent 55%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.18) 100%)",
-                mixBlendMode: "overlay",
-              }}
-            />
-            <div
-              className="absolute inset-x-8 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent)" }}
-            />
-            <div
-              className="absolute left-0 inset-y-10 w-px"
-              style={{ background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.35), transparent)" }}
-            />
-          </div>
-
+      <main className="admin-auth-main">
+        <form onSubmit={handleSubmit} className="admin-auth-card">
           <div className="flex flex-col items-center text-center">
-            <div className="relative">
-              <div
-                className="absolute inset-0 -m-3 animate-[logoPulse_3s_ease-in-out_infinite] rounded-full blur-xl"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(255,210,0,0.55), rgba(0,168,90,0.3) 60%, transparent 75%)",
-                }}
-                aria-hidden
-              />
-              <div className="relative grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-lg ring-1 ring-white/40">
-                <img src={logo} alt="CEVONS logo" className="h-12 w-12 object-contain" />
-              </div>
+            <div className="admin-auth-logo">
+              <img src={logo} alt="CEVONS logo" className="h-12 w-12 object-contain" />
             </div>
-            <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FFD200]">
-              CEVONS Website Admin
-            </div>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white">Welcome Back</h1>
-            <p className="mt-2 text-sm text-white/75">Log in to access CEVONS Website Admin.</p>
+            <p className="admin-mono admin-auth-eyebrow">Internal Access</p>
+            <h1 className="admin-display admin-auth-title">CEVONS Website Admin</h1>
+            <p className="admin-auth-sub">Sign in to manage the CEVONS website.</p>
           </div>
 
           {error && (
-            <div
-              role="alert"
-              className="mt-5 flex items-start gap-2 rounded-2xl border border-red-400/40 bg-red-500/15 px-4 py-3 text-sm text-red-100"
-            >
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+            <div role="alert" className="admin-auth-alert admin-auth-alert-error">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
               <span>{error}</span>
             </div>
           )}
 
           {notice && (
-            <div
-              role="status"
-              className="mt-5 flex items-start gap-2 rounded-2xl border border-emerald-300/40 bg-emerald-500/15 px-4 py-3 text-sm text-emerald-50"
-            >
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+            <div role="status" className="admin-auth-alert admin-auth-alert-ok">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
               <span>{notice}</span>
             </div>
           )}
 
           <div className="mt-7 space-y-4">
-            <Field delay="0.15s">
-              <label htmlFor="login-email" className="sr-only">
+            <div className="relative">
+              <label htmlFor="login-email" className="admin-mono admin-auth-label">
                 Email address
               </label>
-              <Mail className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/80" />
+              <Mail className="admin-auth-icon" aria-hidden />
               <input
                 id="login-email"
                 type="email"
@@ -227,16 +155,16 @@ function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email address"
-                className="glass-input"
+                placeholder="you@cevons.com"
+                className="admin-auth-input"
               />
-            </Field>
+            </div>
 
-            <Field delay="0.25s">
-              <label htmlFor="login-password" className="sr-only">
+            <div className="relative">
+              <label htmlFor="login-password" className="admin-mono admin-auth-label">
                 Password
               </label>
-              <Lock className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/80" />
+              <Lock className="admin-auth-icon" aria-hidden />
               <input
                 id="login-password"
                 type={showPw ? "text" : "password"}
@@ -244,142 +172,49 @@ function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="glass-input pr-12"
+                placeholder="Your password"
+                className="admin-auth-input pr-14"
               />
               <button
                 type="button"
                 onClick={() => setShowPw((v) => !v)}
                 aria-label={showPw ? "Hide password" : "Show password"}
-                className="absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-white/85 transition hover:bg-white/10 hover:text-white"
+                className="admin-auth-eye"
               >
-                {showPw ? <EyeOff className="h-[18px] w-[18px]" /> : <Eye className="h-[18px] w-[18px]" />}
+                {showPw ? <EyeOff className="h-[18px] w-[18px]" aria-hidden /> : <Eye className="h-[18px] w-[18px]" aria-hidden />}
               </button>
-            </Field>
+            </div>
           </div>
 
-          <div className="mt-5 flex items-center justify-between text-sm opacity-0 animate-[fadeUp_0.6s_ease-out_0.35s_forwards]">
-            <label className="flex cursor-pointer items-center gap-2 select-none text-white/85">
-              <span className="relative grid h-5 w-5 place-items-center">
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                  className="peer absolute inset-0 h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/40 bg-white/10 transition checked:border-[#EF7700] checked:bg-[#EF7700]"
-                />
-                <svg
-                  className="pointer-events-none relative h-3 w-3 scale-0 text-[#FFD200] transition-transform peer-checked:scale-100"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="3,8 7,12 13,4" />
-                </svg>
-              </span>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm">
+            <label className="admin-auth-remember">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
               Remember me
             </label>
-            <button
-              type="button"
-              onClick={handleForgot}
-              disabled={resetting}
-              className="text-white/85 transition hover:text-[#FFD200] disabled:opacity-60"
-            >
+            <button type="button" onClick={handleForgot} disabled={resetting} className="admin-auth-link">
               {resetting ? "Sending…" : "Forgot password?"}
             </button>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="group relative mt-6 flex h-[58px] w-full items-center justify-center gap-2 overflow-hidden rounded-[18px] text-base font-bold text-[#101820] opacity-0 shadow-[0_12px_30px_-8px_rgba(255,210,0,0.55)] transition-all duration-200 animate-[fadeUp_0.6s_ease-out_0.45s_forwards] hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-8px_rgba(255,210,0,0.65)] active:translate-y-0 disabled:cursor-wait disabled:opacity-90"
-            style={{ background: "linear-gradient(90deg, #FFD200 0%, #EF7700 70%, #EF7700 100%)" }}
-          >
+          <button type="submit" disabled={loading} className="admin-auth-submit">
             {loading ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin text-white" />
-                <span className="text-white">Signing in...</span>
+                <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+                <span>Signing in…</span>
               </>
             ) : (
-              "Log In"
+              "Log in"
             )}
           </button>
 
-          <p className="mt-5 text-center text-sm text-white/80 opacity-0 animate-[fadeUp_0.6s_ease-out_0.55s_forwards]">
-            Need access? Contact your administrator.
-          </p>
-
-          <p className="mt-6 border-t border-white/10 pt-4 text-center text-[11px] uppercase tracking-wider text-white/55">
-            Secure internal access for CEVONS team members
-          </p>
+          <p className="admin-auth-foot">Need access? Contact your administrator.</p>
+          <p className="admin-mono admin-auth-legal">Secure internal access for CEVONS team members</p>
         </form>
       </main>
-
-      <style>{`
-        @keyframes bgZoom { from { transform: scale(1.03); } to { transform: scale(1); } }
-        @keyframes cardIn {
-          0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
-          100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-        @keyframes fadeUp {
-          0% { opacity: 0; transform: translateY(8px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes logoPulse {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.08); }
-        }
-        .liquid-glass {
-          position: relative;
-          background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06) 55%, rgba(255,255,255,0.10));
-          backdrop-filter: blur(40px) saturate(180%);
-          -webkit-backdrop-filter: blur(40px) saturate(180%);
-          border: 1px solid rgba(255,255,255,0.22);
-          border-radius: 32px;
-          box-shadow:
-            0 40px 120px -20px rgba(0,0,0,0.55),
-            0 0 0 1px rgba(255,255,255,0.06),
-            0 0 60px -10px rgba(0,168,90,0.25),
-            inset 0 1px 0 rgba(255,255,255,0.5),
-            inset 0 -1px 0 rgba(255,255,255,0.08),
-            inset 0 0 40px rgba(255,255,255,0.04);
-        }
-        .glass-input {
-          width: 100%;
-          height: 56px;
-          border-radius: 18px;
-          background: rgba(255,255,255,0.10);
-          border: 1px solid rgba(255,255,255,0.25);
-          color: #fff;
-          padding-left: 48px;
-          padding-right: 16px;
-          font-size: 15px;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.15);
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-          outline: none;
-        }
-        .glass-input::placeholder { color: rgba(255,255,255,0.7); }
-        .glass-input:focus {
-          border-color: rgba(0,168,90,0.85);
-          background: rgba(255,255,255,0.16);
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.3),
-            0 0 0 3px rgba(255,210,0,0.25),
-            0 0 28px rgba(0,168,90,0.3);
-        }
-      `}</style>
-    </div>
-  );
-}
-
-function Field({ children, delay }: { children: React.ReactNode; delay: string }) {
-  return (
-    <div className="relative opacity-0" style={{ animation: `fadeUp 0.6s ease-out ${delay} forwards` }}>
-      {children}
     </div>
   );
 }
