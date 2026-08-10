@@ -32,6 +32,7 @@ import { getServicesForSection, type Service } from "@/data/services";
 const heroServices = "/assets/heroes/hero-services.webp";
 
 import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { useSectionPayload, type PageIntroPayload, type CtaBannerPayload } from "@/lib/pageSections";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
@@ -229,10 +230,10 @@ function ServicesPage() {
             </ol>
           </nav>
           <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
-            Our Services
+            {intro?.title || "Our Services"}
           </h1>
           <p className="mt-4 text-white/85 text-base md:text-xl max-w-2xl">
-            Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana.
+            {intro?.subtitle || "Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana."}
           </p>
         </div>
         <WaveHalftoneDivider height={56} underFill="#FFFFFF" />
@@ -450,8 +451,8 @@ function ServicesPage() {
       {/* "Not Sure" CTA */}
       <OrangeCTABanner
         icon={Compass}
-        title="Not Sure Which Service Fits Your Request?"
-        subtitle="Tell us what you need and our team will guide you to the right service quickly and clearly."
+        title={ctaCopy?.title || "Not Sure Which Service Fits Your Request?"}
+        subtitle={ctaCopy?.subtitle || "Tell us what you need and our team will guide you to the right service quickly and clearly."}
       >
         <Link to="/request-service" className="cta-btn-primary">
           <ClipboardList className="size-5" /> Request a Service
