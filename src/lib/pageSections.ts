@@ -115,7 +115,7 @@ export const SECTION_KINDS: KindDef[] = [
     kind: "hero_copy",
     label: "Homepage hero copy",
     maps: "src/components/home/HomeHero.tsx",
-    page: "home",
+    pages: ["home"],
     schema: heroCopy,
     fields: [
       { key: "lineA", label: "Headline line 1", type: "text" },
@@ -130,7 +130,7 @@ export const SECTION_KINDS: KindDef[] = [
     kind: "pillars",
     label: "Core service pillars",
     maps: "Core service pillars grid in src/routes/index.tsx",
-    page: "home",
+    pages: ["home"],
     schema: pillars,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
@@ -153,7 +153,7 @@ export const SECTION_KINDS: KindDef[] = [
     kind: "stats",
     label: "Impact stats band",
     maps: "Impact stats band in src/routes/index.tsx",
-    page: "home",
+    pages: ["home"],
     schema: stats,
     fields: [
       {
@@ -173,7 +173,7 @@ export const SECTION_KINDS: KindDef[] = [
     kind: "process_heading",
     label: "Six-step process heading",
     maps: "src/components/home/ProcessSteps.tsx heading",
-    page: "home",
+    pages: ["home"],
     schema: processHeading,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
@@ -184,7 +184,7 @@ export const SECTION_KINDS: KindDef[] = [
     kind: "cta_banner",
     label: "Closing call-to-action banner",
     maps: "src/components/cta/OrangeCTABanner.tsx",
-    page: "home",
+    pages: ["home", "about", "contact", "services"],
     schema: ctaBanner,
     fields: [
       { key: "eyebrow", label: "Eyebrow", type: "text" },
@@ -199,7 +199,31 @@ export const SECTION_KINDS: KindDef[] = [
   },
 ];
 
-export const EDITABLE_PAGES = [{ value: "home", label: "Homepage" }] as const;
+/**
+ * Page-intro copy for the four non-home pages that render a hero with an
+ * eyebrow, heading and standfirst today. Every one of these maps to a
+ * component that already exists; nothing here invents a new section.
+ */
+SECTION_KINDS.push({
+  kind: "page_intro",
+  label: "Page intro (eyebrow, heading, standfirst)",
+  maps: "PageHero / page hero heading block",
+  pages: ["about", "careers", "contact", "services"],
+  schema: pageIntro,
+  fields: [
+    { key: "eyebrow", label: "Eyebrow", type: "text" },
+    { key: "title", label: "Heading", type: "text" },
+    { key: "subtitle", label: "Standfirst", type: "textarea" },
+  ],
+});
+
+export const EDITABLE_PAGES = [
+  { value: "home", label: "Homepage" },
+  { value: "about", label: "About" },
+  { value: "services", label: "Services overview" },
+  { value: "careers", label: "Careers" },
+  { value: "contact", label: "Contact" },
+] as const;
 
 export function kindDef(kind: string): KindDef | undefined {
   return SECTION_KINDS.find((k) => k.kind === kind);
