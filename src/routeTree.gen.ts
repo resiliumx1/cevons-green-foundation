@@ -61,6 +61,7 @@ import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminImagesRouteImport } from './routes/admin.images'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
@@ -338,6 +339,11 @@ const AdminLeadsRoute = AdminLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminImagesRoute = AdminImagesRouteImport.update({
+  id: '/images',
+  path: '/images',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -369,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -482,6 +490,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/images': typeof AdminImagesRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -541,6 +550,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
+    | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/pages'
@@ -596,6 +606,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
+    | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/pages'
@@ -653,6 +664,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track-request'
     | '/admin/audit'
+    | '/admin/images'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/pages'
@@ -1087,6 +1099,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLeadsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/images': {
+      id: '/admin/images'
+      path: '/images'
+      fullPath: '/admin/images'
+      preLoaderRoute: typeof AdminImagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/audit': {
       id: '/admin/audit'
       path: '/audit'
@@ -1125,6 +1144,7 @@ const AdminLeadsRouteWithChildren = AdminLeadsRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
+  AdminImagesRoute: typeof AdminImagesRoute
   AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
   AdminMediaRoute: typeof AdminMediaRoute
   AdminPagesRoute: typeof AdminPagesRoute
@@ -1137,6 +1157,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
+  AdminImagesRoute: AdminImagesRoute,
   AdminLeadsRoute: AdminLeadsRouteWithChildren,
   AdminMediaRoute: AdminMediaRoute,
   AdminPagesRoute: AdminPagesRoute,
