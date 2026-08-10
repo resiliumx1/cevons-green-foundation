@@ -71,18 +71,27 @@ const ctaBanner = z.object({
   palette: z.enum(APPROVED_PALETTES).default("navy"),
 });
 
+const pageIntro = z.object({
+  eyebrow: z.string().default(""),
+  title: z.string().default(""),
+  subtitle: z.string().default(""),
+});
+
 export type HeroCopyPayload = z.infer<typeof heroCopy>;
 export type PillarsPayload = z.infer<typeof pillars>;
 export type StatsPayload = z.infer<typeof stats>;
 export type ProcessHeadingPayload = z.infer<typeof processHeading>;
 export type CtaBannerPayload = z.infer<typeof ctaBanner>;
+export type PageIntroPayload = z.infer<typeof pageIntro>;
 
 export type SectionKind =
   | "hero_copy"
   | "pillars"
   | "stats"
   | "process_heading"
-  | "cta_banner";
+  | "cta_banner"
+  | "page_intro";
+
 
 export type Field =
   | { key: string; label: string; type: "text" | "textarea" | "image" | "href" }
