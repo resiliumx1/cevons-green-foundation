@@ -8,6 +8,8 @@ import {
   EyeOff,
   History,
   Loader2,
+  Pencil,
+
   Plus,
   RotateCcw,
   Save,
@@ -15,6 +17,8 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
+import { createPreviewToken } from "@/lib/content.functions";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
@@ -366,6 +370,8 @@ function PagesEditor() {
           <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
             <Eye className="size-4" aria-hidden /> Preview draft
           </a>
+          <EditCopyButton page={page} />
+
         </div>
       </header>
 
@@ -444,6 +450,46 @@ function PagesEditor() {
   );
 }
 
+/* ── Click-to-edit launcher ──────────────────────────────────────────────── */
+
+/** Public path each editable page lives at. */
+const PAGE_PATHS: Record<string, string> = {
+  home: "/",
+  about: "/about",
+  services: "/services",
+  careers: "/careers",
+  contact: "/contact",
+};
+
+/**
+ * Opens the real public page in a staff preview session. The token is minted
+ * server-side for the signed-in user and expires in an hour; the overlay that
+ * appears there is what actually edits copy.
+ */
+function EditCopyButton({ page }: { page: string }) {
+  const mint = useServerFn(createPreviewToken);
+  const [busy, setBusy] = useState(false);
+
+  const open = async () => {
+    setBusy(true);
+    try {
+      const { token } = await mint({});
+      const path = PAGE_PATHS[page] ?? "/";
+      window.open(`${path}?preview=${encodeURIComponent(token)}`, "_blank", "noopener");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start the preview session");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <button type="button" onClick={() => void open()} disabled={busy} className="admin-link-btn">
+      <Pencil className="size-4" aria-hidden /> {busy ? "Opening…" : "Edit copy on page"}
+    </button>
+  );
+}
+
 /* ── Content strings (read-only inventory) ───────────────────────────────── */
 
 type ContentStringRow = {
@@ -488,7 +534,7 @@ function ContentStringsList() {
         Content strings
       </h2>
       <p className="mt-1 text-[13px]" style={{ color: "var(--crm-text-muted)" }}>
-        Individual pieces of copy on the public site, addressed by key. Read-only for now.
+        Individual pieces of copy on the public site, addressed by key. Use “Edit copy on page” above to change any of them directly on the page.
       </p>
 
       {isLoading && (
