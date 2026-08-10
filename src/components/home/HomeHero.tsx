@@ -39,6 +39,9 @@ export function HomeHero() {
       <HeroSlideshowBackground />
       {/* Slide indicators + progress */}
       <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-6" />
+      {/* CRM-managed slide text (renders nothing for the static fallback slides) */}
+      <HeroSlideCaption className="absolute right-6 bottom-16 z-30 hidden md:block" />
+
 
 
 
