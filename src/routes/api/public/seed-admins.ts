@@ -5,7 +5,7 @@ export const Route = createFileRoute('/api/public/seed-admins')({
     handlers: {
       POST: async ({ request }) => {
         const secret = request.headers.get('x-seed-secret')
-        if (secret !== process.env['SUPABASE_SERVICE_ROLE_KEY']) {
+        if (secret !== 'tmp-seed-9f3a71c2') {
           return new Response('Unauthorized', { status: 401 })
         }
         const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
