@@ -98,6 +98,8 @@ const operationsImages = [
 
 
 function AboutPage() {
+  const intro = useSectionPayload<PageIntroPayload>("about", "page_intro");
+  const ctaCopy = useSectionPayload<CtaBannerPayload>("about", "cta_banner");
   const hero = useSiteImage("about_hero", heroAbout, "CEVONS front-office team supporting a customer inquiry at the Georgetown office");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);

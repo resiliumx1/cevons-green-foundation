@@ -188,6 +188,8 @@ function ServiceCard({
 
 
 function ServicesPage() {
+  const intro = useSectionPayload<PageIntroPayload>("services", "page_intro");
+  const ctaCopy = useSectionPayload<CtaBannerPayload>("services", "cta_banner");
   const t = useT();
   const [active, setActive] = useState<FilterKey>("all");
   const [openFaq, setOpenFaq] = useState<number | null>(0);

@@ -147,6 +147,7 @@ function scrollToOpenPositions(e: React.MouseEvent) {
 }
 
 function CareersPage() {
+  const intro = useSectionPayload<PageIntroPayload>("careers", "page_intro");
   const hero = useSiteImage("careers_hero", heroCareers, "CEVONS team members reviewing service offerings during a boardroom presentation");
   return (
     <SiteLayout>
