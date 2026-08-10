@@ -93,8 +93,6 @@ export function NotFoundPage() {
             </div>
           </Reveal>
         </div>
-
-        <div aria-hidden="true" className="brand-ribbon" />
       </section>
 
       {/* HELPFUL LINKS */}
