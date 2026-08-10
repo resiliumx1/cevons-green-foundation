@@ -270,9 +270,9 @@ export function HeroSlideshowBackground() {
           willChange: reduced ? undefined : "transform",
         }}
       >
-        {SLIDES.map((s, i) => {
+        {slides.map((s, i) => {
           const isActive = i === active;
-          const isLoaded = loaded[i];
+          const isLoaded = !!loaded[s.src];
           const shouldLoad = eager.has(i);
           // Slide 0 is preloaded + eager — don't gate its opacity on the
           // React onLoad event, which can fire after the image is already
@@ -283,6 +283,7 @@ export function HeroSlideshowBackground() {
           // (scale 1.08 → 1). Kenburns on the inner <img> starts at scale(1),
           // so the handoff is seamless.
           const settleKey = isActive ? `active-${active}` : `idle-${i}`;
+          const animate = isActive && isLoaded && !reduced;
           return (
             <div
               key={s.src}
@@ -297,28 +298,60 @@ export function HeroSlideshowBackground() {
               {shouldLoad && (
                 <div
                   key={settleKey}
-                  className={isActive && isLoaded && !reduced ? "size-full hero-slide-settle" : "size-full"}
+                  className={animate && !s.portrait ? "size-full hero-slide-settle" : "size-full"}
                 >
-                  <img
-                    ref={(el) => { imgRefs.current[i] = el; }}
-                    src={s.src}
-                    alt={s.alt}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding={i === 0 ? "sync" : "async"}
-                    {...(i === 0 ? { fetchPriority: "high" as const } : {})}
-                    width={1920}
-                    height={1080}
-                    onLoad={() => markLoaded(i)}
-                    onError={() => markLoaded(i)}
-                    className={`hero-slide-img size-full object-cover ${isActive && isLoaded && !reduced ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
-                    data-slide={i}
-                    style={{ objectPosition: s.position }}
-                  />
+                  {s.portrait ? (
+                    // Portrait upload: never cover-crop (that decapitates the
+                    // subject). Contain it, centred, over a blurred copy of
+                    // the same image filling the space either side.
+                    <div className="relative size-full overflow-hidden">
+                      <img
+                        src={s.src}
+                        alt=""
+                        aria-hidden
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 size-full object-cover"
+                        style={{ filter: "blur(28px) saturate(1.1)", transform: "scale(1.15)" }}
+                      />
+                      <img
+                        ref={(el) => { imgRefs.current[i] = el; }}
+                        src={s.src}
+                        alt={s.alt}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding={i === 0 ? "sync" : "async"}
+                        {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                        width={s.width}
+                        height={s.height}
+                        onLoad={() => markLoaded(s.src)}
+                        onError={() => markLoaded(s.src)}
+                        className="relative size-full object-contain"
+                        data-slide={i}
+                      />
+                    </div>
+                  ) : (
+                    <img
+                      ref={(el) => { imgRefs.current[i] = el; }}
+                      src={s.src}
+                      alt={s.alt}
+                      loading={i === 0 ? "eager" : "lazy"}
+                      decoding={i === 0 ? "sync" : "async"}
+                      {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                      width={s.width}
+                      height={s.height}
+                      onLoad={() => markLoaded(s.src)}
+                      onError={() => markLoaded(s.src)}
+                      className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+                      data-slide={i}
+                      style={{ objectPosition: s.position }}
+                    />
+                  )}
                 </div>
               )}
             </div>
           );
         })}
+
       </div>
 
       <div
