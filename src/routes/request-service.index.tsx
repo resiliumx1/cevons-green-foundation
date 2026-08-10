@@ -524,7 +524,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
             >
               <div
                 className={cn(
-                  "relative h-14 w-14 shrink-0 rounded-2xl overflow-hidden bg-[#101820] shadow-sm transition-transform group-hover:scale-[1.04]",
+                  "icon-tile relative h-14 w-14 shrink-0 rounded-2xl overflow-hidden",
                   active
                     ? "ring-2 ring-[var(--brand-orange)] ring-offset-2 ring-offset-card"
                     : "ring-1 ring-black/5",
