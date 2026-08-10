@@ -852,7 +852,14 @@ export type Database = {
       submit_service_request: { Args: { payload: Json }; Returns: string }
     }
     Enums: {
-      app_role: "admin" | "staff" | "user"
+      app_role:
+        | "admin"
+        | "staff"
+        | "user"
+        | "owner"
+        | "editor"
+        | "contributor"
+        | "viewer"
       notification_type: "lead" | "review" | "message" | "campaign" | "system"
     }
     CompositeTypes: {
@@ -981,7 +988,15 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "staff", "user"],
+      app_role: [
+        "admin",
+        "staff",
+        "user",
+        "owner",
+        "editor",
+        "contributor",
+        "viewer",
+      ],
       notification_type: ["lead", "review", "message", "campaign", "system"],
     },
   },
