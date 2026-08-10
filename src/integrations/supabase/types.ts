@@ -869,6 +869,7 @@ export type Database = {
         }
         Returns: undefined
       }
+      can_publish: { Args: { _user_id: string }; Returns: boolean }
       claim_invitation: {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
