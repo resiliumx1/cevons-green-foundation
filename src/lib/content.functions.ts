@@ -11,7 +11,25 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  */
 
 export type ContentMap = Record<string, string>;
-export type PageContent = { preview: boolean; strings: ContentMap };
+
+/** Editing metadata. Only ever sent to a verified staff preview session. */
+export type ContentMeta = {
+  label: string;
+  section: string;
+  maxLength: number | null;
+  multiline: boolean;
+  published: string | null;
+  draft: string | null;
+};
+
+export type PageContent = {
+  preview: boolean;
+  strings: ContentMap;
+  /** Present in preview mode only. */
+  meta?: Record<string, ContentMeta>;
+  /** Present in preview mode only — drives the Publish button. */
+  canPublish?: boolean;
+};
 
 export const getPageContent = createServerFn({ method: "GET" })
   .inputValidator((data: { page: string; token?: string | null }) => ({
@@ -31,15 +49,27 @@ export const getPageContent = createServerFn({ method: "GET" })
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data: rows, error } = await supabaseAdmin
           .from("content_strings")
-          .select("key, published_value, draft_value")
+          .select("key, section, label, published_value, draft_value, max_length, multiline")
           .eq("page", data.page);
         if (error) return empty;
+
         const strings: ContentMap = {};
+        const meta: Record<string, ContentMeta> = {};
         for (const r of rows ?? []) {
           const v = r.draft_value ?? r.published_value;
           if (typeof v === "string" && v.length > 0) strings[r.key] = v;
+          meta[r.key] = {
+            label: r.label,
+            section: r.section,
+            maxLength: r.max_length,
+            multiline: !!r.multiline,
+            published: r.published_value,
+            draft: r.draft_value,
+          };
         }
-        return { preview: true, strings };
+
+        const { data: mayPublish } = await supabaseAdmin.rpc("can_publish", { _user_id: previewUser });
+        return { preview: true, strings, meta, canPublish: mayPublish === true };
       }
 
       // Public read. Goes through the published-only view; anon has no access
@@ -75,4 +105,72 @@ export const createPreviewToken = createServerFn({ method: "POST" })
     if (error || data !== true) throw new Error("Staff access required");
     const { mintPreviewToken } = await import("@/lib/contentPreview.server");
     return { token: await mintPreviewToken(context.userId) };
+  });
+
+/* ── Click-to-edit writes ────────────────────────────────────────────────── */
+
+export type SavedString = {
+  key: string;
+  published: string | null;
+  draft: string | null;
+};
+
+/**
+ * Every write below goes through `context.supabase`, i.e. the caller's own
+ * session with RLS applied: only `is_staff` may update a row at all, and the
+ * `tg_content_strings_guard` trigger rejects a `published_value` change from
+ * anyone without `can_publish`. The UI hides the Publish button for
+ * contributors, but the database is what actually enforces it.
+ */
+
+const validateKeyValue = (data: { key: string; value: string }) => ({
+  key: String(data?.key ?? ""),
+  value: String(data?.value ?? ""),
+});
+
+export const saveContentDraft = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(validateKeyValue)
+  .handler(async ({ data, context }): Promise<SavedString> => {
+    if (!data.key) throw new Error("Missing content key");
+    const { data: row, error } = await context.supabase
+      .from("content_strings")
+      .update({ draft_value: data.value })
+      .eq("key", data.key)
+      .select("key, published_value, draft_value")
+      .single();
+    if (error) throw new Error(error.message);
+    return { key: row.key, published: row.published_value, draft: row.draft_value };
+  });
+
+/** Publishes the current draft (or an explicit value) and clears the draft. */
+export const publishContentString = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(validateKeyValue)
+  .handler(async ({ data, context }): Promise<SavedString> => {
+    if (!data.key) throw new Error("Missing content key");
+    const { data: row, error } = await context.supabase
+      .from("content_strings")
+      .update({ published_value: data.value, draft_value: null })
+      .eq("key", data.key)
+      .select("key, published_value, draft_value")
+      .single();
+    if (error) throw new Error(error.message);
+    return { key: row.key, published: row.published_value, draft: row.draft_value };
+  });
+
+/** Throws the draft away and goes back to what the public site is showing. */
+export const discardContentDraft = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { key: string }) => ({ key: String(data?.key ?? "") }))
+  .handler(async ({ data, context }): Promise<SavedString> => {
+    if (!data.key) throw new Error("Missing content key");
+    const { data: row, error } = await context.supabase
+      .from("content_strings")
+      .update({ draft_value: null })
+      .eq("key", data.key)
+      .select("key, published_value, draft_value")
+      .single();
+    if (error) throw new Error(error.message);
+    return { key: row.key, published: row.published_value, draft: row.draft_value };
   });
