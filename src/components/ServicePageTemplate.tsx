@@ -18,6 +18,7 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { BrandedVideo } from "@/components/media/BrandedVideo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { PromoSlot } from "@/components/promo/PromoSlot";
 import { trackCtaClick } from "@/lib/analytics";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
 import {
