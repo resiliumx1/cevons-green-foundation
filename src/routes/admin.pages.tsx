@@ -53,6 +53,9 @@ export const Route = createFileRoute("/admin/pages")({
   component: PagesEditor,
 });
 
+/** jsonb columns are typed as `Json` by the generated types; our payloads are plain objects. */
+const asJson = (v: Record<string, unknown>) => v as never;
+
 type Row = PageSection & { draft_payload: Record<string, unknown>; payload: Record<string, unknown> };
 
 const surface = { background: "var(--crm-surface)", borderColor: "var(--crm-border)" } as const;
@@ -293,7 +296,7 @@ function PagesEditor() {
       kind,
       position: rows.length,
       payload: {},
-      draft_payload: seed,
+      draft_payload: asJson(seed),
       published: false,
       updated_by: userId,
     });
@@ -480,7 +483,7 @@ function SectionCard({
     setBusy(true);
     const { error } = await supabase
       .from("page_sections")
-      .update({ draft_payload: draft, updated_by: userId })
+      .update({ draft_payload: asJson(draft), updated_by: userId })
       .eq("id", row.id);
     setBusy(false);
     if (error) {
@@ -495,7 +498,7 @@ function SectionCard({
     setBusy(true);
     const { error } = await supabase
       .from("page_sections")
-      .update({ draft_payload: draft, payload: draft, published: true, updated_by: userId })
+      .update({ draft_payload: asJson(draft), payload: asJson(draft), published: true, updated_by: userId })
       .eq("id", row.id);
     setBusy(false);
     if (error) {
@@ -654,7 +657,7 @@ function VersionHistory({
   async function restore(v: Version) {
     const { error } = await supabase
       .from("page_sections")
-      .update({ draft_payload: v.payload, payload: v.payload })
+      .update({ draft_payload: asJson(v.payload), payload: asJson(v.payload) })
       .eq("id", row.id);
     if (error) {
       toast.error(error.message);
