@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls, HeroSlideCaption } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
+import { Editable, useEditableText } from "@/components/Editable";
+
 
 
 
@@ -33,6 +35,14 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
     const v = content?.[key];
     return v && v.trim() ? v : fallback;
   };
+  // Highlight word is used twice (aria-label + text), so resolve it as a string.
+  const lineB1 = useEditableText("home.hero.lineB1", c("lineB1", t("home.hero.lineB1")));
+  const trust = [
+    { Icon: CheckCircle2, id: "home.hero.trust.reliable", label: t("home.hero.trust.reliable") },
+    { Icon: ShieldCheck, id: "home.hero.trust.safe", label: t("home.hero.trust.safe") },
+    { Icon: Leaf, id: "home.hero.trust.sustainable", label: t("home.hero.trust.sustainable") },
+  ];
+
 
 
   return (
@@ -75,13 +85,18 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
 
           >
-            <span className="hero-heading-line">{c("lineA", t("home.hero.lineA"))}</span>
+            <Editable id="home.hero.lineA" label="Hero headline line 1" as="span" className="hero-heading-line">
+              {c("lineA", t("home.hero.lineA"))}
+            </Editable>
             <span className="hero-heading-line">
-              <span className="eco-word growth-flow" aria-label={c("lineB1", t("home.hero.lineB1"))}>
-                {c("lineB1", t("home.hero.lineB1"))}
+              <span className="eco-word growth-flow" aria-label={lineB1}>
+                {lineB1}
               </span>{" "}
-              {c("lineB2", t("home.hero.lineB2"))}
+              <Editable id="home.hero.lineB2" label="Hero headline line 2 remainder" as="span">
+                {c("lineB2", t("home.hero.lineB2"))}
+              </Editable>
             </span>
+
           </motion.h1>
 
 
@@ -92,9 +107,15 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             custom={2}
             className="hero-subhead-pro mt-2"
           >
-            <span className="for-amber">{t("home.hero.subFor")}</span>{" "}
-            <span className="for-amber">{t("home.hero.subForB")}</span>{" "}
-            <span className="for-guyana">{t("home.hero.subForC")}</span>
+            <Editable id="home.hero.subFor" label="Hero subhead part 1" as="span" className="for-amber">
+              {t("home.hero.subFor")}
+            </Editable>{" "}
+            <Editable id="home.hero.subForB" label="Hero subhead part 2" as="span" className="for-amber">
+              {t("home.hero.subForB")}
+            </Editable>{" "}
+            <Editable id="home.hero.subForC" label="Hero subhead part 3" as="span" className="for-guyana">
+              {t("home.hero.subForC")}
+            </Editable>
           </motion.p>
 
           <motion.p
@@ -104,7 +125,10 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             custom={3}
             className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
           >
-            {c("lead", t("home.hero.lead"))}{" "}
+            <Editable id="home.hero.lead" label="Hero paragraph" as="span">
+              {c("lead", t("home.hero.lead"))}
+            </Editable>{" "}
+
             <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
           </motion.p>
 
@@ -142,14 +166,13 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             className="mt-3 md:mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"
             aria-label="Service guarantees"
           >
-            {[
-              { Icon: CheckCircle2, label: t("home.hero.trust.reliable") },
-              { Icon: ShieldCheck, label: t("home.hero.trust.safe") },
-              { Icon: Leaf, label: t("home.hero.trust.sustainable") },
-            ].map(({ Icon, label }, i, arr) => (
-              <li key={label} className="flex items-center gap-2">
+            {trust.map(({ Icon, id, label }, i, arr) => (
+              <li key={id} className="flex items-center gap-2">
                 <Icon className="size-4" style={{ color: "var(--brand-orange)" }} aria-hidden="true" />
-                <span className="font-medium">{label}</span>
+                <Editable id={id} label="Trust label" as="span" className="font-medium">
+                  {label}
+                </Editable>
+
                 {i < arr.length - 1 && (
                   <span aria-hidden="true" className="ml-3 h-3 w-px bg-white/25" />
                 )}
