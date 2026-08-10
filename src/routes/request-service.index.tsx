@@ -19,6 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
+import { PromoSlot } from "@/components/promo/PromoSlot";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 
@@ -388,6 +389,7 @@ function RequestServicePage() {
 
       <section className="container mx-auto px-4 py-6 md:py-8">
         <div ref={wizardRef} className="max-w-3xl mx-auto min-w-0 scroll-mt-24">
+          <PromoSlot placement="wizard_step" className="mb-4" />
           {/* SR-only live region announces the new step to assistive tech. */}
           <div className="sr-only" role="status" aria-live="polite">
             {`Step ${step + 1} of ${STEPS.length}, ${STEPS[step]}`}
