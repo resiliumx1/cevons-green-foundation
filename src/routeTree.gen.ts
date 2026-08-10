@@ -49,6 +49,7 @@ import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/servi
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
 import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
@@ -275,6 +276,11 @@ const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
   path: '/dev/motion-debug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/admin_/reset-password',
+  path: '/admin/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin_/login',
   path: '/admin/login',
@@ -360,6 +366,7 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -412,6 +419,7 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -467,6 +475,7 @@ export interface FileRoutesById {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin_/login': typeof AdminLoginRoute
+  '/admin_/reset-password': typeof AdminResetPasswordRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -523,6 +532,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/login'
+    | '/admin/reset-password'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -575,6 +585,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/login'
+    | '/admin/reset-password'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -629,6 +640,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin_/login'
+    | '/admin_/reset-password'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -674,6 +686,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   DevMotionDebugRoute: typeof DevMotionDebugRoute
   DevServiceActionButtonRoute: typeof DevServiceActionButtonRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
@@ -962,6 +975,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevMotionDebugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/reset-password': {
+      id: '/admin_/reset-password'
+      path: '/admin/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/login': {
       id: '/admin_/login'
       path: '/admin/login'
@@ -1161,6 +1181,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminResetPasswordRoute: AdminResetPasswordRoute,
   DevMotionDebugRoute: DevMotionDebugRoute,
   DevServiceActionButtonRoute: DevServiceActionButtonRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,
