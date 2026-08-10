@@ -2,7 +2,7 @@ import { Calendar, ShieldCheck, Leaf, CheckCircle2 } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls } from "@/components/home/HeroSlideshow";
+import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls, HeroSlideCaption } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
 
 
@@ -39,6 +39,9 @@ export function HomeHero() {
       <HeroSlideshowBackground />
       {/* Slide indicators + progress */}
       <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-6" />
+      {/* CRM-managed slide text (renders nothing for the static fallback slides) */}
+      <HeroSlideCaption className="absolute right-6 bottom-16 z-30 hidden md:block" />
+
 
 
 

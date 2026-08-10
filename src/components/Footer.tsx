@@ -124,6 +124,8 @@ export function Footer() {
     { label: t("footer.companyList.careers"), to: "/careers" },
     { label: t("footer.companyList.locations"), to: "/locations" },
     { label: t("footer.companyList.environment"), to: "/resources" },
+    { label: "News & Media", to: "/news-media" },
+
     { label: t("footer.companyList.contact"), to: "/contact" },
   ];
 

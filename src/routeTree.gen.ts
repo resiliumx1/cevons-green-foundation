@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as NewsMediaRouteImport } from './routes/news-media'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -88,6 +89,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsMediaRoute = NewsMediaRouteImport.update({
+  id: '/news-media',
+  path: '/news-media',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -362,6 +368,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/news-media': typeof NewsMediaRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -418,6 +425,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/news-media': typeof NewsMediaRoute
   '/resources': typeof ResourcesRoute
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -475,6 +483,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
+  '/news-media': typeof NewsMediaRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -534,6 +543,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/locations'
+    | '/news-media'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -590,6 +600,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/locations'
+    | '/news-media'
     | '/resources'
     | '/sitemap'
     | '/sitemap.xml'
@@ -646,6 +657,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/industries'
     | '/locations'
+    | '/news-media'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -704,6 +716,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
+  NewsMediaRoute: typeof NewsMediaRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapRoute: typeof SitemapRoute
@@ -754,6 +767,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-media': {
+      id: '/news-media'
+      path: '/news-media'
+      fullPath: '/news-media'
+      preLoaderRoute: typeof NewsMediaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -1215,6 +1235,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
+  NewsMediaRoute: NewsMediaRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapRoute: SitemapRoute,
