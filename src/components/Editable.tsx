@@ -1,5 +1,16 @@
-import { createContext, createElement, useContext, type ElementType, type ReactNode } from "react";
-import type { PageContent } from "@/lib/content.functions";
+import {
+  createContext,
+  createElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ElementType,
+  type ReactNode,
+} from "react";
+import type { PageContent, SavedString } from "@/lib/content.functions";
+import { ContentEditorOverlay } from "@/components/content/ContentEditorOverlay";
 
 /**
  * Editable copy.
@@ -34,7 +45,45 @@ export function ContentProvider({
   value: PageContent | undefined | null;
   children: ReactNode;
 }) {
-  return <ContentContext.Provider value={value ?? EMPTY}>{children}</ContentContext.Provider>;
+  const base = value ?? EMPTY;
+
+  // Live edits made through the click-to-edit overlay. They are layered on top
+  // of the loader data so the page updates the moment a draft is saved,
+  // without a reload and without a refetch.
+  const [edits, setEdits] = useState<Record<string, SavedString>>({});
+  useEffect(() => setEdits({}), [value]);
+
+  const merged = useMemo<PageContent>(() => {
+    if (!base.preview || Object.keys(edits).length === 0) return base;
+
+    const strings = { ...base.strings };
+    const meta = { ...(base.meta ?? {}) };
+    for (const [key, row] of Object.entries(edits)) {
+      const resolved = row.draft ?? row.published;
+      if (typeof resolved === "string" && resolved.length > 0) strings[key] = resolved;
+      else delete strings[key];
+      const m = meta[key];
+      if (m) meta[key] = { ...m, draft: row.draft, published: row.published };
+    }
+    return { ...base, strings, meta };
+  }, [base, edits]);
+
+  const onSaved = useCallback((row: SavedString) => {
+    setEdits((prev) => ({ ...prev, [row.key]: row }));
+  }, []);
+
+  return (
+    <ContentContext.Provider value={merged}>
+      {children}
+      {merged.preview && merged.meta && (
+        <ContentEditorOverlay
+          meta={merged.meta}
+          canPublish={merged.canPublish === true}
+          onSaved={onSaved}
+        />
+      )}
+    </ContentContext.Provider>
+  );
 }
 
 export function usePageContent(): PageContent {
