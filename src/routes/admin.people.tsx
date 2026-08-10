@@ -354,24 +354,20 @@ function PendingInvites() {
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not revoke."),
   });
 
+  const resendFn = useServerFn(resendAdminInvite);
+
   const resend = useMutation({
-    mutationFn: async (inv: { id: string; email: string }) => {
-      const { error } = await supabase
-        .from("invitations")
-        .update({ expires_at: new Date(Date.now() + 7 * 86400000).toISOString() })
-        .eq("id", inv.id);
-      if (error) throw error;
-      const { error: mailError } = await supabase.auth.resetPasswordForEmail(inv.email, {
-        redirectTo: `${window.location.origin}/admin/reset-password`,
-      });
-      if (mailError) throw mailError;
-    },
+    mutationFn: async (inv: { id: string; email: string }) =>
+      resendFn({
+        data: { id: inv.id, redirectTo: `${window.location.origin}/admin/reset-password` },
+      }),
     onSuccess: () => {
       toast.success("Invitation re-sent and expiry extended.");
       void qc.invalidateQueries({ queryKey: ["admin", "invitations"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not resend."),
   });
+
 
   const rows = q.data ?? [];
 
