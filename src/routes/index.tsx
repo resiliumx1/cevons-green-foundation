@@ -18,12 +18,11 @@ import {
   Home,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
 import { HomeHero } from "@/components/home/HomeHero";
@@ -44,7 +43,6 @@ const imgResidential = residentialWheelieBinAsset.url;
 const imgCommercial = svcCommercialAsset.url;
 const imgIndustrial = svcIndustrialAsset.url;
 const imgRecovery = svcRecoveryAsset.url;
-import marketLeaderBadge from "@/assets/market-leader-badge.png.asset.json";
 
 import { useT } from "@/contexts/SettingsContext";
 
