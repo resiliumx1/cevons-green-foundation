@@ -139,7 +139,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isCrm = pathname.startsWith("/crm");
+  const isCrm = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>

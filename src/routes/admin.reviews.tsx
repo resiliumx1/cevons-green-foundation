@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/admin/reviews")({
-  head: () => ({ meta: [{ title: "Reviews | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Reviews | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: ReviewsPage,
 });
 

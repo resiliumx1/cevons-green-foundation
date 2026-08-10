@@ -7,14 +7,14 @@ import {
   Pencil, Archive, Trash2, ChevronDown, Upload,
 } from "lucide-react";
 
-import { ImportCustomersDialog } from "@/components/crm/ImportCustomersDialog";
+import { ImportCustomersDialog } from "@/components/admin/ImportCustomersDialog";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/admin/customers")({
-  head: () => ({ meta: [{ title: "Customers | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Customers | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: CustomersPage,
 });
 
@@ -394,7 +394,7 @@ function CustomerDrawer({ customer, onClose, onEdit, onChanged }: { customer: Cu
             <>
               <RelatedSection title="Leads / Requests" empty="No linked leads yet.">
                 {data!.leads.map((l) => (
-                  <Link key={l.id} to="/crm/leads/$id" params={{ id: l.id }} className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.02] p-2.5 text-sm hover:bg-white/[0.05]">
+                  <Link key={l.id} to="/admin/leads/$id" params={{ id: l.id }} className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.02] p-2.5 text-sm hover:bg-white/[0.05]">
                     <div>
                       <div className="font-mono text-xs text-[#FFD200]">{l.reference}</div>
                       <div className="text-xs text-white/70">{l.service ?? "—"}</div>

@@ -11,10 +11,10 @@ import {
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/crm/chartTheme";
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/admin/chartTheme";
 
 export const Route = createFileRoute("/admin/reports")({
-  head: () => ({ meta: [{ title: "Reports | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Reports | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: ReportsPage,
 });
 

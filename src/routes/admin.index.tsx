@@ -214,7 +214,7 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/crm/chartTheme";
+import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR, CRM_TOOLTIP_LINE_CURSOR } from "@/components/admin/chartTheme";
 
 /* ------------------------------------------------------------------ */
 /* Activity icon mapping                                               */

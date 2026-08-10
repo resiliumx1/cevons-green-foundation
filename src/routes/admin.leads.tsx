@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin/leads")({
 
 function LeadsLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  if (pathname !== "/crm/leads") return <Outlet />;
+  if (pathname !== "/admin/leads") return <Outlet />;
   return <LeadsList />;
 }
 
@@ -424,7 +424,7 @@ function LeadsList() {
                           <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
                         </td>
                         <td className="px-3 py-3 whitespace-nowrap">
-                          <Link to="/crm/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
+                          <Link to="/admin/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
                         </td>
                         <td className="px-3 py-3 text-white font-medium whitespace-nowrap">
                           {l.name ?? "—"}
@@ -437,7 +437,7 @@ function LeadsList() {
                         <td className="px-3 py-3 text-slate-300 whitespace-nowrap tabular-nums">{l.estimated_value ? `$${Number(l.estimated_value).toLocaleString()}` : "—"}</td>
                         <td className="px-3 py-3 text-slate-400 whitespace-nowrap">{fmtDate(l.created_at)}</td>
                         <td className="px-3 py-3 pr-4" onClick={(e) => e.stopPropagation()}>
-                          <Link to="/crm/leads/$id" params={{ id: l.id }} className="inline-flex h-7 w-7 items-center justify-center rounded-md hover:bg-white/10 text-slate-300" aria-label="View">
+                          <Link to="/admin/leads/$id" params={{ id: l.id }} className="inline-flex h-7 w-7 items-center justify-center rounded-md hover:bg-white/10 text-slate-300" aria-label="View">
                             <Eye className="h-3.5 w-3.5" />
                           </Link>
                         </td>
@@ -458,7 +458,7 @@ function LeadsList() {
               <div key={l.id} className="bg-[#101820] border border-white/[0.08] rounded-xl p-4" onClick={() => setPreviewId(l.id)}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <Link to="/crm/leads/$id" params={{ id: l.id }} className="font-mono text-[11px] text-[#FFD200]">{l.reference}</Link>
+                    <Link to="/admin/leads/$id" params={{ id: l.id }} className="font-mono text-[11px] text-[#FFD200]">{l.reference}</Link>
                     <p className="text-white font-semibold truncate mt-0.5">{l.name ?? "—"}</p>
                     <p className="text-xs text-slate-400 mt-0.5">{l.service ?? "—"} • {l.region ?? "—"}</p>
                   </div>
@@ -518,7 +518,7 @@ function LeadsList() {
               </div>
             </div>
             <div className="p-5 border-t border-white/[0.08]">
-              <Link to="/crm/leads/$id" params={{ id: previewLead.id }}
+              <Link to="/admin/leads/$id" params={{ id: previewLead.id }}
                 className="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
                 View Full Details
               </Link>

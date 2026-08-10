@@ -4,10 +4,10 @@ import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import bg from "@/assets/cevons-login-bg.jpg";
 
-export const Route = createFileRoute("/admin/login")({
+export const Route = createFileRoute("/admin_/login")({
   head: () => ({
     meta: [
-      { title: "Log In | CEVONS Growth Command" },
+      { title: "Log In | CEVONS Website Admin" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -29,7 +29,7 @@ function LoginPage() {
     // (validate credentials, establish session, persist remember-me).
     setTimeout(() => {
       setLoading(false);
-      navigate({ to: "/crm" });
+      navigate({ to: "/admin" });
     }, 1000);
   };
 
@@ -134,11 +134,11 @@ function LoginPage() {
               </div>
             </div>
             <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FFD200]">
-              CEVONS Growth Command
+              CEVONS Website Admin
             </div>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white">Welcome Back</h1>
             <p className="mt-2 text-sm text-white/75">
-              Log in to access CEVONS Growth Command.
+              Log in to access CEVONS Website Admin.
             </p>
           </div>
 

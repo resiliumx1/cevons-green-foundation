@@ -38,7 +38,7 @@ import {
 
 export const Route = createFileRoute("/admin/media")({
   head: () => ({
-    meta: [{ title: "Media | CEVONS Growth Command" }, { name: "robots", content: "noindex,nofollow" }],
+    meta: [{ title: "Media | CEVONS Website Admin" }, { name: "robots", content: "noindex,nofollow" }],
   }),
   component: CrmMediaPage,
 });

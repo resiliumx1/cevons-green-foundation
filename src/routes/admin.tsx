@@ -25,9 +25,9 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo-transparent.png";
-import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
-import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
-import { CrmAssistant } from "@/components/crm/Assistant";
+import { NotificationsBell, useNotifications, type NotifType } from "@/components/admin/Notifications";
+import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
+import { CrmAssistant } from "@/components/admin/Assistant";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
@@ -39,13 +39,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
-import { CrmCommandPalette } from "@/components/crm/CommandPalette";
+import { CrmCommandPalette } from "@/components/admin/CommandPalette";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "CEVONS Growth Command" },
+      { title: "CEVONS Website Admin" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -53,18 +53,18 @@ export const Route = createFileRoute("/admin")({
 });
 
 const nav = [
-  { to: "/crm", label: "Dashboard", icon: LayoutGrid, exact: true },
-  { to: "/crm/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
-  { to: "/crm/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
-  { to: "/crm/customers", label: "Customers", icon: ContactRound },
-  { to: "/crm/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
-  { to: "/crm/reports", label: "Reports", icon: BarChart3 },
-  { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
-  { to: "/crm/newsroom", label: "Newsroom", icon: Newspaper },
-  { to: "/crm/media", label: "Media", icon: ImageIcon },
+  { to: "/admin", label: "Dashboard", icon: LayoutGrid, exact: true },
+  { to: "/admin/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
+  { to: "/admin/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
+  { to: "/admin/customers", label: "Customers", icon: ContactRound },
+  { to: "/admin/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
+  { to: "/admin/reports", label: "Reports", icon: BarChart3 },
+  { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
+  { to: "/admin/newsroom", label: "Newsroom", icon: Newspaper },
+  { to: "/admin/media", label: "Media", icon: ImageIcon },
 
-  { to: "/crm/audit", label: "Audit Log", icon: FileClock },
-  { to: "/crm/settings", label: "Settings", icon: Settings },
+  { to: "/admin/audit", label: "Audit Log", icon: FileClock },
+  { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
 
 
@@ -139,7 +139,7 @@ function CrmLayout() {
               CEVONS
             </div>
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
-              Growth Command
+              Website Admin
             </div>
           </div>
         )}
@@ -158,7 +158,7 @@ function CrmLayout() {
           const row = (
             <Link
               key={item.to}
-              to={item.to as "/crm"}
+              to={item.to as "/admin"}
               onClick={() => setMobileOpen(false)}
               aria-current={active ? "page" : undefined}
               className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] transition-colors ${
@@ -357,7 +357,7 @@ function CrmLayout() {
               return (
                 <Link
                   key={item.to}
-                  to={item.to as "/crm"}
+                  to={item.to as "/admin"}
                   className="crm-nav-item relative flex min-w-[68px] flex-col items-center justify-center gap-1 px-3 py-2 text-[10px] font-medium snap-start"
                   style={
                     active
@@ -405,7 +405,7 @@ function ProfileMenu() {
       localStorage.removeItem("crm-assistant-session");
     } catch {}
     toast.success("Signed out");
-    navigate({ to: "/crm/login" });
+    navigate({ to: "/admin/login" });
   };
 
   return (
@@ -439,7 +439,7 @@ function ProfileMenu() {
           <UserCircle className="h-4 w-4 mr-2" />
           Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => navigate({ to: "/crm/settings" })}>
+        <DropdownMenuItem onSelect={() => navigate({ to: "/admin/settings" })}>
           <Settings className="h-4 w-4 mr-2" />
           Settings
         </DropdownMenuItem>

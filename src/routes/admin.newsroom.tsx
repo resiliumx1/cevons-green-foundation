@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 export const Route = createFileRoute("/admin/newsroom")({
-  head: () => ({ meta: [{ title: "Newsroom | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Newsroom | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: CrmNewsroomPage,
 });
 

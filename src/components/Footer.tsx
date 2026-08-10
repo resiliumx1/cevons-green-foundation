@@ -303,7 +303,7 @@ export function Footer() {
                 }}
               />
               <Link
-                to="/crm"
+                to="/admin"
                 aria-label="Admin login"
                 title="Admin"
                 className="group inline-flex items-center gap-1 text-white/30 hover:text-cevons-yellow transition-colors"
