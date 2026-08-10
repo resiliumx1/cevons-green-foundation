@@ -156,17 +156,18 @@ export function HeroSlideshowBackground() {
   const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
   const [scrollY, setScrollY] = useState(0);
 
-  const markLoaded = (i: number) =>
-    setLoaded((prev) => (prev[i] ? prev : prev.map((v, idx) => (idx === i ? true : v))));
+  const markLoaded = (src: string) =>
+    setLoaded((prev) => (prev[src] ? prev : { ...prev, [src]: true }));
 
   // Cached/preloaded images (slide 1 via <link rel="preload">) often resolve
   // before React attaches onLoad. Check .complete on mount so we don't sit
   // on the placeholder while the decoded image is already in memory.
   useEffect(() => {
     imgRefs.current.forEach((img, i) => {
-      if (img && img.complete && img.naturalWidth > 0) markLoaded(i);
+      const s = slides[i];
+      if (s && img && img.complete && img.naturalWidth > 0) markLoaded(s.src);
     });
-  }, [eager]);
+  }, [eager, slides]);
 
   // IntersectionObserver: once the hero is in (or near) the viewport,
   // warm the remaining slides. Saves bandwidth when a visitor never
@@ -175,14 +176,14 @@ export function HeroSlideshowBackground() {
     const node = rootRef.current;
     if (!node) return;
     if (typeof IntersectionObserver === "undefined") {
-      setEager(new Set(SLIDES.map((_, i) => i)));
+      setEager(new Set(slides.map((_, i) => i)));
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            setEager(new Set(SLIDES.map((_, i) => i)));
+            setEager(new Set(slides.map((_, i) => i)));
             io.disconnect();
             break;
           }
@@ -192,7 +193,7 @@ export function HeroSlideshowBackground() {
     );
     io.observe(node);
     return () => io.disconnect();
-  }, []);
+  }, [slides]);
 
   // Safety net: if the carousel advances to a slide we haven't loaded
   // yet (e.g. user clicked a dot before IO fired), pull that one in too.
@@ -220,7 +221,9 @@ export function HeroSlideshowBackground() {
     };
   }, [reduced]);
 
-  const showPlaceholder = !loaded[active];
+  const activeSlide = slides[active];
+  const showPlaceholder = !activeSlide || !loaded[activeSlide.src];
+
   const parallaxY = reduced ? 0 : scrollY * 0.3;
 
   return (
