@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import septicAsset from "@/assets/slide-septic.webp.asset.json";
-import skipAsset from "@/assets/slide-skip-hi.webp.asset.json";
+import skipAsset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
 import shredAsset from "@/assets/slide-shred.webp.asset.json";
 import shredTruckAsset from "@/assets/slide-shred-truck.webp.asset.json";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
