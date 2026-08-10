@@ -273,3 +273,15 @@ export function usePublishedSections(page: string) {
     retry: 1,
   });
 }
+
+/**
+ * Convenience read for pages that render ONE section of a kind (page intro,
+ * closing CTA). Returns `null` when nothing is published, which means the
+ * caller keeps its hardcoded copy — the permanent fallback.
+ */
+export function useSectionPayload<T>(page: string, kind: SectionKind): T | null {
+  const { data } = usePublishedSections(page);
+  const row = data?.find((s) => s.kind === kind);
+  if (!row) return null;
+  return parsePayload<T>(kind, row.payload);
+}
