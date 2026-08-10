@@ -3195,12 +3195,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .admin-auth-back:hover { color: var(--emph); }
 .admin-auth-main {
   display: grid;
-  place-items: center;
+  justify-items: center;
+  align-items: center;
   min-height: calc(100vh - 140px);
 }
 .admin-auth-card {
-  width: 460px;
-  max-width: 100%;
+  width: min(460px, 100%);
   background: var(--panel);
   border: 1px solid var(--rule);
   border-radius: 18px;
@@ -3218,7 +3218,7 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   border: 1px solid var(--rule);
 }
 .admin-auth-eyebrow { margin-top: 16px; color: var(--emph); }
-.admin-auth-title { margin-top: 8px; font-size: 28px; font-weight: 800; color: var(--text); }
+.admin-auth-title { margin-top: 8px; font-size: clamp(21px, 6vw, 28px); overflow-wrap: break-word; font-weight: 800; color: var(--text); }
 .admin-auth-sub { margin-top: 8px; font-size: 14px; color: var(--text-2); }
 .admin-auth-alert {
   margin-top: 20px;
