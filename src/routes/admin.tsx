@@ -462,10 +462,12 @@ function CrmLayout() {
         </header>
 
         <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-24 min-[900px]:pb-8">
+          <PasswordChangePrompt />
           <CrmSectionTransition>
             <Outlet />
           </CrmSectionTransition>
         </main>
+
 
         {/* Mobile bottom bar — a fixed set of five, everything else in "More". */}
         <nav
