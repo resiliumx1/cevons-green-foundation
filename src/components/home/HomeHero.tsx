@@ -16,9 +16,24 @@ const fadeUp: Variants = {
   }),
 };
 
-export function HomeHero() {
+/** Optional CRM-managed copy overrides. Anything omitted falls back to i18n. */
+export type HeroContent = Partial<{
+  lineA: string;
+  lineB1: string;
+  lineB2: string;
+  lead: string;
+  ctaPrimaryLabel: string;
+  ctaSecondaryLabel: string;
+}>;
+
+export function HomeHero({ content }: { content?: HeroContent } = {}) {
   const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
+  const c = (key: keyof HeroContent, fallback: string) => {
+    const v = content?.[key];
+    return v && v.trim() ? v : fallback;
+  };
+
 
   return (
     <HeroSlideshowProvider>
