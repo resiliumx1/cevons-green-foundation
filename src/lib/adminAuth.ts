@@ -33,10 +33,21 @@ export function useAdminIdentity(): AdminIdentity {
         if (!cancelled) setState({ loading: false, userId: null, email: null, roles: [] });
         return;
       }
-      const { data: roleRows } = await supabase
+      let { data: roleRows } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", user.id);
+
+      // No role yet? The person may have arrived through an invitation. The
+      // database decides which role they get — the client never sends one.
+      if (!roleRows || roleRows.length === 0) {
+        const { data: claimed } = await supabase.rpc("claim_invitation");
+        if (claimed) {
+          const retry = await supabase.from("user_roles").select("role").eq("user_id", user.id);
+          roleRows = retry.data ?? [];
+        }
+      }
+
       if (cancelled) return;
       setState({
         loading: false,
@@ -62,6 +73,35 @@ export function useAdminIdentity(): AdminIdentity {
 
   return state;
 }
+
+/* ── Role meanings, mirrored in the UI. RLS remains the real boundary. ──── */
+
+/** owner + admin: everything, including People and Settings. */
+export function isAdminRole(roles: AdminRole[]): boolean {
+  return roles.includes("owner") || roles.includes("admin");
+}
+
+/** owner, admin, editor: may publish and schedule content. */
+export function canPublish(roles: AdminRole[]): boolean {
+  return isAdminRole(roles) || roles.includes("editor");
+}
+
+/** owner, admin, editor, contributor: may create and edit drafts. */
+export function canEditContent(roles: AdminRole[]): boolean {
+  return canPublish(roles) || roles.includes("contributor");
+}
+
+export const ROLE_MEANINGS: Record<string, string> = {
+  owner: "Everything, including People and Settings",
+  admin: "Everything, including People and Settings",
+  editor: "Create, edit, publish and schedule content. No People, no Settings",
+  contributor: "Create and edit drafts. Cannot publish",
+  viewer: "Read-only",
+  staff: "Legacy staff access to content screens",
+  user: "No admin access",
+};
+
+export const ASSIGNABLE_ROLES = ["owner", "admin", "editor", "contributor", "viewer"] as const;
 
 export async function signOutAdmin() {
   try {

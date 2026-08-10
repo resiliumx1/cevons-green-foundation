@@ -1,3 +1,4 @@
+import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -484,6 +485,11 @@ function MediaRow({
 }) {
   const [title, setTitle] = useState(post.title);
   const [caption, setCaption] = useState(post.caption ?? "");
+  // Contributors may create and edit drafts but never publish. The database
+  // enforces the same rule through the media_posts insert/update policies.
+  const { roles } = useAdminIdentity();
+  const mayPublish = canPublish(roles);
+
 
   useEffect(() => setTitle(post.title), [post.title]);
   useEffect(() => setCaption(post.caption ?? ""), [post.caption]);
@@ -540,15 +546,23 @@ function MediaRow({
       </div>
 
       <div className="flex sm:flex-col items-center justify-between sm:justify-start gap-2 sm:w-40 shrink-0">
-        <div className="flex items-center gap-2">
-          <Switch
-            checked={post.published}
-            onCheckedChange={(v) => onPatch({ published: v })}
-            aria-label="Published"
-          />
-          <span className="text-[12px] font-semibold" style={{ color: "var(--crm-text)" }}>
-            {post.published ? "Published" : "Draft"}
-          </span>
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={post.published}
+              disabled={!mayPublish}
+              onCheckedChange={(v) => onPatch({ published: v })}
+              aria-label="Published"
+            />
+            <span className="text-[12px] font-semibold" style={{ color: "var(--crm-text)" }}>
+              {post.published ? "Published" : "Draft"}
+            </span>
+          </div>
+          {!mayPublish && (
+            <span className="admin-mono text-center" style={{ color: "var(--crm-text-muted)" }}>
+              Contributors can't publish
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-1">
           <button

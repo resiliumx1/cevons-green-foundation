@@ -3394,3 +3394,128 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
     color: var(--text-2);
   }
 }
+
+/* ── Docket strip — one continuous weighbridge ticket ─────────────────── */
+.docket {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--docket-bg);
+  color: var(--docket-fg);
+  border-radius: 14px;
+  border: 1px solid var(--docket-tear);
+  overflow: hidden;
+}
+@media (max-width: 900px) { .docket { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .docket { grid-template-columns: 1fr; } }
+.docket-cell { padding: 16px 18px 18px; min-width: 0; }
+.docket-cell-divided { border-left: 1px dashed var(--docket-tear); }
+@media (max-width: 900px) {
+  .docket-cell-divided { border-left: none; }
+  .docket-cell + .docket-cell { border-top: 1px dashed var(--docket-tear); }
+  .docket-cell:nth-child(even) { border-left: 1px dashed var(--docket-tear); }
+  .docket-cell:nth-child(2) { border-top: none; }
+}
+@media (max-width: 480px) { .docket-cell:nth-child(even) { border-left: none; } .docket-cell:nth-child(2) { border-top: 1px dashed var(--docket-tear); } }
+.docket-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.docket-label { color: var(--docket-muted); }
+.docket-code { color: var(--docket-muted); opacity: 0.9; }
+.docket-figure { margin-top: 10px; font-size: 40px; line-height: 1; font-weight: 800; color: var(--docket-fg); }
+.docket-delta { margin-top: 8px; font-size: 12.5px; color: var(--docket-muted); }
+.docket-delta-up { color: var(--docket-up); }
+.docket-delta-down { color: var(--docket-down); }
+.docket-unavailable { margin-top: 12px; font-size: 13px; line-height: 1.45; color: var(--docket-muted); }
+.docket-skeleton {
+  display: inline-block; width: 64px; height: 32px; border-radius: 6px;
+  background: color-mix(in srgb, var(--docket-muted) 26%, transparent);
+  animation: adminPulse 1.4s ease-in-out infinite;
+}
+@keyframes adminPulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.9; } }
+@media (prefers-reduced-motion: reduce) { .docket-skeleton, .admin-skel { animation: none; } }
+
+/* ── Admin panels ─────────────────────────────────────────────────────── */
+.admin-panel {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.admin-panel-head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+  padding: 14px 18px; border-bottom: 1px solid var(--hairline); background: var(--panel-2);
+}
+.admin-panel-code { color: var(--text-2); }
+.admin-panel-title { margin-top: 2px; font-size: 19px; font-weight: 800; color: var(--text); }
+.admin-panel-body { padding: 18px; color: var(--text); }
+.admin-skel { height: 14px; border-radius: 6px; background: var(--track); animation: adminPulse 1.4s ease-in-out infinite; }
+.admin-state { display: flex; gap: 10px; padding: 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.admin-state-error { background: color-mix(in srgb, var(--admin-red) 14%, transparent); border: 1px solid color-mix(in srgb, var(--admin-red) 45%, transparent); color: var(--text); }
+.admin-state-empty { background: var(--panel-2); border: 1px dashed var(--rule); color: var(--text); }
+.admin-state-detail { margin-top: 4px; color: var(--text-2); font-size: 13px; }
+.admin-issue { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--text); }
+.admin-issue svg { color: var(--admin-orange); margin-top: 2px; }
+
+/* ── Admin tables (stack under 560px) ─────────────────────────────────── */
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--text); }
+.admin-table th {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule);
+  font-family: "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase;
+  letter-spacing: 0.14em; font-size: 10.5px; color: var(--text-2); font-weight: 500;
+}
+.admin-table td { padding: 12px 10px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-link { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.admin-link-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  border-radius: 10px; border: 1px solid var(--rule); color: var(--text);
+  font-size: 13.5px; font-weight: 600;
+}
+.admin-link-btn:hover { background: var(--hover); }
+@media (max-width: 560px) {
+  .admin-stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .admin-stack tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+  .admin-stack tr:last-child { border-bottom: none; }
+  .admin-stack td { display: flex; gap: 12px; justify-content: space-between; align-items: center; border: none; padding: 6px 0; text-align: left !important; }
+  .admin-stack td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase;
+    letter-spacing: 0.14em; font-size: 10.5px; color: var(--text-2); flex: 0 0 auto;
+  }
+}
+
+/* ── Admin form controls and buttons ──────────────────────────────────── */
+.admin-input {
+  width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px;
+  background: var(--panel-2); border: 1px solid var(--rule); color: var(--text); font-size: 14px;
+}
+.admin-input::placeholder { color: var(--text-2); }
+.admin-btn-primary {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px;
+  border-radius: 10px; background: var(--admin-orange); color: var(--admin-charcoal);
+  font-weight: 700; font-size: 14px;
+}
+.admin-btn-primary:disabled { opacity: 0.6; }
+.admin-btn-quiet {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px;
+  border-radius: 10px; border: 1px solid var(--rule); color: var(--text); font-size: 13.5px; font-weight: 600;
+}
+.admin-btn-quiet:hover { background: var(--hover); }
+.admin-btn-danger {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px;
+  border-radius: 10px; border: 1px solid color-mix(in srgb, var(--admin-red) 55%, transparent);
+  color: var(--text); background: color-mix(in srgb, var(--admin-red) 14%, transparent);
+  font-size: 13.5px; font-weight: 600;
+}
+.admin-btn-danger:disabled { opacity: 0.45; }
+.admin-chip-live {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  background: var(--admin-green); color: var(--admin-charcoal); font-size: 11.5px; font-weight: 700;
+}
+.admin-chip-expired {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  background: var(--chip-ended-bg); color: var(--chip-ended-fg); font-size: 11.5px; font-weight: 700;
+}
+.admin-input:focus-visible,
+.admin-btn-primary:focus-visible,
+.admin-btn-quiet:focus-visible,
+.admin-btn-danger:focus-visible,
+.admin-link-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

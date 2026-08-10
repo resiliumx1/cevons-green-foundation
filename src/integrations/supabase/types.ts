@@ -254,6 +254,39 @@ export type Database = {
         }
         Relationships: []
       }
+      invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           created_at: string
@@ -825,6 +858,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_remove_user_access: {
+        Args: { _user_id: string }
+        Returns: undefined
+      }
+      admin_set_user_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      can_publish: { Args: { _user_id: string }; Returns: boolean }
+      claim_invitation: {
+        Args: never
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
       generate_contact_message_reference: { Args: never; Returns: string }
       generate_request_reference: { Args: never; Returns: string }
       get_request_status: {
@@ -845,6 +894,16 @@ export type Database = {
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      list_admin_people: {
+        Args: never
+        Returns: {
+          email: string
+          role: Database["public"]["Enums"]["app_role"]
+          role_granted_at: string
+          user_created_at: string
+          user_id: string
+        }[]
+      }
       notif_pref_enabled: {
         Args: { _type: Database["public"]["Enums"]["notification_type"] }
         Returns: boolean
