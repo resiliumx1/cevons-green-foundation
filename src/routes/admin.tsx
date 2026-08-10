@@ -465,14 +465,15 @@ function CrmLayout() {
 
 function ProfileMenu() {
   const navigate = useNavigate();
+  const { email, roles } = useAdminIdentity();
+  const label = email ?? "Signed in";
+  const initial = (email ?? "?").charAt(0).toUpperCase();
+  const roleLabel = roles.length ? roles.join(", ") : "No role";
 
-  const handleLogout = () => {
-    // FUTURE INTEGRATION: await supabase.auth.signOut()
-    try {
-      localStorage.removeItem("crm-assistant-session");
-    } catch {}
+  const handleLogout = async () => {
+    await signOutAdmin();
     toast.success("Signed out");
-    navigate({ to: "/admin/login" });
+    navigate({ to: "/admin/login", replace: true });
   };
 
   return (
@@ -485,22 +486,23 @@ function ProfileMenu() {
           aria-label="Open account menu"
         >
           <div className="text-right leading-tight">
-            <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
-            <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
+            <div className="text-sm font-semibold max-w-[180px] truncate" style={{ color: "var(--crm-text)" }}>{label}</div>
+            <div className="text-[11px] capitalize" style={{ color: "var(--crm-text-muted)" }}>{roleLabel}</div>
           </div>
           <div
             className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
             style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
           >
-            R
+            {initial}
           </div>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-56">
         <DropdownMenuLabel className="flex flex-col gap-0.5">
-          <span className="text-sm font-semibold">Romina Singh</span>
-          <span className="text-[11px] font-normal text-muted-foreground">romina@cevons.gy</span>
+          <span className="text-sm font-semibold capitalize">{roleLabel}</span>
+          <span className="text-[11px] font-normal text-muted-foreground break-all">{label}</span>
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => toast("Profile coming soon")}>
           <UserCircle className="h-4 w-4 mr-2" />
