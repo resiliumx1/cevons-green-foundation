@@ -139,7 +139,9 @@ function useUpsertSetting() {
 /* ─── page ──────────────────────────────────────────────────────────────── */
 
 function SettingsPage() {
-  const [active, setActive] = useState("profile");
+  const [active, setActive] = useState(
+    typeof window !== "undefined" && window.location.hash === "#security" ? "security" : "profile"
+  );
   const { data: settings, isLoading, isError, error, refetch } = useSettings();
   const upsert = useUpsertSetting();
 
@@ -960,10 +962,14 @@ function SecuritySection() {
       setError(updateError.message);
       return;
     }
+    // First sign-in prompt is satisfied once they've set their own password.
+    await supabase.auth.updateUser({ data: { must_change_password: false } });
+    window.dispatchEvent(new Event("admin:password-changed"));
     setPassword("");
     setConfirm("");
     setDone(true);
   };
+
 
   return (
     <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
