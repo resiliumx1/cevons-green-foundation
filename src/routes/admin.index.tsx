@@ -157,6 +157,8 @@ function LatestRequests() {
     },
   });
 
+  const rows = q.data ?? [];
+
   return (
     <Panel
       title="Latest requests"
@@ -171,7 +173,7 @@ function LatestRequests() {
         <PanelSkeleton rows={4} />
       ) : q.isError ? (
         <PanelError what="the latest requests" error={q.error} />
-      ) : q.data.length === 0 ? (
+      ) : rows.length === 0 ? (
         <PanelEmpty
           headline="No service requests have come in yet. The booking wizard on the public site feeds this list."
           action={
@@ -191,7 +193,7 @@ function LatestRequests() {
             </tr>
           </thead>
           <tbody>
-            {q.data.map((r) => (
+            {rows.map((r) => (
               <tr key={r.id}>
                 <td data-label="Reference">
                   <Link to="/admin/leads/$id" params={{ id: r.id }} className="admin-mono admin-link">
