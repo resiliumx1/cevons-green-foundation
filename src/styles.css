@@ -615,53 +615,151 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
    so individual page files don't need to be rewritten.
    ============================================================ */
 
-[data-crm-theme="emerald"] {
-  --crm-bg: #F7F8F5;
-  --crm-surface: #FFFFFF;
-  --crm-surface-muted: #F1F5F2;
-  --crm-sidebar: #003F27;
-  --crm-sidebar-hover: rgba(255, 255, 255, 0.08);
-  --crm-sidebar-active: #FFFFFF;
-  --crm-sidebar-text: #DFF5E9;
-  --crm-sidebar-text-active: #003F27;
-  --crm-header-bg: #FFFFFF;
-  --crm-primary: #006B35;
-  --crm-primary-bright: #006B35;
-  --crm-yellow: #FFD200;
-  --crm-orange: #FF8A3D;
-  --crm-coral: #FF5A5F;
-  --crm-red: #E31B23;
-  --crm-text: #101820;
-  --crm-text-muted: #525C6B;
-  --crm-text-faint: #94A3B8;
-  --crm-border: #E5E7EB;
-  --crm-input-bg: #FFFFFF;
-  --crm-card-shadow: 0 10px 30px rgba(16, 24, 32, 0.08);
+/* ── Manifest token layer (dark is the default) ───────────────────────────
+   New Manifest names are the source of truth; the legacy --crm-* variables
+   are aliased onto them so existing admin pages inherit the new system. */
+[data-crm-theme] {
+  --ink: #060A28;
+  --panel: #0C1240;
+  --panel-2: #111a55;
+  --text: #FFFFFF;
+  --text-2: #B9BFDC;
+  --rule: rgba(255, 255, 255, 0.16);
+  --rule-strong: rgba(255, 255, 255, 0.30);
+  --hover: rgba(255, 255, 255, 0.10);
+  --track: rgba(255, 255, 255, 0.10);
+  --hairline: rgba(255, 255, 255, 0.09);
+  --focus: #FCE722;
+  --emph: #FCE722;
+  --range-on-bg: #FFFFFF;
+  --range-on-fg: #1A1A1A;
+  --chip-draft-bg: #33385F;
+  --chip-draft-fg: #FFFFFF;
+  --chip-ended-bg: #242953;
+  --chip-ended-fg: #C7CCE6;
+  --docket-bg: #FFFFFF;
+  --docket-fg: #1A1A1A;
+  --docket-muted: #4A4A4A;
+  --docket-tear: rgba(26, 26, 26, 0.32);
+  --docket-up: #1C7A26;
+  --docket-down: #B01B21;
+  --spark-neutral: #1A1A1A;
+
+  /* Fixed brand constants — identical in both modes */
+  --admin-navy: #000080;
+  --admin-on-navy: #FFFFFF;
+  --admin-orange: #EF7700;
+  --admin-charcoal: #1A1A1A;
+  --admin-green: #2DA339;
+  --admin-yellow: #FCE722;
+  --admin-red: #D42229;
+
+  /* Legacy --crm-* mapping */
+  --crm-bg: var(--ink);
+  --crm-surface: var(--panel);
+  --crm-surface-muted: var(--panel-2);
+  --crm-sidebar: var(--admin-navy);
+  --crm-sidebar-hover: var(--hover);
+  --crm-sidebar-active: var(--admin-orange);
+  --crm-sidebar-text: var(--admin-on-navy);
+  --crm-sidebar-text-active: var(--admin-charcoal);
+  --crm-header-bg: var(--panel);
+  --crm-primary: var(--admin-orange);
+  --crm-primary-bright: var(--admin-yellow);
+  --crm-yellow: var(--admin-yellow);
+  --crm-orange: var(--admin-orange);
+  --crm-coral: var(--admin-red);
+  --crm-red: var(--admin-red);
+  --crm-text: var(--text);
+  --crm-text-muted: var(--text-2);
+  --crm-text-faint: var(--text-2);
+  --crm-border: var(--rule);
+  --crm-input-bg: var(--panel-2);
+  --crm-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-[data-crm-theme="sunset"] {
-  --crm-bg: #FFF8F1;
-  --crm-surface: #FFFFFF;
-  --crm-surface-muted: #FFF0E3;
-  --crm-sidebar: #FFF4EA;
-  --crm-sidebar-hover: rgba(0, 107, 53, 0.08);
-  --crm-sidebar-active: #006B35;
-  --crm-sidebar-text: #334155;
-  --crm-sidebar-text-active: #FFFFFF;
-  --crm-header-bg: #FFFFFF;
-  --crm-primary: #006B35;
-  --crm-primary-bright: #006B35;
-  --crm-yellow: #FFD200;
-  --crm-orange: #FF8A3D;
-  --crm-coral: #FF5A5F;
-  --crm-red: #E31B23;
-  --crm-text: #101820;
-  --crm-text-muted: #525C6B;
-  --crm-text-faint: #94A3B8;
-  --crm-border: #F1D8C5;
-  --crm-input-bg: #FFFFFF;
-  --crm-card-shadow: 0 10px 30px rgba(120, 54, 20, 0.08);
+[data-crm-theme][data-theme="light"] {
+  --ink: #E9ECF6;
+  --panel: #FFFFFF;
+  --panel-2: #F1F3FA;
+  --text: #12163A;
+  --text-2: #4A4A4A;
+  --rule: rgba(6, 10, 40, 0.16);
+  --rule-strong: rgba(6, 10, 40, 0.34);
+  --hover: rgba(6, 10, 40, 0.07);
+  --track: rgba(6, 10, 40, 0.12);
+  --hairline: rgba(6, 10, 40, 0.11);
+  --focus: #000080;
+  --emph: #8A5200;
+  --range-on-bg: #000080;
+  --range-on-fg: #FFFFFF;
+  --chip-draft-bg: #DFE3F1;
+  --chip-draft-fg: #12163A;
+  --chip-ended-bg: #E9EBF3;
+  --chip-ended-fg: #4A4A4A;
+  --docket-bg: #000080;
+  --docket-fg: #FFFFFF;
+  --docket-muted: #C9CEEA;
+  --docket-tear: rgba(255, 255, 255, 0.38);
+  --docket-up: #7DE08A;
+  --docket-down: #FF8E92;
+  --spark-neutral: #C9CEEA;
+  --crm-card-shadow: 0 10px 30px rgba(6, 10, 40, 0.10);
 }
+
+/* Typography utilities for the admin */
+[data-crm-theme] { font-family: "Open Sans", system-ui, sans-serif; }
+.admin-display {
+  font-family: "Playfair Display", Georgia, serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.admin-mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+[data-crm-theme] :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Fixed navy surfaces: rail + mobile tab bar. Foreground is FIXED white in
+   BOTH modes — never var(--text), which flips to near-black in light mode. */
+.admin-rail,
+.admin-tabbar {
+  background-color: #000080 !important;
+  color: #FFFFFF !important;
+}
+.admin-rail a,
+.admin-rail button,
+.admin-tabbar a,
+.admin-tabbar button { color: #FFFFFF; }
+
+/* Stacked, labelled table rows under 560px */
+@media (max-width: 560px) {
+  .admin-table thead { display: none; }
+  .admin-table, .admin-table tbody, .admin-table tr, .admin-table td { display: block; width: 100%; }
+  .admin-table tr {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+  }
+  .admin-table td { display: flex; justify-content: space-between; gap: 12px; border: 0; padding: 6px 0; }
+  .admin-table td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 10px;
+    color: var(--text-2);
+  }
+}
+
 
 /* Themed wrapper backgrounds */
 [data-crm-theme] { background-color: var(--crm-bg); color: var(--crm-text); }
