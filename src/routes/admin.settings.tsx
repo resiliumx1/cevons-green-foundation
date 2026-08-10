@@ -139,7 +139,9 @@ function useUpsertSetting() {
 /* ─── page ──────────────────────────────────────────────────────────────── */
 
 function SettingsPage() {
-  const [active, setActive] = useState("profile");
+  const [active, setActive] = useState(
+    typeof window !== "undefined" && window.location.hash === "#security" ? "security" : "profile"
+  );
   const { data: settings, isLoading, isError, error, refetch } = useSettings();
   const upsert = useUpsertSetting();
 
