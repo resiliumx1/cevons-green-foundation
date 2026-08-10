@@ -72,9 +72,9 @@ function ApplyAction({
     );
   }
   return (
-    <Link to={APPLY_URL} className={className} aria-label={ariaLabel}>
+    <a href={APPLY_URL} className={className} aria-label={ariaLabel}>
       {children}
-    </Link>
+    </a>
   );
 }
 
