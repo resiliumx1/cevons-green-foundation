@@ -135,6 +135,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
   } = props;
 
 
+  const heroPhoto = useSiteImage(heroSlot ?? "", heroImage, heroAlt);
   const isSpecialist = ctaVariant === "specialist";
   const primaryCtaLabel = ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote");
   const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
