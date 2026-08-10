@@ -268,7 +268,7 @@ function LeadsList() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-fade-in">
         <div>
-          <h1 className="text-2xl md:text-[28px] font-bold text-white tracking-tight">Leads / Requests</h1>
+          <h1 className="text-2xl md:text-[28px] font-bold text-white tracking-tight">Requests</h1>
           <p className="text-sm text-slate-400 mt-1">Manage customer inquiries, service requests, quotes, and follow-ups.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
