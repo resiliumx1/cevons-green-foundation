@@ -101,6 +101,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     heading: "The site",
     items: [
       { to: "/admin/pages", label: "Pages", icon: LayoutTemplate },
+      { to: "/admin/images", label: "Images", icon: Images },
       { to: "/admin/media", label: "Media", icon: ImageIcon },
       { to: "/admin/promotions", label: "Promotions", short: "Promos", icon: Tag },
     ],
@@ -109,8 +110,10 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     heading: "Inbound",
     items: [
       { to: "/admin/leads", label: "Requests", icon: Inbox, notifType: "lead" as NotifType },
+      { to: "/admin/messages", label: "Messages", icon: Mail },
     ],
   },
+
   {
     heading: "Admin",
     items: [
