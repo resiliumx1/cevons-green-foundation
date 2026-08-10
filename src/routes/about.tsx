@@ -27,6 +27,7 @@ import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 // Byte-for-byte in public/assets/heroes/ so the hero renders sharp — the
 // prior 1200x1600 portrait had to be upscaled 1.2x to fill the strip.
 const heroAbout = "/assets/heroes/about-support-hero.webp";
+import { useSiteImage } from "@/lib/siteImages";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -96,6 +97,7 @@ const operationsImages = [
 
 
 function AboutPage() {
+  const hero = useSiteImage("about_hero", heroAbout, "CEVONS front-office team supporting a customer inquiry at the Georgetown office");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -105,8 +107,8 @@ function AboutPage() {
       <section className="relative overflow-hidden min-h-[70vh] md:min-h-[82vh] flex items-center" aria-labelledby="about-h1">
         <div className="absolute inset-0">
           <img
-            src={heroAbout}
-            alt="CEVONS front-office team supporting a customer inquiry at the Georgetown office"
+            src={hero.src}
+            alt={hero.alt}
             className="size-full object-cover hero-img hero-img-mobile"
             style={{ objectPosition: "center 35%" }}
             width={1920}

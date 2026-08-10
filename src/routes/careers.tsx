@@ -22,6 +22,7 @@ const APPLY_URL = "https://cevonswaste.bamboohr.com/careers"; // CEVONS BambooHR
 // Landscape hero (1920x1280) recut from the boardroom presentation photo —
 // keeps the TV, presenter, and attendees in frame at wide viewports.
 const heroCareers = "/assets/heroes/careers-boardroom-hero.webp";
+import { useSiteImage } from "@/lib/siteImages";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -145,14 +146,15 @@ function scrollToOpenPositions(e: React.MouseEvent) {
 }
 
 function CareersPage() {
+  const hero = useSiteImage("careers_hero", heroCareers, "CEVONS team members reviewing service offerings during a boardroom presentation");
   return (
     <SiteLayout>
       {/* HERO */}
       <section className="relative isolate overflow-hidden min-h-[640px] md:min-h-[720px] flex items-center">
         <div className="absolute inset-0 -z-10">
           <img
-            src={heroCareers}
-            alt="CEVONS team members reviewing service offerings during a boardroom presentation"
+            src={hero.src}
+            alt={hero.alt}
             className="h-full w-full object-cover object-center hero-img"
             loading="eager"
             fetchPriority="high"

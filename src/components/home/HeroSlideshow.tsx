@@ -4,6 +4,7 @@ import skipAsset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
 import shredAsset from "@/assets/slide-shred.webp.asset.json";
 import shredTruckAsset from "@/assets/slide-shred-truck.webp.asset.json";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
+import { useSiteImage } from "@/lib/siteImages";
 
 type Slide = {
   src: string;
@@ -50,9 +51,24 @@ const FADE_MS = 1200;
  */
 function useHeroSlides(): Slide[] {
   const { data } = usePublishedMedia("slide");
+  // Slot override for the first fallback slide. Identical to SLIDES[0] until set.
+  const slide1 = useSiteImage("home_hero_slide_1", SLIDES[0].src, SLIDES[0].alt);
   return useMemo(() => {
     const rows = (data ?? []).filter((r) => !!r.url);
-    if (rows.length === 0) return SLIDES;
+    if (rows.length === 0) {
+      if (!slide1.isOverride) return SLIDES;
+      return [
+        {
+          ...SLIDES[0],
+          src: slide1.src,
+          alt: slide1.alt,
+          width: slide1.width ?? SLIDES[0].width,
+          height: slide1.height ?? SLIDES[0].height,
+          portrait: (slide1.height ?? SLIDES[0].height) > (slide1.width ?? SLIDES[0].width),
+        },
+        ...SLIDES.slice(1),
+      ];
+    }
     return rows.map((r, i) => ({
       src: r.url as string,
       alt: r.title || "CEVONS environmental services in Guyana",
@@ -64,7 +80,7 @@ function useHeroSlides(): Slide[] {
       title: r.title || undefined,
       caption: r.caption || undefined,
     }));
-  }, [data]);
+  }, [data, slide1.src, slide1.alt, slide1.width, slide1.height, slide1.isOverride]);
 }
 
 

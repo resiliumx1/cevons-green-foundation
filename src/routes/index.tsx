@@ -30,6 +30,7 @@ import { PillarsSection } from "@/components/home/PillarsSection";
 import { StatsBand } from "@/components/home/StatsBand";
 import { HomeSections } from "@/components/page/HomeSections";
 import { usePublishedSections } from "@/lib/pageSections";
+import { useSiteImage } from "@/lib/siteImages";
 
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
@@ -127,6 +128,13 @@ function HomePage() {
 
 function HardcodedHome() {
   const t = useT();
+  // Named image slots: each returns its bundled default until an override exists.
+  const pillarImages = [
+    useSiteImage("home_pillar_residential", imgResidential),
+    useSiteImage("home_pillar_commercial", imgCommercial),
+    useSiteImage("home_pillar_industrial", imgIndustrial),
+    useSiteImage("home_pillar_recovery", imgRecovery),
+  ];
   return (
     <>
       <HomeHero />
@@ -148,9 +156,9 @@ function HardcodedHome() {
           </>
         }
         exploreLabel={t("home.pillars.explore")}
-        items={pillars.map(({ img, key, iconKey }) => ({
+        items={pillars.map(({ img, key, iconKey }, i) => ({
           key,
-          img,
+          img: pillarImages[i]?.src ?? img,
           iconKey,
           title: t(`home.pillars.items.${key}.title`),
           body: t(`home.pillars.items.${key}.body`),
