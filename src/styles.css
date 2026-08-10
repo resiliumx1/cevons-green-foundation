@@ -3519,3 +3519,84 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .admin-btn-quiet:focus-visible,
 .admin-btn-danger:focus-visible,
 .admin-link-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* ── Admin nav groups, More sheet, shared rhythm ──────────────────────── */
+[data-crm-theme] {
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+[data-crm-theme] .crm-nav-item,
+[data-crm-theme] .admin-btn-primary,
+[data-crm-theme] .admin-btn-quiet,
+[data-crm-theme] .admin-btn-danger,
+[data-crm-theme] .admin-link-btn,
+[data-crm-theme] .admin-tape-toggle,
+[data-crm-theme] .admin-more-item {
+  transition: background-color var(--motion-base) var(--motion-ease),
+              color var(--motion-base) var(--motion-ease),
+              border-color var(--motion-base) var(--motion-ease),
+              opacity var(--motion-fast) var(--motion-ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-crm-theme] * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Group headings in the navy rail keep FIXED light text in both themes. */
+[data-crm-theme] .admin-nav-heading {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.66);
+}
+[data-crm-theme] .admin-nav-divider {
+  width: 24px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+[data-crm-theme] .admin-more-sheet {
+  background: var(--panel);
+  border-top: 1px solid var(--rule);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.35);
+}
+[data-crm-theme] .admin-more-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+[data-crm-theme] .admin-more-item:hover { background: var(--hover); }
+[data-crm-theme] .admin-more-item[data-active="true"] {
+  background: var(--admin-orange);
+  color: var(--admin-charcoal);
+}
+
+/* Shared screen rhythm so every admin page matches. */
+[data-crm-theme] .admin-stack-lg > * + * { margin-top: 20px; }
+[data-crm-theme] .admin-h1 { font-size: 30px; line-height: 1.15; font-weight: 800; color: var(--text); margin-top: 4px; }
+[data-crm-theme] .admin-lede { margin-top: 8px; max-width: 68ch; font-size: 14.5px; line-height: 1.55; color: var(--text-2); }
+[data-crm-theme] .admin-note { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-2); }
+[data-crm-theme] .admin-subhead {
+  display: flex; align-items: center; gap: 8px; margin: 18px 0 10px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase;
+  letter-spacing: 0.14em; font-size: 10.5px; color: var(--text-2);
+}
+[data-crm-theme] .admin-subhead svg { color: var(--admin-orange); }
+[data-crm-theme] .admin-grid-2 { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 1100px) { [data-crm-theme] .admin-grid-2 { grid-template-columns: 1fr 1fr; } }
+[data-crm-theme] .admin-bars { display: flex; flex-direction: column; gap: 10px; }
+[data-crm-theme] .admin-spark {
+  display: flex; align-items: flex-end; gap: 3px; height: 96px; margin-top: 14px;
+  padding: 8px; border-radius: 12px; background: var(--panel-2);
+}
+[data-crm-theme] .admin-spark-bar { flex: 1 1 0; min-width: 3px; border-radius: 3px 3px 0 0; background: var(--admin-orange); }
