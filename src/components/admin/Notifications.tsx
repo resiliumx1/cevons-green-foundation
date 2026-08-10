@@ -300,7 +300,7 @@ export function NotificationsBell() {
 
               {/* Filters + actions */}
               <div className="flex items-center gap-1 px-3 py-2 border-b overflow-x-auto" style={{ borderColor: "var(--crm-border)" }}>
-                {(["all", "unread", "lead", "review", "message", "campaign"] as FilterKey[]).map((k) => {
+                {(["all", "unread", "lead", "system"] as FilterKey[]).map((k) => {
                   const active = filter === k;
                   const label = k === "all" ? "All" : k === "unread" ? "Unread" : (TYPE_META[k as NotifType]?.label ?? "System");
                   return (
