@@ -2,7 +2,7 @@ import { Calendar, ShieldCheck, Leaf, CheckCircle2 } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { useRef } from "react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
-import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls } from "@/components/home/HeroSlideshow";
+import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls, HeroSlideCaption } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
 
 
