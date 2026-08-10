@@ -438,9 +438,117 @@ function PagesEditor() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <ContentStringsList />
     </CrmPage>
   );
 }
+
+/* ── Content strings (read-only inventory) ───────────────────────────────── */
+
+type ContentStringRow = {
+  key: string;
+  page: string;
+  section: string;
+  label: string;
+  published_value: string | null;
+  draft_value: string | null;
+  max_length: number | null;
+};
+
+function ContentStringsList() {
+  const { data: rows = [], isLoading } = useQuery({
+    queryKey: ["admin", "content_strings"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("content_strings")
+        .select("key, page, section, label, published_value, draft_value, max_length")
+        .order("page", { ascending: true })
+        .order("section", { ascending: true })
+        .order("key", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as ContentStringRow[];
+    },
+  });
+
+  const groups = useMemo(() => {
+    const map = new Map<string, ContentStringRow[]>();
+    for (const r of rows) {
+      const g = `${r.page} › ${r.section}`;
+      const list = map.get(g);
+      if (list) list.push(r);
+      else map.set(g, [r]);
+    }
+    return [...map.entries()];
+  }, [rows]);
+
+  return (
+    <section className="mt-10 rounded-2xl border p-4 md:p-6" style={surface}>
+      <h2 className="text-lg font-semibold" style={{ color: "var(--crm-text)" }}>
+        Content strings
+      </h2>
+      <p className="mt-1 text-[13px]" style={{ color: "var(--crm-text-muted)" }}>
+        Individual pieces of copy on the public site, addressed by key. Read-only for now.
+      </p>
+
+      {isLoading && (
+        <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
+          Loading…
+        </p>
+      )}
+      {!isLoading && rows.length === 0 && (
+        <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
+          No content strings registered yet.
+        </p>
+      )}
+
+      {groups.map(([group, list]) => (
+        <div key={group} className="mt-6">
+          <h3
+            className="text-[11px] font-bold uppercase tracking-[0.16em]"
+            style={{ color: "var(--crm-text-muted)" }}
+          >
+            {group}
+          </h3>
+          <ul className="mt-2 divide-y" style={{ borderColor: "var(--crm-border)" }}>
+            {list.map((r) => {
+              const differs = r.draft_value != null && r.draft_value !== r.published_value;
+              return (
+                <li key={r.key} className="py-3 flex flex-wrap items-start gap-x-4 gap-y-1">
+                  <div className="min-w-[180px]">
+                    <p className="text-sm font-medium" style={{ color: "var(--crm-text)" }}>
+                      {r.label}
+                    </p>
+                    <p className="text-[11px] font-mono" style={{ color: "var(--crm-text-muted)" }}>
+                      {r.key}
+                    </p>
+                  </div>
+                  <p className="flex-1 min-w-[220px] text-sm" style={{ color: "var(--crm-text-muted)" }}>
+                    {r.published_value ?? <em>— not set —</em>}
+                  </p>
+                  {differs && (
+                    <span
+                      className="rounded-full px-2 py-0.5 text-[11px] font-semibold"
+                      style={{ background: "var(--crm-accent, #FCE722)", color: "#1A1A1A" }}
+                    >
+                      Draft differs
+                    </span>
+                  )}
+                  {r.max_length != null && (
+                    <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>
+                      max {r.max_length}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </section>
+  );
+}
+
 
 /* ── One section ─────────────────────────────────────────────────────────── */
 

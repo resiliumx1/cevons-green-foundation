@@ -188,6 +188,69 @@ export type Database = {
         }
         Relationships: []
       }
+      content_string_versions: {
+        Row: {
+          id: string
+          key: string
+          previous_value: string | null
+          replaced_at: string
+          replaced_by: string | null
+        }
+        Insert: {
+          id?: string
+          key: string
+          previous_value?: string | null
+          replaced_at?: string
+          replaced_by?: string | null
+        }
+        Update: {
+          id?: string
+          key?: string
+          previous_value?: string | null
+          replaced_at?: string
+          replaced_by?: string | null
+        }
+        Relationships: []
+      }
+      content_strings: {
+        Row: {
+          draft_value: string | null
+          key: string
+          label: string
+          max_length: number | null
+          multiline: boolean
+          page: string
+          published_value: string | null
+          section: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          draft_value?: string | null
+          key: string
+          label: string
+          max_length?: number | null
+          multiline?: boolean
+          page: string
+          published_value?: string | null
+          section: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          draft_value?: string | null
+          key?: string
+          label?: string
+          max_length?: number | null
+          multiline?: boolean
+          page?: string
+          published_value?: string | null
+          section?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       crm_settings: {
         Row: {
           key: string
@@ -1130,7 +1193,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_content_strings: {
+        Row: {
+          key: string | null
+          published_value: string | null
+        }
+        Insert: {
+          key?: string | null
+          published_value?: string | null
+        }
+        Update: {
+          key?: string | null
+          published_value?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_remove_user_access: {

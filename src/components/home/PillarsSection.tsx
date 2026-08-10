@@ -3,11 +3,15 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { CevonsIcon } from "@/components/CevonsIcon";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import { useMediaSrc } from "@/components/media/useMediaSrc";
+import { Editable } from "@/components/Editable";
 
 export type PillarItem = {
   key: string;
   title: string;
   body: string;
+  /** Content-string keys, when this pillar's copy is editable from the admin. */
+  titleKey?: string;
+  bodyKey?: string;
   /** Bundled asset URL (fallback content). */
   img?: string;
   /** Storage path from the media library (CRM-managed content). */
@@ -35,8 +39,22 @@ function PillarCard({ item, exploreLabel }: { item: PillarItem; exploreLabel: st
         <span className="icon-tile absolute -top-8 left-5 h-16 w-16 rounded-2xl overflow-hidden">
           <CevonsIcon group="categories" name={item.iconKey} fill decorative />
         </span>
-        <h3 className="text-xl font-bold text-cevons-dark min-h-[2rem]">{item.title}</h3>
-        <p className="mt-2 text-sm text-cevons-muted leading-relaxed">{item.body}</p>
+        <Editable
+          id={item.titleKey ?? ""}
+          label="Pillar title"
+          as="h3"
+          className="text-xl font-bold text-cevons-dark min-h-[2rem]"
+        >
+          {item.title}
+        </Editable>
+        <Editable
+          id={item.bodyKey ?? ""}
+          label="Pillar description"
+          as="p"
+          className="mt-2 text-sm text-cevons-muted leading-relaxed"
+        >
+          {item.body}
+        </Editable>
         <div className="mt-auto pt-6">
           <a
             href="/services"
@@ -51,14 +69,17 @@ function PillarCard({ item, exploreLabel }: { item: PillarItem; exploreLabel: st
   );
 }
 
+
 /** Core service pillars grid — used by both the hardcoded and CRM-driven homepage. */
 export function PillarsSection({
   eyebrow,
+  eyebrowKey,
   heading,
   items,
   exploreLabel,
 }: {
   eyebrow: string;
+  eyebrowKey?: string;
   heading: React.ReactNode;
   items: PillarItem[];
   exploreLabel: string;
@@ -67,7 +88,14 @@ export function PillarsSection({
     <section className="section-y bg-white">
       <div className="container-cevons">
         <Reveal variant="up" className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">{eyebrow}</p>
+          <Editable
+            id={eyebrowKey ?? ""}
+            label="Pillars eyebrow"
+            as="p"
+            className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3"
+          >
+            {eyebrow}
+          </Editable>
           <h2 className="text-3xl md:text-5xl font-extrabold text-cevons-dark">{heading}</h2>
         </Reveal>
         <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">

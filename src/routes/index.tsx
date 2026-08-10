@@ -31,6 +31,9 @@ import { StatsBand } from "@/components/home/StatsBand";
 import { HomeSections } from "@/components/page/HomeSections";
 import { usePublishedSections } from "@/lib/pageSections";
 import { useSiteImage } from "@/lib/siteImages";
+import { ContentProvider, Editable } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
+
 
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
@@ -52,6 +55,14 @@ import { useT } from "@/contexts/SettingsContext";
 import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
 
 export const Route = createFileRoute("/")({
+  // `?preview=<token>` is the staff draft-preview switch. The token itself is
+  // verified server-side inside getPageContent; an invalid one simply yields
+  // published copy.
+  validateSearch: (search: Record<string, unknown>) => ({
+    preview: typeof search.preview === "string" ? search.preview : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "home", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "CEVONS Environmental Services | Waste Management Guyana" },
@@ -76,6 +87,7 @@ export const Route = createFileRoute("/")({
   }),
   component: HomePage,
 });
+
 
 const trust = [
   { icon: ShieldCheck, t: "EPA Certified", s: "Environmental Compliance" },
@@ -118,11 +130,15 @@ function HomePage() {
   // homepage below renders, exactly like the slideshow fallback.
   const sectionsQuery = usePublishedSections("home");
   const sections = sectionsQuery.data ?? [];
+  // Fetched once per page in the loader and shared through context.
+  const content = Route.useLoaderData();
 
   return (
-    <SiteLayout>
-      {sections.length > 0 ? <HomeSections sections={sections} /> : <HardcodedHome />}
-    </SiteLayout>
+    <ContentProvider value={content}>
+      <SiteLayout>
+        {sections.length > 0 ? <HomeSections sections={sections} /> : <HardcodedHome />}
+      </SiteLayout>
+    </ContentProvider>
   );
 }
 
@@ -148,11 +164,23 @@ function HardcodedHome() {
       {/* CORE SERVICE PILLARS */}
       <PillarsSection
         eyebrow={t("home.pillars.eyebrow")}
+        eyebrowKey="home.pillars.eyebrow"
         heading={
           <>
-            {t("home.pillars.titleA")}{" "}
-            <span className="text-[var(--text-heading)]">{t("home.pillars.titleB")}</span>{" "}
-            {t("home.pillars.titleC")}
+            <Editable id="home.pillars.titleA" label="Pillars heading part 1" as="span">
+              {t("home.pillars.titleA")}
+            </Editable>{" "}
+            <Editable
+              id="home.pillars.titleB"
+              label="Pillars heading highlight"
+              as="span"
+              className="text-[var(--text-heading)]"
+            >
+              {t("home.pillars.titleB")}
+            </Editable>{" "}
+            <Editable id="home.pillars.titleC" label="Pillars heading part 3" as="span">
+              {t("home.pillars.titleC")}
+            </Editable>
           </>
         }
         exploreLabel={t("home.pillars.explore")}
@@ -162,8 +190,11 @@ function HardcodedHome() {
           iconKey,
           title: t(`home.pillars.items.${key}.title`),
           body: t(`home.pillars.items.${key}.body`),
+          titleKey: `home.pillars.items.${key}.title`,
+          bodyKey: `home.pillars.items.${key}.body`,
         }))}
       />
+
 
       {/* IMPACT STATS BAND */}
       <StatsBand
