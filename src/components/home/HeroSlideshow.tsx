@@ -84,6 +84,7 @@ type Ctx = {
   goTo: (i: number) => void;
   setPaused: (v: boolean) => void;
   count: number;
+  slides: Slide[];
 };
 const SlideshowCtx = createContext<Ctx | null>(null);
 
@@ -92,13 +93,19 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const reduced = usePrefersReducedMotion();
+  const slides = useHeroSlides();
+  const count = slides.length;
   const rafRef = useRef<number | null>(null);
   const startRef = useRef<number>(performance.now());
   const progressRef = useRef(0);
 
   useEffect(() => { progressRef.current = progress; }, [progress]);
 
-
+  // If the CRM slide set changes (or arrives after first paint), keep the
+  // active index in range.
+  useEffect(() => {
+    setActive((a) => (a < count ? a : 0));
+  }, [count]);
 
   useEffect(() => {
     if (reduced) { setProgress(0); return; }
@@ -109,7 +116,7 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
         const p = Math.min(1, elapsed / DURATION_MS);
         setProgress(p);
         if (p >= 1) {
-          setActive((a) => (a + 1) % SLIDES.length);
+          setActive((a) => (a + 1) % count);
           startRef.current = performance.now();
           setProgress(0);
         }
@@ -120,13 +127,13 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [active, paused, reduced]);
+  }, [active, paused, reduced, count]);
 
   const value = useMemo<Ctx>(() => ({
-    active, progress, reduced, count: SLIDES.length,
+    active, progress, reduced, count, slides,
     goTo: (i) => { setActive(i); setProgress(0); startRef.current = performance.now(); },
     setPaused,
-  }), [active, progress, reduced]);
+  }), [active, progress, reduced, count, slides]);
 
   return <SlideshowCtx.Provider value={value}>{children}</SlideshowCtx.Provider>;
 }
@@ -138,8 +145,9 @@ function useSlideshow() {
 }
 
 export function HeroSlideshowBackground() {
-  const { active, reduced, setPaused } = useSlideshow();
-  const [loaded, setLoaded] = useState<boolean[]>(() => SLIDES.map(() => false));
+  const { active, reduced, setPaused, slides } = useSlideshow();
+  const [loaded, setLoaded] = useState<Record<string, boolean>>({});
+
   // Slide 1 starts in the eager set so it loads immediately for LCP. Other
   // slides are added to this set only after the hero enters the viewport
   // (IntersectionObserver) or they become the active slide.
