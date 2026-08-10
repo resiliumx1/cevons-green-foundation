@@ -514,7 +514,7 @@ function ProfileMenu() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={handleLogout}
+          onSelect={() => { void handleLogout(); }}
           className="text-red-600 focus:text-red-600 focus:bg-red-50"
         >
           <LogOut className="h-4 w-4 mr-2" />
