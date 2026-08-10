@@ -3,18 +3,28 @@ import septicAsset from "@/assets/slide-septic.webp.asset.json";
 import skipAsset from "@/assets/slide-skip-hi.webp.asset.json";
 import shredAsset from "@/assets/slide-shred.webp.asset.json";
 import shredTruckAsset from "@/assets/slide-shred-truck.webp.asset.json";
+import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
 
 type Slide = {
   src: string;
   alt: string;
   position: string;
   pan: "left" | "right" | "up" | "down";
+  width: number;
+  height: number;
+  portrait: boolean;
+  title?: string;
+  caption?: string;
 };
 
+/**
+ * Permanent fallback: rendered whenever there are zero published `slide` rows
+ * in the CRM. The hero must never be empty.
+ */
 const SLIDES: Slide[] = [
-  { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right" },
-  { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left" },
-  { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right" },
+  { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right", width: 1920, height: 1080, portrait: false },
+  { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left", width: 1920, height: 1080, portrait: false },
+  { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right", width: 1920, height: 1080, portrait: false },
 ];
 
 // Per-slide object-position for the framed card layout. Desktop crop favors
@@ -30,6 +40,30 @@ export const HERO_SLIDES = SLIDES.map((s, i) => ({
 
 const DURATION_MS = 6000;
 const FADE_MS = 1200;
+
+/**
+ * Published CRM slides, falling back to the static slides above when the CRM
+ * has none (or the read fails).
+ */
+function useHeroSlides(): Slide[] {
+  const { data } = usePublishedMedia("slide");
+  return useMemo(() => {
+    const rows = (data ?? []).filter((r) => !!r.url);
+    if (rows.length === 0) return SLIDES;
+    return rows.map((r, i) => ({
+      src: r.url as string,
+      alt: r.title || "CEVONS environmental services in Guyana",
+      position: "center",
+      pan: (i % 2 === 0 ? "right" : "left") as Slide["pan"],
+      width: r.image_w ?? 1920,
+      height: r.image_h ?? 1080,
+      portrait: isPortrait(r.image_w, r.image_h),
+      title: r.title || undefined,
+      caption: r.caption || undefined,
+    }));
+  }, [data]);
+}
+
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
