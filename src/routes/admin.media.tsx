@@ -540,15 +540,23 @@ function MediaRow({
       </div>
 
       <div className="flex sm:flex-col items-center justify-between sm:justify-start gap-2 sm:w-40 shrink-0">
-        <div className="flex items-center gap-2">
-          <Switch
-            checked={post.published}
-            onCheckedChange={(v) => onPatch({ published: v })}
-            aria-label="Published"
-          />
-          <span className="text-[12px] font-semibold" style={{ color: "var(--crm-text)" }}>
-            {post.published ? "Published" : "Draft"}
-          </span>
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={post.published}
+              disabled={!mayPublish}
+              onCheckedChange={(v) => onPatch({ published: v })}
+              aria-label="Published"
+            />
+            <span className="text-[12px] font-semibold" style={{ color: "var(--crm-text)" }}>
+              {post.published ? "Published" : "Draft"}
+            </span>
+          </div>
+          {!mayPublish && (
+            <span className="admin-mono text-center" style={{ color: "var(--crm-text-muted)" }}>
+              Contributors can't publish
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-1">
           <button
