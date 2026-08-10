@@ -9,117 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TrackRequestRouteImport } from './routes/track-request'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SitemapRouteImport } from './routes/sitemap'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as NewsMediaRouteImport } from './routes/news-media'
-import { Route as LocationsRouteImport } from './routes/locations'
-import { Route as IndustriesRouteImport } from './routes/industries'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesIndexRouteImport } from './routes/services.index'
-import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
-import { Route as CrmIndexRouteImport } from './routes/crm.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as LocationsRouteImport } from './routes/locations'
+import { Route as NewsMediaRouteImport } from './routes/news-media'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapRouteImport } from './routes/sitemap'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
-import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used-waste-oil'
-import { Route as ServicesUsedCookingOilRouteImport } from './routes/services.used-cooking-oil'
-import { Route as ServicesTankCleaningRouteImport } from './routes/services.tank-cleaning'
-import { Route as ServicesSkipBinDumpsterRentalRouteImport } from './routes/services.skip-bin-dumpster-rental'
-import { Route as ServicesSepticServicesRouteImport } from './routes/services.septic-services'
-import { Route as ServicesScrapMetalRecyclingRouteImport } from './routes/services.scrap-metal-recycling'
-import { Route as ServicesRoadSweepingRouteImport } from './routes/services.road-sweeping'
-import { Route as ServicesProductDestructionRouteImport } from './routes/services.product-destruction'
-import { Route as ServicesPortableToiletRouteImport } from './routes/services.portable-toilet'
-import { Route as ServicesPlasticRecyclingRouteImport } from './routes/services.plastic-recycling'
-import { Route as ServicesMaterialRecoveryFacilityRouteImport } from './routes/services.material-recovery-facility'
-import { Route as ServicesLandfillOperationsRouteImport } from './routes/services.landfill-operations'
-import { Route as ServicesHazardousWasteRouteImport } from './routes/services.hazardous-waste'
-import { Route as ServicesGreaseTrapSepticTankRouteImport } from './routes/services.grease-trap-septic-tank'
-import { Route as ServicesGeneralWasteManagementRouteImport } from './routes/services.general-waste-management'
-import { Route as ServicesGeneralTrashCollectionRouteImport } from './routes/services.general-trash-collection'
-import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
-import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
-import { Route as ServicesContaminatedSoilRouteImport } from './routes/services.contaminated-soil'
-import { Route as ServicesCompactorRentalRouteImport } from './routes/services.compactor-rental'
-import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/services.biohazardous-disposal'
-import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
-import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
-import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
-import { Route as CrmSplatRouteImport } from './routes/crm.$'
-import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
-import { Route as AdminLoginRouteImport } from './routes/admin_.login'
-import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
-import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
-import { Route as AdminPeopleRouteImport } from './routes/admin.people'
-import { Route as AdminPagesRouteImport } from './routes/admin.pages'
-import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
-import { Route as AdminMediaRouteImport } from './routes/admin.media'
-import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
-import { Route as AdminImagesRouteImport } from './routes/admin.images'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
-import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
+import { Route as AdminImagesRouteImport } from './routes/admin.images'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
+import { Route as AdminPeopleRouteImport } from './routes/admin.people'
+import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
+import { Route as AdminLoginRouteImport } from './routes/admin_.login'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
+import { Route as CrmIndexRouteImport } from './routes/crm.index'
+import { Route as CrmSplatRouteImport } from './routes/crm.$'
+import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
+import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
+import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
+import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/services.biohazardous-disposal'
+import { Route as ServicesCompactorRentalRouteImport } from './routes/services.compactor-rental'
+import { Route as ServicesContaminatedSoilRouteImport } from './routes/services.contaminated-soil'
+import { Route as ServicesDocumentShreddingRouteImport } from './routes/services.document-shredding'
+import { Route as ServicesDumpsterRentalRouteImport } from './routes/services.dumpster-rental'
+import { Route as ServicesGeneralTrashCollectionRouteImport } from './routes/services.general-trash-collection'
+import { Route as ServicesGeneralWasteManagementRouteImport } from './routes/services.general-waste-management'
+import { Route as ServicesGreaseTrapSepticTankRouteImport } from './routes/services.grease-trap-septic-tank'
+import { Route as ServicesHazardousWasteRouteImport } from './routes/services.hazardous-waste'
+import { Route as ServicesLandfillOperationsRouteImport } from './routes/services.landfill-operations'
+import { Route as ServicesMaterialRecoveryFacilityRouteImport } from './routes/services.material-recovery-facility'
+import { Route as ServicesPlasticRecyclingRouteImport } from './routes/services.plastic-recycling'
+import { Route as ServicesPortableToiletRouteImport } from './routes/services.portable-toilet'
+import { Route as ServicesProductDestructionRouteImport } from './routes/services.product-destruction'
+import { Route as ServicesRoadSweepingRouteImport } from './routes/services.road-sweeping'
+import { Route as ServicesScrapMetalRecyclingRouteImport } from './routes/services.scrap-metal-recycling'
+import { Route as ServicesSepticServicesRouteImport } from './routes/services.septic-services'
+import { Route as ServicesSkipBinDumpsterRentalRouteImport } from './routes/services.skip-bin-dumpster-rental'
+import { Route as ServicesTankCleaningRouteImport } from './routes/services.tank-cleaning'
+import { Route as ServicesUsedCookingOilRouteImport } from './routes/services.used-cooking-oil'
+import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used-waste-oil'
+import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
+import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 
-const TrackRequestRoute = TrackRequestRouteImport.update({
-  id: '/track-request',
-  path: '/track-request',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapRoute = SitemapRouteImport.update({
-  id: '/sitemap',
-  path: '/sitemap',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsMediaRoute = NewsMediaRouteImport.update({
-  id: '/news-media',
-  path: '/news-media',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocationsRoute = LocationsRouteImport.update({
-  id: '/locations',
-  path: '/locations',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -127,24 +77,59 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesIndexRoute = ServicesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
-  id: '/request-service/',
-  path: '/request-service/',
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CrmIndexRoute = CrmIndexRouteImport.update({
-  id: '/crm/',
-  path: '/crm/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsMediaRoute = NewsMediaRouteImport.update({
+  id: '/news-media',
+  path: '/news-media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRequestRoute = TrackRequestRouteImport.update({
+  id: '/track-request',
+  path: '/track-request',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -152,120 +137,100 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const ServicesWastewaterRoute = ServicesWastewaterRouteImport.update({
-  id: '/wastewater',
-  path: '/wastewater',
-  getParentRoute: () => ServicesRoute,
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesUsedWasteOilRoute = ServicesUsedWasteOilRouteImport.update({
-  id: '/used-waste-oil',
-  path: '/used-waste-oil',
-  getParentRoute: () => ServicesRoute,
+const AdminImagesRoute = AdminImagesRouteImport.update({
+  id: '/images',
+  path: '/images',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesUsedCookingOilRoute = ServicesUsedCookingOilRouteImport.update({
-  id: '/used-cooking-oil',
-  path: '/used-cooking-oil',
-  getParentRoute: () => ServicesRoute,
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesTankCleaningRoute = ServicesTankCleaningRouteImport.update({
-  id: '/tank-cleaning',
-  path: '/tank-cleaning',
-  getParentRoute: () => ServicesRoute,
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesSkipBinDumpsterRentalRoute =
-  ServicesSkipBinDumpsterRentalRouteImport.update({
-    id: '/skip-bin-dumpster-rental',
-    path: '/skip-bin-dumpster-rental',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesSepticServicesRoute = ServicesSepticServicesRouteImport.update({
-  id: '/septic-services',
-  path: '/septic-services',
-  getParentRoute: () => ServicesRoute,
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesScrapMetalRecyclingRoute =
-  ServicesScrapMetalRecyclingRouteImport.update({
-    id: '/scrap-metal-recycling',
-    path: '/scrap-metal-recycling',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesRoadSweepingRoute = ServicesRoadSweepingRouteImport.update({
-  id: '/road-sweeping',
-  path: '/road-sweeping',
-  getParentRoute: () => ServicesRoute,
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesProductDestructionRoute =
-  ServicesProductDestructionRouteImport.update({
-    id: '/product-destruction',
-    path: '/product-destruction',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesPortableToiletRoute = ServicesPortableToiletRouteImport.update({
-  id: '/portable-toilet',
-  path: '/portable-toilet',
-  getParentRoute: () => ServicesRoute,
+const AdminPeopleRoute = AdminPeopleRouteImport.update({
+  id: '/people',
+  path: '/people',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesPlasticRecyclingRoute =
-  ServicesPlasticRecyclingRouteImport.update({
-    id: '/plastic-recycling',
-    path: '/plastic-recycling',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesMaterialRecoveryFacilityRoute =
-  ServicesMaterialRecoveryFacilityRouteImport.update({
-    id: '/material-recovery-facility',
-    path: '/material-recovery-facility',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesLandfillOperationsRoute =
-  ServicesLandfillOperationsRouteImport.update({
-    id: '/landfill-operations',
-    path: '/landfill-operations',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesHazardousWasteRoute = ServicesHazardousWasteRouteImport.update({
-  id: '/hazardous-waste',
-  path: '/hazardous-waste',
-  getParentRoute: () => ServicesRoute,
+const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
+  id: '/promotions',
+  path: '/promotions',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesGreaseTrapSepticTankRoute =
-  ServicesGreaseTrapSepticTankRouteImport.update({
-    id: '/grease-trap-septic-tank',
-    path: '/grease-trap-septic-tank',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesGeneralWasteManagementRoute =
-  ServicesGeneralWasteManagementRouteImport.update({
-    id: '/general-waste-management',
-    path: '/general-waste-management',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesGeneralTrashCollectionRoute =
-  ServicesGeneralTrashCollectionRouteImport.update({
-    id: '/general-trash-collection',
-    path: '/general-trash-collection',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesDumpsterRentalRoute = ServicesDumpsterRentalRouteImport.update({
-  id: '/dumpster-rental',
-  path: '/dumpster-rental',
-  getParentRoute: () => ServicesRoute,
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
 } as any)
-const ServicesDocumentShreddingRoute =
-  ServicesDocumentShreddingRouteImport.update({
-    id: '/document-shredding',
-    path: '/document-shredding',
-    getParentRoute: () => ServicesRoute,
+const AdminTrafficRoute = AdminTrafficRouteImport.update({
+  id: '/traffic',
+  path: '/traffic',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin_/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/admin_/reset-password',
+  path: '/admin/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrmIndexRoute = CrmIndexRouteImport.update({
+  id: '/crm/',
+  path: '/crm/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrmSplatRoute = CrmSplatRouteImport.update({
+  id: '/crm/$',
+  path: '/crm/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
+  id: '/dev/motion-debug',
+  path: '/dev/motion-debug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevServiceActionButtonRoute = DevServiceActionButtonRouteImport.update({
+  id: '/dev/service-action-button',
+  path: '/dev/service-action-button',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
+  id: '/request-service/',
+  path: '/request-service/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestServiceConfirmationRoute =
+  RequestServiceConfirmationRouteImport.update({
+    id: '/request-service/confirmation',
+    path: '/request-service/confirmation',
+    getParentRoute: () => rootRouteImport,
   } as any)
-const ServicesContaminatedSoilRoute =
-  ServicesContaminatedSoilRouteImport.update({
-    id: '/contaminated-soil',
-    path: '/contaminated-soil',
-    getParentRoute: () => ServicesRoute,
-  } as any)
-const ServicesCompactorRentalRoute = ServicesCompactorRentalRouteImport.update({
-  id: '/compactor-rental',
-  path: '/compactor-rental',
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
 const ServicesBiohazardousDisposalRoute =
@@ -274,96 +239,131 @@ const ServicesBiohazardousDisposalRoute =
     path: '/biohazardous-disposal',
     getParentRoute: () => ServicesRoute,
   } as any)
-const RequestServiceConfirmationRoute =
-  RequestServiceConfirmationRouteImport.update({
-    id: '/request-service/confirmation',
-    path: '/request-service/confirmation',
-    getParentRoute: () => rootRouteImport,
+const ServicesCompactorRentalRoute = ServicesCompactorRentalRouteImport.update({
+  id: '/compactor-rental',
+  path: '/compactor-rental',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesContaminatedSoilRoute =
+  ServicesContaminatedSoilRouteImport.update({
+    id: '/contaminated-soil',
+    path: '/contaminated-soil',
+    getParentRoute: () => ServicesRoute,
   } as any)
-const DevServiceActionButtonRoute = DevServiceActionButtonRouteImport.update({
-  id: '/dev/service-action-button',
-  path: '/dev/service-action-button',
-  getParentRoute: () => rootRouteImport,
+const ServicesDocumentShreddingRoute =
+  ServicesDocumentShreddingRouteImport.update({
+    id: '/document-shredding',
+    path: '/document-shredding',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesDumpsterRentalRoute = ServicesDumpsterRentalRouteImport.update({
+  id: '/dumpster-rental',
+  path: '/dumpster-rental',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
-  id: '/dev/motion-debug',
-  path: '/dev/motion-debug',
-  getParentRoute: () => rootRouteImport,
+const ServicesGeneralTrashCollectionRoute =
+  ServicesGeneralTrashCollectionRouteImport.update({
+    id: '/general-trash-collection',
+    path: '/general-trash-collection',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesGeneralWasteManagementRoute =
+  ServicesGeneralWasteManagementRouteImport.update({
+    id: '/general-waste-management',
+    path: '/general-waste-management',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesGreaseTrapSepticTankRoute =
+  ServicesGreaseTrapSepticTankRouteImport.update({
+    id: '/grease-trap-septic-tank',
+    path: '/grease-trap-septic-tank',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesHazardousWasteRoute = ServicesHazardousWasteRouteImport.update({
+  id: '/hazardous-waste',
+  path: '/hazardous-waste',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const CrmSplatRoute = CrmSplatRouteImport.update({
-  id: '/crm/$',
-  path: '/crm/$',
-  getParentRoute: () => rootRouteImport,
+const ServicesLandfillOperationsRoute =
+  ServicesLandfillOperationsRouteImport.update({
+    id: '/landfill-operations',
+    path: '/landfill-operations',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesMaterialRecoveryFacilityRoute =
+  ServicesMaterialRecoveryFacilityRouteImport.update({
+    id: '/material-recovery-facility',
+    path: '/material-recovery-facility',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesPlasticRecyclingRoute =
+  ServicesPlasticRecyclingRouteImport.update({
+    id: '/plastic-recycling',
+    path: '/plastic-recycling',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesPortableToiletRoute = ServicesPortableToiletRouteImport.update({
+  id: '/portable-toilet',
+  path: '/portable-toilet',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
-  id: '/admin_/reset-password',
-  path: '/admin/reset-password',
-  getParentRoute: () => rootRouteImport,
+const ServicesProductDestructionRoute =
+  ServicesProductDestructionRouteImport.update({
+    id: '/product-destruction',
+    path: '/product-destruction',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesRoadSweepingRoute = ServicesRoadSweepingRouteImport.update({
+  id: '/road-sweeping',
+  path: '/road-sweeping',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin_/login',
-  path: '/admin/login',
-  getParentRoute: () => rootRouteImport,
+const ServicesScrapMetalRecyclingRoute =
+  ServicesScrapMetalRecyclingRouteImport.update({
+    id: '/scrap-metal-recycling',
+    path: '/scrap-metal-recycling',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesSepticServicesRoute = ServicesSepticServicesRouteImport.update({
+  id: '/septic-services',
+  path: '/septic-services',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminTrafficRoute = AdminTrafficRouteImport.update({
-  id: '/traffic',
-  path: '/traffic',
-  getParentRoute: () => AdminRoute,
+const ServicesSkipBinDumpsterRentalRoute =
+  ServicesSkipBinDumpsterRentalRouteImport.update({
+    id: '/skip-bin-dumpster-rental',
+    path: '/skip-bin-dumpster-rental',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesTankCleaningRoute = ServicesTankCleaningRouteImport.update({
+  id: '/tank-cleaning',
+  path: '/tank-cleaning',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminSettingsRoute = AdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminRoute,
+const ServicesUsedCookingOilRoute = ServicesUsedCookingOilRouteImport.update({
+  id: '/used-cooking-oil',
+  path: '/used-cooking-oil',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
-  id: '/promotions',
-  path: '/promotions',
-  getParentRoute: () => AdminRoute,
+const ServicesUsedWasteOilRoute = ServicesUsedWasteOilRouteImport.update({
+  id: '/used-waste-oil',
+  path: '/used-waste-oil',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const AdminPeopleRoute = AdminPeopleRouteImport.update({
-  id: '/people',
-  path: '/people',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPagesRoute = AdminPagesRouteImport.update({
-  id: '/pages',
-  path: '/pages',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminMessagesRoute = AdminMessagesRouteImport.update({
-  id: '/messages',
-  path: '/messages',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminMediaRoute = AdminMediaRouteImport.update({
-  id: '/media',
-  path: '/media',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLeadsRoute = AdminLeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminImagesRoute = AdminImagesRouteImport.update({
-  id: '/images',
-  path: '/images',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
-  id: '/admin_/preview/$page',
-  path: '/admin/preview/$page',
-  getParentRoute: () => rootRouteImport,
+const ServicesWastewaterRoute = ServicesWastewaterRouteImport.update({
+  id: '/wastewater',
+  path: '/wastewater',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const AdminLeadsIdRoute = AdminLeadsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AdminLeadsRoute,
+} as any)
+const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
+  id: '/admin_/preview/$page',
+  path: '/admin/preview/$page',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -747,81 +747,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/track-request': {
-      id: '/track-request'
-      path: '/track-request'
-      fullPath: '/track-request'
-      preLoaderRoute: typeof TrackRequestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap': {
-      id: '/sitemap'
-      path: '/sitemap'
-      fullPath: '/sitemap'
-      preLoaderRoute: typeof SitemapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources': {
-      id: '/resources'
-      path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news-media': {
-      id: '/news-media'
-      path: '/news-media'
-      fullPath: '/news-media'
-      preLoaderRoute: typeof NewsMediaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/locations': {
-      id: '/locations'
-      path: '/locations'
-      fullPath: '/locations'
-      preLoaderRoute: typeof LocationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -831,32 +761,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/': {
-      id: '/services/'
-      path: '/'
-      fullPath: '/services/'
-      preLoaderRoute: typeof ServicesIndexRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/request-service/': {
-      id: '/request-service/'
-      path: '/request-service'
-      fullPath: '/request-service/'
-      preLoaderRoute: typeof RequestServiceIndexRouteImport
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/crm/': {
-      id: '/crm/'
-      path: '/crm'
-      fullPath: '/crm/'
-      preLoaderRoute: typeof CrmIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-media': {
+      id: '/news-media'
+      path: '/news-media'
+      fullPath: '/news-media'
+      preLoaderRoute: typeof NewsMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track-request': {
+      id: '/track-request'
+      path: '/track-request'
+      fullPath: '/track-request'
+      preLoaderRoute: typeof TrackRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -866,256 +845,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/services/wastewater': {
-      id: '/services/wastewater'
-      path: '/wastewater'
-      fullPath: '/services/wastewater'
-      preLoaderRoute: typeof ServicesWastewaterRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/used-waste-oil': {
-      id: '/services/used-waste-oil'
-      path: '/used-waste-oil'
-      fullPath: '/services/used-waste-oil'
-      preLoaderRoute: typeof ServicesUsedWasteOilRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/used-cooking-oil': {
-      id: '/services/used-cooking-oil'
-      path: '/used-cooking-oil'
-      fullPath: '/services/used-cooking-oil'
-      preLoaderRoute: typeof ServicesUsedCookingOilRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/tank-cleaning': {
-      id: '/services/tank-cleaning'
-      path: '/tank-cleaning'
-      fullPath: '/services/tank-cleaning'
-      preLoaderRoute: typeof ServicesTankCleaningRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/skip-bin-dumpster-rental': {
-      id: '/services/skip-bin-dumpster-rental'
-      path: '/skip-bin-dumpster-rental'
-      fullPath: '/services/skip-bin-dumpster-rental'
-      preLoaderRoute: typeof ServicesSkipBinDumpsterRentalRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/septic-services': {
-      id: '/services/septic-services'
-      path: '/septic-services'
-      fullPath: '/services/septic-services'
-      preLoaderRoute: typeof ServicesSepticServicesRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/scrap-metal-recycling': {
-      id: '/services/scrap-metal-recycling'
-      path: '/scrap-metal-recycling'
-      fullPath: '/services/scrap-metal-recycling'
-      preLoaderRoute: typeof ServicesScrapMetalRecyclingRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/road-sweeping': {
-      id: '/services/road-sweeping'
-      path: '/road-sweeping'
-      fullPath: '/services/road-sweeping'
-      preLoaderRoute: typeof ServicesRoadSweepingRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/product-destruction': {
-      id: '/services/product-destruction'
-      path: '/product-destruction'
-      fullPath: '/services/product-destruction'
-      preLoaderRoute: typeof ServicesProductDestructionRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/portable-toilet': {
-      id: '/services/portable-toilet'
-      path: '/portable-toilet'
-      fullPath: '/services/portable-toilet'
-      preLoaderRoute: typeof ServicesPortableToiletRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/plastic-recycling': {
-      id: '/services/plastic-recycling'
-      path: '/plastic-recycling'
-      fullPath: '/services/plastic-recycling'
-      preLoaderRoute: typeof ServicesPlasticRecyclingRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/material-recovery-facility': {
-      id: '/services/material-recovery-facility'
-      path: '/material-recovery-facility'
-      fullPath: '/services/material-recovery-facility'
-      preLoaderRoute: typeof ServicesMaterialRecoveryFacilityRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/landfill-operations': {
-      id: '/services/landfill-operations'
-      path: '/landfill-operations'
-      fullPath: '/services/landfill-operations'
-      preLoaderRoute: typeof ServicesLandfillOperationsRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/hazardous-waste': {
-      id: '/services/hazardous-waste'
-      path: '/hazardous-waste'
-      fullPath: '/services/hazardous-waste'
-      preLoaderRoute: typeof ServicesHazardousWasteRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/grease-trap-septic-tank': {
-      id: '/services/grease-trap-septic-tank'
-      path: '/grease-trap-septic-tank'
-      fullPath: '/services/grease-trap-septic-tank'
-      preLoaderRoute: typeof ServicesGreaseTrapSepticTankRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/general-waste-management': {
-      id: '/services/general-waste-management'
-      path: '/general-waste-management'
-      fullPath: '/services/general-waste-management'
-      preLoaderRoute: typeof ServicesGeneralWasteManagementRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/general-trash-collection': {
-      id: '/services/general-trash-collection'
-      path: '/general-trash-collection'
-      fullPath: '/services/general-trash-collection'
-      preLoaderRoute: typeof ServicesGeneralTrashCollectionRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/dumpster-rental': {
-      id: '/services/dumpster-rental'
-      path: '/dumpster-rental'
-      fullPath: '/services/dumpster-rental'
-      preLoaderRoute: typeof ServicesDumpsterRentalRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/document-shredding': {
-      id: '/services/document-shredding'
-      path: '/document-shredding'
-      fullPath: '/services/document-shredding'
-      preLoaderRoute: typeof ServicesDocumentShreddingRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/contaminated-soil': {
-      id: '/services/contaminated-soil'
-      path: '/contaminated-soil'
-      fullPath: '/services/contaminated-soil'
-      preLoaderRoute: typeof ServicesContaminatedSoilRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/compactor-rental': {
-      id: '/services/compactor-rental'
-      path: '/compactor-rental'
-      fullPath: '/services/compactor-rental'
-      preLoaderRoute: typeof ServicesCompactorRentalRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/biohazardous-disposal': {
-      id: '/services/biohazardous-disposal'
-      path: '/biohazardous-disposal'
-      fullPath: '/services/biohazardous-disposal'
-      preLoaderRoute: typeof ServicesBiohazardousDisposalRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/request-service/confirmation': {
-      id: '/request-service/confirmation'
-      path: '/request-service/confirmation'
-      fullPath: '/request-service/confirmation'
-      preLoaderRoute: typeof RequestServiceConfirmationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dev/service-action-button': {
-      id: '/dev/service-action-button'
-      path: '/dev/service-action-button'
-      fullPath: '/dev/service-action-button'
-      preLoaderRoute: typeof DevServiceActionButtonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dev/motion-debug': {
-      id: '/dev/motion-debug'
-      path: '/dev/motion-debug'
-      fullPath: '/dev/motion-debug'
-      preLoaderRoute: typeof DevMotionDebugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crm/$': {
-      id: '/crm/$'
-      path: '/crm/$'
-      fullPath: '/crm/$'
-      preLoaderRoute: typeof CrmSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin_/reset-password': {
-      id: '/admin_/reset-password'
-      path: '/admin/reset-password'
-      fullPath: '/admin/reset-password'
-      preLoaderRoute: typeof AdminResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin_/login': {
-      id: '/admin_/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/traffic': {
-      id: '/admin/traffic'
-      path: '/traffic'
-      fullPath: '/admin/traffic'
-      preLoaderRoute: typeof AdminTrafficRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/settings': {
-      id: '/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/promotions': {
-      id: '/admin/promotions'
-      path: '/promotions'
-      fullPath: '/admin/promotions'
-      preLoaderRoute: typeof AdminPromotionsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/people': {
-      id: '/admin/people'
-      path: '/people'
-      fullPath: '/admin/people'
-      preLoaderRoute: typeof AdminPeopleRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/pages': {
-      id: '/admin/pages'
-      path: '/pages'
-      fullPath: '/admin/pages'
-      preLoaderRoute: typeof AdminPagesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/messages': {
-      id: '/admin/messages'
-      path: '/messages'
-      fullPath: '/admin/messages'
-      preLoaderRoute: typeof AdminMessagesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/media': {
-      id: '/admin/media'
-      path: '/media'
-      fullPath: '/admin/media'
-      preLoaderRoute: typeof AdminMediaRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/leads': {
-      id: '/admin/leads'
-      path: '/leads'
-      fullPath: '/admin/leads'
-      preLoaderRoute: typeof AdminLeadsRouteImport
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/images': {
@@ -1125,19 +859,278 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminImagesRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/audit': {
-      id: '/admin/audit'
-      path: '/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAuditRouteImport
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin_/preview/$page': {
-      id: '/admin_/preview/$page'
-      path: '/admin/preview/$page'
-      fullPath: '/admin/preview/$page'
-      preLoaderRoute: typeof AdminPreviewPageRouteImport
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/people': {
+      id: '/admin/people'
+      path: '/people'
+      fullPath: '/admin/people'
+      preLoaderRoute: typeof AdminPeopleRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/promotions': {
+      id: '/admin/promotions'
+      path: '/promotions'
+      fullPath: '/admin/promotions'
+      preLoaderRoute: typeof AdminPromotionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/traffic': {
+      id: '/admin/traffic'
+      path: '/traffic'
+      fullPath: '/admin/traffic'
+      preLoaderRoute: typeof AdminTrafficRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin_/login': {
+      id: '/admin_/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin_/reset-password': {
+      id: '/admin_/reset-password'
+      path: '/admin/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/': {
+      id: '/crm/'
+      path: '/crm'
+      fullPath: '/crm/'
+      preLoaderRoute: typeof CrmIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm/$': {
+      id: '/crm/$'
+      path: '/crm/$'
+      fullPath: '/crm/$'
+      preLoaderRoute: typeof CrmSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/motion-debug': {
+      id: '/dev/motion-debug'
+      path: '/dev/motion-debug'
+      fullPath: '/dev/motion-debug'
+      preLoaderRoute: typeof DevMotionDebugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/service-action-button': {
+      id: '/dev/service-action-button'
+      path: '/dev/service-action-button'
+      fullPath: '/dev/service-action-button'
+      preLoaderRoute: typeof DevServiceActionButtonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-service/': {
+      id: '/request-service/'
+      path: '/request-service'
+      fullPath: '/request-service/'
+      preLoaderRoute: typeof RequestServiceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-service/confirmation': {
+      id: '/request-service/confirmation'
+      path: '/request-service/confirmation'
+      fullPath: '/request-service/confirmation'
+      preLoaderRoute: typeof RequestServiceConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/biohazardous-disposal': {
+      id: '/services/biohazardous-disposal'
+      path: '/biohazardous-disposal'
+      fullPath: '/services/biohazardous-disposal'
+      preLoaderRoute: typeof ServicesBiohazardousDisposalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/compactor-rental': {
+      id: '/services/compactor-rental'
+      path: '/compactor-rental'
+      fullPath: '/services/compactor-rental'
+      preLoaderRoute: typeof ServicesCompactorRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/contaminated-soil': {
+      id: '/services/contaminated-soil'
+      path: '/contaminated-soil'
+      fullPath: '/services/contaminated-soil'
+      preLoaderRoute: typeof ServicesContaminatedSoilRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/document-shredding': {
+      id: '/services/document-shredding'
+      path: '/document-shredding'
+      fullPath: '/services/document-shredding'
+      preLoaderRoute: typeof ServicesDocumentShreddingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/dumpster-rental': {
+      id: '/services/dumpster-rental'
+      path: '/dumpster-rental'
+      fullPath: '/services/dumpster-rental'
+      preLoaderRoute: typeof ServicesDumpsterRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/general-trash-collection': {
+      id: '/services/general-trash-collection'
+      path: '/general-trash-collection'
+      fullPath: '/services/general-trash-collection'
+      preLoaderRoute: typeof ServicesGeneralTrashCollectionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/general-waste-management': {
+      id: '/services/general-waste-management'
+      path: '/general-waste-management'
+      fullPath: '/services/general-waste-management'
+      preLoaderRoute: typeof ServicesGeneralWasteManagementRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/grease-trap-septic-tank': {
+      id: '/services/grease-trap-septic-tank'
+      path: '/grease-trap-septic-tank'
+      fullPath: '/services/grease-trap-septic-tank'
+      preLoaderRoute: typeof ServicesGreaseTrapSepticTankRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hazardous-waste': {
+      id: '/services/hazardous-waste'
+      path: '/hazardous-waste'
+      fullPath: '/services/hazardous-waste'
+      preLoaderRoute: typeof ServicesHazardousWasteRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/landfill-operations': {
+      id: '/services/landfill-operations'
+      path: '/landfill-operations'
+      fullPath: '/services/landfill-operations'
+      preLoaderRoute: typeof ServicesLandfillOperationsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/material-recovery-facility': {
+      id: '/services/material-recovery-facility'
+      path: '/material-recovery-facility'
+      fullPath: '/services/material-recovery-facility'
+      preLoaderRoute: typeof ServicesMaterialRecoveryFacilityRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/plastic-recycling': {
+      id: '/services/plastic-recycling'
+      path: '/plastic-recycling'
+      fullPath: '/services/plastic-recycling'
+      preLoaderRoute: typeof ServicesPlasticRecyclingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/portable-toilet': {
+      id: '/services/portable-toilet'
+      path: '/portable-toilet'
+      fullPath: '/services/portable-toilet'
+      preLoaderRoute: typeof ServicesPortableToiletRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/product-destruction': {
+      id: '/services/product-destruction'
+      path: '/product-destruction'
+      fullPath: '/services/product-destruction'
+      preLoaderRoute: typeof ServicesProductDestructionRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/road-sweeping': {
+      id: '/services/road-sweeping'
+      path: '/road-sweeping'
+      fullPath: '/services/road-sweeping'
+      preLoaderRoute: typeof ServicesRoadSweepingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/scrap-metal-recycling': {
+      id: '/services/scrap-metal-recycling'
+      path: '/scrap-metal-recycling'
+      fullPath: '/services/scrap-metal-recycling'
+      preLoaderRoute: typeof ServicesScrapMetalRecyclingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/septic-services': {
+      id: '/services/septic-services'
+      path: '/septic-services'
+      fullPath: '/services/septic-services'
+      preLoaderRoute: typeof ServicesSepticServicesRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/skip-bin-dumpster-rental': {
+      id: '/services/skip-bin-dumpster-rental'
+      path: '/skip-bin-dumpster-rental'
+      fullPath: '/services/skip-bin-dumpster-rental'
+      preLoaderRoute: typeof ServicesSkipBinDumpsterRentalRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/tank-cleaning': {
+      id: '/services/tank-cleaning'
+      path: '/tank-cleaning'
+      fullPath: '/services/tank-cleaning'
+      preLoaderRoute: typeof ServicesTankCleaningRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/used-cooking-oil': {
+      id: '/services/used-cooking-oil'
+      path: '/used-cooking-oil'
+      fullPath: '/services/used-cooking-oil'
+      preLoaderRoute: typeof ServicesUsedCookingOilRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/used-waste-oil': {
+      id: '/services/used-waste-oil'
+      path: '/used-waste-oil'
+      fullPath: '/services/used-waste-oil'
+      preLoaderRoute: typeof ServicesUsedWasteOilRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/wastewater': {
+      id: '/services/wastewater'
+      path: '/wastewater'
+      fullPath: '/services/wastewater'
+      preLoaderRoute: typeof ServicesWastewaterRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/admin/leads/$id': {
       id: '/admin/leads/$id'
@@ -1145,6 +1138,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/leads/$id'
       preLoaderRoute: typeof AdminLeadsIdRouteImport
       parentRoute: typeof AdminLeadsRoute
+    }
+    '/admin_/preview/$page': {
+      id: '/admin_/preview/$page'
+      path: '/admin/preview/$page'
+      fullPath: '/admin/preview/$page'
+      preLoaderRoute: typeof AdminPreviewPageRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
