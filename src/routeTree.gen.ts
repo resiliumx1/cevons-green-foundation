@@ -66,6 +66,7 @@ import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -365,6 +366,12 @@ const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
   path: '/admin/preview/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailQueueProcessRoute =
+  LovableEmailQueueProcessRouteImport.update({
+    id: '/lovable/email/queue/process',
+    path: '/lovable/email/queue/process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -481,6 +489,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -541,6 +550,7 @@ export interface FileRoutesById {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -602,6 +612,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -659,6 +670,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/lovable/email/queue/process'
   id:
     | '__root__'
     | '/'
@@ -718,6 +730,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
+    | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -743,6 +756,7 @@ export interface RootRouteChildren {
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
+  LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1146,6 +1160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPreviewPageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1270,6 +1291,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
+  LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
