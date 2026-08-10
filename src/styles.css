@@ -358,13 +358,15 @@
 }
 
 
-/* Reusable icon tile — white surface, hairline border, orange hover bloom.
-   Used for service/pillar/certification icons. Icon inside must pass 3:1 UI
-   contrast on white; brand-charcoal and brand-orange glyphs both pass. */
+/* Reusable icon tile — FIXED soft-white surface (never mode-flipping): the
+   CEVONS 3D icons are orange renders designed for a light background and
+   disappear on dark surfaces. Same fixed-surface rule as hero overlays,
+   navy bands and the 404 destination cards. */
 @utility icon-tile {
-  background-color: var(--brand-white);
-  border: 1px solid var(--border-hairline);
+  background-color: #F7F8FB;
+  border: 1px solid rgba(26, 26, 26, 0.10);
   box-shadow: 0 6px 14px -8px rgba(16, 24, 32, 0.18);
+
   transition:
     transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
