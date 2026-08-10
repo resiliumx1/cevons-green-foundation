@@ -9,9 +9,9 @@ build each CRM module so they can be re-run, audited, or extended.
 ## CRM Implementation Prompts
 
 Each section is the exact prompt used to wire that module. Re-run any of these to rebuild or
-extend the corresponding route under `src/routes/crm.*`.
+extend the corresponding route under `src/routes/admin.*`.
 
-### 1. Invoices — `src/routes/crm.invoices.tsx`
+### 1. Invoices — `src/routes/admin.invoices.tsx`
 
 > Wire Invoices to the `invoices` table (Supabase + react-query). Keep existing UI/animations.
 >
@@ -24,7 +24,7 @@ extend the corresponding route under `src/routes/crm.*`.
 > - Printable/preview view.
 > - Loading/empty/error states; invalidate on mutations.
 
-### 2. Conversations — `src/routes/crm.conversations.tsx`
+### 2. Conversations — `src/routes/admin.conversations.tsx`
 
 > Wire Conversations to the `activities` table as an internal communication log (Supabase +
 > react-query). NOTE: there is no live WhatsApp/SMS sync yet (that comes with GoHighLevel
@@ -41,7 +41,7 @@ extend the corresponding route under `src/routes/crm.*`.
 >   integration.
 > - Loading/empty/error states; invalidate on mutations.
 
-### 3. Reviews — `src/routes/crm.reviews.tsx`
+### 3. Reviews — `src/routes/admin.reviews.tsx`
 
 > Wire Reviews to the `reviews` table (Supabase + react-query). Source is manual for now
 > (Google/Facebook sync comes later). Keep existing UI/animations.
@@ -54,7 +54,7 @@ extend the corresponding route under `src/routes/crm.*`.
 >   will connect later.
 > - Loading/empty/error states; invalidate on mutations.
 
-### 4. Marketing — `src/routes/crm.marketing.tsx`
+### 4. Marketing — `src/routes/admin.marketing.tsx`
 
 > Wire the Marketing command centre to real attribution data (Supabase + react-query).
 > Lead/source/region/service data is REAL (from `service_requests` UTM fields); campaign
@@ -74,7 +74,7 @@ extend the corresponding route under `src/routes/crm.*`.
 >   numbers.
 > - Loading/empty/error states; invalidate on mutations.
 
-### 5. Reports — `src/routes/crm.reports.tsx`
+### 5. Reports — `src/routes/admin.reports.tsx`
 
 > Wire Reports to real aggregations across `service_requests`, `jobs`, and `invoices`
 > (Supabase + react-query). Keep existing UI/animations.
@@ -89,7 +89,7 @@ extend the corresponding route under `src/routes/crm.*`.
 > - CSV export of the current report view.
 > - Loading/empty/error states.
 
-### 6. Settings — `src/routes/crm.settings.tsx`
+### 6. Settings — `src/routes/admin.settings.tsx`
 
 > Wire Settings to the `crm_settings` key-value table (Supabase + react-query). Keep existing
 > UI/animations.

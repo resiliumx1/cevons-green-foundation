@@ -6,8 +6,8 @@ import { FileClock, Filter, RefreshCw, Search, Mail, Truck, Plus, ArrowRightLeft
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/crm/audit")({
-  head: () => ({ meta: [{ title: "Audit Log | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+export const Route = createFileRoute("/admin/audit")({
+  head: () => ({ meta: [{ title: "Audit Log | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: AuditPage,
 });
 

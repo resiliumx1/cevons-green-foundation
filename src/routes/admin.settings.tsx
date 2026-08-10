@@ -10,8 +10,8 @@ import {
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/crm/settings")({
-  head: () => ({ meta: [{ title: "Settings | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
+export const Route = createFileRoute("/admin/settings")({
+  head: () => ({ meta: [{ title: "Settings | CEVONS Website Admin" }, { name: "robots", content: "noindex" }] }),
   component: SettingsPage,
 });
 
@@ -738,7 +738,7 @@ function ServicesSection({
 
 /* ─── appearance section (local) ──────────────────────────────────────────── */
 
-import { useCrmTheme, type CrmTheme } from "@/components/crm/theme";
+import { useCrmTheme, type CrmTheme } from "@/components/admin/theme";
 
 const THEME_OPTIONS: Array<{
   id: CrmTheme;
@@ -796,7 +796,7 @@ function AppearanceSection() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="font-semibold text-white text-lg">CRM Theme</h2>
-          <p className="mt-1 text-sm text-white/60">Choose how CEVONS Growth Command looks for your team.</p>
+          <p className="mt-1 text-sm text-white/60">Choose how CEVONS Website Admin looks for your team.</p>
         </div>
         <Sun className="h-5 w-5 text-white/40" />
       </div>

@@ -11,7 +11,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/crm/leads/$id")({
+export const Route = createFileRoute("/admin/leads/$id")({
   component: LeadDetail,
 });
 
@@ -221,7 +221,7 @@ function LeadDetail() {
       <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-12 text-center max-w-md mx-auto mt-10">
         <Inbox className="h-8 w-8 text-slate-400 mx-auto mb-3" />
         <p className="text-sm text-white font-semibold">Lead not found</p>
-        <Link to="/crm/leads" className="mt-4 inline-block text-xs font-semibold text-emerald-400 hover:text-emerald-300">Back to leads</Link>
+        <Link to="/admin/leads" className="mt-4 inline-block text-xs font-semibold text-emerald-400 hover:text-emerald-300">Back to leads</Link>
       </div>
     );
   }
@@ -233,7 +233,7 @@ function LeadDetail() {
     <div className="space-y-5">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs text-slate-400 animate-fade-in">
-        <Link to="/crm/leads" className="hover:text-white">Leads / Requests</Link>
+        <Link to="/admin/leads" className="hover:text-white">Leads / Requests</Link>
         <ChevronRight className="h-3 w-3" />
         <span className="text-slate-200 font-mono">{lead.reference}</span>
       </nav>
@@ -438,7 +438,7 @@ function LeadDetail() {
                 scheduleJob.mutate({ when });
               }} disabled={scheduleJob.isPending} />
               <QuickAction icon={DollarSign} label="Mark Won" onClick={() => updateLead.mutate({ status: "won", _statusLog: "Marked as Won" })} disabled={lead.status === "won"} />
-              <QuickAction icon={CheckCircle2} label="Back to Leads" onClick={() => navigate({ to: "/crm/leads" })} />
+              <QuickAction icon={CheckCircle2} label="Back to Leads" onClick={() => navigate({ to: "/admin/leads" })} />
             </div>
           </Card>
         </div>

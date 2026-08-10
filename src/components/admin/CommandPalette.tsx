@@ -185,14 +185,14 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
   const pages = useMemo(
     () =>
       [
-        { label: "Dashboard", icon: LayoutGrid, to: "/crm" as const },
-        { label: "Leads / Requests", icon: Users, to: "/crm/leads" as const },
-        { label: "Conversations", icon: MessageSquare, to: "/crm/conversations" as const },
-        { label: "Customers", icon: ContactRound, to: "/crm/customers" as const },
-        { label: "Marketing", icon: Megaphone, to: "/crm/marketing" as const },
-        { label: "Reports", icon: BarChart3, to: "/crm/reports" as const },
-        { label: "Reviews", icon: Star, to: "/crm/reviews" as const },
-        { label: "Settings", icon: Settings, to: "/crm/settings" as const },
+        { label: "Dashboard", icon: LayoutGrid, to: "/admin" as const },
+        { label: "Leads / Requests", icon: Users, to: "/admin/leads" as const },
+        { label: "Conversations", icon: MessageSquare, to: "/admin/conversations" as const },
+        { label: "Customers", icon: ContactRound, to: "/admin/customers" as const },
+        { label: "Marketing", icon: Megaphone, to: "/admin/marketing" as const },
+        { label: "Reports", icon: BarChart3, to: "/admin/reports" as const },
+        { label: "Reviews", icon: Star, to: "/admin/reviews" as const },
+        { label: "Settings", icon: Settings, to: "/admin/settings" as const },
       ],
     [],
   );
@@ -240,7 +240,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
               <CommandItem
                 key={`lead-${l.id}`}
                 value={`lead-${l.id}-${l.reference}-${l.name ?? ""}`}
-                onSelect={() => go(() => navigate({ to: "/crm/leads/$id", params: { id: l.id } }))}
+                onSelect={() => go(() => navigate({ to: "/admin/leads/$id", params: { id: l.id } }))}
               >
                 <Users className="h-4 w-4 text-[#FFD200]" />
                 <div className="flex flex-col min-w-0 flex-1">
@@ -265,7 +265,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
             ))}
             <CommandItem
               value={`view-all-leads`}
-              onSelect={() => go(() => navigate({ to: "/crm/leads" }))}
+              onSelect={() => go(() => navigate({ to: "/admin/leads" }))}
               className="text-xs text-[#FFD200]"
             >
               <ArrowRight className="h-3.5 w-3.5" /> View all in Leads
@@ -281,7 +281,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
                 <CommandItem
                   key={`cust-${c.id}`}
                   value={`cust-${c.id}-${c.name}`}
-                  onSelect={() => go(() => navigate({ to: "/crm/customers" }))}
+                  onSelect={() => go(() => navigate({ to: "/admin/customers" }))}
                 >
                   <ContactRound className="h-4 w-4 text-[#FFD200]" />
                   <div className="flex flex-col min-w-0 flex-1">
@@ -296,7 +296,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
               ))}
               <CommandItem
                 value="view-all-customers"
-                onSelect={() => go(() => navigate({ to: "/crm/customers" }))}
+                onSelect={() => go(() => navigate({ to: "/admin/customers" }))}
                 className="text-xs text-[#FFD200]"
               >
                 <ArrowRight className="h-3.5 w-3.5" /> View all in Customers
@@ -313,7 +313,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
                 <CommandItem
                   key={`msg-${m.id}`}
                   value={`msg-${m.id}-${m.reference ?? ""}-${m.name}`}
-                  onSelect={() => go(() => navigate({ to: "/crm/conversations" }))}
+                  onSelect={() => go(() => navigate({ to: "/admin/conversations" }))}
                 >
                   <MessageSquare className="h-4 w-4 text-[#FFD200]" />
                   <div className="flex flex-col min-w-0 flex-1">
@@ -329,7 +329,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
               ))}
               <CommandItem
                 value="view-all-messages"
-                onSelect={() => go(() => navigate({ to: "/crm/conversations" }))}
+                onSelect={() => go(() => navigate({ to: "/admin/conversations" }))}
                 className="text-xs text-[#FFD200]"
               >
                 <ArrowRight className="h-3.5 w-3.5" /> View all in Conversations
@@ -346,7 +346,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
                 <CommandItem
                   key={`camp-${c.id}`}
                   value={`camp-${c.id}-${c.name}-${c.utm_campaign ?? ""}`}
-                  onSelect={() => go(() => navigate({ to: "/crm/marketing" }))}
+                  onSelect={() => go(() => navigate({ to: "/admin/marketing" }))}
                 >
                   <Megaphone className="h-4 w-4 text-[#FFD200]" />
                   <div className="flex flex-col min-w-0 flex-1">
@@ -362,7 +362,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
               ))}
               <CommandItem
                 value="view-all-campaigns"
-                onSelect={() => go(() => navigate({ to: "/crm/marketing" }))}
+                onSelect={() => go(() => navigate({ to: "/admin/marketing" }))}
                 className="text-xs text-[#FFD200]"
               >
                 <ArrowRight className="h-3.5 w-3.5" /> View all in Marketing
@@ -396,14 +396,14 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
             <CommandGroup heading="Actions">
               <CommandItem
                 value="action-new-campaign"
-                onSelect={() => go(() => navigate({ to: "/crm/marketing" }), "New campaign")}
+                onSelect={() => go(() => navigate({ to: "/admin/marketing" }), "New campaign")}
               >
                 <Plus className="h-4 w-4 text-muted-foreground" />
                 <span>New campaign</span>
               </CommandItem>
               <CommandItem
                 value="action-import-customers"
-                onSelect={() => go(() => navigate({ to: "/crm/customers" }), "Import customers")}
+                onSelect={() => go(() => navigate({ to: "/admin/customers" }), "Import customers")}
               >
                 <Upload className="h-4 w-4 text-muted-foreground" />
                 <span>Import customers</span>

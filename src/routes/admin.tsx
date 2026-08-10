@@ -1,4 +1,6 @@
-import { createFileRoute, Outlet, Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -25,9 +27,9 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo-transparent.png";
-import { NotificationsBell, useNotifications, type NotifType } from "@/components/crm/Notifications";
-import { CrmThemeProvider, useCrmTheme } from "@/components/crm/theme";
-import { CrmAssistant } from "@/components/crm/Assistant";
+import { NotificationsBell, useNotifications, type NotifType } from "@/components/admin/Notifications";
+import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
+import { CrmAssistant } from "@/components/admin/Assistant";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
@@ -39,13 +41,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
-import { CrmCommandPalette } from "@/components/crm/CommandPalette";
+import { CrmCommandPalette } from "@/components/admin/CommandPalette";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/crm")({
+export const Route = createFileRoute("/admin")({
+  // Session lives in localStorage, so the gate must run client-side only.
+  ssr: false,
+  beforeLoad: async ({ location }) => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+      throw redirect({
+        to: "/admin/login",
+        search: { redirect: location.href },
+        replace: true,
+      });
+    }
+    return { user: data.user };
+  },
   head: () => ({
     meta: [
-      { title: "CEVONS Growth Command" },
+      { title: "CEVONS Website Admin" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -53,28 +68,80 @@ export const Route = createFileRoute("/crm")({
 });
 
 const nav = [
-  { to: "/crm", label: "Dashboard", icon: LayoutGrid, exact: true },
-  { to: "/crm/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
-  { to: "/crm/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
-  { to: "/crm/customers", label: "Customers", icon: ContactRound },
-  { to: "/crm/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
-  { to: "/crm/reports", label: "Reports", icon: BarChart3 },
-  { to: "/crm/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
-  { to: "/crm/newsroom", label: "Newsroom", icon: Newspaper },
-  { to: "/crm/media", label: "Media", icon: ImageIcon },
+  { to: "/admin", label: "Dashboard", icon: LayoutGrid, exact: true },
+  { to: "/admin/leads", label: "Leads / Requests", icon: Users, notifType: "lead" as NotifType },
+  { to: "/admin/conversations", label: "Conversations", icon: MessageSquare, notifType: "message" as NotifType },
+  { to: "/admin/customers", label: "Customers", icon: ContactRound },
+  { to: "/admin/marketing", label: "Marketing", icon: Megaphone, notifType: "campaign" as NotifType },
+  { to: "/admin/reports", label: "Reports", icon: BarChart3 },
+  { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
+  { to: "/admin/newsroom", label: "Newsroom", icon: Newspaper },
+  { to: "/admin/media", label: "Media", icon: ImageIcon },
 
-  { to: "/crm/audit", label: "Audit Log", icon: FileClock },
-  { to: "/crm/settings", label: "Settings", icon: Settings },
+  { to: "/admin/audit", label: "Audit Log", icon: FileClock },
+  { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as Array<{ to: string; label: string; icon: typeof LayoutGrid; exact?: boolean; notifType?: NotifType }>;
 
 
 function CrmRoot() {
+  const identity = useAdminIdentity();
+  const navigate = useNavigate();
+
+  // React to sign-out / token refresh anywhere in the app.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") {
+        navigate({ to: "/admin/login", replace: true });
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [navigate]);
+
+  if (identity.loading) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-950 text-sm text-white/70">
+        Checking your access…
+      </div>
+    );
+  }
+
+  if (identity.roles.length === 0) {
+    return <NoAccessScreen email={identity.email} />;
+  }
+
   return (
     <CrmThemeProvider>
       <CrmLayout />
     </CrmThemeProvider>
   );
 }
+
+function NoAccessScreen({ email }: { email: string | null }) {
+  const navigate = useNavigate();
+  return (
+    <div className="grid min-h-screen place-items-center bg-slate-950 px-6 text-center text-white">
+      <div className="max-w-md space-y-4">
+        <h1 className="text-2xl font-semibold">This account has no access yet</h1>
+        <p className="text-sm text-white/70">
+          {email ? `${email} is signed in, but ` : ""}no role has been assigned to this account. Contact your
+          administrator to be granted access to CEVONS Website Admin.
+        </p>
+        <button
+          type="button"
+          onClick={async () => {
+            await signOutAdmin();
+            navigate({ to: "/admin/login", replace: true });
+          }}
+          className="mx-auto flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign out
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
 function CrmLayout() {
   const { theme } = useCrmTheme();
@@ -139,7 +206,7 @@ function CrmLayout() {
               CEVONS
             </div>
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] mt-0.5" style={{ color: "#F5C518" }}>
-              Growth Command
+              Website Admin
             </div>
           </div>
         )}
@@ -158,7 +225,7 @@ function CrmLayout() {
           const row = (
             <Link
               key={item.to}
-              to={item.to as "/crm"}
+              to={item.to as "/admin"}
               onClick={() => setMobileOpen(false)}
               aria-current={active ? "page" : undefined}
               className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] transition-colors ${
@@ -357,7 +424,7 @@ function CrmLayout() {
               return (
                 <Link
                   key={item.to}
-                  to={item.to as "/crm"}
+                  to={item.to as "/admin"}
                   className="crm-nav-item relative flex min-w-[68px] flex-col items-center justify-center gap-1 px-3 py-2 text-[10px] font-medium snap-start"
                   style={
                     active
@@ -398,14 +465,15 @@ function CrmLayout() {
 
 function ProfileMenu() {
   const navigate = useNavigate();
+  const { email, roles } = useAdminIdentity();
+  const label = email ?? "Signed in";
+  const initial = (email ?? "?").charAt(0).toUpperCase();
+  const roleLabel = roles.length ? roles.join(", ") : "No role";
 
-  const handleLogout = () => {
-    // FUTURE INTEGRATION: await supabase.auth.signOut()
-    try {
-      localStorage.removeItem("crm-assistant-session");
-    } catch {}
+  const handleLogout = async () => {
+    await signOutAdmin();
     toast.success("Signed out");
-    navigate({ to: "/crm/login" });
+    navigate({ to: "/admin/login", replace: true });
   };
 
   return (
@@ -418,34 +486,35 @@ function ProfileMenu() {
           aria-label="Open account menu"
         >
           <div className="text-right leading-tight">
-            <div className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>Romina S.</div>
-            <div className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Marketing Lead</div>
+            <div className="text-sm font-semibold max-w-[180px] truncate" style={{ color: "var(--crm-text)" }}>{label}</div>
+            <div className="text-[11px] capitalize" style={{ color: "var(--crm-text-muted)" }}>{roleLabel}</div>
           </div>
           <div
             className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
             style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
           >
-            R
+            {initial}
           </div>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-56">
         <DropdownMenuLabel className="flex flex-col gap-0.5">
-          <span className="text-sm font-semibold">Romina Singh</span>
-          <span className="text-[11px] font-normal text-muted-foreground">romina@cevons.gy</span>
+          <span className="text-sm font-semibold capitalize">{roleLabel}</span>
+          <span className="text-[11px] font-normal text-muted-foreground break-all">{label}</span>
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => toast("Profile coming soon")}>
           <UserCircle className="h-4 w-4 mr-2" />
           Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => navigate({ to: "/crm/settings" })}>
+        <DropdownMenuItem onSelect={() => navigate({ to: "/admin/settings" })}>
           <Settings className="h-4 w-4 mr-2" />
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onSelect={handleLogout}
+          onSelect={() => { void handleLogout(); }}
           className="text-red-600 focus:text-red-600 focus:bg-red-50"
         >
           <LogOut className="h-4 w-4 mr-2" />

@@ -1,5 +1,5 @@
 /**
- * CEVONS Growth Command — Integration Placeholders
+ * CEVONS Website Admin — Integration Placeholders
  * --------------------------------------------------
  * This CRM is currently FRONT-END ONLY. All pages render static demo data.
  * The hooks below are stubs to mark where future integrations will be wired.

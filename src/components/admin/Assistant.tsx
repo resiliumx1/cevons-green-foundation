@@ -21,14 +21,14 @@ type Message = {
 const uid = () => Math.random().toString(36).slice(2, 10);
 
 const ROUTE_LABELS: Record<string, string> = {
-  "/crm": "Open Dashboard",
-  "/crm/leads": "Open Leads",
-  "/crm/conversations": "Open Conversations",
-  "/crm/customers": "Open Customers",
-  "/crm/marketing": "Open Marketing",
-  "/crm/reports": "Open Reports",
-  "/crm/reviews": "Open Reviews",
-  "/crm/settings": "Open Settings",
+  "/admin": "Open Dashboard",
+  "/admin/leads": "Open Leads",
+  "/admin/conversations": "Open Conversations",
+  "/admin/customers": "Open Customers",
+  "/admin/marketing": "Open Marketing",
+  "/admin/reports": "Open Reports",
+  "/admin/reviews": "Open Reviews",
+  "/admin/settings": "Open Settings",
 };
 const routeLabel = (to: string) => ROUTE_LABELS[to] ?? `Open ${to}`;
 
@@ -40,7 +40,7 @@ const SUGGESTED_CHIPS = [
 ];
 
 const WELCOME_TEXT =
-  "Hey — I'm your Growth Command Assistant. I can walk you through any part of the CRM: leads, campaigns, reports, settings. What do you need?";
+  "Hey — I'm your Website Admin Assistant. I can walk you through any part of the CRM: leads, campaigns, reports, settings. What do you need?";
 
 export function CrmAssistant() {
   const [open, setOpen] = useState(false);
@@ -109,7 +109,7 @@ export function CrmAssistant() {
           (data as { error?: string })?.error ??
           "Sorry, I couldn't generate a response.";
 
-        const routeMatches = Array.from(replyText.matchAll(/\/crm(?:\/[a-z-]+)?/gi))
+        const routeMatches = Array.from(replyText.matchAll(/\/admin(?:\/[a-z-]+)?/gi))
           .map((m) => m[0].toLowerCase());
         const uniqueRoutes = Array.from(new Set(routeMatches)).slice(0, 4);
 
@@ -157,7 +157,7 @@ export function CrmAssistant() {
           borderColor: "var(--crm-primary)",
           color: "#fff",
         }}
-        aria-label="Open Growth Command Assistant"
+        aria-label="Open Website Admin Assistant"
       >
         <Sparkles className="h-3.5 w-3.5" />
         Assistant
@@ -171,7 +171,7 @@ export function CrmAssistant() {
           borderColor: "var(--crm-border)",
           color: "var(--crm-text)",
         }}
-        aria-label="Open Growth Command Assistant"
+        aria-label="Open Website Admin Assistant"
       >
         <Sparkles className="h-4 w-4" />
       </button>
@@ -191,7 +191,7 @@ export function CrmAssistant() {
             <motion.aside
               role="dialog"
               aria-modal="true"
-              aria-label="Growth Command Assistant"
+              aria-label="Website Admin Assistant"
               initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.92, y: 16 }}
               animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 12 }}
@@ -220,7 +220,7 @@ export function CrmAssistant() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold leading-tight text-[14px]" style={{ color: "var(--crm-text)" }}>
-                    Growth Command Assistant
+                    Website Admin Assistant
                   </p>
                   <p className="text-[11px] leading-tight flex items-center gap-1.5" style={{ color: "var(--crm-text-muted)" }}>
                     <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E] animate-pulse" />
@@ -363,7 +363,7 @@ function Bubble({ message }: { message: Message }) {
             {message.routes.map((to) => (
               <Link
                 key={to}
-                to={to as "/crm"}
+                to={to as "/admin"}
                 className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-semibold transition hover:-translate-y-0.5"
                 style={{
                   background: "var(--crm-primary)",
