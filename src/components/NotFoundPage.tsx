@@ -106,20 +106,27 @@ export function NotFoundPage() {
               <Link
                 key={to}
                 to={to}
-                className="card-cevons p-6 group block dark:bg-[var(--surface-2)] dark:border-[var(--hairline)]"
-                style={{ animationDelay: `${0.05 * i}s` }}
+                className="card-cevons p-6 group block"
+                style={{
+                  animationDelay: `${0.05 * i}s`,
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "rgba(26,26,26,0.12)",
+                }}
               >
                 {branded ? (
-                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cevons-cream to-cevons-green/10 ring-1 ring-cevons-green/15 shadow-sm transition-transform group-hover:scale-[1.04] dark:from-[var(--surface-3)] dark:to-[color-mix(in_srgb,var(--brand-orange)_12%,transparent)] dark:ring-[var(--hairline)]">
+                  <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cevons-cream to-cevons-green/10 ring-1 ring-cevons-green/15 shadow-sm transition-transform group-hover:scale-[1.04]">
                     <CevonsIcon icon={branded} size="md" decorative />
                   </span>
                 ) : (
-                  <span className="inline-flex items-center justify-center size-12 rounded-full bg-cevons-green/10 text-cevons-green group-hover:bg-cevons-green group-hover:text-white transition-colors dark:bg-[color-mix(in_srgb,var(--brand-orange)_14%,var(--surface-3))] dark:text-[var(--brand-orange)] dark:group-hover:bg-[var(--brand-orange)] dark:group-hover:text-[var(--brand-charcoal)]">
+                  <span
+                    className="inline-flex items-center justify-center size-12 rounded-full transition-colors"
+                    style={{ backgroundColor: "rgba(239,119,0,0.12)", color: "#B65100" }}
+                  >
                     <Icon className="size-6" />
                   </span>
                 )}
-                <h3 className="mt-4 text-base font-bold text-cevons-dark dark:text-[var(--text-strong)]">{title}</h3>
-                <p className="mt-1 text-sm text-cevons-muted dark:text-[var(--text-muted)]">{sub}</p>
+                <h3 className="mt-4 text-base font-bold" style={{ color: "#1A1A1A" }}>{title}</h3>
+                <p className="mt-1 text-sm" style={{ color: "#4A4A4A" }}>{sub}</p>
               </Link>
             ))}
           </div>
