@@ -57,6 +57,8 @@ type MediaPost = {
   image_h: number | null;
   published: boolean;
   sort_order: number;
+  publish_at: string | null;
+  unpublish_at: string | null;
 };
 
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
@@ -526,6 +528,8 @@ function MediaRow({
           {post.image_w && post.image_h ? <span>{post.image_w} × {post.image_h}px</span> : <span>No image</span>}
           <span>Position {post.sort_order}</span>
         </div>
+
+        <Scheduling post={post} disabled={!mayPublish} onPatch={onPatch} />
 
         {isPortraitSlide && (
           <div

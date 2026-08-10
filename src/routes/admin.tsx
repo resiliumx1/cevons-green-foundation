@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutGrid,
+  LayoutTemplate,
+  Tag,
   Users,
   UsersRound,
   MessageSquare,
@@ -80,6 +82,8 @@ const nav = [
   { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
   { to: "/admin/newsroom", label: "Newsroom", icon: Newspaper },
   { to: "/admin/media", label: "Media", icon: ImageIcon },
+  { to: "/admin/pages", label: "Pages", icon: LayoutTemplate },
+  { to: "/admin/promotions", label: "Promotions", icon: Tag },
 
   { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
   { to: "/admin/audit", label: "Audit Log", icon: FileClock },
