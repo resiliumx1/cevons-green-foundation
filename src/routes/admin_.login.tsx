@@ -4,6 +4,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from "luc
 import logo from "@/assets/cevons-logo-transparent.png";
 import { supabase } from "@/integrations/supabase/client";
 import { describeAuthError } from "@/lib/adminAuth";
+import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
 
 type LoginSearch = { redirect?: string };
 
@@ -25,6 +26,15 @@ export const Route = createFileRoute("/admin_/login")({
 });
 
 function LoginPage() {
+  return (
+    <CrmThemeProvider>
+      <LoginScreen />
+    </CrmThemeProvider>
+  );
+}
+
+function LoginScreen() {
+  const { theme } = useCrmTheme();
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
   const [showPw, setShowPw] = useState(false);
@@ -98,7 +108,7 @@ function LoginPage() {
   };
 
   return (
-    <div data-crm-theme="manifest" className="admin-auth-page">
+    <div data-crm-theme="manifest" data-theme={theme} className="admin-auth-page">
       {/* Navy field with a single orange rule — no glass, no off-palette green */}
       <div className="admin-auth-rule" aria-hidden />
 
