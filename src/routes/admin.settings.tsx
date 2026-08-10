@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Building2, Users, Bell, GitBranch, Palette, Sparkles, Sun,
   Check, Save, RefreshCw, AlertCircle, Plus, X, Trash2,
-  Phone, MapPin, Clock, Award, MessageCircle,
+  Phone, MapPin, Clock, Award, MessageCircle, Lock,
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
