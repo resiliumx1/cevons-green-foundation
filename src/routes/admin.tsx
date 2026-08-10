@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutGrid,
   Users,
+  UsersRound,
   MessageSquare,
   ContactRound,
   Megaphone,
