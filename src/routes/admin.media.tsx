@@ -36,7 +36,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export const Route = createFileRoute("/crm/media")({
+export const Route = createFileRoute("/admin/media")({
   head: () => ({
     meta: [{ title: "Media | CEVONS Growth Command" }, { name: "robots", content: "noindex,nofollow" }],
   }),

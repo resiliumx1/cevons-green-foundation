@@ -4,7 +4,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import logo from "@/assets/cevons-logo.png";
 import bg from "@/assets/cevons-login-bg.jpg";
 
-export const Route = createFileRoute("/crm/login")({
+export const Route = createFileRoute("/admin/login")({
   head: () => ({
     meta: [
       { title: "Log In | CEVONS Growth Command" },

@@ -42,7 +42,7 @@ import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 import { CrmCommandPalette } from "@/components/crm/CommandPalette";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/crm")({
+export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "CEVONS Growth Command" },

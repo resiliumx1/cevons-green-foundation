@@ -16,7 +16,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { CountUp } from "@/components/CountUp";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/crm/")({
+export const Route = createFileRoute("/admin/")({
   component: Dashboard,
 });
 

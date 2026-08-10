@@ -10,7 +10,7 @@ import {
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/crm/settings")({
+export const Route = createFileRoute("/admin/settings")({
   head: () => ({ meta: [{ title: "Settings | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: SettingsPage,
 });

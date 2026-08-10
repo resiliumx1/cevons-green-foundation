@@ -11,7 +11,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/crm/leads/$id")({
+export const Route = createFileRoute("/admin/leads/$id")({
   component: LeadDetail,
 });
 

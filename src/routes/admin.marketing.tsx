@@ -15,7 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { CrmTooltip, CRM_AXIS, CRM_GRID, CRM_TOOLTIP_CURSOR } from "@/components/crm/chartTheme";
 
-export const Route = createFileRoute("/crm/marketing")({
+export const Route = createFileRoute("/admin/marketing")({
   head: () => ({ meta: [{ title: "Marketing Performance | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: MarketingPage,
 });

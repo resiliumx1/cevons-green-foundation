@@ -11,7 +11,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/crm/reviews")({
+export const Route = createFileRoute("/admin/reviews")({
   head: () => ({ meta: [{ title: "Reviews | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: ReviewsPage,
 });

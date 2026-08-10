@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
-export const Route = createFileRoute("/crm/newsroom")({
+export const Route = createFileRoute("/admin/newsroom")({
   head: () => ({ meta: [{ title: "Newsroom | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: CrmNewsroomPage,
 });

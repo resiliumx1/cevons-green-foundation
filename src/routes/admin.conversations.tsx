@@ -10,7 +10,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { ContactMessagesInbox } from "@/components/crm/ContactMessagesInbox";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/crm/conversations")({
+export const Route = createFileRoute("/admin/conversations")({
   head: () => ({ meta: [{ title: "Conversations | CEVONS Growth Command" }, { name: "robots", content: "noindex" }] }),
   component: ConversationsPage,
 });

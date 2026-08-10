@@ -10,7 +10,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/crm/leads")({
+export const Route = createFileRoute("/admin/leads")({
   component: LeadsLayout,
 });
 

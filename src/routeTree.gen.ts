@@ -16,14 +16,14 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as IndustriesRouteImport } from './routes/industries'
-import { Route as CrmRouteImport } from './routes/crm'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as RequestServiceIndexRouteImport } from './routes/request-service.index'
-import { Route as CrmIndexRouteImport } from './routes/crm.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used-waste-oil'
 import { Route as ServicesUsedCookingOilRouteImport } from './routes/services.used-cooking-oil'
@@ -49,18 +49,18 @@ import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/servi
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
 import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
-import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
-import { Route as CrmReviewsRouteImport } from './routes/crm.reviews'
-import { Route as CrmReportsRouteImport } from './routes/crm.reports'
-import { Route as CrmNewsroomRouteImport } from './routes/crm.newsroom'
-import { Route as CrmMediaRouteImport } from './routes/crm.media'
-import { Route as CrmMarketingRouteImport } from './routes/crm.marketing'
-import { Route as CrmLoginRouteImport } from './routes/crm.login'
-import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
-import { Route as CrmCustomersRouteImport } from './routes/crm.customers'
-import { Route as CrmConversationsRouteImport } from './routes/crm.conversations'
-import { Route as CrmAuditRouteImport } from './routes/crm.audit'
-import { Route as CrmLeadsIdRouteImport } from './routes/crm.leads.$id'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminNewsroomRouteImport } from './routes/admin.newsroom'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminMarketingRouteImport } from './routes/admin.marketing'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
+import { Route as AdminConversationsRouteImport } from './routes/admin.conversations'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 
 const TrackRequestRoute = TrackRequestRouteImport.update({
   id: '/track-request',
@@ -97,11 +97,6 @@ const IndustriesRoute = IndustriesRouteImport.update({
   path: '/industries',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CrmRoute = CrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -110,6 +105,11 @@ const ContactRoute = ContactRouteImport.update({
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -132,10 +132,10 @@ const RequestServiceIndexRoute = RequestServiceIndexRouteImport.update({
   path: '/request-service/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CrmIndexRoute = CrmIndexRouteImport.update({
+const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 const ServicesWastewaterRoute = ServicesWastewaterRouteImport.update({
   id: '/wastewater',
@@ -275,73 +275,73 @@ const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
   path: '/dev/motion-debug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CrmSettingsRoute = CrmSettingsRouteImport.update({
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmReviewsRoute = CrmReviewsRouteImport.update({
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmReportsRoute = CrmReportsRouteImport.update({
+const AdminReportsRoute = AdminReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmNewsroomRoute = CrmNewsroomRouteImport.update({
+const AdminNewsroomRoute = AdminNewsroomRouteImport.update({
   id: '/newsroom',
   path: '/newsroom',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmMediaRoute = CrmMediaRouteImport.update({
+const AdminMediaRoute = AdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmMarketingRoute = CrmMarketingRouteImport.update({
+const AdminMarketingRoute = AdminMarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmLoginRoute = CrmLoginRouteImport.update({
+const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmLeadsRoute = CrmLeadsRouteImport.update({
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmCustomersRoute = CrmCustomersRouteImport.update({
+const AdminCustomersRoute = AdminCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmConversationsRoute = CrmConversationsRouteImport.update({
+const AdminConversationsRoute = AdminConversationsRouteImport.update({
   id: '/conversations',
   path: '/conversations',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmAuditRoute = CrmAuditRouteImport.update({
+const AdminAuditRoute = AdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
-  getParentRoute: () => CrmRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const CrmLeadsIdRoute = CrmLeadsIdRouteImport.update({
+const AdminLeadsIdRoute = AdminLeadsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
-  getParentRoute: () => CrmLeadsRoute,
+  getParentRoute: () => AdminLeadsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
@@ -349,17 +349,17 @@ export interface FileRoutesByFullPath {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
-  '/crm/audit': typeof CrmAuditRoute
-  '/crm/conversations': typeof CrmConversationsRoute
-  '/crm/customers': typeof CrmCustomersRoute
-  '/crm/leads': typeof CrmLeadsRouteWithChildren
-  '/crm/login': typeof CrmLoginRoute
-  '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/media': typeof CrmMediaRoute
-  '/crm/newsroom': typeof CrmNewsroomRoute
-  '/crm/reports': typeof CrmReportsRoute
-  '/crm/reviews': typeof CrmReviewsRoute
-  '/crm/settings': typeof CrmSettingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/conversations': typeof AdminConversationsRoute
+  '/admin/customers': typeof AdminCustomersRoute
+  '/admin/leads': typeof AdminLeadsRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/marketing': typeof AdminMarketingRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -385,10 +385,10 @@ export interface FileRoutesByFullPath {
   '/services/used-cooking-oil': typeof ServicesUsedCookingOilRoute
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
-  '/crm/': typeof CrmIndexRoute
+  '/admin/': typeof AdminIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
-  '/crm/leads/$id': typeof CrmLeadsIdRoute
+  '/admin/leads/$id': typeof AdminLeadsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -401,17 +401,17 @@ export interface FileRoutesByTo {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
-  '/crm/audit': typeof CrmAuditRoute
-  '/crm/conversations': typeof CrmConversationsRoute
-  '/crm/customers': typeof CrmCustomersRoute
-  '/crm/leads': typeof CrmLeadsRouteWithChildren
-  '/crm/login': typeof CrmLoginRoute
-  '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/media': typeof CrmMediaRoute
-  '/crm/newsroom': typeof CrmNewsroomRoute
-  '/crm/reports': typeof CrmReportsRoute
-  '/crm/reviews': typeof CrmReviewsRoute
-  '/crm/settings': typeof CrmSettingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/conversations': typeof AdminConversationsRoute
+  '/admin/customers': typeof AdminCustomersRoute
+  '/admin/leads': typeof AdminLeadsRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/marketing': typeof AdminMarketingRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -437,18 +437,18 @@ export interface FileRoutesByTo {
   '/services/used-cooking-oil': typeof ServicesUsedCookingOilRoute
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
-  '/crm': typeof CrmIndexRoute
+  '/admin': typeof AdminIndexRoute
   '/request-service': typeof RequestServiceIndexRoute
   '/services': typeof ServicesIndexRoute
-  '/crm/leads/$id': typeof CrmLeadsIdRoute
+  '/admin/leads/$id': typeof AdminLeadsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
-  '/crm': typeof CrmRouteWithChildren
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/resources': typeof ResourcesRoute
@@ -456,17 +456,17 @@ export interface FileRoutesById {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
-  '/crm/audit': typeof CrmAuditRoute
-  '/crm/conversations': typeof CrmConversationsRoute
-  '/crm/customers': typeof CrmCustomersRoute
-  '/crm/leads': typeof CrmLeadsRouteWithChildren
-  '/crm/login': typeof CrmLoginRoute
-  '/crm/marketing': typeof CrmMarketingRoute
-  '/crm/media': typeof CrmMediaRoute
-  '/crm/newsroom': typeof CrmNewsroomRoute
-  '/crm/reports': typeof CrmReportsRoute
-  '/crm/reviews': typeof CrmReviewsRoute
-  '/crm/settings': typeof CrmSettingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/conversations': typeof AdminConversationsRoute
+  '/admin/customers': typeof AdminCustomersRoute
+  '/admin/leads': typeof AdminLeadsRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/marketing': typeof AdminMarketingRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/newsroom': typeof AdminNewsroomRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -492,19 +492,19 @@ export interface FileRoutesById {
   '/services/used-cooking-oil': typeof ServicesUsedCookingOilRoute
   '/services/used-waste-oil': typeof ServicesUsedWasteOilRoute
   '/services/wastewater': typeof ServicesWastewaterRoute
-  '/crm/': typeof CrmIndexRoute
+  '/admin/': typeof AdminIndexRoute
   '/request-service/': typeof RequestServiceIndexRoute
   '/services/': typeof ServicesIndexRoute
-  '/crm/leads/$id': typeof CrmLeadsIdRoute
+  '/admin/leads/$id': typeof AdminLeadsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/careers'
     | '/contact'
-    | '/crm'
     | '/industries'
     | '/locations'
     | '/resources'
@@ -512,17 +512,17 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
-    | '/crm/audit'
-    | '/crm/conversations'
-    | '/crm/customers'
-    | '/crm/leads'
-    | '/crm/login'
-    | '/crm/marketing'
-    | '/crm/media'
-    | '/crm/newsroom'
-    | '/crm/reports'
-    | '/crm/reviews'
-    | '/crm/settings'
+    | '/admin/audit'
+    | '/admin/conversations'
+    | '/admin/customers'
+    | '/admin/leads'
+    | '/admin/login'
+    | '/admin/marketing'
+    | '/admin/media'
+    | '/admin/newsroom'
+    | '/admin/reports'
+    | '/admin/reviews'
+    | '/admin/settings'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -548,10 +548,10 @@ export interface FileRouteTypes {
     | '/services/used-cooking-oil'
     | '/services/used-waste-oil'
     | '/services/wastewater'
-    | '/crm/'
+    | '/admin/'
     | '/request-service/'
     | '/services/'
-    | '/crm/leads/$id'
+    | '/admin/leads/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -564,17 +564,17 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
-    | '/crm/audit'
-    | '/crm/conversations'
-    | '/crm/customers'
-    | '/crm/leads'
-    | '/crm/login'
-    | '/crm/marketing'
-    | '/crm/media'
-    | '/crm/newsroom'
-    | '/crm/reports'
-    | '/crm/reviews'
-    | '/crm/settings'
+    | '/admin/audit'
+    | '/admin/conversations'
+    | '/admin/customers'
+    | '/admin/leads'
+    | '/admin/login'
+    | '/admin/marketing'
+    | '/admin/media'
+    | '/admin/newsroom'
+    | '/admin/reports'
+    | '/admin/reviews'
+    | '/admin/settings'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -600,17 +600,17 @@ export interface FileRouteTypes {
     | '/services/used-cooking-oil'
     | '/services/used-waste-oil'
     | '/services/wastewater'
-    | '/crm'
+    | '/admin'
     | '/request-service'
     | '/services'
-    | '/crm/leads/$id'
+    | '/admin/leads/$id'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/careers'
     | '/contact'
-    | '/crm'
     | '/industries'
     | '/locations'
     | '/resources'
@@ -618,17 +618,17 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
-    | '/crm/audit'
-    | '/crm/conversations'
-    | '/crm/customers'
-    | '/crm/leads'
-    | '/crm/login'
-    | '/crm/marketing'
-    | '/crm/media'
-    | '/crm/newsroom'
-    | '/crm/reports'
-    | '/crm/reviews'
-    | '/crm/settings'
+    | '/admin/audit'
+    | '/admin/conversations'
+    | '/admin/customers'
+    | '/admin/leads'
+    | '/admin/login'
+    | '/admin/marketing'
+    | '/admin/media'
+    | '/admin/newsroom'
+    | '/admin/reports'
+    | '/admin/reviews'
+    | '/admin/settings'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -654,18 +654,18 @@ export interface FileRouteTypes {
     | '/services/used-cooking-oil'
     | '/services/used-waste-oil'
     | '/services/wastewater'
-    | '/crm/'
+    | '/admin/'
     | '/request-service/'
     | '/services/'
-    | '/crm/leads/$id'
+    | '/admin/leads/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
-  CrmRoute: typeof CrmRouteWithChildren
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
   ResourcesRoute: typeof ResourcesRoute
@@ -730,13 +730,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndustriesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/crm': {
-      id: '/crm'
-      path: '/crm'
-      fullPath: '/crm'
-      preLoaderRoute: typeof CrmRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -749,6 +742,13 @@ declare module '@tanstack/react-router' {
       path: '/careers'
       fullPath: '/careers'
       preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -779,12 +779,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestServiceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/crm/': {
-      id: '/crm/'
+    '/admin/': {
+      id: '/admin/'
       path: '/'
-      fullPath: '/crm/'
-      preLoaderRoute: typeof CrmIndexRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/services/wastewater': {
       id: '/services/wastewater'
@@ -961,136 +961,136 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevMotionDebugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/crm/settings': {
-      id: '/crm/settings'
+    '/admin/settings': {
+      id: '/admin/settings'
       path: '/settings'
-      fullPath: '/crm/settings'
-      preLoaderRoute: typeof CrmSettingsRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/reviews': {
-      id: '/crm/reviews'
+    '/admin/reviews': {
+      id: '/admin/reviews'
       path: '/reviews'
-      fullPath: '/crm/reviews'
-      preLoaderRoute: typeof CrmReviewsRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/reports': {
-      id: '/crm/reports'
+    '/admin/reports': {
+      id: '/admin/reports'
       path: '/reports'
-      fullPath: '/crm/reports'
-      preLoaderRoute: typeof CrmReportsRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/newsroom': {
-      id: '/crm/newsroom'
+    '/admin/newsroom': {
+      id: '/admin/newsroom'
       path: '/newsroom'
-      fullPath: '/crm/newsroom'
-      preLoaderRoute: typeof CrmNewsroomRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/newsroom'
+      preLoaderRoute: typeof AdminNewsroomRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/media': {
-      id: '/crm/media'
+    '/admin/media': {
+      id: '/admin/media'
       path: '/media'
-      fullPath: '/crm/media'
-      preLoaderRoute: typeof CrmMediaRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/marketing': {
-      id: '/crm/marketing'
+    '/admin/marketing': {
+      id: '/admin/marketing'
       path: '/marketing'
-      fullPath: '/crm/marketing'
-      preLoaderRoute: typeof CrmMarketingRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/marketing'
+      preLoaderRoute: typeof AdminMarketingRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/login': {
-      id: '/crm/login'
+    '/admin/login': {
+      id: '/admin/login'
       path: '/login'
-      fullPath: '/crm/login'
-      preLoaderRoute: typeof CrmLoginRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/leads': {
-      id: '/crm/leads'
+    '/admin/leads': {
+      id: '/admin/leads'
       path: '/leads'
-      fullPath: '/crm/leads'
-      preLoaderRoute: typeof CrmLeadsRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/customers': {
-      id: '/crm/customers'
+    '/admin/customers': {
+      id: '/admin/customers'
       path: '/customers'
-      fullPath: '/crm/customers'
-      preLoaderRoute: typeof CrmCustomersRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof AdminCustomersRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/conversations': {
-      id: '/crm/conversations'
+    '/admin/conversations': {
+      id: '/admin/conversations'
       path: '/conversations'
-      fullPath: '/crm/conversations'
-      preLoaderRoute: typeof CrmConversationsRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/conversations'
+      preLoaderRoute: typeof AdminConversationsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/audit': {
-      id: '/crm/audit'
+    '/admin/audit': {
+      id: '/admin/audit'
       path: '/audit'
-      fullPath: '/crm/audit'
-      preLoaderRoute: typeof CrmAuditRouteImport
-      parentRoute: typeof CrmRoute
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/crm/leads/$id': {
-      id: '/crm/leads/$id'
+    '/admin/leads/$id': {
+      id: '/admin/leads/$id'
       path: '/$id'
-      fullPath: '/crm/leads/$id'
-      preLoaderRoute: typeof CrmLeadsIdRouteImport
-      parentRoute: typeof CrmLeadsRoute
+      fullPath: '/admin/leads/$id'
+      preLoaderRoute: typeof AdminLeadsIdRouteImport
+      parentRoute: typeof AdminLeadsRoute
     }
   }
 }
 
-interface CrmLeadsRouteChildren {
-  CrmLeadsIdRoute: typeof CrmLeadsIdRoute
+interface AdminLeadsRouteChildren {
+  AdminLeadsIdRoute: typeof AdminLeadsIdRoute
 }
 
-const CrmLeadsRouteChildren: CrmLeadsRouteChildren = {
-  CrmLeadsIdRoute: CrmLeadsIdRoute,
+const AdminLeadsRouteChildren: AdminLeadsRouteChildren = {
+  AdminLeadsIdRoute: AdminLeadsIdRoute,
 }
 
-const CrmLeadsRouteWithChildren = CrmLeadsRoute._addFileChildren(
-  CrmLeadsRouteChildren,
+const AdminLeadsRouteWithChildren = AdminLeadsRoute._addFileChildren(
+  AdminLeadsRouteChildren,
 )
 
-interface CrmRouteChildren {
-  CrmAuditRoute: typeof CrmAuditRoute
-  CrmConversationsRoute: typeof CrmConversationsRoute
-  CrmCustomersRoute: typeof CrmCustomersRoute
-  CrmLeadsRoute: typeof CrmLeadsRouteWithChildren
-  CrmLoginRoute: typeof CrmLoginRoute
-  CrmMarketingRoute: typeof CrmMarketingRoute
-  CrmMediaRoute: typeof CrmMediaRoute
-  CrmNewsroomRoute: typeof CrmNewsroomRoute
-  CrmReportsRoute: typeof CrmReportsRoute
-  CrmReviewsRoute: typeof CrmReviewsRoute
-  CrmSettingsRoute: typeof CrmSettingsRoute
-  CrmIndexRoute: typeof CrmIndexRoute
+interface AdminRouteChildren {
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminConversationsRoute: typeof AdminConversationsRoute
+  AdminCustomersRoute: typeof AdminCustomersRoute
+  AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminMarketingRoute: typeof AdminMarketingRoute
+  AdminMediaRoute: typeof AdminMediaRoute
+  AdminNewsroomRoute: typeof AdminNewsroomRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
-const CrmRouteChildren: CrmRouteChildren = {
-  CrmAuditRoute: CrmAuditRoute,
-  CrmConversationsRoute: CrmConversationsRoute,
-  CrmCustomersRoute: CrmCustomersRoute,
-  CrmLeadsRoute: CrmLeadsRouteWithChildren,
-  CrmLoginRoute: CrmLoginRoute,
-  CrmMarketingRoute: CrmMarketingRoute,
-  CrmMediaRoute: CrmMediaRoute,
-  CrmNewsroomRoute: CrmNewsroomRoute,
-  CrmReportsRoute: CrmReportsRoute,
-  CrmReviewsRoute: CrmReviewsRoute,
-  CrmSettingsRoute: CrmSettingsRoute,
-  CrmIndexRoute: CrmIndexRoute,
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAuditRoute: AdminAuditRoute,
+  AdminConversationsRoute: AdminConversationsRoute,
+  AdminCustomersRoute: AdminCustomersRoute,
+  AdminLeadsRoute: AdminLeadsRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminMarketingRoute: AdminMarketingRoute,
+  AdminMediaRoute: AdminMediaRoute,
+  AdminNewsroomRoute: AdminNewsroomRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
-const CrmRouteWithChildren = CrmRoute._addFileChildren(CrmRouteChildren)
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ServicesRouteChildren {
   ServicesBiohazardousDisposalRoute: typeof ServicesBiohazardousDisposalRoute
@@ -1151,9 +1151,9 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
-  CrmRoute: CrmRouteWithChildren,
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
   ResourcesRoute: ResourcesRoute,
