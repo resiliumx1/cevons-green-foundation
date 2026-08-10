@@ -12,6 +12,9 @@ import {
   Activity,
   FileClock,
   Image as ImageIcon,
+  Images,
+  Mail,
+
   Settings,
   Search,
   PanelLeftClose,
