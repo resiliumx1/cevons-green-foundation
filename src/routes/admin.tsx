@@ -43,6 +43,19 @@ import { CrmCommandPalette } from "@/components/admin/CommandPalette";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
+  // Session lives in localStorage, so the gate must run client-side only.
+  ssr: false,
+  beforeLoad: async ({ location }) => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+      throw redirect({
+        to: "/admin/login",
+        search: { redirect: location.href },
+        replace: true,
+      });
+    }
+    return { user: data.user };
+  },
   head: () => ({
     meta: [
       { title: "CEVONS Website Admin" },
@@ -69,12 +82,64 @@ const nav = [
 
 
 function CrmRoot() {
+  const identity = useAdminIdentity();
+  const navigate = useNavigate();
+
+  // React to sign-out / token refresh anywhere in the app.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") {
+        navigate({ to: "/admin/login", replace: true });
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [navigate]);
+
+  if (identity.loading) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-950 text-sm text-white/70">
+        Checking your access…
+      </div>
+    );
+  }
+
+  if (identity.roles.length === 0) {
+    return <NoAccessScreen email={identity.email} />;
+  }
+
   return (
     <CrmThemeProvider>
       <CrmLayout />
     </CrmThemeProvider>
   );
 }
+
+function NoAccessScreen({ email }: { email: string | null }) {
+  const navigate = useNavigate();
+  return (
+    <div className="grid min-h-screen place-items-center bg-slate-950 px-6 text-center text-white">
+      <div className="max-w-md space-y-4">
+        <h1 className="text-2xl font-semibold">This account has no access yet</h1>
+        <p className="text-sm text-white/70">
+          {email ? `${email} is signed in, but ` : ""}no role has been assigned to this account. Contact your
+          administrator to be granted access to CEVONS Website Admin.
+        </p>
+        <button
+          type="button"
+          onClick={async () => {
+            await signOutAdmin();
+            navigate({ to: "/admin/login", replace: true });
+          }}
+          className="mx-auto flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign out
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
 function CrmLayout() {
   const { theme } = useCrmTheme();
