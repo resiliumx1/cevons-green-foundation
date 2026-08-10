@@ -22,25 +22,26 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 
 const ROUTE_LABELS: Record<string, string> = {
   "/admin": "Open Dashboard",
-  "/admin/leads": "Open Leads",
-  "/admin/conversations": "Open Conversations",
-  "/admin/customers": "Open Customers",
-  "/admin/marketing": "Open Marketing",
-  "/admin/reports": "Open Reports",
-  "/admin/reviews": "Open Reviews",
+  "/admin/traffic": "Open Traffic",
+  "/admin/pages": "Open Pages",
+  "/admin/media": "Open Media",
+  "/admin/promotions": "Open Promotions",
+  "/admin/leads": "Open Requests",
+  "/admin/people": "Open People",
+  "/admin/audit": "Open Activity log",
   "/admin/settings": "Open Settings",
 };
 const routeLabel = (to: string) => ROUTE_LABELS[to] ?? `Open ${to}`;
 
 const SUGGESTED_CHIPS = [
-  "How do I add a lead?",
-  "Where's campaign ROI?",
-  "Import customers",
-  "Explain the pipeline",
+  "How do I edit a page?",
+  "Schedule a photo",
+  "Run a promotion",
+  "Where do requests go?",
 ];
 
 const WELCOME_TEXT =
-  "Hey — I'm your Website Admin Assistant. I can walk you through any part of the CRM: leads, campaigns, reports, settings. What do you need?";
+  "Hey — I'm your Website Admin Assistant. I can walk you through pages, media, promotions, requests and settings. What do you need?";
 
 export function CrmAssistant() {
   const [open, setOpen] = useState(false);
