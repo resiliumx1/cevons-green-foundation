@@ -49,13 +49,13 @@ import { Route as ServicesBiohazardousDisposalRouteImport } from './routes/servi
 import { Route as RequestServiceConfirmationRouteImport } from './routes/request-service.confirmation'
 import { Route as DevServiceActionButtonRouteImport } from './routes/dev.service-action-button'
 import { Route as DevMotionDebugRouteImport } from './routes/dev.motion-debug'
+import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminNewsroomRouteImport } from './routes/admin.newsroom'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminMarketingRouteImport } from './routes/admin.marketing'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminConversationsRouteImport } from './routes/admin.conversations'
@@ -275,6 +275,11 @@ const DevMotionDebugRoute = DevMotionDebugRouteImport.update({
   path: '/dev/motion-debug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin_/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -303,11 +308,6 @@ const AdminMediaRoute = AdminMediaRouteImport.update({
 const AdminMarketingRoute = AdminMarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLeadsRoute = AdminLeadsRouteImport.update({
@@ -353,13 +353,13 @@ export interface FileRoutesByFullPath {
   '/admin/conversations': typeof AdminConversationsRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/login': typeof AdminLoginRoute
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -405,13 +405,13 @@ export interface FileRoutesByTo {
   '/admin/conversations': typeof AdminConversationsRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/login': typeof AdminLoginRoute
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -460,13 +460,13 @@ export interface FileRoutesById {
   '/admin/conversations': typeof AdminConversationsRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
-  '/admin/login': typeof AdminLoginRoute
   '/admin/marketing': typeof AdminMarketingRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/newsroom': typeof AdminNewsroomRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin_/login': typeof AdminLoginRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
   '/dev/service-action-button': typeof DevServiceActionButtonRoute
   '/request-service/confirmation': typeof RequestServiceConfirmationRoute
@@ -516,13 +516,13 @@ export interface FileRouteTypes {
     | '/admin/conversations'
     | '/admin/customers'
     | '/admin/leads'
-    | '/admin/login'
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/login'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -568,13 +568,13 @@ export interface FileRouteTypes {
     | '/admin/conversations'
     | '/admin/customers'
     | '/admin/leads'
-    | '/admin/login'
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/login'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -622,13 +622,13 @@ export interface FileRouteTypes {
     | '/admin/conversations'
     | '/admin/customers'
     | '/admin/leads'
-    | '/admin/login'
     | '/admin/marketing'
     | '/admin/media'
     | '/admin/newsroom'
     | '/admin/reports'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/admin_/login'
     | '/dev/motion-debug'
     | '/dev/service-action-button'
     | '/request-service/confirmation'
@@ -673,6 +673,7 @@ export interface RootRouteChildren {
   SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   DevMotionDebugRoute: typeof DevMotionDebugRoute
   DevServiceActionButtonRoute: typeof DevServiceActionButtonRoute
   RequestServiceConfirmationRoute: typeof RequestServiceConfirmationRoute
@@ -961,6 +962,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevMotionDebugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/login': {
+      id: '/admin_/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
@@ -1001,13 +1009,6 @@ declare module '@tanstack/react-router' {
       path: '/marketing'
       fullPath: '/admin/marketing'
       preLoaderRoute: typeof AdminMarketingRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/leads': {
@@ -1065,7 +1066,6 @@ interface AdminRouteChildren {
   AdminConversationsRoute: typeof AdminConversationsRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
-  AdminLoginRoute: typeof AdminLoginRoute
   AdminMarketingRoute: typeof AdminMarketingRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminNewsroomRoute: typeof AdminNewsroomRoute
@@ -1080,7 +1080,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminConversationsRoute: AdminConversationsRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminLeadsRoute: AdminLeadsRouteWithChildren,
-  AdminLoginRoute: AdminLoginRoute,
   AdminMarketingRoute: AdminMarketingRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminNewsroomRoute: AdminNewsroomRoute,
@@ -1161,6 +1160,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
+  AdminLoginRoute: AdminLoginRoute,
   DevMotionDebugRoute: DevMotionDebugRoute,
   DevServiceActionButtonRoute: DevServiceActionButtonRoute,
   RequestServiceConfirmationRoute: RequestServiceConfirmationRoute,

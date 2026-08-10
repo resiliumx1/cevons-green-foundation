@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /crm
-Disallow: /crm/
+Disallow: /admin
+Disallow: /admin/
 
 Sitemap: https://cevons-green-foundation.lovable.app/sitemap.xml
