@@ -749,21 +749,22 @@ const THEME_OPTIONS: Array<{
   preview: { bg: string; sidebar: string; sidebarText: string; accent: string; surface: string; text: string };
 }> = [
   {
-    id: "emerald",
-    name: "Emerald Professional",
-    description: "Clean, executive, and easy to use for daily operations.",
-    badge: "Recommended",
-    swatches: ["#1A1A1A", "#EF7700", "#FFD200", "#E31B23", "#F7F8F5"],
-    preview: { bg: "#F7F8F5", sidebar: "#1A1A1A", sidebarText: "#DFF5E9", accent: "#EF7700", surface: "#FFFFFF", text: "#101820" },
+    id: "dark",
+    name: "Manifest Dark",
+    description: "Navy field with white type — the default CEVONS Website Admin look.",
+    badge: "Default",
+    swatches: ["#060A28", "#0C1240", "#EF7700", "#FCE722", "#FFFFFF"],
+    preview: { bg: "#060A28", sidebar: "#000080", sidebarText: "#FFFFFF", accent: "#EF7700", surface: "#0C1240", text: "#FFFFFF" },
   },
   {
-    id: "sunset",
-    name: "Sunset Marketing",
-    description: "Warm, modern, and energetic for marketing-focused teams.",
-    swatches: ["#FFF4EA", "#FF8A3D", "#FFD200", "#EF7700", "#FF5A5F"],
-    preview: { bg: "#FFF8F1", sidebar: "#FFF4EA", sidebarText: "#334155", accent: "#FF8A3D", surface: "#FFFFFF", text: "#101820" },
+    id: "light",
+    name: "Manifest Light",
+    description: "Paper field with navy type, for bright rooms and printing.",
+    swatches: ["#E9ECF6", "#FFFFFF", "#000080", "#EF7700", "#12163A"],
+    preview: { bg: "#E9ECF6", sidebar: "#000080", sidebarText: "#FFFFFF", accent: "#EF7700", surface: "#FFFFFF", text: "#12163A" },
   },
 ];
+
 
 function ThemePreview({ preview }: { preview: (typeof THEME_OPTIONS)[number]["preview"] }) {
   return (
