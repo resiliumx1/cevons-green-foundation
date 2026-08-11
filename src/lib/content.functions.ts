@@ -174,3 +174,35 @@ export const discardContentDraft = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { key: row.key, published: row.published_value, draft: row.draft_value };
   });
+
+/**
+ * Publishes every outstanding draft on one page in a single action — the
+ * "Publish all changes" button in the on-page edit bar. The publish guard
+ * trigger still rejects the write for roles without `can_publish`, so this is
+ * safe to expose to any staff member.
+ */
+export const publishPageDrafts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { page: string }) => ({ page: String(data?.page ?? "") }))
+  .handler(async ({ data, context }): Promise<SavedString[]> => {
+    if (!data.page) throw new Error("Missing page");
+    const { data: rows, error } = await context.supabase
+      .from("content_strings")
+      .select("key, draft_value")
+      .eq("page", data.page)
+      .not("draft_value", "is", null);
+    if (error) throw new Error(error.message);
+
+    const saved: SavedString[] = [];
+    for (const r of rows ?? []) {
+      const { data: row, error: e } = await context.supabase
+        .from("content_strings")
+        .update({ published_value: r.draft_value, draft_value: null })
+        .eq("key", r.key)
+        .select("key, published_value, draft_value")
+        .single();
+      if (e) throw new Error(e.message);
+      saved.push({ key: row.key, published: row.published_value, draft: row.draft_value });
+    }
+    return saved;
+  });
