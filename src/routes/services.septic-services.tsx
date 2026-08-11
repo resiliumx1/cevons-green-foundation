@@ -98,37 +98,42 @@ function FleetSection() {
           <h2 id="fleet-h" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">The equipment we bring to your property</h2>
           <p className="mt-4 text-cevons-muted leading-relaxed">Purpose-built vacuum tankers and trained CEVONS crews, serving homes and businesses across Georgetown, Linden and Berbice.</p>
         </div>
-        <div className="grid lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-10 items-center mb-10">
-          <img
-            src="/assets/services/septic-tanker-angle.webp"
-            alt="CEVONS vacuum tanker truck used for septic tank emptying, front three-quarter view"
-            width={1200}
-            height={857}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto"
-          />
-          <img
-            src="/assets/services/septic-tanker-side.webp"
-            alt="CEVONS vacuum tanker truck, side profile showing the tank and suction equipment"
-            width={600}
-            height={272}
-            loading="lazy"
-            decoding="async"
-            className="w-full max-w-[420px] mx-auto h-auto"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+          <div className="w-full max-w-[368px] mx-auto">
+            <img
+              src="/assets/services/septic-tanker-angle.webp"
+              alt="CEVONS vacuum tanker truck used for septic tank emptying, front three-quarter view"
+              width={1200}
+              height={857}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto block"
+            />
+          </div>
+          <div className="w-full max-w-[368px] mx-auto">
+            <img
+              src="/assets/services/septic-tanker-side.webp"
+              alt="CEVONS vacuum tanker truck, side profile showing the tank and suction equipment"
+              width={600}
+              height={272}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto block"
+            />
+          </div>
+          <div className="w-full max-w-[368px] mx-auto rounded-2xl overflow-hidden shadow-lift">
+            <img
+              src="/assets/services/septic-truck-onsite.webp"
+              alt="A CEVONS vacuum tanker on site in Guyana with a CEVONS operator in high-visibility gear"
+              width={1200}
+              height={1200}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto block"
+            />
+          </div>
         </div>
-        <div className="rounded-2xl overflow-hidden shadow-lift max-w-4xl mx-auto">
-          <img
-            src="/assets/services/septic-truck-onsite.webp"
-            alt="A CEVONS vacuum tanker on site in Guyana with a CEVONS operator in high-visibility gear"
-            width={1200}
-            height={1200}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto block"
-          />
-        </div>
+
       </div>
     </section>
   );
