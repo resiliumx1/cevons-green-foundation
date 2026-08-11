@@ -35,8 +35,14 @@ import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgDumpster from "@/assets/svc-dumpster.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
 import { useSectionPayload, type PageIntroPayload, type CtaBannerPayload } from "@/lib/pageSections";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/about")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "about", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "About CEVONS | Waste Management Guyana" },
@@ -99,11 +105,23 @@ const operationsImages = [
 
 
 function AboutPage() {
+  const content = Route.useLoaderData();
+  return (
+    <ContentProvider value={content}>
+      <AboutPageInner />
+    </ContentProvider>
+  );
+}
+
+function AboutPageInner() {
   const intro = useSectionPayload<PageIntroPayload>("about", "page_intro");
   const ctaCopy = useSectionPayload<CtaBannerPayload>("about", "cta_banner");
   const hero = useSiteImage("about_hero", heroAbout, "CEVONS front-office team supporting a customer inquiry at the Georgetown office");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  const ctaEyebrow = useEditableText("about.cta.eyebrow", ctaCopy?.eyebrow || "Partner With Us");
+  const ctaTitle = useEditableText("about.cta.title", ctaCopy?.title || "Ready to Work With CEVONS?");
+  const ctaSubtitle = useEditableText("about.cta.subtitle", ctaCopy?.subtitle || "Let us help you manage waste responsibly and efficiently across Guyana.");
 
   return (
     <SiteLayout>
@@ -132,10 +150,10 @@ function AboutPage() {
             </ol>
           </nav>
           <h1 id="about-h1" className={`text-white text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            {intro?.title || "About CEVONS"}
+            <Editable id="about.hero.title" label="Hero heading" as="span">{intro?.title || "About CEVONS"}</Editable>
           </h1>
           <p className={`mt-5 text-white/85 text-base md:text-xl max-w-xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            {intro?.subtitle || "Guyana’s trusted environmental services partner since 1997."}
+            <Editable id="about.hero.subtitle" label="Hero subtitle" as="span">{intro?.subtitle || "Guyana’s trusted environmental services partner since 1997."}</Editable>
           </p>
         </div>
 
@@ -147,28 +165,24 @@ function AboutPage() {
         <div className="container-cevons">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Our Story</p>
+              <Editable id="about.story.eyebrow" label="Story eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Our Story</Editable>
               <h2 id="story-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)] leading-tight">
-                Supporting a Cleaner, Safer Guyana
+                <Editable id="about.story.title" label="Story heading" as="span">Supporting a Cleaner, Safer Guyana</Editable>
               </h2>
-              <p className="mt-5 text-[var(--text-body,#4A4A4A)] leading-relaxed text-base md:text-lg">
-                For over 25 years, CEVONS Environmental Services Inc. has helped homes, businesses, industries, and communities manage waste responsibly. From collection and rentals to specialized environmental services, our team is committed to reliable service, safety, and environmental responsibility.
-              </p>
-              <p className="mt-4 text-[var(--text-body,#4A4A4A)] leading-relaxed">
-                We serve Georgetown, Linden, and Berbice with a growing fleet and a dedicated team focused on protecting the environment while delivering dependable customer support.
-              </p>
+              <Editable id="about.story.body1" label="Story paragraph 1" as="p" className="mt-5 text-[var(--text-body,#4A4A4A)] leading-relaxed text-base md:text-lg">For over 25 years, CEVONS Environmental Services Inc. has helped homes, businesses, industries, and communities manage waste responsibly. From collection and rentals to specialized environmental services, our team is committed to reliable service, safety, and environmental responsibility.</Editable>
+              <Editable id="about.story.body2" label="Story paragraph 2" as="p" className="mt-4 text-[var(--text-body,#4A4A4A)] leading-relaxed">We serve Georgetown, Linden, and Berbice with a growing fleet and a dedicated team focused on protecting the environment while delivering dependable customer support.</Editable>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   to="/services"
                   className="btn-base btn-green"
                 >
-                  Our Services <ArrowRight className="size-4" />
+                  <Editable id="about.story.cta1" label="Story CTA 1 label" as="span">Our Services</Editable> <ArrowRight className="size-4" />
                 </Link>
                 <Link
                   to="/locations"
                   className="btn-base btn-outline-green"
                 >
-                  Our Locations <ArrowRight className="size-4" />
+                  <Editable id="about.story.cta2" label="Story CTA 2 label" as="span">Our Locations</Editable> <ArrowRight className="size-4" />
                 </Link>
               </div>
             </div>
@@ -191,9 +205,9 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Mission, Vision, and Values">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">What Drives Us</p>
+            <Editable id="about.mvv.eyebrow" label="Mission Vision Values eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">What Drives Us</Editable>
             <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Mission, Vision & Values
+              <Editable id="about.mvv.title" label="Mission Vision Values heading" as="span">Mission, Vision & Values</Editable>
             </h2>
           </div>
 
@@ -223,13 +237,11 @@ function AboutPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Standards</p>
+            <Editable id="about.compliance.eyebrow" label="Compliance eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Standards</Editable>
             <h2 id="compliance-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Certified. Compliant. Committed.
+              <Editable id="about.compliance.title" label="Compliance heading" as="span">Certified. Compliant. Committed.</Editable>
             </h2>
-            <p className="mt-4 text-[var(--text-body,#4A4A4A)]">
-              CEVONS is committed to responsible environmental practices and professional service standards.
-            </p>
+            <Editable id="about.compliance.subtitle" label="Compliance subtitle" as="p" className="mt-4 text-[var(--text-body,#4A4A4A)]">CEVONS is committed to responsible environmental practices and professional service standards.</Editable>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
@@ -254,9 +266,9 @@ function AboutPage() {
       <section className="relative bg-[var(--cevons-cream,#FBF7EE)] dark:bg-[#0b0b0b] section-y" aria-label="Company impact">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">By the Numbers</p>
+            <Editable id="about.impact.eyebrow" label="Impact eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">By the Numbers</Editable>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#1A1A1A] dark:text-white">
-              Built on Decades of Trust
+              <Editable id="about.impact.title" label="Impact heading" as="span">Built on Decades of Trust</Editable>
             </h2>
           </div>
           <ul className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
@@ -292,9 +304,9 @@ function AboutPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-label="Operations gallery">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Operations</p>
+            <Editable id="about.operations.eyebrow" label="Operations eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Operations</Editable>
             <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Our Fleet & Team
+              <Editable id="about.operations.title" label="Operations heading" as="span">Our Fleet & Team</Editable>
             </h2>
           </div>
 
@@ -338,21 +350,19 @@ function AboutPage() {
             <div className="relative grid md:grid-cols-2 gap-10 lg:gap-16 items-center p-8 sm:p-10 md:p-14">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
                 <p className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-orange)]/10 ring-1 ring-[var(--brand-orange)]/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-5">
-                  <Leaf className="size-3.5" /> Responsibility
+                  <Leaf className="size-3.5" /> <Editable id="about.env.eyebrow" label="Environmental eyebrow" as="span">Responsibility</Editable>
                 </p>
                 <h2 id="env-heading" className="font-display text-3xl md:text-5xl font-extrabold leading-[1.05] text-[var(--text-heading)]">
-                  Built for Impact.<br />
-                  <span className="text-[var(--text-heading)]">Driven by Responsibility.</span>
+                  <Editable id="about.env.title" label="Environmental heading line 1" as="span">Built for Impact.</Editable><br />
+                  <span className="text-[var(--text-heading)]"><Editable id="about.env.titleHighlight" label="Environmental heading line 2" as="span">Driven by Responsibility.</Editable></span>
                 </h2>
-                <p className="mt-5 text-[var(--text-body)] leading-relaxed text-base md:text-lg max-w-lg">
-                  Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.
-                </p>
+                <Editable id="about.env.body" label="Environmental paragraph" as="p" className="mt-5 text-[var(--text-body)] leading-relaxed text-base md:text-lg max-w-lg">Our work supports cleaner communities, responsible waste handling, and better environmental outcomes for homes, businesses, and industries.</Editable>
                 <div className="mt-7 flex flex-wrap gap-3">
                   <Link
                     to="/services"
                     className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[var(--brand-orange)] text-white font-bold hover:bg-[var(--brand-orange-dark)] hover:-translate-y-0.5 transition shadow-[0_10px_24px_rgba(239,119,0,0.45)]"
                   >
-                    <Recycle className="size-5" /> Partner With Us
+                    <Recycle className="size-5" /> <Editable id="about.env.cta" label="Environmental CTA label" as="span">Partner With Us</Editable>
                   </Link>
                 </div>
               </div>
@@ -383,19 +393,19 @@ function AboutPage() {
       {/* FINAL CTA */}
       <OrangeCTABanner
         icon={Leaf}
-        eyebrow={ctaCopy?.eyebrow || "Partner With Us"}
-        title={ctaCopy?.title || "Ready to Work With CEVONS?"}
-        subtitle={ctaCopy?.subtitle || "Let us help you manage waste responsibly and efficiently across Guyana."}
+        eyebrow={ctaEyebrow}
+        title={ctaTitle}
+        subtitle={ctaSubtitle}
       >
         <Link to="/request-service" className="cta-btn-primary">
-          Request Service <ArrowRight className="size-5" />
+          <Editable id="about.cta.button1" label="CTA button 1 label" as="span">Request Service</Editable> <ArrowRight className="size-5" />
         </Link>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           className="cta-btn-wa"
         >
-          <MessageCircle className="size-5" /> WhatsApp Us
+          <MessageCircle className="size-5" /> <Editable id="about.cta.button2" label="CTA button 2 label" as="span">WhatsApp Us</Editable>
         </a>
       </OrangeCTABanner>
 
