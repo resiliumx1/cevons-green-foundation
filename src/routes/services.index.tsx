@@ -18,7 +18,6 @@ import {
   Minus,
   Compass,
   ClipboardList,
-  Package,
 } from "lucide-react";
 import { ServiceActionRow } from "@/components/services/ServiceActionButton";
 import { SiteLayout } from "@/components/SiteLayout";
