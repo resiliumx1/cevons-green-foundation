@@ -133,7 +133,9 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!}`,
+        authorization: `Bearer ${
+          Deno.env.get("NOTIFY_DISPATCH_SECRET") ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+        }`,
       },
       body: JSON.stringify({ kind: "contact_message", reference, data: insertRow }),
     });
