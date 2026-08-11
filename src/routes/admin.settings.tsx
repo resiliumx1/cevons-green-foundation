@@ -294,6 +294,21 @@ function SettingsPage() {
                   saved={savedKey === "notifications"}
                 />
               )}
+              {active === "email" && (
+                <EmailNotificationsSection
+                  data={emailRecipients}
+                  onSave={async (v) => {
+                    await upsert.mutateAsync({
+                      key: "notification_recipients",
+                      value: v as unknown as Record<string, unknown>,
+                    });
+                    showSaved("notification_recipients");
+                  }}
+                  saving={upsert.isPending}
+                  saved={savedKey === "notification_recipients"}
+                />
+              )}
+
               {active === "pipeline" && (
                 <PipelineSection
                   data={pipeline}
