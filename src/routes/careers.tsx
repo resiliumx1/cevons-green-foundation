@@ -133,7 +133,7 @@ function BambooHREmbed() {
       id="BambooHR"
       data-domain="cevonswaste.bamboohr.com"
       data-version="1.0.0"
-      data-departmentId=""
+      data-departmentid=""
     />
   );
 }
