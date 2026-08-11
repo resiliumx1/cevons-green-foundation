@@ -106,15 +106,11 @@ function NewsMediaPage() {
 
             {announcementItems.length > 0 && (
               <section aria-labelledby="announcements-heading" className="mb-14">
-                <Editable
-                  id="news-media.announcements.title"
-                  label="Announcements heading"
-                  as="h2"
-                  htmlId="announcements-heading"
-                  className="mb-6 text-2xl font-bold text-cevons-dark"
-                >
-                  Announcements
-                </Editable>
+                <h2 id="announcements-heading" className="mb-6 text-2xl font-bold text-cevons-dark">
+                  <Editable id="news-media.announcements.title" label="Announcements heading" as="span">
+                    Announcements
+                  </Editable>
+                </h2>
                 <ul className="grid gap-6 md:grid-cols-2">
                   {announcementItems.map((a, i) => (
                     <li
@@ -162,15 +158,11 @@ function NewsMediaPage() {
 
             {galleryItems.length > 0 && (
               <section aria-labelledby="gallery-heading">
-                <Editable
-                  id="news-media.gallery.title"
-                  label="Gallery heading"
-                  as="h2"
-                  htmlId="gallery-heading"
-                  className="mb-6 text-2xl font-bold text-cevons-dark"
-                >
-                  Gallery
-                </Editable>
+                <h2 id="gallery-heading" className="mb-6 text-2xl font-bold text-cevons-dark">
+                  <Editable id="news-media.gallery.title" label="Gallery heading" as="span">
+                    Gallery
+                  </Editable>
+                </h2>
                 <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                   {galleryItems.map((item, i) => (
                     <GalleryFigure key={item.id} item={item} index={i} />
