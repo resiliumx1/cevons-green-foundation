@@ -45,9 +45,9 @@ type ServiceSlug =
 type CategoryKey = "residential" | "commercial" | "industrial" | "facilities" | "recycling";
 
 const servicesMenu: { groupKey: CategoryKey; items: ServiceSlug[] }[] = [
-  { groupKey: "residential", items: ["general-trash-collection", "dumpster-rental", "septic-services", "portable-toilet"] },
-  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding", "compactor-rental", "road-sweeping"] },
-  { groupKey: "industrial", items: ["hazardous-waste", "wastewater", "used-waste-oil", "contaminated-soil", "tank-cleaning", "product-destruction", "biohazardous-disposal"] },
+  { groupKey: "residential", items: ["general-trash-collection", "skip-bin-dumpster-rental", "septic-services", "portable-toilet"] },
+  { groupKey: "commercial", items: ["general-waste-management", "skip-bin-dumpster-rental", "portable-toilet", "grease-trap-septic-tank", "document-shredding", "compactor-rental", "road-sweeping", "product-destruction"] },
+  { groupKey: "industrial", items: ["hazardous-waste", "wastewater", "used-waste-oil", "contaminated-soil", "tank-cleaning", "biohazardous-disposal"] },
   { groupKey: "facilities", items: ["material-recovery-facility", "landfill-operations"] },
   { groupKey: "recycling", items: ["material-recovery-facility", "scrap-metal-recycling", "used-cooking-oil", "plastic-recycling"] },
 ];

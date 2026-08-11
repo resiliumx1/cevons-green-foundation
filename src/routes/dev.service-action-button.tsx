@@ -186,7 +186,7 @@ function StoryPage() {
           <div className="grid gap-6 md:grid-cols-2">
             <Card label="Row (md)">
               <ServiceActionRow
-                learnTo="/services/dumpster-rental"
+                learnTo="/services/skip-bin-dumpster-rental"
                 ariaTitle="Dumpster Rental"
               />
             </Card>

@@ -56,7 +56,7 @@ type CategoryKey = "residential" | "commercial" | "industrial" | "facilities";
 
 type ServiceKey =
   // residential
-  | "general-trash-collection" | "dumpster-rental" | "septic-services" | "portable-toilet"
+  | "general-trash-collection" | "septic-services" | "portable-toilet"
   // commercial
   | "general-waste-management" | "skip-bin-dumpster-rental" | "portable-toilet-commercial"
   | "grease-trap-septic-tank" | "document-shredding"
@@ -86,12 +86,11 @@ const CATEGORIES: { key: CategoryKey; name: string; desc: string; icon: any; ico
 const SERVICES: ServiceMeta[] = [
   // residential
   { key: "general-trash-collection", name: "General Trash Collection", desc: "Scheduled household pickup.", icon: Trash2, iconKey: "general-trash-collection", detailType: "trash", categories: ["residential"] },
-  { key: "dumpster-rental", name: "Dumpster Rental", desc: "Short or long term dumpsters.", icon: Container, iconKey: "dumpster-rental", detailType: "dumpster", categories: ["residential"] },
   { key: "septic-services", name: "Septic Services", desc: "Safe, efficient septic tank pumping.", icon: Droplet, iconKey: "septic-services", detailType: "septic", categories: ["residential"] },
   { key: "portable-toilet", name: "Portable Toilet", desc: "Clean portable toilet rentals.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", categories: ["residential"] },
   // commercial
   { key: "general-waste-management", name: "General Waste Management", desc: "Scheduled commercial collection.", icon: Trash2, iconKey: "general-waste-management", detailType: "trash", categories: ["commercial"] },
-  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", categories: ["commercial"] },
+  { key: "skip-bin-dumpster-rental", name: "Skip Bin & Dumpster Rental", desc: "Right-sized containers for projects.", icon: Container, iconKey: "skip-bin", detailType: "dumpster", categories: ["residential", "commercial"] },
   { key: "portable-toilet-commercial", name: "Portable Toilet", desc: "Sanitation for sites and events.", icon: Waves, iconKey: "portable-toilet", detailType: "toilet", categories: ["commercial"] },
   { key: "grease-trap-septic-tank", name: "Grease Trap / Septic Tank", desc: "Grease trap & septic servicing.", icon: Droplet, iconKey: "grease-trap", detailType: "septic", categories: ["commercial"] },
   { key: "document-shredding", name: "Document Shredding", desc: "Secure document destruction.", icon: FileText, iconKey: "document-shredding", detailType: "shred", categories: ["commercial"] },
@@ -101,16 +100,16 @@ const SERVICES: ServiceMeta[] = [
   { key: "used-waste-oil", name: "Used Waste Oil", desc: "Collection & recycling of waste oils.", icon: Flame, iconKey: "used-waste-oil", detailType: "industrial", categories: ["industrial"] },
   { key: "contaminated-soil", name: "Contaminated Soil", desc: "Excavation, transport, treatment.", icon: Sprout, iconKey: "contaminated-soil", detailType: "industrial", categories: ["industrial"] },
   { key: "tank-cleaning", name: "Tank Cleaning", desc: "Industrial tank cleaning.", icon: Beaker, iconKey: "tank-cleaning", detailType: "industrial", categories: ["industrial"] },
-  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", categories: ["industrial"] },
+  { key: "product-destruction", name: "Product Destruction", desc: "Certified product destruction.", icon: PackageX, iconKey: "product-destruction", detailType: "industrial", categories: ["commercial"] },
   { key: "biohazardous-disposal", name: "Biohazardous Disposal", desc: "Clinical & lab waste disposal.", icon: Biohazard, iconKey: "biohazardous-disposal", detailType: "industrial", categories: ["industrial"] },
   // facilities
   { key: "material-recovery-facility", name: "Material Recovery Facility", desc: "Sorting & recovery intake.", icon: Recycle, iconKey: "material-recovery", detailType: "facilities", categories: ["facilities"] },
   { key: "landfill-operations", name: "Landfill Operations", desc: "Managed landfill intake.", icon: Mountain, iconKey: "landfill-operations", detailType: "facilities", categories: ["facilities"] },
   // cross-category additions
-  { key: "compactor-rental", name: "Compactor Rental", desc: "Shrink waste volume and cut pickup frequency.", icon: Container, iconKey: "compactor-rental", detailType: "compactor", categories: ["commercial", "industrial"] },
-  { key: "road-sweeping", name: "Road Sweeping", desc: "Mechanical sweeper hire for streets, sites, and events.", icon: Truck, iconKey: "road-sweeping", detailType: "sweeping", categories: ["commercial", "facilities"] },
-  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "We buy ferrous and non-ferrous metals, cable and lead batteries — licensed dealer and exporter.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial", "industrial"] },
-  { key: "plastic-recycling", name: "Plastic Recycling", desc: "Business plastics recycling with verified end destinations.", icon: Recycle, iconKey: "plastic-shredding", detailType: "recyclables", categories: ["commercial", "industrial"] },
+  { key: "compactor-rental", name: "Compactor Rental", desc: "Shrink waste volume and cut pickup frequency.", icon: Container, iconKey: "compactor-rental", detailType: "compactor", categories: ["commercial"] },
+  { key: "road-sweeping", name: "Road Sweeping", desc: "Mechanical sweeper hire for streets, sites, and events.", icon: Truck, iconKey: "road-sweeping", detailType: "sweeping", categories: ["commercial"] },
+  { key: "scrap-metal-recycling", name: "Scrap Metal Recycling", desc: "We buy ferrous and non-ferrous metals, cable and lead batteries — licensed dealer and exporter.", icon: Recycle, iconKey: "scrap-metal-recycling", detailType: "recyclables", categories: ["commercial"] },
+  { key: "plastic-recycling", name: "Plastic Recycling", desc: "Business plastics recycling with verified end destinations.", icon: Recycle, iconKey: "plastic-shredding", detailType: "recyclables", categories: ["commercial"] },
   { key: "used-cooking-oil", name: "Used Cooking Oil Collection", desc: "Scheduled kitchen oil collection — routed for recycling.", icon: Flame, iconKey: "cooking-oil-recycling", detailType: "cooking-oil", categories: ["commercial"] },
 ];
 

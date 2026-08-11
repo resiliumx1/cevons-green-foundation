@@ -46,7 +46,7 @@ const faqs = [
 ];
 
 const related = [
-  { title: "Dumpster Rental", body: "Short or long term dumpsters for home cleanouts.", img: imgRel0, to: "/services/dumpster-rental", icon: Container },
+  { title: "Skip Bin & Dumpster Rental", body: "Short or long term bins for home cleanouts.", img: imgRel0, to: "/services/skip-bin-dumpster-rental", icon: Container },
   { title: "Septic Services", body: "Safe, efficient septic tank pumping for homes.", img: imgRel1, to: "/services/septic-services", icon: Droplet },
   { title: "Portable Toilet", body: "Clean portable toilet rentals for events and projects.", img: imgRel2, to: "/services/portable-toilet", icon: Waves },
 ];

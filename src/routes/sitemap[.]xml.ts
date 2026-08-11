@@ -18,7 +18,6 @@ const paths = [
   "/services/compactor-rental",
   "/services/contaminated-soil",
   "/services/document-shredding",
-  "/services/dumpster-rental",
   "/services/general-trash-collection",
   "/services/general-waste-management",
   "/services/grease-trap-septic-tank",

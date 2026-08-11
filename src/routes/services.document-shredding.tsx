@@ -47,7 +47,7 @@ const faqs = [
 const related = [
   { title: "Product Destruction", body: "Controlled destruction of expired or recalled products.", img: imgRel0, to: "/services/product-destruction", icon: PackageX },
   { title: "General Waste Management", body: "Reliable commercial waste collection.", img: imgRel1, to: "/services/general-waste-management", icon: Trash2 },
-  { title: "Dumpster Rental", body: "Dumpster rental for cleanouts and projects.", img: imgRel2, to: "/services/dumpster-rental", icon: Trash2 },
+  { title: "Skip Bin & Dumpster Rental", body: "Right-sized bins for cleanouts and projects.", img: imgRel2, to: "/services/skip-bin-dumpster-rental", icon: Trash2 },
 ];
 
 const detailSections: DetailSection[] = [

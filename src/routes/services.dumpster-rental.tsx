@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
 import { Container, Home, Hammer, Leaf, Truck, Trees, Trash2, Building2 } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
@@ -18,7 +18,15 @@ const PAGE_DESC =
   "Roll-off dumpsters from 10 to 52 cubic yards for home clean-ups, renovations, and yard clearances — the only 10–52 yard range in Guyana.";
 const PAGE_URL = "/services/dumpster-rental";
 
+/**
+ * Retired page — Dumpster Rental was merged into Skip Bin & Dumpster Rental.
+ * The copy below is intentionally kept so this is trivially reversible:
+ * delete the `beforeLoad` redirect to bring the page back.
+ */
 export const Route = createFileRoute("/services/dumpster-rental")({
+  beforeLoad: () => {
+    throw redirect({ to: "/services/skip-bin-dumpster-rental", statusCode: 301 });
+  },
   head: () => ({
     meta: [
       { title: PAGE_TITLE },
