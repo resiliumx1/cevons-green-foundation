@@ -370,10 +370,25 @@ function PagesEditor() {
           <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
             <Eye className="size-4" aria-hidden /> Preview draft
           </a>
-          <EditCopyButton page={page} />
-
         </div>
       </header>
+
+      <div
+        className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4"
+        style={surface}
+      >
+        <div className="min-w-[240px] flex-1">
+          <h2 className="text-base font-semibold" style={{ color: "var(--crm-text)" }}>
+            Change the words on this page
+          </h2>
+          <p className="mt-1 text-[13px]" style={{ color: "var(--crm-text-muted)" }}>
+            Opens the real page so you can scroll it and click any text to edit it. Use the list below instead when you
+            need to add, reorder or hide whole sections.
+          </p>
+        </div>
+        <EditCopyButton page={page} />
+      </div>
+
 
       <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
         <select
@@ -483,12 +498,16 @@ function EditCopyButton({ page }: { page: string }) {
     }
   };
 
+  const pageLabel = EDITABLE_PAGES.find((p) => p.value === page)?.label ?? page;
+
   return (
-    <button type="button" onClick={() => void open()} disabled={busy} className="admin-link-btn">
-      <Pencil className="size-4" aria-hidden /> {busy ? "Opening…" : "Edit copy on page"}
-    </button>
+    <Button type="button" size="lg" onClick={() => void open()} disabled={busy}>
+      <Pencil className="size-4 mr-2" aria-hidden />
+      {busy ? "Opening…" : `Open ${pageLabel} and edit it`}
+    </Button>
   );
 }
+
 
 /* ── Content strings (read-only inventory) ───────────────────────────────── */
 

@@ -1,0 +1,1 @@
+update public.content_strings set draft_value = null where key = 'home.hero.lineA';

@@ -1,23 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import {
   discardContentDraft,
   publishContentString,
+  publishPageDrafts,
   saveContentDraft,
   type ContentMeta,
   type SavedString,
 } from "@/lib/content.functions";
 
 /**
- * Click-to-edit overlay. Rendered ONLY inside a verified staff preview
+ * On-page editing overlay. Rendered ONLY inside a verified staff preview
  * session (`ContentProvider` mounts it when `preview === true`), so nothing
- * here can ever appear on the public site.
+ * here can ever appear on the public site, and every style it injects is
+ * removed when it unmounts.
  *
- * It works off the `data-content-key` attributes that <Editable> already adds
- * in preview mode: click a highlighted piece of copy, edit it in the panel,
- * save it as a draft or publish it. Writes go through server functions that
- * run as the signed-in staff user, so RLS and the publish guard trigger are
- * the real boundary — see content.functions.ts.
+ * What it gives a non-technical editor:
+ *   • persistent outlines around everything that can be edited, each with a
+ *     small corner label taken from the existing section names;
+ *   • a "Sections on this page" panel that scrolls to and highlights a section;
+ *   • an editor popover anchored to the thing being edited;
+ *   • a top bar explaining that this is a draft, with Publish all / Exit;
+ *   • a first-run help card, reopenable from the "?" button.
+ *
+ * Writes go through server functions running as the signed-in staff user, so
+ * RLS and the publish-guard trigger are the real boundary.
  */
 
 type Props = {
@@ -27,47 +34,191 @@ type Props = {
   onSaved: (row: SavedString) => void;
 };
 
-const HIGHLIGHT_CSS = `
+const ORANGE = "#EF7700";
+const INK = "#111214";
+const PAPER = "#F5F5F5";
+const BAR_HEIGHT = 44;
+const HELP_KEY = "cevons.contentEditor.helpDismissed";
+
+const OVERLAY_CSS = `
 [data-content-key] {
-  outline: 1px dashed rgba(0, 107, 53, 0.55);
-  outline-offset: 2px;
+  position: relative;
+  outline: 1px dashed rgba(239, 119, 0, 0.55);
+  outline-offset: 3px;
   border-radius: 2px;
   cursor: text;
   transition: outline-color 120ms ease, background-color 120ms ease;
 }
+[data-content-key][data-content-section]::after {
+  content: attr(data-content-section);
+  position: absolute;
+  top: -9px;
+  left: 0;
+  z-index: 5;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: ${ORANGE};
+  color: #1A1A1A;
+  font: 700 9px/14px system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.75;
+}
 [data-content-key]:hover {
-  outline: 2px solid #FCE722;
-  background-color: rgba(252, 231, 34, 0.16);
+  outline: 2px solid ${ORANGE};
+  background-color: rgba(239, 119, 0, 0.12);
 }
-[data-content-key][data-content-active="true"] {
-  outline: 2px solid #FCE722;
-  background-color: rgba(252, 231, 34, 0.24);
+[data-content-key]:hover::after { opacity: 1; }
+[data-content-key][data-content-active="true"],
+[data-content-key][data-content-flash="true"] {
+  outline: 3px solid ${ORANGE};
+  background-color: rgba(239, 119, 0, 0.18);
 }
+[data-content-key][data-content-flash="true"]::after { opacity: 1; }
 `;
 
+type SectionEntry = { section: string; key: string };
+
+/** "trust-bar" -> "Trust bar". Derived from the section names already stored. */
+function prettySection(raw: string): string {
+  const t = raw.replace(/[-_]+/g, " ").trim();
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
 export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
-  const [highlight, setHighlight] = useState(true);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [value, setValue] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const [panelOpen, setPanelOpen] = useState(true);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [sections, setSections] = useState<SectionEntry[]>([]);
+  const [anchor, setAnchor] = useState<{ top: number; left: number } | null>(null);
+  const barRef = useRef<HTMLDivElement | null>(null);
   const fieldRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const dirtyRef = useRef(false);
 
   const saveDraft = useServerFn(saveContentDraft);
   const publish = useServerFn(publishContentString);
+  const publishAll = useServerFn(publishPageDrafts);
   const discard = useServerFn(discardContentDraft);
 
   const active = activeKey ? meta[activeKey] : undefined;
   const label = active?.label ?? activeKey ?? "";
   const maxLength = active?.maxLength ?? null;
+  const remaining = maxLength != null ? maxLength - value.length : null;
   const tooLong = maxLength != null && value.length > maxLength;
   const baseline = active?.draft ?? active?.published ?? "";
   const dirty = value !== baseline;
+  dirtyRef.current = dirty;
+
+  const page = useMemo(() => {
+    const first = Object.keys(meta)[0] ?? "";
+    return first.split(".")[0] ?? "";
+  }, [meta]);
+
+  const draftCount = useMemo(
+    () => Object.values(meta).filter((m) => m.draft != null && m.draft !== m.published).length,
+    [meta],
+  );
+
+  const flash = (text: string) => {
+    setToast(text);
+    window.setTimeout(() => setToast(null), 4200);
+  };
+
+  /* Tag each editable node with its friendly section name and collect the
+     sections in document order for the picker panel. */
+  useLayoutEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-content-key]"));
+    const seen = new Set<string>();
+    const list: SectionEntry[] = [];
+    for (const el of nodes) {
+      const key = el.getAttribute("data-content-key");
+      if (!key) continue;
+      const m = meta[key];
+      const section = prettySection(m?.section ?? "Content");
+      el.setAttribute("data-content-section", section);
+      if (!seen.has(section)) {
+        seen.add(section);
+        list.push({ section, key });
+      }
+    }
+    setSections(list);
+  }, [meta]);
+
+  /* Offset the page so the fixed edit bar never covers the site header. The
+     bar wraps onto several lines on a phone, so the offset is measured. */
+  useEffect(() => {
+    const prev = document.body.style.paddingTop;
+    const apply = () => {
+      const h = barRef.current?.offsetHeight ?? BAR_HEIGHT;
+      document.body.style.paddingTop = `${h}px`;
+      document.documentElement.style.scrollPaddingTop = `${h + 12}px`;
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    if (barRef.current) ro.observe(barRef.current);
+    window.addEventListener("resize", apply);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+      document.documentElement.style.scrollPaddingTop = "";
+      document.body.style.paddingTop = prev;
+      document
+        .querySelectorAll("[data-content-section]")
+        .forEach((n) => n.removeAttribute("data-content-section"));
+    };
+  }, []);
+
+  /* First-run help. */
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(HELP_KEY) !== "1") setHelpOpen(true);
+    } catch {
+      /* private mode — just skip the card */
+    }
+  }, []);
+
+  const dismissHelp = () => {
+    setHelpOpen(false);
+    try {
+      window.localStorage.setItem(HELP_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const closeEditor = useCallback((confirmIfDirty: boolean) => {
+    if (confirmIfDirty && dirtyRef.current) {
+      const ok = window.confirm("You have changes that are not saved yet. Close without saving?");
+      if (!ok) return;
+    }
+    setActiveKey(null);
+    setStatus(null);
+  }, []);
+
+  const openKey = useCallback(
+    (key: string, el?: HTMLElement | null) => {
+      const m = meta[key];
+      setActiveKey(key);
+      setValue(m?.draft ?? m?.published ?? el?.textContent ?? "");
+      setStatus(null);
+      setPanelOpen(false);
+    },
+    [meta],
+  );
 
   // Selecting a piece of copy on the page.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement | null)?.closest?.("[data-content-key]") as HTMLElement | null;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest?.("[data-content-ui]")) return;
+      const el = target?.closest?.("[data-content-key]") as HTMLElement | null;
       if (!el) return;
       const key = el.getAttribute("data-content-key");
       if (!key) return;
@@ -75,43 +226,87 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
       // follow the link while the editor is open.
       e.preventDefault();
       e.stopPropagation();
-      const m = meta[key];
-      setActiveKey(key);
-      setValue(m?.draft ?? m?.published ?? (el.textContent ?? ""));
-      setStatus(null);
+      if (dirtyRef.current && key !== activeKey) {
+        if (!window.confirm("You have changes that are not saved yet. Discard them?")) return;
+      }
+      openKey(key, el);
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, [meta]);
+  }, [openKey, activeKey]);
 
-  // Mark the selected element so the editor and the page agree on what is being edited.
+  // Clicking anywhere that is not editable closes the editor.
+  useEffect(() => {
+    if (!activeKey) return;
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest?.("[data-content-ui]")) return;
+      if (target?.closest?.("[data-content-key]")) return;
+      closeEditor(true);
+    };
+    document.addEventListener("mousedown", onDown, true);
+    return () => document.removeEventListener("mousedown", onDown, true);
+  }, [activeKey, closeEditor]);
+
+  // Mark + anchor the selected element.
   useEffect(() => {
     document
       .querySelectorAll("[data-content-active]")
       .forEach((n) => n.removeAttribute("data-content-active"));
-    if (!activeKey) return;
-    const el = document.querySelector(`[data-content-key="${CSS.escape(activeKey)}"]`);
+    if (!activeKey) {
+      setAnchor(null);
+      return;
+    }
+    const el = document.querySelector<HTMLElement>(`[data-content-key="${CSS.escape(activeKey)}"]`);
     el?.setAttribute("data-content-active", "true");
     el?.scrollIntoView({ block: "center", behavior: "smooth" });
-    const t = window.setTimeout(() => fieldRef.current?.focus(), 80);
-    return () => window.clearTimeout(t);
+
+    const place = () => {
+      const node = document.querySelector<HTMLElement>(`[data-content-key="${CSS.escape(activeKey)}"]`);
+      if (!node) return;
+      const r = node.getBoundingClientRect();
+      const width = Math.min(360, window.innerWidth - 24);
+      const left = Math.min(Math.max(12, r.left), Math.max(12, window.innerWidth - width - 12));
+      const below = r.bottom + 12;
+      const top = below + 260 > window.innerHeight ? Math.max(BAR_HEIGHT + 12, r.top - 272) : below;
+      setAnchor({ top, left });
+    };
+    const t = window.setTimeout(() => {
+      place();
+      fieldRef.current?.focus();
+    }, 220);
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
+    };
   }, [activeKey]);
 
-  // Escape closes the panel.
+  // Escape cancels.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActiveKey(null);
+      if (e.key !== "Escape") return;
+      if (helpOpen) {
+        dismissHelp();
+        return;
+      }
+      if (activeKey) closeEditor(true);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  }, [activeKey, helpOpen, closeEditor]);
 
-  const exitHref = useMemo(() => {
-    if (typeof window === "undefined") return "/";
-    const url = new URL(window.location.href);
-    url.searchParams.delete("preview");
-    return url.pathname + url.search;
-  }, []);
+  const jumpTo = (entry: SectionEntry) => {
+    const el = document.querySelector<HTMLElement>(`[data-content-key="${CSS.escape(entry.key)}"]`);
+    if (!el) return;
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    el.setAttribute("data-content-flash", "true");
+    window.setTimeout(() => el.removeAttribute("data-content-flash"), 1800);
+  };
+
+  const exitHref = "/admin/pages";
 
   const run = async (fn: () => Promise<SavedString>, okText: string) => {
     setBusy(true);
@@ -121,6 +316,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
       onSaved(row);
       setValue(row.draft ?? row.published ?? "");
       setStatus({ tone: "ok", text: okText });
+      flash(okText);
     } catch (err) {
       setStatus({
         tone: "error",
@@ -131,78 +327,103 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     }
   };
 
-  const count = Object.keys(meta).length;
-  const draftCount = Object.values(meta).filter((m) => m.draft != null && m.draft !== m.published).length;
+  const doPublishAll = async () => {
+    setBusy(true);
+    try {
+      const rows = await publishAll({ data: { page } });
+      rows.forEach(onSaved);
+      flash(
+        rows.length === 0
+          ? "There was nothing waiting to publish."
+          : `${rows.length} change${rows.length === 1 ? "" : "s"} are now live on the website.`,
+      );
+    } catch (err) {
+      flash(err instanceof Error ? err.message : "Those changes could not be published.");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <>
-      {highlight && <style>{HIGHLIGHT_CSS}</style>}
+      <style>{OVERLAY_CSS}</style>
 
-      {/* Toolbar */}
-      <div
-        style={{
-          position: "fixed",
-          left: 16,
-          bottom: 16,
-          zIndex: 2147483000,
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "10px 14px",
-          borderRadius: 999,
-          background: "#111214",
-          color: "#F5F5F5",
-          border: "1px solid rgba(255,255,255,0.14)",
-          boxShadow: "0 18px 40px -18px rgba(0,0,0,0.75)",
-          fontSize: 13,
-          fontFamily: "system-ui, sans-serif",
-        }}
-      >
-        <span style={{ fontWeight: 700, color: "#FCE722" }}>Editing copy</span>
-        <span style={{ opacity: 0.7 }}>
-          {count} editable {count === 1 ? "string" : "strings"}
-          {draftCount > 0 ? ` · ${draftCount} unpublished` : ""}
+      {/* ── Edit-mode bar ─────────────────────────────────────────────── */}
+      <div data-content-ui ref={barRef} style={barStyle}>
+        <span style={{ fontWeight: 700, color: ORANGE }}>Editing a draft</span>
+        <span style={{ opacity: 0.85 }} className="cev-bar-note">
+          The live site has not changed.
         </span>
-        <button
-          type="button"
-          onClick={() => setHighlight((h) => !h)}
-          style={toolbarBtn}
-        >
-          {highlight ? "Hide outlines" : "Show outlines"}
+        <span style={{ opacity: 0.75 }}>
+          {draftCount} unpublished change{draftCount === 1 ? "" : "s"}
+        </span>
+        <span style={{ flex: 1 }} />
+        {canPublish ? (
+          <button type="button" disabled={busy || draftCount === 0} onClick={() => void doPublishAll()} style={{ ...primaryBtn, padding: "6px 12px", opacity: busy || draftCount === 0 ? 0.5 : 1 }}>
+            Publish all changes
+          </button>
+        ) : (
+          <span style={{ opacity: 0.75 }}>Your role can save drafts but not publish.</span>
+        )}
+        <button type="button" onClick={() => setHelpOpen(true)} aria-label="How on-page editing works" style={{ ...toolbarBtn, width: 28, padding: 0 }}>
+          ?
         </button>
         <a href={exitHref} style={{ ...toolbarBtn, textDecoration: "none" }}>
-          Exit preview
+          Exit editing
         </a>
       </div>
 
-      {/* Editor panel */}
-      {activeKey && (
+      {/* ── Sections picker ───────────────────────────────────────────── */}
+      <div data-content-ui style={panelStyle} ref={panelRef}>
+        <button
+          type="button"
+          onClick={() => setPanelOpen((o) => !o)}
+          aria-expanded={panelOpen}
+          style={panelHeaderBtn}
+        >
+          <span>Sections on this page</span>
+          <span aria-hidden>{panelOpen ? "▾" : "▸"}</span>
+        </button>
+        {panelOpen && (
+          <ul style={{ listStyle: "none", margin: 0, padding: 6, maxHeight: "40vh", overflowY: "auto" }}>
+            {sections.length === 0 && (
+              <li style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>Nothing editable on this page yet.</li>
+            )}
+            {sections.map((s) => (
+              <li key={s.section}>
+                <button type="button" onClick={() => jumpTo(s)} style={panelItemBtn}>
+                  {s.section}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* ── Editor popover ────────────────────────────────────────────── */}
+      {activeKey && anchor && (
         <div
+          data-content-ui
           role="dialog"
           aria-label={`Edit ${label}`}
           style={{
             position: "fixed",
-            right: 16,
-            bottom: 16,
-            zIndex: 2147483001,
-            width: "min(420px, calc(100vw - 32px))",
-            padding: 16,
-            borderRadius: 16,
-            background: "#111214",
-            color: "#F5F5F5",
-            border: "1px solid rgba(255,255,255,0.14)",
+            top: anchor.top,
+            left: anchor.left,
+            zIndex: 2147483002,
+            width: "min(360px, calc(100vw - 24px))",
+            padding: 14,
+            borderRadius: 14,
+            background: INK,
+            color: PAPER,
+            border: `1px solid ${ORANGE}`,
             boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
             fontFamily: "system-ui, sans-serif",
           }}
         >
           <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
-            <div>
-              <p style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>{label}</p>
-              <p style={{ margin: "2px 0 0", fontSize: 11, opacity: 0.6, fontFamily: "ui-monospace, monospace" }}>
-                {activeKey}
-              </p>
-            </div>
-            <button type="button" onClick={() => setActiveKey(null)} aria-label="Close editor" style={toolbarBtn}>
+            <p style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>{label}</p>
+            <button type="button" onClick={() => closeEditor(true)} aria-label="Close editor" style={toolbarBtn}>
               Close
             </button>
           </div>
@@ -212,7 +433,6 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
               ref={fieldRef as React.RefObject<HTMLTextAreaElement>}
               value={value}
               rows={4}
-              maxLength={maxLength ?? undefined}
               onChange={(e) => setValue(e.target.value)}
               style={fieldStyle}
             />
@@ -220,34 +440,34 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
             <input
               ref={fieldRef as React.RefObject<HTMLInputElement>}
               value={value}
-              maxLength={maxLength ?? undefined}
               onChange={(e) => setValue(e.target.value)}
               style={fieldStyle}
             />
           )}
 
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, opacity: 0.7 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, opacity: 0.85 }}>
             <span>
               {active?.draft != null && active.draft !== active.published
-                ? "Unpublished draft"
+                ? "Saved as a draft — not live yet"
                 : "Matches the live site"}
             </span>
             {maxLength != null && (
-              <span style={{ color: tooLong ? "#FF8A8A" : undefined }}>
-                {value.length} / {maxLength}
+              <span style={{ color: tooLong ? "#FF9C9C" : undefined }}>
+                {tooLong
+                  ? `${value.length - maxLength} characters too long`
+                  : `${remaining} characters left`}
               </span>
             )}
           </div>
 
           {status && (
-            <p
-              style={{
-                margin: "10px 0 0",
-                fontSize: 12,
-                color: status.tone === "ok" ? "#8BE28B" : "#FF8A8A",
-              }}
-            >
+            <p style={{ margin: "10px 0 0", fontSize: 12, color: status.tone === "ok" ? "#9BE59B" : "#FF9C9C" }}>
               {status.text}
+            </p>
+          )}
+          {tooLong && (
+            <p style={{ margin: "10px 0 0", fontSize: 12, color: "#FF9C9C" }}>
+              This text is too long to fit. Shorten it before saving.
             </p>
           )}
 
@@ -255,50 +475,149 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
             <button
               type="button"
               disabled={busy || tooLong || !dirty}
-              onClick={() => void run(() => saveDraft({ data: { key: activeKey, value } }), "Draft saved.")}
+              onClick={() =>
+                void run(
+                  () => saveDraft({ data: { key: activeKey, value } }),
+                  "Draft saved. The live site has not changed yet.",
+                )
+              }
               style={{ ...primaryBtn, opacity: busy || tooLong || !dirty ? 0.5 : 1 }}
             >
               Save draft
+            </button>
+            <button type="button" disabled={busy} onClick={() => closeEditor(true)} style={secondaryBtn}>
+              Cancel
             </button>
             {canPublish && (
               <button
                 type="button"
                 disabled={busy || tooLong}
-                onClick={() => void run(() => publish({ data: { key: activeKey, value } }), "Published to the live site.")}
+                onClick={() =>
+                  void run(
+                    () => publish({ data: { key: activeKey, value } }),
+                    "Published — this is now live on the website.",
+                  )
+                }
                 style={{ ...secondaryBtn, opacity: busy || tooLong ? 0.5 : 1 }}
               >
-                Publish
+                Publish this
               </button>
             )}
             {active?.draft != null && (
               <button
                 type="button"
                 disabled={busy}
-                onClick={() => void run(() => discard({ data: { key: activeKey } }), "Draft discarded.")}
+                onClick={() =>
+                  void run(() => discard({ data: { key: activeKey } }), "Draft removed. Back to the live wording.")
+                }
                 style={secondaryBtn}
               >
-                Discard draft
+                Undo draft
               </button>
             )}
           </div>
+        </div>
+      )}
 
-          {!canPublish && (
-            <p style={{ margin: "10px 0 0", fontSize: 11, opacity: 0.6 }}>
-              Your role can save drafts. An editor or admin publishes them.
-            </p>
-          )}
+      {/* ── First-run help ────────────────────────────────────────────── */}
+      {helpOpen && (
+        <div data-content-ui role="dialog" aria-label="How on-page editing works" style={helpStyle}>
+          <p style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>How to edit this page</p>
+          <ol style={{ margin: "10px 0 0", paddingLeft: 18, fontSize: 13, lineHeight: 1.6 }}>
+            <li>Anything with an orange dashed outline can be edited — click it.</li>
+            <li>Changes are saved as drafts; the website only updates when you publish.</li>
+            <li>Use the “Sections on this page” list to jump around the page.</li>
+          </ol>
+          <button type="button" onClick={dismissHelp} style={{ ...primaryBtn, marginTop: 14 }}>
+            Got it
+          </button>
+        </div>
+      )}
+
+      {/* ── Toast ─────────────────────────────────────────────────────── */}
+      {toast && (
+        <div data-content-ui role="status" aria-live="polite" style={toastStyle}>
+          {toast}
         </div>
       )}
     </>
   );
 }
 
-const toolbarBtn: React.CSSProperties = {
-  padding: "5px 10px",
-  borderRadius: 999,
-  border: "1px solid rgba(255,255,255,0.2)",
+const barStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  minHeight: BAR_HEIGHT,
+  zIndex: 2147483003,
+  display: "flex",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: 10,
+  padding: "6px 12px",
+  background: INK,
+  color: PAPER,
+  borderBottom: `2px solid ${ORANGE}`,
+  fontSize: 12.5,
+  fontFamily: "system-ui, sans-serif",
+};
+
+const panelStyle: React.CSSProperties = {
+  position: "fixed",
+  right: 12,
+  bottom: 12,
+  zIndex: 2147483001,
+  width: "min(240px, calc(100vw - 24px))",
+  borderRadius: 12,
+  background: INK,
+  color: PAPER,
+  border: "1px solid rgba(255,255,255,0.18)",
+  boxShadow: "0 18px 40px -18px rgba(0,0,0,0.75)",
+  fontFamily: "system-ui, sans-serif",
+  overflow: "hidden",
+};
+
+const panelHeaderBtn: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 8,
+  width: "100%",
+  minHeight: 40,
+  padding: "0 12px",
   background: "transparent",
-  color: "#F5F5F5",
+  border: "none",
+  color: ORANGE,
+  fontSize: 12.5,
+  fontWeight: 700,
+  cursor: "pointer",
+};
+
+const panelItemBtn: React.CSSProperties = {
+  display: "block",
+  width: "100%",
+  minHeight: 36,
+  padding: "8px 10px",
+  textAlign: "left",
+  borderRadius: 8,
+  border: "none",
+  background: "transparent",
+  color: PAPER,
+  fontSize: 12.5,
+  cursor: "pointer",
+};
+
+const toolbarBtn: React.CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 28,
+  padding: "4px 10px",
+  borderRadius: 999,
+  border: "1px solid rgba(255,255,255,0.3)",
+  background: "transparent",
+  color: PAPER,
   fontSize: 12,
   cursor: "pointer",
 };
@@ -307,7 +626,7 @@ const primaryBtn: React.CSSProperties = {
   padding: "9px 16px",
   borderRadius: 10,
   border: "none",
-  background: "#FCE722",
+  background: ORANGE,
   color: "#1A1A1A",
   fontSize: 13,
   fontWeight: 700,
@@ -317,9 +636,9 @@ const primaryBtn: React.CSSProperties = {
 const secondaryBtn: React.CSSProperties = {
   padding: "9px 16px",
   borderRadius: 10,
-  border: "1px solid rgba(255,255,255,0.24)",
+  border: "1px solid rgba(255,255,255,0.3)",
   background: "transparent",
-  color: "#F5F5F5",
+  color: PAPER,
   fontSize: 13,
   fontWeight: 600,
   cursor: "pointer",
@@ -330,10 +649,42 @@ const fieldStyle: React.CSSProperties = {
   margin: "12px 0 6px",
   padding: "10px 12px",
   borderRadius: 10,
-  border: "1px solid rgba(255,255,255,0.22)",
-  background: "rgba(255,255,255,0.06)",
-  color: "#F5F5F5",
+  border: "1px solid rgba(255,255,255,0.3)",
+  background: "rgba(255,255,255,0.08)",
+  color: PAPER,
   fontSize: 14,
   lineHeight: 1.5,
   resize: "vertical",
+};
+
+const helpStyle: React.CSSProperties = {
+  position: "fixed",
+  top: BAR_HEIGHT + 12,
+  right: 12,
+  zIndex: 2147483004,
+  width: "min(320px, calc(100vw - 24px))",
+  padding: 16,
+  borderRadius: 14,
+  background: INK,
+  color: PAPER,
+  border: `1px solid ${ORANGE}`,
+  boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
+  fontFamily: "system-ui, sans-serif",
+};
+
+const toastStyle: React.CSSProperties = {
+  position: "fixed",
+  left: "50%",
+  transform: "translateX(-50%)",
+  bottom: 16,
+  zIndex: 2147483005,
+  maxWidth: "calc(100vw - 24px)",
+  padding: "10px 16px",
+  borderRadius: 999,
+  background: INK,
+  color: PAPER,
+  border: `1px solid ${ORANGE}`,
+  fontSize: 12.5,
+  fontFamily: "system-ui, sans-serif",
+  boxShadow: "0 18px 40px -18px rgba(0,0,0,0.75)",
 };
