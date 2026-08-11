@@ -111,7 +111,11 @@ function FleetSection() {
                 className="max-w-full max-h-full w-auto h-auto object-contain"
               />
             </div>
+            <figcaption className="border-t border-cevons-border px-4 py-3 text-center text-sm font-semibold text-cevons-dark">
+              Vacuum tanker — septic tank emptying
+            </figcaption>
           </figure>
+
           <figure className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border">
             <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
               <img
@@ -124,7 +128,11 @@ function FleetSection() {
                 className="max-w-full max-h-full w-auto h-auto object-contain"
               />
             </div>
+            <figcaption className="border-t border-cevons-border px-4 py-3 text-center text-sm font-semibold text-cevons-dark">
+              Tanker side profile — tank and suction equipment
+            </figcaption>
           </figure>
+
           <figure className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border">
             <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
               <img
@@ -137,7 +145,11 @@ function FleetSection() {
                 className="max-w-full max-h-full w-auto h-auto object-contain"
               />
             </div>
+            <figcaption className="border-t border-cevons-border px-4 py-3 text-center text-sm font-semibold text-cevons-dark">
+              On-site collection — tanker and CEVONS operator
+            </figcaption>
           </figure>
+
 
         </div>
 
