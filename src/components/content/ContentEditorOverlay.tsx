@@ -82,6 +82,12 @@ html { scroll-padding-top: ${BAR_HEIGHT + 12}px; }
 
 type SectionEntry = { section: string; key: string };
 
+/** "trust-bar" -> "Trust bar". Derived from the section names already stored. */
+function prettySection(raw: string): string {
+  const t = raw.replace(/[-_]+/g, " ").trim();
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
 export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [value, setValue] = useState("");
@@ -135,7 +141,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
       const key = el.getAttribute("data-content-key");
       if (!key) continue;
       const m = meta[key];
-      const section = m?.section ?? "Content";
+      const section = prettySection(m?.section ?? "Content");
       el.setAttribute("data-content-section", section);
       if (!seen.has(section)) {
         seen.add(section);
