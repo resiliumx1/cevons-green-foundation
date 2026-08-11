@@ -459,7 +459,7 @@ function PagesEditor() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <ContentStringsList />
+      <ContentStringsList page={page} />
     </CrmPage>
   );
 }
@@ -651,13 +651,15 @@ type ContentStringRow = {
   max_length: number | null;
 };
 
-function ContentStringsList() {
+/** Read-only inventory of the copy registered for the selected page. */
+function ContentStringsList({ page }: { page: string }) {
   const { data: rows = [], isLoading } = useQuery({
-    queryKey: ["admin", "content_strings"],
+    queryKey: ["admin", "content_strings", page],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("content_strings")
         .select("key, page, section, label, published_value, draft_value, max_length")
+        .eq("page", page)
         .order("page", { ascending: true })
         .order("section", { ascending: true })
         .order("key", { ascending: true });
@@ -669,7 +671,7 @@ function ContentStringsList() {
   const groups = useMemo(() => {
     const map = new Map<string, ContentStringRow[]>();
     for (const r of rows) {
-      const g = `${r.page} › ${r.section}`;
+      const g = r.section;
       const list = map.get(g);
       if (list) list.push(r);
       else map.set(g, [r]);
@@ -693,7 +695,7 @@ function ContentStringsList() {
       )}
       {!isLoading && rows.length === 0 && (
         <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          No content strings registered yet.
+          No content strings registered for this page yet.
         </p>
       )}
 
