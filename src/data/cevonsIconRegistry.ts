@@ -138,6 +138,11 @@ export const cevonsIcons = {
       src: "/assets/cevon-icons/recycling/plastic-shredding.webp",
       alt: "Plastic shredding icon",
     },
+    "cardboard-recycling": {
+      title: "Cardboard Recycling",
+      src: "/assets/cevon-icons/recycling/cardboard-recycling.webp",
+      alt: "Cardboard recycling icon",
+    },
   },
   ui: {
     requestService: {

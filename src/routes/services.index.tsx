@@ -18,7 +18,6 @@ import {
   Minus,
   Compass,
   ClipboardList,
-  Package,
 } from "lucide-react";
 import { ServiceActionRow } from "@/components/services/ServiceActionButton";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -171,8 +170,8 @@ function ComingSoonCard({ s, variant = "light" }: { s: ServiceItem; variant?: "l
         />
       )}
       <div className="relative flex items-start justify-between gap-3">
-        <span className="icon-tile relative flex h-20 w-20 overflow-hidden rounded-2xl mb-4 opacity-80">
-          <Package className="m-auto size-9" style={{ color: "#1A1A1A" }} aria-hidden="true" />
+        <span className="icon-tile relative flex h-20 w-20 overflow-hidden rounded-2xl mb-4 opacity-90">
+          <CevonsIcon group="services" name={s.iconKey} fill decorative />
         </span>
         {badge}
       </div>
