@@ -16,11 +16,15 @@ import { cn } from "@/lib/utils";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
-const searchSchema = z.object({ ref: z.string().optional() });
+const searchSchema = z.object({ ref: z.string().optional(), preview: z.string().optional() });
 
 export const Route = createFileRoute("/track-request")({
   validateSearch: (s) => searchSchema.parse(s),
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "track-request", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Track Your Request | CEVONS Guyana" },
@@ -74,6 +78,7 @@ function formatDateTime(iso: string): string {
 }
 
 function TrackRequestPage() {
+  const content = Route.useLoaderData();
   const { ref: prefillRef } = Route.useSearch();
   const [refInput, setRefInput] = useState(prefillRef ?? "");
   const [contactInput, setContactInput] = useState("");
@@ -112,11 +117,24 @@ function TrackRequestPage() {
     }
   }
 
+  const ctaEyebrow = useEditableText("track-request.cta.eyebrow", "24/7 Emergency Line");
+  const ctaTitle = useEditableText("track-request.cta.title", "Need Urgent Assistance?");
+  const ctaSubtitle = useEditableText(
+    "track-request.cta.subtitle",
+    "Contact our team right away for fast support, urgent service coordination, or immediate guidance.",
+  );
+  const heroTitle = useEditableText("track-request.hero.title", "Track Your Request");
+  const heroSubtitle = useEditableText(
+    "track-request.hero.subtitle",
+    "Enter your reference and contact to check the status of your service request.",
+  );
+
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       <PageHero
-        title="Track Your Request"
-        subtitle="Enter your reference and contact to check the status of your service request."
+        title={heroTitle}
+        subtitle={heroSubtitle}
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Track Request" }]}
         imageSrc="/assets/heroes/hero-track-request.webp"
         slot="track_request_hero"
@@ -153,12 +171,12 @@ function TrackRequestPage() {
                   className="mt-1.5 h-12 rounded-[10px] border-[var(--cevons-border)] focus-visible:ring-[var(--brand-orange)]"
                   required
                 />
-                <p className="mt-1.5 text-xs text-[var(--cevons-muted)]">
+                <Editable id="track-request.form.privacyNote" label="Privacy helper note" as="p" className="mt-1.5 text-xs text-[var(--cevons-muted)]">
                   We verify this against the contact used at submission to protect your request privacy.
-                </p>
+                </Editable>
               </div>
               <button type="submit" disabled={loading} className="btn-base btn-green w-full disabled:opacity-60">
-                {loading ? <><Loader2 className="size-4 animate-spin" />Looking up…</> : <><Search className="size-4" />Track Request</>}
+                {loading ? <><Loader2 className="size-4 animate-spin" />Looking up…</> : <><Search className="size-4" /><Editable id="track-request.form.submit" label="Track button label" as="span">Track Request</Editable></>}
               </button>
             </form>
           </div>
@@ -213,9 +231,9 @@ function TrackRequestPage() {
       {/* Urgent Assistance CTA */}
       <OrangeCTABanner
         icon={Siren}
-        eyebrow="24/7 Emergency Line"
-        title="Need Urgent Assistance?"
-        subtitle="Contact our team right away for fast support, urgent service coordination, or immediate guidance."
+        eyebrow={ctaEyebrow}
+        title={ctaTitle}
+        subtitle={ctaSubtitle}
       >
         <a
           href={whatsappHref}
@@ -248,6 +266,7 @@ function TrackRequestPage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }
 
