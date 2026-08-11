@@ -9,8 +9,14 @@ import { cevonsContact, telHref, mailtoHref, whatsappHref } from "@/data/cevonsC
 import { localBusinessGraphJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/locations")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "locations", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "CEVONS Locations | Georgetown, Linden & Berbice" },
@@ -93,17 +99,24 @@ const availability: { service: string; cells: Record<Region, "yes" | "contact"> 
 ];
 
 function LocationsPage() {
+  const content = Route.useLoaderData();
+  const locHeroTitle = useEditableText("locations.hero.title", "Our Locations");
+  const locHeroEyebrow = useEditableText("locations.hero.eyebrow", "Guyana");
+  const locHeroSubtitle = useEditableText("locations.hero.subtitle", "Proudly serving Georgetown, Linden, and Berbice.");
+  const locCtaTitle = useEditableText("locations.cta.title", "Need Service in Your Area?");
+  const locCtaSubtitle = useEditableText("locations.cta.subtitle", "Tell us your location and the service you need. Our team will confirm availability and next steps quickly.");
   const [activePin, setActivePin] = useState<Region>("Georgetown");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       {/* HERO */}
       <PageHero
-        title="Our Locations"
-        eyebrow="Guyana"
-        subtitle="Proudly serving Georgetown, Linden, and Berbice."
+        title={locHeroTitle}
+        eyebrow={locHeroEyebrow}
+        subtitle={locHeroSubtitle}
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Locations" }]}
         imageSrc="/assets/heroes/hero-locations.webp"
         slot="locations_hero"
@@ -117,12 +130,12 @@ function LocationsPage() {
       <section className="section-y bg-[var(--surface-page)]">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <Editable id="locations.map.title" label="Map section heading" as="h2" className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Where We Operate
-            </h2>
-            <p className="mt-3 text-cevons-muted max-w-2xl mx-auto">
+            </Editable>
+            <Editable id="locations.map.subtitle" label="Map section subtitle" as="p" className="mt-3 text-cevons-muted max-w-2xl mx-auto">
               Tap a pin to see the region. Coverage spans coastal and inland Guyana.
-            </p>
+            </Editable>
           </div>
 
           <div className="relative mx-auto max-w-5xl rounded-3xl border border-[var(--cevons-deep-green,#EF7700)]/15 bg-[var(--cevons-cream,#FBF7EE)] p-3 sm:p-5 md:p-6 shadow-sm">
@@ -177,10 +190,10 @@ function LocationsPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]">
         <div className="container-cevons">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <Editable id="locations.offices.title" label="Regional offices heading" as="h2" className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Regional Offices
-            </h2>
-            <p className="mt-3 text-cevons-muted">Reach out to the team closest to you.</p>
+            </Editable>
+            <Editable id="locations.offices.subtitle" label="Regional offices subtitle" as="p" className="mt-3 text-cevons-muted">Reach out to the team closest to you.</Editable>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
@@ -255,10 +268,10 @@ function LocationsPage() {
       <section className="section-y bg-[var(--surface-page)]">
         <div className="container-cevons">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <Editable id="locations.availability.title" label="Service availability heading" as="h2" className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Service Availability by Location
-            </h2>
-            <p className="mt-3 text-cevons-muted">A quick view of what's offered where.</p>
+            </Editable>
+            <Editable id="locations.availability.subtitle" label="Service availability subtitle" as="p" className="mt-3 text-cevons-muted">A quick view of what's offered where.</Editable>
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-[var(--cevons-deep-green,#EF7700)]/15 shadow-sm">
@@ -304,11 +317,11 @@ function LocationsPage() {
       {/* LOCAL CTA */}
       <OrangeCTABanner
         icon={MapPin}
-        title="Need Service in Your Area?"
-        subtitle="Tell us your location and the service you need. Our team will confirm availability and next steps quickly."
+        title={locCtaTitle}
+        subtitle={locCtaSubtitle}
       >
         <Link to="/request-service" className="cta-btn-primary">
-          Request Service <ArrowRight className="w-5 h-5" />
+          <Editable id="locations.cta.button" label="CTA button label" as="span">Request Service</Editable> <ArrowRight className="w-5 h-5" />
         </Link>
         <a
           href={whatsappHref}
@@ -336,5 +349,6 @@ function LocationsPage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }

@@ -17,6 +17,8 @@ import {
   Leaf,
   Siren,
 } from "lucide-react";
+import { ContentProvider, Editable } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
 const contactHero = "/assets/heroes/contact-portrait-hero.webp";
@@ -40,6 +42,10 @@ const mapBranches: BranchPoint[] = cevonsContact.regions.map((r) => ({
 }));
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "contact", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Contact CEVONS | Waste Management Guyana" },
@@ -113,6 +119,7 @@ const branches = cevonsContact.regions.map((r) => ({
 }));
 
 function ContactPage() {
+  const content = Route.useLoaderData();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -122,6 +129,7 @@ function ContactPage() {
   const ctaCopy = useSectionPayload<CtaBannerPayload>("contact", "cta_banner");
 
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       {/* HERO */}
       <PageHero
@@ -169,7 +177,7 @@ function ContactPage() {
                       : "border-2 border-[var(--brand-orange)] text-[var(--brand-charcoal)] hover:bg-[var(--brand-orange)] hover:text-[var(--text-on-orange)]"
                   }`}
                 >
-                  {action} <ArrowRight className="size-4" />
+                  <Editable id={`contact.methods.${title.toLowerCase().replace(/\s+/g, "-")}.action`} label={`${title} action label`} as="span">{action}</Editable> <ArrowRight className="size-4" />
                 </a>
               </div>
             ))}
@@ -185,10 +193,10 @@ function ContactPage() {
             {/* FORM */}
             <div className="lg:col-span-3">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Message</p>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+                <Editable id="contact.form.eyebrow" label="Form eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Message</Editable>
+                <Editable id="contact.form.heading" label="Form heading" as="h2" className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
                   Send Us a Message
-                </h2>
+                </Editable>
               </div>
 
               <div className={`mt-8 transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
@@ -200,10 +208,10 @@ function ContactPage() {
             {/* BRANCH INFO */}
             <aside className="lg:col-span-2">
               <div className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Offices</p>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+                <Editable id="contact.branches.eyebrow" label="Branches eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Offices</Editable>
+                <Editable id="contact.branches.heading" label="Branches heading" as="h2" className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
                   Our Branches
-                </h2>
+                </Editable>
               </div>
 
               <div className="mt-8 space-y-5">
@@ -261,20 +269,20 @@ function ContactPage() {
         actionIntro="Tap to call our dispatch line — or reach us on WhatsApp / email."
       >
         <a href={primaryTelHref} className="cta-btn-primary">
-          <Phone className="size-5" /> Call {cevonsContact.primaryPhone}
+          <Phone className="size-5" /> <Editable id="contact.cta.call_label" label="CTA call label" as="span">Call</Editable> {cevonsContact.primaryPhone}
         </a>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           className="cta-btn-wa"
         >
-          <WhatsApp className="size-5" /> WhatsApp Us
+          <WhatsApp className="size-5" /> <Editable id="contact.cta.whatsapp_label" label="CTA WhatsApp label" as="span">WhatsApp Us</Editable>
         </a>
         <a
           href={primaryMailtoHref}
           className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl border-2 border-[var(--brand-charcoal)] text-[var(--brand-charcoal)] font-bold hover:bg-[var(--brand-charcoal)] hover:text-white transition"
         >
-          <Mail className="size-5" /> Email Us
+          <Mail className="size-5" /> <Editable id="contact.cta.email_label" label="CTA email label" as="span">Email Us</Editable>
         </a>
       </OrangeCTABanner>
 
@@ -297,5 +305,6 @@ function ContactPage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }
