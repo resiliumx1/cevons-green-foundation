@@ -217,13 +217,24 @@ SECTION_KINDS.push({
   ],
 });
 
+/**
+ * Every customer-facing page whose copy is wrapped in <Editable>. `path` is the
+ * public URL the on-page editor opens.
+ */
 export const EDITABLE_PAGES = [
-  { value: "home", label: "Homepage" },
-  { value: "about", label: "About" },
-  { value: "services", label: "Services overview" },
-  { value: "careers", label: "Careers" },
-  { value: "contact", label: "Contact" },
+  { value: "home", label: "Homepage", path: "/" },
+  { value: "about", label: "About", path: "/about" },
+  { value: "services", label: "Services overview", path: "/services" },
+  { value: "contact", label: "Contact", path: "/contact" },
+  { value: "careers", label: "Careers", path: "/careers" },
+  { value: "locations", label: "Locations", path: "/locations" },
+  { value: "resources", label: "Resources", path: "/resources" },
+  { value: "industries", label: "Industries", path: "/industries" },
+  { value: "news-media", label: "News & Media", path: "/news-media" },
+  { value: "track-request", label: "Track a request", path: "/track-request" },
+  { value: "request-service", label: "Request service", path: "/request-service" },
 ] as const;
+
 
 export function kindDef(kind: string): KindDef | undefined {
   return SECTION_KINDS.find((k) => k.kind === kind);
