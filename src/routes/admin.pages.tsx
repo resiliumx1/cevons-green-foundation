@@ -354,24 +354,13 @@ function PagesEditor() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <select
-            value={page}
-            onChange={(e) => setPage(e.target.value)}
-            className="min-h-[44px] rounded-lg border px-3 text-sm"
-            style={field}
-            aria-label="Page"
-          >
-            {EDITABLE_PAGES.map((p) => (
-              <option key={p.value} value={p.value}>
-                {p.label}
-              </option>
-            ))}
-          </select>
           <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
             <Eye className="size-4" aria-hidden /> Preview draft
           </a>
         </div>
       </header>
+
+      <PagePicker page={page} onSelect={setPage} />
 
       <div
         className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4"
@@ -388,6 +377,7 @@ function PagesEditor() {
         </div>
         <EditCopyButton page={page} />
       </div>
+
 
 
       <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>

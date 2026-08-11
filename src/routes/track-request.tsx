@@ -300,7 +300,7 @@ function ResultView({ result }: { result: TrackResult }) {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Request Details</h2>
+                  <Editable id="track-request.result.detailsTitle" label="Request details heading" as="h2" className="text-xl md:text-2xl font-bold text-[var(--cevons-dark)]">Request Details</Editable>
                   <span className={cn("inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide", badgeClass)}>
                     {statusLabel}
                   </span>
@@ -327,7 +327,7 @@ function ResultView({ result }: { result: TrackResult }) {
 
           {/* Timeline */}
           <div className="rounded-2xl border border-[var(--cevons-border)] bg-white p-6 md:p-8 shadow-[0_8px_32px_rgba(16,24,32,0.06)]">
-            <h3 className="text-lg font-bold text-[var(--cevons-dark)] mb-6">Request Timeline</h3>
+            <Editable id="track-request.result.timelineTitle" label="Request timeline heading" as="h3" className="text-lg font-bold text-[var(--cevons-dark)] mb-6">Request Timeline</Editable>
 
             {isLost && (
               <p className="mb-6 text-sm text-[var(--cevons-muted)]">
