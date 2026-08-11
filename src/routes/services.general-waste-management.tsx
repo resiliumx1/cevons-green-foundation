@@ -37,7 +37,7 @@ const uses = [
 
 const faqs = [
   { q: "How often will my business be serviced?", a: "Frequency is set by your waste volume and operation type. Restaurants and hotels typically run daily or five-day service, offices and retail two or three times per week, and lower-volume sites weekly. We recommend a cadence during your initial waste audit." },
-  { q: "What container sizes are available?", a: "Options range from 240L and 360L wheelie bins for small premises to 4-yard front-load skips and 10–40 cubic-yard roll-off dumpsters for larger sites and construction. Compactor rental is available for high-volume operations." },
+  { q: "What container sizes are available?", a: "Options range from 240L and 360L wheelie bins for small premises to 4-yard front-load skips and 10–52 cubic-yard roll-off dumpsters for larger sites and construction. Compactor rental is available for high-volume operations." },
   { q: "Can you handle multiple locations under one account?", a: "Yes. Multi-site businesses are set up under a single coordinated program with consolidated scheduling, one point of contact, and a combined statement — which simplifies operations for chains, property managers, and estates." },
   { q: "Do you offer source-separated recycling?", a: "Yes. Cardboard, mixed paper, plastics, and metals can be collected separately and routed through our Material Recovery Facility so recoverable streams are diverted from landfill." },
   { q: "What happens if a scheduled pickup is missed?", a: "Contact your account manager or WhatsApp our operations desk the same day. A return trip is dispatched, and the incident is logged so we can address the root cause on your route." },

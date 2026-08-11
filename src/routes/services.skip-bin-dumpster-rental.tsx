@@ -9,12 +9,10 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
 import imgSkip10Asset from "@/assets/skip-10yd-diagram.png.asset.json";
 import imgDumpster20Asset from "@/assets/dumpster-20yd-diagram.png.asset.json";
-import imgDumpster40Asset from "@/assets/commercial-orange-dumpster.png.asset.json";
 import imgDumpster52Asset from "@/assets/dumpster-20yd.webp.asset.json";
 
 const imgSkip10 = imgSkip10Asset as { url: string };
 const imgDumpster20 = imgDumpster20Asset as { url: string };
-const imgDumpster40 = imgDumpster40Asset as { url: string };
 const imgDumpster52 = imgDumpster52Asset as { url: string };
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
@@ -48,7 +46,7 @@ const uses = [
 const faqs = [
   { q: "Do you do one-time construction rentals or ongoing commercial contracts?", a: "Both. We drop off a single bin for a one-off demolition or cleanup and we run standing contracts for active sites that need bins swapped on a fixed cadence. Tell us the duration when you request the service and we'll structure the rental accordingly." },
   { q: "Can you swap out full bins during a long project?", a: "Yes. Swap-out service is one of the reasons commercial clients stay with us — full bin off, empty bin on, same visit, no site downtime. We'll set the swap frequency to your build schedule." },
-  { q: "Which size fits which type of project?", a: "The 10 yard suits small clean-ups and home renovations. The 30 yard is the workhorse for medium commercial builds and steady renovation output. The 40 yard suits complete site cleanups and bulky material. The 52 yard is built for demolition and industrial-scale clearances where anything smaller would mean back-to-back swap-outs." },
+  { q: "Which size fits which type of project?", a: "The 10 cubic yard suits small clean-ups and home renovations. The 20 cubic yard roll-off is the step up for larger clean-outs and ongoing site waste. The 52 cubic yard is built for demolition and industrial-scale clearances where anything smaller would mean back-to-back swap-outs. Tell us the job and we'll confirm the right size." },
   { q: "Are there weight or fill limits I should know about?", a: "Every roll-off has a safe transport weight, and fill must sit at or below the top rail. Heavy loads like concrete and soil are best matched to the correct size — flag the material when you book and we'll advise so the truck leaves site legally and safely." },
   { q: "Can you deliver and collect around site working hours?", a: "Yes. Deliveries, swaps, and final collections are scheduled around your site hours so the truck isn't in the way of trades. Give us the site's access window when you book." },
 ];
@@ -74,32 +72,13 @@ const sizeOptions: BinSizeOption[] = [
     imageAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
   },
   {
-    id: "dumpster-30",
-    label: "30 cu yd Roll-off",
-    tagline: "The commercial workhorse — price, footprint, and capacity in balance",
-    dimensions: "22 ft L × 8 ft W × 4.5 ft H",
-    capacity: "≈ 10 pickup-truck loads",
-    bestFor: [
-      "Medium commercial builds and ongoing renovations",
-      "Steady weekly waste streams on active sites",
-      "Tight sites needing a compact 22 ft footprint",
-    ],
+    // Dimensions, capacity and use cases are deliberately absent: we have no
+    // client-confirmed figures for this container and will not guess them.
+    id: "dumpster-20",
+    label: "20 cu yd Roll-off",
+    tagline: "The mid-size roll-off in the CEVONS fleet",
     image: imgDumpster20.url,
-    imageAlt: "CEVONS 30 cubic yard orange roll-off dumpster with dimensions labelled",
-  },
-  {
-    id: "dumpster-40",
-    label: "40 cu yd Roll-off",
-    tagline: "The tall-load option — extra headroom for bulky material",
-    dimensions: "22 ft L × 8 ft W × 6 ft H",
-    capacity: "10 additional cu yd of overhead vs the 30",
-    bestFor: [
-      "Complete site cleanups and full clear-outs",
-      "Bulky items — furniture, cabinetry, demolition debris",
-      "Jobs where material stacks tall rather than heavy",
-    ],
-    image: imgDumpster40.url,
-    imageAlt: "CEVONS 40 cubic yard commercial roll-off dumpster",
+    imageAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
   },
   {
     id: "dumpster-52",
@@ -150,7 +129,7 @@ function Page() {
       heroImage={imgHero}
       heroSlot="svc_skip_bin_hero"
       heroAlt="CEVONS commercial roll-off dumpster placed on a construction site in Guyana"
-      benefits={["10, 30, 40 & 52 cubic yard sizes","Only 10–52 yd fleet in Guyana","Short and long-term rental","On-schedule swap-outs","EPA-aligned disposal"]}
+      benefits={["10, 20 & 52 cubic yard sizes","Only 10–52 yd fleet in Guyana","Short and long-term rental","On-schedule swap-outs","EPA-aligned disposal"]}
       commonUses={uses}
       faqs={faqs}
       related={related}
@@ -162,11 +141,11 @@ function Page() {
           heading="Pick the roll-off that matches your site"
           intro="Tap a size to see dimensions, capacity, and the projects it handles best. Not sure? Choose the closest fit and we'll confirm on the site walk-through."
           options={sizeOptions}
+          keyBase="service.skip-bin-dumpster-rental"
         />
       }
       detailSections={detailSections}
       showAssistBand
-      hideHeroImage
 
     />
   );
