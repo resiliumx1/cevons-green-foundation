@@ -155,25 +155,36 @@ function ComingSoonCard({ s, variant = "light" }: { s: ServiceItem; variant?: "l
   return (
     <article
       aria-label={`${s.title} — coming soon`}
-      className={`relative flex flex-col rounded-2xl p-6 border border-dashed ${
+      className={`relative flex flex-col rounded-2xl p-6 border border-dashed overflow-hidden ${
         dark
           ? "border-white/15 bg-white/[0.04]"
-          : "border-[var(--cevons-deep-green)]/15 bg-[color-mix(in_srgb,var(--surface-card,#fff)_92%,var(--brand-yellow)_8%)]"
+          : "border-[var(--cevons-deep-green)]/15 bg-white"
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
+      {/* Yellow tint sits ON TOP of the mode-aware surface, so the card always
+          matches its siblings (white in light, --surface-2 in dark). */}
+      {!dark && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-2xl"
+          style={{ background: "var(--brand-yellow)", opacity: 0.06 }}
+        />
+      )}
+      <div className="relative flex items-start justify-between gap-3">
         <span className="icon-tile relative flex h-20 w-20 overflow-hidden rounded-2xl mb-4 opacity-80">
           <Package className="m-auto size-9" style={{ color: "#1A1A1A" }} aria-hidden="true" />
         </span>
         {badge}
       </div>
-      <h3 className={`text-lg font-bold ${dark ? "text-white" : "text-[var(--cevons-deep-green)]"}`}>{s.title}</h3>
-      <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-white/70" : "text-[var(--cevons-muted)]"}`}>{s.body}</p>
-      <div className="mt-auto pt-5">
+      <h3 className={`relative text-lg font-bold ${dark ? "text-white" : "text-[var(--cevons-deep-green)]"}`}>{s.title}</h3>
+      <p className={`relative mt-2 text-sm leading-relaxed ${dark ? "text-white/70" : "text-[var(--cevons-muted)]"}`}>{s.body}</p>
+      <div className="relative mt-auto pt-5">
         <span
           aria-disabled="true"
           className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold cursor-default select-none ${
-            dark ? "bg-white/10 text-white/70" : "bg-[var(--cevons-cream)] text-[var(--brand-grey-dark)]"
+            dark
+              ? "bg-white/10 text-white/70"
+              : "bg-[var(--brand-yellow)]/15 text-[var(--cevons-deep-green)]"
           }`}
         >
           <Clock3 className="size-4" aria-hidden="true" /> Coming soon
@@ -181,6 +192,7 @@ function ComingSoonCard({ s, variant = "light" }: { s: ServiceItem; variant?: "l
       </div>
     </article>
   );
+
 }
 
 function ServiceCard({
