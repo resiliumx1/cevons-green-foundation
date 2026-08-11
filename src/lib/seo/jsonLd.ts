@@ -48,12 +48,16 @@ export function organizationJsonLd() {
   };
 }
 
+/**
+ * Homepage graph. Emitted as a single typed Organization node (so the block
+ * always carries an explicit @type) whose branches hang off `subOrganization`.
+ */
 export function localBusinessGraphJsonLd() {
   return {
-    "@context": "https://schema.org",
-    "@graph": [
-      organizationJsonLd(),
+    ...organizationJsonLd(),
+    subOrganization: [
       ...cevonsContact.regions.map((r) => {
+
         const geo = branchGeo[r.id];
         return {
           "@type": "LocalBusiness",
