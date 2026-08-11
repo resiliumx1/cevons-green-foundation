@@ -498,12 +498,16 @@ function EditCopyButton({ page }: { page: string }) {
     }
   };
 
+  const pageLabel = EDITABLE_PAGES.find((p) => p.value === page)?.label ?? page;
+
   return (
-    <button type="button" onClick={() => void open()} disabled={busy} className="admin-link-btn">
-      <Pencil className="size-4" aria-hidden /> {busy ? "Opening…" : "Edit copy on page"}
-    </button>
+    <Button type="button" size="lg" onClick={() => void open()} disabled={busy}>
+      <Pencil className="size-4 mr-2" aria-hidden />
+      {busy ? "Opening…" : `Open ${pageLabel} and edit it`}
+    </Button>
   );
 }
+
 
 /* ── Content strings (read-only inventory) ───────────────────────────────── */
 
