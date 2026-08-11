@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
@@ -49,9 +50,9 @@ export const Route = createFileRoute("/services/")({
         content:
           "Residential, commercial, industrial, and facility waste services across Guyana.",
       },
-      { property: "og:url", content: "/services" },
+      { property: "og:url", content: absUrl("/services") },
     ],
-    links: [{ rel: "canonical", href: "/services" }],
+    links: [{ rel: "canonical", href: absUrl("/services") }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(faqPageJsonLd(faqs)) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([

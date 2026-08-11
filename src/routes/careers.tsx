@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useRef } from "react";
 import {
   ArrowRight,
@@ -40,10 +41,10 @@ export const Route = createFileRoute("/careers")({
         content:
           "Build a cleaner tomorrow with CEVONS. Explore current openings and grow your career in environmental services.",
       },
-      { property: "og:url", content: "https://cevons-green-foundation.lovable.app/careers" },
+      { property: "og:url", content: absUrl("https://cevons.com/careers") },
     ],
     links: [
-      { rel: "canonical", href: "https://cevons-green-foundation.lovable.app/careers" },
+      { rel: "canonical", href: absUrl("https://cevons.com/careers") },
     ],
   }),
   component: CareersPage,

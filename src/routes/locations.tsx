@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useState } from "react";
 import { MapPin, Phone, Clock, Check, Minus, MessageCircle, ArrowRight, ShieldCheck, Clock3, Award, Headphones, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -16,9 +17,9 @@ export const Route = createFileRoute("/locations")({
       { name: "description", content: "CEVONS provides waste management and environmental services across Georgetown, Linden, and Berbice. Request service online or contact us by WhatsApp." },
       { property: "og:title", content: "CEVONS Locations | Georgetown, Linden & Berbice" },
       { property: "og:description", content: "CEVONS provides waste management and environmental services across Georgetown, Linden, and Berbice." },
-      { property: "og:url", content: "/locations" },
+      { property: "og:url", content: absUrl("/locations") },
     ],
-    links: [{ rel: "canonical", href: "/locations" }],
+    links: [{ rel: "canonical", href: absUrl("/locations") }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(localBusinessGraphJsonLd()) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([

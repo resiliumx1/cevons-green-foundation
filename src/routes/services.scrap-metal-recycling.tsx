@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2, Phone } from "lucide-react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
@@ -21,9 +22,9 @@ export const Route = createFileRoute("/services/scrap-metal-recycling")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: PAGE_URL },
+      { property: "og:url", content: absUrl(PAGE_URL) },
     ],
-    links: [{ rel: "canonical", href: PAGE_URL }],
+    links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
   }),
   component: Page,
 });

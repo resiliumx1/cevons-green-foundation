@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { Biohazard, Hospital, Beaker, Building2, Pill, School, Wrench, ShieldAlert, PackageX, FileText } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-biohazard.jpg";
@@ -18,9 +19,9 @@ export const Route = createFileRoute("/services/biohazardous-disposal")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: PAGE_URL },
+      { property: "og:url", content: absUrl(PAGE_URL) },
     ],
-    links: [{ rel: "canonical", href: PAGE_URL }],
+    links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
     scripts: [
       {
         type: "application/ld+json",
@@ -34,9 +35,9 @@ export const Route = createFileRoute("/services/biohazardous-disposal")({
           provider: {
             "@type": "Organization",
             name: "CEVONS Environmental Services Inc.",
-            url: "https://cevons-green-foundation.lovable.app",
+            url: "https://cevons.com",
           },
-          url: `https://cevons-green-foundation.lovable.app${PAGE_URL}`,
+          url: `https://cevons.com${PAGE_URL}`,
         }),
       },
     ],

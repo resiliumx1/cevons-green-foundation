@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useMemo, useState } from "react";
 import confetti from "canvas-confetti";
 import {
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/request-service/confirmation")({
       { property: "og:title", content: "Request Received | CEVONS Guyana" },
       { property: "og:description", content: "Your CEVONS service request has been received. We'll be in touch shortly." },
     ],
-    links: [{ rel: "canonical", href: "/request-service/confirmation" }],
+    links: [{ rel: "canonical", href: absUrl("/request-service/confirmation") }],
   }),
   component: ConfirmationPage,
 });

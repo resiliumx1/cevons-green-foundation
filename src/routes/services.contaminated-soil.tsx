@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { Sprout, Factory, Flame, Wrench, Truck, Building2, ShieldAlert, Waves, Mountain } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-soil.jpg";
@@ -18,9 +19,9 @@ export const Route = createFileRoute("/services/contaminated-soil")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: PAGE_URL },
+      { property: "og:url", content: absUrl(PAGE_URL) },
     ],
-    links: [{ rel: "canonical", href: PAGE_URL }],
+    links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
   }),
   component: Page,
 });

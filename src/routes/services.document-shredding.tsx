@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { Building2, FileText, HeartPulse, Landmark, PackageX, School, ShieldCheck, Trash2 } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-shred.jpg";
@@ -19,9 +20,9 @@ export const Route = createFileRoute("/services/document-shredding")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: PAGE_URL },
+      { property: "og:url", content: absUrl(PAGE_URL) },
     ],
-    links: [{ rel: "canonical", href: PAGE_URL }],
+    links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
   }),
   component: ShreddingPage,
 });

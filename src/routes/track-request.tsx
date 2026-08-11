@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import {
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/track-request")({
       { property: "og:title", content: "Track Your Request | CEVONS Guyana" },
       { property: "og:description", content: "Track the status of your CEVONS service request." },
     ],
-    links: [{ rel: "canonical", href: "/track-request" }],
+    links: [{ rel: "canonical", href: absUrl("/track-request") }],
   }),
   component: TrackRequestPage,
 });
