@@ -1,17 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  Bell, Check, Settings as SettingsIcon, X, Info, Inbox,
+  Bell, Check, Settings as SettingsIcon, X, Info, Inbox, MessageSquare, Star, Megaphone,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * The admin only surfaces two notification kinds now: inbound website
- * requests, and system messages. Legacy rows of retired kinds stay in the
- * table but are never rendered.
+ * Every kind the database triggers can produce is rendered here. The
+ * notification_type enum is: lead | review | message | campaign | system.
  */
-export type NotifType = "lead" | "system";
+export type NotifType = "lead" | "message" | "review" | "campaign" | "system";
 
 export interface NotificationRow {
   id: string;
@@ -37,16 +36,23 @@ const DEFAULT_PREFS: NotifPrefs = {
 
 const PREF_KEY: Record<NotifType, keyof NotifPrefs> = {
   lead: "leads",
+  message: "messages",
+  review: "reviews",
+  campaign: "campaigns",
   system: "system",
 };
 
 const TYPE_META: Record<NotifType, { label: string; icon: typeof Inbox; color: string }> = {
   lead: { label: "Requests", icon: Inbox, color: "var(--crm-primary-bright)" },
+  message: { label: "Messages", icon: MessageSquare, color: "var(--crm-primary-bright)" },
+  review: { label: "Reviews", icon: Star, color: "var(--crm-primary-bright)" },
+  campaign: { label: "Campaigns", icon: Megaphone, color: "var(--crm-primary-bright)" },
   system: { label: "System", icon: Info, color: "var(--crm-text-muted)" },
 };
 
 const FALLBACK_META = { label: "System", icon: Info, color: "var(--crm-text-muted)" };
-const KNOWN_TYPES: NotifType[] = ["lead", "system"];
+const KNOWN_TYPES: NotifType[] = ["lead", "message", "review", "campaign", "system"];
+
 
 function relTime(iso: string): string {
   const d = new Date(iso).getTime();
@@ -58,9 +64,16 @@ function relTime(iso: string): string {
 }
 
 // ---------- Shared store hook ----------
-export function useNotifications() {
+export function useNotifications(opts?: { onArrive?: (row: NotificationRow) => void }) {
   const [items, setItems] = useState<NotificationRow[]>([]);
   const [prefs, setPrefs] = useState<NotifPrefs>(DEFAULT_PREFS);
+
+  // Keep the latest callback + prefs in refs so the realtime subscription is
+  // set up exactly once and never reads a stale closure.
+  const onArriveRef = useRef(opts?.onArrive);
+  onArriveRef.current = opts?.onArrive;
+  const prefsRef = useRef(prefs);
+  prefsRef.current = prefs;
 
   useEffect(() => {
     let cancelled = false;
@@ -81,7 +94,13 @@ export function useNotifications() {
       .channel(`crm-notifications-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "notifications" }, (payload) => {
         if (payload.eventType === "INSERT") {
-          setItems((cur) => [payload.new as NotificationRow, ...cur].slice(0, 200));
+          const row = payload.new as NotificationRow;
+          setItems((cur) => (cur.some((x) => x.id === row.id) ? cur : [row, ...cur].slice(0, 200)));
+          // Only announce kinds we render, and only when the category is enabled.
+          const prefKey = PREF_KEY[row.type];
+          if (KNOWN_TYPES.includes(row.type) && prefKey && prefsRef.current[prefKey]) {
+            onArriveRef.current?.(row);
+          }
         } else if (payload.eventType === "UPDATE") {
           setItems((cur) => cur.map((x) => x.id === (payload.new as NotificationRow).id ? (payload.new as NotificationRow) : x));
         } else if (payload.eventType === "DELETE") {
@@ -108,10 +127,11 @@ export function useNotifications() {
   const unreadCount = useMemo(() => visible.filter((n) => !n.read).length, [visible]);
 
   const unreadByType = useMemo(() => {
-    const m: Record<NotifType, number> = { lead: 0, system: 0 };
+    const m = { lead: 0, message: 0, review: 0, campaign: 0, system: 0 } as Record<NotifType, number>;
     for (const n of visible) if (!n.read) m[n.type]++;
     return m;
   }, [visible]);
+
 
   const markRead = useCallback(async (ids: string[]) => {
     if (!ids.length) return;
@@ -142,12 +162,116 @@ export function useNotifications() {
 // ---------- Bell + Panel ----------
 type FilterKey = "all" | "unread" | NotifType;
 
+/** How many arrival previews may stack under the bell before we collapse the rest. */
+const MAX_ARRIVAL_CARDS = 3;
+const ARRIVAL_TIMEOUT_MS = 6000;
+
+/**
+ * A single arrival preview. Owns its own dismissal timer so hovering or
+ * focusing one card does not affect the others.
+ */
+function ArrivalCard({
+  item, onOpen, onDismiss, reduceMotion,
+}: {
+  item: NotificationRow;
+  onOpen: (item: NotificationRow) => void;
+  onDismiss: (id: string) => void;
+  reduceMotion: boolean;
+}) {
+  const [paused, setPaused] = useState(false);
+  const meta = TYPE_META[item.type] ?? FALLBACK_META;
+  const Icon = meta.icon;
+
+  useEffect(() => {
+    if (paused) return;
+    const t = window.setTimeout(() => onDismiss(item.id), ARRIVAL_TIMEOUT_MS);
+    return () => window.clearTimeout(t);
+  }, [paused, item.id, onDismiss]);
+
+  return (
+    <motion.div
+      layout
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.97 }}
+      animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
+      transition={{ duration: reduceMotion ? 0.01 : 0.18, ease: "easeOut" }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+      className="relative rounded-xl border shadow-2xl overflow-hidden"
+      style={{
+        background: "var(--crm-surface)",
+        borderColor: "var(--crm-border)",
+        color: "var(--crm-text)",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(item)}
+        className="w-full text-left flex gap-3 pl-3 pr-9 py-3"
+      >
+        <span
+          className="h-8 w-8 shrink-0 rounded-lg grid place-items-center"
+          style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }}
+        >
+          <Icon className="h-4 w-4" />
+        </span>
+        <span className="min-w-0 flex-1 block">
+          <span className="block text-[11px] uppercase tracking-wide font-semibold" style={{ color: "var(--crm-text-muted)" }}>
+            {meta.label}
+          </span>
+          <span className="block text-sm font-semibold leading-snug line-clamp-2" style={{ color: "var(--crm-text)" }}>
+            {item.title}
+          </span>
+          {item.body && (
+            <span className="block text-xs mt-0.5 line-clamp-2" style={{ color: "var(--crm-text-muted)" }}>
+              {item.body}
+            </span>
+          )}
+        </span>
+      </button>
+      <button
+        type="button"
+        onClick={() => onDismiss(item.id)}
+        className="absolute top-2 right-2 h-6 w-6 grid place-items-center rounded hover:opacity-80"
+        style={{ color: "var(--crm-text-muted)" }}
+        aria-label="Dismiss this alert"
+      >
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </motion.div>
+  );
+}
+
 export function NotificationsBell() {
   const [open, setOpen] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
   const [filter, setFilter] = useState<FilterKey>("all");
+  const [arrivals, setArrivals] = useState<NotificationRow[]>([]);
+  const [announcement, setAnnouncement] = useState("");
+  const [pulse, setPulse] = useState(false);
   const navigate = useNavigate();
-  const n = useNotifications();
+  const reduceMotion = !!useReducedMotion();
+
+  const handleArrive = useCallback((row: NotificationRow) => {
+    setArrivals((cur) => (cur.some((x) => x.id === row.id) ? cur : [row, ...cur].slice(0, 12)));
+    setAnnouncement(`${row.title}${row.body ? `. ${row.body}` : ""}`);
+    setPulse(true);
+  }, []);
+
+  const n = useNotifications({ onArrive: handleArrive });
+
+  // The attention cue is brief and never runs under reduced motion.
+  useEffect(() => {
+    if (!pulse) return;
+    const t = window.setTimeout(() => setPulse(false), 1400);
+    return () => window.clearTimeout(t);
+  }, [pulse]);
+
+  const dismissArrival = useCallback((id: string) => {
+    setArrivals((cur) => cur.filter((x) => x.id !== id));
+  }, []);
 
   // close on escape
   useEffect(() => {
@@ -171,15 +295,35 @@ export function NotificationsBell() {
     }
   };
 
+  const handleArrivalOpen = useCallback(async (item: NotificationRow) => {
+    setArrivals([]);
+    await n.markRead([item.id]);
+    if (item.link) navigate({ to: item.link });
+  }, [n, navigate]);
+
+  const visibleArrivals = arrivals.slice(0, MAX_ARRIVAL_CARDS);
+  const overflowArrivals = arrivals.length - visibleArrivals.length;
+  const showArrivals = !open && arrivals.length > 0;
+
   return (
-    <>
+    <div className="relative">
+      <span aria-live="polite" className="sr-only">{announcement}</span>
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => { setOpen((v) => !v); setArrivals([]); }}
         className="relative h-9 w-9 grid place-items-center rounded-lg border"
         style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
         aria-label="Notifications"
       >
         <Bell className="h-4 w-4" />
+        {pulse && !reduceMotion && (
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-lg pointer-events-none"
+            style={{ boxShadow: "0 0 0 0 var(--admin-orange)" }}
+            animate={{ boxShadow: ["0 0 0 0 var(--admin-orange)", "0 0 0 6px rgba(239,119,0,0)"] }}
+            transition={{ duration: 0.9, repeat: 1, ease: "easeOut" }}
+          />
+        )}
         <AnimatePresence>
           {n.unreadCount > 0 && (
             <motion.span
@@ -196,6 +340,41 @@ export function NotificationsBell() {
           )}
         </AnimatePresence>
       </button>
+
+      {/* Arrival previews, anchored under the bell */}
+      <div className="absolute right-0 top-full mt-2 z-[60] w-[320px] max-w-[calc(100vw-1.5rem)] flex flex-col gap-2 pointer-events-none">
+        <AnimatePresence initial={false}>
+          {showArrivals && visibleArrivals.map((item) => (
+            <div key={item.id} className="pointer-events-auto">
+              <ArrivalCard
+                item={item}
+                onOpen={handleArrivalOpen}
+                onDismiss={dismissArrival}
+                reduceMotion={reduceMotion}
+              />
+            </div>
+          ))}
+          {showArrivals && overflowArrivals > 0 && (
+            <motion.button
+              key="more"
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => { setArrivals([]); setOpen(true); }}
+              className="pointer-events-auto rounded-lg border px-3 py-1.5 text-xs font-semibold shadow-lg"
+              style={{
+                background: "var(--crm-surface-muted)",
+                borderColor: "var(--crm-border)",
+                color: "var(--crm-text)",
+              }}
+            >
+              +{overflowArrivals} more
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
 
       <AnimatePresence>
         {open && (
@@ -300,7 +479,7 @@ export function NotificationsBell() {
 
               {/* Filters + actions */}
               <div className="flex items-center gap-1 px-3 py-2 border-b overflow-x-auto" style={{ borderColor: "var(--crm-border)" }}>
-                {(["all", "unread", "lead", "system"] as FilterKey[]).map((k) => {
+                {(["all", "unread", ...KNOWN_TYPES] as FilterKey[]).map((k) => {
                   const active = filter === k;
                   const label = k === "all" ? "All" : k === "unread" ? "Unread" : (TYPE_META[k as NotifType]?.label ?? "System");
                   return (
@@ -391,6 +570,7 @@ export function NotificationsBell() {
           </>
         )}
       </AnimatePresence>
-    </>
+    </div>
+
   );
 }
