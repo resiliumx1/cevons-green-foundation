@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
 import { Droplet, Home, Building, AlertTriangle, Wrench, ClipboardCheck, Trash2, Waves } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
-import imgHero from "@/assets/svc-septic.jpg";
+import imgHeroAsset from "@/assets/slide-septic.webp.asset.json";
+const imgHero = (imgHeroAsset as { url: string }).url;
 import imgRel0 from "@/assets/svc-garbage.jpg";
 import imgRel1 from "@/assets/svc-toilet.jpg";
 import imgRel2 from "@/assets/svc-grease.jpg";
@@ -167,6 +168,7 @@ function Page() {
       h1="Septic Services for Homes"
       subhead="The most experienced septic team in Guyana — 8,500 to 10,500 litre trucks, licensed disposal, and service in every region."
       heroImage={imgHero}
+      heroVariant="full-bleed"
       heroSlot="svc_septic_services_hero"
       heroAlt="CEVONS septic tanker performing a residential tank emptying in Guyana"
       benefits={["Most experienced crews in Guyana","8,500–10,500 L truck sizes","~50 m of hose carried","Licensed government-approved disposal","Fixed, competitive prices"]}

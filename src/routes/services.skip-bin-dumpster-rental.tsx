@@ -3,7 +3,7 @@ import { absUrl } from "@/lib/seo/site";
 import { Container, Hammer, Building2, Wrench, Factory, Trees, Trash2, Recycle } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import { BinSizeSelector, type BinSizeOption } from "@/components/services/BinSizeSelector";
-import imgHero from "@/assets/svc-skip.jpg";
+import imgHeroAsset from "@/assets/skip-10yd-orange.jpg.asset.json";
 import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
@@ -11,6 +11,7 @@ import imgSkip10Asset from "@/assets/skip-10yd-diagram.png.asset.json";
 import imgDumpster20Asset from "@/assets/dumpster-20yd-diagram.png.asset.json";
 import imgDumpster52Asset from "@/assets/dumpster-20yd.webp.asset.json";
 
+const imgHero = (imgHeroAsset as { url: string }).url;
 const imgSkip10 = imgSkip10Asset as { url: string };
 const imgDumpster20 = imgDumpster20Asset as { url: string };
 const imgDumpster52 = imgDumpster52Asset as { url: string };
@@ -127,6 +128,7 @@ function Page() {
       h1="Skip Bin & Dumpster Rental"
       subhead="Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana."
       heroImage={imgHero}
+      heroVariant="full-bleed"
       heroSlot="svc_skip_bin_hero"
       heroAlt="CEVONS commercial roll-off dumpster placed on a construction site in Guyana"
       benefits={["10, 20 & 52 cubic yard sizes","Only 10–52 yd fleet in Guyana","Short and long-term rental","On-schedule swap-outs","EPA-aligned disposal"]}
