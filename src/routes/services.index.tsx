@@ -18,6 +18,7 @@ import {
   Minus,
   Compass,
   ClipboardList,
+  Package,
 } from "lucide-react";
 import { ServiceActionRow } from "@/components/services/ServiceActionButton";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -78,10 +79,11 @@ type ServiceItem = {
   body: string;
   slug: string;
   iconKey: CevonsServiceKey;
+  comingSoon?: boolean;
 };
 
 function toItem(s: Service): ServiceItem {
-  return { title: s.title, body: s.shortBody, slug: s.path, iconKey: s.iconKey };
+  return { title: s.title, body: s.shortBody, slug: s.path, iconKey: s.iconKey, comingSoon: s.comingSoon };
 }
 
 const residential: ServiceItem[] = getServicesForSection("residential").map(toItem);
@@ -132,6 +134,55 @@ const faqs = [
 
 
 
+/**
+ * Badge-only card for a service that is announced but not yet bookable.
+ * Nothing inside is focusable or clickable; the footer control mirrors the
+ * Request button on sibling cards so the grid stays aligned.
+ *
+ * Contrast: "Coming soon" is #1A1A1A on #FCE722 = 13.7:1 in both modes
+ * (both values are pinned, not mode-aware).
+ */
+function ComingSoonCard({ s, variant = "light" }: { s: ServiceItem; variant?: "light" | "industrial" }) {
+  const dark = variant === "industrial";
+  const badge = (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider"
+      style={{ background: "var(--brand-yellow)", color: "#1A1A1A" }}
+    >
+      <Clock3 className="size-3.5" aria-hidden="true" /> Coming soon
+    </span>
+  );
+  return (
+    <article
+      aria-label={`${s.title} — coming soon`}
+      className={`relative flex flex-col rounded-2xl p-6 border border-dashed ${
+        dark
+          ? "border-white/15 bg-white/[0.04]"
+          : "border-[var(--cevons-deep-green)]/15 bg-[color-mix(in_srgb,var(--surface-card,#fff)_92%,var(--brand-yellow)_8%)]"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="icon-tile relative flex h-20 w-20 overflow-hidden rounded-2xl mb-4 opacity-80">
+          <Package className="m-auto size-9" style={{ color: "#1A1A1A" }} aria-hidden="true" />
+        </span>
+        {badge}
+      </div>
+      <h3 className={`text-lg font-bold ${dark ? "text-white" : "text-[var(--cevons-deep-green)]"}`}>{s.title}</h3>
+      <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-white/70" : "text-[var(--cevons-muted)]"}`}>{s.body}</p>
+      <div className="mt-auto pt-5">
+        <span
+          aria-disabled="true"
+          className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold cursor-default select-none ${
+            dark ? "bg-white/10 text-white/70" : "bg-[var(--cevons-cream)] text-[var(--brand-grey-dark)]"
+          }`}
+        >
+          <Clock3 className="size-4" aria-hidden="true" /> Coming soon
+        </span>
+      </div>
+    </article>
+  );
+}
+
 function ServiceCard({
   s,
   variant = "light",
@@ -145,6 +196,7 @@ function ServiceCard({
   // size and shorter "Learn" label so CTAs never overflow their column.
   const actionSize = compact ? "sm" : "md";
   const learnLabel = compact ? "Learn" : "Learn more";
+  if (s.comingSoon) return <ComingSoonCard s={s} variant={variant} />;
   if (variant === "industrial") {
     return (
       <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[var(--brand-charcoal)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--cevons-yellow)]/50 hover:shadow-[0_20px_50px_-20px_rgba(239,119,0,0.4)]">
