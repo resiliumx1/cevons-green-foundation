@@ -41,8 +41,12 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
           return Response.json({ ok: false, reason: "server_misconfigured" }, { status: 500 });
         }
 
+        const dispatchSecret = process.env["NOTIFY_DISPATCH_SECRET"];
         const auth = request.headers.get("Authorization") ?? "";
-        if (!auth.startsWith("Bearer ") || auth.slice(7).trim() !== serviceKey) {
+        const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+        const authorized =
+          (!!dispatchSecret && token === dispatchSecret) || token === serviceKey;
+        if (!authorized) {
           return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
 
@@ -140,11 +144,40 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
                 });
 
           const queuedAt = new Date().toISOString();
+          const attempt = Date.now().toString(36);
           const queued: number[] = [];
 
+          /** One stable unsubscribe token per address; the send API requires it. */
+          const unsubscribeTokenFor = async (email: string): Promise<string> => {
+            const { data: existing } = await supabase
+              .from("email_unsubscribe_tokens")
+              .select("token")
+              .eq("email", email)
+              .maybeSingle();
+            if (existing?.token) return existing.token;
+
+            const token = crypto.randomUUID().replace(/-/g, "");
+            const { error: insErr } = await supabase
+              .from("email_unsubscribe_tokens")
+              .insert({ email, token });
+            if (insErr) {
+              const { data: raced } = await supabase
+                .from("email_unsubscribe_tokens")
+                .select("token")
+                .eq("email", email)
+                .maybeSingle();
+              if (raced?.token) return raced.token;
+              throw insErr;
+            }
+            return token;
+          };
+
           for (const to of recipients) {
-            // Stable per submission + recipient, so a retry cannot double-send.
-            const idempotencyKey = `${kind}:${reference}:${to}`;
+            // Stable per submission + recipient + dispatch attempt: queue retries
+            // reuse it (no double send), while a fresh dispatch is not rejected
+            // by the provider as a previously failed idempotency key.
+            const idempotencyKey = `${kind}:${reference}:${to}:${attempt}`;
+            const unsubscribeToken = await unsubscribeTokenFor(to);
             const { data: msgId, error } = await supabase.rpc("enqueue_email", {
               queue_name: "transactional_emails",
               payload: {
@@ -158,6 +191,7 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
                 purpose: "transactional",
                 label: kind === "service_request" ? "service-request-notification" : "contact-message-notification",
                 idempotency_key: idempotencyKey,
+                unsubscribe_token: unsubscribeToken,
                 message_id: idempotencyKey,
                 queued_at: queuedAt,
               } as never,
