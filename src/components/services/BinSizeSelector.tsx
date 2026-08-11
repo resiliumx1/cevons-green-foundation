@@ -23,8 +23,8 @@ export function BinSizeSelector({ options, eyebrow, heading, intro }: {
   if (!active) return null;
 
   return (
-    <section className="py-16 md:py-20 bg-[var(--surface-page)]">
-      <div className="container-max px-4 md:px-6">
+    <section className="py-12 md:py-16 bg-[var(--surface-page)]">
+      <div className="container-cevons">
         <div className="max-w-3xl mb-10 md:mb-12">
           {eyebrow && (
             <p className="text-xs md:text-sm font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)] mb-3">

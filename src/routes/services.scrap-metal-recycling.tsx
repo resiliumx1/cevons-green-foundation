@@ -119,7 +119,7 @@ const galleryImages = [
 
 function GallerySection() {
   return (
-    <section className="section-y bg-[var(--surface-page)]" aria-labelledby="gallery-h">
+    <section className="py-12 md:py-16 bg-[var(--surface-page)]" aria-labelledby="gallery-h">
       <div className="container-cevons">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">On the Ground</p>
@@ -147,7 +147,7 @@ function GallerySection() {
 
 function RatesPanel() {
   return (
-    <section className="bg-[var(--surface-page)] pb-4" aria-labelledby="rates-h">
+    <section className="py-12 md:py-16 bg-[var(--surface-page)]" aria-labelledby="rates-h">
       <div className="container-cevons">
         <div
           className="relative overflow-hidden rounded-[28px] p-8 sm:p-10 md:p-12 shadow-[0_24px_60px_-28px_rgba(0,0,64,0.55)] ring-1 ring-black/5"
