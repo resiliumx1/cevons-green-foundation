@@ -14,7 +14,9 @@ export type SearchEntry = {
   external?: boolean;
 };
 
-const serviceEntries: SearchEntry[] = services.map((s) => ({
+const serviceEntries: SearchEntry[] = services
+  .filter((s) => !s.retired && !s.comingSoon && s.categories.length > 0)
+  .map((s) => ({
   id: `svc-${s.slug}`,
   name: s.title,
   desc: s.shortBody,

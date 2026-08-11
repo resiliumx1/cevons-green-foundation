@@ -102,8 +102,6 @@ export const categorySectionOrder: Record<ServiceCategory, string[]> = {
   commercial: [
     "general-waste-management",
     "skip-bin-dumpster-rental",
-    "product-destruction",
-    "cardboard-recycling",
     "portable-toilet",
     "grease-trap-septic-tank",
     "document-shredding",
@@ -112,6 +110,8 @@ export const categorySectionOrder: Record<ServiceCategory, string[]> = {
     "scrap-metal-recycling",
     "used-cooking-oil",
     "plastic-recycling",
+    "product-destruction",
+    "cardboard-recycling",
   ],
   industrial: [
     "hazardous-waste",
