@@ -468,13 +468,10 @@ function PagesEditor() {
 /* ── Click-to-edit launcher ──────────────────────────────────────────────── */
 
 /** Public path each editable page lives at. */
-const PAGE_PATHS: Record<string, string> = {
-  home: "/",
-  about: "/about",
-  services: "/services",
-  careers: "/careers",
-  contact: "/contact",
-};
+const PAGE_PATHS: Record<string, string> = Object.fromEntries(
+  EDITABLE_PAGES.map((p) => [p.value, p.path]),
+);
+
 
 /**
  * Opens the real public page in a staff preview session. The token is minted
