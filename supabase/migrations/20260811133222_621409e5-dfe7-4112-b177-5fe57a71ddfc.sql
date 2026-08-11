@@ -1,0 +1,1 @@
+delete from public.contact_messages where subject in ('Pipeline local test','Pipeline local test 2','Remote dispatch check','Delivery test 2 - please ignore') or subject like 'E2E test %';
