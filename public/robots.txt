@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://cevons-green-foundation.lovable.app/sitemap.xml
+Sitemap: https://cevons.com/sitemap.xml
