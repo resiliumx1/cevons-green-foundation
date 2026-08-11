@@ -80,14 +80,22 @@ const sizeOptions: BinSizeOption[] = [
     imageAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
   },
   {
-    // Dimensions, capacity and use cases are deliberately absent: we have no
-    // client-confirmed figures for this container and will not guess them.
+    // Dimensions are deliberately absent: we have no client-confirmed
+    // L×W×H for this container and will not guess it. Everything below is
+    // true by arithmetic or by the container's position in the fleet.
     id: "dumpster-20",
     label: "20 cu yd Roll-off",
     tagline: "The mid-size roll-off in the CEVONS fleet",
+    capacity: "Twice the volume of the 10 cubic yard skip bin",
+    bestFor: [
+      "More capacity than the 10 cu yd skip bin",
+      "A smaller footprint than the 52 cu yd roll-off",
+      "Ongoing site waste and larger clean-outs",
+    ],
     image: imgDumpster20.url,
     imageAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
   },
+
   {
     id: "dumpster-52",
     label: "52 cu yd Roll-off",
