@@ -52,7 +52,6 @@ const SERVICE_DETAILS: NavItem[] = [
   { label: "Biohazardous Disposal", to: "/services/biohazardous-disposal" },
   { label: "Contaminated Soil", to: "/services/contaminated-soil" },
   { label: "Document Shredding", to: "/services/document-shredding" },
-  { label: "Dumpster Rental", to: "/services/dumpster-rental" },
   { label: "General Trash Collection", to: "/services/general-trash-collection" },
   { label: "General Waste Management", to: "/services/general-waste-management" },
   { label: "Grease Trap & Septic Tank", to: "/services/grease-trap-septic-tank" },

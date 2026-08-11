@@ -15,6 +15,10 @@ export type Service = {
   iconKey: CevonsServiceKey;
   categories: ServiceCategory[];
   specialist: boolean;
+  /** Badge-only entry: shown in grids, but has no detail page, no CTA. */
+  comingSoon?: boolean;
+  /** Retired from the category grids; detail page redirects elsewhere. */
+  retired?: boolean;
 };
 
 function svc(
@@ -31,13 +35,13 @@ function svc(
 export const services: Service[] = [
   // Residential
   svc("general-trash-collection", "General Trash Collection", "general-trash-collection", ["residential"], "Reliable household waste pickup on a schedule that fits your community."),
-  svc("dumpster-rental", "Dumpster Rental", "dumpster-rental", ["residential"], "Short or long term dumpster rentals for home projects and cleanouts."),
+  svc("dumpster-rental", "Dumpster Rental", "dumpster-rental", [], "Short or long term dumpster rentals for home projects and cleanouts."),
   svc("septic-services", "Septic Services", "septic-services", ["residential"], "Safe, efficient septic tank pumping and clearance for homes."),
   svc("portable-toilet", "Portable Toilet", "portable-toilet", ["residential", "commercial"], "Clean, hygienic portable toilet rentals for residential events and projects."),
 
   // Commercial-only (portable-toilet already above)
   svc("general-waste-management", "General Waste Management", "general-waste-management", ["commercial"], "Scheduled collection and waste programs for businesses and properties."),
-  svc("skip-bin-dumpster-rental", "Skip Bin & Dumpster Rental", "skip-bin", ["commercial"], "Multiple sizes for construction, renovation, and ongoing site needs."),
+  svc("skip-bin-dumpster-rental", "Skip Bin & Dumpster Rental", "skip-bin", ["residential", "commercial"], "Multiple sizes for construction, renovation, and ongoing site needs."),
   svc("grease-trap-septic-tank", "Grease Trap / Septic Tank", "grease-trap", ["commercial"], "Grease trap and septic servicing for restaurants and facilities."),
   svc("document-shredding", "Document Shredding", "document-shredding", ["commercial"], "Secure on-site or off-site document destruction with chain-of-custody."),
 
@@ -47,19 +51,37 @@ export const services: Service[] = [
   svc("used-waste-oil", "Used Waste Oil", "used-waste-oil", ["industrial"], "Compliant collection and responsible recycling of used waste oil.", true),
   svc("contaminated-soil", "Contaminated Soil", "contaminated-soil", ["industrial"], "Excavation, transport, and treatment of contaminated solid waste.", true),
   svc("tank-cleaning", "Tank Cleaning", "tank-cleaning", ["industrial"], "Industrial tank cleaning with safety controls and proper waste disposal.", true),
-  svc("product-destruction", "Product Destruction", "product-destruction", ["industrial"], "Certified product destruction with auditable documentation.", true),
+  svc("product-destruction", "Product Destruction", "product-destruction", ["commercial"], "Certified product destruction with auditable documentation.", true),
   svc("biohazardous-disposal", "Biohazardous Disposal", "biohazardous-disposal", ["industrial"], "Safe biohazardous waste collection and compliant disposal.", true),
 
   // Facilities
-  svc("material-recovery-facility", "Material Recovery Facility", "material-recovery", ["facilities", "recycling"], "Sorting and recovery infrastructure that turns waste into resources.", true),
+  svc("material-recovery-facility", "Material Recovery Facility", "material-recovery", ["facilities"], "Sorting and recovery infrastructure that turns waste into resources.", true),
   svc("landfill-operations", "Landfill Operations", "landfill-operations", ["facilities"], "Managed landfill operations with environmental safeguards."),
 
   // New services
-  svc("scrap-metal-recycling", "Scrap Metal Recycling", "scrap-metal-recycling", ["recycling", "commercial", "industrial"], "Licensed scrap metal collection, processing, and export for ferrous and non-ferrous streams."),
+  svc("scrap-metal-recycling", "Scrap Metal Recycling", "scrap-metal-recycling", ["recycling", "commercial"], "Licensed scrap metal collection, processing, and export for ferrous and non-ferrous streams."),
   svc("used-cooking-oil", "Used Cooking Oil Collection", "cooking-oil-recycling", ["recycling", "commercial"], "Scheduled collection of used cooking oil from restaurants and commercial kitchens."),
-  svc("plastic-recycling", "Plastic Recycling", "plastic-shredding", ["recycling", "commercial", "industrial"], "Business plastics recycling programs with verified, transparent end destinations."),
-  svc("road-sweeping", "Road Sweeping", "road-sweeping", ["commercial", "facilities"], "Mechanical road sweeper hire for streets, sites, and events across Guyana."),
-  svc("compactor-rental", "Compactor Rental", "compactor-rental", ["commercial", "industrial"], "Commercial waste compactor rental that shrinks volume and cuts collection frequency."),
+  svc("plastic-recycling", "Plastic Recycling", "plastic-shredding", ["recycling", "commercial"], "Business plastics recycling programs with verified, transparent end destinations."),
+  svc("road-sweeping", "Road Sweeping", "road-sweeping", ["commercial"], "Mechanical road sweeper hire for streets, sites, and events across Guyana."),
+  svc("compactor-rental", "Compactor Rental", "compactor-rental", ["commercial"], "Commercial waste compactor rental that shrinks volume and cuts collection frequency."),
+];
+
+/** Retired from grids — kept for the 301 redirect and reversibility. */
+const retiredSlugs = new Set(["dumpster-rental"]);
+for (const s of services) if (retiredSlugs.has(s.slug)) s.retired = true;
+
+/** Badge-only "coming soon" entries: no detail page, no CTA, no search entry. */
+export const comingSoonServices: Service[] = [
+  {
+    slug: "cardboard-recycling",
+    path: "",
+    title: "Cardboard Recycling",
+    shortBody: "Efficient collection and recycling of cardboard to support a circular economy.",
+    iconKey: "document-shredding",
+    categories: ["commercial", "recycling"],
+    specialist: false,
+    comingSoon: true,
+  },
 ];
 
 export function getServicesByCategory(category: ServiceCategory): Service[] {
@@ -67,13 +89,13 @@ export function getServicesByCategory(category: ServiceCategory): Service[] {
 }
 
 export function getServiceBySlug(slug: string): Service | undefined {
-  return services.find((s) => s.slug === slug);
+  return [...services, ...comingSoonServices].find((s) => s.slug === slug);
 }
 
 export const categorySectionOrder: Record<ServiceCategory, string[]> = {
   residential: [
     "general-trash-collection",
-    "dumpster-rental",
+    "skip-bin-dumpster-rental",
     "septic-services",
     "portable-toilet",
   ],
@@ -88,6 +110,8 @@ export const categorySectionOrder: Record<ServiceCategory, string[]> = {
     "scrap-metal-recycling",
     "used-cooking-oil",
     "plastic-recycling",
+    "product-destruction",
+    "cardboard-recycling",
   ],
   industrial: [
     "hazardous-waste",
@@ -95,22 +119,17 @@ export const categorySectionOrder: Record<ServiceCategory, string[]> = {
     "used-waste-oil",
     "contaminated-soil",
     "tank-cleaning",
-    "product-destruction",
     "biohazardous-disposal",
-    "scrap-metal-recycling",
-    "plastic-recycling",
-    "compactor-rental",
   ],
   facilities: [
     "material-recovery-facility",
     "landfill-operations",
-    "road-sweeping",
   ],
   recycling: [
-    "material-recovery-facility",
     "scrap-metal-recycling",
     "used-cooking-oil",
     "plastic-recycling",
+    "cardboard-recycling",
   ],
 };
 

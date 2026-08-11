@@ -14,7 +14,9 @@ export type SearchEntry = {
   external?: boolean;
 };
 
-const serviceEntries: SearchEntry[] = services.map((s) => ({
+const serviceEntries: SearchEntry[] = services
+  .filter((s) => !s.retired && !s.comingSoon && s.categories.length > 0)
+  .map((s) => ({
   id: `svc-${s.slug}`,
   name: s.title,
   desc: s.shortBody,
@@ -38,7 +40,7 @@ const pageEntries: SearchEntry[] = [
 
 const quickActions: SearchEntry[] = [
   { id: "qa-book", name: "Book now", desc: "Start a service request in the booking wizard.", to: "/request-service", group: "Quick actions", keywords: ["book", "schedule", "order", "request"] },
-  { id: "qa-bin", name: "Book a bin", desc: "Reserve a dumpster or skip bin for your project.", to: "/request-service?service=dumpster-rental", group: "Quick actions", keywords: ["bin", "dumpster", "skip", "container", "book a bin"] },
+  { id: "qa-bin", name: "Book a bin", desc: "Reserve a dumpster or skip bin for your project.", to: "/request-service?service=skip-bin-dumpster-rental", group: "Quick actions", keywords: ["bin", "dumpster", "skip", "container", "book a bin"] },
   { id: "qa-scrap", name: "Sell scrap metal", desc: "We buy ferrous, non-ferrous, cable, and lead batteries.", to: "/services/scrap-metal-recycling", group: "Quick actions", keywords: ["sell", "scrap", "metal", "copper", "buy"] },
   { id: "qa-rates", name: "Prices & rates", desc: "Scrap metal rates are updated every two weeks — contact us for today's rates.", to: "/services/scrap-metal-recycling", group: "Quick actions", keywords: ["price", "prices", "rate", "rates", "cost", "pricing"] },
   { id: "qa-sizes", name: "Skip bin sizes", desc: "Compare 10, 30, 40 and 52 cu yd bins", to: "/services/skip-bin-dumpster-rental", group: "Quick actions", keywords: ["size", "sizes", "10", "20", "cubic"] },

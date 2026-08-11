@@ -102,7 +102,6 @@ export function Footer() {
     { label: t("footer.servicesList.industrial"), to: "/services/hazardous-waste" },
     { label: t("footer.servicesList.recycling"), to: "/services/material-recovery-facility" },
     { label: t("footer.servicesList.skipBin"), to: "/services/skip-bin-dumpster-rental" },
-    { label: t("footer.servicesList.dumpster"), to: "/services/dumpster-rental" },
     { label: t("footer.servicesList.portable"), to: "/services/portable-toilet" },
     { label: t("footer.servicesList.septic"), to: "/services/septic-services" },
   ];

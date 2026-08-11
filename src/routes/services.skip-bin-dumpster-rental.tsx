@@ -54,8 +54,7 @@ const faqs = [
 ];
 
 const related = [
-  { title: "Dumpster Rental", body: "Residential roll-off bins from 10 to 52 yards.", img: imgRel0, to: "/services/dumpster-rental", icon: Container },
-  { title: "General Waste Management", body: "Scheduled commercial collection programs.", img: imgRel1, to: "/services/general-waste-management", icon: Building2 },
+    { title: "General Waste Management", body: "Scheduled commercial collection programs.", img: imgRel1, to: "/services/general-waste-management", icon: Building2 },
   { title: "Material Recovery Facility", body: "Sorting and recovery that turns waste into resources.", img: imgRel2, to: "/services/material-recovery-facility", icon: Recycle },
 ];
 

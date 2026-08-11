@@ -47,7 +47,7 @@ const faqs = [
 
 const related = [
   { title: "General Trash Collection", body: "Reliable household pickup on a schedule.", img: imgRel0, to: "/services/general-trash-collection", icon: Trash2 },
-  { title: "Dumpster Rental", body: "Multiple sizes for projects and cleanups.", img: imgRel1, to: "/services/dumpster-rental", icon: Container },
+  { title: "Skip Bin & Dumpster Rental", body: "Multiple sizes for projects and cleanups.", img: imgRel1, to: "/services/skip-bin-dumpster-rental", icon: Container },
   { title: "Septic Services", body: "Safe, efficient septic tank pumping.", img: imgRel2, to: "/services/septic-services", icon: Droplet },
 ];
 

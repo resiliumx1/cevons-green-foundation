@@ -45,7 +45,7 @@ const faqs = [
 
 const related = [
   { title: "Document Shredding", body: "Secure destruction of sensitive documents.", img: imgRel0, to: "/services/document-shredding", icon: FileText },
-  { title: "Dumpster Rental", body: "Roll-off bins for cleanouts and site clearances.", img: imgRel1, to: "/services/dumpster-rental", icon: Trash2 },
+  { title: "Skip Bin & Dumpster Rental", body: "Roll-off bins for cleanouts and site clearances.", img: imgRel1, to: "/services/skip-bin-dumpster-rental", icon: Trash2 },
   { title: "General Waste Management", body: "Scheduled commercial waste collection programs.", img: imgRel2, to: "/services/general-waste-management", icon: Trash2 },
 ];
 

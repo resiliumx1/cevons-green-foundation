@@ -8,7 +8,7 @@ const services = [
   { name: "Portable\nToilets", img: "/assets/home/service-portable-toilets.webp", href: "/services/portable-toilet", alt: "Portable toilets for CEVONS services" },
   { name: "Septic\nServices", img: "/assets/home/service-septic-services.webp", href: "/services/septic-services", alt: "Septic service truck for CEVONS services" },
   { name: "Recycling\nSolutions", img: "/assets/home/service-recycling-solutions.webp", href: "/services/material-recovery-facility", alt: "Recycling solutions bin for CEVONS services" },
-  { name: "Dumpster\nRental", img: "/assets/home/service-dumpster-rental.webp", href: "/services/dumpster-rental", alt: "Dumpster rental container for CEVONS services" },
+  { name: "Dumpster\nRental", img: "/assets/home/service-dumpster-rental.webp", href: "/services/skip-bin-dumpster-rental", alt: "Dumpster rental container for CEVONS services" },
 ];
 
 export function InteractiveServiceHub() {
