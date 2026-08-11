@@ -1,3 +1,4 @@
+import { OG_IMAGE, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from "@/lib/seo/site";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
