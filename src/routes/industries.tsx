@@ -156,13 +156,6 @@ function IndustriesPage() {
   const content = Route.useLoaderData();
   const indHeroTitle = useEditableText("industries.hero.title", "Industries We Serve");
   const indHeroSubtitle = useEditableText("industries.hero.subtitle", "Reliable waste management and environmental services for Guyana\u2019s most important sectors.");
-  const indSectorsEyebrow = useEditableText("industries.sectors.eyebrow", "Sectors");
-  const indSectorsTitle = useEditableText("industries.sectors.title", "Trusted Across Key Industries");
-  const indSolutionsEyebrow = useEditableText("industries.solutions.eyebrow", "Built Around Your Operations");
-  const indSolutionsTitle = useEditableText("industries.solutions.title", "Custom Solutions for Your Industry");
-  const indSolutionsSubtitle = useEditableText("industries.solutions.subtitle", "Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.");
-  const indWhyEyebrow = useEditableText("industries.why.eyebrow", "Why CEVONS");
-  const indWhyTitle = useEditableText("industries.why.title", "Why Businesses Choose CEVONS");
   const indCtaTitle = useEditableText("industries.cta.title", "Need a Waste Solution for Your Business?");
   const indCtaSubtitle = useEditableText("industries.cta.subtitle", "Tell us about your industry and facility, and we\u2019ll recommend the right services and collection plan.");
   const [mounted, setMounted] = useState(false);

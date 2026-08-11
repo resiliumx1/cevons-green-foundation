@@ -34,8 +34,14 @@ const heroServices = "/assets/heroes/hero-services.webp";
 
 import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { useSectionPayload, type PageIntroPayload, type CtaBannerPayload } from "@/lib/pageSections";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/services/")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "services", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Services | CEVONS Environmental Services — Guyana" },
@@ -189,9 +195,20 @@ function ServiceCard({
 
 
 function ServicesPage() {
+  const content = Route.useLoaderData();
+  return (
+    <ContentProvider value={content}>
+      <ServicesPageInner />
+    </ContentProvider>
+  );
+}
+
+function ServicesPageInner() {
   const intro = useSectionPayload<PageIntroPayload>("services", "page_intro");
   const ctaCopy = useSectionPayload<CtaBannerPayload>("services", "cta_banner");
   const t = useT();
+  const notSureTitle = useEditableText("services.cta.title", ctaCopy?.title || "Not Sure Which Service Fits Your Request?");
+  const notSureSubtitle = useEditableText("services.cta.subtitle", ctaCopy?.subtitle || "Tell us what you need and our team will guide you to the right service quickly and clearly.");
   const [active, setActive] = useState<FilterKey>("all");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [stuck, setStuck] = useState(false);
@@ -233,10 +250,10 @@ function ServicesPage() {
             </ol>
           </nav>
           <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight">
-            {intro?.title || "Our Services"}
+            <Editable id="services.hero.title" label="Hero heading" as="span">{intro?.title || "Our Services"}</Editable>
           </h1>
           <p className="mt-4 text-white/85 text-base md:text-xl max-w-2xl">
-            {intro?.subtitle || "Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana."}
+            <Editable id="services.hero.subtitle" label="Hero subtitle" as="span">{intro?.subtitle || "Complete waste management and environmental solutions for homes, businesses, industries, and facilities across Guyana."}</Editable>
           </p>
         </div>
         <WaveHalftoneDivider height={56} underFill="#FFFFFF" />
@@ -290,14 +307,12 @@ function ServicesPage() {
             <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
-                  <Home className="size-4" /> Residential
+                  <Home className="size-4" /> <Editable id="services.residential.eyebrow" label="Residential eyebrow" as="span">Residential</Editable>
                 </p>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
-                  Residential Waste Services
+                  <Editable id="services.residential.title" label="Residential heading" as="span">Residential Waste Services</Editable>
                 </h2>
-                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
-                  Reliable waste solutions for homes and residential communities.
-                </p>
+                <Editable id="services.residential.subtitle" label="Residential subtitle" as="p" className="mt-2 text-[var(--cevons-muted)] max-w-2xl">Reliable waste solutions for homes and residential communities.</Editable>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -316,14 +331,12 @@ function ServicesPage() {
             <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
-                  <Building2 className="size-4" /> Commercial
+                  <Building2 className="size-4" /> <Editable id="services.commercial.eyebrow" label="Commercial eyebrow" as="span">Commercial</Editable>
                 </p>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
-                  Commercial Waste Services
+                  <Editable id="services.commercial.title" label="Commercial heading" as="span">Commercial Waste Services</Editable>
                 </h2>
-                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
-                  Waste management and sanitation solutions for businesses, properties, and institutions.
-                </p>
+                <Editable id="services.commercial.subtitle" label="Commercial subtitle" as="p" className="mt-2 text-[var(--cevons-muted)] max-w-2xl">Waste management and sanitation solutions for businesses, properties, and institutions.</Editable>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -351,18 +364,16 @@ function ServicesPage() {
             <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-yellow)] mb-2 inline-flex items-center gap-2">
-                  <ShieldAlert className="size-4" /> Industrial
+                  <ShieldAlert className="size-4" /> <Editable id="services.industrial.eyebrow" label="Industrial eyebrow" as="span">Industrial</Editable>
                 </p>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-                  Industrial & Specialized Waste
+                  <Editable id="services.industrial.title" label="Industrial heading" as="span">Industrial & Specialized Waste</Editable>
                 </h2>
-                <p className="mt-2 text-white/80 max-w-2xl">
-                  Professional handling for specialized, regulated, and high-risk waste streams.
-                </p>
+                <Editable id="services.industrial.subtitle" label="Industrial subtitle" as="p" className="mt-2 text-white/80 max-w-2xl">Professional handling for specialized, regulated, and high-risk waste streams.</Editable>
               </div>
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90 ring-1 ring-white/15">
                 <ShieldCheck className="size-3.5 text-[var(--cevons-yellow)]" />
-                Compliance-First Operations
+                <Editable id="services.industrial.badge" label="Industrial badge" as="span">Compliance-First Operations</Editable>
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -380,14 +391,12 @@ function ServicesPage() {
           <div className="container-cevons">
             <div className="text-center max-w-2xl mx-auto mb-10">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2 justify-center">
-                <Layers3 className="size-4" /> Facilities
+                <Layers3 className="size-4" /> <Editable id="services.facilities.eyebrow" label="Facilities eyebrow" as="span">Facilities</Editable>
               </p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
-                Facilities & Environmental Infrastructure
+                <Editable id="services.facilities.title" label="Facilities heading" as="span">Facilities & Environmental Infrastructure</Editable>
               </h2>
-              <p className="mt-2 text-[var(--cevons-muted)]">
-                Large-scale recovery and disposal infrastructure supporting Guyana’s waste ecosystem.
-              </p>
+              <Editable id="services.facilities.subtitle" label="Facilities subtitle" as="p" className="mt-2 text-[var(--cevons-muted)]">Large-scale recovery and disposal infrastructure supporting Guyana’s waste ecosystem.</Editable>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {facilities.map((s) => {
@@ -429,14 +438,12 @@ function ServicesPage() {
             <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-2 inline-flex items-center gap-2">
-                  <Recycle className="size-4" /> Recycling
+                  <Recycle className="size-4" /> <Editable id="services.recycling.eyebrow" label="Recycling eyebrow" as="span">Recycling</Editable>
                 </p>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--cevons-deep-green)]">
-                  Recycling & Resource Recovery
+                  <Editable id="services.recycling.title" label="Recycling heading" as="span">Recycling & Resource Recovery</Editable>
                 </h2>
-                <p className="mt-2 text-[var(--cevons-muted)] max-w-2xl">
-                  Programs that divert materials from landfill and return value to Guyana's supply chain.
-                </p>
+                <Editable id="services.recycling.subtitle" label="Recycling subtitle" as="p" className="mt-2 text-[var(--cevons-muted)] max-w-2xl">Programs that divert materials from landfill and return value to Guyana's supply chain.</Editable>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -454,18 +461,18 @@ function ServicesPage() {
       {/* "Not Sure" CTA */}
       <OrangeCTABanner
         icon={Compass}
-        title={ctaCopy?.title || "Not Sure Which Service Fits Your Request?"}
-        subtitle={ctaCopy?.subtitle || "Tell us what you need and our team will guide you to the right service quickly and clearly."}
+        title={notSureTitle}
+        subtitle={notSureSubtitle}
       >
         <Link to="/request-service" className="cta-btn-primary">
-          <ClipboardList className="size-5" /> Request a Service
+          <ClipboardList className="size-5" /> <Editable id="services.cta.button1" label="CTA button 1 label" as="span">Request a Service</Editable>
         </Link>
         <a
           href={whatsappHref}
           {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           className="cta-btn-wa"
         >
-          <WhatsApp className="size-5" /> WhatsApp Us
+          <WhatsApp className="size-5" /> <Editable id="services.cta.button2" label="CTA button 2 label" as="span">WhatsApp Us</Editable>
         </a>
       </OrangeCTABanner>
 
@@ -473,9 +480,9 @@ function ServicesPage() {
       <section className="section-y bg-[var(--cevons-cream)]">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">FAQ</p>
+            <Editable id="services.faq.eyebrow" label="FAQ eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green)] mb-3">FAQ</Editable>
             <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green)]">
-              Frequently Asked Questions
+              <Editable id="services.faq.title" label="FAQ heading" as="span">Frequently Asked Questions</Editable>
             </h2>
           </div>
           <div className="max-w-3xl mx-auto divide-y divide-[var(--cevons-deep-green)]/10 rounded-2xl bg-white border border-[var(--cevons-deep-green)]/10 shadow-sm">
