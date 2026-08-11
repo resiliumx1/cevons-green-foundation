@@ -4,8 +4,9 @@
  *   scripts: [{ type: "application/ld+json", children: JSON.stringify(orgJsonLd()) }]
  */
 import { cevonsContact } from "@/data/cevonsContact";
+import { SITE_URL } from "@/lib/seo/site";
 
-export const SITE_URL = "https://cevons-green-foundation.lovable.app";
+export { SITE_URL };
 
 const branchGeo: Record<string, { lat: number; lng: number; locality: string }> = {
   georgetown: { lat: 6.8013, lng: -58.1551, locality: "Georgetown" },
