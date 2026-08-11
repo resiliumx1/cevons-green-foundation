@@ -4,11 +4,20 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Building2, Users, Bell, GitBranch, Palette, Sparkles, Sun,
   Check, Save, RefreshCw, AlertCircle, Plus, X, Trash2,
-  Phone, MapPin, Clock, Award, MessageCircle, Lock,
+  Phone, MapPin, Clock, Award, MessageCircle, Lock, Mail,
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  DEFAULT_NOTIFICATION_RECIPIENTS,
+  EMAIL_FROM_ADDRESS,
+  EMAIL_REPLY_TO,
+  EMAIL_RE,
+  normalizeRecipients,
+  type NotificationRecipients,
+} from "@/lib/notify/config";
+
 
 export const Route = createFileRoute("/admin/settings")({
   head: () => ({ meta: [{ title: "Settings | CEVONS Website Admin" }, { name: "robots", content: "noindex,nofollow" }] }),
