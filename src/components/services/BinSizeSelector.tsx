@@ -113,15 +113,20 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
 
         {/* Detail card */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 items-start">
-          <div className="relative overflow-hidden rounded-2xl bg-[var(--brand-grey-light,#f4f4f5)] ring-1 ring-black/5 aspect-[4/3] p-4 md:p-6">
+          {/* No fixed ratio, no padding and no background: the source images
+              already carry their own backdrop, so a second one only shows up
+              as dead space around the picture. The image fills the card edge
+              to edge at its natural ratio. */}
+          <div className="relative overflow-hidden rounded-2xl ring-1 ring-black/5">
             <img
               key={active.id}
               src={active.image}
               alt={active.imageAlt}
               loading="lazy"
-              className="block size-full object-contain animate-in fade-in duration-300"
+              className="block w-full h-auto animate-in fade-in duration-300"
             />
           </div>
+
           <div className="flex flex-col justify-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)] mb-3">
               {activeLabel}
