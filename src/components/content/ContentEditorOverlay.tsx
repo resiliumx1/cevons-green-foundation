@@ -77,7 +77,6 @@ const OVERLAY_CSS = `
   background-color: rgba(239, 119, 0, 0.18);
 }
 [data-content-key][data-content-flash="true"]::after { opacity: 1; }
-html { scroll-padding-top: ${BAR_HEIGHT + 12}px; }
 `;
 
 type SectionEntry = { section: string; key: string };
@@ -98,6 +97,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [sections, setSections] = useState<SectionEntry[]>([]);
   const [anchor, setAnchor] = useState<{ top: number; left: number } | null>(null);
+  const barRef = useRef<HTMLDivElement | null>(null);
   const fieldRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const dirtyRef = useRef(false);
@@ -151,11 +151,23 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     setSections(list);
   }, [meta]);
 
-  /* Offset the page so the fixed edit bar never covers the site header. */
+  /* Offset the page so the fixed edit bar never covers the site header. The
+     bar wraps onto several lines on a phone, so the offset is measured. */
   useEffect(() => {
     const prev = document.body.style.paddingTop;
-    document.body.style.paddingTop = `${BAR_HEIGHT}px`;
+    const apply = () => {
+      const h = barRef.current?.offsetHeight ?? BAR_HEIGHT;
+      document.body.style.paddingTop = `${h}px`;
+      document.documentElement.style.scrollPaddingTop = `${h + 12}px`;
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    if (barRef.current) ro.observe(barRef.current);
+    window.addEventListener("resize", apply);
     return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+      document.documentElement.style.scrollPaddingTop = "";
       document.body.style.paddingTop = prev;
       document
         .querySelectorAll("[data-content-section]")
@@ -337,7 +349,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
       <style>{OVERLAY_CSS}</style>
 
       {/* ── Edit-mode bar ─────────────────────────────────────────────── */}
-      <div data-content-ui style={barStyle}>
+      <div data-content-ui ref={barRef} style={barStyle}>
         <span style={{ fontWeight: 700, color: ORANGE }}>Editing a draft</span>
         <span style={{ opacity: 0.85 }} className="cev-bar-note">
           The live site has not changed.
