@@ -31,8 +31,8 @@ export interface NotificationRecipients {
 
 export const DEFAULT_NOTIFICATION_RECIPIENTS: NotificationRecipients = {
   enabled: true,
-  serviceRequests: ["info@cevons.com", "sales@cevons.com"],
-  contactMessages: ["info@cevons.com", "sales@cevons.com"],
+  serviceRequests: ["sales@cevons.com"],
+  contactMessages: ["sales@cevons.com"],
   whatsapp: { enabled: false, numbers: [] },
 };
 
