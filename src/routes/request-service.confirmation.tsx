@@ -21,6 +21,7 @@ export const Route = createFileRoute("/request-service/confirmation")({
       { name: "description", content: "Your CEVONS service request has been received. We'll be in touch shortly." },
       { property: "og:title", content: "Request Received | CEVONS Guyana" },
       { property: "og:description", content: "Your CEVONS service request has been received. We'll be in touch shortly." },
+      { property: "og:url", content: absUrl("/request-service/confirmation") },
     ],
     links: [{ rel: "canonical", href: absUrl("/request-service/confirmation") }],
   }),

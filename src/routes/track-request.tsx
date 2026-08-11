@@ -27,6 +27,7 @@ export const Route = createFileRoute("/track-request")({
       { name: "description", content: "Enter your reference and contact to check the live status of your CEVONS service request." },
       { property: "og:title", content: "Track Your Request | CEVONS Guyana" },
       { property: "og:description", content: "Track the status of your CEVONS service request." },
+      { property: "og:url", content: absUrl("/track-request") },
     ],
     links: [{ rel: "canonical", href: absUrl("/track-request") }],
   }),
