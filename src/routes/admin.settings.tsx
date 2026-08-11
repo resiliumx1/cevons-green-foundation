@@ -68,6 +68,8 @@ type SettingsMap = {
   service_catalog?: ServiceCatalog;
   pipeline_stages?: PipelineConfig;
   notifications?: NotificationsConfig;
+  notification_recipients?: NotificationRecipients;
+
 };
 
 /* ─── default data ──────────────────────────────────────────────────────── */
