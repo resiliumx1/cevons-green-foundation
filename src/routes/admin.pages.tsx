@@ -383,53 +383,57 @@ function PagesEditor() {
         <EditCopyButton page={page} />
       </div>
 
+      {/* Service detail pages are template-driven: they have editable copy but no
+          typed, reorderable sections, so the builder below is hidden for them. */}
+      {!page.startsWith("service.") && (
+        <>
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
+            <select
+              value={adding}
+              onChange={(e) => setAdding(e.target.value)}
+              className="min-h-[44px] rounded-lg border px-3 text-sm"
+              style={field}
+              aria-label="Section type"
+            >
+              <option value="">Choose a section type…</option>
+              {kindsForPage.map((k) => (
+                <option key={k.kind} value={k.kind}>
+                  {k.label}
+                </option>
+              ))}
+            </select>
+            <Button type="button" disabled={!adding} onClick={() => void addSection(adding)}>
+              <Plus className="size-4 mr-1.5" /> Add section
+            </Button>
+          </div>
 
-
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
-        <select
-          value={adding}
-          onChange={(e) => setAdding(e.target.value)}
-          className="min-h-[44px] rounded-lg border px-3 text-sm"
-          style={field}
-          aria-label="Section type"
-        >
-          <option value="">Choose a section type…</option>
-          {kindsForPage.map((k) => (
-            <option key={k.kind} value={k.kind}>
-              {k.label}
-            </option>
-          ))}
-        </select>
-        <Button type="button" disabled={!adding} onClick={() => void addSection(adding)}>
-          <Plus className="size-4 mr-1.5" /> Add section
-        </Button>
-      </div>
-
-      {sectionsQuery.isLoading ? (
-        <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          Loading…
-        </p>
-      ) : rows.length === 0 ? (
-        <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
-          No sections yet — the public page is rendering its built-in layout. Add a section above to start managing it
-          here.
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {rows.map((row, i) => (
-            <SectionCard
-              key={row.id}
-              row={row}
-              isFirst={i === 0}
-              isLast={i === rows.length - 1}
-              mayPublish={mayPublish}
-              userId={userId}
-              onMove={(dir) => void move(i, dir)}
-              onChanged={refresh}
-              onDelete={() => setConfirmDelete(row)}
-            />
-          ))}
-        </div>
+          {sectionsQuery.isLoading ? (
+            <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
+              Loading…
+            </p>
+          ) : rows.length === 0 ? (
+            <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
+              No sections yet — the public page is rendering its built-in layout. Add a section above to start managing
+              it here.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {rows.map((row, i) => (
+                <SectionCard
+                  key={row.id}
+                  row={row}
+                  isFirst={i === 0}
+                  isLast={i === rows.length - 1}
+                  mayPublish={mayPublish}
+                  userId={userId}
+                  onMove={(dir) => void move(i, dir)}
+                  onChanged={refresh}
+                  onDelete={() => setConfirmDelete(row)}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       <AlertDialog open={!!confirmDelete} onOpenChange={(o) => !o && setConfirmDelete(null)}>
