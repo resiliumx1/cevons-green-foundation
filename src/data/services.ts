@@ -77,7 +77,7 @@ export const comingSoonServices: Service[] = [
     path: "",
     title: "Cardboard Recycling",
     shortBody: "Efficient collection and recycling of cardboard to support a circular economy.",
-    iconKey: "document-shredding",
+    iconKey: "cardboard-recycling",
     categories: ["commercial", "recycling"],
     specialist: false,
     comingSoon: true,
