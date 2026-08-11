@@ -235,7 +235,10 @@ export const Route = createFileRoute("/lovable/email/queue/process")({
                   idempotency_key: payload.idempotency_key,
                   unsubscribe_token: payload.unsubscribe_token,
                   message_id: payload.message_id,
-                },
+                  // Forwarded when the payload carries one (staff notifications
+                  // reply to the real Bluehost inbox, not the no-reply sender).
+                  ...(payload.reply_to ? { reply_to: payload.reply_to } : {}),
+                } as never,
                 { apiKey, sendUrl: process.env['LOVABLE_SEND_URL'] }
               )
 

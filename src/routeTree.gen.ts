@@ -66,6 +66,7 @@ import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
+import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -366,6 +367,11 @@ const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
   path: '/admin/preview/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicNotifyDispatchRoute = ApiPublicNotifyDispatchRouteImport.update({
+  id: '/api/public/notify/dispatch',
+  path: '/api/public/notify/dispatch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -431,6 +437,7 @@ export interface FileRoutesByFullPath {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
@@ -489,6 +496,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
@@ -550,6 +558,7 @@ export interface FileRoutesById {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
@@ -612,6 +621,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/api/public/notify/dispatch'
     | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -670,6 +680,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/api/public/notify/dispatch'
     | '/lovable/email/queue/process'
   id:
     | '__root__'
@@ -730,6 +741,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
+    | '/api/public/notify/dispatch'
     | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
@@ -756,6 +768,7 @@ export interface RootRouteChildren {
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
+  ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
@@ -1160,6 +1173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPreviewPageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/notify/dispatch': {
+      id: '/api/public/notify/dispatch'
+      path: '/api/public/notify/dispatch'
+      fullPath: '/api/public/notify/dispatch'
+      preLoaderRoute: typeof ApiPublicNotifyDispatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -1291,18 +1311,9 @@ const rootRouteChildren: RootRouteChildren = {
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
+  ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
