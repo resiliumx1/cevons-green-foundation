@@ -11,7 +11,7 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
 const PAGE_TITLE = "We Buy Scrap Metal in Guyana | CEVONS";
-const PAGE_DESC = "CEVONS buys scrap metal in Guyana — ferrous, non-ferrous, scrap cable and lead batteries. Licensed scrap metal dealer and exporter. Contact us for today\u2019s rates.";
+const PAGE_DESC = "CEVONS buys scrap metal in Guyana — ferrous, non-ferrous, scrap cable and lead batteries. Licensed scrap metal dealer and exporter. Contact us for rates.";
 const PAGE_URL = "/services/scrap-metal-recycling";
 
 export const Route = createFileRoute("/services/scrap-metal-recycling")({
