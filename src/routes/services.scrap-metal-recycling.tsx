@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2, Phone } from "lucide-react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
@@ -10,7 +11,7 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
 const PAGE_TITLE = "We Buy Scrap Metal in Guyana | CEVONS";
-const PAGE_DESC = "CEVONS buys scrap metal in Guyana — ferrous, non-ferrous, scrap cable and lead batteries. Licensed scrap metal dealer and exporter. Contact us for today\u2019s rates.";
+const PAGE_DESC = "CEVONS buys scrap metal in Guyana — ferrous, non-ferrous, scrap cable and lead batteries. Licensed scrap metal dealer and exporter. Contact us for rates.";
 const PAGE_URL = "/services/scrap-metal-recycling";
 
 export const Route = createFileRoute("/services/scrap-metal-recycling")({
@@ -21,9 +22,9 @@ export const Route = createFileRoute("/services/scrap-metal-recycling")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: PAGE_URL },
+      { property: "og:url", content: absUrl(PAGE_URL) },
     ],
-    links: [{ rel: "canonical", href: PAGE_URL }],
+    links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
   }),
   component: Page,
 });

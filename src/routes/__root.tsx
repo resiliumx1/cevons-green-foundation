@@ -1,3 +1,4 @@
+import { OG_IMAGE, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from "@/lib/seo/site";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -84,10 +85,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#FFFFFF", media: "(prefers-color-scheme: light)" },
       { name: "theme-color", content: "#0E0C0A", media: "(prefers-color-scheme: dark)" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: "https://cevons-green-foundation.lovable.app/assets/brand/cevons-og-default.jpg" },
-      { property: "og:image:width", content: "1216" },
-      { property: "og:image:height", content: "640" },
-      { name: "twitter:image", content: "https://cevons-green-foundation.lovable.app/assets/brand/cevons-og-default.jpg" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: OG_IMAGE_WIDTH },
+      { property: "og:image:height", content: OG_IMAGE_HEIGHT },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

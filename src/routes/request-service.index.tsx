@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -30,8 +31,9 @@ export const Route = createFileRoute("/request-service/")({
       { name: "description", content: "Request waste management, recycling or environmental services from CEVONS across Georgetown, Linden, and Berbice." },
       { property: "og:title", content: "Request a Service | CEVONS Guyana" },
       { property: "og:description", content: "Tell us what you need and we'll take care of the rest." },
+      { property: "og:url", content: absUrl("/request-service") },
     ],
-    links: [{ rel: "canonical", href: "/request-service" }],
+    links: [{ rel: "canonical", href: absUrl("/request-service") }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
         { name: "Home", path: "/" },

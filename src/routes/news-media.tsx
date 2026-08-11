@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { SiteLayout } from "@/components/SiteLayout";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { usePublishedMedia, aspectRatio, type ResolvedMediaPost } from "@/lib/mediaPosts";
@@ -12,9 +13,9 @@ export const Route = createFileRoute("/news-media")({
       { property: "og:description", content: "Photos and announcements from CEVONS Environmental Services in Guyana." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "/news-media" },
+      { property: "og:url", content: absUrl("/news-media") },
     ],
-    links: [{ rel: "canonical", href: "/news-media" }],
+    links: [{ rel: "canonical", href: absUrl("/news-media") }],
     scripts: [
       {
         type: "application/ld+json",

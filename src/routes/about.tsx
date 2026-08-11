@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useState } from "react";
 import {
   ChevronRight,
@@ -42,9 +43,9 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental solutions since 1997." },
       { property: "og:title", content: "About CEVONS | Waste Management Guyana" },
       { property: "og:description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental services." },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: absUrl("/about") },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: absUrl("/about") }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
         { name: "Home", path: "/" },

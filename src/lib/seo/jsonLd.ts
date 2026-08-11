@@ -4,8 +4,9 @@
  *   scripts: [{ type: "application/ld+json", children: JSON.stringify(orgJsonLd()) }]
  */
 import { cevonsContact } from "@/data/cevonsContact";
+import { SITE_URL } from "@/lib/seo/site";
 
-export const SITE_URL = "https://cevons-green-foundation.lovable.app";
+export { SITE_URL };
 
 const branchGeo: Record<string, { lat: number; lng: number; locality: string }> = {
   georgetown: { lat: 6.8013, lng: -58.1551, locality: "Georgetown" },
@@ -47,12 +48,16 @@ export function organizationJsonLd() {
   };
 }
 
+/**
+ * Homepage graph. Emitted as a single typed Organization node (so the block
+ * always carries an explicit @type) whose branches hang off `subOrganization`.
+ */
 export function localBusinessGraphJsonLd() {
   return {
-    "@context": "https://schema.org",
-    "@graph": [
-      organizationJsonLd(),
+    ...organizationJsonLd(),
+    subOrganization: [
       ...cevonsContact.regions.map((r) => {
+
         const geo = branchGeo[r.id];
         return {
           "@type": "LocalBusiness",

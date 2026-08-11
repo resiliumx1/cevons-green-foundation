@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import { useEffect, useState } from "react";
 import {
   MessageCircle,
@@ -45,9 +46,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with CEVONS for waste management, dumpster rental, septic, recycling, and environmental services across Guyana." },
       { property: "og:title", content: "Contact CEVONS | Waste Management Guyana" },
       { property: "og:description", content: "Get in touch with CEVONS for waste management, dumpster rental, septic, and environmental services across Guyana." },
-      { property: "og:url", content: "/contact" },
+      { property: "og:url", content: absUrl("/contact") },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: absUrl("/contact") }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(breadcrumbListJsonLd([
         { name: "Home", path: "/" },

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo/site";
 import {
   ArrowRight,
   Award,
@@ -74,9 +75,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "CEVONS Environmental Services" },
       { property: "og:description", content: "Reliable waste management and environmental solutions across Guyana." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absUrl("/") },
     ],
     links: [
-      { rel: "canonical", href: "/" },
+      { rel: "canonical", href: absUrl("/") },
       // Warm the first slideshow frame (LCP) before JS hydrates the carousel.
       { rel: "preload", as: "image", href: heroSlide1Asset.url, type: "image/webp", fetchpriority: "high" },
     ],
