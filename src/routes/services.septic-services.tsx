@@ -178,7 +178,6 @@ function Page() {
       detailSections={detailSections}
       optionsSection={<FleetSection />}
       showAssistBand
-      hideHeroImage
 
     />
   );

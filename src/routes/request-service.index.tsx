@@ -650,8 +650,7 @@ function StepDetails({
               <div className="grid grid-cols-1 gap-2">
                 {[
                   { size: "10 cu yd", title: "Builders waste bin", dims: "12 ft × 6 ft × 4 ft", equiv: "≈ 60 garbage bags — about the size of a small car", badge: "Most common" },
-                  { size: "30 cu yd", title: "Large cleanups & construction", dims: "22 ft × 8 ft × 4.5 ft", equiv: "≈ 10 pickup truck loads", badge: "Most popular" },
-                  { size: "40 cu yd", title: "Full cleanouts & bulky items", dims: "22 ft × 8 ft × 6 ft", equiv: "Room for bulky items like tables and chairs" },
+                  { size: "20 cu yd", title: "Mid-size roll-off", dims: "", equiv: "The step up from the skip bin for larger clean-outs." },
                   { size: "52 cu yd", title: "Mother of all Bins", dims: "22 ft × 8 ft × 9 ft", equiv: "Our largest skip — for major demolition and industrial jobs" },
                   { size: "Not sure — help me choose", title: "Not sure — help me choose", dims: "", equiv: "We'll recommend the right bin based on your project." },
                 ].map((opt) => {
