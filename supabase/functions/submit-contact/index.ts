@@ -124,5 +124,25 @@ Deno.serve(async (req) => {
   const { error: insErr } = await supabase.from("contact_messages").insert(insertRow);
   if (insErr) return json({ error: "Failed to save message" }, 500);
 
+  // Staff notification. Everything below is best-effort: any failure is logged
+  // and swallowed so the customer always receives their reference.
+  try {
+    const dispatchUrl =
+      Deno.env.get("NOTIFY_DISPATCH_URL") ?? "https://cevons.com/api/public/notify/dispatch";
+    const res = await fetch(dispatchUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!}`,
+      },
+      body: JSON.stringify({ kind: "contact_message", reference, data: insertRow }),
+    });
+    if (!res.ok) {
+      console.error("notify dispatch returned", res.status, await res.text().catch(() => ""));
+    }
+  } catch (notifyErr) {
+    console.error("notify dispatch failed (submission unaffected)", notifyErr);
+  }
+
   return json({ result: "received", reference });
 });

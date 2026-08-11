@@ -47,5 +47,28 @@ Deno.serve(async (req) => {
     console.error("submit_service_request error", error);
     return json({ error: "Failed to submit request" }, 500);
   }
-  return json({ reference: data });
+
+  const reference = data as string;
+
+  // Staff notification. Everything below is best-effort: any failure is logged
+  // and swallowed so the customer always receives their reference.
+  try {
+    const dispatchUrl =
+      Deno.env.get("NOTIFY_DISPATCH_URL") ?? "https://cevons.com/api/public/notify/dispatch";
+    const res = await fetch(dispatchUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!}`,
+      },
+      body: JSON.stringify({ kind: "service_request", reference, data: payload }),
+    });
+    if (!res.ok) {
+      console.error("notify dispatch returned", res.status, await res.text().catch(() => ""));
+    }
+  } catch (notifyErr) {
+    console.error("notify dispatch failed (submission unaffected)", notifyErr);
+  }
+
+  return json({ reference });
 });
