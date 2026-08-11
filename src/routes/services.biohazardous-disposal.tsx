@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Biohazard, Hospital, Beaker, Building2, Pill, School, Wrench, ShieldAlert, PackageX, FileText } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-biohazard.jpg";
@@ -22,25 +23,7 @@ export const Route = createFileRoute("/services/biohazardous-disposal")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          name: "Biohazardous Waste Disposal",
-          description: PAGE_DESC,
-          serviceType: "Biohazardous Waste Disposal",
-          areaServed: { "@type": "Country", name: "Guyana" },
-          provider: {
-            "@type": "Organization",
-            name: "CEVONS Environmental Services Inc.",
-            url: "https://cevons.com",
-          },
-          url: `https://cevons.com${PAGE_URL}`,
-        }),
-      },
-    ],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Biohazardous Disposal", category: "Industrial", faqs }),
   }),
   component: Page,
 });

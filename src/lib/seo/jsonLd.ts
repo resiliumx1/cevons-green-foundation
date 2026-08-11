@@ -138,3 +138,37 @@ export function breadcrumbListJsonLd(items: { name: string; path?: string }[]) {
     })),
   };
 }
+
+/**
+ * Head scripts for a service detail page: Service + BreadcrumbList (+ FAQPage
+ * when the page has FAQs). Returns TanStack `head().scripts` entries.
+ */
+export function serviceJsonLdScripts(opts: {
+  name: string;
+  description: string;
+  path: string;
+  breadcrumb: string;
+  category?: string;
+  image?: string;
+  faqs?: { q: string; a: string }[];
+}) {
+  const graph: object[] = [
+    serviceJsonLd({
+      name: opts.name,
+      description: opts.description,
+      path: opts.path,
+      category: opts.category,
+      image: opts.image,
+    }),
+    breadcrumbListJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+      { name: opts.breadcrumb, path: opts.path },
+    ]),
+  ];
+  if (opts.faqs?.length) graph.push(faqPageJsonLd(opts.faqs));
+  return graph.map((node) => ({
+    type: "application/ld+json",
+    children: JSON.stringify(node),
+  }));
+}

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Flame, Wrench, Factory, Truck, Anchor, Building2, Droplet, ShieldAlert, Recycle } from "lucide-react";
 import { ServicePageTemplate, type DetailSection, type RelatedService } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-oil.jpg";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/services/used-waste-oil")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Used Waste Oil", category: "Industrial", faqs }),
   }),
   component: Page,
 });

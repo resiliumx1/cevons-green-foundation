@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Mountain, Truck, Factory, Trash2, Hammer, Building2, Leaf, Recycle, Container, Sprout } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-landfill.jpg";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/services/landfill-operations")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Landfill Operations", category: "Facilities", faqs }),
   }),
   component: Page,
 });

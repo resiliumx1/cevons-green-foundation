@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Recycle, Factory, Building2, ShoppingBag, Package, Trash2, Container, Sprout } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHeroAsset from "@/assets/plastic-recycling-hero.jpg.asset.json";
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/services/plastic-recycling")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Plastic Recycling", category: "Recycling", faqs }),
   }),
   component: Page,
 });
