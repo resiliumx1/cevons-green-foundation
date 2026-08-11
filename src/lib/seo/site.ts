@@ -12,6 +12,6 @@ export function absUrl(path: string): string {
 }
 
 /** Default social share image, absolute. */
-export const OG_IMAGE = absUrl("/assets/brand/cevons-og-default.jpg");
+export const OG_IMAGE = absUrl("/assets/brand/cevons-og-2026.jpg");
 export const OG_IMAGE_WIDTH = "1216";
 export const OG_IMAGE_HEIGHT = "640";
