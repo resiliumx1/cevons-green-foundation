@@ -101,6 +101,9 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const fieldRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const dirtyRef = useRef(false);
+  /** Text that was in the box when this key was opened — used as the "unchanged"
+   *  baseline for copy that has no saved value yet (published_value NULL). */
+  const openedValueRef = useRef("");
 
   const saveDraft = useServerFn(saveContentDraft);
   const publish = useServerFn(publishContentString);
@@ -112,13 +115,17 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const maxLength = active?.maxLength ?? null;
   const remaining = maxLength != null ? maxLength - value.length : null;
   const tooLong = maxLength != null && value.length > maxLength;
-  const baseline = active?.draft ?? active?.published ?? "";
+  const baseline = active?.draft ?? active?.published ?? openedValueRef.current;
   const dirty = value !== baseline;
   dirtyRef.current = dirty;
 
+  /* The editable "page" these keys belong to. Most pages are a single leading
+     segment ("home.hero.title"), the 22 service detail pages are two
+     ("service.septic-services.hero.title"). */
   const page = useMemo(() => {
     const first = Object.keys(meta)[0] ?? "";
-    return first.split(".")[0] ?? "";
+    const parts = first.split(".");
+    return parts[0] === "service" ? parts.slice(0, 2).join(".") : (parts[0] ?? "");
   }, [meta]);
 
   const draftCount = useMemo(
@@ -205,8 +212,15 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const openKey = useCallback(
     (key: string, el?: HTMLElement | null) => {
       const m = meta[key];
+      // When nothing has been saved for this key yet, the box must still show
+      // the copy currently on the page rather than an empty field.
+      const node =
+        el ?? document.querySelector<HTMLElement>(`[data-content-key="${CSS.escape(key)}"]`);
+      const onPage = (node?.textContent ?? "").trim();
+      const next = m?.draft ?? m?.published ?? onPage;
+      openedValueRef.current = next;
       setActiveKey(key);
-      setValue(m?.draft ?? m?.published ?? el?.textContent ?? "");
+      setValue(next);
       setStatus(null);
       setPanelOpen(false);
     },
@@ -314,7 +328,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     try {
       const row = await fn();
       onSaved(row);
-      setValue(row.draft ?? row.published ?? "");
+      setValue(row.draft ?? row.published ?? openedValueRef.current);
       setStatus({ tone: "ok", text: okText });
       flash(okText);
     } catch (err) {

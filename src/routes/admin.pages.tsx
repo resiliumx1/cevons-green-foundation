@@ -10,6 +10,7 @@ import {
   Loader2,
   Pencil,
 
+  ChevronDown,
   Plus,
   RotateCcw,
   Save,
@@ -39,6 +40,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useMediaSrc } from "@/components/media/useMediaSrc";
 import { georgetownLabel } from "@/lib/georgetown";
+import { SERVICE_PAGES, servicePageId } from "@/lib/servicePages";
 import {
   EDITABLE_PAGES,
   PALETTE_STYLES,
@@ -354,9 +356,12 @@ function PagesEditor() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
-            <Eye className="size-4" aria-hidden /> Preview draft
-          </a>
+          {/* Service detail pages have no typed sections — only click-to-edit copy. */}
+          {!page.startsWith("service.") && (
+            <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
+              <Eye className="size-4" aria-hidden /> Preview draft
+            </a>
+          )}
         </div>
       </header>
 
@@ -378,53 +383,57 @@ function PagesEditor() {
         <EditCopyButton page={page} />
       </div>
 
+      {/* Service detail pages are template-driven: they have editable copy but no
+          typed, reorderable sections, so the builder below is hidden for them. */}
+      {!page.startsWith("service.") && (
+        <>
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
+            <select
+              value={adding}
+              onChange={(e) => setAdding(e.target.value)}
+              className="min-h-[44px] rounded-lg border px-3 text-sm"
+              style={field}
+              aria-label="Section type"
+            >
+              <option value="">Choose a section type…</option>
+              {kindsForPage.map((k) => (
+                <option key={k.kind} value={k.kind}>
+                  {k.label}
+                </option>
+              ))}
+            </select>
+            <Button type="button" disabled={!adding} onClick={() => void addSection(adding)}>
+              <Plus className="size-4 mr-1.5" /> Add section
+            </Button>
+          </div>
 
-
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
-        <select
-          value={adding}
-          onChange={(e) => setAdding(e.target.value)}
-          className="min-h-[44px] rounded-lg border px-3 text-sm"
-          style={field}
-          aria-label="Section type"
-        >
-          <option value="">Choose a section type…</option>
-          {kindsForPage.map((k) => (
-            <option key={k.kind} value={k.kind}>
-              {k.label}
-            </option>
-          ))}
-        </select>
-        <Button type="button" disabled={!adding} onClick={() => void addSection(adding)}>
-          <Plus className="size-4 mr-1.5" /> Add section
-        </Button>
-      </div>
-
-      {sectionsQuery.isLoading ? (
-        <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          Loading…
-        </p>
-      ) : rows.length === 0 ? (
-        <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
-          No sections yet — the public page is rendering its built-in layout. Add a section above to start managing it
-          here.
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {rows.map((row, i) => (
-            <SectionCard
-              key={row.id}
-              row={row}
-              isFirst={i === 0}
-              isLast={i === rows.length - 1}
-              mayPublish={mayPublish}
-              userId={userId}
-              onMove={(dir) => void move(i, dir)}
-              onChanged={refresh}
-              onDelete={() => setConfirmDelete(row)}
-            />
-          ))}
-        </div>
+          {sectionsQuery.isLoading ? (
+            <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
+              Loading…
+            </p>
+          ) : rows.length === 0 ? (
+            <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
+              No sections yet — the public page is rendering its built-in layout. Add a section above to start managing
+              it here.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {rows.map((row, i) => (
+                <SectionCard
+                  key={row.id}
+                  row={row}
+                  isFirst={i === 0}
+                  isLast={i === rows.length - 1}
+                  mayPublish={mayPublish}
+                  userId={userId}
+                  onMove={(dir) => void move(i, dir)}
+                  onChanged={refresh}
+                  onDelete={() => setConfirmDelete(row)}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       <AlertDialog open={!!confirmDelete} onOpenChange={(o) => !o && setConfirmDelete(null)}>
@@ -450,17 +459,73 @@ function PagesEditor() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <ContentStringsList />
+      <ContentStringsList page={page} />
     </CrmPage>
   );
 }
 
 /* ── Page picker ─────────────────────────────────────────────────────────── */
 
+type PickerEntry = { value: string; label: string; path: string };
+
+/** The 22 service detail pages, as picker entries. */
+const SERVICE_PICKER: PickerEntry[] = SERVICE_PAGES.map((s) => ({
+  value: servicePageId(s.slug),
+  label: s.label,
+  path: `/services/${s.slug}`,
+}));
+
+const MAIN_PICKER: PickerEntry[] = EDITABLE_PAGES.map((p) => ({
+  value: p.value,
+  label: p.label,
+  path: p.path,
+}));
+
+function PageCard({
+  entry,
+  active,
+  count,
+  onSelect,
+}: {
+  entry: PickerEntry;
+  active: boolean;
+  count: number;
+  onSelect: (p: string) => void;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => onSelect(entry.value)}
+        aria-pressed={active}
+        className="w-full min-h-[44px] rounded-xl border px-3 py-2.5 text-left transition-colors"
+        style={{
+          ...field,
+          borderColor: active ? "var(--crm-primary)" : undefined,
+          boxShadow: active ? "0 0 0 1px var(--crm-primary) inset" : undefined,
+        }}
+      >
+        <span className="block text-sm font-semibold" style={{ color: "var(--crm-text)" }}>
+          {entry.label}
+        </span>
+        <span
+          className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[12px]"
+          style={{ color: "var(--crm-text-muted)" }}
+        >
+          <code>{entry.path}</code>
+          <span>·</span>
+          <span>{count > 0 ? `${count} editable text ${count === 1 ? "item" : "items"}` : "Not yet editable"}</span>
+        </span>
+      </button>
+    </li>
+  );
+}
+
 /**
- * Every editable page, always visible — no dropdown. Each card shows the public
- * path and how many pieces of text are registered for on-page editing, so it is
- * obvious which pages can be edited today.
+ * Every editable page, always visible — no dropdown. Main pages first, then the
+ * 22 service detail pages in a collapsible, scrollable sub-list so the picker
+ * stays usable. Each card shows the public path and how many pieces of text are
+ * registered for on-page editing.
  */
 function PagePicker({ page, onSelect }: { page: string; onSelect: (p: string) => void }) {
   const { data: counts = {} } = useQuery({
@@ -474,41 +539,59 @@ function PagePicker({ page, onSelect }: { page: string; onSelect: (p: string) =>
     },
   });
 
+  const [servicesOpen, setServicesOpen] = useState(page.startsWith("service."));
+
   return (
     <div className="rounded-2xl border p-4" style={surface}>
       <h2 className="text-base font-semibold" style={{ color: "var(--crm-text)" }}>
         Choose a page
       </h2>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-        {EDITABLE_PAGES.map((p) => {
-          const count = counts[p.value] ?? 0;
-          const active = p.value === page;
-          return (
-            <li key={p.value}>
-              <button
-                type="button"
-                onClick={() => onSelect(p.value)}
-                aria-pressed={active}
-                className="w-full min-h-[44px] rounded-xl border px-3 py-2.5 text-left transition-colors"
-                style={{
-                  ...field,
-                  borderColor: active ? "var(--crm-primary)" : undefined,
-                  boxShadow: active ? "0 0 0 1px var(--crm-primary) inset" : undefined,
-                }}
-              >
-                <span className="block text-sm font-semibold" style={{ color: "var(--crm-text)" }}>
-                  {p.label}
-                </span>
-                <span className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[12px]" style={{ color: "var(--crm-text-muted)" }}>
-                  <code>{p.path}</code>
-                  <span>·</span>
-                  <span>{count > 0 ? `${count} editable text ${count === 1 ? "item" : "items"}` : "Not yet editable"}</span>
-                </span>
-              </button>
-            </li>
-          );
-        })}
+
+      <h3 className="mt-3 text-[12px] font-bold uppercase tracking-wide" style={{ color: "var(--crm-text-muted)" }}>
+        Main pages
+      </h3>
+      <ul className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {MAIN_PICKER.map((p) => (
+          <PageCard
+            key={p.value}
+            entry={p}
+            active={p.value === page}
+            count={counts[p.value] ?? 0}
+            onSelect={onSelect}
+          />
+        ))}
       </ul>
+
+      <button
+        type="button"
+        onClick={() => setServicesOpen((v) => !v)}
+        aria-expanded={servicesOpen}
+        className="mt-4 flex min-h-[44px] w-full items-center justify-between rounded-xl border px-3 text-left"
+        style={field}
+      >
+        <span className="text-[12px] font-bold uppercase tracking-wide" style={{ color: "var(--crm-text-muted)" }}>
+          Service pages ({SERVICE_PICKER.length})
+        </span>
+        <ChevronDown
+          className="size-4 transition-transform"
+          style={{ color: "var(--crm-text-muted)", transform: servicesOpen ? "rotate(180deg)" : undefined }}
+          aria-hidden
+        />
+      </button>
+
+      {servicesOpen && (
+        <ul className="mt-2 grid max-h-[320px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICE_PICKER.map((p) => (
+            <PageCard
+              key={p.value}
+              entry={p}
+              active={p.value === page}
+              count={counts[p.value] ?? 0}
+              onSelect={onSelect}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -518,7 +601,7 @@ function PagePicker({ page, onSelect }: { page: string; onSelect: (p: string) =>
 
 /** Public path each editable page lives at. */
 const PAGE_PATHS: Record<string, string> = Object.fromEntries(
-  EDITABLE_PAGES.map((p) => [p.value, p.path]),
+  [...MAIN_PICKER, ...SERVICE_PICKER].map((p) => [p.value, p.path]),
 );
 
 
@@ -544,7 +627,8 @@ function EditCopyButton({ page }: { page: string }) {
     }
   };
 
-  const pageLabel = EDITABLE_PAGES.find((p) => p.value === page)?.label ?? page;
+  const pageLabel =
+    [...MAIN_PICKER, ...SERVICE_PICKER].find((p) => p.value === page)?.label ?? page;
 
   return (
     <Button type="button" size="lg" onClick={() => void open()} disabled={busy}>
@@ -567,13 +651,15 @@ type ContentStringRow = {
   max_length: number | null;
 };
 
-function ContentStringsList() {
+/** Read-only inventory of the copy registered for the selected page. */
+function ContentStringsList({ page }: { page: string }) {
   const { data: rows = [], isLoading } = useQuery({
-    queryKey: ["admin", "content_strings"],
+    queryKey: ["admin", "content_strings", page],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("content_strings")
         .select("key, page, section, label, published_value, draft_value, max_length")
+        .eq("page", page)
         .order("page", { ascending: true })
         .order("section", { ascending: true })
         .order("key", { ascending: true });
@@ -585,7 +671,7 @@ function ContentStringsList() {
   const groups = useMemo(() => {
     const map = new Map<string, ContentStringRow[]>();
     for (const r of rows) {
-      const g = `${r.page} › ${r.section}`;
+      const g = r.section;
       const list = map.get(g);
       if (list) list.push(r);
       else map.set(g, [r]);
@@ -609,7 +695,7 @@ function ContentStringsList() {
       )}
       {!isLoading && rows.length === 0 && (
         <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          No content strings registered yet.
+          No content strings registered for this page yet.
         </p>
       )}
 
