@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Container, Home, Hammer, Leaf, Truck, Trees, Trash2, Building2 } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import { BinSizeSelector, type BinSizeOption } from "@/components/services/BinSizeSelector";
@@ -37,6 +38,7 @@ export const Route = createFileRoute("/services/dumpster-rental")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Dumpster Rental", category: "Residential", faqs }),
   }),
   component: Page,
 });

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Waves, Calendar, Hammer, Home, Building, Users, Truck, Trash2, Container, Droplet } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import portableToiletHeroAsset from "@/assets/portable-toilet-hero.png.asset.json";
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/services/portable-toilet")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Portable Toilet", category: "Sanitation", faqs }),
   }),
   component: Page,
 });

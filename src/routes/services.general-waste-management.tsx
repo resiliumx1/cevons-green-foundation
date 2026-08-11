@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Building2, ShoppingBag, Utensils, School, Hospital, Warehouse, Container, FileText, Droplet } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import commercialWasteHeroAsset from "@/assets/commercial-waste-hero.jpeg.asset.json";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/services/general-waste-management")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "General Waste Management", category: "Commercial", faqs }),
   }),
   component: Page,
 });

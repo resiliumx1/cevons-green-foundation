@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Truck, Landmark, Building2, PartyPopper, Construction, Wind, Trash2, Container } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
 import imgHero from "@/assets/svc-commercial.jpg";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/services/road-sweeping")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Road Sweeping", category: "Facilities", faqs }),
   }),
   component: Page,
 });

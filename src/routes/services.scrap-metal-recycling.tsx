@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
+import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, Container, Trash2, Phone } from "lucide-react";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/services/scrap-metal-recycling")({
       { property: "og:url", content: absUrl(PAGE_URL) },
     ],
     links: [{ rel: "canonical", href: absUrl(PAGE_URL) }],
+    scripts: serviceJsonLdScripts({ name: PAGE_TITLE, description: PAGE_DESC, path: PAGE_URL, breadcrumb: "Scrap Metal Recycling", category: "Recycling", faqs }),
   }),
   component: Page,
 });
