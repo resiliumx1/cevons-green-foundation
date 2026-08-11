@@ -15,6 +15,7 @@ import {
   Truck,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { PageHero } from "@/components/PageHero";
 import { BrandedVideo } from "@/components/media/BrandedVideo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
@@ -116,6 +117,11 @@ export type ServicePageProps = {
   showAssistBand?: boolean;
   /** Hide the hero image column and render the intro copy full-width */
   hideHeroImage?: boolean;
+  /**
+   * "split" (default) → the two-column intro used by every service page.
+   * "full-bleed" → the site-wide PageHero treatment (photo behind the heading).
+   */
+  heroVariant?: "split" | "full-bleed";
 
 };
 
@@ -161,6 +167,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
     detailSections,
     showAssistBand,
     hideHeroImage,
+    heroVariant = "split",
   } = props;
 
 
@@ -213,7 +220,27 @@ export function ServicePageTemplate(props: ServicePageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdService }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdBreadcrumb }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdFaq }} />
-      {/* Breadcrumb */}
+      {heroVariant === "full-bleed" ? (
+        <PageHero
+          title={h1}
+          titleContent={<Editable id={`${keyBase}.hero.title`} label="Hero heading">{h1}</Editable>}
+          eyebrow={eyebrowLabel}
+          eyebrowContent={<Editable id={`${keyBase}.hero.eyebrow`} label="Hero eyebrow">{eyebrowLabel}</Editable>}
+          subtitle={subhead}
+          subtitleContent={<Editable id={`${keyBase}.hero.subtitle`} label="Hero subheading">{subhead}</Editable>}
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Services", href: "/services" },
+            { label: breadcrumb },
+          ]}
+          imageSrc={heroImage}
+          imageAlt={heroAlt}
+          slot={heroSlot}
+          height="standard"
+          priority
+        />
+      ) : (
+      /* Breadcrumb */
       <nav aria-label="Breadcrumb" className="bg-white border-b border-cevons-border">
         <div className="container-cevons py-4">
           <ol className="flex items-center gap-1.5 text-xs md:text-sm">
@@ -225,26 +252,31 @@ export function ServicePageTemplate(props: ServicePageProps) {
           </ol>
         </div>
       </nav>
+      )}
 
-      {/* Hero */}
-      <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby="svc-h1">
-        <div className={`container-cevons section-y grid gap-10 lg:gap-14 items-center ${hideHeroImage ? "" : "lg:grid-cols-2"}`}>
-          <Reveal variant="up">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
-              <Eyebrow className="size-4" />{" "}
-              <Editable id={`${keyBase}.hero.eyebrow`} label="Hero eyebrow">{eyebrowLabel}</Editable>
-            </p>
-            <h1 id="svc-h1" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cevons-dark">
-              <Editable id={`${keyBase}.hero.title`} label="Hero heading">{h1}</Editable>
-            </h1>
-            <Editable
-              as="p"
-              id={`${keyBase}.hero.subtitle`}
-              label="Hero subheading"
-              className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed"
-            >
-              {subhead}
-            </Editable>
+      {/* Hero / intro */}
+      <section className="bg-cevons-cream relative overflow-hidden" aria-labelledby={heroVariant === "full-bleed" ? undefined : "svc-h1"}>
+        <div className={`container-cevons section-y grid gap-10 lg:gap-14 items-center ${hideHeroImage || heroVariant === "full-bleed" ? "" : "lg:grid-cols-2"}`}>
+          <Reveal variant="up" className={heroVariant === "full-bleed" ? "max-w-3xl" : undefined}>
+            {heroVariant !== "full-bleed" && (
+              <>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
+                  <Eyebrow className="size-4" />{" "}
+                  <Editable id={`${keyBase}.hero.eyebrow`} label="Hero eyebrow">{eyebrowLabel}</Editable>
+                </p>
+                <h1 id="svc-h1" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cevons-dark">
+                  <Editable id={`${keyBase}.hero.title`} label="Hero heading">{h1}</Editable>
+                </h1>
+                <Editable
+                  as="p"
+                  id={`${keyBase}.hero.subtitle`}
+                  label="Hero subheading"
+                  className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed"
+                >
+                  {subhead}
+                </Editable>
+              </>
+            )}
             <PromoSlot placement="service_hero" serviceSlug={serviceSlug} className="mt-6 max-w-xl" />
             <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
               {benefits.map((b) => (
@@ -268,7 +300,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
             </div>
           </Reveal>
 
-          {!hideHeroImage && (
+          {!hideHeroImage && heroVariant !== "full-bleed" && (
             <Reveal variant="scale" delay={0.1}>
               <div className="relative rounded-2xl overflow-hidden shadow-lift group">
                 <img

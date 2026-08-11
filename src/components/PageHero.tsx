@@ -12,8 +12,12 @@ type Align = "left" | "center";
 
 export interface PageHeroProps {
   title: string;
+  /** Optional rich node rendered in place of `title` (keeps `title` for aria). */
+  titleContent?: ReactNode;
   eyebrow?: string;
+  eyebrowContent?: ReactNode;
   subtitle?: string;
+  subtitleContent?: ReactNode;
   breadcrumb?: Crumb[];
   imageSrc: string;
   imageAlt: string;
@@ -61,8 +65,11 @@ function LogoBadge() {
 
 export function PageHero({
   title,
+  titleContent,
   eyebrow,
+  eyebrowContent,
   subtitle,
+  subtitleContent,
   breadcrumb,
   imageSrc,
   imageAlt,
@@ -150,7 +157,7 @@ export function PageHero({
 
         {eyebrow && (
           <p className="mb-2.5 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand-orange)]">
-            {eyebrow}
+            {eyebrowContent ?? eyebrow}
           </p>
         )}
 
@@ -161,7 +168,7 @@ export function PageHero({
               : "text-3xl md:text-5xl lg:text-6xl"
           } ${align === "center" ? "mx-auto max-w-4xl" : "max-w-3xl"}`}
         >
-          {title}
+          {titleContent ?? title}
         </h1>
 
         {subtitle && (
@@ -170,7 +177,7 @@ export function PageHero({
               align === "center" ? "mx-auto max-w-2xl" : "max-w-xl"
             }`}
           >
-            {subtitle}
+            {subtitleContent ?? subtitle}
           </p>
         )}
 

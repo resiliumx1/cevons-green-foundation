@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { Editable, useEditableText } from "@/components/Editable";
+import { Editable, useEditableText, usePageContent } from "@/components/Editable";
 
 export type BinSizeOption = {
   id: string;
@@ -27,6 +27,9 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
   keyBase?: string;
 }) {
   const [activeId, setActiveId] = useState(options[0]?.id);
+  // In staff preview mode every slot renders (even when empty) so an editor can
+  // click into it. Public visitors never see an empty slot or a placeholder.
+  const { preview } = usePageContent();
   const active = options.find((o) => o.id === activeId) ?? options[0];
   const k = (suffix: string) => (keyBase ? `${keyBase}.sizes.${suffix}` : `sizes.${suffix}`);
 
@@ -87,6 +90,11 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveId(o.id)}
+                // The content editor swallows clicks on editable text (it opens
+                // the editor instead), so in preview mode the chip label would
+                // never switch the card. Selecting on pointer-down runs first
+                // and keeps the tabs usable while editing.
+                onPointerDownCapture={() => setActiveId(o.id)}
                 className={[
                   "group relative inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm md:text-base font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-orange)] focus-visible:ring-offset-2",
                   isActive
@@ -104,14 +112,14 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
         </div>
 
         {/* Detail card */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 items-stretch">
-          <div className="relative overflow-hidden rounded-2xl bg-[var(--brand-grey-light,#f4f4f5)] ring-1 ring-black/5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 items-start">
+          <div className="relative overflow-hidden rounded-2xl bg-[var(--brand-grey-light,#f4f4f5)] ring-1 ring-black/5 aspect-[4/3] p-4 md:p-6">
             <img
               key={active.id}
               src={active.image}
               alt={active.imageAlt}
               loading="lazy"
-              className="block w-full h-auto animate-in fade-in duration-300"
+              className="block size-full object-contain animate-in fade-in duration-300"
             />
           </div>
           <div className="flex flex-col justify-center">
@@ -126,36 +134,39 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
             >
               {active.tagline}
             </Editable>
-            {(active.dimensions || active.capacity) && (
+            {(preview || active.dimensions || active.capacity) && (
               <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                {active.dimensions && (
+                {(preview || active.dimensions) && (
                   <div className="rounded-xl bg-[var(--surface-emphasis)] ring-1 ring-black/5 p-4">
                     <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-body)]">{dimensionsLabel}</dt>
                     <dd className="mt-1 text-base font-semibold text-[var(--text-heading)]">
                       <Editable id={k(`${activeIdx}.dimensions`)} label={`Size ${activeIdx + 1} dimensions`}>
-                        {active.dimensions}
+                        {active.dimensions ?? "Add dimensions"}
                       </Editable>
                     </dd>
                   </div>
                 )}
-                {active.capacity && (
+                {(preview || active.capacity) && (
                   <div className="rounded-xl bg-[var(--surface-emphasis)] ring-1 ring-black/5 p-4">
                     <dt className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-body)]">{capacityLabel}</dt>
                     <dd className="mt-1 text-base font-semibold text-[var(--text-heading)]">
                       <Editable id={k(`${activeIdx}.capacity`)} label={`Size ${activeIdx + 1} capacity`}>
-                        {active.capacity}
+                        {active.capacity ?? "Add capacity"}
                       </Editable>
                     </dd>
                   </div>
                 )}
               </dl>
             )}
-            {active.bestFor && active.bestFor.length > 0 && (
+            {(preview || (active.bestFor && active.bestFor.length > 0)) && (
               <>
                 <p className="text-sm font-bold uppercase tracking-wider text-[var(--text-body)] mb-3">{bestForLabel}</p>
                 <ul className="space-y-2">
-                  {active.bestFor.map((b, bi) => (
-                    <li key={b} className="flex items-start gap-2 text-[var(--text-heading)]">
+                  {(active.bestFor && active.bestFor.length > 0
+                    ? active.bestFor
+                    : ["Add a use case", "Add a use case", "Add a use case"]
+                  ).map((b, bi) => (
+                    <li key={`${b}-${bi}`} className="flex items-start gap-2 text-[var(--text-heading)]">
                       <Check className="size-5 shrink-0 text-[var(--brand-orange)] mt-0.5" strokeWidth={2.5} />
                       <Editable id={k(`${activeIdx}.best-for.${bi}`)} label={`Size ${activeIdx + 1} best for ${bi + 1}`} as="span">
                         {b}
