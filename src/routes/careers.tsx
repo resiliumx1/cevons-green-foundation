@@ -41,10 +41,10 @@ export const Route = createFileRoute("/careers")({
         content:
           "Build a cleaner tomorrow with CEVONS. Explore current openings and grow your career in environmental services.",
       },
-      { property: "og:url", content: absUrl("https://cevons.com/careers") },
+      { property: "og:url", content: absUrl("/careers") },
     ],
     links: [
-      { rel: "canonical", href: absUrl("https://cevons.com/careers") },
+      { rel: "canonical", href: absUrl("/careers") },
     ],
   }),
   component: CareersPage,
