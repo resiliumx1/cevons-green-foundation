@@ -283,7 +283,7 @@ export function Footer() {
               <span aria-hidden="true" className="text-white/50">|</span>
               <Link
                 to="/sitemap"
-                className="group/sm inline-flex items-center gap-1 text-white/85 hover:text-white hover:underline underline-offset-4 focus-visible:text-white focus-visible:underline transition-colors motion-reduce:transition-none"
+                className="group/sm inline-flex min-h-6 items-center gap-1 text-white/85 hover:text-white hover:underline underline-offset-4 focus-visible:text-white focus-visible:underline transition-colors motion-reduce:transition-none"
               >
                 <ArrowRight
                   aria-hidden
@@ -308,7 +308,7 @@ export function Footer() {
                 to="/admin"
                 aria-label="Admin login"
                 title="Admin"
-                className="group inline-flex items-center gap-1 text-white/30 hover:text-cevons-yellow transition-colors"
+                className="group inline-flex min-h-6 items-center gap-1 text-white/30 hover:text-cevons-yellow transition-colors"
               >
                 <ShieldCheck className="size-3.5" />
                 <span className="text-[10px] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">

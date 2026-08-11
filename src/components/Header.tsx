@@ -287,7 +287,7 @@ export function Header() {
                     <div className="mt-4 pt-3 border-t border-cevons-border flex items-center justify-end">
                       <Link
                         to="/services"
-                        className="inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)] hover:gap-2 transition-all"
+                        className="inline-flex min-h-6 items-center gap-1 text-[13px] font-semibold text-[var(--text-link)] hover:gap-2 transition-all"
                       >
                         View all services →
                       </Link>
@@ -426,7 +426,7 @@ export function Header() {
                           ))}
                           <Link
                             to="/services"
-                            className="mx-3 mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-[var(--text-link)]"
+                            className="mx-3 mt-1 inline-flex min-h-6 items-center gap-1 text-[13px] font-semibold text-[var(--text-link)]"
                             onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                           >
                             View all services →
