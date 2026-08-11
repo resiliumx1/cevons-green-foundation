@@ -29,6 +29,35 @@ import {
 } from "@/components/ui/accordion";
 import logo from "@/assets/cevons-logo.png";
 import { useSiteImage } from "@/lib/siteImages";
+import { Editable, useEditableText } from "@/components/Editable";
+import { servicePageIdForPath } from "@/lib/servicePages";
+import { createContext, useContext } from "react";
+
+/**
+ * Editable-copy keys for the 22 service detail pages.
+ *
+ * All of them render through this template, so rather than wrapping 22 route
+ * files the template resolves its own copy from the content layer using keys
+ * derived from the slug in the URL:
+ *
+ *   service.<slug>.hero.title / .subtitle / .eyebrow
+ *   service.<slug>.cta.label
+ *   service.<slug>.help.heading / .body
+ *   service.<slug>.section.<n>.heading / .eyebrow / .paragraph.<m>
+ *   service.<slug>.faq.<n>.question / .answer
+ *
+ * Resolution is always `published_value ?? the literal copy in the route data`,
+ * so an empty or unreachable content table renders the pages exactly as today.
+ */
+const ServiceKeyContext = createContext<{ base: string; index: number }>({
+  base: "service.unknown",
+  index: 0,
+});
+
+function useSectionKey() {
+  const { base, index } = useContext(ServiceKeyContext);
+  return (field: string) => `${base}.section.${index}.${field}`;
+}
 
 type LucideIcon = ComponentType<{ className?: string }>;
 
@@ -135,21 +164,34 @@ export function ServicePageTemplate(props: ServicePageProps) {
   } = props;
 
 
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  /** `service.<slug>` — the editable "page" this template is rendering. */
+  const keyBase =
+    servicePageIdForPath(pathname) ?? `service.${serviceSlug ?? "unknown"}`;
+
   const heroPhoto = useSiteImage(heroSlot ?? "", heroImage, heroAlt);
   const isSpecialist = ctaVariant === "specialist";
-  const primaryCtaLabel = ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote");
+  const primaryCtaLabel = useEditableText(
+    `${keyBase}.cta.label`,
+    ctaLabel ?? (isSpecialist ? "Request Specialist Review" : "Request a Quote"),
+  );
   const svcQuery = serviceSlug ? `?service=${encodeURIComponent(serviceSlug)}` : "";
   const primaryCtaHref = isSpecialist
     ? `/request-service?type=specialist${serviceSlug ? `&service=${encodeURIComponent(serviceSlug)}` : ""}`
     : `/request-service${svcQuery}`;
-  const helpHeading = helpHeadingProp ?? (isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?");
-  const helpBody = helpBodyProp ??
-    (isSpecialist
-      ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
-      : "Our team can help you select the right option for your project, timeline, and waste type.");
+  const helpHeading = useEditableText(
+    `${keyBase}.help.heading`,
+    helpHeadingProp ?? (isSpecialist ? "Need a Specialist Review?" : "Need Help Choosing?"),
+  );
+  const helpBody = useEditableText(
+    `${keyBase}.help.body`,
+    helpBodyProp ??
+      (isSpecialist
+        ? "Specialized waste streams require proper assessment. Our team will review your needs, confirm compliance requirements, and coordinate the right solution."
+        : "Our team can help you select the right option for your project, timeline, and waste type."),
+  );
 
 
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const jsonLdService = JSON.stringify(serviceJsonLd({
     name: h1,
     description: typeof subhead === "string" ? subhead : h1,
@@ -189,14 +231,20 @@ export function ServicePageTemplate(props: ServicePageProps) {
         <div className={`container-cevons section-y grid gap-10 lg:gap-14 items-center ${hideHeroImage ? "" : "lg:grid-cols-2"}`}>
           <Reveal variant="up">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-4 inline-flex items-center gap-2">
-              <Eyebrow className="size-4" /> {eyebrowLabel}
+              <Eyebrow className="size-4" />{" "}
+              <Editable id={`${keyBase}.hero.eyebrow`} label="Hero eyebrow">{eyebrowLabel}</Editable>
             </p>
             <h1 id="svc-h1" className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cevons-dark">
-              {h1}
+              <Editable id={`${keyBase}.hero.title`} label="Hero heading">{h1}</Editable>
             </h1>
-            <p className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed">
+            <Editable
+              as="p"
+              id={`${keyBase}.hero.subtitle`}
+              label="Hero subheading"
+              className="mt-5 text-base md:text-lg text-cevons-muted max-w-xl leading-relaxed"
+            >
               {subhead}
-            </p>
+            </Editable>
             <PromoSlot placement="service_hero" serviceSlug={serviceSlug} className="mt-6 max-w-xl" />
             <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3" role="list">
               {benefits.map((b) => (
@@ -249,7 +297,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
       {optionsSection}
 
       {detailSections && detailSections.length > 0 && (
-        <DetailSectionsBlock sections={detailSections} />
+        <DetailSectionsBlock sections={detailSections} keyBase={keyBase} />
       )}
 
       {showAssistBand && (
@@ -322,10 +370,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-2 inline-flex items-center gap-2">
                 <Leaf className="size-4" /> We're Here to Help
               </p>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-cevons-dark">{helpHeading}</h2>
-              <p className="mt-3 text-cevons-muted leading-relaxed">
+              <Editable as="h2" id={`${keyBase}.help.heading`} label="Help section heading" className="text-2xl md:text-3xl font-extrabold text-cevons-dark">{helpHeading}</Editable>
+              <Editable as="p" id={`${keyBase}.help.body`} label="Help section body" className="mt-3 text-cevons-muted leading-relaxed">
                 {helpBody}
-              </p>
+              </Editable>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a
@@ -358,10 +406,14 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 className="bg-white rounded-xl border border-cevons-border px-5 shadow-soft data-[state=open]:border-cevons-green transition-colors"
               >
                 <AccordionTrigger className="text-left font-semibold text-cevons-dark hover:no-underline py-5">
-                  {f.q}
+                  <Editable id={`${keyBase}.faq.${i}.question`} label={`FAQ ${i + 1} question`}>{f.q}</Editable>
                 </AccordionTrigger>
                 <AccordionContent className="text-cevons-muted leading-relaxed pb-5">
-                  {f.a}
+                  {typeof f.a === "string" ? (
+                    <Editable id={`${keyBase}.faq.${i}.answer`} label={`FAQ ${i + 1} answer`}>{f.a}</Editable>
+                  ) : (
+                    f.a
+                  )}
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -436,7 +488,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
 
 const EYEBROW_ORANGE = "var(--text-eyebrow)";
 
-function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
+function DetailSectionsBlock({ sections, keyBase }: { sections: DetailSection[]; keyBase: string }) {
   return (
     <>
       {sections.map((s, i) => {
@@ -449,7 +501,9 @@ function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
             data-alt={isAlt ? "true" : undefined}
           >
             <div className="container-cevons">
-              <DetailSectionRender section={s} />
+              <ServiceKeyContext.Provider value={{ base: keyBase, index: i }}>
+                <DetailSectionRender section={s} />
+              </ServiceKeyContext.Provider>
             </div>
           </section>
         );
@@ -460,22 +514,26 @@ function DetailSectionsBlock({ sections }: { sections: DetailSection[] }) {
 
 
 function SectionText({ section }: { section: DetailSection }) {
+  const k = useSectionKey();
   return (
     <div>
       {section.eyebrow && (
-        <p
+        <Editable
+          as="p"
+          id={k("eyebrow")}
+          label="Section eyebrow"
           className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
           style={{ color: EYEBROW_ORANGE }}
         >
           {section.eyebrow}
-        </p>
+        </Editable>
       )}
-      <h2 className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
+      <Editable as="h2" id={k("heading")} label="Section heading" className="text-3xl md:text-4xl font-extrabold text-cevons-dark">
         {section.heading}
-      </h2>
+      </Editable>
       <div className="mt-5 space-y-4 text-base text-cevons-muted leading-relaxed">
         {section.paragraphs.map((p, idx) => (
-          <p key={idx}>{p}</p>
+          <Editable as="p" key={idx} id={k(`paragraph.${idx}`)} label={`Section paragraph ${idx + 1}`}>{p}</Editable>
         ))}
       </div>
       {section.bullets && section.bullets.length > 0 && (
@@ -556,6 +614,7 @@ function SectionImages({ images }: { images: DetailImage[] }) {
 }
 
 function DetailSectionRender({ section }: { section: DetailSection }) {
+  const k = useSectionKey();
   if (section.variant === "band") {
     const emphasis = section.bandEmphasis;
     return (
@@ -564,25 +623,31 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           className={`max-w-3xl mx-auto text-center ${emphasis ? "emphasis-band" : ""}`}
         >
           {section.eyebrow && (
-            <p
+            <Editable
+              as="p"
+              id={k("eyebrow")}
+              label="Section eyebrow"
               className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
               style={{ color: EYEBROW_ORANGE }}
             >
               {section.eyebrow}
-            </p>
+            </Editable>
           )}
-          <h2
+          <Editable
+            as="h2"
+            id={k("heading")}
+            label="Section heading"
             className="text-3xl md:text-4xl font-extrabold"
             style={{ color: "var(--text-heading)" }}
           >
             {section.heading}
-          </h2>
+          </Editable>
           <div
             className="mt-5 space-y-4 text-base leading-relaxed"
             style={{ color: "var(--text-body)" }}
           >
             {section.paragraphs.map((p, idx) => (
-              <p key={idx}>{p}</p>
+              <Editable as="p" key={idx} id={k(`paragraph.${idx}`)} label={`Section paragraph ${idx + 1}`}>{p}</Editable>
             ))}
           </div>
 
