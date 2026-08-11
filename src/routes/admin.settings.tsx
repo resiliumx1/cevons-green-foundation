@@ -192,10 +192,20 @@ function SettingsPage() {
     [settings?.notifications]
   );
 
+  const emailRecipients: NotificationRecipients = useMemo(
+    () =>
+      settings?.notification_recipients
+        ? normalizeRecipients(settings.notification_recipients)
+        : DEFAULT_NOTIFICATION_RECIPIENTS,
+    [settings?.notification_recipients]
+  );
+
   const SECTIONS = [
     { id: "profile", label: "Company Profile", icon: Building2 },
     { id: "team", label: "Team Members", icon: Users },
     { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "email", label: "Email notifications", icon: Mail },
+
     { id: "pipeline", label: "Pipeline", icon: GitBranch },
     { id: "services", label: "Service Catalog", icon: Award },
     { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
