@@ -34,6 +34,8 @@ import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { LogoCarousel } from "@/components/home/LogoCarousel";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { WhatsApp } from "@/components/icons/WhatsApp";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 const heroIndustries = "/assets/heroes/hero-industries.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -44,6 +46,10 @@ import imgSkip from "@/assets/svc-skip.jpg";
 import imgWastewater from "@/assets/svc-wastewater.jpg";
 
 export const Route = createFileRoute("/industries")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "industries", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Industries Served | CEVONS Environmental Services Guyana" },
@@ -147,10 +153,16 @@ const whyChoose = [
 ];
 
 function IndustriesPage() {
+  const content = Route.useLoaderData();
+  const indHeroTitle = useEditableText("industries.hero.title", "Industries We Serve");
+  const indHeroSubtitle = useEditableText("industries.hero.subtitle", "Reliable waste management and environmental services for Guyana\u2019s most important sectors.");
+  const indCtaTitle = useEditableText("industries.cta.title", "Need a Waste Solution for Your Business?");
+  const indCtaSubtitle = useEditableText("industries.cta.subtitle", "Tell us about your industry and facility, and we\u2019ll recommend the right services and collection plan.");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="industries-h1">
@@ -168,11 +180,11 @@ function IndustriesPage() {
             </ol>
           </nav>
           <h1 id="industries-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Industries We Serve
+            <Editable id="industries.hero.title" label="Hero heading" as="span">Industries We Serve</Editable>
           </h1>
-          <p className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <Editable id="industries.hero.subtitle" label="Hero subtitle" as="p" className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Reliable waste management and environmental services for Guyana’s most important sectors.
-          </p>
+          </Editable>
         </div>
         <WaveHalftoneDivider height={56} underFill="#FFFFFF" />
       </section>
@@ -185,10 +197,10 @@ function IndustriesPage() {
 
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Sectors</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+            <Editable id="industries.sectors.eyebrow" label="Sectors eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Sectors</Editable>
+            <Editable id="industries.sectors.title" label="Sectors heading" as="h2" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
               Trusted Across Key Industries
-            </h2>
+            </Editable>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -239,20 +251,20 @@ function IndustriesPage() {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] mb-4 flex items-center justify-center gap-3" style={{ color: "var(--brand-yellow)" }}>
               <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
-              Built Around Your Operations
+              <Editable id="industries.solutions.eyebrow" label="Solutions eyebrow" as="span">Built Around Your Operations</Editable>
               <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
             </p>
             <h2 id="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-navy)" }}>
-              Custom Solutions for Your Industry
+              <Editable id="industries.solutions.title" label="Solutions heading" as="span">Custom Solutions for Your Industry</Editable>
             </h2>
             <div className="mt-4 flex items-center justify-center gap-3" aria-hidden style={{ color: "var(--brand-yellow)" }}>
               <span className="h-px w-12" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
               <Leaf className="size-4" />
               <span className="h-px w-12" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
             </div>
-            <p className="mt-4 max-w-xl mx-auto" style={{ color: "var(--brand-grey-light)" }}>
+            <Editable id="industries.solutions.subtitle" label="Solutions subtitle" as="p" className="mt-4 max-w-xl mx-auto" style={{ color: "var(--brand-grey-light)" }}>
               Every sector has different waste, compliance, scheduling, and service needs. CEVONS helps match the right solution to your operation.
-            </p>
+            </Editable>
           </div>
 
 
@@ -282,9 +294,9 @@ function IndustriesPage() {
       <section className="section-y bg-[var(--cevons-cream,#FBF7EE)]" aria-labelledby="why-heading">
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVONS</p>
+            <Editable id="industries.why.eyebrow" label="Why CEVONS eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVONS</Editable>
             <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Why Businesses Choose CEVONS
+              <Editable id="industries.why.title" label="Why CEVONS heading" as="span">Why Businesses Choose CEVONS</Editable>
             </h2>
           </div>
 
@@ -309,11 +321,11 @@ function IndustriesPage() {
       {/* CONSULTATION CTA */}
       <OrangeCTABanner
         icon={Building2}
-        title="Need a Waste Solution for Your Business?"
-        subtitle="Tell us about your industry and facility, and we’ll recommend the right services and collection plan."
+        title={indCtaTitle}
+        subtitle={indCtaSubtitle}
       >
         <Link to="/request-service" className="cta-btn-primary">
-          <Users className="size-5" /> Request a Consultation <ArrowRight className="size-5" />
+          <Users className="size-5" /> <Editable id="industries.cta.button" label="CTA button label" as="span">Request a Consultation</Editable> <ArrowRight className="size-5" />
         </Link>
         <a
           href={whatsappHref} {...(whatsappHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -340,5 +352,6 @@ function IndustriesPage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }

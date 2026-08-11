@@ -23,8 +23,14 @@ import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
 import { PromoSlot } from "@/components/promo/PromoSlot";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/request-service/")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "request-service", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Request a Service | CEVONS Guyana" },
@@ -146,6 +152,7 @@ const EMPTY: FormData = {
 };
 
 function RequestServicePage() {
+  const content = Route.useLoaderData();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -375,11 +382,18 @@ function RequestServicePage() {
     return true;
   }, [step, data]);
 
+  const heroTitle = useEditableText("request-service.hero.title", "Request a Service");
+  const heroSubtitle = useEditableText(
+    "request-service.hero.subtitle",
+    "Tell us what you need and we’ll take care of the rest.",
+  );
+
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       <PageHero
-        title="Request a Service"
-        subtitle="Tell us what you need and we’ll take care of the rest."
+        title={heroTitle}
+        subtitle={heroSubtitle}
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
         imageSrc="/assets/heroes/hero-request-service.webp"
         slot="request_service_hero"
@@ -448,7 +462,7 @@ function RequestServicePage() {
             {/* Nav */}
             <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
               <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
-                <ChevronLeft className="size-4 mr-1" /> Back
+                <ChevronLeft className="size-4 mr-1" /> <Editable id="request-service.nav.back" label="Back button label" as="span">Back</Editable>
               </Button>
               {/* Steps 0 and 1 auto-advance on selection — Continue would be redundant. */}
               {step >= 2 && step < STEPS.length - 1 && (
@@ -457,7 +471,7 @@ function RequestServicePage() {
                   disabled={!canContinue}
                   className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
-                  Continue <ChevronRight className="size-4 ml-1" />
+                  <Editable id="request-service.nav.continue" label="Continue button label" as="span">Continue</Editable> <ChevronRight className="size-4 ml-1" />
                 </Button>
               )}
               {step === STEPS.length - 1 && (
@@ -466,7 +480,7 @@ function RequestServicePage() {
                   disabled={!data.confirm || submitting}
                   className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
-                  {submitting ? "Submitting…" : "Submit Request"}
+                  {submitting ? "Submitting…" : <Editable id="request-service.nav.submit" label="Submit button label" as="span">Submit Request</Editable>}
                 </Button>
               )}
             </div>
@@ -478,7 +492,7 @@ function RequestServicePage() {
 
           {/* Compact help strip — footnote, not a second decision. */}
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Need help? Call{" "}
+            <Editable id="request-service.helpStrip.lead" label="Help strip lead text" as="span">Need help? Call</Editable>{" "}
             <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>
             {" · "}
             <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>
@@ -494,6 +508,7 @@ function RequestServicePage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }
 
@@ -505,8 +520,8 @@ function RequestServicePage() {
 function StepCategory({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold">What type of service do you need?</h2>
-      <p className="text-muted-foreground mt-1">Choose the category that best matches your project.</p>
+      <Editable id="request-service.stepCategory.title" label="Category step heading" as="h2" className="text-2xl font-bold">What type of service do you need?</Editable>
+      <Editable id="request-service.stepCategory.subtitle" label="Category step helper text" as="p" className="text-muted-foreground mt-1">Choose the category that best matches your project.</Editable>
       {error && <p className="mt-3 text-sm text-destructive flex items-center gap-1"><AlertCircle className="size-4" />{error}</p>}
 
       <div className="mt-6 grid sm:grid-cols-2 gap-3">
@@ -553,8 +568,8 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
   const list = SERVICES.filter((s) => data.category != null && s.categories.includes(data.category));
   return (
     <div>
-      <h2 className="text-2xl font-bold">Which service?</h2>
-      <p className="text-muted-foreground mt-1">Select the service that best matches your request.</p>
+      <Editable id="request-service.stepService.title" label="Service step heading" as="h2" className="text-2xl font-bold">Which service?</Editable>
+      <Editable id="request-service.stepService.subtitle" label="Service step helper text" as="p" className="text-muted-foreground mt-1">Select the service that best matches your request.</Editable>
       {error && <p className="mt-3 text-sm text-destructive flex items-center gap-1"><AlertCircle className="size-4" />{error}</p>}
 
       <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -621,11 +636,11 @@ function StepDetails({
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">Service Details</h2>
+      <Editable id="request-service.stepDetails.title" label="Details step heading" as="h2" className="text-2xl font-bold">Service Details</Editable>
       <p className="text-muted-foreground mt-1">
         {service.key === "scrap-metal-recycling"
-          ? "Tell us what you're selling so our buying team can prepare an offer."
-          : "Share a few specifics so our team can prepare."}
+          ? <Editable id="request-service.stepDetails.subtitleScrap" label="Details step helper text (scrap metal)" as="span">Tell us what you're selling so our buying team can prepare an offer.</Editable>
+          : <Editable id="request-service.stepDetails.subtitleDefault" label="Details step helper text (default)" as="span">Share a few specifics so our team can prepare.</Editable>}
       </p>
 
 
@@ -1008,17 +1023,21 @@ function StepSchedule({
 }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold">{isSpecialist ? "Specialist Review" : "Schedule"}</h2>
+      <h2 className="text-2xl font-bold">
+        {isSpecialist
+          ? <Editable id="request-service.stepSchedule.titleSpecialist" label="Schedule step heading (specialist)" as="span">Specialist Review</Editable>
+          : <Editable id="request-service.stepSchedule.titleDefault" label="Schedule step heading (default)" as="span">Schedule</Editable>}
+      </h2>
       <p className="text-muted-foreground mt-1">
         {isSpecialist
-          ? "Tell us when you'd like to be contacted — our specialist team will follow up."
-          : "Pick your preferred date and time window."}
+          ? <Editable id="request-service.stepSchedule.subtitleSpecialist" label="Schedule step helper text (specialist)" as="span">Tell us when you'd like to be contacted — our specialist team will follow up.</Editable>
+          : <Editable id="request-service.stepSchedule.subtitleDefault" label="Schedule step helper text (default)" as="span">Pick your preferred date and time window.</Editable>}
       </p>
 
       {isSpecialist && (
         <div className="mt-4 rounded-xl border border-[var(--brand-orange)]/40 bg-[var(--brand-orange)]/10 p-4 text-sm">
-          <strong className="font-semibold">Specialist Review Required.</strong>{" "}
-          Submit your request and a CEVONS team member will contact you by WhatsApp during the same business day.
+          <Editable id="request-service.stepSchedule.specialistNoticeStrong" label="Specialist notice bold lead" as="strong" className="font-semibold">Specialist Review Required.</Editable>{" "}
+          <Editable id="request-service.stepSchedule.specialistNoticeBody" label="Specialist notice body" as="span">Submit your request and a CEVONS team member will contact you by WhatsApp during the same business day.</Editable>
         </div>
       )}
 
@@ -1055,7 +1074,7 @@ function StepSchedule({
           </>
         )}
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">All dates and time windows are preferences. Our team will confirm the final schedule.</p>
+      <Editable id="request-service.stepSchedule.footerNote" label="Schedule footer note" as="p" className="mt-4 text-xs text-muted-foreground">All dates and time windows are preferences. Our team will confirm the final schedule.</Editable>
     </div>
   );
 }
@@ -1067,8 +1086,8 @@ function StepInfo({
 }: { info: FormData["info"]; setInfo: (k: keyof FormData["info"], v: string) => void; errors: Record<string, string> }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold">Your Information</h2>
-      <p className="text-muted-foreground mt-1">So we can reach out and confirm your service.</p>
+      <Editable id="request-service.stepInfo.title" label="Info step heading" as="h2" className="text-2xl font-bold">Your Information</Editable>
+      <Editable id="request-service.stepInfo.subtitle" label="Info step helper text" as="p" className="text-muted-foreground mt-1">So we can reach out and confirm your service.</Editable>
       <div className="mt-6 grid md:grid-cols-2 gap-4">
         <Field label="Full Name *">
           <Input className="h-12" value={info.fullName} onChange={(e) => setInfo("fullName", e.target.value)} />
@@ -1122,8 +1141,8 @@ function StepReview({
   const categoryName = CATEGORIES.find((c) => c.key === data.category)?.name ?? "—";
   return (
     <div>
-      <h2 className="text-2xl font-bold">Review & Submit</h2>
-      <p className="text-muted-foreground mt-1">Please confirm everything below is correct.</p>
+      <Editable id="request-service.stepReview.title" label="Review step heading" as="h2" className="text-2xl font-bold">Review & Submit</Editable>
+      <Editable id="request-service.stepReview.subtitle" label="Review step helper text" as="p" className="text-muted-foreground mt-1">Please confirm everything below is correct.</Editable>
 
       <div className="mt-6 space-y-4">
         <ReviewBlock title="Category">
@@ -1184,7 +1203,7 @@ function StepReview({
 
       <label className="mt-6 flex items-start gap-3 cursor-pointer">
         <Checkbox checked={confirm} onCheckedChange={(v) => setConfirm(!!v)} className="mt-1" />
-        <span className="text-sm">I confirm that the information provided is accurate.</span>
+        <Editable id="request-service.stepReview.confirmLabel" label="Confirm checkbox label" as="span" className="text-sm">I confirm that the information provided is accurate.</Editable>
       </label>
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
 
@@ -1195,17 +1214,17 @@ function StepReview({
           className="mt-1"
         />
         <span className="text-sm text-muted-foreground">
-          Keep me updated with CEVONS news &amp; tips. <span className="text-xs">(You can uncheck this.)</span>
+          <Editable id="request-service.stepReview.newsletterLabel" label="Newsletter opt-in label" as="span">Keep me updated with CEVONS news &amp; tips.</Editable> <span className="text-xs">(You can uncheck this.)</span>
         </span>
       </label>
 
       <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What happens next?</div>
+        <Editable id="request-service.stepReview.nextTitle" label="What happens next heading" as="div" className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What happens next?</Editable>
         <ol className="mt-3 space-y-2 text-sm text-muted-foreground list-decimal pl-5">
-          <li>Submit your request</li>
-          <li>Our team reviews the details</li>
-          <li>We confirm via WhatsApp or phone</li>
-          <li>Service is scheduled and delivered</li>
+          <li><Editable id="request-service.stepReview.next1" label="Next steps item 1" as="span">Submit your request</Editable></li>
+          <li><Editable id="request-service.stepReview.next2" label="Next steps item 2" as="span">Our team reviews the details</Editable></li>
+          <li><Editable id="request-service.stepReview.next3" label="Next steps item 3" as="span">We confirm via WhatsApp or phone</Editable></li>
+          <li><Editable id="request-service.stepReview.next4" label="Next steps item 4" as="span">Service is scheduled and delivered</Editable></li>
         </ol>
       </div>
     </div>

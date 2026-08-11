@@ -354,24 +354,13 @@ function PagesEditor() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <select
-            value={page}
-            onChange={(e) => setPage(e.target.value)}
-            className="min-h-[44px] rounded-lg border px-3 text-sm"
-            style={field}
-            aria-label="Page"
-          >
-            {EDITABLE_PAGES.map((p) => (
-              <option key={p.value} value={p.value}>
-                {p.label}
-              </option>
-            ))}
-          </select>
           <a href={`/admin/preview/${page}`} target="_blank" rel="noreferrer" className="admin-link-btn">
             <Eye className="size-4" aria-hidden /> Preview draft
           </a>
         </div>
       </header>
+
+      <PagePicker page={page} onSelect={setPage} />
 
       <div
         className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4"
@@ -388,6 +377,7 @@ function PagesEditor() {
         </div>
         <EditCopyButton page={page} />
       </div>
+
 
 
       <div className="flex flex-wrap items-center gap-2 rounded-xl border p-3" style={surface}>
@@ -465,16 +455,72 @@ function PagesEditor() {
   );
 }
 
+/* ── Page picker ─────────────────────────────────────────────────────────── */
+
+/**
+ * Every editable page, always visible — no dropdown. Each card shows the public
+ * path and how many pieces of text are registered for on-page editing, so it is
+ * obvious which pages can be edited today.
+ */
+function PagePicker({ page, onSelect }: { page: string; onSelect: (p: string) => void }) {
+  const { data: counts = {} } = useQuery({
+    queryKey: ["admin", "content_strings", "counts"],
+    queryFn: async (): Promise<Record<string, number>> => {
+      const { data, error } = await supabase.from("content_strings").select("page");
+      if (error) throw error;
+      const out: Record<string, number> = {};
+      for (const r of data ?? []) out[r.page] = (out[r.page] ?? 0) + 1;
+      return out;
+    },
+  });
+
+  return (
+    <div className="rounded-2xl border p-4" style={surface}>
+      <h2 className="text-base font-semibold" style={{ color: "var(--crm-text)" }}>
+        Choose a page
+      </h2>
+      <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {EDITABLE_PAGES.map((p) => {
+          const count = counts[p.value] ?? 0;
+          const active = p.value === page;
+          return (
+            <li key={p.value}>
+              <button
+                type="button"
+                onClick={() => onSelect(p.value)}
+                aria-pressed={active}
+                className="w-full min-h-[44px] rounded-xl border px-3 py-2.5 text-left transition-colors"
+                style={{
+                  ...field,
+                  borderColor: active ? "var(--crm-primary)" : undefined,
+                  boxShadow: active ? "0 0 0 1px var(--crm-primary) inset" : undefined,
+                }}
+              >
+                <span className="block text-sm font-semibold" style={{ color: "var(--crm-text)" }}>
+                  {p.label}
+                </span>
+                <span className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[12px]" style={{ color: "var(--crm-text-muted)" }}>
+                  <code>{p.path}</code>
+                  <span>·</span>
+                  <span>{count > 0 ? `${count} editable text ${count === 1 ? "item" : "items"}` : "Not yet editable"}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+
 /* ── Click-to-edit launcher ──────────────────────────────────────────────── */
 
 /** Public path each editable page lives at. */
-const PAGE_PATHS: Record<string, string> = {
-  home: "/",
-  about: "/about",
-  services: "/services",
-  careers: "/careers",
-  contact: "/contact",
-};
+const PAGE_PATHS: Record<string, string> = Object.fromEntries(
+  EDITABLE_PAGES.map((p) => [p.value, p.path]),
+);
+
 
 /**
  * Opens the real public page in a staff preview session. The token is minted

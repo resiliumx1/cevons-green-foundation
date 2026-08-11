@@ -3,8 +3,14 @@ import { absUrl } from "@/lib/seo/site";
 import { SiteLayout } from "@/components/SiteLayout";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { usePublishedMedia, aspectRatio, type ResolvedMediaPost } from "@/lib/mediaPosts";
+import { ContentProvider, Editable } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/news-media")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "news-media", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "News & Media | CEVONS Environmental Services" },
@@ -64,6 +70,7 @@ function GalleryFigure({ item, index }: { item: ResolvedMediaPost; index: number
 }
 
 function NewsMediaPage() {
+  const content = Route.useLoaderData();
   const gallery = usePublishedMedia("gallery");
   const announcements = usePublishedMedia("announcement");
 
@@ -73,14 +80,15 @@ function NewsMediaPage() {
   const isEmpty = !loading && galleryItems.length === 0 && announcementItems.length === 0;
 
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       <main id="main-content">
         {/* Navy band — fixed colours, white on #000080 = 16:1 */}
         <section className="py-14" style={{ background: "#000080" }}>
           <div className="container-cevons">
-            <h1 className="text-3xl font-bold md:text-4xl" style={{ color: "#FFFFFF" }}>
+            <Editable id="news-media.hero.title" label="Hero heading" as="h1" className="text-3xl font-bold md:text-4xl" style={{ color: "#FFFFFF" }}>
               News &amp; Media
-            </h1>
+            </Editable>
           </div>
         </section>
 
@@ -91,18 +99,17 @@ function NewsMediaPage() {
             )}
 
             {isEmpty && (
-              <p className="text-base text-cevons-muted">
+              <Editable id="news-media.empty.body" label="Empty state message" as="p" className="text-base text-cevons-muted">
                 Nothing has been published here yet. Please check back soon.
-              </p>
+              </Editable>
             )}
 
             {announcementItems.length > 0 && (
               <section aria-labelledby="announcements-heading" className="mb-14">
-                <h2
-                  id="announcements-heading"
-                  className="mb-6 text-2xl font-bold text-cevons-dark"
-                >
-                  Announcements
+                <h2 id="announcements-heading" className="mb-6 text-2xl font-bold text-cevons-dark">
+                  <Editable id="news-media.announcements.title" label="Announcements heading" as="span">
+                    Announcements
+                  </Editable>
                 </h2>
                 <ul className="grid gap-6 md:grid-cols-2">
                   {announcementItems.map((a, i) => (
@@ -151,11 +158,10 @@ function NewsMediaPage() {
 
             {galleryItems.length > 0 && (
               <section aria-labelledby="gallery-heading">
-                <h2
-                  id="gallery-heading"
-                  className="mb-6 text-2xl font-bold text-cevons-dark"
-                >
-                  Gallery
+                <h2 id="gallery-heading" className="mb-6 text-2xl font-bold text-cevons-dark">
+                  <Editable id="news-media.gallery.title" label="Gallery heading" as="span">
+                    Gallery
+                  </Editable>
                 </h2>
                 <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                   {galleryItems.map((item, i) => (
@@ -168,5 +174,6 @@ function NewsMediaPage() {
         </div>
       </main>
     </SiteLayout>
+    </ContentProvider>
   );
 }
