@@ -492,8 +492,8 @@ function PagePicker({ page, onSelect }: { page: string; onSelect: (p: string) =>
                 className="w-full min-h-[44px] rounded-xl border px-3 py-2.5 text-left transition-colors"
                 style={{
                   ...field,
-                  borderColor: active ? "var(--crm-accent)" : undefined,
-                  boxShadow: active ? "0 0 0 1px var(--crm-accent) inset" : undefined,
+                  borderColor: active ? "var(--crm-primary)" : undefined,
+                  boxShadow: active ? "0 0 0 1px var(--crm-primary) inset" : undefined,
                 }}
               >
                 <span className="block text-sm font-semibold" style={{ color: "var(--crm-text)" }}>
