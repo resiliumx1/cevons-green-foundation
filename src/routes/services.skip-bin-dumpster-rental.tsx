@@ -130,7 +130,7 @@ function Page() {
       h1="Skip Bin & Dumpster Rental"
       subhead="Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana."
       heroImage={imgHero}
-      heroVariant="full-bleed"
+      
       heroSlot="svc_skip_bin_hero"
       heroAlt="CEVONS commercial roll-off dumpster placed on a construction site in Guyana"
       benefits={["10, 20 & 52 cubic yard sizes","Only 10–52 yd fleet in Guyana","Short and long-term rental","On-schedule swap-outs","EPA-aligned disposal"]}
