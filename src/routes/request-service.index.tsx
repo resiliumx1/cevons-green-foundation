@@ -23,8 +23,14 @@ import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
 import { PromoSlot } from "@/components/promo/PromoSlot";
 import { cevonsContact, primaryTelHref, primaryMailtoHref, whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/request-service/")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "request-service", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Request a Service | CEVONS Guyana" },
@@ -146,6 +152,7 @@ const EMPTY: FormData = {
 };
 
 function RequestServicePage() {
+  const content = Route.useLoaderData();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -375,11 +382,18 @@ function RequestServicePage() {
     return true;
   }, [step, data]);
 
+  const heroTitle = useEditableText("request-service.hero.title", "Request a Service");
+  const heroSubtitle = useEditableText(
+    "request-service.hero.subtitle",
+    "Tell us what you need and we’ll take care of the rest.",
+  );
+
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       <PageHero
-        title="Request a Service"
-        subtitle="Tell us what you need and we’ll take care of the rest."
+        title={heroTitle}
+        subtitle={heroSubtitle}
         breadcrumb={[{ label: "Home", href: "/" }, { label: "Request a Service" }]}
         imageSrc="/assets/heroes/hero-request-service.webp"
         slot="request_service_hero"
@@ -448,7 +462,7 @@ function RequestServicePage() {
             {/* Nav */}
             <div className="mt-8 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-3 border-t border-border pt-6">
               <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
-                <ChevronLeft className="size-4 mr-1" /> Back
+                <ChevronLeft className="size-4 mr-1" /> <Editable id="request-service.nav.back" label="Back button label" as="span">Back</Editable>
               </Button>
               {/* Steps 0 and 1 auto-advance on selection — Continue would be redundant. */}
               {step >= 2 && step < STEPS.length - 1 && (
@@ -457,7 +471,7 @@ function RequestServicePage() {
                   disabled={!canContinue}
                   className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
-                  Continue <ChevronRight className="size-4 ml-1" />
+                  <Editable id="request-service.nav.continue" label="Continue button label" as="span">Continue</Editable> <ChevronRight className="size-4 ml-1" />
                 </Button>
               )}
               {step === STEPS.length - 1 && (
@@ -466,7 +480,7 @@ function RequestServicePage() {
                   disabled={!data.confirm || submitting}
                   className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
-                  {submitting ? "Submitting…" : "Submit Request"}
+                  {submitting ? "Submitting…" : <Editable id="request-service.nav.submit" label="Submit button label" as="span">Submit Request</Editable>}
                 </Button>
               )}
             </div>
@@ -478,7 +492,7 @@ function RequestServicePage() {
 
           {/* Compact help strip — footnote, not a second decision. */}
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Need help? Call{" "}
+            <Editable id="request-service.helpStrip.lead" label="Help strip lead text" as="span">Need help? Call</Editable>{" "}
             <a href={primaryTelHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.primaryPhone}</a>
             {" · "}
             <a href={primaryMailtoHref} className="font-semibold text-[var(--text-link)] hover:underline">{cevonsContact.email}</a>
@@ -494,6 +508,7 @@ function RequestServicePage() {
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }
 

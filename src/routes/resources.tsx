@@ -20,6 +20,8 @@ import { whatsappHref } from "@/data/cevonsContact";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
+import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
@@ -30,6 +32,10 @@ import imgSeptic from "@/assets/svc-septic.jpg";
 import imgScrap from "@/assets/svc-scrap.jpg";
 
 export const Route = createFileRoute("/resources")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "resources", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Resources & Insights | CEVONS Environmental Services" },
@@ -131,6 +137,12 @@ const categoryColors: Record<string, string> = {
 };
 
 function ResourcesPage() {
+  const content = Route.useLoaderData();
+  const resHeroTitle = useEditableText("resources.hero.title", "Resources & Insights");
+  const resHeroSubtitle = useEditableText("resources.hero.subtitle", "Tips, updates, and insights on waste management and environmental responsibility.");
+  const resCtaEyebrow = useEditableText("resources.cta.eyebrow", "Get Support");
+  const resCtaTitle = useEditableText("resources.cta.title", "Need Help With Waste Management?");
+  const resCtaSubtitle = useEditableText("resources.cta.subtitle", "Our team can help you choose the right service for your home, business, or facility.");
   const [active, setActive] = useState<Category>("All");
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -140,6 +152,7 @@ function ResourcesPage() {
   const gridArticles = active === "All" ? articles.filter((a) => !a.featured) : filtered.filter((a) => !a.featured);
 
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="resources-h1">
@@ -156,12 +169,12 @@ function ResourcesPage() {
               <li aria-current="page" className="text-[var(--brand-orange)] font-semibold">Resources</li>
             </ol>
           </nav>
-          <h1 id="resources-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <Editable id="resources.hero.title" label="Hero heading" as="h1" idAttr="resources-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Resources & Insights
-          </h1>
-          <p className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          </Editable>
+          <Editable id="resources.hero.subtitle" label="Hero subtitle" as="p" className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Tips, updates, and insights on waste management and environmental responsibility.
-          </p>
+          </Editable>
         </div>
         <WaveHalftoneDivider height={56} />
       </section>
@@ -291,12 +304,12 @@ function ResourcesPage() {
       {/* CTA SECTION */}
       <OrangeCTABanner
         icon={Leaf}
-        eyebrow="Get Support"
-        title="Need Help With Waste Management?"
-        subtitle="Our team can help you choose the right service for your home, business, or facility."
+        eyebrow={resCtaEyebrow}
+        title={resCtaTitle}
+        subtitle={resCtaSubtitle}
       >
         <Link to="/request-service" className="cta-btn-primary">
-          Request Service <ArrowRight className="size-5" />
+          <Editable id="resources.cta.button" label="CTA button label" as="span">Request Service</Editable> <ArrowRight className="size-5" />
         </Link>
         <a
           href={whatsappHref}
@@ -331,5 +344,6 @@ function ResourcesPage() {
       />
 
     </SiteLayout>
+    </ContentProvider>
   );
 }

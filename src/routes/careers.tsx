@@ -12,6 +12,8 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import { ContentProvider, Editable } from "@/components/Editable";
+import { getPageContent } from "@/lib/content.functions";
 import { SiteLayout } from "@/components/SiteLayout";
 import { WaveHalftoneDivider } from "@/components/WaveHalftoneDivider";
 
@@ -27,6 +29,10 @@ import { useSiteImage } from "@/lib/siteImages";
 import { useSectionPayload, type PageIntroPayload } from "@/lib/pageSections";
 
 export const Route = createFileRoute("/careers")({
+  validateSearch: (search: Record<string, unknown>): { preview?: string } =>
+    typeof search.preview === "string" ? { preview: search.preview } : {},
+  loaderDeps: ({ search }) => ({ preview: search.preview }),
+  loader: ({ deps }) => getPageContent({ data: { page: "careers", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
       { title: "Careers — CEVONS Environmental Services" },
@@ -148,9 +154,11 @@ function scrollToOpenPositions(e: React.MouseEvent) {
 }
 
 function CareersPage() {
+  const content = Route.useLoaderData();
   const intro = useSectionPayload<PageIntroPayload>("careers", "page_intro");
   const hero = useSiteImage("careers_hero", heroCareers, "CEVONS team members reviewing service offerings during a boardroom presentation");
   return (
+    <ContentProvider value={content}>
     <SiteLayout>
       {/* HERO */}
       <section className="relative isolate overflow-hidden min-h-[640px] md:min-h-[720px] flex items-center">
@@ -205,11 +213,11 @@ function CareersPage() {
                 className="group relative inline-flex items-center gap-2 rounded-xl bg-[var(--brand-orange)] px-6 py-3.5 text-[15px] font-semibold text-[var(--brand-grey-dark)] shadow-[0_10px_30px_-8px_rgba(239,119,0,0.6)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-10px_rgba(239,119,0,0.75)] hover:brightness-[1.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-orange)]"
               >
                 <Sparkles className="size-4 transition-transform duration-300 group-hover:rotate-12" />
-                Explore Opportunities
+                <Editable id="careers.hero.explore_cta" label="Hero explore CTA" as="span">Explore Opportunities</Editable>
                 <span className="absolute inset-0 rounded-xl bg-white/0 transition-colors duration-300 group-hover:bg-white/5" aria-hidden />
               </a>
               <ApplyAction className="group inline-flex items-center gap-2 rounded-xl border border-white/70 bg-white/10 backdrop-blur-sm px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white hover:text-[var(--brand-grey-dark)] hover:border-white">
-                View All Positions
+                <Editable id="careers.hero.view_positions_cta" label="Hero view positions CTA" as="span">View All Positions</Editable>
                 <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </ApplyAction>
             </div>
@@ -227,20 +235,23 @@ function CareersPage() {
       <section className="section-y bg-background">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
+            <Editable id="careers.why.eyebrow" label="Why work with us eyebrow" as="p" className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               WHY WORK WITH US
-            </p>
-            <h2
+            </Editable>
+            <Editable
+              id="careers.why.heading"
+              label="Why work with us heading"
+              as="h2"
               className="mt-3 text-3xl md:text-5xl font-bold text-cevons-dark dark:text-white leading-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Purpose. People. Progress.
-            </h2>
-            <p className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
+            </Editable>
+            <Editable id="careers.why.body" label="Why work with us paragraph" as="p" className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
               At CEVONS, our people are our greatest asset. We foster a culture of respect,
               accountability, and continuous improvement — where your work makes a real difference
               every day.
-            </p>
+            </Editable>
           </div>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
@@ -272,19 +283,22 @@ function CareersPage() {
       <section className="section-y bg-cevons-cream dark:bg-white/[0.02]">
         <div className="container-cevons">
           <div className="max-w-3xl">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
+            <Editable id="careers.impact.eyebrow" label="Career opportunities eyebrow" as="p" className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               CAREER OPPORTUNITIES
-            </p>
-            <h2
+            </Editable>
+            <Editable
+              id="careers.impact.heading"
+              label="Career opportunities heading"
+              as="h2"
               className="mt-3 text-3xl md:text-5xl font-bold text-cevons-dark dark:text-white leading-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Where Your Skills Drive Impact
-            </h2>
-            <p className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
+            </Editable>
+            <Editable id="careers.impact.body" label="Career opportunities paragraph" as="p" className="mt-5 text-cevons-muted dark:text-white/70 text-lg leading-relaxed">
               We offer opportunities across a range of environmental and operational functions,
               including:
-            </p>
+            </Editable>
           </div>
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
@@ -300,7 +314,7 @@ function CareersPage() {
               ))}
               <li className="md:col-span-2 mt-4">
                 <ApplyAction className="btn-base btn-green btn-shine">
-                  View All Positions
+                  <Editable id="careers.impact.view_positions_cta" label="Impact section view positions CTA" as="span">View All Positions</Editable>
                   <ArrowRight className="size-4" />
                 </ApplyAction>
               </li>
@@ -310,21 +324,24 @@ function CareersPage() {
               <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-cevons-green text-white shadow-[0_8px_20px_rgba(239,119,0,0.30)]">
                 <Users className="size-7" />
               </span>
-              <h3
+              <Editable
+                id="careers.grow.heading"
+                label="Grow with CEVONS heading"
+                as="h3"
                 className="mt-5 text-2xl md:text-3xl font-bold text-cevons-dark dark:text-white"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Grow with CEVONS.
-              </h3>
-              <p className="mt-3 text-cevons-dark/80 dark:text-white/80 leading-relaxed">
+              </Editable>
+              <Editable id="careers.grow.body" label="Grow with CEVONS paragraph" as="p" className="mt-3 text-cevons-dark/80 dark:text-white/80 leading-relaxed">
                 We invest in our people because we believe a strong team builds a stronger future.
-              </p>
+              </Editable>
               <a
                 href="#open-positions"
                 onClick={scrollToOpenPositions}
                 className="mt-6 btn-base btn-green btn-shine w-full"
               >
-                Join Our Team
+                <Editable id="careers.grow.join_cta" label="Join our team CTA" as="span">Join Our Team</Editable>
                 <ArrowRight className="size-4" />
               </a>
             </aside>
@@ -336,15 +353,18 @@ function CareersPage() {
       <section id="open-positions" className="section-y bg-background scroll-mt-24">
         <div className="container-cevons">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
+            <Editable id="careers.open_positions.eyebrow" label="Open positions eyebrow" as="p" className="text-[12px] font-bold uppercase tracking-[0.22em] text-[var(--text-eyebrow)]">
               OPEN POSITIONS
-            </p>
-            <h2
+            </Editable>
+            <Editable
+              id="careers.open_positions.heading"
+              label="Open positions heading"
+              as="h2"
               className="mt-3 text-3xl md:text-5xl font-bold text-cevons-dark dark:text-white leading-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               Explore Current Opportunities
-            </h2>
+            </Editable>
           </div>
 
           <div className="mt-12">
@@ -353,12 +373,13 @@ function CareersPage() {
 
           <div className="mt-12 flex justify-center">
             <ApplyAction className="btn-base btn-green btn-shine">
-              View All Jobs
+              <Editable id="careers.open_positions.view_jobs_cta" label="View all jobs CTA" as="span">View All Jobs</Editable>
               <ArrowRight className="size-4" />
             </ApplyAction>
           </div>
         </div>
       </section>
     </SiteLayout>
+    </ContentProvider>
   );
 }
