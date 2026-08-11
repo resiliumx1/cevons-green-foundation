@@ -108,7 +108,8 @@ const sizeOptions: BinSizeOption[] = [
       "Sites where a smaller bin would mean back-to-back swap-outs",
     ],
     image: imgDumpster52.url,
-    imageAlt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana",
+    imageAlt: "CEVONS haulage truck with a roll-off container on an industrial site in Guyana",
+
   },
 ];
 
