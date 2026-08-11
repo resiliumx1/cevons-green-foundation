@@ -576,7 +576,235 @@ function NotificationsSection({
   );
 }
 
+/* ─── email notifications section ───────────────────────────────────────── */
+
+function RecipientList({
+  label,
+  hint,
+  values,
+  onChange,
+  placeholder,
+  validate,
+  invalidMessage,
+}: {
+  label: string;
+  hint: string;
+  values: string[];
+  onChange: (next: string[]) => void;
+  placeholder: string;
+  validate: (value: string) => boolean;
+  invalidMessage: string;
+}) {
+  const [draft, setDraft] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const add = () => {
+    const value = draft.trim();
+    if (!value) return;
+    if (!validate(value)) {
+      setError(invalidMessage);
+      return;
+    }
+    if (values.some((v) => v.toLowerCase() === value.toLowerCase())) {
+      setError("Already in the list.");
+      return;
+    }
+    onChange([...values, value]);
+    setDraft("");
+    setError(null);
+  };
+
+  return (
+    <div>
+      <p className="text-sm font-medium text-white">{label}</p>
+      <p className="text-xs text-white/50">{hint}</p>
+      <ul className="mt-3 space-y-2">
+        {values.length === 0 && (
+          <li className="rounded-lg border border-dashed border-white/[0.12] px-3 py-2 text-xs text-white/50">
+            No recipients yet — nothing will be sent for this category.
+          </li>
+        )}
+        {values.map((value) => (
+          <li
+            key={value}
+            className="flex items-center justify-between gap-3 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2"
+          >
+            <span className="truncate text-sm text-white">{value}</span>
+            <button
+              type="button"
+              onClick={() => onChange(values.filter((v) => v !== value))}
+              aria-label={`Remove ${value}`}
+              className="rounded-md p-1.5 text-white/60 hover:bg-white/[0.06] hover:text-white"
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-2 flex gap-2">
+        <input
+          value={draft}
+          onChange={(e) => {
+            setDraft(e.target.value);
+            setError(null);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              add();
+            }
+          }}
+          placeholder={placeholder}
+          className="w-full rounded-lg border border-white/[0.08] bg-[#0B1219] px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#FFD200]/50 focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={add}
+          className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-white hover:bg-white/[0.08]"
+        >
+          <Plus className="h-4 w-4" /> Add
+        </button>
+      </div>
+      {error && <p className="mt-1 text-xs text-red-300">{error}</p>}
+    </div>
+  );
+}
+
+function EmailNotificationsSection({
+  data,
+  onSave,
+  saving,
+  saved,
+}: {
+  data: NotificationRecipients;
+  onSave: (v: NotificationRecipients) => void;
+  saving: boolean;
+  saved: boolean;
+}) {
+  const [value, setValue] = useState<NotificationRecipients>(data);
+
+  useEffect(() => {
+    setValue(data);
+  }, [data]);
+
+  return (
+    <section className="space-y-6">
+      <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+        <h2 className="font-semibold text-white">Email notifications</h2>
+        <p className="text-xs text-white/50">
+          Who gets alerted when a new request or message comes in from the website.
+        </p>
+
+        <div className="mt-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
+          <div>
+            <p className="text-sm font-medium text-white">Send email notifications</p>
+            <p className="text-xs text-white/50">
+              Turn off to stop all staff notification emails without losing the recipient lists.
+            </p>
+          </div>
+          <Toggle
+            active={value.enabled}
+            onChange={() => setValue((p) => ({ ...p, enabled: !p.enabled }))}
+          />
+        </div>
+
+        <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <RecipientList
+            label="Service requests"
+            hint="Alerts for bookings made through the request wizard."
+            values={value.serviceRequests}
+            onChange={(next) => setValue((p) => ({ ...p, serviceRequests: next }))}
+            placeholder="name@cevons.com"
+            validate={(v) => EMAIL_RE.test(v)}
+            invalidMessage="Enter a valid email address."
+          />
+          <RecipientList
+            label="Contact messages"
+            hint="Alerts for messages sent through the contact form."
+            values={value.contactMessages}
+            onChange={(next) => setValue((p) => ({ ...p, contactMessages: next }))}
+            placeholder="name@cevons.com"
+            validate={(v) => EMAIL_RE.test(v)}
+            invalidMessage="Enter a valid email address."
+          />
+        </div>
+
+        <div className="mt-5 rounded-lg border border-white/[0.08] bg-white/[0.02] p-3 text-xs text-white/60">
+          <p>
+            Sent from <span className="text-white">{EMAIL_FROM_ADDRESS}</span> — replies go to{" "}
+            <span className="text-white">{EMAIL_REPLY_TO}</span>.
+          </p>
+        </div>
+
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            onClick={() => onSave(normalizeRecipients(value))}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
+          >
+            {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+          {saved && (
+            <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
+              <Check className="h-3.5 w-3.5" /> Saved
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="flex items-center gap-2 font-semibold text-white">
+              <MessageCircle className="h-4 w-4" /> WhatsApp notifications
+            </h2>
+            <p className="text-xs text-white/50">
+              Not connected yet. Turning this on has no effect until a WhatsApp provider is set up.
+            </p>
+          </div>
+          <Toggle
+            active={value.whatsapp.enabled}
+            onChange={() =>
+              setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, enabled: !p.whatsapp.enabled } }))
+            }
+          />
+        </div>
+
+        <div className="mt-4">
+          <RecipientList
+            label="WhatsApp numbers"
+            hint="International format, e.g. +5926255211."
+            values={value.whatsapp.numbers}
+            onChange={(next) => setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, numbers: next } }))}
+            placeholder="+592..."
+            validate={(v) => /^\+?[0-9\s-]{7,20}$/.test(v)}
+            invalidMessage="Enter a valid phone number."
+          />
+        </div>
+
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            onClick={() => onSave(normalizeRecipients(value))}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
+          >
+            {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+          {saved && (
+            <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
+              <Check className="h-3.5 w-3.5" /> Saved
+            </span>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── pipeline section ──────────────────────────────────────────────────── */
+
 
 function PipelineSection({
   data,
