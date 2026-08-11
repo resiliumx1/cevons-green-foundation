@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://cevons-green-foundation.lovable.app";
+const BASE_URL = "https://cevons.com";
 
 const paths = [
   "/",
