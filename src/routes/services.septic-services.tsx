@@ -91,7 +91,7 @@ const detailSections: DetailSection[] = [
 
 function FleetSection() {
   return (
-    <section className="section-y bg-[var(--surface-page)]" aria-labelledby="fleet-h">
+    <section className="py-12 md:py-16 bg-[var(--surface-page)]" aria-labelledby="fleet-h">
       <div className="container-cevons">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-eyebrow)] mb-3">Our Fleet</p>
