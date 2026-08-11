@@ -169,9 +169,9 @@ function ResourcesPage() {
               <li aria-current="page" className="text-[var(--brand-orange)] font-semibold">Resources</li>
             </ol>
           </nav>
-          <Editable id="resources.hero.title" label="Hero heading" as="h1" idAttr="resources-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Resources & Insights
-          </Editable>
+          <h1 id="resources-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            <Editable id="resources.hero.title" label="Hero heading" as="span">Resources & Insights</Editable>
+          </h1>
           <Editable id="resources.hero.subtitle" label="Hero subtitle" as="p" className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Tips, updates, and insights on waste management and environmental responsibility.
           </Editable>

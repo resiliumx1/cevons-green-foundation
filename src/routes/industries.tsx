@@ -186,9 +186,9 @@ function IndustriesPage() {
               <li aria-current="page" className="text-[var(--text-eyebrow)] font-semibold">Industries</li>
             </ol>
           </nav>
-          <Editable id="industries.hero.title" label="Hero heading" as="h1" idAttr="industries-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Industries We Serve
-          </Editable>
+          <h1 id="industries-h1" className={`text-white text-4xl md:text-6xl font-extrabold tracking-tight transition-all duration-700 delay-75 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            <Editable id="industries.hero.title" label="Hero heading" as="span">Industries We Serve</Editable>
+          </h1>
           <Editable id="industries.hero.subtitle" label="Hero subtitle" as="p" className={`mt-4 text-white/85 text-base md:text-xl max-w-2xl transition-all duration-700 delay-150 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             Reliable waste management and environmental services for Guyana’s most important sectors.
           </Editable>
@@ -261,9 +261,9 @@ function IndustriesPage() {
               <Editable id="industries.solutions.eyebrow" label="Solutions eyebrow" as="span">Built Around Your Operations</Editable>
               <span aria-hidden className="h-px w-8" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
             </p>
-            <Editable id="industries.solutions.title" label="Solutions heading" as="h2" idAttr="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-navy)" }}>
-              Custom Solutions for Your Industry
-            </Editable>
+            <h2 id="solutions-heading" className="font-display text-3xl md:text-5xl font-extrabold tracking-tight" style={{ color: "var(--text-on-navy)" }}>
+              <Editable id="industries.solutions.title" label="Solutions heading" as="span">Custom Solutions for Your Industry</Editable>
+            </h2>
             <div className="mt-4 flex items-center justify-center gap-3" aria-hidden style={{ color: "var(--brand-yellow)" }}>
               <span className="h-px w-12" style={{ backgroundColor: "rgba(255,255,255,0.35)" }} />
               <Leaf className="size-4" />
@@ -302,9 +302,9 @@ function IndustriesPage() {
         <div className="container-cevons">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <Editable id="industries.why.eyebrow" label="Why CEVONS eyebrow" as="p" className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--cevons-deep-green,#EF7700)] mb-3">Why CEVONS</Editable>
-            <Editable id="industries.why.title" label="Why CEVONS heading" as="h2" idAttr="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
-              Why Businesses Choose CEVONS
-            </Editable>
+            <h2 id="why-heading" className="text-3xl md:text-5xl font-extrabold text-[var(--cevons-deep-green,#EF7700)]">
+              <Editable id="industries.why.title" label="Why CEVONS heading" as="span">Why Businesses Choose CEVONS</Editable>
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
