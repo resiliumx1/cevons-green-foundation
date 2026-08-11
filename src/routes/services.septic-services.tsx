@@ -145,7 +145,11 @@ function FleetSection() {
                 className="max-w-full max-h-full w-auto h-auto object-contain"
               />
             </div>
+            <figcaption className="border-t border-cevons-border px-4 py-3 text-center text-sm font-semibold text-cevons-dark">
+              On-site collection — tanker and CEVONS operator
+            </figcaption>
           </figure>
+
 
         </div>
 
