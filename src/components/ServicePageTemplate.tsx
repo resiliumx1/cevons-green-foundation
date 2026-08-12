@@ -304,6 +304,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
             <Reveal variant="scale" delay={0.1}>
               <div className="relative rounded-2xl overflow-hidden shadow-lift group">
                 <img
+                  {...heroPhoto.editorProps}
                   src={heroPhoto.src}
                   alt={heroPhoto.alt}
                   className="w-full aspect-[4/3] object-cover hero-img transition-transform duration-700 group-hover:scale-105"

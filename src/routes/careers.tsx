@@ -164,6 +164,7 @@ function CareersPage() {
       <section className="relative isolate overflow-hidden min-h-[640px] md:min-h-[720px] flex items-center">
         <div className="absolute inset-0 -z-10">
           <img
+            {...hero.editorProps}
             src={hero.src}
             alt={hero.alt}
             className="h-full w-full object-cover object-center hero-img"

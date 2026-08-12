@@ -100,6 +100,7 @@ export function PageHero({
     >
       <div className="absolute inset-0">
         <img
+          {...hero.editorProps}
           src={hero.src}
           alt={hero.alt}
           loading={priority ? "eager" : "lazy"}
