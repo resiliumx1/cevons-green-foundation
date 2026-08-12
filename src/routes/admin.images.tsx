@@ -147,7 +147,8 @@ function ReplaceDialog({
     try {
       setBusy("Optimising photo…");
       const processed = await processImage(file);
-      setBusy("Uploading…");
+      const savings = compressionSummary(processed);
+      setBusy(savings ? `Uploading… ${savings}` : "Uploading…");
       const path = `site-images/${slot.key}/${crypto.randomUUID()}.${processed.ext}`;
       const { error } = await supabase.storage
         .from(MEDIA_BUCKET)
