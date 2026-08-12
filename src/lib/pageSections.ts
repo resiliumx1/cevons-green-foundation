@@ -256,11 +256,13 @@ export type PageSection = {
   kind: string;
   position: number;
   payload: unknown;
-  draft_payload: unknown;
+  /** Staff-only. Absent on public reads — anon has no column access to drafts. */
+  draft_payload?: unknown;
   published: boolean;
   updated_at: string;
   updated_by: string | null;
 };
+
 
 /**
  * PUBLIC read. RLS already restricts anon to `published = true`; we filter
