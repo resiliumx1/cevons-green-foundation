@@ -303,6 +303,9 @@ export function useSiteImage(
 ): ResolvedSiteImage {
   const def = SLOTS_BY_KEY[slot];
   const { preview } = useImageEditing();
+  const editorProps: Record<string, string> =
+    preview && def ? { "data-image-slot": slot } : {};
+
   const editorProps = preview && def ? { "data-image-slot": slot } : {};
   const base: ResolvedSiteImage = {
     src: fallbackSrc ?? def?.defaultSrc ?? "",
