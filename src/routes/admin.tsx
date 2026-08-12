@@ -445,20 +445,21 @@ function CrmLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         <StatusTape />
 
-        <header className="crm-header h-16 flex items-center gap-3 px-4 md:px-6">
+        <header className="crm-header min-h-16 flex items-center gap-2 px-3 sm:gap-3 sm:px-4 md:px-6">
           <button
             onClick={() => setMobileOpen(true)}
-            className="lg:hidden h-11 w-11 grid place-items-center rounded-lg border"
+            className="lg:hidden h-11 w-11 shrink-0 grid place-items-center rounded-lg border"
             style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
             aria-label="Open menu"
+            aria-expanded={mobileOpen}
           >
-            <Menu className="h-4 w-4" />
+            <Menu className="h-5 w-5" />
           </button>
 
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
-            className="relative flex-1 max-w-md flex items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
+            className="relative flex min-w-0 flex-1 max-w-md items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
             style={{
               background: "var(--crm-surface-muted)",
               borderColor: "var(--crm-border)",
@@ -467,22 +468,23 @@ function CrmLayout() {
             }}
             aria-label="Open search"
           >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
-            <span className="truncate">Search pages, media, requests, settings…</span>
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 shrink-0" />
+            <span className="truncate sm:hidden">Search</span>
+            <span className="truncate hidden sm:inline">Search pages, media, requests, settings…</span>
             <kbd
-              className="ml-auto hidden sm:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[10px] font-mono"
+              className="ml-auto hidden lg:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[11px] font-mono"
               style={{ borderColor: "var(--crm-border)", color: "var(--crm-text-muted)", background: "var(--crm-surface)" }}
             >
               ⌘K
             </kbd>
           </button>
 
-          <div className="flex items-center gap-2 ml-auto">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2 ml-auto">
             <CrmAssistant />
             <NotificationsBell />
             <Link
               to="/"
-              className="hidden sm:grid h-9 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
+              className="hidden lg:grid h-11 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               title="Back to website"
             >
@@ -492,6 +494,7 @@ function CrmLayout() {
             <ProfileMenu />
           </div>
         </header>
+
 
         <main className="crm-main flex-1 p-4 md:p-6 lg:p-8">
           <PasswordChangePrompt />
