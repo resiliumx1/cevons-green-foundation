@@ -64,6 +64,7 @@ type Article = {
   excerpt: string;
   category: Exclude<Category, "All">;
   date: string;
+  slot: string;
   img: string;
   alt: string;
   featured?: boolean;

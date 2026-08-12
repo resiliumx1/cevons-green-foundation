@@ -74,6 +74,7 @@ type Industry = {
   title: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
+  slot: string;
   img: string;
   alt: string;
 };
