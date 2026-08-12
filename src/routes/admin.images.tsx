@@ -166,7 +166,11 @@ function ReplaceDialog({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
-      toast.success("Photo uploaded — check the description, then save.");
+      toast.success(
+        savings
+          ? `Photo uploaded and optimised (${savings}) — check the description, then save.`
+          : "Photo uploaded — check the description, then save.",
+      );
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Upload failed.");
     } finally {
