@@ -493,133 +493,13 @@ function CrmLayout() {
           </div>
         </header>
 
-        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-24 lg:pb-8">
+        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8">
           <PasswordChangePrompt />
           <CrmSectionTransition>
             <Outlet />
           </CrmSectionTransition>
         </main>
 
-
-        {/* Mobile bottom bar — a fixed set of five, everything else in "More". */}
-        <nav
-          className="admin-tabbar lg:hidden fixed bottom-0 left-0 right-0 z-30"
-          aria-label="Admin sections"
-        >
-          <div className="grid grid-cols-5 items-stretch">
-            {primaryNav.map((item) => {
-              const active = isActivePath(pathname, item);
-              const Icon = item.icon;
-              const count = item.notifType ? unreadByType[item.notifType] : 0;
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to as "/admin"}
-                  onClick={() => setMoreOpen(false)}
-                  className="crm-nav-item relative flex min-h-[56px] flex-col items-center justify-center gap-1 px-1 py-2 text-[10.5px] font-semibold"
-                  style={{ color: active ? "#FCE722" : "#FFFFFF" }}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="crm-bottom-active"
-                      transition={reduce ? { duration: 0 } : { duration: MOTION.base, ease: EASE }}
-                      className="absolute top-0 left-3 right-3 h-[3px] rounded-b-full"
-                      style={{ background: "#FCE722" }}
-                    />
-                  )}
-                  <span className="relative">
-                    <Icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.75} />
-                    {count > 0 && (
-                      <span
-                        className="absolute -top-1.5 -right-2 min-w-[16px] h-[16px] px-1 grid place-items-center rounded-full text-[9px] font-bold"
-                        style={{ background: "#FCE722", color: "#1A1A1A" }}
-                      >
-                        {count > 9 ? "9+" : count}
-                      </span>
-                    )}
-                  </span>
-                  <span className="truncate max-w-full leading-none">{item.short ?? item.label}</span>
-                </Link>
-              );
-            })}
-
-            <button
-              type="button"
-              onClick={() => setMoreOpen(true)}
-              aria-expanded={moreOpen}
-              aria-haspopup="dialog"
-              className="crm-nav-item relative flex min-h-[56px] flex-col items-center justify-center gap-1 px-1 py-2 text-[10.5px] font-semibold"
-              style={{ color: "#FFFFFF" }}
-            >
-              <MoreHorizontal className="h-5 w-5" strokeWidth={1.75} />
-              <span className="leading-none">More</span>
-            </button>
-          </div>
-        </nav>
-
-        {/* "More" sheet — the destinations that don't fit the bar. */}
-        <AnimatePresence>
-          {moreOpen && (
-            <div className="lg:hidden">
-              <motion.div
-                className="fixed inset-0 z-40 bg-black/60"
-                initial={reduce ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: MOTION.fast, ease: EASE }}
-                onClick={() => setMoreOpen(false)}
-              />
-              <motion.div
-                role="dialog"
-                aria-label="More sections"
-                className="admin-more-sheet fixed bottom-0 left-0 right-0 z-50"
-                initial={reduce ? false : { y: 24, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={reduce ? { opacity: 0 } : { y: 24, opacity: 0 }}
-                transition={{ duration: MOTION.base, ease: EASE }}
-              >
-                <div className="flex items-center justify-between px-5 pt-4">
-                  <span className="admin-mono" style={{ color: "var(--text-2)" }}>More</span>
-                  <button
-                    type="button"
-                    onClick={() => setMoreOpen(false)}
-                    className="h-11 w-11 grid place-items-center rounded-lg"
-                    style={{ color: "var(--text)" }}
-                    aria-label="Close"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <ul className="px-3 pb-6 pt-1">
-                  {overflowNav.map((item) => {
-                    const Icon = item.icon;
-                    const active = isActivePath(pathname, item);
-                    return (
-                      <li key={item.to}>
-                        <Link
-                          to={item.to as "/admin"}
-                          onClick={() => setMoreOpen(false)}
-                          className="admin-more-item"
-                          data-active={active ? "true" : undefined}
-                        >
-                          <Icon className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden />
-                          <span>{item.label}</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                  <li>
-                    <Link to="/" className="admin-more-item" onClick={() => setMoreOpen(false)}>
-                      <Globe className="h-5 w-5 shrink-0" strokeWidth={1.75} aria-hidden />
-                      <span>Back to site</span>
-                    </Link>
-                  </li>
-                </ul>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );
