@@ -307,6 +307,8 @@ export function ImageSlotEditor({
   }, [picked?.path, alt]);
 
   const drift = def && picked?.w && picked?.h ? ratioDrift(def.ratio, picked.w, picked.h) : 0;
+  /** Publishing a photo with an empty description is not allowed. */
+  const altMissing = !!picked && alt.trim().length === 0;
 
   const refresh = async () => {
     await qc.invalidateQueries({ queryKey: ["site_images"] });
