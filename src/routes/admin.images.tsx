@@ -49,7 +49,10 @@ function useOverrides() {
     queryFn: async (): Promise<SiteImageRow[]> => {
       const { data, error } = await supabase
         .from("site_images")
-        .select("slot, image_path, image_w, image_h, alt, updated_at, updated_by");
+        .select(
+          "slot, image_path, image_w, image_h, alt, updated_at, updated_by, draft_image_path, draft_image_w, draft_image_h, draft_alt",
+        );
+
       if (error) throw error;
       return (data ?? []) as SiteImageRow[];
     },
