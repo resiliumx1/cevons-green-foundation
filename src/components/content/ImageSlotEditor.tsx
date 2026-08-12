@@ -443,7 +443,26 @@ export function ImageSlotEditor({
               </p>
             )}
 
-            <div style={{ display: "flex", gap: 8, alignItems: "center", margin: "12px 0" }}>
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOver(true);
+              }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragOver(false);
+                const f = e.dataTransfer.files?.[0];
+                if (f) void upload(f);
+              }}
+              style={{
+                margin: "12px 0",
+                padding: 12,
+                borderRadius: 12,
+                border: `2px dashed ${dragOver ? ORANGE : "rgba(0,0,0,0.18)"}`,
+                background: dragOver ? "rgba(239,119,0,0.08)" : "#fff",
+              }}
+            >
               <input
                 ref={fileRef}
                 type="file"
@@ -455,24 +474,52 @@ export function ImageSlotEditor({
                   e.target.value = "";
                 }}
               />
-              <button
-                type="button"
-                disabled={!!busy}
-                onClick={() => fileRef.current?.click()}
-                style={{
-                  minHeight: 44,
-                  padding: "0 16px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: INK,
-                  color: "#fff",
-                  font: "700 13px system-ui",
-                  cursor: "pointer",
-                }}
-              >
-                Upload a photo
-              </button>
-              {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                <button
+                  type="button"
+                  disabled={!!busy}
+                  onClick={() => fileRef.current?.click()}
+                  style={{
+                    minHeight: 44,
+                    padding: "0 16px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: INK,
+                    color: "#fff",
+                    font: "700 13px system-ui",
+                    cursor: "pointer",
+                  }}
+                >
+                  {picked ? "Replace with a new photo" : "Upload a photo"}
+                </button>
+                {picked && (
+                  <button
+                    type="button"
+                    disabled={!!busy}
+                    onClick={() => {
+                      setPicked(null);
+                      setAlt(def.defaultAlt);
+                      setNote({ tone: "ok", text: "Back to the original photo. Save to keep this." });
+                    }}
+                    style={{
+                      minHeight: 44,
+                      padding: "0 14px",
+                      borderRadius: 10,
+                      border: "1px solid rgba(0,0,0,0.2)",
+                      background: "#fff",
+                      color: INK,
+                      font: "700 13px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Use the original photo
+                  </button>
+                )}
+                {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
+              </div>
+              <p style={{ margin: "8px 0 0", font: "500 12px system-ui", color: "#4B5563" }}>
+                You can also drag a photo from your computer straight onto this box.
+              </p>
             </div>
 
             <label style={{ display: "block", font: "700 12px system-ui", marginBottom: 4 }} htmlFor="cevons-img-alt">
@@ -550,23 +597,83 @@ export function ImageSlotEditor({
                 Save as draft
               </button>
               {canPublish ? (
-                <button
-                  type="button"
-                  disabled={!!busy}
-                  onClick={() => void write("publish")}
-                  style={{
-                    minHeight: 44,
-                    padding: "0 16px",
-                    borderRadius: 10,
-                    border: "none",
-                    background: "#14532D",
-                    color: "#fff",
-                    font: "800 13px system-ui",
-                    cursor: "pointer",
-                  }}
-                >
-                  Publish this photo
-                </button>
+                confirmPublish ? (
+                  <span
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 8,
+                      alignItems: "center",
+                      padding: "8px 10px",
+                      borderRadius: 10,
+                      background: "#FFF4E5",
+                      border: "1px solid rgba(0,0,0,0.12)",
+                    }}
+                  >
+                    <span style={{ font: "700 12px system-ui", color: "#7A3E00" }}>
+                      Publish now? Every visitor will see this photo straight away.
+                    </span>
+                    <button
+                      type="button"
+                      disabled={!!busy}
+                      onClick={() => void write("publish")}
+                      style={{
+                        minHeight: 44,
+                        padding: "0 16px",
+                        borderRadius: 10,
+                        border: "none",
+                        background: "#14532D",
+                        color: "#fff",
+                        font: "800 13px system-ui",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Yes, publish it
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!!busy}
+                      onClick={() => setConfirmPublish(false)}
+                      style={{
+                        minHeight: 44,
+                        padding: "0 14px",
+                        borderRadius: 10,
+                        border: "1px solid rgba(0,0,0,0.2)",
+                        background: "#fff",
+                        color: INK,
+                        font: "700 13px system-ui",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Not yet
+                    </button>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={!!busy}
+                    onClick={() => {
+                      if (!picked) {
+                        setNote({ tone: "error", text: "Choose or upload a photo first." });
+                        return;
+                      }
+                      setNote(null);
+                      setConfirmPublish(true);
+                    }}
+                    style={{
+                      minHeight: 44,
+                      padding: "0 16px",
+                      borderRadius: 10,
+                      border: "none",
+                      background: "#14532D",
+                      color: "#fff",
+                      font: "800 13px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Publish this photo
+                  </button>
+                )
               ) : (
                 <span style={{ alignSelf: "center", font: "600 12px system-ui", color: "#4B5563" }}>
                   Your role can save drafts but not publish.
