@@ -403,32 +403,125 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </a>
       </div>
 
-      {/* ── Sections picker ───────────────────────────────────────────── */}
-      <div data-content-ui style={panelStyle} ref={panelRef}>
-        <button
-          type="button"
-          onClick={() => setPanelOpen((o) => !o)}
-          aria-expanded={panelOpen}
-          style={panelHeaderBtn}
+      {/* ── Sections + photos ─────────────────────────────────────────────
+          On a phone the two floating panels become ONE bottom sheet with two
+          tabs, so nothing overlaps the page or each other. On a wide screen
+          they stay as they were. ─────────────────────────────────────────── */}
+      {narrow ? (
+        <div
+          data-content-ui
+          className="cev-sheet"
+          style={{ background: PAPER, color: INK, fontFamily: "system-ui, sans-serif" }}
         >
-          <span>Sections on this page</span>
-          <span aria-hidden>{panelOpen ? "▾" : "▸"}</span>
-        </button>
-        {panelOpen && (
-          <ul style={{ listStyle: "none", margin: 0, padding: 6, maxHeight: "40vh", overflowY: "auto" }}>
-            {sections.length === 0 && (
-              <li style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>Nothing editable on this page yet.</li>
-            )}
-            {sections.map((s) => (
-              <li key={s.section}>
-                <button type="button" onClick={() => jumpTo(s)} style={panelItemBtn}>
-                  {s.section}
-                </button>
-              </li>
+          <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+            {(["sections", "photos"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => {
+                  setSheetTab(t);
+                  setPanelOpen(true);
+                }}
+                aria-pressed={sheetTab === t && panelOpen}
+                style={{
+                  flex: 1,
+                  minHeight: 44,
+                  borderRadius: 10,
+                  border: "1px solid rgba(0,0,0,0.12)",
+                  background: sheetTab === t ? ORANGE : "#FFFFFF",
+                  color: "#1A1A1A",
+                  font: "800 14px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                {t === "sections" ? "Text" : "Photos"}
+              </button>
             ))}
-          </ul>
-        )}
-      </div>
+            <button
+              type="button"
+              onClick={() => setPanelOpen((o) => !o)}
+              aria-label={panelOpen ? "Hide the list" : "Show the list"}
+              style={{
+                minHeight: 44,
+                minWidth: 44,
+                borderRadius: 10,
+                border: "1px solid rgba(0,0,0,0.12)",
+                background: "#FFFFFF",
+                color: "#1A1A1A",
+                font: "700 15px system-ui",
+                cursor: "pointer",
+              }}
+            >
+              {panelOpen ? "▾" : "▴"}
+            </button>
+          </div>
+
+          {panelOpen && sheetTab === "sections" && (
+            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {sections.length === 0 && (
+                <li style={{ padding: 8, fontSize: 14, opacity: 0.75 }}>Nothing editable on this page yet.</li>
+              )}
+              {sections.map((s) => (
+                <li key={s.section}>
+                  <button
+                    type="button"
+                    onClick={() => jumpTo(s)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      textAlign: "left",
+                      minHeight: 44,
+                      padding: "10px 12px",
+                      marginBottom: 6,
+                      borderRadius: 10,
+                      border: "1px solid rgba(0,0,0,0.10)",
+                      background: "#FFFFFF",
+                      color: INK,
+                      font: "600 15px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {s.section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {panelOpen && sheetTab === "photos" && (
+            <div style={{ font: "500 15px/1.4 system-ui, sans-serif" }}>
+              <ImageSlotEditor canPublish={canPublish} variant="inline" />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div data-content-ui style={panelStyle} ref={panelRef}>
+          <button
+            type="button"
+            onClick={() => setPanelOpen((o) => !o)}
+            aria-expanded={panelOpen}
+            style={panelHeaderBtn}
+          >
+            <span>Sections on this page</span>
+            <span aria-hidden>{panelOpen ? "▾" : "▸"}</span>
+          </button>
+          {panelOpen && (
+            <ul style={{ listStyle: "none", margin: 0, padding: 6, maxHeight: "40vh", overflowY: "auto" }}>
+              {sections.length === 0 && (
+                <li style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>Nothing editable on this page yet.</li>
+              )}
+              {sections.map((s) => (
+                <li key={s.section}>
+                  <button type="button" onClick={() => jumpTo(s)} style={panelItemBtn}>
+                    {s.section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
 
       {/* ── Editor popover ────────────────────────────────────────────── */}
       {activeKey && anchor && (
