@@ -12,9 +12,10 @@ import imgSkip10Asset from "@/assets/skip-10yd-diagram.png.asset.json";
 // The 20 cu yd diagram is the client's own "20 Cubic Yard Dumpster" artwork.
 import imgDumpster20Asset from "@/assets/dumpster-20yd.webp.asset.json";
 // There is NO 52 cu yd image in the library, so this card uses a neutral
-// CEVONS roll-off photo that makes no size claim rather than a diagram
-// labelled with the wrong capacity.
-import imgDumpster52Asset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
+// LANDSCAPE CEVONS skip/roll-off photo that makes no size claim. The previous
+// pick was portrait (1086x1448) and made this card twice as tall as the
+// other two.
+import imgDumpster52Asset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
 
 const imgHero = (imgHeroAsset as { url: string }).url;
 const imgSkip10 = imgSkip10Asset as { url: string };
@@ -78,6 +79,7 @@ const sizeOptions: BinSizeOption[] = [
     ],
     image: imgSkip10.url,
     imageAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
+    imageSlot: "svc_skip_bin_size_10",
   },
   {
     // Dimensions are deliberately absent: we have no client-confirmed
@@ -94,6 +96,7 @@ const sizeOptions: BinSizeOption[] = [
     ],
     image: imgDumpster20.url,
     imageAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
+    imageSlot: "svc_skip_bin_size_20",
   },
 
   {
@@ -108,7 +111,8 @@ const sizeOptions: BinSizeOption[] = [
       "Sites where a smaller bin would mean back-to-back swap-outs",
     ],
     image: imgDumpster52.url,
-    imageAlt: "CEVONS haulage truck with a roll-off container on an industrial site in Guyana",
+    imageAlt: "CEVONS skip bin truck loaded with waste on a work site in Guyana",
+    imageSlot: "svc_skip_bin_size_52",
 
   },
 ];

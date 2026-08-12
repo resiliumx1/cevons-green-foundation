@@ -23,6 +23,10 @@ import { useImageEditing } from "@/lib/imageEditing";
 /* ── Bundled defaults ───────────────────────────────────────────────────── */
 
 import heroSlide1Asset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
+import heroSlide2Asset from "@/assets/slide-septic.webp.asset.json";
+import heroSlide3Asset from "@/assets/slide-shred-truck.webp.asset.json";
+import skip10DiagramAsset from "@/assets/skip-10yd-diagram.png.asset.json";
+import dumpster20Asset from "@/assets/dumpster-20yd.webp.asset.json";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
 import svcIndustrialAsset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
@@ -96,6 +100,25 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
     defaultSrc: url(heroSlide1Asset),
     defaultAlt: "CEVONS skip bin being delivered on a Georgetown work site",
     usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 1)",
+  },
+  {
+    key: "home_hero_slide_2",
+    label: "Homepage hero — second slide",
+    page: "Homepage",
+    ratio: [4, 3],
+    defaultSrc: url(heroSlide2Asset),
+    defaultAlt: "CEVONS red septic service vacuum truck parked at the Georgetown yard",
+    usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 2)",
+  },
+  {
+    key: "home_hero_slide_3",
+    label: "Homepage hero — third slide",
+    page: "Homepage",
+    ratio: [3, 2],
+    defaultSrc: url(heroSlide3Asset),
+    defaultAlt:
+      "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street",
+    usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 3)",
   },
   {
     key: "home_pillar_residential",
@@ -213,6 +236,35 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
   svc("svc_used_cooking_oil_hero", "Used cooking oil — hero", svcOil, "Used cooking oil collection containers", "services.used-cooking-oil"),
   svc("svc_used_waste_oil_hero", "Used waste oil — hero", svcOil, "Waste oil collection and handling", "services.used-waste-oil"),
   svc("svc_wastewater_hero", "Wastewater — hero", svcWastewater, "Wastewater treatment operations", "services.wastewater"),
+
+  /* Skip bin & dumpster rental — size selector cards */
+  {
+    key: "svc_skip_bin_size_10",
+    label: "Skip bin sizes — 10 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(skip10DiagramAsset),
+    defaultAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
+  {
+    key: "svc_skip_bin_size_20",
+    label: "Skip bin sizes — 20 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(dumpster20Asset),
+    defaultAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
+  {
+    key: "svc_skip_bin_size_52",
+    label: "Skip bin sizes — 52 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(heroSlide1Asset),
+    defaultAlt: "CEVONS skip bin truck loaded with waste on a work site in Guyana",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
 ];
 
 export const SLOTS_BY_KEY: Record<string, SlotDef> = Object.fromEntries(

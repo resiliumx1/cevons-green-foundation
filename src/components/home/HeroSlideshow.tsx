@@ -16,6 +16,8 @@ type Slide = {
   portrait: boolean;
   title?: string;
   caption?: string;
+  /** Spread onto the rendered <img> so the content editor can target it. */
+  editorProps?: Record<string, string>;
 };
 
 /**
@@ -51,23 +53,32 @@ const FADE_MS = 1200;
  */
 function useHeroSlides(): Slide[] {
   const { data } = usePublishedMedia("slide");
-  // Slot override for the first fallback slide. Identical to SLIDES[0] until set.
+  // One named slot per fallback slide, so every hero photo is replaceable from
+  // the on-page editor (and from /admin/images). Identical to SLIDES until set.
   const slide1 = useSiteImage("home_hero_slide_1", SLIDES[0].src, SLIDES[0].alt);
+  const slide2 = useSiteImage("home_hero_slide_2", SLIDES[1].src, SLIDES[1].alt);
+  const slide3 = useSiteImage("home_hero_slide_3", SLIDES[2].src, SLIDES[2].alt);
+  const resolved = [slide1, slide2, slide3];
+  const editorKey = resolved.map((r) => Object.keys(r.editorProps).join()).join("|");
+  const srcKey = resolved.map((r) => `${r.src}|${r.alt}|${r.width}|${r.height}`).join("~");
   return useMemo(() => {
     const rows = (data ?? []).filter((r) => !!r.url);
     if (rows.length === 0) {
-      if (!slide1.isOverride) return SLIDES;
-      return [
-        {
-          ...SLIDES[0],
-          src: slide1.src,
-          alt: slide1.alt,
-          width: slide1.width ?? SLIDES[0].width,
-          height: slide1.height ?? SLIDES[0].height,
-          portrait: (slide1.height ?? SLIDES[0].height) > (slide1.width ?? SLIDES[0].width),
-        },
-        ...SLIDES.slice(1),
-      ];
+      return SLIDES.map((s, i) => {
+        const r = resolved[i];
+        if (!r) return s;
+        const width = r.width ?? s.width;
+        const height = r.height ?? s.height;
+        return {
+          ...s,
+          src: r.src,
+          alt: r.alt,
+          width,
+          height,
+          portrait: height > width,
+          editorProps: r.editorProps,
+        };
+      });
     }
     return rows.map((r, i) => ({
       src: r.url as string,
@@ -80,7 +91,8 @@ function useHeroSlides(): Slide[] {
       title: r.title || undefined,
       caption: r.caption || undefined,
     }));
-  }, [data, slide1.src, slide1.alt, slide1.width, slide1.height, slide1.isOverride]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, srcKey, editorKey]);
 }
 
 
@@ -346,6 +358,7 @@ export function HeroSlideshowBackground() {
                         onError={() => markLoaded(s.src)}
                         className="relative size-full object-contain"
                         data-slide={i}
+                        {...(s.editorProps ?? {})}
                       />
                     </div>
                   ) : (
@@ -363,6 +376,7 @@ export function HeroSlideshowBackground() {
                       className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
                       style={{ objectPosition: s.position }}
+                      {...(s.editorProps ?? {})}
                     />
                   )}
                 </div>

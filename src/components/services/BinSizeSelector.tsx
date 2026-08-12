@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Editable, useEditableText, usePageContent } from "@/components/Editable";
+import { useSiteImage } from "@/lib/siteImages";
 
 export type BinSizeOption = {
   id: string;
@@ -13,7 +14,37 @@ export type BinSizeOption = {
   bestFor?: string[];
   image: string;
   imageAlt: string;
+  /**
+   * Named image slot. When given, the photo becomes replaceable from the
+   * on-page editor and from /admin/images; `image`/`imageAlt` stay the
+   * bundled fallback, so nothing changes until someone replaces it.
+   */
+  imageSlot?: string;
 };
+
+/**
+ * One card photo. Split into its own component so each option can call
+ * `useSiteImage` without breaking the rules of hooks. Every option's image
+ * stays mounted (inactive ones faded out) so the editor can list and target
+ * all of them, not just the visible one.
+ */
+function SizeImage({ option, active }: { option: BinSizeOption; active: boolean }) {
+  const photo = useSiteImage(option.imageSlot ?? "", option.image, option.imageAlt);
+  return (
+    <img
+      src={photo.src}
+      alt={photo.alt}
+      loading="lazy"
+      aria-hidden={!active}
+      className={[
+        "absolute inset-0 block size-full object-cover transition-opacity duration-300",
+        active ? "opacity-100" : "opacity-0 pointer-events-none",
+      ].join(" ")}
+      {...photo.editorProps}
+    />
+  );
+}
+
 
 export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
   options: BinSizeOption[];
@@ -113,19 +144,16 @@ export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
 
         {/* Detail card */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 items-start">
-          {/* No fixed ratio, no padding and no background: the source images
-              already carry their own backdrop, so a second one only shows up
-              as dead space around the picture. The image fills the card edge
-              to edge at its natural ratio. */}
-          <div className="relative overflow-hidden rounded-2xl ring-1 ring-black/5">
-            <img
-              key={active.id}
-              src={active.image}
-              alt={active.imageAlt}
-              loading="lazy"
-              className="block w-full h-auto animate-in fade-in duration-300"
-            />
+          {/* Every card photo is 16:9, so the frame is 16:9 too — the picture
+              fills it edge to edge with nothing cropped, and the card height
+              no longer jumps when you switch sizes. All options stay mounted
+              so the photo editor can list and target each one. */}
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl ring-1 ring-black/5">
+            {options.map((o) => (
+              <SizeImage key={o.id} option={o} active={o.id === active.id} />
+            ))}
           </div>
+
 
           <div className="flex flex-col justify-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-orange)] mb-3">
