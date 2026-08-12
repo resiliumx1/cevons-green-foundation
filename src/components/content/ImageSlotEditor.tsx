@@ -110,6 +110,9 @@ export function ImageSlotEditor({
   const [busy, setBusy] = useState<string | null>(null);
   const [note, setNote] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [hover, setHover] = useState<{ label: string; top: number; left: number } | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [confirmPublish, setConfirmPublish] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const { data: rows } = useSiteImageOverrides(true);
@@ -146,6 +149,9 @@ export function ImageSlotEditor({
       const path = r?.draft_image_path ?? r?.image_path ?? null;
       setActiveSlot(slot);
       setNote(null);
+      setConfirmPublish(false);
+      setDragOver(false);
+      setHover(null);
       setPicked(
         path
           ? {
@@ -178,6 +184,37 @@ export function ImageSlotEditor({
     return () => document.removeEventListener("click", onClick, true);
   }, [open]);
 
+  /* A plain "Click to change photo" tag that follows whichever photo is hovered.
+     Images cannot host pseudo-elements, so the tag is a floating element. */
+  useEffect(() => {
+    if (activeSlot) {
+      setHover(null);
+      return;
+    }
+    const onMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const node = target?.closest<HTMLElement>("[data-image-slot]");
+      if (!node || target?.closest("[data-content-ui]")) {
+        setHover(null);
+        return;
+      }
+      const slot = node.getAttribute("data-image-slot") ?? "";
+      const r = node.getBoundingClientRect();
+      setHover({
+        label: SLOTS_BY_KEY[slot]?.label ?? "this photo",
+        top: Math.max(8, r.top + 8),
+        left: Math.max(8, r.left + 8),
+      });
+    };
+    const clear = () => setHover(null);
+    document.addEventListener("mousemove", onMove, true);
+    window.addEventListener("scroll", clear, true);
+    return () => {
+      document.removeEventListener("mousemove", onMove, true);
+      window.removeEventListener("scroll", clear, true);
+    };
+  }, [activeSlot]);
+
   const { data: library = [] } = useQuery({
     queryKey: ["content-editor-media-library"],
     enabled: activeSlot != null,
@@ -192,6 +229,10 @@ export function ImageSlotEditor({
       return (data ?? []) as MediaRow[];
     },
   });
+
+  useEffect(() => {
+    setConfirmPublish(false);
+  }, [picked?.path, alt]);
 
   const drift = def && picked?.w && picked?.h ? ratioDrift(def.ratio, picked.w, picked.h) : 0;
 
@@ -232,7 +273,32 @@ export function ImageSlotEditor({
   async function write(mode: "draft" | "publish") {
     if (!activeSlot) return;
     if (!picked) {
-      setNote({ tone: "error", text: "Choose or upload a photo first." });
+      // Reverting to the photo that ships with the page: clear the override.
+      setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
+      const clear =
+        mode === "draft"
+          ? { slot: activeSlot, draft_image_path: null, draft_image_w: null, draft_image_h: null, draft_alt: null }
+          : {
+              slot: activeSlot,
+              image_path: null,
+              image_w: null,
+              image_h: null,
+              alt: null,
+              draft_image_path: null,
+              draft_image_w: null,
+              draft_image_h: null,
+              draft_alt: null,
+            };
+      const { error: clearErr } = await supabase.from("site_images").upsert(clear as never, { onConflict: "slot" });
+      setBusy(null);
+      if (clearErr) {
+        setNote({ tone: "error", text: clearErr.message });
+        return;
+      }
+      await refresh();
+      setConfirmPublish(false);
+      if (mode === "publish") setActiveSlot(null);
+      else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
     if (alt.trim().length === 0) {
@@ -343,7 +409,27 @@ export function ImageSlotEditor({
 
   const picker = (
     <>
-
+      {hover && !activeSlot && (
+        <div
+          data-content-ui
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            top: hover.top,
+            left: hover.left,
+            zIndex: 2147483000,
+            pointerEvents: "none",
+            padding: "6px 10px",
+            borderRadius: 999,
+            background: ORANGE,
+            color: "#1A1A1A",
+            font: "800 12px/1.2 system-ui, sans-serif",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.28)",
+          }}
+        >
+          Click to change: {hover.label}
+        </div>
+      )}
 
       {/* Picker */}
       {activeSlot && def && (
@@ -402,7 +488,26 @@ export function ImageSlotEditor({
               </p>
             )}
 
-            <div style={{ display: "flex", gap: 8, alignItems: "center", margin: "12px 0" }}>
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOver(true);
+              }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragOver(false);
+                const f = e.dataTransfer.files?.[0];
+                if (f) void upload(f);
+              }}
+              style={{
+                margin: "12px 0",
+                padding: 12,
+                borderRadius: 12,
+                border: `2px dashed ${dragOver ? ORANGE : "rgba(0,0,0,0.18)"}`,
+                background: dragOver ? "rgba(239,119,0,0.08)" : "#fff",
+              }}
+            >
               <input
                 ref={fileRef}
                 type="file"
@@ -414,24 +519,52 @@ export function ImageSlotEditor({
                   e.target.value = "";
                 }}
               />
-              <button
-                type="button"
-                disabled={!!busy}
-                onClick={() => fileRef.current?.click()}
-                style={{
-                  minHeight: 44,
-                  padding: "0 16px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: INK,
-                  color: "#fff",
-                  font: "700 13px system-ui",
-                  cursor: "pointer",
-                }}
-              >
-                Upload a photo
-              </button>
-              {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+                <button
+                  type="button"
+                  disabled={!!busy}
+                  onClick={() => fileRef.current?.click()}
+                  style={{
+                    minHeight: 44,
+                    padding: "0 16px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: INK,
+                    color: "#fff",
+                    font: "700 13px system-ui",
+                    cursor: "pointer",
+                  }}
+                >
+                  {picked ? "Replace with a new photo" : "Upload a photo"}
+                </button>
+                {picked && (
+                  <button
+                    type="button"
+                    disabled={!!busy}
+                    onClick={() => {
+                      setPicked(null);
+                      setAlt(def.defaultAlt);
+                      setNote({ tone: "ok", text: "Back to the original photo. Save to keep this." });
+                    }}
+                    style={{
+                      minHeight: 44,
+                      padding: "0 14px",
+                      borderRadius: 10,
+                      border: "1px solid rgba(0,0,0,0.2)",
+                      background: "#fff",
+                      color: INK,
+                      font: "700 13px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Use the original photo
+                  </button>
+                )}
+                {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
+              </div>
+              <p style={{ margin: "8px 0 0", font: "500 12px system-ui", color: "#4B5563" }}>
+                You can also drag a photo from your computer straight onto this box.
+              </p>
             </div>
 
             <label style={{ display: "block", font: "700 12px system-ui", marginBottom: 4 }} htmlFor="cevons-img-alt">
@@ -509,23 +642,79 @@ export function ImageSlotEditor({
                 Save as draft
               </button>
               {canPublish ? (
-                <button
-                  type="button"
-                  disabled={!!busy}
-                  onClick={() => void write("publish")}
-                  style={{
-                    minHeight: 44,
-                    padding: "0 16px",
-                    borderRadius: 10,
-                    border: "none",
-                    background: "#14532D",
-                    color: "#fff",
-                    font: "800 13px system-ui",
-                    cursor: "pointer",
-                  }}
-                >
-                  Publish this photo
-                </button>
+                confirmPublish ? (
+                  <span
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 8,
+                      alignItems: "center",
+                      padding: "8px 10px",
+                      borderRadius: 10,
+                      background: "#FFF4E5",
+                      border: "1px solid rgba(0,0,0,0.12)",
+                    }}
+                  >
+                    <span style={{ font: "700 12px system-ui", color: "#7A3E00" }}>
+                      Publish now? Every visitor will see this photo straight away.
+                    </span>
+                    <button
+                      type="button"
+                      disabled={!!busy}
+                      onClick={() => void write("publish")}
+                      style={{
+                        minHeight: 44,
+                        padding: "0 16px",
+                        borderRadius: 10,
+                        border: "none",
+                        background: "#14532D",
+                        color: "#fff",
+                        font: "800 13px system-ui",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Yes, publish it
+                    </button>
+                    <button
+                      type="button"
+                      disabled={!!busy}
+                      onClick={() => setConfirmPublish(false)}
+                      style={{
+                        minHeight: 44,
+                        padding: "0 14px",
+                        borderRadius: 10,
+                        border: "1px solid rgba(0,0,0,0.2)",
+                        background: "#fff",
+                        color: INK,
+                        font: "700 13px system-ui",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Not yet
+                    </button>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={!!busy}
+                    onClick={() => {
+                      setNote(null);
+                      setConfirmPublish(true);
+                    }}
+                    style={{
+                      minHeight: 44,
+                      padding: "0 16px",
+                      borderRadius: 10,
+                      border: "none",
+                      background: "#14532D",
+                      color: "#fff",
+                      font: "800 13px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Publish this photo
+                  </button>
+                )
               ) : (
                 <span style={{ alignSelf: "center", font: "600 12px system-ui", color: "#4B5563" }}>
                   Your role can save drafts but not publish.
