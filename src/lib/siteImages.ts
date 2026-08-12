@@ -102,6 +102,25 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
     usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 1)",
   },
   {
+    key: "home_hero_slide_2",
+    label: "Homepage hero — second slide",
+    page: "Homepage",
+    ratio: [4, 3],
+    defaultSrc: url(heroSlide2Asset),
+    defaultAlt: "CEVONS red septic service vacuum truck parked at the Georgetown yard",
+    usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 2)",
+  },
+  {
+    key: "home_hero_slide_3",
+    label: "Homepage hero — third slide",
+    page: "Homepage",
+    ratio: [3, 2],
+    defaultSrc: url(heroSlide3Asset),
+    defaultAlt:
+      "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street",
+    usedIn: "src/components/home/HeroSlideshow.tsx (fallback slide 3)",
+  },
+  {
     key: "home_pillar_residential",
     label: "Core services — Residential card",
     page: "Homepage",
