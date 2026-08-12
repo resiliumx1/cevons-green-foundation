@@ -706,13 +706,16 @@ export function ImageSlotEditor({
             </div>
 
             <label style={{ display: "block", font: "700 12px system-ui", marginBottom: 4 }} htmlFor="cevons-img-alt">
-              Describe this photo
+              Describe this photo <span style={{ color: "#7F1D1D" }}>(required to publish)</span>
             </label>
             <input
               id="cevons-img-alt"
               ref={altRef}
               value={alt}
+              required
               aria-invalid={altInvalid}
+              aria-describedby="cevons-img-alt-help"
+              placeholder="e.g. Orange CEVONS skip bin on a Georgetown worksite"
               onChange={(e) => {
                 setAlt(e.target.value);
                 if (altInvalid) setAltInvalid(false);
@@ -729,6 +732,35 @@ export function ImageSlotEditor({
                 font: "500 14px system-ui",
               }}
             />
+            {suggestedAlt && alt.trim() !== suggestedAlt && (
+              <button
+                type="button"
+                onClick={() => {
+                  setAlt(suggestedAlt);
+                  setAltInvalid(false);
+                }}
+                style={{
+                  marginTop: 8,
+                  minHeight: 36,
+                  padding: "0 12px",
+                  borderRadius: 999,
+                  border: `1px solid ${ORANGE}`,
+                  background: "#FFF4E5",
+                  color: "#7A3E00",
+                  font: "700 12px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                Use suggested: “{suggestedAlt}”
+              </button>
+            )}
+            <p id="cevons-img-alt-help" style={{ margin: "6px 0 0", font: "500 12px system-ui", color: altMissing ? "#7F1D1D" : "#4B5563" }}>
+              {altMissing
+                ? "Add a description before publishing — screen readers read it aloud."
+                : "Screen readers read this aloud, so say what is actually in the photo."}
+            </p>
+
+
 
             {library.length > 0 && (
               <>
