@@ -556,4 +556,70 @@ export function ImageSlotEditor({
       )}
     </>
   );
+
+  /* Inline: the parent sheet already provides the surface and the heading. */
+  if (variant === "inline") {
+    return (
+      <>
+        {photoList}
+        {picker}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {/* Floating launcher + list of the photos on this page */}
+      <div
+        data-content-ui
+        style={{
+          position: "fixed",
+          right: 16,
+          bottom: 16,
+          zIndex: 2147483000,
+          font: "500 13px/1.4 system-ui, sans-serif",
+        }}
+      >
+        {panelOpen && (
+          <div
+            style={{
+              width: 260,
+              maxHeight: "50vh",
+              overflowY: "auto",
+              marginBottom: 8,
+              background: PAPER,
+              color: INK,
+              borderRadius: 12,
+              boxShadow: "0 18px 48px rgba(0,0,0,0.32)",
+              padding: 12,
+            }}
+          >
+            <p style={{ font: "800 11px/1.4 system-ui", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 8px" }}>
+              Photos on this page
+            </p>
+            {photoList}
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setPanelOpen((v) => !v)}
+          style={{
+            minHeight: 44,
+            padding: "0 16px",
+            borderRadius: 999,
+            border: "none",
+            background: ORANGE,
+            color: "#1A1A1A",
+            font: "800 13px system-ui, sans-serif",
+            cursor: "pointer",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.28)",
+          }}
+        >
+          {panelOpen ? "Hide photos" : `Photos (${slots.length}${draftCount ? ` · ${draftCount} draft` : ""})`}
+        </button>
+      </div>
+      {picker}
+    </>
+  );
 }
+
