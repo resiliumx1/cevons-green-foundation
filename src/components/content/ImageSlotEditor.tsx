@@ -846,21 +846,23 @@ export function ImageSlotEditor({
                     </span>
                     <button
                       type="button"
-                      disabled={!!busy}
+                      disabled={!!busy || altMissing}
+                      title={altMissing ? "Add a photo description first" : undefined}
                       onClick={() => void write("publish")}
                       style={{
                         minHeight: 44,
                         padding: "0 16px",
                         borderRadius: 10,
                         border: "none",
-                        background: "#14532D",
+                        background: altMissing ? "#6B7280" : "#14532D",
                         color: "#fff",
                         font: "800 13px system-ui",
-                        cursor: "pointer",
+                        cursor: altMissing ? "not-allowed" : "pointer",
                       }}
                     >
                       Yes, publish it
                     </button>
+
                     <button
                       type="button"
                       disabled={!!busy}
