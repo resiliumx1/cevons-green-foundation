@@ -23,6 +23,10 @@ import { useImageEditing } from "@/lib/imageEditing";
 /* ── Bundled defaults ───────────────────────────────────────────────────── */
 
 import heroSlide1Asset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
+import heroSlide2Asset from "@/assets/slide-septic.webp.asset.json";
+import heroSlide3Asset from "@/assets/slide-shred-truck.webp.asset.json";
+import skip10DiagramAsset from "@/assets/skip-10yd-diagram.png.asset.json";
+import dumpster20Asset from "@/assets/dumpster-20yd.webp.asset.json";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
 import svcIndustrialAsset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
