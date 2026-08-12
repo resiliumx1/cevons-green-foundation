@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { processImage } from "@/lib/imageProcess";
+import { compressionSummary, processImage } from "@/lib/imageProcess";
 import {
   RATIO_TOLERANCE,
   ratioDrift,
