@@ -26,7 +26,6 @@ import {
   Moon,
   LogOut,
   UserCircle,
-  MoreHorizontal,
 } from "lucide-react";
 
 import logo from "@/assets/cevons-logo-transparent.png";
@@ -377,6 +376,17 @@ function CrmLayout() {
 
       {/* Footer / collapse */}
       <div className="mt-2 px-3 pt-3 pb-3 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+        <Link
+          to="/"
+          onClick={() => setMobileOpen(false)}
+          className={`crm-nav-item lg:hidden mb-1 flex items-center gap-3 rounded-xl text-[13.5px] ${
+            collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
+          }`}
+          style={{ color: "#FFFFFF" }}
+        >
+          <Globe size={20} strokeWidth={1.75} />
+          {!collapsed && <span>Back to site</span>}
+        </Link>
         <button
           onClick={() => setCollapsed((c) => !c)}
           className={`crm-nav-item w-full hidden lg:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
@@ -586,7 +596,12 @@ function StatusTape() {
       <span className="admin-mono admin-tape-item">
         Georgetown {formatGeorgetown(now, { hour: "2-digit", minute: "2-digit", hour12: false })} · UTC−4
       </span>
-      <button type="button" onClick={toggleTheme} className="admin-tape-toggle admin-mono ml-auto">
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className="admin-tape-toggle admin-mono ml-auto"
+        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      >
         {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
         <span className="hidden sm:inline">{theme === "dark" ? "Light mode" : "Dark mode"}</span>
       </button>
