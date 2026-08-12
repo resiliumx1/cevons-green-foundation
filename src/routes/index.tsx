@@ -189,6 +189,7 @@ function HardcodedHome() {
         items={pillars.map(({ img, key, iconKey }, i) => ({
           key,
           img: pillarImages[i]?.src ?? img,
+          imgProps: pillarImages[i]?.editorProps,
           iconKey,
           title: t(`home.pillars.items.${key}.title`),
           body: t(`home.pillars.items.${key}.body`),
