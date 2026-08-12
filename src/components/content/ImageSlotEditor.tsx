@@ -339,12 +339,22 @@ export function ImageSlotEditor({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
+      const suggestion = suggestAltFromFileName(file.name, def?.label);
+      setSuggestedAlt(suggestion);
+      let filled = false;
+      if (suggestion && alt.trim().length === 0) {
+        setAlt(suggestion);
+        setAltInvalid(false);
+        filled = true;
+      }
       setNote({
         tone: "ok",
-        text: savings
-          ? `Photo uploaded and optimised (${savings}). Check the description, then save.`
-          : "Photo uploaded. Check the description, then save.",
+        text: [
+          savings ? `Photo uploaded and optimised (${savings}).` : "Photo uploaded.",
+          filled ? "We suggested a description from the file name — edit it if needed, then save." : "Check the description, then save.",
+        ].join(" "),
       });
+
     } catch (err) {
       setNote({ tone: "error", text: err instanceof Error ? err.message : "Upload failed." });
     } finally {
