@@ -126,7 +126,10 @@ export function ImageSlotEditor({
   const [hover, setHover] = useState<{ label: string; top: number; left: number } | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [confirmPublish, setConfirmPublish] = useState(false);
+  const [altInvalid, setAltInvalid] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const altRef = useRef<HTMLInputElement | null>(null);
+
 
   const { data: rows } = useSiteImageOverrides(true);
   const row: SiteImageRow | undefined = rows?.find((r) => r.slot === activeSlot);
