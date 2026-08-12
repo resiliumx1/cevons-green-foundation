@@ -31,6 +31,35 @@ const ORANGE = "#EF7700";
 const INK = "#111214";
 const PAPER = "#F5F5F5";
 
+/** What the picker will accept from a file chooser or a drag-and-drop. */
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"] as const;
+export const ACCEPT_ATTR = ".jpg,.jpeg,.png,.webp,.avif,.gif,image/jpeg,image/png,image/webp,image/avif,image/gif";
+const MAX_UPLOAD_BYTES = 20 * 1024 * 1024; // 20 MB
+
+function prettyBytes(bytes: number) {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+/** Returns a plain-English problem, or null when the file is fine to upload. */
+export function validateImageFile(file: File): string | null {
+  const name = file.name || "That file";
+  const type = (file.type || "").toLowerCase();
+  if (type && !type.startsWith("image/")) {
+    return `${name} isn’t a photo. Please choose a JPG, PNG, WebP, AVIF or GIF image.`;
+  }
+  if (!type || !(ACCEPTED_IMAGE_TYPES as readonly string[]).includes(type)) {
+    return `${name} is a file type we can’t use here. Please choose a JPG, PNG, WebP, AVIF or GIF image.`;
+  }
+  if (file.size === 0) {
+    return `${name} is empty. Please choose a different photo.`;
+  }
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return `${name} is ${prettyBytes(file.size)} — too large. Please use a photo under ${prettyBytes(MAX_UPLOAD_BYTES)}.`;
+  }
+  return null;
+}
+
 const IMAGE_CSS = `
 [data-image-slot] {
   outline: 2px dashed rgba(239, 119, 0, 0.7);
@@ -258,6 +287,11 @@ export function ImageSlotEditor({
 
   async function upload(file: File) {
     if (!activeSlot) return;
+    const problem = validateImageFile(file);
+    if (problem) {
+      setNote({ tone: "error", text: problem });
+      return;
+    }
     try {
       setBusy("Optimising photo…");
       const processed = await processImage(file);
@@ -535,8 +569,16 @@ export function ImageSlotEditor({
               onDrop={(e) => {
                 e.preventDefault();
                 setDragOver(false);
-                const f = e.dataTransfer.files?.[0];
-                if (f) void upload(f);
+                const files = e.dataTransfer.files;
+                if (!files || files.length === 0) {
+                  setNote({ tone: "error", text: "We couldn’t read that. Please drop a single photo file." });
+                  return;
+                }
+                if (files.length > 1) {
+                  setNote({ tone: "error", text: "Please drop one photo at a time." });
+                  return;
+                }
+                void upload(files[0]);
               }}
               style={{
                 margin: "12px 0",
@@ -549,7 +591,7 @@ export function ImageSlotEditor({
               <input
                 ref={fileRef}
                 type="file"
-                accept="image/*"
+                accept={ACCEPT_ATTR}
                 style={{ display: "none" }}
                 onChange={(e) => {
                   const f = e.target.files?.[0];
@@ -601,7 +643,8 @@ export function ImageSlotEditor({
                 {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
               </div>
               <p style={{ margin: "8px 0 0", font: "500 12px system-ui", color: "#4B5563" }}>
-                You can also drag a photo from your computer straight onto this box.
+                You can also drag a photo from your computer straight onto this box. JPG, PNG, WebP, AVIF or GIF, up to{" "}
+                {prettyBytes(MAX_UPLOAD_BYTES)}.
               </p>
             </div>
 
