@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Editable, useEditableText, usePageContent } from "@/components/Editable";
+import { useSiteImage } from "@/lib/siteImages";
 
 export type BinSizeOption = {
   id: string;
@@ -13,7 +14,37 @@ export type BinSizeOption = {
   bestFor?: string[];
   image: string;
   imageAlt: string;
+  /**
+   * Named image slot. When given, the photo becomes replaceable from the
+   * on-page editor and from /admin/images; `image`/`imageAlt` stay the
+   * bundled fallback, so nothing changes until someone replaces it.
+   */
+  imageSlot?: string;
 };
+
+/**
+ * One card photo. Split into its own component so each option can call
+ * `useSiteImage` without breaking the rules of hooks. Every option's image
+ * stays mounted (inactive ones faded out) so the editor can list and target
+ * all of them, not just the visible one.
+ */
+function SizeImage({ option, active }: { option: BinSizeOption; active: boolean }) {
+  const photo = useSiteImage(option.imageSlot ?? "", option.image, option.imageAlt);
+  return (
+    <img
+      src={photo.src}
+      alt={photo.alt}
+      loading="lazy"
+      aria-hidden={!active}
+      className={[
+        "absolute inset-0 block size-full object-cover transition-opacity duration-300",
+        active ? "opacity-100" : "opacity-0 pointer-events-none",
+      ].join(" ")}
+      {...photo.editorProps}
+    />
+  );
+}
+
 
 export function BinSizeSelector({ options, eyebrow, heading, intro, keyBase }: {
   options: BinSizeOption[];
