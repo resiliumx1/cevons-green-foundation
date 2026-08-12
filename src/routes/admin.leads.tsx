@@ -393,7 +393,7 @@ function LeadsList() {
       ) : (
         <>
           {/* Table (desktop) */}
-          <div className="hidden md:block bg-[#101820] border border-white/[0.08] rounded-xl overflow-hidden animate-fade-in">
+          <div className="hidden lg:block bg-[#101820] border border-white/[0.08] rounded-xl overflow-hidden animate-fade-in">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -453,7 +453,7 @@ function LeadsList() {
           </div>
 
           {/* Mobile cards */}
-          <div className="md:hidden space-y-3">
+          <div className="lg:hidden space-y-3">
             {visible.map((l) => (
               <div key={l.id} className="bg-[#101820] border border-white/[0.08] rounded-xl p-4" onClick={() => setPreviewId(l.id)}>
                 <div className="flex items-start justify-between gap-3">
