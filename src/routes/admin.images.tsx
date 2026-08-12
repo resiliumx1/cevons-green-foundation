@@ -465,9 +465,9 @@ function SiteImagesPage() {
                       style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
                     >
                       <Preview
-                        path={row?.image_path}
-                        src={row ? undefined : s.defaultSrc}
-                        alt={row?.alt ?? s.defaultAlt}
+                        path={row?.image_path ?? row?.draft_image_path}
+                        src={s.defaultSrc}
+                        alt={row?.alt || s.defaultAlt}
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
@@ -477,26 +477,31 @@ function SiteImagesPage() {
                           <span
                             className="text-[10px] font-bold uppercase tracking-wide rounded px-2 py-0.5"
                             style={
-                              row
+                              row?.image_path
                                 ? { background: "#2DA339", color: "#1A1A1A" }
-                                : {
-                                    background: "var(--crm-surface-muted)",
-                                    color: "var(--crm-text-muted)",
-                                  }
+                                : row?.draft_image_path
+                                  ? { background: "#EF7700", color: "#1A1A1A" }
+                                  : {
+                                      background: "var(--crm-surface-muted)",
+                                      color: "var(--crm-text-muted)",
+                                    }
                             }
                           >
-                            {row ? "Replaced" : "Original"}
+                            {row?.image_path ? "Replaced" : row?.draft_image_path ? "Draft waiting" : "Original"}
                           </span>
                         </div>
                         <p className="text-xs mt-1" style={{ color: "var(--crm-text-muted)" }}>
                           Recommended {ratioLabel(s.ratio)} · {s.usedIn}
                         </p>
                         <p className="text-xs mt-1" style={{ color: "var(--crm-text-muted)" }}>
-                          {row
+                          {row?.image_path
                             ? `Replaced ${georgetownLabel(row.updated_at)} · “${row.alt}”`
-                            : `“${s.defaultAlt}”`}
+                            : row?.draft_image_path
+                              ? `Draft saved ${georgetownLabel(row.updated_at)} — not published yet`
+                              : `“${s.defaultAlt}”`}
                         </p>
                       </div>
+
                       <div className="flex gap-2 shrink-0">
                         <Button
                           type="button"
