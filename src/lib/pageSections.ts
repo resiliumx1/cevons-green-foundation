@@ -275,7 +275,7 @@ export function usePublishedSections(page: string) {
     queryFn: async (): Promise<PageSection[]> => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, page, kind, position, payload, draft_payload, published, updated_at, updated_by")
+        .select("id, page, kind, position, payload, published, updated_at, updated_by")
         .eq("page", page)
         .eq("published", true)
         .order("position", { ascending: true });
