@@ -358,6 +358,7 @@ export function HeroSlideshowBackground() {
                         onError={() => markLoaded(s.src)}
                         className="relative size-full object-contain"
                         data-slide={i}
+                        {...(s.editorProps ?? {})}
                       />
                     </div>
                   ) : (
@@ -375,6 +376,7 @@ export function HeroSlideshowBackground() {
                       className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
                       style={{ objectPosition: s.position }}
+                      {...(s.editorProps ?? {})}
                     />
                   )}
                 </div>
