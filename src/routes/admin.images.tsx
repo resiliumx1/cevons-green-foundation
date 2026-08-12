@@ -8,7 +8,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { processImage } from "@/lib/imageProcess";
+import { compressionSummary, processImage } from "@/lib/imageProcess";
 import { georgetownLabel, GEORGETOWN_LABEL } from "@/lib/georgetown";
 import {
   RATIO_TOLERANCE,
@@ -147,7 +147,8 @@ function ReplaceDialog({
     try {
       setBusy("Optimising photo…");
       const processed = await processImage(file);
-      setBusy("Uploading…");
+      const savings = compressionSummary(processed);
+      setBusy(savings ? `Uploading… ${savings}` : "Uploading…");
       const path = `site-images/${slot.key}/${crypto.randomUUID()}.${processed.ext}`;
       const { error } = await supabase.storage
         .from(MEDIA_BUCKET)
@@ -165,7 +166,11 @@ function ReplaceDialog({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
-      toast.success("Photo uploaded — check the description, then save.");
+      toast.success(
+        savings
+          ? `Photo uploaded and optimised (${savings}) — check the description, then save.`
+          : "Photo uploaded — check the description, then save.",
+      );
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Upload failed.");
     } finally {

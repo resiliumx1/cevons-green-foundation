@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { processImage } from "@/lib/imageProcess";
+import { compressionSummary, processImage } from "@/lib/imageProcess";
 import {
   RATIO_TOLERANCE,
   ratioDrift,
@@ -295,7 +295,8 @@ export function ImageSlotEditor({
     try {
       setBusy("Optimising photo…");
       const processed = await processImage(file);
-      setBusy("Uploading…");
+      const savings = compressionSummary(processed);
+      setBusy(savings ? `Uploading… ${savings}` : "Uploading…");
       const path = `site-images/${activeSlot}/${crypto.randomUUID()}.${processed.ext}`;
       const { error } = await supabase.storage
         .from(MEDIA_BUCKET)
@@ -312,7 +313,12 @@ export function ImageSlotEditor({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
-      setNote({ tone: "ok", text: "Photo uploaded. Check the description, then save." });
+      setNote({
+        tone: "ok",
+        text: savings
+          ? `Photo uploaded and optimised (${savings}). Check the description, then save.`
+          : "Photo uploaded. Check the description, then save.",
+      });
     } catch (err) {
       setNote({ tone: "error", text: err instanceof Error ? err.message : "Upload failed." });
     } finally {
