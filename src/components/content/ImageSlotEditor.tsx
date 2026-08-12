@@ -313,7 +313,12 @@ export function ImageSlotEditor({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
-      setNote({ tone: "ok", text: "Photo uploaded. Check the description, then save." });
+      setNote({
+        tone: "ok",
+        text: savings
+          ? `Photo uploaded and optimised (${savings}). Check the description, then save.`
+          : "Photo uploaded. Check the description, then save.",
+      });
     } catch (err) {
       setNote({ tone: "error", text: err instanceof Error ? err.message : "Upload failed." });
     } finally {
