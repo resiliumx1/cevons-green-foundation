@@ -610,14 +610,20 @@ export function ImageSlotEditor({
             </label>
             <input
               id="cevons-img-alt"
+              ref={altRef}
               value={alt}
-              onChange={(e) => setAlt(e.target.value)}
+              aria-invalid={altInvalid}
+              onChange={(e) => {
+                setAlt(e.target.value);
+                if (altInvalid) setAltInvalid(false);
+              }}
               style={{
                 width: "100%",
                 minHeight: 44,
                 padding: "0 12px",
                 borderRadius: 10,
-                border: "1px solid rgba(0,0,0,0.2)",
+                border: altInvalid ? "2px solid #7F1D1D" : "1px solid rgba(0,0,0,0.2)",
+
                 background: "#fff",
                 color: INK,
                 font: "500 14px system-ui",
