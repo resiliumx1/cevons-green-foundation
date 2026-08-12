@@ -30,6 +30,8 @@ import { CevonsIcon } from "@/components/CevonsIcon";
 import { useT } from "@/contexts/SettingsContext";
 import type { CevonsServiceKey } from "@/data/cevonsIconRegistry";
 import { getServicesForSection, type Service } from "@/data/services";
+import { SlotImage } from "@/components/media/SlotImage";
+
 const heroServices = "/assets/heroes/hero-services.webp";
 
 import { faqPageJsonLd, breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
@@ -294,7 +296,8 @@ function ServicesPageInner() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <SlotImage
+            slot="services_index_hero"
             src={heroServices}
             alt="CEVONS waste management trucks, equipment, and environmental service team"
             className="size-full object-cover hero-img hero-img-mobile"
