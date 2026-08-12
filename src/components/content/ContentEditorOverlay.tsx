@@ -391,11 +391,51 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     try {
       const rows = await publishAll({ data: { page } });
       rows.forEach(onSaved);
-      flash(
-        rows.length === 0
-          ? "There was nothing waiting to publish."
-          : `${rows.length} change${rows.length === 1 ? "" : "s"} are now live on the website.`,
-      );
+
+      /* Photos live in their own table, so publish those drafts here as well. */
+      let photos = 0;
+      const failures: string[] = [];
+      for (const r of pendingImages) {
+        const alt =
+          (r.draft_alt ?? "").trim() ||
+          (r.alt ?? "").trim() ||
+          (SLOTS_BY_KEY[r.slot]?.defaultAlt ?? "").trim();
+        if (!alt) {
+          failures.push(`${SLOTS_BY_KEY[r.slot]?.label ?? r.slot} (needs a description)`);
+          continue;
+        }
+        const { error } = await supabase.from("site_images").upsert(
+          {
+            slot: r.slot,
+            image_path: r.draft_image_path,
+            image_w: r.draft_image_w,
+            image_h: r.draft_image_h,
+            alt,
+            draft_image_path: null,
+            draft_image_w: null,
+            draft_image_h: null,
+            draft_alt: null,
+          } as never,
+          { onConflict: "slot" },
+        );
+        if (error) failures.push(`${SLOTS_BY_KEY[r.slot]?.label ?? r.slot} (${error.message})`);
+        else photos += 1;
+      }
+      if (photos > 0) await qc.invalidateQueries({ queryKey: ["site_images"] });
+
+      const total = rows.length + photos;
+      if (failures.length > 0) {
+        flash(
+          `${total} change${total === 1 ? "" : "s"} published. These photos could not be published: ${failures.join("; ")}`,
+        );
+      } else {
+        flash(
+          total === 0
+            ? "There was nothing waiting to publish."
+            : `${total} change${total === 1 ? "" : "s"} are now live on the website.`,
+        );
+      }
+
     } catch (err) {
       flash(err instanceof Error ? err.message : "Those changes could not be published.");
     } finally {
