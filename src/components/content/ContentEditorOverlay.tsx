@@ -82,6 +82,19 @@ const OVERLAY_CSS = `
 
 type SectionEntry = { section: string; key: string };
 
+/** True on phone-sized screens, where the overlay becomes one bottom sheet. */
+function useNarrow(): boolean {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767.98px)");
+    const read = () => setNarrow(mq.matches);
+    read();
+    mq.addEventListener("change", read);
+    return () => mq.removeEventListener("change", read);
+  }, []);
+  return narrow;
+}
+
 /** "trust-bar" -> "Trust bar". Derived from the section names already stored. */
 function prettySection(raw: string): string {
   const t = raw.replace(/[-_]+/g, " ").trim();
@@ -95,6 +108,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const [status, setStatus] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [sheetTab, setSheetTab] = useState<"sections" | "photos">("sections");
   const [helpOpen, setHelpOpen] = useState(false);
   const [sections, setSections] = useState<SectionEntry[]>([]);
   const [anchor, setAnchor] = useState<{ top: number; left: number } | null>(null);
@@ -111,6 +125,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const publishAll = useServerFn(publishPageDrafts);
   const discard = useServerFn(discardContentDraft);
 
+  const narrow = useNarrow();
   const active = activeKey ? meta[activeKey] : undefined;
   const label = active?.label ?? activeKey ?? "";
   const maxLength = active?.maxLength ?? null;
@@ -388,53 +403,157 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </a>
       </div>
 
-      {/* ── Sections picker ───────────────────────────────────────────── */}
-      <div data-content-ui style={panelStyle} ref={panelRef}>
-        <button
-          type="button"
-          onClick={() => setPanelOpen((o) => !o)}
-          aria-expanded={panelOpen}
-          style={panelHeaderBtn}
-        >
-          <span>Sections on this page</span>
-          <span aria-hidden>{panelOpen ? "▾" : "▸"}</span>
-        </button>
-        {panelOpen && (
-          <ul style={{ listStyle: "none", margin: 0, padding: 6, maxHeight: "40vh", overflowY: "auto" }}>
-            {sections.length === 0 && (
-              <li style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>Nothing editable on this page yet.</li>
-            )}
-            {sections.map((s) => (
-              <li key={s.section}>
-                <button type="button" onClick={() => jumpTo(s)} style={panelItemBtn}>
-                  {s.section}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* ── Editor popover ────────────────────────────────────────────── */}
-      {activeKey && anchor && (
+      {/* ── Sections + photos ─────────────────────────────────────────────
+          On a phone the two floating panels become ONE bottom sheet with two
+          tabs, so nothing overlaps the page or each other. On a wide screen
+          they stay as they were. ─────────────────────────────────────────── */}
+      {narrow && activeKey ? null : narrow ? (
         <div
           data-content-ui
+          className="cev-sheet"
+          style={{ background: PAPER, color: INK, fontFamily: "system-ui, sans-serif" }}
+        >
+          <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+            {(["sections", "photos"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => {
+                  setSheetTab(t);
+                  setPanelOpen(true);
+                }}
+                aria-pressed={sheetTab === t && panelOpen}
+                style={{
+                  flex: 1,
+                  minHeight: 44,
+                  borderRadius: 10,
+                  border: "1px solid rgba(0,0,0,0.12)",
+                  background: sheetTab === t ? ORANGE : "#FFFFFF",
+                  color: "#1A1A1A",
+                  font: "800 14px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                {t === "sections" ? "Text" : "Photos"}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setPanelOpen((o) => !o)}
+              aria-label={panelOpen ? "Hide the list" : "Show the list"}
+              style={{
+                minHeight: 44,
+                minWidth: 44,
+                borderRadius: 10,
+                border: "1px solid rgba(0,0,0,0.12)",
+                background: "#FFFFFF",
+                color: "#1A1A1A",
+                font: "700 15px system-ui",
+                cursor: "pointer",
+              }}
+            >
+              {panelOpen ? "▾" : "▴"}
+            </button>
+          </div>
+
+          {panelOpen && sheetTab === "sections" && (
+            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {sections.length === 0 && (
+                <li style={{ padding: 8, fontSize: 14, opacity: 0.75 }}>Nothing editable on this page yet.</li>
+              )}
+              {sections.map((s) => (
+                <li key={s.section}>
+                  <button
+                    type="button"
+                    onClick={() => jumpTo(s)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      textAlign: "left",
+                      minHeight: 44,
+                      padding: "10px 12px",
+                      marginBottom: 6,
+                      borderRadius: 10,
+                      border: "1px solid rgba(0,0,0,0.10)",
+                      background: "#FFFFFF",
+                      color: INK,
+                      font: "600 15px system-ui",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {s.section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {panelOpen && sheetTab === "photos" && (
+            <div style={{ font: "500 15px/1.4 system-ui, sans-serif" }}>
+              <ImageSlotEditor canPublish={canPublish} variant="inline" />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div data-content-ui style={panelStyle} ref={panelRef}>
+          <button
+            type="button"
+            onClick={() => setPanelOpen((o) => !o)}
+            aria-expanded={panelOpen}
+            style={panelHeaderBtn}
+          >
+            <span>Sections on this page</span>
+            <span aria-hidden>{panelOpen ? "▾" : "▸"}</span>
+          </button>
+          {panelOpen && (
+            <ul style={{ listStyle: "none", margin: 0, padding: 6, maxHeight: "40vh", overflowY: "auto" }}>
+              {sections.length === 0 && (
+                <li style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>Nothing editable on this page yet.</li>
+              )}
+              {sections.map((s) => (
+                <li key={s.section}>
+                  <button type="button" onClick={() => jumpTo(s)} style={panelItemBtn}>
+                    {s.section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+
+      {/* ── Editor popover ────────────────────────────────────────────── */}
+      {activeKey && (narrow || anchor) && (
+        <div
+          data-content-ui
+          className={narrow ? "cev-sheet" : undefined}
           role="dialog"
           aria-label={`Edit ${label}`}
-          style={{
-            position: "fixed",
-            top: anchor.top,
-            left: anchor.left,
-            zIndex: 2147483002,
-            width: "min(360px, calc(100vw - 24px))",
-            padding: 14,
-            borderRadius: 14,
-            background: INK,
-            color: PAPER,
-            border: `1px solid ${ORANGE}`,
-            boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
-            fontFamily: "system-ui, sans-serif",
-          }}
+          style={
+            narrow
+              ? {
+                  zIndex: 2147483006,
+                  background: INK,
+                  color: PAPER,
+                  borderTop: `2px solid ${ORANGE}`,
+                  fontFamily: "system-ui, sans-serif",
+                }
+              : {
+                  position: "fixed",
+                  top: anchor?.top,
+                  left: anchor?.left,
+                  zIndex: 2147483002,
+                  width: "min(360px, calc(100vw - 24px))",
+                  padding: 14,
+                  borderRadius: 14,
+                  background: INK,
+                  color: PAPER,
+                  border: `1px solid ${ORANGE}`,
+                  boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
+                  fontFamily: "system-ui, sans-serif",
+                }
+          }
         >
           <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>{label}</p>
@@ -549,8 +668,8 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
 
-      {/* ── Photos on this page ───────────────────────────────────────── */}
-      <ImageSlotEditor canPublish={canPublish} />
+      {/* ── Photos on this page (phone: hosted inside the sheet above) ── */}
+      {!narrow && <ImageSlotEditor canPublish={canPublish} />}
 
       {/* ── Toast ─────────────────────────────────────────────────────── */}
       {toast && (

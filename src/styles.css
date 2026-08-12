@@ -3612,3 +3612,96 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 [data-crm-theme] .crm-main :is(.hover\:text-white:hover) { color: var(--text) !important; }
 /* Orange is fill only: anything on an orange fill takes charcoal. */
 [data-crm-theme] .crm-main :is(.bg-\[\#EF7700\], .bg-\[\#FCE722\], .bg-\[\#FFD200\]) { color: #1A1A1A !important; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   ADMIN ON PHONES AND TABLETS  (< 1024px)
+   The admin is a work tool used one-handed on a phone. Below the desktop
+   breakpoint every control is at least 44px, no text drops under 14px,
+   fields are 16px so iOS never zooms, and wide tables become stacked cards.
+   Public-site styles are untouched — every rule is scoped to [data-crm-theme].
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1023.98px) {
+  /* Micro-labels are still labels, but never smaller than body text. */
+  [data-crm-theme] .admin-mono { font-size: 14px; letter-spacing: 0.08em; }
+  [data-crm-theme] .admin-table th { font-size: 12px; }
+
+  /* Touch targets. Switches keep their own size; checkboxes get a bigger box. */
+  [data-crm-theme] .crm-main button:not([role="switch"]):not([data-slot="switch"]),
+  [data-crm-theme] .crm-header button,
+  [data-crm-theme] .admin-tape button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  [data-crm-theme] .crm-main a:is([class*="inline-flex"], [class*="admin-link-btn"]) { min-height: 44px; }
+  [data-crm-theme] input[type="checkbox"], [data-crm-theme] input[type="radio"] { height: 22px; width: 22px; }
+
+  /* Fields: full width, thumb sized, and 16px so mobile Safari never zooms. */
+  [data-crm-theme] input:not([type="checkbox"]):not([type="radio"]),
+  [data-crm-theme] select,
+  [data-crm-theme] textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  [data-crm-theme] textarea { min-height: 88px; }
+
+  /* One column: filter rows, toolbars and form grids stop fighting for width. */
+  [data-crm-theme] .crm-main .admin-filters,
+  [data-crm-theme] .crm-main form .grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Stacked, labelled table rows for the whole tablet range, not just phones. */
+@media (min-width: 561px) and (max-width: 767.98px) {
+  [data-crm-theme] .admin-stack thead,
+  [data-crm-theme] .admin-table thead { display: none; }
+  [data-crm-theme] .admin-stack tr,
+  [data-crm-theme] .admin-table tr {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  [data-crm-theme] .admin-stack td,
+  [data-crm-theme] .admin-table td {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 6px 0;
+    text-align: left !important;
+  }
+  [data-crm-theme] .admin-stack td::before,
+  [data-crm-theme] .admin-table td::before {
+    content: attr(data-label);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    color: var(--text-2);
+    flex: 0 0 auto;
+  }
+}
+
+/* The on-page content editor becomes one bottom sheet on a phone. */
+.cev-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147483005;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 18px 18px 0 0;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+  box-shadow: 0 -18px 48px rgba(0, 0, 0, 0.45);
+}
+.cev-sheet input,
+.cev-sheet textarea { font-size: 16px; }
+
+/* Switches keep their compact look but get a full 44px tap area. */
+[data-crm-theme] button[role="switch"] { position: relative; }
+[data-crm-theme] button[role="switch"]::after { content: ""; position: absolute; inset: -12px; }
+
+@media (max-width: 1023.98px) {
+  /* Drawer nav is primary navigation — read it at body size. */
+  [data-crm-theme] .crm-nav-item { font-size: 15px; }
+}
