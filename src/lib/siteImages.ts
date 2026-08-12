@@ -236,6 +236,35 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
   svc("svc_used_cooking_oil_hero", "Used cooking oil — hero", svcOil, "Used cooking oil collection containers", "services.used-cooking-oil"),
   svc("svc_used_waste_oil_hero", "Used waste oil — hero", svcOil, "Waste oil collection and handling", "services.used-waste-oil"),
   svc("svc_wastewater_hero", "Wastewater — hero", svcWastewater, "Wastewater treatment operations", "services.wastewater"),
+
+  /* Skip bin & dumpster rental — size selector cards */
+  {
+    key: "svc_skip_bin_size_10",
+    label: "Skip bin sizes — 10 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(skip10DiagramAsset),
+    defaultAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
+  {
+    key: "svc_skip_bin_size_20",
+    label: "Skip bin sizes — 20 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(dumpster20Asset),
+    defaultAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
+  {
+    key: "svc_skip_bin_size_52",
+    label: "Skip bin sizes — 52 cu yd card photo",
+    page: "Service pages",
+    ratio: [16, 9],
+    defaultSrc: url(heroSlide1Asset),
+    defaultAlt: "CEVONS skip bin truck loaded with waste on a work site in Guyana",
+    usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
+  },
 ];
 
 export const SLOTS_BY_KEY: Record<string, SlotDef> = Object.fromEntries(
