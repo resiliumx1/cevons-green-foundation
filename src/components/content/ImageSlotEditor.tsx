@@ -357,18 +357,31 @@ export function ImageSlotEditor({
       else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
-    // Accessibility stays intact, but an empty box never blocks the save: we
-    // fall back to the description already on the slot, then to the shipped
-    // default. Only when all three are empty do we stop and say so plainly.
-    const effectiveAlt = (alt.trim() || row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    // Publishing always needs a description typed into the box — no silent
+    // fallbacks. Drafts may still fall back to the slot's existing text or the
+    // shipped default so work in progress is never lost.
+    const typed = alt.trim();
+    const fallback = (row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    if (mode === "publish" && typed.length === 0) {
+      setAltInvalid(true);
+      if (fallback) setAlt(fallback);
+      setNote({
+        tone: "error",
+        text: fallback
+          ? "This photo cannot be published with an empty description. We’ve filled in the previous one — check it reads correctly, then publish."
+          : "This photo cannot be published yet: type a short description of it first (screen readers read it aloud).",
+      });
+      setConfirmPublish(false);
+      altRef.current?.focus();
+      altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
+    const effectiveAlt = (typed || fallback).slice(0, 300);
     if (effectiveAlt.length === 0) {
       setAltInvalid(true);
       setNote({
         tone: "error",
-        text:
-          mode === "publish"
-            ? "This photo cannot be published yet: type a short description of it first (screen readers read it aloud)."
-            : "Type a short description of this photo first (screen readers read it aloud).",
+        text: "Type a short description of this photo first (screen readers read it aloud).",
       });
       altRef.current?.focus();
       altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -376,6 +389,7 @@ export function ImageSlotEditor({
     }
     setAltInvalid(false);
     if (alt.trim() !== effectiveAlt) setAlt(effectiveAlt);
+
     setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
     const payload: Record<string, string | number | null> =
       mode === "draft"
