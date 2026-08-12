@@ -214,8 +214,26 @@ function CrmLayout() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const drawerCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  /* While the drawer is open: the page behind it does not scroll, Escape
+     closes it, and focus starts inside it. */
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    drawerCloseRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [mobileOpen]);
+
   const reduce = useReducedMotion();
   const { unreadByType, markTypeRead } = useNotifications();
   // People is owner/admin only — hide the nav entry for everyone else. The
