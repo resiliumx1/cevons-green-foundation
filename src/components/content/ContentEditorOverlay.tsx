@@ -9,6 +9,10 @@ import {
   type SavedString,
 } from "@/lib/content.functions";
 import { ImageSlotEditor } from "@/components/content/ImageSlotEditor";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { SLOTS_BY_KEY, useSiteImageOverrides } from "@/lib/siteImages";
+
 
 /**
  * On-page editing overlay. Rendered ONLY inside a verified staff preview
