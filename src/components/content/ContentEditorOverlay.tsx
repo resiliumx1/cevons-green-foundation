@@ -407,7 +407,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
           On a phone the two floating panels become ONE bottom sheet with two
           tabs, so nothing overlaps the page or each other. On a wide screen
           they stay as they were. ─────────────────────────────────────────── */}
-      {narrow ? (
+      {narrow && activeKey ? null : narrow ? (
         <div
           data-content-ui
           className="cev-sheet"
@@ -524,25 +524,36 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
 
 
       {/* ── Editor popover ────────────────────────────────────────────── */}
-      {activeKey && anchor && (
+      {activeKey && (narrow || anchor) && (
         <div
           data-content-ui
+          className={narrow ? "cev-sheet" : undefined}
           role="dialog"
           aria-label={`Edit ${label}`}
-          style={{
-            position: "fixed",
-            top: anchor.top,
-            left: anchor.left,
-            zIndex: 2147483002,
-            width: "min(360px, calc(100vw - 24px))",
-            padding: 14,
-            borderRadius: 14,
-            background: INK,
-            color: PAPER,
-            border: `1px solid ${ORANGE}`,
-            boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
-            fontFamily: "system-ui, sans-serif",
-          }}
+          style={
+            narrow
+              ? {
+                  zIndex: 2147483006,
+                  background: INK,
+                  color: PAPER,
+                  borderTop: `2px solid ${ORANGE}`,
+                  fontFamily: "system-ui, sans-serif",
+                }
+              : {
+                  position: "fixed",
+                  top: anchor?.top,
+                  left: anchor?.left,
+                  zIndex: 2147483002,
+                  width: "min(360px, calc(100vw - 24px))",
+                  padding: 14,
+                  borderRadius: 14,
+                  background: INK,
+                  color: PAPER,
+                  border: `1px solid ${ORANGE}`,
+                  boxShadow: "0 24px 60px -20px rgba(0,0,0,0.8)",
+                  fontFamily: "system-ui, sans-serif",
+                }
+          }
         >
           <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 700 }}>{label}</p>
@@ -657,8 +668,8 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
 
-      {/* ── Photos on this page ───────────────────────────────────────── */}
-      <ImageSlotEditor canPublish={canPublish} />
+      {/* ── Photos on this page (phone: hosted inside the sheet above) ── */}
+      {!narrow && <ImageSlotEditor canPublish={canPublish} />}
 
       {/* ── Toast ─────────────────────────────────────────────────────── */}
       {toast && (
