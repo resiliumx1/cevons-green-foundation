@@ -9,6 +9,10 @@ import {
   type SavedString,
 } from "@/lib/content.functions";
 import { ImageSlotEditor } from "@/components/content/ImageSlotEditor";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { SLOTS_BY_KEY, useSiteImageOverrides } from "@/lib/siteImages";
+
 
 /**
  * On-page editing overlay. Rendered ONLY inside a verified staff preview
@@ -144,10 +148,35 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     return parts[0] === "service" ? parts.slice(0, 2).join(".") : (parts[0] ?? "");
   }, [meta]);
 
-  const draftCount = useMemo(
+  const textDraftCount = useMemo(
     () => Object.values(meta).filter((m) => m.draft != null && m.draft !== m.published).length,
     [meta],
   );
+
+  /* Photo drafts count towards "unpublished changes" too — otherwise someone
+     who only swapped photos sees a disabled Publish button and no explanation. */
+  const qc = useQueryClient();
+  const { data: imageRows } = useSiteImageOverrides(true);
+  const [pageSlots, setPageSlots] = useState<string[]>([]);
+  useEffect(() => {
+    const read = () => {
+      const found = Array.from(document.querySelectorAll<HTMLElement>("[data-image-slot]"))
+        .map((n) => n.getAttribute("data-image-slot") ?? "")
+        .filter(Boolean);
+      setPageSlots((prev) => (prev.join("|") === found.join("|") ? prev : found));
+    };
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
+  const pendingImages = useMemo(
+    () => (imageRows ?? []).filter((r) => r.draft_image_path && pageSlots.includes(r.slot)),
+    [imageRows, pageSlots],
+  );
+  const draftCount = textDraftCount + pendingImages.length;
+
 
   const flash = (text: string) => {
     setToast(text);
@@ -362,11 +391,51 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     try {
       const rows = await publishAll({ data: { page } });
       rows.forEach(onSaved);
-      flash(
-        rows.length === 0
-          ? "There was nothing waiting to publish."
-          : `${rows.length} change${rows.length === 1 ? "" : "s"} are now live on the website.`,
-      );
+
+      /* Photos live in their own table, so publish those drafts here as well. */
+      let photos = 0;
+      const failures: string[] = [];
+      for (const r of pendingImages) {
+        const alt =
+          (r.draft_alt ?? "").trim() ||
+          (r.alt ?? "").trim() ||
+          (SLOTS_BY_KEY[r.slot]?.defaultAlt ?? "").trim();
+        if (!alt) {
+          failures.push(`${SLOTS_BY_KEY[r.slot]?.label ?? r.slot} (needs a description)`);
+          continue;
+        }
+        const { error } = await supabase.from("site_images").upsert(
+          {
+            slot: r.slot,
+            image_path: r.draft_image_path,
+            image_w: r.draft_image_w,
+            image_h: r.draft_image_h,
+            alt,
+            draft_image_path: null,
+            draft_image_w: null,
+            draft_image_h: null,
+            draft_alt: null,
+          } as never,
+          { onConflict: "slot" },
+        );
+        if (error) failures.push(`${SLOTS_BY_KEY[r.slot]?.label ?? r.slot} (${error.message})`);
+        else photos += 1;
+      }
+      if (photos > 0) await qc.invalidateQueries({ queryKey: ["site_images"] });
+
+      const total = rows.length + photos;
+      if (failures.length > 0) {
+        flash(
+          `${total} change${total === 1 ? "" : "s"} published. These photos could not be published: ${failures.join("; ")}`,
+        );
+      } else {
+        flash(
+          total === 0
+            ? "There was nothing waiting to publish."
+            : `${total} change${total === 1 ? "" : "s"} are now live on the website.`,
+        );
+      }
+
     } catch (err) {
       flash(err instanceof Error ? err.message : "Those changes could not be published.");
     } finally {

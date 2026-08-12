@@ -49,7 +49,10 @@ function useOverrides() {
     queryFn: async (): Promise<SiteImageRow[]> => {
       const { data, error } = await supabase
         .from("site_images")
-        .select("slot, image_path, image_w, image_h, alt, updated_at, updated_by");
+        .select(
+          "slot, image_path, image_w, image_h, alt, updated_at, updated_by, draft_image_path, draft_image_w, draft_image_h, draft_alt",
+        );
+
       if (error) throw error;
       return (data ?? []) as SiteImageRow[];
     },
@@ -65,7 +68,7 @@ function Preview({ path, src, alt }: { path?: string | null; src?: string; alt: 
     let alive = true;
     if (!path) {
       setUrl(src ?? null);
-      setFailed(false);
+      setFailed(!src);
       return;
     }
     setUrl(null);
@@ -73,12 +76,16 @@ function Preview({ path, src, alt }: { path?: string | null; src?: string; alt: 
     void getMediaUrl(path).then((u) => {
       if (!alive) return;
       if (u) setUrl(u);
-      else setFailed(true);
+      else {
+        setUrl(src ?? null);
+        setFailed(!src);
+      }
     });
     return () => {
       alive = false;
     };
   }, [path, src]);
+
 
   return (
     <div
@@ -458,9 +465,9 @@ function SiteImagesPage() {
                       style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
                     >
                       <Preview
-                        path={row?.image_path}
-                        src={row ? undefined : s.defaultSrc}
-                        alt={row?.alt ?? s.defaultAlt}
+                        path={row?.image_path ?? row?.draft_image_path}
+                        src={s.defaultSrc}
+                        alt={row?.alt || s.defaultAlt}
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
@@ -470,26 +477,31 @@ function SiteImagesPage() {
                           <span
                             className="text-[10px] font-bold uppercase tracking-wide rounded px-2 py-0.5"
                             style={
-                              row
+                              row?.image_path
                                 ? { background: "#2DA339", color: "#1A1A1A" }
-                                : {
-                                    background: "var(--crm-surface-muted)",
-                                    color: "var(--crm-text-muted)",
-                                  }
+                                : row?.draft_image_path
+                                  ? { background: "#EF7700", color: "#1A1A1A" }
+                                  : {
+                                      background: "var(--crm-surface-muted)",
+                                      color: "var(--crm-text-muted)",
+                                    }
                             }
                           >
-                            {row ? "Replaced" : "Original"}
+                            {row?.image_path ? "Replaced" : row?.draft_image_path ? "Draft waiting" : "Original"}
                           </span>
                         </div>
                         <p className="text-xs mt-1" style={{ color: "var(--crm-text-muted)" }}>
                           Recommended {ratioLabel(s.ratio)} · {s.usedIn}
                         </p>
                         <p className="text-xs mt-1" style={{ color: "var(--crm-text-muted)" }}>
-                          {row
+                          {row?.image_path
                             ? `Replaced ${georgetownLabel(row.updated_at)} · “${row.alt}”`
-                            : `“${s.defaultAlt}”`}
+                            : row?.draft_image_path
+                              ? `Draft saved ${georgetownLabel(row.updated_at)} — not published yet`
+                              : `“${s.defaultAlt}”`}
                         </p>
                       </div>
+
                       <div className="flex gap-2 shrink-0">
                         <Button
                           type="button"

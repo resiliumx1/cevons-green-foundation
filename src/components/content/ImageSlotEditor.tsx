@@ -59,15 +59,25 @@ type MediaRow = {
 /* Small resolved-path preview. */
 function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: string; alt: string; height?: number }) {
   const [url, setUrl] = useState<string | null>(src ?? null);
+  const [state, setState] = useState<"idle" | "loading" | "failed">(src ? "idle" : "idle");
   useEffect(() => {
     let alive = true;
     if (!path) {
       setUrl(src ?? null);
+      setState("idle");
       return;
     }
     setUrl(null);
+    setState("loading");
     void getMediaUrl(path).then((u) => {
-      if (alive && u) setUrl(u);
+      if (!alive) return;
+      if (u) {
+        setUrl(u);
+        setState("idle");
+      } else {
+        setUrl(src ?? null);
+        setState(src ? "idle" : "failed");
+      }
     });
     return () => {
       alive = false;
@@ -88,11 +98,14 @@ function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: s
       {url ? (
         <img src={url} alt={alt} style={{ height: "100%", width: "100%", objectFit: "cover" }} />
       ) : (
-        <span style={{ font: "600 11px system-ui, sans-serif", color: "#6B7280" }}>Loading…</span>
+        <span style={{ font: "600 11px system-ui, sans-serif", color: "#6B7280" }}>
+          {state === "loading" ? "Loading…" : state === "failed" ? "Photo unavailable" : "No photo yet"}
+        </span>
       )}
     </div>
   );
 }
+
 
 export function ImageSlotEditor({
   canPublish,
@@ -113,7 +126,10 @@ export function ImageSlotEditor({
   const [hover, setHover] = useState<{ label: string; top: number; left: number } | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [confirmPublish, setConfirmPublish] = useState(false);
+  const [altInvalid, setAltInvalid] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const altRef = useRef<HTMLInputElement | null>(null);
+
 
   const { data: rows } = useSiteImageOverrides(true);
   const row: SiteImageRow | undefined = rows?.find((r) => r.slot === activeSlot);
@@ -301,10 +317,25 @@ export function ImageSlotEditor({
       else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
-    if (alt.trim().length === 0) {
-      setNote({ tone: "error", text: "Describe the photo — screen readers need it." });
+    // Accessibility stays intact, but an empty box never blocks the save: we
+    // fall back to the description already on the slot, then to the shipped
+    // default. Only when all three are empty do we stop and say so plainly.
+    const effectiveAlt = (alt.trim() || row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    if (effectiveAlt.length === 0) {
+      setAltInvalid(true);
+      setNote({
+        tone: "error",
+        text:
+          mode === "publish"
+            ? "This photo cannot be published yet: type a short description of it first (screen readers read it aloud)."
+            : "Type a short description of this photo first (screen readers read it aloud).",
+      });
+      altRef.current?.focus();
+      altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
+    setAltInvalid(false);
+    if (alt.trim() !== effectiveAlt) setAlt(effectiveAlt);
     setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
     const payload: Record<string, string | number | null> =
       mode === "draft"
@@ -313,14 +344,14 @@ export function ImageSlotEditor({
             draft_image_path: picked.path,
             draft_image_w: picked.w,
             draft_image_h: picked.h,
-            draft_alt: alt.trim(),
+            draft_alt: effectiveAlt,
           }
         : {
             slot: activeSlot,
             image_path: picked.path,
             image_w: picked.w,
             image_h: picked.h,
-            alt: alt.trim(),
+            alt: effectiveAlt,
             draft_image_path: null,
             draft_image_w: null,
             draft_image_h: null,
@@ -329,9 +360,16 @@ export function ImageSlotEditor({
     const { error } = await supabase.from("site_images").upsert(payload as never, { onConflict: "slot" });
     setBusy(null);
     if (error) {
-      setNote({ tone: "error", text: error.message });
+      setConfirmPublish(false);
+      setNote({
+        tone: "error",
+        text:
+          (mode === "publish" ? "This photo could not be published. " : "This draft could not be saved. ") +
+          error.message,
+      });
       return;
     }
+
     await refresh();
     if (mode === "publish") setActiveSlot(null);
     else setNote({ tone: "ok", text: "Saved as a draft. Only you can see it until it is published." });
@@ -572,14 +610,20 @@ export function ImageSlotEditor({
             </label>
             <input
               id="cevons-img-alt"
+              ref={altRef}
               value={alt}
-              onChange={(e) => setAlt(e.target.value)}
+              aria-invalid={altInvalid}
+              onChange={(e) => {
+                setAlt(e.target.value);
+                if (altInvalid) setAltInvalid(false);
+              }}
               style={{
                 width: "100%",
                 minHeight: 44,
                 padding: "0 12px",
                 borderRadius: 10,
-                border: "1px solid rgba(0,0,0,0.2)",
+                border: altInvalid ? "2px solid #7F1D1D" : "1px solid rgba(0,0,0,0.2)",
+
                 background: "#fff",
                 color: INK,
                 font: "500 14px system-ui",
@@ -616,12 +660,20 @@ export function ImageSlotEditor({
 
             {note && (
               <p
-                role="status"
-                style={{ margin: "12px 0 0", font: "700 12px system-ui", color: note.tone === "ok" ? "#14532D" : "#7F1D1D" }}
+                role={note.tone === "error" ? "alert" : "status"}
+                style={{
+                  margin: "12px 0 0",
+                  padding: note.tone === "error" ? "8px 10px" : 0,
+                  borderRadius: 8,
+                  background: note.tone === "error" ? "#FEE2E2" : "transparent",
+                  font: "700 12px system-ui",
+                  color: note.tone === "ok" ? "#14532D" : "#7F1D1D",
+                }}
               >
                 {note.text}
               </p>
             )}
+
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
               <button
