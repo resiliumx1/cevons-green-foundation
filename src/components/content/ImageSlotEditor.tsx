@@ -884,9 +884,15 @@ export function ImageSlotEditor({
                 ) : (
                   <button
                     type="button"
-                    disabled={!!busy}
+                    disabled={!!busy || altMissing}
+                    title={altMissing ? "Add a photo description first" : undefined}
                     onClick={() => {
                       setNote(null);
+                      if (altMissing) {
+                        setAltInvalid(true);
+                        altRef.current?.focus();
+                        return;
+                      }
                       setConfirmPublish(true);
                     }}
                     style={{
@@ -894,15 +900,16 @@ export function ImageSlotEditor({
                       padding: "0 16px",
                       borderRadius: 10,
                       border: "none",
-                      background: "#14532D",
+                      background: altMissing ? "#6B7280" : "#14532D",
                       color: "#fff",
                       font: "800 13px system-ui",
-                      cursor: "pointer",
+                      cursor: altMissing ? "not-allowed" : "pointer",
                     }}
                   >
                     Publish this photo
                   </button>
                 )
+
               ) : (
                 <span style={{ alignSelf: "center", font: "600 12px system-ui", color: "#4B5563" }}>
                   Your role can save drafts but not publish.
