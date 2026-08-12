@@ -1079,39 +1079,39 @@ export type Database = {
       }
       site_images: {
         Row: {
-          alt: string
+          alt: string | null
           draft_alt: string | null
           draft_image_h: number | null
           draft_image_path: string | null
           draft_image_w: number | null
           image_h: number | null
-          image_path: string
+          image_path: string | null
           image_w: number | null
           slot: string
           updated_at: string
           updated_by: string | null
         }
         Insert: {
-          alt: string
+          alt?: string | null
           draft_alt?: string | null
           draft_image_h?: number | null
           draft_image_path?: string | null
           draft_image_w?: number | null
           image_h?: number | null
-          image_path: string
+          image_path?: string | null
           image_w?: number | null
           slot: string
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
-          alt?: string
+          alt?: string | null
           draft_alt?: string | null
           draft_image_h?: number | null
           draft_image_path?: string | null
           draft_image_w?: number | null
           image_h?: number | null
-          image_path?: string
+          image_path?: string | null
           image_w?: number | null
           slot?: string
           updated_at?: string
