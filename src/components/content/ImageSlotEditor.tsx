@@ -660,12 +660,20 @@ export function ImageSlotEditor({
 
             {note && (
               <p
-                role="status"
-                style={{ margin: "12px 0 0", font: "700 12px system-ui", color: note.tone === "ok" ? "#14532D" : "#7F1D1D" }}
+                role={note.tone === "error" ? "alert" : "status"}
+                style={{
+                  margin: "12px 0 0",
+                  padding: note.tone === "error" ? "8px 10px" : 0,
+                  borderRadius: 8,
+                  background: note.tone === "error" ? "#FEE2E2" : "transparent",
+                  font: "700 12px system-ui",
+                  color: note.tone === "ok" ? "#14532D" : "#7F1D1D",
+                }}
               >
                 {note.text}
               </p>
             )}
+
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
               <button
