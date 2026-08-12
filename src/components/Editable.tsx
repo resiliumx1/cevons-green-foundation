@@ -72,19 +72,29 @@ export function ContentProvider({
     setEdits((prev) => ({ ...prev, [row.key]: row }));
   }, []);
 
+  // Photos read their edit state from a standalone context so `useSiteImage`
+  // never has to import this module (that would be an import cycle).
+  const imageEditState = useMemo(
+    () => ({ preview: merged.preview === true, canPublish: merged.canPublish === true }),
+    [merged.preview, merged.canPublish],
+  );
+
   return (
     <ContentContext.Provider value={merged}>
-      {children}
-      {merged.preview && merged.meta && (
-        <ContentEditorOverlay
-          meta={merged.meta}
-          canPublish={merged.canPublish === true}
-          onSaved={onSaved}
-        />
-      )}
+      <ImageEditContext.Provider value={imageEditState}>
+        {children}
+        {merged.preview && merged.meta && (
+          <ContentEditorOverlay
+            meta={merged.meta}
+            canPublish={merged.canPublish === true}
+            onSaved={onSaved}
+          />
+        )}
+      </ImageEditContext.Provider>
     </ContentContext.Provider>
   );
 }
+
 
 export function usePageContent(): PageContent {
   return useContext(ContentContext);
