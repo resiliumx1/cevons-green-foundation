@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
 import { compressionSummary, processImage } from "@/lib/imageProcess";
+import { suggestAltFromFileName } from "@/components/content/ImageSlotEditor";
 import { georgetownLabel, GEORGETOWN_LABEL } from "@/lib/georgetown";
 import {
   RATIO_TOLERANCE,
