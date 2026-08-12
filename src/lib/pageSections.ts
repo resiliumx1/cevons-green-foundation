@@ -256,11 +256,13 @@ export type PageSection = {
   kind: string;
   position: number;
   payload: unknown;
-  draft_payload: unknown;
+  /** Staff-only. Absent on public reads — anon has no column access to drafts. */
+  draft_payload?: unknown;
   published: boolean;
   updated_at: string;
   updated_by: string | null;
 };
+
 
 /**
  * PUBLIC read. RLS already restricts anon to `published = true`; we filter
@@ -273,7 +275,7 @@ export function usePublishedSections(page: string) {
     queryFn: async (): Promise<PageSection[]> => {
       const { data, error } = await supabase
         .from("page_sections")
-        .select("id, page, kind, position, payload, draft_payload, published, updated_at, updated_by")
+        .select("id, page, kind, position, payload, published, updated_at, updated_by")
         .eq("page", page)
         .eq("published", true)
         .order("position", { ascending: true });
