@@ -233,7 +233,7 @@ export function ImageSlotEditor({ canPublish }: { canPublish: boolean }) {
       return;
     }
     setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
-    const payload =
+    const payload: Record<string, string | number | null> =
       mode === "draft"
         ? {
             slot: activeSlot,
@@ -253,7 +253,7 @@ export function ImageSlotEditor({ canPublish }: { canPublish: boolean }) {
             draft_image_h: null,
             draft_alt: null,
           };
-    const { error } = await supabase.from("site_images").upsert(payload, { onConflict: "slot" });
+    const { error } = await supabase.from("site_images").upsert(payload as never, { onConflict: "slot" });
     setBusy(null);
     if (error) {
       setNote({ tone: "error", text: error.message });
