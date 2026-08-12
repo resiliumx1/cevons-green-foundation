@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { isAdminRole, useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   LayoutGrid,
@@ -129,9 +129,6 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
 
 const nav: NavItem[] = NAV_GROUPS.flatMap((g) => g.items);
 
-/** The five destinations the mobile bar shows; the rest live behind "More". */
-const MOBILE_PRIMARY = ["/admin", "/admin/pages", "/admin/media", "/admin/leads", "/admin/traffic"];
-
 function isActivePath(pathname: string, item: NavItem) {
   return item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
 }
@@ -244,8 +241,6 @@ function CrmLayout() {
   const visibleGroups = NAV_GROUPS
     .map((g) => ({ heading: g.heading, items: g.items.filter(canSee) }))
     .filter((g) => g.items.length > 0);
-  const primaryNav = visibleNav.filter((i) => MOBILE_PRIMARY.includes(i.to));
-  const overflowNav = visibleNav.filter((i) => !MOBILE_PRIMARY.includes(i.to));
 
   // Cmd/Ctrl+K opens the global command palette
   useEffect(() => {
@@ -526,16 +521,16 @@ function ProfileMenu() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="hidden sm:flex items-center gap-3 pl-3 ml-1 border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
+          className="flex items-center gap-3 lg:pl-3 lg:ml-1 lg:border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
           style={{ borderColor: "var(--crm-border)", ["--tw-ring-color" as never]: "var(--crm-primary)" }}
           aria-label="Open account menu"
         >
-          <div className="text-right leading-tight">
+          <div className="hidden lg:block text-right leading-tight">
             <div className="text-sm font-semibold max-w-[180px] truncate" style={{ color: "var(--crm-text)" }}>{label}</div>
             <div className="text-[11px] capitalize" style={{ color: "var(--crm-text-muted)" }}>{roleLabel}</div>
           </div>
           <div
-            className="h-9 w-9 rounded-full grid place-items-center text-sm font-semibold text-white"
+            className="h-11 w-11 rounded-full grid place-items-center text-sm font-semibold text-white"
             style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
           >
             {initial}
@@ -586,14 +581,14 @@ function StatusTape() {
 
   return (
     <div className="admin-tape">
-      <span className="admin-mono admin-tape-item">CEVONS Website Admin</span>
-      <span className="admin-tape-sep" aria-hidden />
+      <span className="admin-mono admin-tape-item hidden sm:inline">CEVONS Website Admin</span>
+      <span className="admin-tape-sep hidden sm:block" aria-hidden />
       <span className="admin-mono admin-tape-item">
         Georgetown {formatGeorgetown(now, { hour: "2-digit", minute: "2-digit", hour12: false })} · UTC−4
       </span>
       <button type="button" onClick={toggleTheme} className="admin-tape-toggle admin-mono ml-auto">
         {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
-        <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+        <span className="hidden sm:inline">{theme === "dark" ? "Light mode" : "Dark mode"}</span>
       </button>
     </div>
   );
