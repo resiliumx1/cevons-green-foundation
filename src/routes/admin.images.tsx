@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
 import { compressionSummary, processImage } from "@/lib/imageProcess";
+import { suggestAltFromFileName } from "@/components/content/ImageSlotEditor";
 import { georgetownLabel, GEORGETOWN_LABEL } from "@/lib/georgetown";
 import {
   RATIO_TOLERANCE,
@@ -166,11 +167,19 @@ function ReplaceDialog({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
+      const suggestion = suggestAltFromFileName(file.name, slot.label);
+      let filled = false;
+      if (suggestion && alt.trim().length === 0) {
+        setAlt(suggestion);
+        filled = true;
+      }
       toast.success(
-        savings
-          ? `Photo uploaded and optimised (${savings}) — check the description, then save.`
-          : "Photo uploaded — check the description, then save.",
+        [
+          savings ? `Photo uploaded and optimised (${savings}).` : "Photo uploaded.",
+          filled ? "We suggested a description from the file name — edit it if needed." : "Check the description, then save.",
+        ].join(" "),
       );
+
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Upload failed.");
     } finally {

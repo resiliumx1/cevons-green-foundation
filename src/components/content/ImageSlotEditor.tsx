@@ -60,6 +60,32 @@ export function validateImageFile(file: File): string | null {
   return null;
 }
 
+/**
+ * Turns "IMG_2043 orange-skip_bin@georgetown.JPG" into
+ * "Orange skip bin georgetown" so the description box is never empty.
+ * Returns "" when the file name carries no real words (camera codes only).
+ */
+export function suggestAltFromFileName(fileName: string, slotLabel?: string): string {
+  const base = (fileName || "").replace(/\.[^.]+$/, "");
+  const words = base
+    .replace(/[_\-.@+]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .split(/\s+/)
+    .map((w) => w.trim())
+    .filter(Boolean)
+    // Drop camera/export noise: IMG, DSC, screenshots, bare numbers, hashes.
+    .filter((w) => !/^(img|dsc|dscn|pxl|photo|image|screenshot|copy|final|edited|v\d+)$/i.test(w))
+    .filter((w) => !/^\d+$/.test(w))
+    .filter((w) => !/^[0-9a-f]{8,}$/i.test(w));
+
+  const phrase = words.join(" ").replace(/\s+/g, " ").trim();
+  if (phrase.length < 3) return slotLabel ? `Photo for ${slotLabel}` : "";
+  const suggestion = phrase.charAt(0).toUpperCase() + phrase.slice(1);
+  return suggestion.slice(0, 300);
+}
+
+
+
 const IMAGE_CSS = `
 [data-image-slot] {
   outline: 2px dashed rgba(239, 119, 0, 0.7);
@@ -156,6 +182,7 @@ export function ImageSlotEditor({
   const [dragOver, setDragOver] = useState(false);
   const [confirmPublish, setConfirmPublish] = useState(false);
   const [altInvalid, setAltInvalid] = useState(false);
+  const [suggestedAlt, setSuggestedAlt] = useState("");
   const fileRef = useRef<HTMLInputElement | null>(null);
   const altRef = useRef<HTMLInputElement | null>(null);
 
@@ -207,6 +234,8 @@ export function ImageSlotEditor({
           : null,
       );
       setAlt((r?.draft_image_path ? r?.draft_alt : r?.alt) ?? d?.defaultAlt ?? "");
+      setSuggestedAlt("");
+      setAltInvalid(false);
     },
     [rows],
   );
@@ -280,6 +309,8 @@ export function ImageSlotEditor({
   }, [picked?.path, alt]);
 
   const drift = def && picked?.w && picked?.h ? ratioDrift(def.ratio, picked.w, picked.h) : 0;
+  /** Publishing a photo with an empty description is not allowed. */
+  const altMissing = !!picked && alt.trim().length === 0;
 
   const refresh = async () => {
     await qc.invalidateQueries({ queryKey: ["site_images"] });
@@ -313,12 +344,22 @@ export function ImageSlotEditor({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
+      const suggestion = suggestAltFromFileName(file.name, def?.label);
+      setSuggestedAlt(suggestion);
+      let filled = false;
+      if (suggestion && alt.trim().length === 0) {
+        setAlt(suggestion);
+        setAltInvalid(false);
+        filled = true;
+      }
       setNote({
         tone: "ok",
-        text: savings
-          ? `Photo uploaded and optimised (${savings}). Check the description, then save.`
-          : "Photo uploaded. Check the description, then save.",
+        text: [
+          savings ? `Photo uploaded and optimised (${savings}).` : "Photo uploaded.",
+          filled ? "We suggested a description from the file name — edit it if needed, then save." : "Check the description, then save.",
+        ].join(" "),
       });
+
     } catch (err) {
       setNote({ tone: "error", text: err instanceof Error ? err.message : "Upload failed." });
     } finally {
@@ -357,18 +398,31 @@ export function ImageSlotEditor({
       else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
-    // Accessibility stays intact, but an empty box never blocks the save: we
-    // fall back to the description already on the slot, then to the shipped
-    // default. Only when all three are empty do we stop and say so plainly.
-    const effectiveAlt = (alt.trim() || row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    // Publishing always needs a description typed into the box — no silent
+    // fallbacks. Drafts may still fall back to the slot's existing text or the
+    // shipped default so work in progress is never lost.
+    const typed = alt.trim();
+    const fallback = (row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    if (mode === "publish" && typed.length === 0) {
+      setAltInvalid(true);
+      if (fallback) setAlt(fallback);
+      setNote({
+        tone: "error",
+        text: fallback
+          ? "This photo cannot be published with an empty description. We’ve filled in the previous one — check it reads correctly, then publish."
+          : "This photo cannot be published yet: type a short description of it first (screen readers read it aloud).",
+      });
+      setConfirmPublish(false);
+      altRef.current?.focus();
+      altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
+    const effectiveAlt = (typed || fallback).slice(0, 300);
     if (effectiveAlt.length === 0) {
       setAltInvalid(true);
       setNote({
         tone: "error",
-        text:
-          mode === "publish"
-            ? "This photo cannot be published yet: type a short description of it first (screen readers read it aloud)."
-            : "Type a short description of this photo first (screen readers read it aloud).",
+        text: "Type a short description of this photo first (screen readers read it aloud).",
       });
       altRef.current?.focus();
       altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -376,6 +430,7 @@ export function ImageSlotEditor({
     }
     setAltInvalid(false);
     if (alt.trim() !== effectiveAlt) setAlt(effectiveAlt);
+
     setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
     const payload: Record<string, string | number | null> =
       mode === "draft"
@@ -655,13 +710,16 @@ export function ImageSlotEditor({
             </div>
 
             <label style={{ display: "block", font: "700 12px system-ui", marginBottom: 4 }} htmlFor="cevons-img-alt">
-              Describe this photo
+              Describe this photo <span style={{ color: "#7F1D1D" }}>(required to publish)</span>
             </label>
             <input
               id="cevons-img-alt"
               ref={altRef}
               value={alt}
+              required
               aria-invalid={altInvalid}
+              aria-describedby="cevons-img-alt-help"
+              placeholder="e.g. Orange CEVONS skip bin on a Georgetown worksite"
               onChange={(e) => {
                 setAlt(e.target.value);
                 if (altInvalid) setAltInvalid(false);
@@ -678,6 +736,35 @@ export function ImageSlotEditor({
                 font: "500 14px system-ui",
               }}
             />
+            {suggestedAlt && alt.trim() !== suggestedAlt && (
+              <button
+                type="button"
+                onClick={() => {
+                  setAlt(suggestedAlt);
+                  setAltInvalid(false);
+                }}
+                style={{
+                  marginTop: 8,
+                  minHeight: 36,
+                  padding: "0 12px",
+                  borderRadius: 999,
+                  border: `1px solid ${ORANGE}`,
+                  background: "#FFF4E5",
+                  color: "#7A3E00",
+                  font: "700 12px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                Use suggested: “{suggestedAlt}”
+              </button>
+            )}
+            <p id="cevons-img-alt-help" style={{ margin: "6px 0 0", font: "500 12px system-ui", color: altMissing ? "#7F1D1D" : "#4B5563" }}>
+              {altMissing
+                ? "Add a description before publishing — screen readers read it aloud."
+                : "Screen readers read this aloud, so say what is actually in the photo."}
+            </p>
+
+
 
             {library.length > 0 && (
               <>
@@ -761,21 +848,23 @@ export function ImageSlotEditor({
                     </span>
                     <button
                       type="button"
-                      disabled={!!busy}
+                      disabled={!!busy || altMissing}
+                      title={altMissing ? "Add a photo description first" : undefined}
                       onClick={() => void write("publish")}
                       style={{
                         minHeight: 44,
                         padding: "0 16px",
                         borderRadius: 10,
                         border: "none",
-                        background: "#14532D",
+                        background: altMissing ? "#6B7280" : "#14532D",
                         color: "#fff",
                         font: "800 13px system-ui",
-                        cursor: "pointer",
+                        cursor: altMissing ? "not-allowed" : "pointer",
                       }}
                     >
                       Yes, publish it
                     </button>
+
                     <button
                       type="button"
                       disabled={!!busy}
@@ -797,9 +886,15 @@ export function ImageSlotEditor({
                 ) : (
                   <button
                     type="button"
-                    disabled={!!busy}
+                    disabled={!!busy || altMissing}
+                    title={altMissing ? "Add a photo description first" : undefined}
                     onClick={() => {
                       setNote(null);
+                      if (altMissing) {
+                        setAltInvalid(true);
+                        altRef.current?.focus();
+                        return;
+                      }
                       setConfirmPublish(true);
                     }}
                     style={{
@@ -807,15 +902,16 @@ export function ImageSlotEditor({
                       padding: "0 16px",
                       borderRadius: 10,
                       border: "none",
-                      background: "#14532D",
+                      background: altMissing ? "#6B7280" : "#14532D",
                       color: "#fff",
                       font: "800 13px system-ui",
-                      cursor: "pointer",
+                      cursor: altMissing ? "not-allowed" : "pointer",
                     }}
                   >
                     Publish this photo
                   </button>
                 )
+
               ) : (
                 <span style={{ alignSelf: "center", font: "600 12px system-ui", color: "#4B5563" }}>
                   Your role can save drafts but not publish.
