@@ -82,6 +82,9 @@ export function suggestAltFromFileName(fileName: string, slotLabel?: string): st
   if (phrase.length < 3) return slotLabel ? `Photo for ${slotLabel}` : "";
   const suggestion = phrase.charAt(0).toUpperCase() + phrase.slice(1);
   return suggestion.slice(0, 300);
+}
+
+
 
 const IMAGE_CSS = `
 [data-image-slot] {
