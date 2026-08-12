@@ -8,7 +8,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { processImage } from "@/lib/imageProcess";
+import { compressionSummary, processImage } from "@/lib/imageProcess";
 import { georgetownLabel, GEORGETOWN_LABEL } from "@/lib/georgetown";
 import {
   RATIO_TOLERANCE,
