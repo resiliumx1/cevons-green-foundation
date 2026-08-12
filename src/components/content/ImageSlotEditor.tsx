@@ -569,8 +569,16 @@ export function ImageSlotEditor({
               onDrop={(e) => {
                 e.preventDefault();
                 setDragOver(false);
-                const f = e.dataTransfer.files?.[0];
-                if (f) void upload(f);
+                const files = e.dataTransfer.files;
+                if (!files || files.length === 0) {
+                  setNote({ tone: "error", text: "We couldn’t read that. Please drop a single photo file." });
+                  return;
+                }
+                if (files.length > 1) {
+                  setNote({ tone: "error", text: "Please drop one photo at a time." });
+                  return;
+                }
+                void upload(files[0]);
               }}
               style={{
                 margin: "12px 0",
