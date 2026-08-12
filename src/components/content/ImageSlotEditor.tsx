@@ -273,7 +273,32 @@ export function ImageSlotEditor({
   async function write(mode: "draft" | "publish") {
     if (!activeSlot) return;
     if (!picked) {
-      setNote({ tone: "error", text: "Choose or upload a photo first." });
+      // Reverting to the photo that ships with the page: clear the override.
+      setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
+      const clear =
+        mode === "draft"
+          ? { slot: activeSlot, draft_image_path: null, draft_image_w: null, draft_image_h: null, draft_alt: null }
+          : {
+              slot: activeSlot,
+              image_path: null,
+              image_w: null,
+              image_h: null,
+              alt: null,
+              draft_image_path: null,
+              draft_image_w: null,
+              draft_image_h: null,
+              draft_alt: null,
+            };
+      const { error: clearErr } = await supabase.from("site_images").upsert(clear as never, { onConflict: "slot" });
+      setBusy(null);
+      if (clearErr) {
+        setNote({ tone: "error", text: clearErr.message });
+        return;
+      }
+      await refresh();
+      setConfirmPublish(false);
+      if (mode === "publish") setActiveSlot(null);
+      else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
     if (alt.trim().length === 0) {
@@ -384,7 +409,27 @@ export function ImageSlotEditor({
 
   const picker = (
     <>
-
+      {hover && !activeSlot && (
+        <div
+          data-content-ui
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            top: hover.top,
+            left: hover.left,
+            zIndex: 2147483000,
+            pointerEvents: "none",
+            padding: "6px 10px",
+            borderRadius: 999,
+            background: ORANGE,
+            color: "#1A1A1A",
+            font: "800 12px/1.2 system-ui, sans-serif",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.28)",
+          }}
+        >
+          Click to change: {hover.label}
+        </div>
+      )}
 
       {/* Picker */}
       {activeSlot && def && (
@@ -653,10 +698,6 @@ export function ImageSlotEditor({
                     type="button"
                     disabled={!!busy}
                     onClick={() => {
-                      if (!picked) {
-                        setNote({ tone: "error", text: "Choose or upload a photo first." });
-                        return;
-                      }
                       setNote(null);
                       setConfirmPublish(true);
                     }}
