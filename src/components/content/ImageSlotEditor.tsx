@@ -314,10 +314,25 @@ export function ImageSlotEditor({
       else setNote({ tone: "ok", text: "Saved as a draft — back to the original photo." });
       return;
     }
-    if (alt.trim().length === 0) {
-      setNote({ tone: "error", text: "Describe the photo — screen readers need it." });
+    // Accessibility stays intact, but an empty box never blocks the save: we
+    // fall back to the description already on the slot, then to the shipped
+    // default. Only when all three are empty do we stop and say so plainly.
+    const effectiveAlt = (alt.trim() || row?.alt?.trim() || def?.defaultAlt?.trim() || "").slice(0, 300);
+    if (effectiveAlt.length === 0) {
+      setAltInvalid(true);
+      setNote({
+        tone: "error",
+        text:
+          mode === "publish"
+            ? "This photo cannot be published yet: type a short description of it first (screen readers read it aloud)."
+            : "Type a short description of this photo first (screen readers read it aloud).",
+      });
+      altRef.current?.focus();
+      altRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
+    setAltInvalid(false);
+    if (alt.trim() !== effectiveAlt) setAlt(effectiveAlt);
     setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
     const payload: Record<string, string | number | null> =
       mode === "draft"
@@ -326,14 +341,14 @@ export function ImageSlotEditor({
             draft_image_path: picked.path,
             draft_image_w: picked.w,
             draft_image_h: picked.h,
-            draft_alt: alt.trim(),
+            draft_alt: effectiveAlt,
           }
         : {
             slot: activeSlot,
             image_path: picked.path,
             image_w: picked.w,
             image_h: picked.h,
-            alt: alt.trim(),
+            alt: effectiveAlt,
             draft_image_path: null,
             draft_image_w: null,
             draft_image_h: null,
@@ -342,9 +357,16 @@ export function ImageSlotEditor({
     const { error } = await supabase.from("site_images").upsert(payload as never, { onConflict: "slot" });
     setBusy(null);
     if (error) {
-      setNote({ tone: "error", text: error.message });
+      setConfirmPublish(false);
+      setNote({
+        tone: "error",
+        text:
+          (mode === "publish" ? "This photo could not be published. " : "This draft could not be saved. ") +
+          error.message,
+      });
       return;
     }
+
     await refresh();
     if (mode === "publish") setActiveSlot(null);
     else setNote({ tone: "ok", text: "Saved as a draft. Only you can see it until it is published." });
