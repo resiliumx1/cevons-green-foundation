@@ -65,7 +65,7 @@ function Preview({ path, src, alt }: { path?: string | null; src?: string; alt: 
     let alive = true;
     if (!path) {
       setUrl(src ?? null);
-      setFailed(false);
+      setFailed(!src);
       return;
     }
     setUrl(null);
@@ -73,12 +73,16 @@ function Preview({ path, src, alt }: { path?: string | null; src?: string; alt: 
     void getMediaUrl(path).then((u) => {
       if (!alive) return;
       if (u) setUrl(u);
-      else setFailed(true);
+      else {
+        setUrl(src ?? null);
+        setFailed(!src);
+      }
     });
     return () => {
       alive = false;
     };
   }, [path, src]);
+
 
   return (
     <div
