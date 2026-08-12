@@ -82,6 +82,19 @@ const OVERLAY_CSS = `
 
 type SectionEntry = { section: string; key: string };
 
+/** True on phone-sized screens, where the overlay becomes one bottom sheet. */
+function useNarrow(): boolean {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767.98px)");
+    const read = () => setNarrow(mq.matches);
+    read();
+    mq.addEventListener("change", read);
+    return () => mq.removeEventListener("change", read);
+  }, []);
+  return narrow;
+}
+
 /** "trust-bar" -> "Trust bar". Derived from the section names already stored. */
 function prettySection(raw: string): string {
   const t = raw.replace(/[-_]+/g, " ").trim();
@@ -95,6 +108,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const [status, setStatus] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [sheetTab, setSheetTab] = useState<"sections" | "photos">("sections");
   const [helpOpen, setHelpOpen] = useState(false);
   const [sections, setSections] = useState<SectionEntry[]>([]);
   const [anchor, setAnchor] = useState<{ top: number; left: number } | null>(null);
@@ -111,6 +125,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
   const publishAll = useServerFn(publishPageDrafts);
   const discard = useServerFn(discardContentDraft);
 
+  const narrow = useNarrow();
   const active = activeKey ? meta[activeKey] : undefined;
   const label = active?.label ?? activeKey ?? "";
   const maxLength = active?.maxLength ?? null;
