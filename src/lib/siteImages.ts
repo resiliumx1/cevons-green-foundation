@@ -305,8 +305,6 @@ export function useSiteImage(
   const { preview } = useImageEditing();
   const editorProps: Record<string, string> =
     preview && def ? { "data-image-slot": slot } : {};
-
-  const editorProps = preview && def ? { "data-image-slot": slot } : {};
   const base: ResolvedSiteImage = {
     src: fallbackSrc ?? def?.defaultSrc ?? "",
     alt: fallbackAlt ?? def?.defaultAlt ?? "",
