@@ -3696,3 +3696,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 }
 .cev-sheet input,
 .cev-sheet textarea { font-size: 16px; }
+
+/* Switches keep their compact look but get a full 44px tap area. */
+[data-crm-theme] button[role="switch"] { position: relative; }
+[data-crm-theme] button[role="switch"]::after { content: ""; position: absolute; inset: -12px; }
+
+@media (max-width: 1023.98px) {
+  /* Drawer nav is primary navigation — read it at body size. */
+  [data-crm-theme] .crm-nav-item { font-size: 15px; }
+}
