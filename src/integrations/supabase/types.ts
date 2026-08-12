@@ -1080,6 +1080,10 @@ export type Database = {
       site_images: {
         Row: {
           alt: string
+          draft_alt: string | null
+          draft_image_h: number | null
+          draft_image_path: string | null
+          draft_image_w: number | null
           image_h: number | null
           image_path: string
           image_w: number | null
@@ -1089,6 +1093,10 @@ export type Database = {
         }
         Insert: {
           alt: string
+          draft_alt?: string | null
+          draft_image_h?: number | null
+          draft_image_path?: string | null
+          draft_image_w?: number | null
           image_h?: number | null
           image_path: string
           image_w?: number | null
@@ -1098,6 +1106,10 @@ export type Database = {
         }
         Update: {
           alt?: string
+          draft_alt?: string | null
+          draft_image_h?: number | null
+          draft_image_path?: string | null
+          draft_image_w?: number | null
           image_h?: number | null
           image_path?: string
           image_w?: number | null
