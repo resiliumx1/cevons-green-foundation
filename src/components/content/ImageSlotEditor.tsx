@@ -94,7 +94,14 @@ function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: s
   );
 }
 
-export function ImageSlotEditor({ canPublish }: { canPublish: boolean }) {
+export function ImageSlotEditor({
+  canPublish,
+  variant = "floating",
+}: {
+  canPublish: boolean;
+  /** "inline" drops the floating launcher so a parent sheet can host the list. */
+  variant?: "floating" | "inline";
+}) {
   const qc = useQueryClient();
   const [slots, setSlots] = useState<string[]>([]);
   const [activeSlot, setActiveSlot] = useState<string | null>(null);
@@ -292,37 +299,9 @@ export function ImageSlotEditor({ canPublish }: { canPublish: boolean }) {
 
   if (slots.length === 0) return null;
 
-  return (
+  const photoList = (
     <>
-      {/* Launcher + list of the photos on this page */}
-      <div
-        data-content-ui
-        style={{
-          position: "fixed",
-          right: 16,
-          bottom: 16,
-          zIndex: 2147483000,
-          font: "500 13px/1.4 system-ui, sans-serif",
-        }}
-      >
-        {panelOpen && (
-          <div
-            style={{
-              width: 260,
-              maxHeight: "50vh",
-              overflowY: "auto",
-              marginBottom: 8,
-              background: PAPER,
-              color: INK,
-              borderRadius: 12,
-              boxShadow: "0 18px 48px rgba(0,0,0,0.32)",
-              padding: 12,
-            }}
-          >
-            <p style={{ font: "800 11px/1.4 system-ui", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 8px" }}>
-              Photos on this page
-            </p>
-            {slots.map((s) => {
+      {slots.map((s) => {
               const d = SLOTS_BY_KEY[s];
               const staged = rows?.some((r) => r.slot === s && r.draft_image_path);
               return (
