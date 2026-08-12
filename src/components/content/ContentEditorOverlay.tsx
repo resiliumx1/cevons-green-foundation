@@ -8,6 +8,7 @@ import {
   type ContentMeta,
   type SavedString,
 } from "@/lib/content.functions";
+import { ImageSlotEditor } from "@/components/content/ImageSlotEditor";
 
 /**
  * On-page editing overlay. Rendered ONLY inside a verified staff preview
