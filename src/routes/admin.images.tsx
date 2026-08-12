@@ -113,7 +113,7 @@ function ReplaceDialog({
 }) {
   const [alt, setAlt] = useState(current?.alt ?? slot.defaultAlt);
   const [picked, setPicked] = useState<{ path: string; w: number | null; h: number | null } | null>(
-    current ? { path: current.image_path, w: current.image_w, h: current.image_h } : null,
+    current?.image_path ? { path: current.image_path, w: current.image_w, h: current.image_h } : null,
   );
   const [busy, setBusy] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);

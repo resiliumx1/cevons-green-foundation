@@ -9,13 +9,18 @@ import imgRel0 from "@/assets/svc-dumpster.jpg";
 import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
 import imgSkip10Asset from "@/assets/skip-10yd-diagram.png.asset.json";
-import imgDumpster20Asset from "@/assets/dumpster-20yd-diagram.png.asset.json";
-import imgDumpster52Asset from "@/assets/dumpster-20yd.webp.asset.json";
+// The 20 cu yd diagram is the client's own "20 Cubic Yard Dumpster" artwork.
+import imgDumpster20Asset from "@/assets/dumpster-20yd.webp.asset.json";
+// There is NO 52 cu yd image in the library, so this card uses a neutral
+// CEVONS roll-off photo that makes no size claim rather than a diagram
+// labelled with the wrong capacity.
+import imgDumpster52Asset from "@/assets/cevons-red-truck-industrial.webp.asset.json";
 
 const imgHero = (imgHeroAsset as { url: string }).url;
 const imgSkip10 = imgSkip10Asset as { url: string };
 const imgDumpster20 = imgDumpster20Asset as { url: string };
 const imgDumpster52 = imgDumpster52Asset as { url: string };
+
 
 const PAGE_TITLE = "Skip Bin & Dumpster Rental in Guyana | CEVONS";
 const PAGE_DESC = "Commercial roll-off dumpsters from 10 to 52 cubic yards for construction, demolition, and industrial cleanups across Guyana.";
@@ -75,14 +80,22 @@ const sizeOptions: BinSizeOption[] = [
     imageAlt: "CEVONS 10 cubic yard orange skip bin with dimensions labelled",
   },
   {
-    // Dimensions, capacity and use cases are deliberately absent: we have no
-    // client-confirmed figures for this container and will not guess them.
+    // Dimensions are deliberately absent: we have no client-confirmed
+    // L×W×H for this container and will not guess it. Everything below is
+    // true by arithmetic or by the container's position in the fleet.
     id: "dumpster-20",
     label: "20 cu yd Roll-off",
     tagline: "The mid-size roll-off in the CEVONS fleet",
+    capacity: "Twice the volume of the 10 cubic yard skip bin",
+    bestFor: [
+      "More capacity than the 10 cu yd skip bin",
+      "A smaller footprint than the 52 cu yd roll-off",
+      "Ongoing site waste and larger clean-outs",
+    ],
     image: imgDumpster20.url,
     imageAlt: "CEVONS 20 cubic yard orange roll-off dumpster",
   },
+
   {
     id: "dumpster-52",
     label: "52 cu yd Roll-off",
@@ -95,7 +108,8 @@ const sizeOptions: BinSizeOption[] = [
       "Sites where a smaller bin would mean back-to-back swap-outs",
     ],
     image: imgDumpster52.url,
-    imageAlt: "CEVONS 52 cubic yard roll-off — the largest dumpster in Guyana",
+    imageAlt: "CEVONS haulage truck with a roll-off container on an industrial site in Guyana",
+
   },
 ];
 

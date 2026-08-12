@@ -8,6 +8,7 @@ import {
   type ContentMeta,
   type SavedString,
 } from "@/lib/content.functions";
+import { ImageSlotEditor } from "@/components/content/ImageSlotEditor";
 
 /**
  * On-page editing overlay. Rendered ONLY inside a verified staff preview
@@ -548,6 +549,9 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
 
+      {/* ── Photos on this page ───────────────────────────────────────── */}
+      <ImageSlotEditor canPublish={canPublish} />
+
       {/* ── Toast ─────────────────────────────────────────────────────── */}
       {toast && (
         <div data-content-ui role="status" aria-live="polite" style={toastStyle}>
@@ -555,6 +559,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
     </>
+
   );
 }
 

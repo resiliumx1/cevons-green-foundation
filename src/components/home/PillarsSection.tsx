@@ -16,6 +16,8 @@ export type PillarItem = {
   img?: string;
   /** Storage path from the media library (CRM-managed content). */
   imagePath?: string;
+  /** Editor hooks from `useSiteImage` — empty on the public site. */
+  imgProps?: Record<string, string>;
   iconKey: CevonsCategoryKey;
 };
 
@@ -27,6 +29,7 @@ function PillarCard({ item, exploreLabel }: { item: PillarItem; exploreLabel: st
       <div className="relative aspect-[4/3] overflow-hidden">
         {src && (
           <img
+            {...(item.imgProps ?? {})}
             src={src}
             alt={`${item.title} waste management services in Guyana`}
             loading="lazy"

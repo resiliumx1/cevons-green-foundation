@@ -1,0 +1,594 @@
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
+import { processImage } from "@/lib/imageProcess";
+import {
+  RATIO_TOLERANCE,
+  ratioDrift,
+  ratioLabel,
+  SLOTS_BY_KEY,
+  useSiteImageOverrides,
+  type SiteImageRow,
+} from "@/lib/siteImages";
+
+/**
+ * PHOTO EDITING, ON THE PAGE ITSELF.
+ *
+ * Mounted by the content editor overlay, so it exists only inside a verified
+ * staff preview session. Every photo that comes from the named-slot registry
+ * (`useSiteImage`) renders with `data-image-slot`, which is all this needs to
+ * outline it, list it and open a picker for it.
+ *
+ * Draft / publish works exactly like the copy editor:
+ *   • Save as draft   -> draft_* columns; visible only in preview
+ *   • Publish         -> live columns; blocked by the DB trigger unless the
+ *                        signed-in staff member has publishing rights
+ *   • Discard draft   -> clears the draft, page falls back to what is live
+ */
+
+const ORANGE = "#EF7700";
+const INK = "#111214";
+const PAPER = "#F5F5F5";
+
+const IMAGE_CSS = `
+[data-image-slot] {
+  outline: 2px dashed rgba(239, 119, 0, 0.7);
+  outline-offset: -3px;
+  cursor: pointer;
+  transition: outline-color 120ms ease;
+}
+[data-image-slot]:hover {
+  outline: 3px solid ${ORANGE};
+}
+[data-image-slot][data-image-flash="true"] {
+  outline: 4px solid ${ORANGE};
+}
+`;
+
+type Picked = { path: string; w: number | null; h: number | null };
+
+type MediaRow = {
+  id: string;
+  title: string;
+  image_path: string | null;
+  image_w: number | null;
+  image_h: number | null;
+};
+
+/* Small resolved-path preview. */
+function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: string; alt: string; height?: number }) {
+  const [url, setUrl] = useState<string | null>(src ?? null);
+  useEffect(() => {
+    let alive = true;
+    if (!path) {
+      setUrl(src ?? null);
+      return;
+    }
+    setUrl(null);
+    void getMediaUrl(path).then((u) => {
+      if (alive && u) setUrl(u);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [path, src]);
+  return (
+    <div
+      style={{
+        height,
+        width: "100%",
+        borderRadius: 10,
+        overflow: "hidden",
+        background: "#E4E4E7",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
+      {url ? (
+        <img src={url} alt={alt} style={{ height: "100%", width: "100%", objectFit: "cover" }} />
+      ) : (
+        <span style={{ font: "600 11px system-ui, sans-serif", color: "#6B7280" }}>Loading…</span>
+      )}
+    </div>
+  );
+}
+
+export function ImageSlotEditor({ canPublish }: { canPublish: boolean }) {
+  const qc = useQueryClient();
+  const [slots, setSlots] = useState<string[]>([]);
+  const [activeSlot, setActiveSlot] = useState<string | null>(null);
+  const [picked, setPicked] = useState<Picked | null>(null);
+  const [alt, setAlt] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [note, setNote] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
+  const { data: rows } = useSiteImageOverrides(true);
+  const row: SiteImageRow | undefined = rows?.find((r) => r.slot === activeSlot);
+  const def = activeSlot ? SLOTS_BY_KEY[activeSlot] : undefined;
+  const hasDraft = !!row?.draft_image_path;
+
+  /* Inject the outline styles for as long as the editor is mounted. */
+  useEffect(() => {
+    const el = document.createElement("style");
+    el.textContent = IMAGE_CSS;
+    document.head.appendChild(el);
+    return () => el.remove();
+  }, []);
+
+  /* Collect the photo slots present on this page, in document order. */
+  useLayoutEffect(() => {
+    const read = () => {
+      const found = Array.from(document.querySelectorAll<HTMLElement>("[data-image-slot]"))
+        .map((el) => el.getAttribute("data-image-slot") ?? "")
+        .filter(Boolean);
+      setSlots(Array.from(new Set(found)));
+    };
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
+  const open = useCallback(
+    (slot: string) => {
+      const r = rows?.find((x) => x.slot === slot);
+      const d = SLOTS_BY_KEY[slot];
+      const path = r?.draft_image_path ?? r?.image_path ?? null;
+      setActiveSlot(slot);
+      setNote(null);
+      setPicked(
+        path
+          ? {
+              path,
+              w: (r?.draft_image_path ? r?.draft_image_w : r?.image_w) ?? null,
+              h: (r?.draft_image_path ? r?.draft_image_h : r?.image_h) ?? null,
+            }
+          : null,
+      );
+      setAlt((r?.draft_image_path ? r?.draft_alt : r?.alt) ?? d?.defaultAlt ?? "");
+    },
+    [rows],
+  );
+
+  /* Click a photo on the page to edit it. Capture phase so a photo inside a
+     link or a slider control still opens the picker instead of navigating. */
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || target.closest("[data-content-ui]")) return;
+      const node = target.closest<HTMLElement>("[data-image-slot]");
+      if (!node) return;
+      const slot = node.getAttribute("data-image-slot");
+      if (!slot) return;
+      e.preventDefault();
+      e.stopPropagation();
+      open(slot);
+    };
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [open]);
+
+  const { data: library = [] } = useQuery({
+    queryKey: ["content-editor-media-library"],
+    enabled: activeSlot != null,
+    queryFn: async (): Promise<MediaRow[]> => {
+      const { data, error } = await supabase
+        .from("media_posts")
+        .select("id, title, image_path, image_w, image_h")
+        .not("image_path", "is", null)
+        .order("created_at", { ascending: false })
+        .limit(60);
+      if (error) throw error;
+      return (data ?? []) as MediaRow[];
+    },
+  });
+
+  const drift = def && picked?.w && picked?.h ? ratioDrift(def.ratio, picked.w, picked.h) : 0;
+
+  const refresh = async () => {
+    await qc.invalidateQueries({ queryKey: ["site_images"] });
+  };
+
+  async function upload(file: File) {
+    if (!activeSlot) return;
+    try {
+      setBusy("Optimising photo…");
+      const processed = await processImage(file);
+      setBusy("Uploading…");
+      const path = `site-images/${activeSlot}/${crypto.randomUUID()}.${processed.ext}`;
+      const { error } = await supabase.storage
+        .from(MEDIA_BUCKET)
+        .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+      if (error) throw error;
+      await supabase.from("media_posts").insert({
+        kind: "gallery",
+        title: `${def?.label ?? activeSlot} — ${file.name.replace(/\.[^.]+$/, "")}`.slice(0, 120),
+        caption: "",
+        image_path: path,
+        image_w: processed.width,
+        image_h: processed.height,
+        published: false,
+        sort_order: 0,
+      });
+      setPicked({ path, w: processed.width, h: processed.height });
+      setNote({ tone: "ok", text: "Photo uploaded. Check the description, then save." });
+    } catch (err) {
+      setNote({ tone: "error", text: err instanceof Error ? err.message : "Upload failed." });
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function write(mode: "draft" | "publish") {
+    if (!activeSlot) return;
+    if (!picked) {
+      setNote({ tone: "error", text: "Choose or upload a photo first." });
+      return;
+    }
+    if (alt.trim().length === 0) {
+      setNote({ tone: "error", text: "Describe the photo — screen readers need it." });
+      return;
+    }
+    setBusy(mode === "draft" ? "Saving draft…" : "Publishing…");
+    const payload: Record<string, string | number | null> =
+      mode === "draft"
+        ? {
+            slot: activeSlot,
+            draft_image_path: picked.path,
+            draft_image_w: picked.w,
+            draft_image_h: picked.h,
+            draft_alt: alt.trim(),
+          }
+        : {
+            slot: activeSlot,
+            image_path: picked.path,
+            image_w: picked.w,
+            image_h: picked.h,
+            alt: alt.trim(),
+            draft_image_path: null,
+            draft_image_w: null,
+            draft_image_h: null,
+            draft_alt: null,
+          };
+    const { error } = await supabase.from("site_images").upsert(payload as never, { onConflict: "slot" });
+    setBusy(null);
+    if (error) {
+      setNote({ tone: "error", text: error.message });
+      return;
+    }
+    await refresh();
+    if (mode === "publish") setActiveSlot(null);
+    else setNote({ tone: "ok", text: "Saved as a draft. Only you can see it until it is published." });
+  }
+
+  async function discard() {
+    if (!activeSlot) return;
+    setBusy("Discarding…");
+    const { error } = await supabase
+      .from("site_images")
+      .update({
+        draft_image_path: null,
+        draft_image_w: null,
+        draft_image_h: null,
+        draft_alt: null,
+      })
+      .eq("slot", activeSlot);
+    setBusy(null);
+    if (error) {
+      setNote({ tone: "error", text: error.message });
+      return;
+    }
+    await refresh();
+    setActiveSlot(null);
+  }
+
+  const draftCount = useMemo(
+    () => slots.filter((s) => rows?.some((r) => r.slot === s && r.draft_image_path)).length,
+    [slots, rows],
+  );
+
+  if (slots.length === 0) return null;
+
+  return (
+    <>
+      {/* Launcher + list of the photos on this page */}
+      <div
+        data-content-ui
+        style={{
+          position: "fixed",
+          right: 16,
+          bottom: 16,
+          zIndex: 2147483000,
+          font: "500 13px/1.4 system-ui, sans-serif",
+        }}
+      >
+        {panelOpen && (
+          <div
+            style={{
+              width: 260,
+              maxHeight: "50vh",
+              overflowY: "auto",
+              marginBottom: 8,
+              background: PAPER,
+              color: INK,
+              borderRadius: 12,
+              boxShadow: "0 18px 48px rgba(0,0,0,0.32)",
+              padding: 12,
+            }}
+          >
+            <p style={{ font: "800 11px/1.4 system-ui", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 8px" }}>
+              Photos on this page
+            </p>
+            {slots.map((s) => {
+              const d = SLOTS_BY_KEY[s];
+              const staged = rows?.some((r) => r.slot === s && r.draft_image_path);
+              return (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    const node = document.querySelector<HTMLElement>(`[data-image-slot="${s}"]`);
+                    node?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    node?.setAttribute("data-image-flash", "true");
+                    window.setTimeout(() => node?.removeAttribute("data-image-flash"), 1200);
+                    open(s);
+                  }}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    textAlign: "left",
+                    padding: "8px 10px",
+                    marginBottom: 4,
+                    borderRadius: 8,
+                    border: "1px solid rgba(0,0,0,0.10)",
+                    background: "#fff",
+                    color: INK,
+                    cursor: "pointer",
+                    minHeight: 44,
+                  }}
+                >
+                  {d?.label ?? s}
+                  {staged && (
+                    <span style={{ display: "block", font: "700 10px system-ui", color: "#8A4B00" }}>
+                      Draft waiting
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setPanelOpen((v) => !v)}
+          style={{
+            minHeight: 44,
+            padding: "0 16px",
+            borderRadius: 999,
+            border: "none",
+            background: ORANGE,
+            color: "#1A1A1A",
+            font: "800 13px system-ui, sans-serif",
+            cursor: "pointer",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.28)",
+          }}
+        >
+          {panelOpen ? "Hide photos" : `Photos (${slots.length}${draftCount ? ` · ${draftCount} draft` : ""})`}
+        </button>
+      </div>
+
+      {/* Picker */}
+      {activeSlot && def && (
+        <div
+          data-content-ui
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Change ${def.label}`}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 2147483100,
+            background: "rgba(0,0,0,0.6)",
+            display: "grid",
+            placeItems: "center",
+            padding: 16,
+            font: "500 14px/1.5 system-ui, sans-serif",
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setActiveSlot(null);
+          }}
+        >
+          <div
+            style={{
+              width: "min(680px, 100%)",
+              maxHeight: "88vh",
+              overflowY: "auto",
+              background: PAPER,
+              color: INK,
+              borderRadius: 16,
+              padding: 18,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
+              <div>
+                <h2 style={{ font: "800 17px/1.2 system-ui", margin: 0 }}>Change “{def.label}”</h2>
+                <p style={{ margin: "4px 0 0", font: "500 12px system-ui", color: "#4B5563" }}>
+                  Recommended shape {ratioLabel(def.ratio)}. Photos are resized automatically.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveSlot(null)}
+                aria-label="Close"
+                style={{ minWidth: 44, minHeight: 44, border: "none", background: "transparent", cursor: "pointer", font: "700 18px system-ui" }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <Thumb path={picked?.path} src={picked ? undefined : def.defaultSrc} alt="" height={180} />
+
+            {drift > RATIO_TOLERANCE && (
+              <p style={{ margin: "8px 0 0", font: "700 12px system-ui", color: "#8A4B00" }}>
+                This photo is a different shape to the space it fills, so parts of it will be cropped.
+              </p>
+            )}
+
+            <div style={{ display: "flex", gap: 8, alignItems: "center", margin: "12px 0" }}>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void upload(f);
+                  e.target.value = "";
+                }}
+              />
+              <button
+                type="button"
+                disabled={!!busy}
+                onClick={() => fileRef.current?.click()}
+                style={{
+                  minHeight: 44,
+                  padding: "0 16px",
+                  borderRadius: 10,
+                  border: "none",
+                  background: INK,
+                  color: "#fff",
+                  font: "700 13px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                Upload a photo
+              </button>
+              {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
+            </div>
+
+            <label style={{ display: "block", font: "700 12px system-ui", marginBottom: 4 }} htmlFor="cevons-img-alt">
+              Describe this photo
+            </label>
+            <input
+              id="cevons-img-alt"
+              value={alt}
+              onChange={(e) => setAlt(e.target.value)}
+              style={{
+                width: "100%",
+                minHeight: 44,
+                padding: "0 12px",
+                borderRadius: 10,
+                border: "1px solid rgba(0,0,0,0.2)",
+                background: "#fff",
+                color: INK,
+                font: "500 14px system-ui",
+              }}
+            />
+
+            {library.length > 0 && (
+              <>
+                <p style={{ font: "800 11px system-ui", letterSpacing: "0.08em", textTransform: "uppercase", margin: "16px 0 8px" }}>
+                  Or pick one already uploaded
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: 8 }}>
+                  {library.map((m) => (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => setPicked({ path: m.image_path!, w: m.image_w, h: m.image_h })}
+                      title={m.title}
+                      style={{
+                        padding: 0,
+                        border: picked?.path === m.image_path ? `3px solid ${ORANGE}` : "1px solid rgba(0,0,0,0.15)",
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        background: "#fff",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Thumb path={m.image_path} alt={m.title} height={74} />
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {note && (
+              <p
+                role="status"
+                style={{ margin: "12px 0 0", font: "700 12px system-ui", color: note.tone === "ok" ? "#14532D" : "#7F1D1D" }}
+              >
+                {note.text}
+              </p>
+            )}
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+              <button
+                type="button"
+                disabled={!!busy}
+                onClick={() => void write("draft")}
+                style={{
+                  minHeight: 44,
+                  padding: "0 16px",
+                  borderRadius: 10,
+                  border: "none",
+                  background: ORANGE,
+                  color: "#1A1A1A",
+                  font: "800 13px system-ui",
+                  cursor: "pointer",
+                }}
+              >
+                Save as draft
+              </button>
+              {canPublish ? (
+                <button
+                  type="button"
+                  disabled={!!busy}
+                  onClick={() => void write("publish")}
+                  style={{
+                    minHeight: 44,
+                    padding: "0 16px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: "#14532D",
+                    color: "#fff",
+                    font: "800 13px system-ui",
+                    cursor: "pointer",
+                  }}
+                >
+                  Publish this photo
+                </button>
+              ) : (
+                <span style={{ alignSelf: "center", font: "600 12px system-ui", color: "#4B5563" }}>
+                  Your role can save drafts but not publish.
+                </span>
+              )}
+              {hasDraft && (
+                <button
+                  type="button"
+                  disabled={!!busy}
+                  onClick={() => void discard()}
+                  style={{
+                    minHeight: 44,
+                    padding: "0 16px",
+                    borderRadius: 10,
+                    border: "1px solid rgba(0,0,0,0.2)",
+                    background: "#fff",
+                    color: INK,
+                    font: "700 13px system-ui",
+                    cursor: "pointer",
+                  }}
+                >
+                  Discard draft
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

@@ -129,6 +129,7 @@ function AboutPageInner() {
       <section className="relative overflow-hidden min-h-[70vh] md:min-h-[82vh] flex items-center" aria-labelledby="about-h1">
         <div className="absolute inset-0">
           <img
+            {...hero.editorProps}
             src={hero.src}
             alt={hero.alt}
             className="size-full object-cover hero-img hero-img-mobile"
