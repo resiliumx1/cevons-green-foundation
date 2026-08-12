@@ -233,26 +233,40 @@ export function slotsByPage(): Array<{ page: string; slots: SlotDef[] }> {
 
 export type SiteImageRow = {
   slot: string;
-  image_path: string;
+  image_path: string | null;
   image_w: number | null;
   image_h: number | null;
-  alt: string;
+  alt: string | null;
   updated_at: string;
-  updated_by: string | null;
+  updated_by?: string | null;
+  /* Staff preview only — anon has no column privilege on these. */
+  draft_image_path?: string | null;
+  draft_image_w?: number | null;
+  draft_image_h?: number | null;
+  draft_alt?: string | null;
 };
 
-/** All overrides, one query, cached. Empty result = the site uses defaults. */
-export function useSiteImageOverrides() {
+/** Columns a visitor is allowed to read. Must match the anon column grant. */
+const PUBLIC_COLUMNS = "slot, image_path, image_w, image_h, alt, updated_at";
+const STAFF_COLUMNS = `${PUBLIC_COLUMNS}, updated_by, draft_image_path, draft_image_w, draft_image_h, draft_alt`;
+
+/**
+ * All overrides, one query, cached. Empty result = the site uses defaults.
+ *
+ * In a staff preview session the draft columns come along too, so the editor
+ * can show a staged photo before it is published.
+ */
+export function useSiteImageOverrides(preview = false) {
   return useQuery({
-    queryKey: ["site_images"],
+    queryKey: ["site_images", preview],
     queryFn: async (): Promise<SiteImageRow[]> => {
       const { data, error } = await supabase
         .from("site_images")
-        .select("slot, image_path, image_w, image_h, alt, updated_at, updated_by");
+        .select(preview ? STAFF_COLUMNS : PUBLIC_COLUMNS);
       if (error) throw error;
       return (data ?? []) as SiteImageRow[];
     },
-    staleTime: 5 * 60_000,
+    staleTime: preview ? 0 : 5 * 60_000,
     retry: 1,
   });
 }
@@ -263,6 +277,13 @@ export type ResolvedSiteImage = {
   width?: number;
   height?: number;
   isOverride: boolean;
+  /** True when the rendered picture is an unpublished draft. */
+  isDraft: boolean;
+  /**
+   * Spread onto the rendered <img>. Empty for the public site; in a staff
+   * preview it tags the node so the editor can outline it and open the picker.
+   */
+  editorProps: Record<string, string>;
 };
 
 /**
@@ -278,39 +299,53 @@ export function useSiteImage(
   fallbackAlt?: string,
 ): ResolvedSiteImage {
   const def = SLOTS_BY_KEY[slot];
+  const { preview } = useImageEditing();
+  const editorProps = preview && def ? { "data-image-slot": slot } : {};
   const base: ResolvedSiteImage = {
     src: fallbackSrc ?? def?.defaultSrc ?? "",
     alt: fallbackAlt ?? def?.defaultAlt ?? "",
     isOverride: false,
+    isDraft: false,
+    editorProps,
   };
 
-  const { data } = useSiteImageOverrides();
+  const { data } = useSiteImageOverrides(preview);
   const row = data?.find((r) => r.slot === slot);
+  // A draft only ever renders inside a verified staff preview session.
+  const useDraft = preview && !!row?.draft_image_path;
+  const path = useDraft ? row?.draft_image_path : row?.image_path;
+  const alt = (useDraft ? row?.draft_alt : row?.alt) ?? base.alt;
+  const w = (useDraft ? row?.draft_image_w : row?.image_w) ?? undefined;
+  const h = (useDraft ? row?.draft_image_h : row?.image_h) ?? undefined;
   const [resolved, setResolved] = useState<ResolvedSiteImage | null>(null);
 
   useEffect(() => {
     let alive = true;
-    if (!row?.image_path) {
+    if (!path) {
       setResolved(null);
       return;
     }
-    void getMediaUrl(row.image_path).then((u) => {
+    void getMediaUrl(path).then((u) => {
       if (!alive || !u) return;
       setResolved({
         src: u,
-        alt: row.alt,
-        width: row.image_w ?? undefined,
-        height: row.image_h ?? undefined,
+        alt,
+        width: w,
+        height: h,
         isOverride: true,
+        isDraft: useDraft,
+        editorProps,
       });
     });
     return () => {
       alive = false;
     };
-  }, [row?.image_path, row?.alt, row?.image_w, row?.image_h]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path, alt, w, h, useDraft, preview]);
 
   return resolved ?? base;
 }
+
 
 /** How far an uploaded image's ratio may drift before we warn. */
 export const RATIO_TOLERANCE = 0.2;
