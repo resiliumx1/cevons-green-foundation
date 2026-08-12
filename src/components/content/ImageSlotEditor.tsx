@@ -337,27 +337,13 @@ export function ImageSlotEditor({
                   )}
                 </button>
               );
-            })}
-          </div>
-        )}
-        <button
-          type="button"
-          onClick={() => setPanelOpen((v) => !v)}
-          style={{
-            minHeight: 44,
-            padding: "0 16px",
-            borderRadius: 999,
-            border: "none",
-            background: ORANGE,
-            color: "#1A1A1A",
-            font: "800 13px system-ui, sans-serif",
-            cursor: "pointer",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.28)",
-          }}
-        >
-          {panelOpen ? "Hide photos" : `Photos (${slots.length}${draftCount ? ` · ${draftCount} draft` : ""})`}
-        </button>
-      </div>
+      })}
+    </>
+  );
+
+  const picker = (
+    <>
+
 
       {/* Picker */}
       {activeSlot && def && (
