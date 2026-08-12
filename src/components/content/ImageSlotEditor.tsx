@@ -110,6 +110,9 @@ export function ImageSlotEditor({
   const [busy, setBusy] = useState<string | null>(null);
   const [note, setNote] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [hover, setHover] = useState<{ label: string; top: number; left: number } | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [confirmPublish, setConfirmPublish] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const { data: rows } = useSiteImageOverrides(true);
@@ -146,6 +149,9 @@ export function ImageSlotEditor({
       const path = r?.draft_image_path ?? r?.image_path ?? null;
       setActiveSlot(slot);
       setNote(null);
+      setConfirmPublish(false);
+      setDragOver(false);
+      setHover(null);
       setPicked(
         path
           ? {
@@ -178,6 +184,37 @@ export function ImageSlotEditor({
     return () => document.removeEventListener("click", onClick, true);
   }, [open]);
 
+  /* A plain "Click to change photo" tag that follows whichever photo is hovered.
+     Images cannot host pseudo-elements, so the tag is a floating element. */
+  useEffect(() => {
+    if (activeSlot) {
+      setHover(null);
+      return;
+    }
+    const onMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const node = target?.closest<HTMLElement>("[data-image-slot]");
+      if (!node || target?.closest("[data-content-ui]")) {
+        setHover(null);
+        return;
+      }
+      const slot = node.getAttribute("data-image-slot") ?? "";
+      const r = node.getBoundingClientRect();
+      setHover({
+        label: SLOTS_BY_KEY[slot]?.label ?? "this photo",
+        top: Math.max(8, r.top + 8),
+        left: Math.max(8, r.left + 8),
+      });
+    };
+    const clear = () => setHover(null);
+    document.addEventListener("mousemove", onMove, true);
+    window.addEventListener("scroll", clear, true);
+    return () => {
+      document.removeEventListener("mousemove", onMove, true);
+      window.removeEventListener("scroll", clear, true);
+    };
+  }, [activeSlot]);
+
   const { data: library = [] } = useQuery({
     queryKey: ["content-editor-media-library"],
     enabled: activeSlot != null,
@@ -192,6 +229,10 @@ export function ImageSlotEditor({
       return (data ?? []) as MediaRow[];
     },
   });
+
+  useEffect(() => {
+    setConfirmPublish(false);
+  }, [picked?.path, alt]);
 
   const drift = def && picked?.w && picked?.h ? ratioDrift(def.ratio, picked.w, picked.h) : 0;
 
