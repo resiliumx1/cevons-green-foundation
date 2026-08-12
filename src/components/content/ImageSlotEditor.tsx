@@ -60,6 +60,29 @@ export function validateImageFile(file: File): string | null {
   return null;
 }
 
+/**
+ * Turns "IMG_2043 orange-skip_bin@georgetown.JPG" into
+ * "Orange skip bin georgetown" so the description box is never empty.
+ * Returns "" when the file name carries no real words (camera codes only).
+ */
+export function suggestAltFromFileName(fileName: string, slotLabel?: string): string {
+  const base = (fileName || "").replace(/\.[^.]+$/, "");
+  const words = base
+    .replace(/[_\-.@+]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .split(/\s+/)
+    .map((w) => w.trim())
+    .filter(Boolean)
+    // Drop camera/export noise: IMG, DSC, screenshots, bare numbers, hashes.
+    .filter((w) => !/^(img|dsc|dscn|pxl|photo|image|screenshot|copy|final|edited|v\d+)$/i.test(w))
+    .filter((w) => !/^\d+$/.test(w))
+    .filter((w) => !/^[0-9a-f]{8,}$/i.test(w));
+
+  const phrase = words.join(" ").replace(/\s+/g, " ").trim();
+  if (phrase.length < 3) return slotLabel ? `Photo for ${slotLabel}` : "";
+  const suggestion = phrase.charAt(0).toUpperCase() + phrase.slice(1);
+  return suggestion.slice(0, 300);
+
 const IMAGE_CSS = `
 [data-image-slot] {
   outline: 2px dashed rgba(239, 119, 0, 0.7);
