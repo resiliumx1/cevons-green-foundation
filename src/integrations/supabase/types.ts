@@ -758,13 +758,6 @@ export type Database = {
             referencedRelation: "page_sections"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "page_section_versions_section_id_fkey"
-            columns: ["section_id"]
-            isOneToOne: false
-            referencedRelation: "public_page_sections"
-            referencedColumns: ["id"]
-          },
         ]
       }
       page_sections: {
@@ -1224,36 +1217,6 @@ export type Database = {
         Update: {
           key?: string | null
           published_value?: string | null
-        }
-        Relationships: []
-      }
-      public_page_sections: {
-        Row: {
-          id: string | null
-          kind: string | null
-          page: string | null
-          payload: Json | null
-          position: number | null
-          published: boolean | null
-          updated_at: string | null
-        }
-        Insert: {
-          id?: string | null
-          kind?: string | null
-          page?: string | null
-          payload?: Json | null
-          position?: number | null
-          published?: boolean | null
-          updated_at?: string | null
-        }
-        Update: {
-          id?: string | null
-          kind?: string | null
-          page?: string | null
-          payload?: Json | null
-          position?: number | null
-          published?: boolean | null
-          updated_at?: string | null
         }
         Relationships: []
       }
