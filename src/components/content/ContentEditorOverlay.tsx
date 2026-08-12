@@ -148,10 +148,35 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
     return parts[0] === "service" ? parts.slice(0, 2).join(".") : (parts[0] ?? "");
   }, [meta]);
 
-  const draftCount = useMemo(
+  const textDraftCount = useMemo(
     () => Object.values(meta).filter((m) => m.draft != null && m.draft !== m.published).length,
     [meta],
   );
+
+  /* Photo drafts count towards "unpublished changes" too — otherwise someone
+     who only swapped photos sees a disabled Publish button and no explanation. */
+  const qc = useQueryClient();
+  const { data: imageRows } = useSiteImageOverrides(true);
+  const [pageSlots, setPageSlots] = useState<string[]>([]);
+  useEffect(() => {
+    const read = () => {
+      const found = Array.from(document.querySelectorAll<HTMLElement>("[data-image-slot]"))
+        .map((n) => n.getAttribute("data-image-slot") ?? "")
+        .filter(Boolean);
+      setPageSlots((prev) => (prev.join("|") === found.join("|") ? prev : found));
+    };
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
+  const pendingImages = useMemo(
+    () => (imageRows ?? []).filter((r) => r.draft_image_path && pageSlots.includes(r.slot)),
+    [imageRows, pageSlots],
+  );
+  const draftCount = textDraftCount + pendingImages.length;
+
 
   const flash = (text: string) => {
     setToast(text);
