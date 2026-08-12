@@ -16,6 +16,8 @@ type Slide = {
   portrait: boolean;
   title?: string;
   caption?: string;
+  /** Spread onto the rendered <img> so the content editor can target it. */
+  editorProps?: Record<string, string>;
 };
 
 /**
