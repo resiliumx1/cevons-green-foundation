@@ -548,6 +548,9 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
 
+      {/* ── Photos on this page ───────────────────────────────────────── */}
+      <ImageSlotEditor canPublish={canPublish} />
+
       {/* ── Toast ─────────────────────────────────────────────────────── */}
       {toast && (
         <div data-content-ui role="status" aria-live="polite" style={toastStyle}>
@@ -555,6 +558,7 @@ export function ContentEditorOverlay({ meta, canPublish, onSaved }: Props) {
         </div>
       )}
     </>
+
   );
 }
 
