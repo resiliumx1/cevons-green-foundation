@@ -234,6 +234,8 @@ export function ImageSlotEditor({
           : null,
       );
       setAlt((r?.draft_image_path ? r?.draft_alt : r?.alt) ?? d?.defaultAlt ?? "");
+      setSuggestedAlt("");
+      setAltInvalid(false);
     },
     [rows],
   );
