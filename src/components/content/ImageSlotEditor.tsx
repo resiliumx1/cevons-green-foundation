@@ -31,6 +31,35 @@ const ORANGE = "#EF7700";
 const INK = "#111214";
 const PAPER = "#F5F5F5";
 
+/** What the picker will accept from a file chooser or a drag-and-drop. */
+export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"] as const;
+export const ACCEPT_ATTR = ".jpg,.jpeg,.png,.webp,.avif,.gif,image/jpeg,image/png,image/webp,image/avif,image/gif";
+const MAX_UPLOAD_BYTES = 20 * 1024 * 1024; // 20 MB
+
+function prettyBytes(bytes: number) {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+/** Returns a plain-English problem, or null when the file is fine to upload. */
+export function validateImageFile(file: File): string | null {
+  const name = file.name || "That file";
+  const type = (file.type || "").toLowerCase();
+  if (type && !type.startsWith("image/")) {
+    return `${name} isn’t a photo. Please choose a JPG, PNG, WebP, AVIF or GIF image.`;
+  }
+  if (!type || !(ACCEPTED_IMAGE_TYPES as readonly string[]).includes(type)) {
+    return `${name} is a file type we can’t use here. Please choose a JPG, PNG, WebP, AVIF or GIF image.`;
+  }
+  if (file.size === 0) {
+    return `${name} is empty. Please choose a different photo.`;
+  }
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return `${name} is ${prettyBytes(file.size)} — too large. Please use a photo under ${prettyBytes(MAX_UPLOAD_BYTES)}.`;
+  }
+  return null;
+}
+
 const IMAGE_CSS = `
 [data-image-slot] {
   outline: 2px dashed rgba(239, 119, 0, 0.7);
