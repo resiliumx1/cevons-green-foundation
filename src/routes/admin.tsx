@@ -252,8 +252,11 @@ function CrmLayout() {
     }
   }, [pathname, unreadByType, markTypeRead]);
 
-  const SidebarContent = (
+  /* The same nav in two guises: icon-only on a wide screen when the user
+     collapses it, always fully labelled inside the phone drawer. */
+  const renderSidebar = (collapsed: boolean) => (
     <TooltipProvider delayDuration={150}>
+
       {/* Brand lockup */}
       <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center px-2" : ""}`}>
         <div
