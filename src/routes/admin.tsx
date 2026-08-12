@@ -363,7 +363,7 @@ function CrmLayout() {
       <div className="mt-2 px-3 pt-3 pb-3 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
         <button
           onClick={() => setCollapsed((c) => !c)}
-          className={`crm-nav-item w-full hidden min-[900px]:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
+          className={`crm-nav-item w-full hidden lg:flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors ${
             collapsed ? "justify-center" : ""
           }`}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -384,7 +384,7 @@ function CrmLayout() {
       <CrmCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
       {/* Desktop sidebar */}
       <aside
-        className={`crm-sidebar hidden min-[900px]:flex flex-col transition-[width] duration-200 ${
+        className={`crm-sidebar hidden lg:flex flex-col transition-[width] duration-200 ${
           collapsed ? "w-[72px]" : "w-64 lg:w-72"
         }`}
       >
@@ -394,8 +394,8 @@ function CrmLayout() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 min-[900px]:hidden" onClick={() => setMobileOpen(false)} />
-          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 min-[900px]:hidden flex flex-col">
+          <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setMobileOpen(false)} />
+          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 lg:hidden flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute top-4 right-4 opacity-70 hover:opacity-100"
@@ -416,7 +416,7 @@ function CrmLayout() {
         <header className="crm-header h-16 flex items-center gap-3 px-4 md:px-6">
           <button
             onClick={() => setMobileOpen(true)}
-            className="min-[900px]:hidden h-11 w-11 grid place-items-center rounded-lg border"
+            className="lg:hidden h-11 w-11 grid place-items-center rounded-lg border"
             style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
             aria-label="Open menu"
           >
@@ -461,7 +461,7 @@ function CrmLayout() {
           </div>
         </header>
 
-        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-24 min-[900px]:pb-8">
+        <main className="crm-main flex-1 p-4 md:p-6 lg:p-8 pb-24 lg:pb-8">
           <PasswordChangePrompt />
           <CrmSectionTransition>
             <Outlet />
@@ -471,7 +471,7 @@ function CrmLayout() {
 
         {/* Mobile bottom bar — a fixed set of five, everything else in "More". */}
         <nav
-          className="admin-tabbar min-[900px]:hidden fixed bottom-0 left-0 right-0 z-30"
+          className="admin-tabbar lg:hidden fixed bottom-0 left-0 right-0 z-30"
           aria-label="Admin sections"
         >
           <div className="grid grid-cols-5 items-stretch">
@@ -529,7 +529,7 @@ function CrmLayout() {
         {/* "More" sheet — the destinations that don't fit the bar. */}
         <AnimatePresence>
           {moreOpen && (
-            <div className="min-[900px]:hidden">
+            <div className="lg:hidden">
               <motion.div
                 className="fixed inset-0 z-40 bg-black/60"
                 initial={reduce ? false : { opacity: 0 }}
