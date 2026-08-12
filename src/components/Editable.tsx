@@ -11,6 +11,7 @@ import {
 } from "react";
 import type { PageContent, SavedString } from "@/lib/content.functions";
 import { ContentEditorOverlay } from "@/components/content/ContentEditorOverlay";
+import { ImageEditContext } from "@/lib/imageEditing";
 
 /**
  * Editable copy.
