@@ -59,15 +59,25 @@ type MediaRow = {
 /* Small resolved-path preview. */
 function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: string; alt: string; height?: number }) {
   const [url, setUrl] = useState<string | null>(src ?? null);
+  const [state, setState] = useState<"idle" | "loading" | "failed">(src ? "idle" : "idle");
   useEffect(() => {
     let alive = true;
     if (!path) {
       setUrl(src ?? null);
+      setState("idle");
       return;
     }
     setUrl(null);
+    setState("loading");
     void getMediaUrl(path).then((u) => {
-      if (alive && u) setUrl(u);
+      if (!alive) return;
+      if (u) {
+        setUrl(u);
+        setState("idle");
+      } else {
+        setUrl(src ?? null);
+        setState(src ? "idle" : "failed");
+      }
     });
     return () => {
       alive = false;
@@ -88,11 +98,14 @@ function Thumb({ path, src, alt, height = 120 }: { path?: string | null; src?: s
       {url ? (
         <img src={url} alt={alt} style={{ height: "100%", width: "100%", objectFit: "cover" }} />
       ) : (
-        <span style={{ font: "600 11px system-ui, sans-serif", color: "#6B7280" }}>Loading…</span>
+        <span style={{ font: "600 11px system-ui, sans-serif", color: "#6B7280" }}>
+          {state === "loading" ? "Loading…" : state === "failed" ? "Photo unavailable" : "No photo yet"}
+        </span>
       )}
     </div>
   );
 }
+
 
 export function ImageSlotEditor({
   canPublish,
