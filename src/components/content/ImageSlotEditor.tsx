@@ -182,6 +182,7 @@ export function ImageSlotEditor({
   const [dragOver, setDragOver] = useState(false);
   const [confirmPublish, setConfirmPublish] = useState(false);
   const [altInvalid, setAltInvalid] = useState(false);
+  const [suggestedAlt, setSuggestedAlt] = useState("");
   const fileRef = useRef<HTMLInputElement | null>(null);
   const altRef = useRef<HTMLInputElement | null>(null);
 
