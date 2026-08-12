@@ -258,6 +258,11 @@ export function ImageSlotEditor({
 
   async function upload(file: File) {
     if (!activeSlot) return;
+    const problem = validateImageFile(file);
+    if (problem) {
+      setNote({ tone: "error", text: problem });
+      return;
+    }
     try {
       setBusy("Optimising photo…");
       const processed = await processImage(file);
