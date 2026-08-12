@@ -635,7 +635,8 @@ export function ImageSlotEditor({
                 {busy && <span style={{ font: "600 12px system-ui", color: "#4B5563" }}>{busy}</span>}
               </div>
               <p style={{ margin: "8px 0 0", font: "500 12px system-ui", color: "#4B5563" }}>
-                You can also drag a photo from your computer straight onto this box.
+                You can also drag a photo from your computer straight onto this box. JPG, PNG, WebP, AVIF or GIF, up to{" "}
+                {prettyBytes(MAX_UPLOAD_BYTES)}.
               </p>
             </div>
 
