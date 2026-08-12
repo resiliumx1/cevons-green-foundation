@@ -391,26 +391,37 @@ function CrmLayout() {
           collapsed ? "w-[72px]" : "w-64 lg:w-72"
         }`}
       >
-        {SidebarContent}
+        {renderSidebar(collapsed)}
       </aside>
 
-      {/* Mobile drawer */}
+      {/* Phone / tablet drawer — always fully labelled, never icon-only. */}
       {mobileOpen && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setMobileOpen(false)} />
-          <aside className="crm-sidebar fixed left-0 top-0 bottom-0 w-72 z-50 lg:hidden flex flex-col">
+          <div
+            className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden
+          />
+          <aside
+            role="dialog"
+            aria-modal="true"
+            aria-label="Admin sections"
+            className="crm-sidebar fixed left-0 top-0 bottom-0 w-[86vw] max-w-[320px] z-50 lg:hidden flex flex-col overflow-y-auto overscroll-contain"
+          >
             <button
+              ref={drawerCloseRef}
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-4 opacity-70 hover:opacity-100"
+              className="absolute top-3 right-3 h-11 w-11 grid place-items-center rounded-lg opacity-80 hover:opacity-100"
               style={{ color: "var(--crm-sidebar-text)" }}
               aria-label="Close menu"
             >
               <X className="h-5 w-5" />
             </button>
-            {SidebarContent}
+            {renderSidebar(false)}
           </aside>
         </>
       )}
+
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
