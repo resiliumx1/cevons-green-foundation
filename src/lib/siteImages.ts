@@ -260,12 +260,15 @@ export function useSiteImageOverrides(preview = false) {
   return useQuery({
     queryKey: ["site_images", preview],
     queryFn: async (): Promise<SiteImageRow[]> => {
+      // The column list is chosen at runtime, so the generated select-string
+      // types cannot narrow it; the row shape is asserted instead.
       const { data, error } = await supabase
         .from("site_images")
-        .select(preview ? STAFF_COLUMNS : PUBLIC_COLUMNS);
+        .select(preview ? STAFF_COLUMNS : (PUBLIC_COLUMNS as never));
       if (error) throw error;
-      return (data ?? []) as SiteImageRow[];
+      return (data ?? []) as unknown as SiteImageRow[];
     },
+
     staleTime: preview ? 0 : 5 * 60_000,
     retry: 1,
   });
