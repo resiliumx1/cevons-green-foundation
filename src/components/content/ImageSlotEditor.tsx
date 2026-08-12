@@ -583,7 +583,7 @@ export function ImageSlotEditor({
               <input
                 ref={fileRef}
                 type="file"
-                accept="image/*"
+                accept={ACCEPT_ATTR}
                 style={{ display: "none" }}
                 onChange={(e) => {
                   const f = e.target.files?.[0];
