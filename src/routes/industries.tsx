@@ -37,6 +37,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
 import { getPageContent } from "@/lib/content.functions";
 const heroIndustries = "/assets/heroes/hero-industries.webp";
+import { SlotImage } from "@/components/media/SlotImage";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
 import imgResidential from "@/assets/svc-residential.jpg";
@@ -82,6 +83,7 @@ const industries: Industry[] = [
     title: "Commercial Real Estate",
     description: "Waste and environmental services for commercial properties, plazas, and managed facilities.",
     icon: Building2,
+    slot: "industries_card_1",
     img: imgCommercial,
     alt: "Commercial property building with clean surroundings",
   },
@@ -89,6 +91,7 @@ const industries: Industry[] = [
     title: "Manufacturing & Industrial Facilities",
     description: "Specialized support for industrial waste streams, wastewater, waste oil, and facility needs.",
     icon: Factory,
+    slot: "industries_card_2",
     img: imgIndustrial,
     alt: "Industrial facility with organized waste management systems",
   },
@@ -96,6 +99,7 @@ const industries: Industry[] = [
     title: "Healthcare & Hospitals",
     description: "Professional waste support for healthcare facilities, clinics, and hospitals.",
     icon: Hospital,
+    slot: "industries_card_3",
     img: imgResidential,
     alt: "Healthcare facility with professional environmental support",
   },
@@ -103,6 +107,7 @@ const industries: Industry[] = [
     title: "Education",
     description: "Waste collection and sanitation support for schools and educational institutions.",
     icon: GraduationCap,
+    slot: "industries_card_4",
     img: imgGarbage,
     alt: "Educational institution with clean waste management",
   },
@@ -110,6 +115,7 @@ const industries: Industry[] = [
     title: "Hospitality",
     description: "Waste, grease trap, portable sanitation, and collection support for hotels and restaurants.",
     icon: Utensils,
+    slot: "industries_card_5",
     img: imgToilet,
     alt: "Hospitality venue with sanitation services",
   },
@@ -117,6 +123,7 @@ const industries: Industry[] = [
     title: "Government & Municipal",
     description: "Environmental service support for government and municipal organizations.",
     icon: Landmark,
+    slot: "industries_card_6",
     img: imgGarbage,
     alt: "Municipal services and government buildings",
   },
@@ -124,6 +131,7 @@ const industries: Industry[] = [
     title: "Construction",
     description: "Skip bins, dumpsters, portable toilets, and site waste solutions for construction projects.",
     icon: HardHat,
+    slot: "industries_card_7",
     img: imgSkip,
     alt: "Construction site with skip bins and portable sanitation",
   },
@@ -131,6 +139,7 @@ const industries: Industry[] = [
     title: "Logistics & Warehousing",
     description: "Waste and recycling support for warehouses, distribution centers, and logistics facilities.",
     icon: Warehouse,
+    slot: "industries_card_8",
     img: imgWastewater,
     alt: "Warehouse facility with organized waste and recycling support",
   },
@@ -167,7 +176,7 @@ function IndustriesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="industries-h1">
         <div className="absolute inset-0">
-          <img src={heroIndustries} alt="CEVONS industrial environmental services team at facility" className="size-full object-cover hero-img hero-img-mobile" width={1920} height={800} loading="eager" />
+          <SlotImage slot="industries_hero" src={heroIndustries} alt="CEVONS industrial environmental services team at facility" className="size-full object-cover hero-img hero-img-mobile" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 hero-photo-overlay" />
         </div>
         <div className="container-cevons relative min-h-[320px] md:min-h-[400px] flex flex-col justify-center py-16 md:py-20">
@@ -204,14 +213,15 @@ function IndustriesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {industries.map(({ title, description, icon: Icon, img, alt }, i) => (
+            {industries.map(({ title, description, icon: Icon, img, alt, slot }, i) => (
               <article
                 key={title}
                 className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
-                  <img
+                  <SlotImage
+                    slot={slot}
                     src={img}
                     alt={alt}
                     loading="lazy"

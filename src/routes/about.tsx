@@ -29,6 +29,7 @@ import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
 // prior 1200x1600 portrait had to be upscaled 1.2x to fill the strip.
 const heroAbout = "/assets/heroes/about-support-hero.webp";
 import { useSiteImage } from "@/lib/siteImages";
+import { SlotImage } from "@/components/media/SlotImage";
 import imgRecovery from "@/assets/svc-recovery.jpg";
 import imgGarbage from "@/assets/svc-garbage.jpg";
 import imgIndustrial from "@/assets/svc-industrial.jpg";
@@ -95,10 +96,10 @@ const complianceBadges = [
 ];
 
 const operationsImages = [
-  { src: imgGarbage, alt: "CEVONS waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
-  { src: imgIndustrial, alt: "Industrial waste management team at work", caption: "Industrial Crews", sub: "Trained, safety-first teams" },
-  { src: imgDumpster, alt: "Dumpster rental services for commercial clients", caption: "Rental Equipment", sub: "Dumpsters, skips & portable units" },
-  { src: imgOil, alt: "Waste oil recycling and environmental services", caption: "Specialist Services", sub: "Oil, wastewater & recovery" },
+  { slot: "about_ops_1", src: imgGarbage, alt: "CEVONS waste collection fleet in operation across Guyana", caption: "Collection Fleet", sub: "Daily routes across Guyana" },
+  { slot: "about_ops_2", src: imgIndustrial, alt: "Industrial waste management team at work", caption: "Industrial Crews", sub: "Trained, safety-first teams" },
+  { slot: "about_ops_3", src: imgDumpster, alt: "Dumpster rental services for commercial clients", caption: "Rental Equipment", sub: "Dumpsters, skips & portable units" },
+  { slot: "about_ops_4", src: imgOil, alt: "Waste oil recycling and environmental services", caption: "Specialist Services", sub: "Oil, wastewater & recovery" },
 ];
 
 
@@ -188,7 +189,8 @@ function AboutPageInner() {
               </div>
             </div>
             <div className={`relative rounded-2xl overflow-hidden shadow-soft group transition-all duration-700 delay-100 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <img
+              <SlotImage
+                slot="about_story_photo"
                 src={imgRecovery}
                 alt="CEVONS environmental recovery operations in Guyana"
                 loading="lazy"
@@ -312,14 +314,15 @@ function AboutPageInner() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-            {operationsImages.map(({ src, alt, caption, sub }, i) => (
+            {operationsImages.map(({ slot, src, alt, caption, sub }, i) => (
               <div
                 key={alt}
                 className={`card-glow group flex h-full flex-col rounded-2xl overflow-hidden bg-white dark:bg-white/[0.04] hover:-translate-y-1 motion-reduce:transform-none ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
+                  <SlotImage
+                    slot={slot}
                     src={src}
                     alt={alt}
                     loading="lazy"
