@@ -3,6 +3,7 @@ import { absUrl } from "@/lib/seo/site";
 import { serviceJsonLdScripts } from "@/lib/seo/jsonLd";
 import { Droplet, Home, Building, AlertTriangle, Wrench, ClipboardCheck, Trash2, Waves } from "lucide-react";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { SlotImage } from "@/components/media/SlotImage";
 import imgHeroAsset from "@/assets/slide-septic.webp.asset.json";
 const imgHero = (imgHeroAsset as { url: string }).url;
 import imgRel0 from "@/assets/svc-garbage.jpg";
@@ -104,7 +105,8 @@ function FleetSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           <figure className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border">
             <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
-              <img
+              <SlotImage
+                slot="svc_septic_fleet_1"
                 src="/assets/services/septic-tanker-angle.webp"
                 alt="CEVONS vacuum tanker truck used for septic tank emptying, front three-quarter view"
                 width={1200}
@@ -121,7 +123,8 @@ function FleetSection() {
 
           <figure className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border">
             <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
-              <img
+              <SlotImage
+                slot="svc_septic_fleet_2"
                 src="/assets/services/septic-tanker-side.webp"
                 alt="CEVONS vacuum tanker truck, side profile showing the tank and suction equipment"
                 width={600}
@@ -138,7 +141,8 @@ function FleetSection() {
 
           <figure className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border">
             <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
-              <img
+              <SlotImage
+                slot="svc_septic_fleet_3"
                 src="/assets/services/septic-truck-onsite.webp"
                 alt="A CEVONS vacuum tanker on site in Guyana with a CEVONS operator in high-visibility gear"
                 width={1200}

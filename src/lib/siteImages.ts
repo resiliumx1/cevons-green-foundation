@@ -54,6 +54,9 @@ import svcSkip from "@/assets/svc-skip.jpg";
 import svcTank from "@/assets/svc-tank.jpg";
 import svcOil from "@/assets/svc-oil.jpg";
 import svcWastewater from "@/assets/svc-wastewater.jpg";
+import svcResidential from "@/assets/svc-residential.jpg";
+import svcToilet from "@/assets/svc-toilet.jpg";
+import svcScrap from "@/assets/svc-scrap.jpg";
 
 const url = (a: { url: string }) => a.url;
 
@@ -89,6 +92,16 @@ const svc = (
   defaultAlt,
   usedIn: `src/routes/${route}.tsx → ServicePageTemplate hero`,
 });
+
+const m = (
+  key: string,
+  label: string,
+  page: string,
+  ratio: [number, number],
+  defaultSrc: string,
+  defaultAlt: string,
+  usedIn: string,
+): SlotDef => ({ key, label, page, ratio, defaultSrc, defaultAlt, usedIn });
 
 export const SITE_IMAGE_SLOTS: SlotDef[] = [
   /* Homepage */
@@ -265,6 +278,63 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
     defaultAlt: "CEVONS skip bin truck loaded with waste on a work site in Guyana",
     usedIn: "src/routes/services.skip-bin-dumpster-rental.tsx → BinSizeSelector",
   },
+
+  /* ── Homepage — service cards band ─────────────────────────────────── */
+  m("home_service_card_industrial", "Service cards — Industrial", "Homepage", [4, 3], "/services/svc-industrial.webp", "Industrial waste handling by CEVONS", "src/components/home/ServicesCardsSection.tsx"),
+  m("home_service_card_recyclables", "Service cards — Recyclables", "Homepage", [4, 3], "/services/svc-recycling.webp", "Sorted recyclable material at a CEVONS facility", "src/components/home/ServicesCardsSection.tsx"),
+  m("home_service_card_residential", "Service cards — Residential", "Homepage", [4, 3], url(residentialWheelieBinAsset), "CEVONS residential wheelie bin", "src/components/home/ServicesCardsSection.tsx"),
+  m("home_service_card_commercial", "Service cards — Commercial", "Homepage", [4, 3], url(svcCommercialAsset), "Red CEVONS commercial bin outside a business", "src/components/home/ServicesCardsSection.tsx"),
+  m("home_service_card_specialised", "Service cards — Specialised", "Homepage", [4, 3], "/services/svc-industrial.webp", "Specialised waste handling by CEVONS", "src/components/home/ServicesCardsSection.tsx"),
+
+  /* ── Homepage — service hub ring ───────────────────────────────────── */
+  m("home_hub_garbage", "Service ring — Garbage collection", "Homepage", [1, 1], "/assets/home/service-garbage-collection.webp", "Garbage collection truck for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+  m("home_hub_skip", "Service ring — Skip bin rental", "Homepage", [1, 1], "/assets/home/service-skip-bin-rental.webp", "Skip bin rental container for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+  m("home_hub_toilets", "Service ring — Portable toilets", "Homepage", [1, 1], "/assets/home/service-portable-toilets.webp", "Portable toilets for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+  m("home_hub_septic", "Service ring — Septic services", "Homepage", [1, 1], "/assets/home/service-septic-services.webp", "Septic service truck for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+  m("home_hub_recycling", "Service ring — Recycling solutions", "Homepage", [1, 1], "/assets/home/service-recycling-solutions.webp", "Recycling solutions bin for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+  m("home_hub_dumpster", "Service ring — Dumpster rental", "Homepage", [1, 1], "/assets/home/service-dumpster-rental.webp", "Dumpster rental container for CEVONS services", "src/components/home/InteractiveServiceHub.tsx"),
+
+  /* ── About ─────────────────────────────────────────────────────────── */
+  m("about_story_photo", "Our story — side photo", "About", [4, 3], svcRecovery, "CEVONS environmental recovery operations in Guyana", "src/routes/about.tsx story section"),
+  m("about_ops_1", "Fleet & team — Collection fleet", "About", [4, 3], svcGarbage, "CEVONS waste collection fleet in operation across Guyana", "src/routes/about.tsx operations gallery"),
+  m("about_ops_2", "Fleet & team — Industrial crews", "About", [4, 3], svcIndustrial, "Industrial waste management team at work", "src/routes/about.tsx operations gallery"),
+  m("about_ops_3", "Fleet & team — Rental equipment", "About", [4, 3], svcDumpster, "Dumpster rental services for commercial clients", "src/routes/about.tsx operations gallery"),
+  m("about_ops_4", "Fleet & team — Specialist services", "About", [4, 3], svcOil, "Waste oil recycling and environmental services", "src/routes/about.tsx operations gallery"),
+
+  /* ── Industries ────────────────────────────────────────────────────── */
+  m("industries_hero", "Industries — hero photo", "Industries", [16, 7], "/assets/heroes/hero-industries.webp", "CEVONS industrial environmental services team at facility", "src/routes/industries.tsx hero"),
+  m("industries_card_1", "Industries — card 1", "Industries", [16, 10], svcCommercial, "CEVONS commercial waste service", "src/routes/industries.tsx industry cards"),
+  m("industries_card_2", "Industries — card 2", "Industries", [16, 10], svcIndustrial, "CEVONS industrial waste service", "src/routes/industries.tsx industry cards"),
+  m("industries_card_3", "Industries — card 3", "Industries", [16, 10], svcResidential, "CEVONS residential collection", "src/routes/industries.tsx industry cards"),
+  m("industries_card_4", "Industries — card 4", "Industries", [16, 10], svcGarbage, "CEVONS collection truck servicing bins", "src/routes/industries.tsx industry cards"),
+  m("industries_card_5", "Industries — card 5", "Industries", [16, 10], svcToilet, "CEVONS portable toilet units", "src/routes/industries.tsx industry cards"),
+  m("industries_card_6", "Industries — card 6", "Industries", [16, 10], svcGarbage, "CEVONS collection service", "src/routes/industries.tsx industry cards"),
+  m("industries_card_7", "Industries — card 7", "Industries", [16, 10], svcSkip, "CEVONS skip bin on site", "src/routes/industries.tsx industry cards"),
+  m("industries_card_8", "Industries — card 8", "Industries", [16, 10], svcWastewater, "CEVONS wastewater operations", "src/routes/industries.tsx industry cards"),
+
+  /* ── Resources ─────────────────────────────────────────────────────── */
+  m("resources_hero", "Resources — hero photo", "Resources", [16, 7], "/assets/heroes/hero-newsroom.webp", "CEVONS resources and guidance for customers", "src/routes/resources.tsx hero"),
+  m("resources_article_1", "Resources — article 1 photo", "Resources", [16, 10], svcCommercial, "CEVONS commercial waste service", "src/routes/resources.tsx article cards"),
+  m("resources_article_2", "Resources — article 2 photo", "Resources", [16, 10], svcOil, "Used oil collection by CEVONS", "src/routes/resources.tsx article cards"),
+  m("resources_article_3", "Resources — article 3 photo", "Resources", [16, 10], svcWastewater, "CEVONS wastewater operations", "src/routes/resources.tsx article cards"),
+  m("resources_article_4", "Resources — article 4 photo", "Resources", [16, 10], svcDumpster, "CEVONS dumpster on a customer site", "src/routes/resources.tsx article cards"),
+  m("resources_article_5", "Resources — article 5 photo", "Resources", [16, 10], svcGarbage, "CEVONS collection truck servicing bins", "src/routes/resources.tsx article cards"),
+  m("resources_article_6", "Resources — article 6 photo", "Resources", [16, 10], svcSeptic, "CEVONS septic tank service", "src/routes/resources.tsx article cards"),
+  m("resources_article_7", "Resources — article 7 photo", "Resources", [16, 10], svcScrap, "Scrap metal at the CEVONS yard", "src/routes/resources.tsx article cards"),
+
+  /* ── Services index ────────────────────────────────────────────────── */
+  m("services_index_hero", "All services — hero photo", "Service pages", [16, 7], "/assets/heroes/hero-services.webp", "CEVONS waste management trucks, equipment, and environmental service team", "src/routes/services.index.tsx hero"),
+
+  /* ── Septic services — fleet photos ────────────────────────────────── */
+  m("svc_septic_fleet_1", "Septic fleet — tanker, front three-quarter", "Service pages", [4, 3], "/assets/services/septic-tanker-angle.webp", "CEVONS vacuum tanker truck used for septic tank emptying, front three-quarter view", "src/routes/services.septic-services.tsx fleet grid"),
+  m("svc_septic_fleet_2", "Septic fleet — tanker, side profile", "Service pages", [4, 3], "/assets/services/septic-tanker-side.webp", "CEVONS vacuum tanker truck, side profile showing the tank and suction equipment", "src/routes/services.septic-services.tsx fleet grid"),
+  m("svc_septic_fleet_3", "Septic fleet — tanker on site", "Service pages", [4, 3], "/assets/services/septic-truck-onsite.webp", "A CEVONS vacuum tanker on site in Guyana with a CEVONS operator in high-visibility gear", "src/routes/services.septic-services.tsx fleet grid"),
+
+  /* ── Scrap metal — yard gallery ────────────────────────────────────── */
+  m("svc_scrap_gallery_1", "Scrap yard gallery — photo 1", "Service pages", [2, 3], "/assets/services/scrap-metal-loading.webp", "A CEVONS worker loading scrap steel into the baling press at the CEVONS recycling facility", "src/routes/services.scrap-metal-recycling.tsx gallery"),
+  m("svc_scrap_gallery_2", "Scrap yard gallery — photo 2", "Service pages", [3, 2], "/assets/services/scrap-metal-yard.webp", "CEVONS crew feeding scrap metal into the baler beside stacked IBC cages at the recycling yard", "src/routes/services.scrap-metal-recycling.tsx gallery"),
+  m("svc_scrap_gallery_3", "Scrap yard gallery — photo 3", "Service pages", [2, 3], "/assets/services/scrap-metal-bales.webp", "Compressed scrap metal bales at the CEVONS recycling facility, ready for export", "src/routes/services.scrap-metal-recycling.tsx gallery"),
+  m("svc_scrap_gallery_4", "Scrap yard gallery — photo 4", "Service pages", [2, 3], "/assets/services/scrap-metal-shear.webp", "The CEVONS baling press with its jaw raised, being loaded with scrap metal", "src/routes/services.scrap-metal-recycling.tsx gallery"),
 ];
 
 export const SLOTS_BY_KEY: Record<string, SlotDef> = Object.fromEntries(

@@ -5,6 +5,7 @@ import { Recycle, HardHat, Wrench, Factory, Truck, BatteryCharging, Building2, C
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { cevonsContact, primaryTelHref, whatsappHref } from "@/data/cevonsContact";
 import { ServicePageTemplate, type DetailSection } from "@/components/ServicePageTemplate";
+import { SlotImage } from "@/components/media/SlotImage";
 import imgHeroAsset from "@/assets/scrap-metal-bales.webp.asset.json";
 const imgHero = imgHeroAsset.url;
 import imgRel0 from "@/assets/svc-recovery.jpg";
@@ -113,10 +114,10 @@ const related = [
 ];
 
 const galleryImages = [
-  { src: "/assets/services/scrap-metal-loading.webp", alt: "A CEVONS worker loading scrap steel into the baling press at the CEVONS recycling facility", w: 800, h: 1200 },
-  { src: "/assets/services/scrap-metal-yard.webp", alt: "CEVONS crew feeding scrap metal into the baler beside stacked IBC cages at the recycling yard", w: 1200, h: 800 },
-  { src: "/assets/services/scrap-metal-bales.webp", alt: "Compressed scrap metal bales at the CEVONS recycling facility, ready for export", w: 800, h: 1200 },
-  { src: "/assets/services/scrap-metal-shear.webp", alt: "The CEVONS baling press with its jaw raised, being loaded with scrap metal", w: 800, h: 1200 },
+  { slot: "svc_scrap_gallery_1", src: "/assets/services/scrap-metal-loading.webp", alt: "A CEVONS worker loading scrap steel into the baling press at the CEVONS recycling facility", w: 800, h: 1200 },
+  { slot: "svc_scrap_gallery_2", src: "/assets/services/scrap-metal-yard.webp", alt: "CEVONS crew feeding scrap metal into the baler beside stacked IBC cages at the recycling yard", w: 1200, h: 800 },
+  { slot: "svc_scrap_gallery_3", src: "/assets/services/scrap-metal-bales.webp", alt: "Compressed scrap metal bales at the CEVONS recycling facility, ready for export", w: 800, h: 1200 },
+  { slot: "svc_scrap_gallery_4", src: "/assets/services/scrap-metal-shear.webp", alt: "The CEVONS baling press with its jaw raised, being loaded with scrap metal", w: 800, h: 1200 },
 ];
 
 function GallerySection() {
@@ -130,8 +131,9 @@ function GallerySection() {
         </div>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {galleryImages.map((img) => (
-            <img
+            <SlotImage
               key={img.src}
+              slot={img.slot}
               src={img.src}
               alt={img.alt}
               width={img.w}

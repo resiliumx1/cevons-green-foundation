@@ -23,6 +23,7 @@ import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
 import { getPageContent } from "@/lib/content.functions";
 const heroNewsroom = "/assets/heroes/hero-newsroom.webp";
+import { SlotImage } from "@/components/media/SlotImage";
 import imgCommercial from "@/assets/svc-commercial.jpg";
 import imgOil from "@/assets/svc-oil.jpg";
 import imgWastewater from "@/assets/svc-wastewater.jpg";
@@ -63,6 +64,7 @@ type Article = {
   excerpt: string;
   category: Exclude<Category, "All">;
   date: string;
+  slot: string;
   img: string;
   alt: string;
   featured?: boolean;
@@ -74,6 +76,7 @@ const articles: Article[] = [
     excerpt: "Learn how businesses can keep their properties cleaner, safer, and more efficient with responsible waste planning.",
     category: "Industry",
     date: "April 2026",
+    slot: "resources_article_1",
     img: imgCommercial,
     alt: "Commercial building with organized waste management systems",
     featured: true,
@@ -83,6 +86,7 @@ const articles: Article[] = [
     excerpt: "Responsible waste oil handling helps protect the environment and supports cleaner business operations.",
     category: "Sustainability",
     date: "March 2026",
+    slot: "resources_article_2",
     img: imgOil,
     alt: "Waste oil recycling process at a facility",
   },
@@ -91,6 +95,7 @@ const articles: Article[] = [
     excerpt: "What businesses should know about environmental responsibility and proper waste handling.",
     category: "Compliance",
     date: "March 2026",
+    slot: "resources_article_3",
     img: imgWastewater,
     alt: "Environmental compliance documentation and facility",
   },
@@ -99,6 +104,7 @@ const articles: Article[] = [
     excerpt: "Simple steps to help ensure your dumpster delivery is smooth and efficient.",
     category: "Service Tips",
     date: "February 2026",
+    slot: "resources_article_4",
     img: imgDumpster,
     alt: "Site preparation for dumpster rental delivery",
   },
@@ -107,6 +113,7 @@ const articles: Article[] = [
     excerpt: "CEVONS supports cleaner communities through reliable environmental services.",
     category: "News",
     date: "February 2026",
+    slot: "resources_article_5",
     img: imgGarbage,
     alt: "Community cleanup and environmental service support",
   },
@@ -115,6 +122,7 @@ const articles: Article[] = [
     excerpt: "Common signs that your septic system may need professional attention.",
     category: "Service Tips",
     date: "January 2026",
+    slot: "resources_article_6",
     img: imgSeptic,
     alt: "Septic tank clearance service in progress",
   },
@@ -123,6 +131,7 @@ const articles: Article[] = [
     excerpt: "How businesses can recover value from scrap metal while reducing waste.",
     category: "Sustainability",
     date: "January 2026",
+    slot: "resources_article_7",
     img: imgScrap,
     alt: "Scrap metal recycling at a business facility",
   },
@@ -157,7 +166,7 @@ function ResourcesPage() {
       {/* HERO */}
       <section className="relative overflow-hidden" aria-labelledby="resources-h1">
         <div className="absolute inset-0">
-          <img src={heroNewsroom} alt="CEVONS newsroom and media announcements" className="size-full object-cover hero-img hero-img-mobile" width={1920} height={800} loading="eager" />
+          <SlotImage slot="resources_hero" src={heroNewsroom} alt="CEVONS newsroom and media announcements" className="size-full object-cover hero-img hero-img-mobile" width={1920} height={800} loading="eager" />
           <div className="absolute inset-0 hero-photo-overlay" />
         </div>
         <div className="container-cevons relative min-h-[300px] md:min-h-[380px] flex flex-col justify-center py-16 md:py-20">
@@ -214,7 +223,8 @@ function ResourcesPage() {
               className={`rounded-2xl bg-white border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid md:grid-cols-2 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             >
               <div className="relative aspect-[16/10] md:aspect-auto overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
-                <img
+                <SlotImage
+                  slot={featured.slot}
                   src={featured.img}
                   alt={featured.alt}
                   loading="lazy"
@@ -260,14 +270,15 @@ function ResourcesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {gridArticles.map(({ title, excerpt, category, date, img, alt }, i) => (
+            {gridArticles.map(({ title, excerpt, category, date, img, alt, slot }, i) => (
               <article
                 key={title}
                 className={`group relative bg-white rounded-xl border border-[var(--cevons-deep-green,#EF7700)]/10 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--cevons-deep-green,#EF7700)]/25 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
                 style={{ transitionDelay: `${i * 70}ms` }}
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--cevons-cream,#FBF7EE)]">
-                  <img
+                  <SlotImage
+                    slot={slot}
                     src={img}
                     alt={alt}
                     loading="lazy"
