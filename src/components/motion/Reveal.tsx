@@ -137,7 +137,7 @@ export function Reveal({
     <Comp
       ref={fallback.ref}
       className={className}
-      initial="hidden"
+      initial={fallback.initial}
       whileInView="show"
       animate={fallback.animate}
       viewport={VIEWPORT}
@@ -183,7 +183,7 @@ export function Stagger({ children, className, as = "div", ...rest }: StaggerPro
     <Comp
       ref={fallback.ref}
       className={className}
-      initial="hidden"
+      initial={fallback.initial}
       whileInView="show"
       animate={fallback.animate}
       viewport={VIEWPORT}
