@@ -64,6 +64,7 @@ function PillarCard({ item, exploreLabel }: { item: PillarItem; exploreLabel: st
         <div className="mt-auto pt-6">
           <a
             href="/services"
+            aria-label={`${exploreLabel} for ${item.title}`}
             className="group/cta inline-flex items-center justify-center gap-1.5 rounded-full border border-cevons-green/30 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-link)] transition-all duration-300 hover:border-cevons-green hover:bg-cevons-green hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-10px_rgba(0,107,53,0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cevons-green focus-visible:ring-offset-2"
           >
             {exploreLabel}

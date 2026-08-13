@@ -27,7 +27,7 @@ const BRAND_ORANGE_SOFT = "rgba(239,119,0,0.18)";
 
 type FooterLink = { label: string; to: string };
 
-function FooterNavLink({ to, label, currentPath }: { to: string; label: string; currentPath: string }) {
+function FooterNavLink({ to, label, currentPath, group }: { to: string; label: string; currentPath: string; group?: string }) {
   const isActive =
     currentPath === to ||
     (to !== "/" && to.split("/").length > 2 && currentPath.startsWith(to));
@@ -35,6 +35,9 @@ function FooterNavLink({ to, label, currentPath }: { to: string; label: string; 
     <Link
       to={to}
       aria-current={isActive ? "page" : undefined}
+      /* Distinct accessible name so footer links never duplicate header nav
+         anchor text. Visible label is unchanged. */
+      aria-label={group ? `${label} — CEVONS ${group}` : label}
       className={`group/link inline-flex items-center gap-1.5 py-1.5 min-h-[32px] text-[14px] leading-relaxed transition-colors motion-reduce:transition-none ${
         isActive
           ? "text-white font-semibold underline underline-offset-4 decoration-[color:var(--brand-yellow)] decoration-2"
@@ -81,7 +84,7 @@ function LinkCol({
       <ul className="space-y-1">
         {items.map((l) => (
           <li key={l.label + l.to}>
-            <FooterNavLink to={l.to} label={l.label} currentPath={currentPath} />
+            <FooterNavLink to={l.to} label={l.label} currentPath={currentPath} group={title} />
           </li>
         ))}
       </ul>

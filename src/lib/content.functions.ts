@@ -72,26 +72,14 @@ export const getPageContent = createServerFn({ method: "GET" })
         return { preview: true, strings, meta, canPublish: mayPublish === true };
       }
 
-      // Public read. Goes through the published-only view; anon has no access
-      // to the base table, so draft_value cannot leak here.
-      const { createClient } = await import("@supabase/supabase-js");
-      const client = createClient(
-        process.env["SUPABASE_URL"]!,
-        process.env["SUPABASE_PUBLISHABLE_KEY"]!,
-        { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
-      );
-      const { data: rows, error } = await client
-        .from("public_content_strings")
-        .select("key, published_value")
-        .like("key", `${data.page}.%`);
-      if (error) return empty;
-      const strings: ContentMap = {};
-      for (const r of (rows ?? []) as Array<{ key: string; published_value: string | null }>) {
-        if (typeof r.published_value === "string" && r.published_value.length > 0) {
-          strings[r.key] = r.published_value;
-        }
-      }
+      // Public read. Goes through the published-only view (anon has no access
+      // to the base table, so draft_value cannot leak) and is cached for a
+      // short TTL per worker instance.
+      const { getPublishedStrings } = await import("@/lib/contentCache.server");
+      const strings = await getPublishedStrings(data.page);
+      if (!strings) return empty;
       return { preview: false, strings };
+
     } catch {
       return empty;
     }
@@ -156,6 +144,8 @@ export const publishContentString = createServerFn({ method: "POST" })
       .select("key, published_value, draft_value")
       .single();
     if (error) throw new Error(error.message);
+    const { invalidatePublishedStrings } = await import("@/lib/contentCache.server");
+    invalidatePublishedStrings(data.key.split(".")[0]);
     return { key: row.key, published: row.published_value, draft: row.draft_value };
   });
 
@@ -204,5 +194,7 @@ export const publishPageDrafts = createServerFn({ method: "POST" })
       if (e) throw new Error(e.message);
       saved.push({ key: row.key, published: row.published_value, draft: row.draft_value });
     }
+    const { invalidatePublishedStrings } = await import("@/lib/contentCache.server");
+    invalidatePublishedStrings(data.page);
     return saved;
   });

@@ -1,0 +1,1 @@
+update public.content_strings set draft_value = 'DRAFTCHECK-TTFB' where key = 'home.pillars.eyebrow';
