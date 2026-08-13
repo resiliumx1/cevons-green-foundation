@@ -6,19 +6,29 @@ import { useCallback, useEffect, useRef } from "react";
  * stuck at their `hidden` variant — the page looks blank.
  *
  * This hook hands back a ref. If the document is hidden at mount (or is still
- * hidden shortly after), it writes the final visible state straight to the DOM,
- * bypassing the paused animation loop. Once the tab becomes visible again
- * framer-motion resumes and takes ownership of the styles as usual.
+ * hidden shortly after), it writes the final visible state straight to the DOM
+ * for the element and any descendant left at opacity 0, bypassing the paused
+ * animation loop. Once the tab becomes visible framer-motion resumes and takes
+ * ownership of the styles again.
  */
-export function useRevealWhenHidden<T extends HTMLElement>() {
+export function useRevealWhenHidden<T extends HTMLElement>(includeDescendants = false) {
   const ref = useRef<T | null>(null);
 
   const reveal = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.opacity = "1";
-    el.style.transform = "none";
-  }, []);
+    const root = ref.current;
+    if (!root) return;
+
+    const show = (el: HTMLElement) => {
+      if (el.style.opacity === "0") el.style.opacity = "1";
+      if (el.style.transform) el.style.transform = "none";
+    };
+
+    show(root);
+    if (root.style.opacity === "") root.style.opacity = "1";
+    if (includeDescendants) {
+      root.querySelectorAll<HTMLElement>('[style*="opacity"]').forEach(show);
+    }
+  }, [includeDescendants]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
