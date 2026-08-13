@@ -51,7 +51,7 @@ export function CertificationPanel() {
                 <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full bg-white p-1 ring-1 ring-cevons-border md:h-[52px] md:w-[52px] md:p-1.5">
                   <img
                     src={img}
-                    alt=""
+                    alt={`${t} logo`}
                     loading="lazy"
                     decoding="async"
                     className={`h-full w-full object-contain ${scale ?? ""}`}

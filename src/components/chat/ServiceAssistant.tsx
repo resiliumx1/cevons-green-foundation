@@ -115,7 +115,7 @@ function EmblemBadge({
       >
         <img
           src={LOGO_MARK}
-          alt=""
+          alt="CEVONS logo"
           className="object-contain"
           style={{ width: "100%", height: "100%" }}
           draggable={false}
@@ -356,7 +356,7 @@ export function ServiceAssistant() {
         <span className="relative inline-grid place-items-center shrink-0 rounded-full bg-white sm:h-[52px] sm:w-[52px] h-[46px] w-[46px]" style={{ padding: 4 }}>
           <img
             src={LOGO_MARK}
-            alt=""
+            alt="CEVONS logo"
             className="object-contain h-full w-full"
             draggable={false}
           />

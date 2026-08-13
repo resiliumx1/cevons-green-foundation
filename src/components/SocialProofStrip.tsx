@@ -37,7 +37,7 @@ export default function SocialProofStrip() {
             >
               <img
                 src={it.logo}
-                alt=""
+                alt={`${it.title} logo`}
                 loading="lazy"
                 decoding="async"
                 className="h-12 w-12 md:h-14 md:w-14 object-contain shrink-0"

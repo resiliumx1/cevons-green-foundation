@@ -273,6 +273,7 @@ export function Header() {
                                 <Link
                                   to={`/services/${slug}`}
                                   role="menuitem"
+                                  aria-label={`${serviceLabels[slug]} — ${categoryLabels[col.groupKey]} services`}
                                   className="flex items-center gap-2 px-2 py-1.5 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
                                 >
                                   <span>{serviceLabels[slug]}</span>
@@ -413,6 +414,7 @@ export function Header() {
                                   <Link
                                     key={slug}
                                     to={`/services/${slug}`}
+                                    aria-label={`${serviceLabels[slug]} — ${categoryLabels[col.groupKey]} services`}
                                     className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
                                     onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
                                   >
