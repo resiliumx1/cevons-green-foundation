@@ -17,6 +17,11 @@ function useVisibilityFallback<T extends HTMLElement>() {
   const [forced, setForced] = useState(false);
 
   useEffect(() => {
+    // Hidden tab/iframe: rAF is paused, so no animation can run — show at once.
+    if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+      setForced(true);
+      return;
+    }
     const t = setTimeout(() => {
       const el = ref.current;
       if (!el) return;
@@ -27,7 +32,11 @@ function useVisibilityFallback<T extends HTMLElement>() {
     return () => clearTimeout(t);
   }, []);
 
-  return { ref, animate: forced ? ("show" as const) : undefined };
+  return {
+    ref,
+    initial: forced ? ("show" as const) : ("hidden" as const),
+    animate: forced ? ("show" as const) : undefined,
+  };
 }
 
 type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" | "p" | "h1" | "h2" | "h3" | "span";
