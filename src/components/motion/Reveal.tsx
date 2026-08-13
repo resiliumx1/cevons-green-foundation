@@ -4,7 +4,36 @@ import {
   type HTMLMotionProps,
   type Variants,
 } from "framer-motion";
-import type { ComponentType, ReactNode } from "react";
+import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+import { useRevealWhenHidden } from "@/components/motion/useEnterAnimation";
+
+/**
+ * Safety net: in some embedded/hidden-iframe situations the IntersectionObserver
+ * behind `whileInView` never reports, leaving SSR content stuck at opacity 0
+ * (a blank-looking page). Shortly after mount we check whether the element is
+ * already within the viewport and, if so, force the reveal.
+ */
+function useVisibilityFallback<T extends HTMLElement>() {
+  const ref = useRevealWhenHidden<T>(true);
+  const [forced, setForced] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top < vh && r.bottom > 0) setForced(true);
+    }, 900);
+    return () => clearTimeout(t);
+  }, []);
+
+  return {
+    ref,
+    initial: forced ? ("show" as const) : ("hidden" as const),
+    animate: forced ? ("show" as const) : undefined,
+  };
+}
 
 type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" | "p" | "h1" | "h2" | "h3" | "span";
 
@@ -98,12 +127,15 @@ export function Reveal({
   };
 
   const Comp = getMotionComponent(as);
+  const fallback = useVisibilityFallback<HTMLDivElement>();
 
   return (
     <Comp
+      ref={fallback.ref}
       className={className}
-      initial="hidden"
+      initial={fallback.initial}
       whileInView="show"
+      animate={fallback.animate}
       viewport={VIEWPORT}
       variants={variants}
       {...rest}
@@ -142,11 +174,14 @@ type StaggerProps = {
 export function Stagger({ children, className, as = "div", ...rest }: StaggerProps) {
   const reduce = useReducedMotion() ?? false;
   const Comp = getMotionComponent(as);
+  const fallback = useVisibilityFallback<HTMLDivElement>();
   return (
     <Comp
+      ref={fallback.ref}
       className={className}
-      initial="hidden"
+      initial={fallback.initial}
       whileInView="show"
+      animate={fallback.animate}
       viewport={VIEWPORT}
       variants={reduce ? STAGGER_CONTAINER_REDUCED : STAGGER_CONTAINER}
       {...rest}
