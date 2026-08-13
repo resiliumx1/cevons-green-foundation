@@ -144,6 +144,8 @@ export const publishContentString = createServerFn({ method: "POST" })
       .select("key, published_value, draft_value")
       .single();
     if (error) throw new Error(error.message);
+    const { invalidatePublishedStrings } = await import("@/lib/contentCache.server");
+    invalidatePublishedStrings(data.key.split(".")[0]);
     return { key: row.key, published: row.published_value, draft: row.draft_value };
   });
 
@@ -192,5 +194,7 @@ export const publishPageDrafts = createServerFn({ method: "POST" })
       if (e) throw new Error(e.message);
       saved.push({ key: row.key, published: row.published_value, draft: row.draft_value });
     }
+    const { invalidatePublishedStrings } = await import("@/lib/contentCache.server");
+    invalidatePublishedStrings(data.page);
     return saved;
   });
