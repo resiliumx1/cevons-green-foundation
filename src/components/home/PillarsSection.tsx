@@ -33,6 +33,9 @@ function PillarCard({ item, exploreLabel }: { item: PillarItem; exploreLabel: st
             src={src}
             alt={`${item.title} waste management services in Guyana`}
             loading="lazy"
+            decoding="async"
+            width={800}
+            height={600}
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         )}
