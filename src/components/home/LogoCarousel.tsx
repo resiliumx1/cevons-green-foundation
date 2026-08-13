@@ -55,15 +55,12 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
           <div className="lcm-fade lcm-fade-l" aria-hidden="true" />
           <div className="lcm-fade lcm-fade-r" aria-hidden="true" />
           <div className="lcm-track">
-            {sequence.map((l, i) => (
-              <div
-                key={`${l.alt}-${i}`}
-                className="lcm-chip"
-                aria-hidden={i >= logos.length ? "true" : undefined}
-              >
+            {/* Real, described logos — the only <img> elements in the marquee. */}
+            {logos.map((l) => (
+              <div key={`real-${l.alt}`} className="lcm-chip">
                 <img
                   src={l.src}
-                  alt={i >= logos.length ? "" : l.alt}
+                  alt={l.alt}
                   loading="lazy"
                   decoding="async"
                   className="lcm-logo"
@@ -71,8 +68,20 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
                 />
               </div>
             ))}
+            {/* Seamless-loop clone: painted with CSS background-image so the
+                duplicated half adds no extra <img> elements to the DOM. */}
+            {logos.map((l) => (
+              <div key={`clone-${l.alt}`} className="lcm-chip" aria-hidden="true">
+                <span
+                  className="lcm-logo-bg"
+                  data-logo={l.src.split("/").pop()?.replace(/\.[^.]+$/, "")}
+                  style={{ backgroundImage: `url(${l.src})` }}
+                />
+              </div>
+            ))}
           </div>
         </div>
+
 
         {/* Orange shimmer-wave line */}
         <div className="lcm-shimmer-wrap" aria-hidden="true">
