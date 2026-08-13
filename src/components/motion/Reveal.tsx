@@ -14,15 +14,10 @@ import { useRevealWhenHidden } from "@/components/motion/useEnterAnimation";
  * already within the viewport and, if so, force the reveal.
  */
 function useVisibilityFallback<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
+  const ref = useRevealWhenHidden<T>(true);
   const [forced, setForced] = useState(false);
 
   useEffect(() => {
-    // Hidden tab/iframe: rAF is paused, so no animation can run — show at once.
-    if (typeof document !== "undefined" && document.visibilityState === "hidden") {
-      setForced(true);
-      return;
-    }
     const t = setTimeout(() => {
       const el = ref.current;
       if (!el) return;

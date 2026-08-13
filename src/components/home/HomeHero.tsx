@@ -32,6 +32,7 @@ export type HeroContent = Partial<{
 export function HomeHero({ content }: { content?: HeroContent } = {}) {
   const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
+  const heroContentRef = useRevealWhenHidden<HTMLDivElement>(true);
 
   const c = (key: keyof HeroContent, fallback: string) => {
     const v = content?.[key];
@@ -74,7 +75,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
 
 
       {/* MAIN CONTENT GRID */}
-      <div className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
+      <div ref={heroContentRef} className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-0">
           <motion.h1
