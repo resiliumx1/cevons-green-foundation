@@ -122,12 +122,15 @@ export function Reveal({
   };
 
   const Comp = getMotionComponent(as);
+  const fallback = useVisibilityFallback<HTMLDivElement>();
 
   return (
     <Comp
+      ref={fallback.ref}
       className={className}
       initial="hidden"
       whileInView="show"
+      animate={fallback.animate}
       viewport={VIEWPORT}
       variants={variants}
       {...rest}
