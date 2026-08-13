@@ -4,7 +4,31 @@ import {
   type HTMLMotionProps,
   type Variants,
 } from "framer-motion";
-import type { ComponentType, ReactNode } from "react";
+import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+
+/**
+ * Safety net: in some embedded/hidden-iframe situations the IntersectionObserver
+ * behind `whileInView` never reports, leaving SSR content stuck at opacity 0
+ * (a blank-looking page). Shortly after mount we check whether the element is
+ * already within the viewport and, if so, force the reveal.
+ */
+function useVisibilityFallback<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [forced, setForced] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top < vh && r.bottom > 0) setForced(true);
+    }, 900);
+    return () => clearTimeout(t);
+  }, []);
+
+  return { ref, animate: forced ? ("show" as const) : undefined };
+}
 
 type MotionTag = "div" | "section" | "article" | "ul" | "ol" | "li" | "header" | "p" | "h1" | "h2" | "h3" | "span";
 
