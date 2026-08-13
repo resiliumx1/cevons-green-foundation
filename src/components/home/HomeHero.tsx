@@ -5,7 +5,7 @@ import { WhatsApp } from "@/components/icons/WhatsApp";
 import { HeroSlideshowProvider, HeroSlideshowBackground, HeroSlideshowControls, HeroSlideCaption } from "@/components/home/HeroSlideshow";
 import { useT } from "@/contexts/SettingsContext";
 import { Editable, useEditableText } from "@/components/Editable";
-import { useSkipEnterAnimation } from "@/components/motion/useEnterAnimation";
+import { useRevealWhenHidden } from "@/components/motion/useEnterAnimation";
 
 
 
@@ -32,7 +32,7 @@ export type HeroContent = Partial<{
 export function HomeHero({ content }: { content?: HeroContent } = {}) {
   const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
-  const skipEnter = useSkipEnterAnimation();
+
   const c = (key: keyof HeroContent, fallback: string) => {
     const v = content?.[key];
     return v && v.trim() ? v : fallback;
@@ -80,7 +80,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
           <motion.h1
             id="home-hero-title"
             variants={fadeUp}
-            initial={skipEnter ? "visible" : "hidden"}
+            initial="hidden"
             animate="visible"
             custom={1}
             className="hero-heading"
@@ -104,7 +104,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
 
           <motion.p
             variants={fadeUp}
-            initial={skipEnter ? "visible" : "hidden"}
+            initial="hidden"
             animate="visible"
             custom={2}
             className="hero-subhead-pro mt-2"
@@ -122,7 +122,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
 
           <motion.p
             variants={fadeUp}
-            initial={skipEnter ? "visible" : "hidden"}
+            initial="hidden"
             animate="visible"
             custom={3}
             className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
@@ -136,7 +136,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
 
           <motion.div
             variants={fadeUp}
-            initial={skipEnter ? "visible" : "hidden"}
+            initial="hidden"
             animate="visible"
             custom={4}
             className="mt-3 md:mt-4 flex flex-wrap gap-3"
@@ -162,7 +162,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
           {/* Trust badge row */}
           <motion.ul
             variants={fadeUp}
-            initial={skipEnter ? "visible" : "hidden"}
+            initial="hidden"
             animate="visible"
             custom={5}
             className="mt-3 md:mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/90"

@@ -5,6 +5,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+import { useRevealWhenHidden } from "@/components/motion/useEnterAnimation";
 
 /**
  * Safety net: in some embedded/hidden-iframe situations the IntersectionObserver
