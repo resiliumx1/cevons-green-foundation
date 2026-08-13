@@ -169,11 +169,14 @@ type StaggerProps = {
 export function Stagger({ children, className, as = "div", ...rest }: StaggerProps) {
   const reduce = useReducedMotion() ?? false;
   const Comp = getMotionComponent(as);
+  const fallback = useVisibilityFallback<HTMLDivElement>();
   return (
     <Comp
+      ref={fallback.ref}
       className={className}
       initial="hidden"
       whileInView="show"
+      animate={fallback.animate}
       viewport={VIEWPORT}
       variants={reduce ? STAGGER_CONTAINER_REDUCED : STAGGER_CONTAINER}
       {...rest}
