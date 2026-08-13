@@ -67,7 +67,7 @@
       "subFor": "For Homes.",
       "subForB": "For Businesses.",
       "subForC": "For Guyana.",
-      "lead": "From residential collection to industrial waste management, CEVONS delivers reliable, safe, and sustainable environmental solutions across",
+      "lead": "From residential collection to industrial waste management, CEVONS delivers reliable, safe, and sustainable environmental solutions — keeping communities cleaner today and greener tomorrow across",
       "leadCountry": "Guyana.",
       "ctaWhatsappLabel": "WhatsApp Us",
       "ctaWhatsappSub": "Chat with our team",
@@ -85,11 +85,31 @@
       "title2": "Services",
       "viewAll": "View all services",
       "cards": {
-        "industrial": { "tag": "INDUSTRIAL", "title": "Industrial Waste", "desc": "Safe handling of hazardous and industrial-scale waste streams." },
-        "recyclables": { "tag": "RECYCLABLES", "title": "Recyclables Collection", "desc": "Material recovery that turns waste into reusable resources." },
-        "residential": { "tag": "RESIDENTIAL", "title": "Residential Collection", "desc": "Reliable home pickups across Georgetown, Linden and Berbice." },
-        "commercial": { "tag": "COMMERCIAL", "title": "Commercial Solutions", "desc": "Tailored waste programmes for businesses and properties." },
-        "specialised": { "tag": "SPECIALISED", "title": "Specialised Services", "desc": "Biohazardous, medical and sensitive-stream disposal you can trust." }
+        "industrial": {
+          "tag": "INDUSTRIAL",
+          "title": "Industrial Waste",
+          "desc": "Safe handling of hazardous and industrial-scale waste streams."
+        },
+        "recyclables": {
+          "tag": "RECYCLABLES",
+          "title": "Recyclables Collection",
+          "desc": "Material recovery that turns waste into reusable resources."
+        },
+        "residential": {
+          "tag": "RESIDENTIAL",
+          "title": "Residential Collection",
+          "desc": "Reliable home pickups across Georgetown, Linden and Berbice."
+        },
+        "commercial": {
+          "tag": "COMMERCIAL",
+          "title": "Commercial Solutions",
+          "desc": "Tailored waste programmes for businesses and properties."
+        },
+        "specialised": {
+          "tag": "SPECIALISED",
+          "title": "Specialised Services",
+          "desc": "Biohazardous, medical and sensitive-stream disposal you can trust."
+        }
       }
     },
     "pillars": {
@@ -99,10 +119,22 @@
       "titleC": "Pillars",
       "explore": "Explore Services",
       "items": {
-        "residential": { "title": "Residential", "body": "Reliable collection and essential services for clean, safe and comfortable homes and communities." },
-        "commercial": { "title": "Commercial", "body": "Smart waste solutions for businesses and commercial properties." },
-        "industrial": { "title": "Industrial", "body": "Specialized waste management and industrial environmental services." },
-        "facilities": { "title": "Recycling & Facilities", "body": "Turning waste into resources through recycling and facility services." }
+        "residential": {
+          "title": "Residential",
+          "body": "Reliable collection and essential services for clean, safe and comfortable homes and communities."
+        },
+        "commercial": {
+          "title": "Commercial",
+          "body": "Smart waste solutions for businesses and commercial properties."
+        },
+        "industrial": {
+          "title": "Industrial",
+          "body": "Specialized waste management and industrial environmental services."
+        },
+        "facilities": {
+          "title": "Recycling & Facilities",
+          "body": "Turning waste into resources through recycling and facility services."
+        }
       }
     },
     "stats": {
@@ -120,18 +152,36 @@
       "titleC": "Process",
       "step": "Step",
       "items": {
-        "request": { "title": "Request", "body": "Send your service request or inquiry." },
-        "confirm": { "title": "Confirm", "body": "We confirm details and requirements." },
-        "schedule": { "title": "Schedule", "body": "We schedule the best time for you." },
-        "dispatch": { "title": "Dispatch", "body": "Our team is dispatched." },
-        "service": { "title": "Service", "body": "We deliver quality service." },
-        "complete": { "title": "Complete", "body": "Job complete and you're satisfied." }
+        "request": {
+          "title": "Request",
+          "body": "Send your service request or inquiry."
+        },
+        "confirm": {
+          "title": "Confirm",
+          "body": "We confirm details and requirements."
+        },
+        "schedule": {
+          "title": "Schedule",
+          "body": "We schedule the best time for you."
+        },
+        "dispatch": {
+          "title": "Dispatch",
+          "body": "Our team is dispatched."
+        },
+        "service": {
+          "title": "Service",
+          "body": "We deliver quality service."
+        },
+        "complete": {
+          "title": "Complete",
+          "body": "Job complete and you're satisfied."
+        }
       }
     },
     "cta": {
       "eyebrow": "Let's Build a Cleaner Guyana Together",
       "title": "Ready to Get Started?",
-      "lead": "Let's keep Guyana clean with reliable waste collection and environmental solutions tailored to your needs.",
+      "lead": "Let's keep Guyana cleaner today and greener tomorrow with reliable waste collection and environmental solutions tailored to your needs.",
       "whatsapp": "WhatsApp Us",
       "quote": "Request a Quote"
     }
@@ -228,7 +278,6 @@
       "pscTitle": "PSC MEMBER",
       "pscSub": "Private Sector Commission"
     },
-
     "servicesList": {
       "residential": "Residential Garbage Collection",
       "commercial": "Commercial Garbage Collection",
@@ -259,7 +308,6 @@
       "about": "About Us",
       "story": "Our Story",
       "careers": "Careers",
-      
       "locations": "Locations",
       "environment": "Environment",
       "resources": "Resources",
@@ -267,4 +315,3 @@
     }
   }
 }
-

@@ -1,0 +1,3 @@
+ALTER TABLE public.content_strings DISABLE TRIGGER USER;
+UPDATE public.content_strings SET published_value = 'From residential collection to industrial waste management, CEVONS delivers reliable, safe, and sustainable environmental solutions — keeping communities cleaner today and greener tomorrow across', updated_at = now() WHERE key = 'home.hero.lead';
+ALTER TABLE public.content_strings ENABLE TRIGGER USER;
