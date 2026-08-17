@@ -9,6 +9,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { captureFirstTouch } from "@/lib/attribution";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -156,6 +157,14 @@ function RecoveryLinkRedirect() {
       params.get("error_code") === "otp_expired";
     if (!isRecovery) return;
     window.location.replace(`/admin/reset-password${hash}`);
+  }, []);
+  return null;
+}
+
+/** Freezes first-touch UTM/referrer/landing-page attribution for the session. */
+function AttributionCapture() {
+  useEffect(() => {
+    captureFirstTouch();
   }, []);
   return null;
 }
