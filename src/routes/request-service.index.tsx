@@ -17,7 +17,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { serviceAreaGroups, branchForArea, OTHER_AREA_VALUE, OTHER_AREA_LABEL } from "@/data/serviceAreas";
+import { getAttribution } from "@/lib/attribution";
 import { cn } from "@/lib/utils";
 import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
 import { PromoSlot } from "@/components/promo/PromoSlot";
@@ -133,7 +135,7 @@ type FormData = {
   schedule: { date: string; window: string; urgency: string; timeframe: string };
   info: {
     fullName: string; company: string; phone: string; email: string;
-    address: string; region: string; contactMethod: string; notes: string;
+    address: string; region: string; regionOther: string; contactMethod: string; notes: string;
   };
   confirm: boolean;
   newsletterOptIn: boolean;
@@ -145,7 +147,7 @@ const EMPTY: FormData = {
   details: {},
   files: [],
   schedule: { date: "", window: "", urgency: "", timeframe: "" },
-  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", contactMethod: "WhatsApp", notes: "" },
+  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", regionOther: "", contactMethod: "WhatsApp", notes: "" },
   confirm: false,
   newsletterOptIn: true,
 };
@@ -196,6 +198,9 @@ function RequestServicePage() {
       else if (!/^[+\d\s\-()]{7,}$/.test(data.info.phone)) e.phone = "Enter a valid phone number.";
       if (data.info.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.info.email)) e.email = "Enter a valid email.";
       if (!data.info.address.trim()) e.address = "Service location is required.";
+      if (!data.info.region) e.region = "Please choose your service area.";
+      else if (data.info.region === OTHER_AREA_VALUE && !data.info.regionOther.trim())
+        e.region = "Please type your location.";
     }
     if (step === 5 && !data.confirm) e.confirm = "Please confirm before submitting.";
     setErrors(e);
@@ -278,7 +283,9 @@ function RequestServicePage() {
         fileUrls = uploaded;
       }
 
-      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const attribution = getAttribution();
+      const isOtherArea = data.info.region === OTHER_AREA_VALUE;
+      const regionValue = (isOtherArea ? data.info.regionOther.trim() : data.info.region) || null;
       const payload = {
         category: data.category,
         service: data.service,
@@ -286,7 +293,8 @@ function RequestServicePage() {
         details: data.details,
         preferred_date: data.schedule.date || null,
         preferred_time: data.schedule.window || null,
-        region: data.info.region || null,
+        region: regionValue,
+        service_branch: isOtherArea ? null : branchForArea(data.info.region),
         name: data.info.fullName,
         email: data.info.email || null,
         phone: data.info.phone,
@@ -294,13 +302,7 @@ function RequestServicePage() {
         contact_method: data.info.contactMethod,
         message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
         file_urls: fileUrls,
-        utm_source: params?.get("utm_source"),
-        utm_medium: params?.get("utm_medium"),
-        utm_campaign: params?.get("utm_campaign"),
-        utm_term: params?.get("utm_term"),
-        utm_content: params?.get("utm_content"),
-        referrer: typeof document !== "undefined" ? document.referrer || null : null,
-        landing_page: typeof window !== "undefined" ? window.location.pathname : null,
+        ...attribution,
       };
       const { data: fnRes, error } = await supabase.functions.invoke<{ reference?: string; error?: string }>(
         "submit-service-request",
@@ -320,7 +322,7 @@ function RequestServicePage() {
           phone: data.info.phone,
           contact: data.info.email || data.info.phone,
           service: selected?.name ?? data.service,
-          region: data.info.region,
+          region: regionValue,
           preferred_date: data.schedule.date,
           preferred_time: data.schedule.window,
           address: data.info.address,
@@ -1104,11 +1106,33 @@ function StepInfo({
           <Input className="h-12" value={info.address} onChange={(e) => setInfo("address", e.target.value)} />
           {errors.address && <p className="text-sm text-destructive">{errors.address}</p>}
         </Field>
-        <Field label="Region">
+        <Field label="Service Area *">
           <Select value={info.region} onValueChange={(v) => setInfo("region", v)}>
-            <SelectTrigger className="h-12"><SelectValue placeholder="Select a region" /></SelectTrigger>
-            <SelectContent>{["Georgetown", "Linden", "Berbice", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+            <SelectTrigger className="h-12"><SelectValue placeholder="Select your area" /></SelectTrigger>
+            <SelectContent>
+              {serviceAreaGroups.map((g) => (
+                <SelectGroup key={g.branch}>
+                  <SelectLabel>{g.branch} branch</SelectLabel>
+                  {g.areas.map((a) => <SelectItem key={a} value={a}>{a}</SelectItem>)}
+                </SelectGroup>
+              ))}
+              <SelectGroup>
+                <SelectItem value={OTHER_AREA_VALUE}>{OTHER_AREA_LABEL}</SelectItem>
+              </SelectGroup>
+            </SelectContent>
           </Select>
+          {info.region && info.region !== OTHER_AREA_VALUE && (
+            <p className="text-xs text-muted-foreground">Served by our {branchForArea(info.region)} branch.</p>
+          )}
+          {info.region === OTHER_AREA_VALUE && (
+            <Input
+              className="h-12"
+              value={info.regionOther}
+              onChange={(e) => setInfo("regionOther", e.target.value)}
+              placeholder="Type your town or village"
+            />
+          )}
+          {errors.region && <p className="text-sm text-destructive">{errors.region}</p>}
         </Field>
         <Field label="Preferred contact method">
           <RadioGroup value={info.contactMethod} onValueChange={(v) => setInfo("contactMethod", v)} className="flex gap-4 pt-3">
@@ -1185,7 +1209,7 @@ function StepReview({
             <div><span className="text-muted-foreground">Phone:</span> {data.info.phone}</div>
             <div><span className="text-muted-foreground">Email:</span> {data.info.email || "—"}</div>
             <div className="md:col-span-2"><span className="text-muted-foreground">Address:</span> {data.info.address}</div>
-            <div><span className="text-muted-foreground">Region:</span> {data.info.region || "—"}</div>
+            <div><span className="text-muted-foreground">Service area:</span> {(data.info.region === OTHER_AREA_VALUE ? data.info.regionOther : data.info.region) || "—"}</div>
             <div><span className="text-muted-foreground">Contact via:</span> {data.info.contactMethod}</div>
             {data.info.notes && <div className="md:col-span-2"><span className="text-muted-foreground">Notes:</span> {data.info.notes}</div>}
           </div>

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { whatsappHref } from "@/data/cevonsContact";
+import { getAttribution } from "@/lib/attribution";
 
 const subjects = [
   "General Inquiry",
@@ -56,19 +57,9 @@ const inputClass =
 const inputErrClass =
   "border-red-400 focus:ring-red-300 focus:border-red-500";
 
+/** First-touch attribution captured on the visitor's first page of the session. */
 function getUtm() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  const pick = (k: string) => params.get(k) || undefined;
-  return {
-    utm_source: pick("utm_source"),
-    utm_medium: pick("utm_medium"),
-    utm_campaign: pick("utm_campaign"),
-    utm_term: pick("utm_term"),
-    utm_content: pick("utm_content"),
-    referrer: document.referrer || undefined,
-    landing_page: window.location.href,
-  };
+  return getAttribution();
 }
 
 export function ContactForm() {
