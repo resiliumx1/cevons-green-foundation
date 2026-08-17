@@ -283,7 +283,9 @@ function RequestServicePage() {
         fileUrls = uploaded;
       }
 
-      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const attribution = getAttribution();
+      const isOtherArea = data.info.region === OTHER_AREA_VALUE;
+      const regionValue = (isOtherArea ? data.info.regionOther.trim() : data.info.region) || null;
       const payload = {
         category: data.category,
         service: data.service,
