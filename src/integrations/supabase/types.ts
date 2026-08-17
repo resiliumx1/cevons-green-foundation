@@ -1001,6 +1001,7 @@ export type Database = {
           referrer: string | null
           region: string | null
           service: string | null
+          service_branch: string | null
           status: string
           updated_at: string
           utm_campaign: string | null
@@ -1034,6 +1035,7 @@ export type Database = {
           referrer?: string | null
           region?: string | null
           service?: string | null
+          service_branch?: string | null
           status?: string
           updated_at?: string
           utm_campaign?: string | null
@@ -1067,6 +1069,7 @@ export type Database = {
           referrer?: string | null
           region?: string | null
           service?: string | null
+          service_branch?: string | null
           status?: string
           updated_at?: string
           utm_campaign?: string | null
