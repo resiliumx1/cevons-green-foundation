@@ -322,7 +322,7 @@ function RequestServicePage() {
           phone: data.info.phone,
           contact: data.info.email || data.info.phone,
           service: selected?.name ?? data.service,
-          region: data.info.region,
+          region: regionValue,
           preferred_date: data.schedule.date,
           preferred_time: data.schedule.window,
           address: data.info.address,
