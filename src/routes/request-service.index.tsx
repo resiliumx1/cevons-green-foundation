@@ -302,13 +302,7 @@ function RequestServicePage() {
         contact_method: data.info.contactMethod,
         message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
         file_urls: fileUrls,
-        utm_source: params?.get("utm_source"),
-        utm_medium: params?.get("utm_medium"),
-        utm_campaign: params?.get("utm_campaign"),
-        utm_term: params?.get("utm_term"),
-        utm_content: params?.get("utm_content"),
-        referrer: typeof document !== "undefined" ? document.referrer || null : null,
-        landing_page: typeof window !== "undefined" ? window.location.pathname : null,
+        ...attribution,
       };
       const { data: fnRes, error } = await supabase.functions.invoke<{ reference?: string; error?: string }>(
         "submit-service-request",
