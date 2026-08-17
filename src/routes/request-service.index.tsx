@@ -198,6 +198,9 @@ function RequestServicePage() {
       else if (!/^[+\d\s\-()]{7,}$/.test(data.info.phone)) e.phone = "Enter a valid phone number.";
       if (data.info.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.info.email)) e.email = "Enter a valid email.";
       if (!data.info.address.trim()) e.address = "Service location is required.";
+      if (!data.info.region) e.region = "Please choose your service area.";
+      else if (data.info.region === OTHER_AREA_VALUE && !data.info.regionOther.trim())
+        e.region = "Please type your location.";
     }
     if (step === 5 && !data.confirm) e.confirm = "Please confirm before submitting.";
     setErrors(e);
@@ -1106,7 +1109,7 @@ function StepInfo({
           <Input className="h-12" value={info.address} onChange={(e) => setInfo("address", e.target.value)} />
           {errors.address && <p className="text-sm text-destructive">{errors.address}</p>}
         </Field>
-        <Field label="Region">
+        <Field label="Service Area *">
           <Select value={info.region} onValueChange={(v) => setInfo("region", v)}>
             <SelectTrigger className="h-12"><SelectValue placeholder="Select your area" /></SelectTrigger>
             <SelectContent>
@@ -1209,7 +1212,7 @@ function StepReview({
             <div><span className="text-muted-foreground">Phone:</span> {data.info.phone}</div>
             <div><span className="text-muted-foreground">Email:</span> {data.info.email || "—"}</div>
             <div className="md:col-span-2"><span className="text-muted-foreground">Address:</span> {data.info.address}</div>
-            <div><span className="text-muted-foreground">Region:</span> {data.info.region || "—"}</div>
+            <div><span className="text-muted-foreground">Service area:</span> {(data.info.region === OTHER_AREA_VALUE ? data.info.regionOther : data.info.region) || "—"}</div>
             <div><span className="text-muted-foreground">Contact via:</span> {data.info.contactMethod}</div>
             {data.info.notes && <div className="md:col-span-2"><span className="text-muted-foreground">Notes:</span> {data.info.notes}</div>}
           </div>
