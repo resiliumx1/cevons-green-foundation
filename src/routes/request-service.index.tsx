@@ -135,7 +135,7 @@ type FormData = {
   schedule: { date: string; window: string; urgency: string; timeframe: string };
   info: {
     fullName: string; company: string; phone: string; email: string;
-    address: string; region: string; contactMethod: string; notes: string;
+    address: string; region: string; regionOther: string; contactMethod: string; notes: string;
   };
   confirm: boolean;
   newsletterOptIn: boolean;
@@ -147,7 +147,7 @@ const EMPTY: FormData = {
   details: {},
   files: [],
   schedule: { date: "", window: "", urgency: "", timeframe: "" },
-  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", contactMethod: "WhatsApp", notes: "" },
+  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", regionOther: "", contactMethod: "WhatsApp", notes: "" },
   confirm: false,
   newsletterOptIn: true,
 };
@@ -1108,9 +1108,31 @@ function StepInfo({
         </Field>
         <Field label="Region">
           <Select value={info.region} onValueChange={(v) => setInfo("region", v)}>
-            <SelectTrigger className="h-12"><SelectValue placeholder="Select a region" /></SelectTrigger>
-            <SelectContent>{["Georgetown", "Linden", "Berbice", "Other"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+            <SelectTrigger className="h-12"><SelectValue placeholder="Select your area" /></SelectTrigger>
+            <SelectContent>
+              {serviceAreaGroups.map((g) => (
+                <SelectGroup key={g.branch}>
+                  <SelectLabel>{g.branch} branch</SelectLabel>
+                  {g.areas.map((a) => <SelectItem key={a} value={a}>{a}</SelectItem>)}
+                </SelectGroup>
+              ))}
+              <SelectGroup>
+                <SelectItem value={OTHER_AREA_VALUE}>{OTHER_AREA_LABEL}</SelectItem>
+              </SelectGroup>
+            </SelectContent>
           </Select>
+          {info.region && info.region !== OTHER_AREA_VALUE && (
+            <p className="text-xs text-muted-foreground">Served by our {branchForArea(info.region)} branch.</p>
+          )}
+          {info.region === OTHER_AREA_VALUE && (
+            <Input
+              className="h-12"
+              value={info.regionOther}
+              onChange={(e) => setInfo("regionOther", e.target.value)}
+              placeholder="Type your town or village"
+            />
+          )}
+          {errors.region && <p className="text-sm text-destructive">{errors.region}</p>}
         </Field>
         <Field label="Preferred contact method">
           <RadioGroup value={info.contactMethod} onValueChange={(v) => setInfo("contactMethod", v)} className="flex gap-4 pt-3">
