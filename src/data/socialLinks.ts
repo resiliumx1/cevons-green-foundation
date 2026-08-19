@@ -30,9 +30,9 @@ export const socialLinks: Record<SocialPlatform, SocialLink> = {
   tiktok: {
     platform: "tiktok",
     name: "TikTok",
-    handle: "Coming soon",
-    url: "",
-    enabled: false,
+    handle: "@cevonsenvironmental",
+    url: "https://www.tiktok.com/@cevonsenvironmental",
+    enabled: true,
     accent: "#000000",
   },
   youtube: {
