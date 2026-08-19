@@ -40,16 +40,39 @@ export const inviteAdminUser = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Record the intended role first: the database applies it on first sign-in.
+    // A pending invitation for this address may already exist — refresh it
+    // instead of inserting a duplicate (unique index on pending emails).
     const expires = new Date(Date.now() + 7 * 86400000).toISOString();
-    const { error: invError } = await supabaseAdmin
+    const { data: existing, error: lookupError } = await supabaseAdmin
       .from("invitations")
-      .insert({
-        email: data.email,
-        role: data.role as never,
-        expires_at: expires,
-        invited_by: context.userId,
-      });
-    if (invError) throw new Error(invError.message);
+      .select("id")
+      .eq("email", data.email)
+      .is("accepted_at", null)
+      .maybeSingle();
+    if (lookupError) throw new Error(lookupError.message);
+
+    if (existing?.id) {
+      const { error: updError } = await supabaseAdmin
+        .from("invitations")
+        .update({
+          role: data.role as never,
+          expires_at: expires,
+          invited_by: context.userId,
+        })
+        .eq("id", existing.id);
+      if (updError) throw new Error(updError.message);
+    } else {
+      const { error: invError } = await supabaseAdmin
+        .from("invitations")
+        .insert({
+          email: data.email,
+          role: data.role as never,
+          expires_at: expires,
+          invited_by: context.userId,
+        });
+      if (invError) throw new Error(invError.message);
+    }
+
 
     // Try a real invitation first (creates the account). If the person already
     // has an account, fall back to a password-recovery email instead.
