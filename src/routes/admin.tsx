@@ -406,7 +406,23 @@ function CrmLayout() {
 
   return (
     <div data-crm-theme="manifest" data-theme={theme} className="flex min-h-screen">
-      <Toaster richColors position="top-right" />
+      <Toaster
+        richColors
+        position="top-right"
+        expand
+        gap={10}
+        offset={16}
+        theme={theme === "light" ? "light" : "dark"}
+        className="admin-toaster"
+        toastOptions={{
+          duration: 5000,
+          classNames: {
+            toast: "admin-toast",
+            title: "admin-toast-title",
+            description: "admin-toast-desc",
+          },
+        }}
+      />
       <CrmCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
       {/* Desktop sidebar */}
       <aside
