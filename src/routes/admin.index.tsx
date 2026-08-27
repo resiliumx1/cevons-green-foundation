@@ -267,8 +267,8 @@ function RecentActivity() {
           .limit(8),
         supabase
           .from("media_posts")
-          .select("id, title, kind, published, updated_at")
-          .order("updated_at", { ascending: false })
+          .select("id, title, kind, published, created_at")
+          .order("created_at", { ascending: false })
           .limit(8),
       ]);
       if (requests.error) throw requests.error;
@@ -294,8 +294,8 @@ function RecentActivity() {
         })),
         ...(media.data ?? []).map((p) => ({
           id: `p-${p.id}`,
-          at: (p.updated_at as string) ?? new Date().toISOString(),
-          text: `${p.published ? "Published" : "Saved a draft of"} “${p.title || "untitled"}”`,
+          at: p.created_at as string,
+          text: `${p.published ? "Published" : "Drafted"} “${p.title || "untitled"}”`,
           meta: `Media · ${p.kind}`,
           icon: ImageIcon,
           to: { path: "/admin/media" as const },
