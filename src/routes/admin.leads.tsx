@@ -759,7 +759,7 @@ function LeadsList() {
             setSelected(new Set());
           }}
           onExport={() => {
-            exportCsv(visible.filter((l) => selected.has(l.id)));
+            void exportCsv(visible.filter((l) => selected.has(l.id)), "selected requests");
             setSheetOpen(false);
           }}
         />
