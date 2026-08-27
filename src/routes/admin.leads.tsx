@@ -7,6 +7,8 @@ import {
   Check, CheckCheck, Loader2,
 } from "lucide-react";
 
+import { toast } from "sonner";
+
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { PullToRefresh } from "@/components/admin/PullToRefresh";
 import { supabase } from "@/integrations/supabase/client";
@@ -190,6 +192,12 @@ function LeadsList() {
   const [showAdd, setShowAdd] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [confirmStatus, setConfirmStatus] = useState<Status | null>(null);
+  const [exportState, setExportState] = useState<{
+    status: "idle" | "working" | "done" | "error";
+    progress: number;
+    message: string;
+  }>({ status: "idle", progress: 0, message: "" });
+
 
   const refresh = useCallback(async () => {
     await refetch();
@@ -279,24 +287,51 @@ function LeadsList() {
     setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); setDateFilter("");
   };
 
-  const exportCsv = (rows: Lead[]) => {
-    if (rows.length === 0) return;
-    const cols: Array<keyof Lead> = [
-      "reference", "created_at", "name", "email", "phone", "service", "category",
-      "region", "status", "estimated_value", "utm_source", "message",
-    ];
-    const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
-    const csv = [
-      cols.join(","),
-      ...rows.map((r) => cols.map((c) => cell(r[c])).join(",")),
-    ].join("\r\n");
-    const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const exportCsv = async (rows: Lead[], label: string) => {
+    if (exportState.status === "working") return;
+    if (rows.length === 0) {
+      setExportState({ status: "error", progress: 0, message: "Nothing to export — no requests match the current filters." });
+      toast.error("Nothing to export", { description: "No requests match the current filters." });
+      return;
+    }
+    setExportState({ status: "working", progress: 0, message: `Preparing ${rows.length} ${label}…` });
+    try {
+      const cols: Array<keyof Lead> = [
+        "reference", "created_at", "name", "email", "phone", "service", "category",
+        "region", "status", "estimated_value", "utm_source", "message",
+      ];
+      const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+      const lines: string[] = [cols.join(",")];
+      const CHUNK = 200;
+      for (let i = 0; i < rows.length; i += CHUNK) {
+        rows.slice(i, i + CHUNK).forEach((r) => lines.push(cols.map((c) => cell(r[c])).join(",")));
+        const pct = Math.min(99, Math.round(((i + CHUNK) / rows.length) * 100));
+        setExportState({ status: "working", progress: pct, message: `Building CSV… ${pct}%` });
+        // yield so the progress bar can paint on large exports
+        await new Promise((res) => setTimeout(res, 0));
+      }
+      const csv = lines.join("\r\n");
+      const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
+      const fileName = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+      setExportState({
+        status: "done",
+        progress: 100,
+        message: `Exported ${rows.length} ${label} to ${fileName}.`,
+      });
+      toast.success(`Exported ${rows.length} ${label}`, { description: fileName });
+      window.setTimeout(() => setExportState((s) => (s.status === "done" ? { status: "idle", progress: 0, message: "" } : s)), 6000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "The export could not be created.";
+      setExportState({ status: "error", progress: 0, message: `Export failed. ${message}` });
+      toast.error("Export failed", { description: message });
+    }
   };
+
 
   const toggleAll = () => {
     const next = new Set(selected);
@@ -334,19 +369,75 @@ function LeadsList() {
             </button>
           </div>
           <button
-            onClick={() => exportCsv(selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible)}
-            disabled={visible.length === 0}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50"
+            onClick={() =>
+              exportCsv(
+                selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible,
+                selected.size > 0 ? "selected requests" : "filtered requests",
+              )
+            }
+            disabled={visible.length === 0 || exportState.status === "working"}
+            aria-busy={exportState.status === "working"}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1414]"
           >
-            <Download className="h-4 w-4 text-slate-400" />
-            Export {selected.size > 0 ? `${selected.size} selected` : "CSV"}
+            {exportState.status === "working"
+              ? <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />
+              : <Download className="h-4 w-4 text-slate-400" />}
+            {exportState.status === "working"
+              ? "Exporting…"
+              : `Export ${selected.size > 0 ? `${selected.size} selected` : "CSV"}`}
           </button>
+
 
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Plus className="h-4 w-4" /> Add Lead
           </button>
         </div>
       </div>
+
+      {/* CSV export status */}
+      <div aria-live="polite" role="status" className={exportState.status === "idle" ? "sr-only" : ""}>
+        {exportState.status !== "idle" && (
+          <div
+            className={`rounded-xl border px-4 py-3 text-sm ${
+              exportState.status === "error"
+                ? "border-red-500/40 bg-red-500/10 text-red-200"
+                : exportState.status === "done"
+                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                  : "border-white/[0.08] bg-[#101820] text-slate-200"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {exportState.status === "working" && <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />}
+              {exportState.status === "done" && <Check className="h-4 w-4" />}
+              {exportState.status === "error" && <AlertTriangle className="h-4 w-4" />}
+              <span>{exportState.message}</span>
+              {exportState.status !== "working" && (
+                <button
+                  onClick={() => setExportState({ status: "idle", progress: 0, message: "" })}
+                  aria-label="Dismiss export message"
+                  className="ml-auto rounded p-1 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+            {exportState.status === "working" && (
+              <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={exportState.progress}
+                aria-label="CSV export progress"
+                className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+              >
+                <div className="h-full rounded-full bg-[#FFD200] transition-[width] duration-200" style={{ width: `${exportState.progress}%` }} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+
 
       {/* Pipeline segment tabs */}
       <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-2 animate-fade-in">
@@ -528,7 +619,7 @@ function LeadsList() {
                       <tr key={l.id} onClick={() => setPreviewId(l.id)}
                         className={`border-b border-white/[0.05] last:border-0 cursor-pointer transition-colors ${isPreview ? "bg-emerald-500/[0.04]" : "hover:bg-white/[0.02]"}`}>
                         <td className="pl-4 pr-2 py-3" onClick={(e) => e.stopPropagation()}>
-                          <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
+                          <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} aria-label={`Select ${l.reference ?? "request"}`} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
                         </td>
                         <td className="px-3 py-3 whitespace-nowrap">
                           <Link to="/admin/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
@@ -562,25 +653,29 @@ function LeadsList() {
           {/* Mobile cards */}
           <div className="lg:hidden space-y-3 pb-24">
             <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-              <span>Swipe a card right, or long-press, to select it.</span>
+              <span>Swipe right or long-press to select. With a keyboard, use the checkbox or press Space on a card.</span>
               <button
                 onClick={toggleAll}
-                className="inline-flex items-center gap-1 font-semibold text-slate-300"
+                className="inline-flex items-center gap-1 font-semibold text-slate-300 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
               >
                 <CheckCheck className="h-3.5 w-3.5" /> {allChecked ? "Clear all" : "Select all"}
               </button>
             </div>
-            {visible.map((l) => (
-              <SwipeSelectCard
-                key={l.id}
-                lead={l}
-                selected={selected.has(l.id)}
-                selectMode={selected.size > 0}
-                onToggle={() => toggleOne(l.id)}
-                onOpen={() => setPreviewId(l.id)}
-              />
-            ))}
+            <p aria-live="polite" className="sr-only">{selected.size} of {visible.length} requests selected</p>
+            <ul className="space-y-3" aria-label="Requests">
+              {visible.map((l) => (
+                <SwipeSelectCard
+                  key={l.id}
+                  lead={l}
+                  selected={selected.has(l.id)}
+                  selectMode={selected.size > 0}
+                  onToggle={() => toggleOne(l.id)}
+                  onOpen={() => setPreviewId(l.id)}
+                />
+              ))}
+            </ul>
           </div>
+
 
           {/* Mobile bulk bar */}
           {selected.size > 0 && (
@@ -670,7 +765,7 @@ function LeadsList() {
             setSelected(new Set());
           }}
           onExport={() => {
-            exportCsv(visible.filter((l) => selected.has(l.id)));
+            void exportCsv(visible.filter((l) => selected.has(l.id)), "selected requests");
             setSheetOpen(false);
           }}
         />
@@ -699,8 +794,10 @@ function SwipeSelectCard({
     if (longPress.current) { clearTimeout(longPress.current); longPress.current = null; }
   };
 
+  const label = `${l.reference ?? "Request"} — ${l.name ?? "Unnamed"}, ${l.service ?? "no service"}, ${l.region ?? "no region"}`;
+
   return (
-    <div className="relative overflow-hidden rounded-xl">
+    <li className="relative overflow-hidden rounded-xl list-none">
       <div
         className="absolute inset-y-0 left-0 flex w-24 items-center pl-4"
         style={{ background: selected ? "rgba(239,68,68,0.15)" : "rgba(255,210,0,0.15)" }}
@@ -709,9 +806,6 @@ function SwipeSelectCard({
         <Check className="h-5 w-5" style={{ color: selected ? "#f87171" : "#FFD200" }} />
       </div>
       <div
-        role="button"
-        tabIndex={0}
-        aria-pressed={selected}
         onTouchStart={(e) => {
           fired.current = false;
           start.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -743,30 +837,25 @@ function SwipeSelectCard({
           }
           start.current = null;
         }}
-        onClick={() => {
-          if (fired.current) { fired.current = false; return; }
-          if (selectMode) onToggle();
-          else onOpen();
-        }}
-        onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
-        className={`relative bg-[#101820] border rounded-xl p-4 ${selected ? "border-[#FFD200]/60" : "border-white/[0.08]"}`}
+        className={`relative bg-[#101820] border rounded-xl p-4 focus-within:ring-2 focus-within:ring-[#FFD200] focus-within:ring-offset-2 focus-within:ring-offset-[#0a1414] ${selected ? "border-[#FFD200]/60" : "border-white/[0.08]"}`}
         style={{ transform: `translateX(${dx}px)`, transition: dx === 0 ? "transform 180ms ease" : "none" }}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-start gap-3">
-            {(selectMode || selected) && (
-              <span
-                className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${selected ? "bg-[#FFD200] border-[#FFD200]" : "border-white/25"}`}
-              >
-                {selected && <Check className="h-3.5 w-3.5 text-[#101820]" />}
-              </span>
-            )}
-            <div className="min-w-0">
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={onToggle}
+              onClick={(e) => e.stopPropagation()}
+              aria-label={`Select ${label}`}
+              className="relative z-10 mt-0.5 h-5 w-5 shrink-0 rounded-md border-white/25 bg-white/5 accent-[#FFD200] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101820]"
+            />
+            <div className="relative z-10 min-w-0">
               <Link
                 to="/admin/leads/$id"
                 params={{ id: l.id }}
                 onClick={(e) => e.stopPropagation()}
-                className="font-mono text-[11px] text-[#FFD200]"
+                className="relative z-10 font-mono text-[11px] text-[#FFD200] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
               >
                 {l.reference}
               </Link>
@@ -780,10 +869,24 @@ function SwipeSelectCard({
           <span className="text-slate-400 capitalize">{sourceLabel(l.utm_source)}</span>
           <span className="text-slate-400">{fmtDate(l.created_at)}</span>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (fired.current) { fired.current = false; return; }
+            if (selectMode) onToggle();
+            else onOpen();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); onToggle(); }
+          }}
+          aria-label={`Open ${label}`}
+          className="absolute inset-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1414]"
+        />
       </div>
-    </div>
+    </li>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Mobile bulk action bottom sheet                                     */

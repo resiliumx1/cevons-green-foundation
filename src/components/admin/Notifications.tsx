@@ -478,7 +478,7 @@ export function NotificationsBell() {
               </AnimatePresence>
 
               {/* Filters + actions */}
-              <div className="flex items-center gap-1 px-3 py-2 border-b overflow-x-auto" style={{ borderColor: "var(--crm-border)" }}>
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b overflow-x-auto [scrollbar-width:none]" style={{ borderColor: "var(--crm-border)" }}>
                 {(["all", "unread", ...KNOWN_TYPES] as FilterKey[]).map((k) => {
                   const active = filter === k;
                   const label = k === "all" ? "All" : k === "unread" ? "Unread" : (TYPE_META[k as NotifType]?.label ?? "System");
@@ -486,7 +486,7 @@ export function NotificationsBell() {
                     <button
                       key={k}
                       onClick={() => setFilter(k)}
-                      className="text-[11px] px-2 py-1 rounded-md font-medium whitespace-nowrap transition-colors"
+                      className="shrink-0 text-[11px] px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors"
                       style={{
                         background: active ? "var(--crm-primary, #c89b3c)" : "transparent",
                         color: active ? "#1a1a1a" : "var(--crm-text-muted)",
@@ -499,8 +499,8 @@ export function NotificationsBell() {
                 <button
                   onClick={n.markAllRead}
                   disabled={n.unreadCount === 0}
-                  className="ml-auto text-[11px] px-2 py-1 rounded-md flex items-center gap-1 disabled:opacity-40 hover:opacity-80 whitespace-nowrap"
-                  style={{ color: "var(--crm-text-muted)" }}
+                  className="ml-2 shrink-0 text-[11px] px-2.5 py-1 rounded-md border flex items-center gap-1 disabled:opacity-40 hover:opacity-80 whitespace-nowrap"
+                  style={{ color: "var(--crm-text)", borderColor: "var(--crm-border)" }}
                 >
                   <Check className="h-3 w-3" /> Mark all read
                 </button>

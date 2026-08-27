@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-/** Manifest modes for CEVONS Website Admin. Dark is the design default. */
+/** Manifest modes for CEVONS Website Admin. Light is the default. */
 export type CrmTheme = "dark" | "light";
 
 const STORAGE_KEY = "cevons-admin-theme";
-const DEFAULT_THEME: CrmTheme = "dark";
+const DEFAULT_THEME: CrmTheme = "light";
 
 type ThemeCtx = {
   theme: CrmTheme;
@@ -15,7 +15,7 @@ type ThemeCtx = {
 const ThemeContext = createContext<ThemeCtx | null>(null);
 
 /**
- * First load follows prefers-color-scheme; after that the user's explicit
+ * Light mode is the default on first load; after that the user's explicit
  * choice wins and persists per browser profile.
  */
 function readInitialTheme(): CrmTheme {
@@ -23,11 +23,6 @@ function readInitialTheme(): CrmTheme {
   try {
     const v = window.localStorage.getItem(STORAGE_KEY);
     if (v === "dark" || v === "light") return v;
-  } catch {
-    // ignore
-  }
-  try {
-    if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
   } catch {
     // ignore
   }
