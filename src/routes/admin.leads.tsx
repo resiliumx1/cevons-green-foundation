@@ -367,13 +367,24 @@ function LeadsList() {
             </button>
           </div>
           <button
-            onClick={() => exportCsv(selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible)}
-            disabled={visible.length === 0}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50"
+            onClick={() =>
+              exportCsv(
+                selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible,
+                selected.size > 0 ? "selected requests" : "filtered requests",
+              )
+            }
+            disabled={visible.length === 0 || exportState.status === "working"}
+            aria-busy={exportState.status === "working"}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1414]"
           >
-            <Download className="h-4 w-4 text-slate-400" />
-            Export {selected.size > 0 ? `${selected.size} selected` : "CSV"}
+            {exportState.status === "working"
+              ? <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />
+              : <Download className="h-4 w-4 text-slate-400" />}
+            {exportState.status === "working"
+              ? "Exporting…"
+              : `Export ${selected.size > 0 ? `${selected.size} selected` : "CSV"}`}
           </button>
+
 
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Plus className="h-4 w-4" /> Add Lead
