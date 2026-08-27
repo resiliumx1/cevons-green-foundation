@@ -7,6 +7,8 @@ import {
   Check, CheckCheck, Loader2,
 } from "lucide-react";
 
+import { toast } from "sonner";
+
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { PullToRefresh } from "@/components/admin/PullToRefresh";
 import { supabase } from "@/integrations/supabase/client";
@@ -617,7 +619,7 @@ function LeadsList() {
                       <tr key={l.id} onClick={() => setPreviewId(l.id)}
                         className={`border-b border-white/[0.05] last:border-0 cursor-pointer transition-colors ${isPreview ? "bg-emerald-500/[0.04]" : "hover:bg-white/[0.02]"}`}>
                         <td className="pl-4 pr-2 py-3" onClick={(e) => e.stopPropagation()}>
-                          <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
+                          <input type="checkbox" checked={isSelected} onChange={() => toggleOne(l.id)} aria-label={`Select ${l.reference ?? "request"}`} className="h-4 w-4 rounded border-white/20 bg-white/5 accent-emerald-500" />
                         </td>
                         <td className="px-3 py-3 whitespace-nowrap">
                           <Link to="/admin/leads/$id" params={{ id: l.id }} className="font-mono text-xs text-[#FFD200] hover:underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>{l.reference}</Link>
@@ -842,14 +844,14 @@ function SwipeSelectCard({
               onChange={onToggle}
               onClick={(e) => e.stopPropagation()}
               aria-label={`Select ${label}`}
-              className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-white/25 bg-white/5 accent-[#FFD200] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101820]"
+              className="relative z-10 mt-0.5 h-5 w-5 shrink-0 rounded-md border-white/25 bg-white/5 accent-[#FFD200] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101820]"
             />
-            <div className="min-w-0">
+            <div className="relative z-10 min-w-0">
               <Link
                 to="/admin/leads/$id"
                 params={{ id: l.id }}
                 onClick={(e) => e.stopPropagation()}
-                className="font-mono text-[11px] text-[#FFD200] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
+                className="relative z-10 font-mono text-[11px] text-[#FFD200] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
               >
                 {l.reference}
               </Link>
