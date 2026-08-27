@@ -323,9 +323,15 @@ function LeadsList() {
               <LayoutGrid className="h-3.5 w-3.5" /> Pipeline
             </button>
           </div>
-          <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20">
-            <Download className="h-4 w-4 text-slate-400" /> Export
+          <button
+            onClick={() => exportCsv(selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible)}
+            disabled={visible.length === 0}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50"
+          >
+            <Download className="h-4 w-4 text-slate-400" />
+            Export {selected.size > 0 ? `${selected.size} selected` : "CSV"}
           </button>
+
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Plus className="h-4 w-4" /> Add Lead
           </button>
