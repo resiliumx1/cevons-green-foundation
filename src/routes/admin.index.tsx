@@ -175,6 +175,7 @@ function Dashboard() {
 
       <NeedsAttention />
     </CrmPage>
+    </PullToRefresh>
   );
 }
 
