@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Mail, Loader2, AlertCircle, CheckCircle2, ArrowLeft } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { supabase } from "@/integrations/supabase/client";
@@ -25,15 +25,38 @@ function ForgotPasswordPage() {
   );
 }
 
+function fmtClock(total: number) {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
 function ForgotPasswordScreen() {
   const { theme } = useCrmTheme();
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** Seconds left before the emailed link stops working (Supabase default: 1 hour). */
+  const [expiresIn, setExpiresIn] = useState(0);
+  /** Seconds until a new link may be requested, to avoid rate limiting. */
+  const [cooldown, setCooldown] = useState(0);
+  const tick = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (!sent) return;
+    tick.current = setInterval(() => {
+      setExpiresIn((v) => (v > 0 ? v - 1 : 0));
+      setCooldown((v) => (v > 0 ? v - 1 : 0));
+    }, 1000);
+    return () => {
+      if (tick.current) clearInterval(tick.current);
+    };
+  }, [sent]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (sending || cooldown > 0) return;
     setError(null);
     if (!email.trim()) {
       setError("Enter the email address you use to sign in.");
@@ -49,6 +72,8 @@ function ForgotPasswordScreen() {
         return;
       }
       setSent(true);
+      setExpiresIn(60 * 60);
+      setCooldown(60);
     } catch (err) {
       setError(describeAuthError(err as { message?: string }));
     } finally {
@@ -87,6 +112,16 @@ function ForgotPasswordScreen() {
                   way. It opens the “Set a new password” screen and expires after a short while.
                 </span>
               </div>
+              <p
+                className="admin-mono text-center text-sm"
+                style={{ color: expiresIn > 0 ? "var(--text-2)" : "var(--brand-orange)" }}
+                role="timer"
+                aria-live="off"
+              >
+                {expiresIn > 0
+                  ? `Link expires in ${fmtClock(expiresIn)}`
+                  : "That link has now expired — send a fresh one below."}
+              </p>
               <ol
                 className="space-y-2 text-sm leading-relaxed"
                 style={{ color: "var(--text-2)" }}
@@ -95,7 +130,30 @@ function ForgotPasswordScreen() {
                 <li>2. Check spam or junk if it hasn't arrived within a few minutes.</li>
                 <li>3. Choose a password of at least 8 characters.</li>
               </ol>
-              <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={sending || cooldown > 0}
+                className="admin-auth-submit"
+              >
+                {sending ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+                    <span>Sending…</span>
+                  </>
+                ) : cooldown > 0 ? (
+                  `Resend link in ${cooldown}s`
+                ) : (
+                  "Resend the link"
+                )}
+              </button>
+              {error && (
+                <div role="alert" className="admin-auth-alert admin-auth-alert-error">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                  <span>{error}</span>
+                </div>
+              )}
+              <div className="flex flex-wrap justify-center gap-4">
                 <button
                   type="button"
                   onClick={() => {
@@ -104,7 +162,7 @@ function ForgotPasswordScreen() {
                   }}
                   className="admin-auth-link"
                 >
-                  Send to a different email
+                  Use a different email
                 </button>
                 <Link to="/admin/login-help" className="admin-auth-link">
                   Still stuck? Get help
