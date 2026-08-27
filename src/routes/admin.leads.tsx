@@ -423,9 +423,9 @@ function LeadsList() {
       </div>
 
 
-      {/* Bulk actions */}
+      {/* Bulk actions (desktop) */}
       {selected.size > 0 && (
-        <div className="flex flex-wrap items-center gap-3 bg-[#FFD200]/10 border border-[#FFD200]/30 rounded-lg px-4 py-2.5 animate-fade-in">
+        <div className="hidden lg:flex flex-wrap items-center gap-3 bg-[#FFD200]/10 border border-[#FFD200]/30 rounded-lg px-4 py-2.5 animate-fade-in">
           <span className="text-sm text-[#FFD200] font-semibold">{selected.size} selected</span>
           <div className="h-4 w-px bg-[#FFD200]/30" />
           <div className="inline-flex items-center gap-1.5 text-xs text-slate-200">
