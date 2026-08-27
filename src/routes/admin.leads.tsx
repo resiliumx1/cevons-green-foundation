@@ -443,7 +443,19 @@ function LeadsList() {
 
       {/* Body */}
       {isLoading ? (
-        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-8 animate-pulse text-sm text-slate-400 text-center">Loading leads…</div>
+        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-4" aria-busy="true">
+          <span className="sr-only">Loading requests…</span>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 border-b border-white/[0.05] py-3 last:border-0">
+              <div className="h-4 w-4 rounded bg-white/10 animate-pulse" />
+              <div className="h-3 w-20 rounded bg-white/10 animate-pulse" />
+              <div className="h-3 flex-1 rounded bg-white/[0.07] animate-pulse" />
+              <div className="h-5 w-16 rounded-md bg-white/10 animate-pulse" />
+              <div className="h-3 w-14 rounded bg-white/[0.07] animate-pulse" />
+            </div>
+          ))}
+        </div>
+
       ) : isError ? (
         <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-8 text-center">
           <AlertTriangle className="h-6 w-6 text-red-400 mx-auto mb-2" />
