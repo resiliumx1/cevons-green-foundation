@@ -788,8 +788,10 @@ function SwipeSelectCard({
     if (longPress.current) { clearTimeout(longPress.current); longPress.current = null; }
   };
 
+  const label = `${l.reference ?? "Request"} — ${l.name ?? "Unnamed"}, ${l.service ?? "no service"}, ${l.region ?? "no region"}`;
+
   return (
-    <div className="relative overflow-hidden rounded-xl">
+    <li className="relative overflow-hidden rounded-xl list-none">
       <div
         className="absolute inset-y-0 left-0 flex w-24 items-center pl-4"
         style={{ background: selected ? "rgba(239,68,68,0.15)" : "rgba(255,210,0,0.15)" }}
@@ -798,9 +800,6 @@ function SwipeSelectCard({
         <Check className="h-5 w-5" style={{ color: selected ? "#f87171" : "#FFD200" }} />
       </div>
       <div
-        role="button"
-        tabIndex={0}
-        aria-pressed={selected}
         onTouchStart={(e) => {
           fired.current = false;
           start.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -832,30 +831,25 @@ function SwipeSelectCard({
           }
           start.current = null;
         }}
-        onClick={() => {
-          if (fired.current) { fired.current = false; return; }
-          if (selectMode) onToggle();
-          else onOpen();
-        }}
-        onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
-        className={`relative bg-[#101820] border rounded-xl p-4 ${selected ? "border-[#FFD200]/60" : "border-white/[0.08]"}`}
+        className={`relative bg-[#101820] border rounded-xl p-4 focus-within:ring-2 focus-within:ring-[#FFD200] focus-within:ring-offset-2 focus-within:ring-offset-[#0a1414] ${selected ? "border-[#FFD200]/60" : "border-white/[0.08]"}`}
         style={{ transform: `translateX(${dx}px)`, transition: dx === 0 ? "transform 180ms ease" : "none" }}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-start gap-3">
-            {(selectMode || selected) && (
-              <span
-                className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${selected ? "bg-[#FFD200] border-[#FFD200]" : "border-white/25"}`}
-              >
-                {selected && <Check className="h-3.5 w-3.5 text-[#101820]" />}
-              </span>
-            )}
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={onToggle}
+              onClick={(e) => e.stopPropagation()}
+              aria-label={`Select ${label}`}
+              className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-white/25 bg-white/5 accent-[#FFD200] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#101820]"
+            />
             <div className="min-w-0">
               <Link
                 to="/admin/leads/$id"
                 params={{ id: l.id }}
                 onClick={(e) => e.stopPropagation()}
-                className="font-mono text-[11px] text-[#FFD200]"
+                className="font-mono text-[11px] text-[#FFD200] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
               >
                 {l.reference}
               </Link>
@@ -869,10 +863,24 @@ function SwipeSelectCard({
           <span className="text-slate-400 capitalize">{sourceLabel(l.utm_source)}</span>
           <span className="text-slate-400">{fmtDate(l.created_at)}</span>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (fired.current) { fired.current = false; return; }
+            if (selectMode) onToggle();
+            else onOpen();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); onToggle(); }
+          }}
+          aria-label={`Open ${label}`}
+          className="absolute inset-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1414]"
+        />
       </div>
-    </div>
+    </li>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Mobile bulk action bottom sheet                                     */
