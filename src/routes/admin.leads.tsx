@@ -224,10 +224,12 @@ function LeadsList() {
 
   const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
+    const cutoff = dateFilter ? Date.now() - Number(dateFilter) * 24 * 60 * 60 * 1000 : 0;
     const filtered = withSegments.filter(({ lead: l, segment: seg }) => {
       if (segment !== "all" && seg !== segment) return false;
       if (statusFilter && l.status !== statusFilter) return false;
       if (regionFilter && l.region !== regionFilter) return false;
+      if (cutoff && new Date(l.created_at).getTime() < cutoff) return false;
       if (sourceFilter) {
         const s = l.utm_source && l.utm_source.trim() ? l.utm_source : "Direct";
         if (sourceFilter === "Direct" ? s !== "Direct" : s !== sourceFilter) return false;
@@ -238,16 +240,52 @@ function LeadsList() {
       }
       return true;
     }).map((x) => x.lead);
+    const rank = (l: Lead) => {
+      if (sortKey === "created_at") return new Date(l.created_at).getTime();
+      if (sortKey === "estimated_value") return Number(l.estimated_value ?? 0);
+      return 0;
+    };
     filtered.sort((a, b) => {
-      const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : Number(a.estimated_value ?? 0);
-      const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : Number(b.estimated_value ?? 0);
-      return sortDir === "asc" ? av - bv : bv - av;
+      if (sortKey === "name") {
+        const cmp = (a.name ?? "").localeCompare(b.name ?? "");
+        return sortDir === "asc" ? cmp : -cmp;
+      }
+      if (sortKey === "status") {
+        const order = (s: string) => STATUSES.indexOf(s as Status);
+        const cmp = order(a.status) - order(b.status);
+        return sortDir === "asc" ? cmp : -cmp;
+      }
+      return sortDir === "asc" ? rank(a) - rank(b) : rank(b) - rank(a);
     });
     return filtered;
-  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
+  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, dateFilter, sortKey, sortDir]);
 
   const allChecked = visible.length > 0 && visible.every((l) => selected.has(l.id));
   const previewLead = leads.find((l) => l.id === previewId) ?? null;
+  const filtersActive = !!(search || statusFilter || regionFilter || sourceFilter || dateFilter);
+
+  const clearFilters = () => {
+    setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); setDateFilter("");
+  };
+
+  const exportCsv = (rows: Lead[]) => {
+    if (rows.length === 0) return;
+    const cols: Array<keyof Lead> = [
+      "reference", "created_at", "name", "email", "phone", "service", "category",
+      "region", "status", "estimated_value", "utm_source", "message",
+    ];
+    const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+    const csv = [
+      cols.join(","),
+      ...rows.map((r) => cols.map((c) => cell(r[c])).join(",")),
+    ].join("\r\n");
+    const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const toggleAll = () => {
     const next = new Set(selected);
@@ -260,10 +298,11 @@ function LeadsList() {
     if (next.has(id)) next.delete(id); else next.add(id);
     setSelected(next);
   };
-  const setSort = (k: "created_at" | "estimated_value") => {
+  const setSort = (k: SortKey) => {
     if (sortKey === k) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else { setSortKey(k); setSortDir("desc"); }
   };
+
 
   return (
     <CrmPage className="space-y-5">
