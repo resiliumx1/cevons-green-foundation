@@ -3719,3 +3719,78 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   /* Drawer nav is primary navigation — read it at body size. */
   [data-crm-theme] .crm-nav-item { font-size: 15px; }
 }
+
+/* ── Admin dashboard: shortcuts, activity feed, filter bars ───────────── */
+[data-crm-theme] .admin-shortcuts {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+[data-crm-theme] .admin-shortcut {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--hairline);
+  background: var(--panel);
+  transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+}
+[data-crm-theme] .admin-shortcut:hover {
+  background: var(--hover);
+  border-color: var(--rule);
+  transform: translateY(-1px);
+}
+[data-crm-theme] .admin-shortcut:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+[data-crm-theme] .admin-shortcut-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 38px; width: 38px; flex: 0 0 auto; border-radius: 11px;
+  background: var(--admin-orange); color: var(--admin-charcoal);
+}
+[data-crm-theme] .admin-shortcut-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
+[data-crm-theme] .admin-shortcut-sub { margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
+[data-crm-theme] .admin-shortcut-count {
+  margin-left: auto; align-self: center; padding: 2px 8px; border-radius: 999px;
+  background: var(--admin-orange); color: var(--admin-charcoal);
+  font-size: 11.5px; font-weight: 800;
+}
+
+[data-crm-theme] .admin-feed { display: flex; flex-direction: column; }
+[data-crm-theme] .admin-feed-item {
+  display: flex; gap: 12px; padding: 12px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+[data-crm-theme] .admin-feed-item:last-child { border-bottom: 0; padding-bottom: 0; }
+[data-crm-theme] .admin-feed-item:first-child { padding-top: 0; }
+[data-crm-theme] .admin-feed-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 30px; width: 30px; flex: 0 0 auto; border-radius: 9px;
+  border: 1px solid var(--rule); background: var(--panel-2); color: var(--text);
+}
+[data-crm-theme] .admin-feed-text { font-size: 14px; line-height: 1.45; color: var(--text); }
+[data-crm-theme] .admin-feed-meta { margin-top: 2px; font-size: 12px; color: var(--text-2); }
+
+[data-crm-theme] .admin-toolbar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 12px; border-radius: 14px;
+  border: 1px solid var(--hairline); background: var(--panel);
+}
+[data-crm-theme] .admin-search { position: relative; flex: 1 1 240px; min-width: 200px; }
+[data-crm-theme] .admin-search svg {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  height: 16px; width: 16px; color: var(--text-2); pointer-events: none;
+}
+[data-crm-theme] .admin-search input { padding-left: 34px; }
+[data-crm-theme] .admin-select {
+  min-height: 44px; padding: 0 12px; border-radius: 10px;
+  background: var(--panel-2); border: 1px solid var(--rule);
+  color: var(--text); font-size: 13.5px; font-weight: 600;
+}
+[data-crm-theme] .admin-select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+[data-crm-theme] .admin-bulkbar {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  padding: 10px 14px; border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--admin-orange) 45%, transparent);
+  background: color-mix(in srgb, var(--admin-orange) 12%, transparent);
+  color: var(--text); font-size: 13.5px;
+}
