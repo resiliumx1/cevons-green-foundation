@@ -391,14 +391,35 @@ function LeadsList() {
             options={regions.map((r) => ({ value: r, label: r }))} />
           <Select value={sourceFilter} onChange={setSourceFilter} placeholder="All Sources"
             options={[{ value: "Direct", label: "Direct" }, ...sources.map((s) => ({ value: s, label: s.replace(/_/g, " ") }))]} />
-          {(search || statusFilter || regionFilter || sourceFilter) && (
-            <button onClick={() => { setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); }}
+          <Select value={dateFilter} onChange={setDateFilter} placeholder="Any date"
+            options={[
+              { value: "7", label: "Last 7 days" },
+              { value: "30", label: "Last 30 days" },
+              { value: "90", label: "Last 90 days" },
+            ]} />
+          <Select value={sortKey} onChange={(v) => setSortKey(v as SortKey)} placeholder="Sort by date"
+            options={[
+              { value: "created_at", label: "Sort: date" },
+              { value: "estimated_value", label: "Sort: value" },
+              { value: "name", label: "Sort: name" },
+              { value: "status", label: "Sort: status" },
+            ]} />
+          <button
+            onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-xs font-semibold text-slate-200 hover:border-white/20"
+            aria-label={sortDir === "asc" ? "Sort descending" : "Sort ascending"}
+          >
+            <ArrowUpDown className="h-3.5 w-3.5" /> {sortDir === "asc" ? "Ascending" : "Descending"}
+          </button>
+          {filtersActive && (
+            <button onClick={clearFilters}
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs text-slate-400 hover:text-white">
               <Filter className="h-3.5 w-3.5" /> Clear
             </button>
           )}
         </div>
       </div>
+
 
       {/* Bulk actions */}
       {selected.size > 0 && (
