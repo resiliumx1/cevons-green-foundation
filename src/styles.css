@@ -3794,3 +3794,49 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   background: color-mix(in srgb, var(--admin-orange) 12%, transparent);
   color: var(--text); font-size: 13.5px;
 }
+
+/* ── Admin dashboard: mobile optimisation ─────────────────────────────── */
+@media (max-width: 640px) {
+  [data-crm-theme] .admin-shortcuts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  [data-crm-theme] .admin-shortcut {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    position: relative;
+    min-height: 96px;
+  }
+  [data-crm-theme] .admin-shortcut-icon { height: 34px; width: 34px; border-radius: 10px; }
+  [data-crm-theme] .admin-shortcut-title { font-size: 13.5px; }
+  [data-crm-theme] .admin-shortcut-sub {
+    font-size: 11.5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  [data-crm-theme] .admin-shortcut-count {
+    position: absolute; top: 10px; right: 10px; margin-left: 0; align-self: auto;
+  }
+
+  [data-crm-theme] .admin-feed-item { gap: 10px; padding: 10px 0; }
+  [data-crm-theme] .admin-feed-icon { height: 26px; width: 26px; border-radius: 8px; }
+  [data-crm-theme] .admin-feed-text { font-size: 13.5px; }
+  [data-crm-theme] .admin-feed-meta { font-size: 11.5px; }
+
+  [data-crm-theme] .admin-toolbar { padding: 10px; gap: 8px; }
+  [data-crm-theme] .admin-search { flex: 1 1 100%; min-width: 0; }
+  [data-crm-theme] .admin-select { flex: 1 1 calc(50% - 4px); min-width: 0; }
+  [data-crm-theme] .admin-bulkbar {
+    position: sticky; bottom: 8px; z-index: 5;
+    background: color-mix(in srgb, var(--admin-orange) 14%, var(--panel));
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.28);
+  }
+}
+
+@media (max-width: 380px) {
+  [data-crm-theme] .admin-shortcuts { grid-template-columns: 1fr; }
+  [data-crm-theme] .admin-shortcut { flex-direction: row; min-height: 0; align-items: center; }
+}
