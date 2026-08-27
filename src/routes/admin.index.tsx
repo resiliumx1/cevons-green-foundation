@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { PullToRefresh } from "@/components/admin/PullToRefresh";
 import {
   ArrowRight,
   Image as ImageIcon,
@@ -93,7 +95,13 @@ function delta(curr: number, prev: number, unit: string) {
 }
 
 function Dashboard() {
+  const qc = useQueryClient();
   const docket = useQuery({ queryKey: ["admin", "docket"], queryFn: fetchDocketData });
+
+  const refreshAll = useCallback(
+    () => qc.refetchQueries({ queryKey: ["admin"], type: "active" }),
+    [qc],
+  );
 
   const d = docket.data;
   const cells: DocketCell[] = [
@@ -126,6 +134,7 @@ function Dashboard() {
   ];
 
   return (
+    <PullToRefresh onRefresh={refreshAll}>
     <CrmPage className="space-y-5 sm:space-y-6">
       <header className="space-y-1">
         <p className="admin-mono truncate" style={{ color: "var(--text-2)" }}>
@@ -166,6 +175,7 @@ function Dashboard() {
 
       <NeedsAttention />
     </CrmPage>
+    </PullToRefresh>
   );
 }
 
