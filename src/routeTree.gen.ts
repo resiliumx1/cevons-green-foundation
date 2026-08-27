@@ -33,6 +33,7 @@ import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
 import { Route as CrmIndexRouteImport } from './routes/crm.index'
@@ -188,6 +189,11 @@ const AdminTrafficRoute = AdminTrafficRouteImport.update({
   id: '/traffic',
   path: '/traffic',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/admin_/forgot-password',
+  path: '/admin/forgot-password',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin_/login',
@@ -403,6 +409,7 @@ export interface FileRoutesByFullPath {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -462,6 +469,7 @@ export interface FileRoutesByTo {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -524,6 +532,7 @@ export interface FileRoutesById {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin_/forgot-password': typeof AdminForgotPasswordRoute
   '/admin_/login': typeof AdminLoginRoute
   '/admin_/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
@@ -587,6 +596,7 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
     | '/crm/$'
@@ -646,6 +656,7 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
     | '/crm/$'
@@ -707,6 +718,7 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin_/forgot-password'
     | '/admin_/login'
     | '/admin_/reset-password'
     | '/crm/$'
@@ -759,6 +771,7 @@ export interface RootRouteChildren {
   SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   CrmSplatRoute: typeof CrmSplatRoute
@@ -941,6 +954,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/traffic'
       preLoaderRoute: typeof AdminTrafficRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/admin_/forgot-password': {
+      id: '/admin_/forgot-password'
+      path: '/admin/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin_/login': {
       id: '/admin_/login'
@@ -1302,6 +1322,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   CrmSplatRoute: CrmSplatRoute,
