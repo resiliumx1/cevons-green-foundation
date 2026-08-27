@@ -1,12 +1,14 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Search, Filter, Plus, Download, ChevronDown, ArrowUpDown, Eye, X,
   UserPlus, Tag, LayoutGrid, List as ListIcon, AlertTriangle, RefreshCw, Inbox,
+  Check, CheckCheck, Loader2,
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { PullToRefresh } from "@/components/admin/PullToRefresh";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
