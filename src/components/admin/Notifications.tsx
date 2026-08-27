@@ -209,7 +209,7 @@ function ArrivalCard({
       <button
         type="button"
         onClick={() => onOpen(item)}
-        className="w-full text-left flex gap-3 pl-3 pr-9 py-3"
+        className="w-full text-left flex gap-3 pl-3.5 pr-10 py-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--crm-primary,#c89b3c)]"
       >
         <span
           className="h-8 w-8 shrink-0 rounded-lg grid place-items-center"
@@ -221,11 +221,11 @@ function ArrivalCard({
           <span className="block text-[11px] uppercase tracking-wide font-semibold" style={{ color: "var(--crm-text-muted)" }}>
             {meta.label}
           </span>
-          <span className="block text-sm font-semibold leading-snug line-clamp-2" style={{ color: "var(--crm-text)" }}>
+          <span className="block text-sm font-semibold leading-6 mt-0.5 line-clamp-2 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text)" }}>
             {item.title}
           </span>
           {item.body && (
-            <span className="block text-xs mt-0.5 line-clamp-2" style={{ color: "var(--crm-text-muted)" }}>
+            <span className="block text-[12.5px] leading-5 mt-1 line-clamp-2 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text-muted)" }}>
               {item.body}
             </span>
           )}
@@ -530,31 +530,31 @@ export function NotificationsBell() {
                           >
                             <button
                               onClick={() => handleClick(item)}
-                              className="w-full text-left px-4 py-3 flex gap-3 border-b transition-colors hover:opacity-95"
+                              className="w-full text-left px-4 py-3.5 flex gap-3.5 border-b transition-colors hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--crm-primary,#c89b3c)]"
                               style={{
                                 borderColor: "var(--crm-border)",
                                 background: item.read ? "transparent" : "color-mix(in srgb, var(--crm-primary, #c89b3c) 8%, transparent)",
                               }}
                             >
-                              <div className="h-8 w-8 shrink-0 rounded-lg grid place-items-center"
+                              <div className="h-9 w-9 shrink-0 rounded-lg grid place-items-center"
                                 style={{ background: "var(--crm-surface-muted)", color: meta.color }}>
-                                <Icon className="h-4 w-4" />
+                                <Icon className="h-4.5 w-4.5" />
                               </div>
                               <div className="min-w-0 flex-1">
                                 <div className="flex items-start gap-2">
-                                  <p className="text-sm font-semibold leading-snug flex-1" style={{ color: "var(--crm-text)" }}>
+                                  <p className="text-sm font-semibold leading-6 flex-1 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text)" }}>
                                     {item.title}
                                   </p>
                                   {!item.read && (
-                                    <span className="mt-1.5 h-2 w-2 rounded-full shrink-0" style={{ background: "var(--crm-primary, #c89b3c)" }} />
+                                    <span aria-label="Unread" className="mt-2 h-2 w-2 rounded-full shrink-0" style={{ background: "var(--crm-primary, #c89b3c)" }} />
                                   )}
                                 </div>
                                 {item.body && (
-                                  <p className="text-xs mt-0.5 line-clamp-2" style={{ color: "var(--crm-text-muted)" }}>
+                                  <p className="text-[12.5px] leading-5 mt-1 line-clamp-3 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text-muted)" }}>
                                     {item.body}
                                   </p>
                                 )}
-                                <p className="text-[10px] mt-1 uppercase tracking-wide" style={{ color: "var(--crm-text-faint)" }}>
+                                <p className="text-[11px] mt-1.5 font-medium" style={{ color: "var(--crm-text-muted)" }}>
                                   {relTime(item.created_at)}
                                 </p>
                               </div>

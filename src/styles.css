@@ -3861,3 +3861,34 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   [data-crm-theme] .admin-shortcuts { grid-template-columns: 1fr; }
   [data-crm-theme] .admin-shortcut { flex-direction: row; min-height: 0; align-items: center; }
 }
+
+/* ---- Admin toast readability (sonner) ---- */
+.admin-toaster [data-sonner-toast].admin-toast {
+  --toast-pad: 14px;
+  padding: var(--toast-pad) 16px;
+  gap: 12px;
+  align-items: flex-start;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.35);
+}
+.admin-toaster [data-sonner-toast] [data-icon] { margin-top: 2px; }
+.admin-toaster .admin-toast-title {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.admin-toaster .admin-toast-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  opacity: 0.9;
+}
+.admin-toaster [data-sonner-toast] [data-content] { min-width: 0; }
+@media (max-width: 640px) {
+  .admin-toaster [data-sonner-toast].admin-toast { width: 100%; padding: 13px 14px; }
+  .admin-toaster .admin-toast-title { font-size: 13.5px; }
+}
