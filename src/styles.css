@@ -836,22 +836,40 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 [data-crm-theme] .bg-black\/30 { background-color: var(--crm-input-bg) !important; }
 [data-crm-theme] .bg-black { background-color: var(--crm-surface) !important; }
 
-/* Form fields: always readable in either admin mode */
-[data-crm-theme] input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]):not(.bg-transparent),
-[data-crm-theme] textarea:not(.bg-transparent),
+/* Form fields: always readable in either admin mode.
+   Explicit backgrounds on EVERY field (no transparent inputs) so Android
+   force-dark / WebView auto-darkening can't paint a black box behind text. */
+[data-crm-theme] { color-scheme: dark; }
+[data-crm-theme][data-theme="light"] { color-scheme: light; }
+
+[data-crm-theme] input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]):not([type="file"]),
+[data-crm-theme] textarea,
 [data-crm-theme] select {
   background-color: var(--crm-input-bg) !important;
+  background-image: none !important;
   color: var(--crm-text) !important;
-  border-color: var(--crm-border) !important;
+  -webkit-text-fill-color: var(--crm-text) !important;
+  border-color: var(--crm-border);
 }
-[data-crm-theme] input.bg-transparent,
-[data-crm-theme] textarea.bg-transparent { color: var(--crm-text) !important; }
+/* Inputs nested inside an already-tinted field shell stay flush with it */
+[data-crm-theme] .field-shell input,
+[data-crm-theme] .field-shell textarea {
+  background-color: transparent !important;
+  border: 0 !important;
+}
+[data-crm-theme] input:-webkit-autofill,
+[data-crm-theme] textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--crm-text) !important;
+  box-shadow: 0 0 0 1000px var(--crm-input-bg) inset !important;
+}
 [data-crm-theme] input::placeholder,
 [data-crm-theme] textarea::placeholder {
   color: var(--crm-text-muted) !important;
+  -webkit-text-fill-color: var(--crm-text-muted) !important;
   opacity: 1;
 }
 [data-crm-theme] select option { background-color: var(--crm-surface); color: var(--crm-text); }
+
 
 
 [data-crm-theme] .bg-white\/5,
