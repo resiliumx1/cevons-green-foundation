@@ -95,7 +95,13 @@ function delta(curr: number, prev: number, unit: string) {
 }
 
 function Dashboard() {
+  const qc = useQueryClient();
   const docket = useQuery({ queryKey: ["admin", "docket"], queryFn: fetchDocketData });
+
+  const refreshAll = useCallback(
+    () => qc.refetchQueries({ queryKey: ["admin"], type: "active" }),
+    [qc],
+  );
 
   const d = docket.data;
   const cells: DocketCell[] = [
