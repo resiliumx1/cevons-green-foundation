@@ -654,9 +654,219 @@ function LeadsList() {
       )}
 
       {showAdd && <AddLeadModal onClose={() => setShowAdd(false)} />}
+
+      {sheetOpen && (
+        <BulkActionSheet
+          count={selected.size}
+          pending={updateStatus.isPending}
+          confirmStatus={confirmStatus}
+          onPick={setConfirmStatus}
+          onCancel={() => { setConfirmStatus(null); setSheetOpen(false); }}
+          onConfirm={async () => {
+            if (!confirmStatus) return;
+            await updateStatus.mutateAsync({ ids: Array.from(selected), status: confirmStatus });
+            setConfirmStatus(null);
+            setSheetOpen(false);
+            setSelected(new Set());
+          }}
+          onExport={() => {
+            exportCsv(visible.filter((l) => selected.has(l.id)));
+            setSheetOpen(false);
+          }}
+        />
+      )}
     </CrmPage>
+    </PullToRefresh>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Mobile swipe-to-select card                                         */
+/* ------------------------------------------------------------------ */
+
+function SwipeSelectCard({
+  lead: l, selected, selectMode, onToggle, onOpen,
+}: {
+  lead: Lead; selected: boolean; selectMode: boolean; onToggle: () => void; onOpen: () => void;
+}) {
+  const [dx, setDx] = useState(0);
+  const start = useRef<{ x: number; y: number } | null>(null);
+  const swiping = useRef(false);
+  const longPress = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fired = useRef(false);
+
+  const clearLongPress = () => {
+    if (longPress.current) { clearTimeout(longPress.current); longPress.current = null; }
+  };
+
+  return (
+    <div className="relative overflow-hidden rounded-xl">
+      <div
+        className="absolute inset-y-0 left-0 flex w-24 items-center pl-4"
+        style={{ background: selected ? "rgba(239,68,68,0.15)" : "rgba(255,210,0,0.15)" }}
+        aria-hidden
+      >
+        <Check className="h-5 w-5" style={{ color: selected ? "#f87171" : "#FFD200" }} />
+      </div>
+      <div
+        role="button"
+        tabIndex={0}
+        aria-pressed={selected}
+        onTouchStart={(e) => {
+          fired.current = false;
+          start.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+          clearLongPress();
+          longPress.current = setTimeout(() => {
+            fired.current = true;
+            if (navigator.vibrate) navigator.vibrate(10);
+            onToggle();
+          }, 480);
+        }}
+        onTouchMove={(e) => {
+          if (!start.current) return;
+          const mx = e.touches[0].clientX - start.current.x;
+          const my = e.touches[0].clientY - start.current.y;
+          if (Math.abs(my) > 12 || Math.abs(mx) > 8) clearLongPress();
+          if (!swiping.current && Math.abs(mx) > Math.abs(my) && mx > 10) swiping.current = true;
+          if (swiping.current) setDx(Math.max(0, Math.min(96, mx)));
+        }}
+        onTouchEnd={() => {
+          clearLongPress();
+          if (swiping.current) {
+            if (dx > 64) {
+              fired.current = true;
+              if (navigator.vibrate) navigator.vibrate(8);
+              onToggle();
+            }
+            swiping.current = false;
+            setDx(0);
+          }
+          start.current = null;
+        }}
+        onClick={() => {
+          if (fired.current) { fired.current = false; return; }
+          if (selectMode) onToggle();
+          else onOpen();
+        }}
+        onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
+        className={`relative bg-[#101820] border rounded-xl p-4 ${selected ? "border-[#FFD200]/60" : "border-white/[0.08]"}`}
+        style={{ transform: `translateX(${dx}px)`, transition: dx === 0 ? "transform 180ms ease" : "none" }}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-start gap-3">
+            {(selectMode || selected) && (
+              <span
+                className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${selected ? "bg-[#FFD200] border-[#FFD200]" : "border-white/25"}`}
+              >
+                {selected && <Check className="h-3.5 w-3.5 text-[#101820]" />}
+              </span>
+            )}
+            <div className="min-w-0">
+              <Link
+                to="/admin/leads/$id"
+                params={{ id: l.id }}
+                onClick={(e) => e.stopPropagation()}
+                className="font-mono text-[11px] text-[#FFD200]"
+              >
+                {l.reference}
+              </Link>
+              <p className="text-white font-semibold truncate mt-0.5">{l.name ?? "—"}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{l.service ?? "—"} • {l.region ?? "—"}</p>
+            </div>
+          </div>
+          <StatusBadge status={l.status} />
+        </div>
+        <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
+          <span className="text-slate-400 capitalize">{sourceLabel(l.utm_source)}</span>
+          <span className="text-slate-400">{fmtDate(l.created_at)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile bulk action bottom sheet                                     */
+/* ------------------------------------------------------------------ */
+
+function BulkActionSheet({
+  count, pending, confirmStatus, onPick, onCancel, onConfirm, onExport,
+}: {
+  count: number;
+  pending: boolean;
+  confirmStatus: Status | null;
+  onPick: (s: Status) => void;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onExport: () => void;
+}) {
+  return (
+    <div className="lg:hidden">
+      <div className="fixed inset-0 z-50 bg-black/60" onClick={onCancel} />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Bulk actions"
+        className="fixed inset-x-0 bottom-0 z-50 rounded-t-2xl border-t border-white/[0.08] bg-[#0a1414] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] animate-[slide-in-right_0.2s_ease-out]"
+      >
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
+        {confirmStatus ? (
+          <>
+            <h3 className="text-base font-bold text-white">
+              Mark {count} request{count === 1 ? "" : "s"} as {STATUS_LABEL[confirmStatus]}?
+            </h3>
+            <p className="mt-1 text-sm text-slate-400">
+              This updates the status for every selected request. You can change it again at any time.
+            </p>
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <button
+                onClick={onCancel}
+                disabled={pending}
+                className="rounded-lg border border-white/10 px-4 py-3 text-sm font-semibold text-slate-200 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onConfirm}
+                disabled={pending}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFD200] px-4 py-3 text-sm font-semibold text-[#101820] disabled:opacity-60"
+              >
+                {pending && <Loader2 className="h-4 w-4 animate-spin" />}
+                {pending ? "Updating…" : "Confirm"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <h3 className="text-base font-bold text-white">{count} selected</h3>
+            <p className="mt-1 text-sm text-slate-400">Choose a new status, or export the selection.</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {STATUSES.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => onPick(s)}
+                  className={`rounded-lg border px-3 py-3 text-sm font-semibold ${STATUS_STYLES[s]}`}
+                >
+                  {STATUS_LABEL[s]}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={onExport}
+              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-4 py-3 text-sm font-semibold text-slate-200"
+            >
+              <Download className="h-4 w-4" /> Export selected as CSV
+            </button>
+            <button onClick={onCancel} className="mt-2 w-full px-4 py-3 text-sm font-semibold text-slate-400">
+              Close
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 
 function PreviewRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
