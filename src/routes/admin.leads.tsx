@@ -188,6 +188,13 @@ function LeadsList() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [confirmStatus, setConfirmStatus] = useState<Status | null>(null);
+
+  const refresh = useCallback(async () => {
+    await refetch();
+  }, [refetch]);
+
 
   const updateStatus = useMutation({
     mutationFn: async ({ ids, status }: { ids: string[]; status: Status }) => {
