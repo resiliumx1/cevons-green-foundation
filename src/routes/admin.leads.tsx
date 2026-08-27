@@ -24,6 +24,8 @@ type Lead = Database["public"]["Tables"]["service_requests"]["Row"];
 
 const STATUSES = ["new", "contacted", "quoted", "scheduled", "won", "lost"] as const;
 type Status = typeof STATUSES[number];
+type SortKey = "created_at" | "estimated_value" | "name" | "status";
+
 
 const STATUS_LABEL: Record<Status, string> = {
   new: "New", contacted: "Contacted", quoted: "Quoted",
