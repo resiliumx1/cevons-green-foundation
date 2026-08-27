@@ -316,6 +316,7 @@ function LeadsList() {
 
 
   return (
+    <PullToRefresh onRefresh={refresh}>
     <CrmPage className="space-y-5">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-fade-in">
