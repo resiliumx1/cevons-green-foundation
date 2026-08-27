@@ -1,6 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Image as ImageIcon, Inbox, ShieldAlert } from "lucide-react";
+import {
+  ArrowRight,
+  Image as ImageIcon,
+  Inbox,
+  ShieldAlert,
+  FileText,
+  Mail,
+  Truck,
+  Megaphone,
+  Users,
+  Layers,
+  Upload,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { georgetownLabel } from "@/lib/georgetown";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +27,7 @@ import {
   timeAgo,
   type DocketCell,
 } from "@/components/admin/Manifest";
+
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -120,6 +134,9 @@ function Dashboard() {
         <h1 className="admin-display" style={{ fontSize: 30, fontWeight: 800, color: "var(--text)" }}>
           Dashboard
         </h1>
+        <p className="text-sm" style={{ color: "var(--text-2)" }}>
+          Everything you can change on cevons.com, in one place. Start with a shortcut below.
+        </p>
       </header>
 
       {docket.isError ? (
@@ -128,21 +145,231 @@ function Dashboard() {
         <DocketStrip cells={cells} loading={docket.isLoading} />
       )}
 
+      <Shortcuts openRequests={d?.openRequests} />
+
       <p className="admin-mono" style={{ color: "var(--text-2)" }}>
         Website traffic, visitors and conversion are not shown — no analytics provider is connected yet.
       </p>
 
       <div className="grid gap-5 xl:grid-cols-2">
+        <RecentActivity />
         <LatestRequests />
-        <MediaAtAGlance />
       </div>
 
-      <GoingLiveNext />
+      <div className="grid gap-5 xl:grid-cols-2">
+        <MediaAtAGlance />
+        <GoingLiveNext />
+      </div>
 
       <NeedsAttention />
     </CrmPage>
   );
 }
+
+/* ── Shortcuts — the main admin tasks, one tap away ────────────────────── */
+
+type Shortcut = {
+  to: string;
+  icon: LucideIcon;
+  title: string;
+  sub: string;
+  count?: number;
+};
+
+function Shortcuts({ openRequests }: { openRequests?: number }) {
+  const unread = useQuery({
+    queryKey: ["admin", "unread-messages"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("contact_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "new");
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+
+  const items: Shortcut[] = [
+    { to: "/admin/pages", icon: FileText, title: "Edit a page", sub: "Change wording on any public page" },
+    { to: "/admin/images", icon: ImageIcon, title: "Replace a photo", sub: "Swap any image on the site" },
+    {
+      to: "/admin/leads",
+      icon: Truck,
+      title: "Service requests",
+      sub: "Bookings from the request wizard",
+      ...(openRequests ? { count: openRequests } : {}),
+    },
+    {
+      to: "/admin/messages",
+      icon: Mail,
+      title: "Messages",
+      sub: "Contact-form enquiries",
+      ...(unread.data ? { count: unread.data } : {}),
+    },
+    { to: "/admin/media", icon: Upload, title: "Media library", sub: "Slides, gallery and announcements" },
+    { to: "/admin/promotions", icon: Megaphone, title: "Promotions", sub: "Schedule an offer or notice" },
+    { to: "/admin/people", icon: Users, title: "People", sub: "Invite teammates and set roles" },
+    { to: "/admin/audit", icon: Layers, title: "Activity log", sub: "Who changed what, and when" },
+  ];
+
+  return (
+    <section aria-labelledby="admin-shortcuts-heading" className="space-y-3">
+      <h2 id="admin-shortcuts-heading" className="admin-mono" style={{ color: "var(--text-2)" }}>
+        Quick actions
+      </h2>
+      <div className="admin-shortcuts">
+        {items.map(({ to, icon: Icon, title, sub, count }) => (
+          <Link key={to} to={to} className="admin-shortcut">
+            <span className="admin-shortcut-icon">
+              <Icon className="h-[18px] w-[18px]" aria-hidden />
+            </span>
+            <span className="min-w-0">
+              <span className="admin-shortcut-title block">{title}</span>
+              <span className="admin-shortcut-sub block">{sub}</span>
+            </span>
+            {count ? (
+              <span className="admin-shortcut-count" aria-label={`${count} awaiting attention`}>
+                {count}
+              </span>
+            ) : null}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ── Recent activity — a single merged, real feed ──────────────────────── */
+
+type ActivityItem = {
+  id: string;
+  at: string;
+  text: string;
+  meta: string;
+  icon: LucideIcon;
+  to?: { path: "/admin/leads/$id"; id: string } | { path: "/admin/messages" | "/admin/media" };
+};
+
+function RecentActivity() {
+  const q = useQuery({
+    queryKey: ["admin", "recent-activity"],
+    queryFn: async (): Promise<ActivityItem[]> => {
+      const [requests, messages, media] = await Promise.all([
+        supabase
+          .from("service_requests")
+          .select("id, reference, name, service, status, created_at")
+          .order("created_at", { ascending: false })
+          .limit(8),
+        supabase
+          .from("contact_messages")
+          .select("id, name, subject, status, created_at")
+          .order("created_at", { ascending: false })
+          .limit(8),
+        supabase
+          .from("media_posts")
+          .select("id, title, kind, published, created_at")
+          .order("created_at", { ascending: false })
+          .limit(8),
+      ]);
+      if (requests.error) throw requests.error;
+      if (messages.error) throw messages.error;
+      if (media.error) throw media.error;
+
+      const items: ActivityItem[] = [
+        ...(requests.data ?? []).map((r) => ({
+          id: `r-${r.id}`,
+          at: r.created_at as string,
+          text: `${r.name ?? "Someone"} requested ${r.service ?? "a service"}`,
+          meta: `Request ${r.reference ?? ""} · ${r.status}`,
+          icon: Truck,
+          to: { path: "/admin/leads/$id" as const, id: r.id },
+        })),
+        ...(messages.data ?? []).map((m) => ({
+          id: `m-${m.id}`,
+          at: m.created_at as string,
+          text: `${m.name} sent a message${m.subject ? `: ${m.subject}` : ""}`,
+          meta: `Contact form · ${m.status}`,
+          icon: Mail,
+          to: { path: "/admin/messages" as const },
+        })),
+        ...(media.data ?? []).map((p) => ({
+          id: `p-${p.id}`,
+          at: p.created_at as string,
+          text: `${p.published ? "Published" : "Drafted"} “${p.title || "untitled"}”`,
+          meta: `Media · ${p.kind}`,
+          icon: ImageIcon,
+          to: { path: "/admin/media" as const },
+        })),
+      ];
+
+      return items
+        .filter((i) => !!i.at)
+        .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
+        .slice(0, 8);
+    },
+  });
+
+  const items = q.data ?? [];
+
+  return (
+    <Panel
+      title="Recent activity"
+      code="P-00"
+      action={
+        <Link to="/admin/audit" className="admin-link-btn">
+          Full log <ArrowRight className="h-4 w-4" aria-hidden />
+        </Link>
+      }
+    >
+      {q.isLoading ? (
+        <PanelSkeleton rows={5} />
+      ) : q.isError ? (
+        <PanelError what="recent activity" error={q.error} />
+      ) : items.length === 0 ? (
+        <PanelEmpty headline="Nothing has happened yet. New requests, messages and media changes show up here as they land." />
+      ) : (
+        <ul className="admin-feed">
+          {items.map((i) => {
+            const Icon = i.icon;
+            const body = (
+              <>
+                <span className="admin-feed-icon">
+                  <Icon className="h-4 w-4" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="admin-feed-text block">{i.text}</span>
+                  <span className="admin-feed-meta block" title={georgetownStamp(i.at)}>
+                    {i.meta} · {timeAgo(i.at)}
+                  </span>
+                </span>
+              </>
+            );
+            return (
+              <li key={i.id} className="admin-feed-item">
+                {i.to && "id" in i.to ? (
+                  <Link
+                    to="/admin/leads/$id"
+                    params={{ id: i.to.id }}
+                    className="flex min-w-0 flex-1 items-start gap-3"
+                  >
+                    {body}
+                  </Link>
+                ) : i.to ? (
+                  <Link to={i.to.path} className="flex min-w-0 flex-1 items-start gap-3">
+                    {body}
+                  </Link>
+                ) : (
+                  <span className="flex min-w-0 flex-1 items-start gap-3">{body}</span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </Panel>
+  );
+}
+
 
 /* ── Latest requests ───────────────────────────────────────────────────── */
 

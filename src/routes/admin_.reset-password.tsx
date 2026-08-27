@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Lock, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Lock, Loader2, AlertCircle, CheckCircle2, Circle } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { supabase } from "@/integrations/supabase/client";
 import { describeAuthError } from "@/lib/adminAuth";
@@ -35,6 +35,17 @@ function ResetPasswordScreen() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [reveal, setReveal] = useState(false);
+
+  const rules = useMemo(
+    () => [
+      { label: "At least 8 characters", ok: password.length >= 8 },
+      { label: "One letter", ok: /[A-Za-z]/.test(password) },
+      { label: "One number or symbol", ok: /[^A-Za-z]/.test(password) },
+    ],
+    [password],
+  );
+  const canSubmit = rules.every((r) => r.ok) && password === confirm;
 
   // Supabase parses the recovery link in the URL and establishes a temporary
   // session; wait for it before showing the form.
@@ -61,6 +72,10 @@ function ResetPasswordScreen() {
     setError(null);
     if (password.length < 8) {
       setError("Choose a password of at least 8 characters.");
+      return;
+    }
+    if (!/[A-Za-z]/.test(password) || !/[^A-Za-z]/.test(password)) {
+      setError("Include at least one letter and one number or symbol.");
       return;
     }
     if (password !== confirm) {
@@ -120,7 +135,7 @@ function ResetPasswordScreen() {
               <span>Password updated. Taking you to the admin…</span>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-8 space-y-4" noValidate>
               {error && (
                 <div role="alert" className="admin-auth-alert admin-auth-alert-error">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
@@ -134,15 +149,38 @@ function ResetPasswordScreen() {
                 <Lock className="admin-auth-icon" aria-hidden />
                 <input
                   id="new-password"
-                  type="password"
+                  type={reveal ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 8 characters"
                   className="admin-auth-input"
+                  aria-describedby="password-rules"
                 />
+                <button
+                  type="button"
+                  onClick={() => setReveal((v) => !v)}
+                  className="absolute right-3 bottom-3 text-xs font-semibold"
+                  style={{ color: "var(--text-2)" }}
+                >
+                  {reveal ? "Hide" : "Show"}
+                </button>
               </div>
+
+              <ul id="password-rules" className="space-y-1.5 text-xs">
+                {rules.map((r) => (
+                  <li key={r.label} className="flex items-center gap-2">
+                    {r.ok ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--ok, #1f9d55)" }} aria-hidden />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--text-2)" }} aria-hidden />
+                    )}
+                    <span style={{ color: r.ok ? "var(--text)" : "var(--text-2)" }}>{r.label}</span>
+                  </li>
+                ))}
+              </ul>
+
               <div className="relative">
                 <label htmlFor="confirm-password" className="admin-mono admin-auth-label">
                   Confirm new password
@@ -150,7 +188,7 @@ function ResetPasswordScreen() {
                 <Lock className="admin-auth-icon" aria-hidden />
                 <input
                   id="confirm-password"
-                  type="password"
+                  type={reveal ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={confirm}
@@ -158,12 +196,31 @@ function ResetPasswordScreen() {
                   placeholder="Repeat the password"
                   className="admin-auth-input"
                 />
+                {confirm.length > 0 && confirm !== password && (
+                  <p className="mt-2 text-xs" style={{ color: "var(--brand-orange)" }}>
+                    The two passwords don't match yet.
+                  </p>
+                )}
               </div>
-              <button type="submit" disabled={saving} className="admin-auth-submit">
-                {saving ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> : "Update password"}
+              <button type="submit" disabled={saving || !canSubmit} className="admin-auth-submit">
+                {saving ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+                    <span>Saving your new password…</span>
+                  </>
+                ) : (
+                  "Update password"
+                )}
               </button>
+              <p className="text-center text-xs" style={{ color: "var(--text-2)" }}>
+                Reset link stopped working?{" "}
+                <Link to="/admin/forgot-password" className="admin-auth-link">
+                  Send a fresh one
+                </Link>
+              </p>
             </form>
           )}
+
         </div>
       </main>
     </div>

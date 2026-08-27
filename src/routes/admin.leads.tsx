@@ -24,6 +24,8 @@ type Lead = Database["public"]["Tables"]["service_requests"]["Row"];
 
 const STATUSES = ["new", "contacted", "quoted", "scheduled", "won", "lost"] as const;
 type Status = typeof STATUSES[number];
+type SortKey = "created_at" | "estimated_value" | "name" | "status";
+
 
 const STATUS_LABEL: Record<Status, string> = {
   new: "New", contacted: "Contacted", quoted: "Quoted",
@@ -177,8 +179,10 @@ function LeadsList() {
   const [statusFilter, setStatusFilter] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
   const [sourceFilter, setSourceFilter] = useState("");
-  const [sortKey, setSortKey] = useState<"created_at" | "estimated_value">("created_at");
+  const [dateFilter, setDateFilter] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
@@ -222,10 +226,12 @@ function LeadsList() {
 
   const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
+    const cutoff = dateFilter ? Date.now() - Number(dateFilter) * 24 * 60 * 60 * 1000 : 0;
     const filtered = withSegments.filter(({ lead: l, segment: seg }) => {
       if (segment !== "all" && seg !== segment) return false;
       if (statusFilter && l.status !== statusFilter) return false;
       if (regionFilter && l.region !== regionFilter) return false;
+      if (cutoff && new Date(l.created_at).getTime() < cutoff) return false;
       if (sourceFilter) {
         const s = l.utm_source && l.utm_source.trim() ? l.utm_source : "Direct";
         if (sourceFilter === "Direct" ? s !== "Direct" : s !== sourceFilter) return false;
@@ -236,16 +242,52 @@ function LeadsList() {
       }
       return true;
     }).map((x) => x.lead);
+    const rank = (l: Lead) => {
+      if (sortKey === "created_at") return new Date(l.created_at).getTime();
+      if (sortKey === "estimated_value") return Number(l.estimated_value ?? 0);
+      return 0;
+    };
     filtered.sort((a, b) => {
-      const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : Number(a.estimated_value ?? 0);
-      const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : Number(b.estimated_value ?? 0);
-      return sortDir === "asc" ? av - bv : bv - av;
+      if (sortKey === "name") {
+        const cmp = (a.name ?? "").localeCompare(b.name ?? "");
+        return sortDir === "asc" ? cmp : -cmp;
+      }
+      if (sortKey === "status") {
+        const order = (s: string) => STATUSES.indexOf(s as Status);
+        const cmp = order(a.status) - order(b.status);
+        return sortDir === "asc" ? cmp : -cmp;
+      }
+      return sortDir === "asc" ? rank(a) - rank(b) : rank(b) - rank(a);
     });
     return filtered;
-  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, sortKey, sortDir]);
+  }, [withSegments, segment, search, statusFilter, regionFilter, sourceFilter, dateFilter, sortKey, sortDir]);
 
   const allChecked = visible.length > 0 && visible.every((l) => selected.has(l.id));
   const previewLead = leads.find((l) => l.id === previewId) ?? null;
+  const filtersActive = !!(search || statusFilter || regionFilter || sourceFilter || dateFilter);
+
+  const clearFilters = () => {
+    setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); setDateFilter("");
+  };
+
+  const exportCsv = (rows: Lead[]) => {
+    if (rows.length === 0) return;
+    const cols: Array<keyof Lead> = [
+      "reference", "created_at", "name", "email", "phone", "service", "category",
+      "region", "status", "estimated_value", "utm_source", "message",
+    ];
+    const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+    const csv = [
+      cols.join(","),
+      ...rows.map((r) => cols.map((c) => cell(r[c])).join(",")),
+    ].join("\r\n");
+    const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const toggleAll = () => {
     const next = new Set(selected);
@@ -258,10 +300,11 @@ function LeadsList() {
     if (next.has(id)) next.delete(id); else next.add(id);
     setSelected(next);
   };
-  const setSort = (k: "created_at" | "estimated_value") => {
+  const setSort = (k: SortKey) => {
     if (sortKey === k) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else { setSortKey(k); setSortDir("desc"); }
   };
+
 
   return (
     <CrmPage className="space-y-5">
@@ -280,9 +323,15 @@ function LeadsList() {
               <LayoutGrid className="h-3.5 w-3.5" /> Pipeline
             </button>
           </div>
-          <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20">
-            <Download className="h-4 w-4 text-slate-400" /> Export
+          <button
+            onClick={() => exportCsv(selected.size > 0 ? visible.filter((l) => selected.has(l.id)) : visible)}
+            disabled={visible.length === 0}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50"
+          >
+            <Download className="h-4 w-4 text-slate-400" />
+            Export {selected.size > 0 ? `${selected.size} selected` : "CSV"}
           </button>
+
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#FFD200] text-[#101820] text-sm font-semibold hover:brightness-95">
             <Plus className="h-4 w-4" /> Add Lead
           </button>
@@ -342,14 +391,35 @@ function LeadsList() {
             options={regions.map((r) => ({ value: r, label: r }))} />
           <Select value={sourceFilter} onChange={setSourceFilter} placeholder="All Sources"
             options={[{ value: "Direct", label: "Direct" }, ...sources.map((s) => ({ value: s, label: s.replace(/_/g, " ") }))]} />
-          {(search || statusFilter || regionFilter || sourceFilter) && (
-            <button onClick={() => { setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); }}
+          <Select value={dateFilter} onChange={setDateFilter} placeholder="Any date"
+            options={[
+              { value: "7", label: "Last 7 days" },
+              { value: "30", label: "Last 30 days" },
+              { value: "90", label: "Last 90 days" },
+            ]} />
+          <Select value={sortKey} onChange={(v) => setSortKey(v as SortKey)} placeholder="Sort by date"
+            options={[
+              { value: "created_at", label: "Sort: date" },
+              { value: "estimated_value", label: "Sort: value" },
+              { value: "name", label: "Sort: name" },
+              { value: "status", label: "Sort: status" },
+            ]} />
+          <button
+            onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-xs font-semibold text-slate-200 hover:border-white/20"
+            aria-label={sortDir === "asc" ? "Sort descending" : "Sort ascending"}
+          >
+            <ArrowUpDown className="h-3.5 w-3.5" /> {sortDir === "asc" ? "Ascending" : "Descending"}
+          </button>
+          {filtersActive && (
+            <button onClick={clearFilters}
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs text-slate-400 hover:text-white">
               <Filter className="h-3.5 w-3.5" /> Clear
             </button>
           )}
         </div>
       </div>
+
 
       {/* Bulk actions */}
       {selected.size > 0 && (
@@ -373,7 +443,19 @@ function LeadsList() {
 
       {/* Body */}
       {isLoading ? (
-        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-8 animate-pulse text-sm text-slate-400 text-center">Loading leads…</div>
+        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-4" aria-busy="true">
+          <span className="sr-only">Loading requests…</span>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 border-b border-white/[0.05] py-3 last:border-0">
+              <div className="h-4 w-4 rounded bg-white/10 animate-pulse" />
+              <div className="h-3 w-20 rounded bg-white/10 animate-pulse" />
+              <div className="h-3 flex-1 rounded bg-white/[0.07] animate-pulse" />
+              <div className="h-5 w-16 rounded-md bg-white/10 animate-pulse" />
+              <div className="h-3 w-14 rounded bg-white/[0.07] animate-pulse" />
+            </div>
+          ))}
+        </div>
+
       ) : isError ? (
         <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-8 text-center">
           <AlertTriangle className="h-6 w-6 text-red-400 mx-auto mb-2" />
@@ -385,9 +467,24 @@ function LeadsList() {
       ) : visible.length === 0 ? (
         <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-12 text-center">
           <Inbox className="h-8 w-8 text-slate-400 mx-auto mb-3" />
-          <p className="text-sm text-white font-semibold">No leads match your filters</p>
-          <p className="text-xs text-slate-400 mt-1">Try clearing filters or adding a manual lead.</p>
+          <p className="text-sm text-white font-semibold">
+            {filtersActive || segment !== "all" ? "No requests match these filters" : "No service requests yet"}
+          </p>
+          <p className="text-xs text-slate-400 mt-1">
+            {filtersActive || segment !== "all"
+              ? "Widen the date range, clear a filter, or search a different term."
+              : "Bookings from the request wizard on the public site land here automatically."}
+          </p>
+          {(filtersActive || segment !== "all") && (
+            <button
+              onClick={() => { clearFilters(); setSegment("all"); }}
+              className="mt-4 inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/10 text-xs font-semibold text-slate-200 hover:bg-white/5"
+            >
+              <Filter className="h-3.5 w-3.5" /> Clear all filters
+            </button>
+          )}
         </div>
+
       ) : view === "kanban" ? (
         <KanbanBoard leads={visible} onDrop={(id, status) => updateStatus.mutate({ ids: [id], status })} onOpen={setPreviewId} />
       ) : (
