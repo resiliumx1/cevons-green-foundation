@@ -42,11 +42,13 @@ const PREF_KEY: Record<NotifType, keyof NotifPrefs> = {
   system: "system",
 };
 
+/* Icon colours must read in BOTH admin themes: --emph is bright yellow on dark
+   panels and a deep amber on light tiles (≥3:1 for non-text contrast). */
 const TYPE_META: Record<NotifType, { label: string; icon: typeof Inbox; color: string }> = {
-  lead: { label: "Requests", icon: Inbox, color: "var(--crm-primary-bright)" },
-  message: { label: "Messages", icon: MessageSquare, color: "var(--crm-primary-bright)" },
-  review: { label: "Reviews", icon: Star, color: "var(--crm-primary-bright)" },
-  campaign: { label: "Campaigns", icon: Megaphone, color: "var(--crm-primary-bright)" },
+  lead: { label: "Requests", icon: Inbox, color: "var(--emph)" },
+  message: { label: "Messages", icon: MessageSquare, color: "var(--emph)" },
+  review: { label: "Reviews", icon: Star, color: "var(--emph)" },
+  campaign: { label: "Campaigns", icon: Megaphone, color: "var(--emph)" },
   system: { label: "System", icon: Info, color: "var(--crm-text-muted)" },
 };
 
