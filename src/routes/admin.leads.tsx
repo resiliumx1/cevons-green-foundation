@@ -392,6 +392,51 @@ function LeadsList() {
         </div>
       </div>
 
+      {/* CSV export status */}
+      <div aria-live="polite" role="status" className={exportState.status === "idle" ? "sr-only" : ""}>
+        {exportState.status !== "idle" && (
+          <div
+            className={`rounded-xl border px-4 py-3 text-sm ${
+              exportState.status === "error"
+                ? "border-red-500/40 bg-red-500/10 text-red-200"
+                : exportState.status === "done"
+                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                  : "border-white/[0.08] bg-[#101820] text-slate-200"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {exportState.status === "working" && <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />}
+              {exportState.status === "done" && <Check className="h-4 w-4" />}
+              {exportState.status === "error" && <AlertTriangle className="h-4 w-4" />}
+              <span>{exportState.message}</span>
+              {exportState.status !== "working" && (
+                <button
+                  onClick={() => setExportState({ status: "idle", progress: 0, message: "" })}
+                  aria-label="Dismiss export message"
+                  className="ml-auto rounded p-1 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+            {exportState.status === "working" && (
+              <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={exportState.progress}
+                aria-label="CSV export progress"
+                className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+              >
+                <div className="h-full rounded-full bg-[#FFD200] transition-[width] duration-200" style={{ width: `${exportState.progress}%` }} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+
+
       {/* Pipeline segment tabs */}
       <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-2 animate-fade-in">
         <div className="flex flex-wrap gap-1.5">
