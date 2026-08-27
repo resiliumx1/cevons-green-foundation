@@ -455,9 +455,24 @@ function LeadsList() {
       ) : visible.length === 0 ? (
         <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-12 text-center">
           <Inbox className="h-8 w-8 text-slate-400 mx-auto mb-3" />
-          <p className="text-sm text-white font-semibold">No leads match your filters</p>
-          <p className="text-xs text-slate-400 mt-1">Try clearing filters or adding a manual lead.</p>
+          <p className="text-sm text-white font-semibold">
+            {filtersActive || segment !== "all" ? "No requests match these filters" : "No service requests yet"}
+          </p>
+          <p className="text-xs text-slate-400 mt-1">
+            {filtersActive || segment !== "all"
+              ? "Widen the date range, clear a filter, or search a different term."
+              : "Bookings from the request wizard on the public site land here automatically."}
+          </p>
+          {(filtersActive || segment !== "all") && (
+            <button
+              onClick={() => { clearFilters(); setSegment("all"); }}
+              className="mt-4 inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/10 text-xs font-semibold text-slate-200 hover:bg-white/5"
+            >
+              <Filter className="h-3.5 w-3.5" /> Clear all filters
+            </button>
+          )}
         </div>
+
       ) : view === "kanban" ? (
         <KanbanBoard leads={visible} onDrop={(id, status) => updateStatus.mutate({ ids: [id], status })} onOpen={setPreviewId} />
       ) : (
