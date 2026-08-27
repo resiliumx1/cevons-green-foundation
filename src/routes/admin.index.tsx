@@ -126,18 +126,23 @@ function Dashboard() {
   ];
 
   return (
-    <CrmPage className="space-y-6">
+    <CrmPage className="space-y-5 sm:space-y-6">
       <header className="space-y-1">
-        <p className="admin-mono" style={{ color: "var(--text-2)" }}>
+        <p className="admin-mono truncate" style={{ color: "var(--text-2)" }}>
           {georgetownStamp(new Date())} · Georgetown, UTC−4
         </p>
-        <h1 className="admin-display" style={{ fontSize: 30, fontWeight: 800, color: "var(--text)" }}>
+        <h1
+          className="admin-display text-[24px] sm:text-[30px]"
+          style={{ fontWeight: 800, color: "var(--text)" }}
+        >
           Dashboard
         </h1>
-        <p className="text-sm" style={{ color: "var(--text-2)" }}>
+        <p className="text-[13px] sm:text-sm" style={{ color: "var(--text-2)" }}>
           Everything you can change on cevons.com, in one place. Start with a shortcut below.
         </p>
       </header>
+
+      <Shortcuts openRequests={d?.openRequests} />
 
       {docket.isError ? (
         <PanelError what="the key figures" error={docket.error} />
@@ -145,18 +150,16 @@ function Dashboard() {
         <DocketStrip cells={cells} loading={docket.isLoading} />
       )}
 
-      <Shortcuts openRequests={d?.openRequests} />
-
       <p className="admin-mono" style={{ color: "var(--text-2)" }}>
         Website traffic, visitors and conversion are not shown — no analytics provider is connected yet.
       </p>
 
-      <div className="grid gap-5 xl:grid-cols-2">
+      <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
         <RecentActivity />
         <LatestRequests />
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-2">
+      <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
         <MediaAtAGlance />
         <GoingLiveNext />
       </div>
