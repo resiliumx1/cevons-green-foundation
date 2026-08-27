@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Lock, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Lock, Loader2, AlertCircle, CheckCircle2, Circle } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
 import { supabase } from "@/integrations/supabase/client";
 import { describeAuthError } from "@/lib/adminAuth";
@@ -35,6 +35,17 @@ function ResetPasswordScreen() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [reveal, setReveal] = useState(false);
+
+  const rules = useMemo(
+    () => [
+      { label: "At least 8 characters", ok: password.length >= 8 },
+      { label: "One letter", ok: /[A-Za-z]/.test(password) },
+      { label: "One number or symbol", ok: /[^A-Za-z]/.test(password) },
+    ],
+    [password],
+  );
+  const canSubmit = rules.every((r) => r.ok) && password === confirm;
 
   // Supabase parses the recovery link in the URL and establishes a temporary
   // session; wait for it before showing the form.
@@ -61,6 +72,10 @@ function ResetPasswordScreen() {
     setError(null);
     if (password.length < 8) {
       setError("Choose a password of at least 8 characters.");
+      return;
+    }
+    if (!/[A-Za-z]/.test(password) || !/[^A-Za-z]/.test(password)) {
+      setError("Include at least one letter and one number or symbol.");
       return;
     }
     if (password !== confirm) {
