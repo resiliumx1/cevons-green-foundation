@@ -1171,14 +1171,14 @@ function Field({
     <div>
       <label className="text-xs" style={{ color: "var(--crm-text-muted)" }}>{label}</label>
       <div
-        className="mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
+        className="field-shell mt-1 flex items-center gap-2 rounded-lg border px-3 py-2"
         style={{ borderColor: "var(--crm-border)", background: "var(--crm-input-bg)" }}
       >
         {icon}
         <input
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
-          className="w-full bg-transparent text-sm outline-none"
+          className="w-full text-sm outline-none"
           style={{ color: "var(--crm-text)" }}
         />
       </div>
