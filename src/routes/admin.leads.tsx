@@ -177,8 +177,10 @@ function LeadsList() {
   const [statusFilter, setStatusFilter] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
   const [sourceFilter, setSourceFilter] = useState("");
-  const [sortKey, setSortKey] = useState<"created_at" | "estimated_value">("created_at");
+  const [dateFilter, setDateFilter] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
