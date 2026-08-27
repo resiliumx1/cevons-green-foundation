@@ -190,6 +190,12 @@ function LeadsList() {
   const [showAdd, setShowAdd] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [confirmStatus, setConfirmStatus] = useState<Status | null>(null);
+  const [exportState, setExportState] = useState<{
+    status: "idle" | "working" | "done" | "error";
+    progress: number;
+    message: string;
+  }>({ status: "idle", progress: 0, message: "" });
+
 
   const refresh = useCallback(async () => {
     await refetch();
