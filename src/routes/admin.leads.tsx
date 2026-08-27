@@ -653,25 +653,29 @@ function LeadsList() {
           {/* Mobile cards */}
           <div className="lg:hidden space-y-3 pb-24">
             <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-              <span>Swipe a card right, or long-press, to select it.</span>
+              <span>Swipe right or long-press to select. With a keyboard, use the checkbox or press Space on a card.</span>
               <button
                 onClick={toggleAll}
-                className="inline-flex items-center gap-1 font-semibold text-slate-300"
+                className="inline-flex items-center gap-1 font-semibold text-slate-300 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200]"
               >
                 <CheckCheck className="h-3.5 w-3.5" /> {allChecked ? "Clear all" : "Select all"}
               </button>
             </div>
-            {visible.map((l) => (
-              <SwipeSelectCard
-                key={l.id}
-                lead={l}
-                selected={selected.has(l.id)}
-                selectMode={selected.size > 0}
-                onToggle={() => toggleOne(l.id)}
-                onOpen={() => setPreviewId(l.id)}
-              />
-            ))}
+            <p aria-live="polite" className="sr-only">{selected.size} of {visible.length} requests selected</p>
+            <ul className="space-y-3" aria-label="Requests">
+              {visible.map((l) => (
+                <SwipeSelectCard
+                  key={l.id}
+                  lead={l}
+                  selected={selected.has(l.id)}
+                  selectMode={selected.size > 0}
+                  onToggle={() => toggleOne(l.id)}
+                  onOpen={() => setPreviewId(l.id)}
+                />
+              ))}
+            </ul>
           </div>
+
 
           {/* Mobile bulk bar */}
           {selected.size > 0 && (
