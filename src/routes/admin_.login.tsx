@@ -195,9 +195,16 @@ function LoginScreen() {
               />
               Remember me
             </label>
-            <button type="button" onClick={handleForgot} disabled={resetting} className="admin-auth-link">
-              {resetting ? "Sending…" : "Forgot password?"}
-            </button>
+            <div className="flex items-center gap-3">
+              <button type="button" onClick={handleForgot} disabled={resetting} className="admin-auth-link">
+                {resetting ? "Sending…" : "Forgot password?"}
+              </button>
+              <span aria-hidden style={{ color: "var(--text-3, var(--text-2))" }}>·</span>
+              <Link to="/admin/login-help" className="admin-auth-link">
+                Login help
+              </Link>
+            </div>
+
           </div>
 
           <button type="submit" disabled={loading} className="admin-auth-submit">

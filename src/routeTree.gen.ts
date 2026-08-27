@@ -33,7 +33,9 @@ import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
+import { Route as AdminLoginHelpRouteImport } from './routes/admin_.login-help'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin_.reset-password'
 import { Route as CrmIndexRouteImport } from './routes/crm.index'
 import { Route as CrmSplatRouteImport } from './routes/crm.$'
@@ -189,9 +191,19 @@ const AdminTrafficRoute = AdminTrafficRouteImport.update({
   path: '/traffic',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/admin_/forgot-password',
+  path: '/admin/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin_/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginHelpRoute = AdminLoginHelpRouteImport.update({
+  id: '/admin_/login-help',
+  path: '/admin/login-help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
@@ -403,7 +415,9 @@ export interface FileRoutesByFullPath {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/login-help': typeof AdminLoginHelpRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
@@ -462,7 +476,9 @@ export interface FileRoutesByTo {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/login-help': typeof AdminLoginHelpRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
@@ -524,7 +540,9 @@ export interface FileRoutesById {
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
+  '/admin_/forgot-password': typeof AdminForgotPasswordRoute
   '/admin_/login': typeof AdminLoginRoute
+  '/admin_/login-help': typeof AdminLoginHelpRoute
   '/admin_/reset-password': typeof AdminResetPasswordRoute
   '/crm/$': typeof CrmSplatRoute
   '/dev/motion-debug': typeof DevMotionDebugRoute
@@ -587,7 +605,9 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/login-help'
     | '/admin/reset-password'
     | '/crm/$'
     | '/dev/motion-debug'
@@ -646,7 +666,9 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/login-help'
     | '/admin/reset-password'
     | '/crm/$'
     | '/dev/motion-debug'
@@ -707,7 +729,9 @@ export interface FileRouteTypes {
     | '/admin/promotions'
     | '/admin/settings'
     | '/admin/traffic'
+    | '/admin_/forgot-password'
     | '/admin_/login'
+    | '/admin_/login-help'
     | '/admin_/reset-password'
     | '/crm/$'
     | '/dev/motion-debug'
@@ -759,7 +783,9 @@ export interface RootRouteChildren {
   SitemapRoute: typeof SitemapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackRequestRoute: typeof TrackRequestRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminLoginHelpRoute: typeof AdminLoginHelpRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   CrmSplatRoute: typeof CrmSplatRoute
   DevMotionDebugRoute: typeof DevMotionDebugRoute
@@ -942,11 +968,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTrafficRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin_/forgot-password': {
+      id: '/admin_/forgot-password'
+      path: '/admin/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin_/login': {
       id: '/admin_/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/login-help': {
+      id: '/admin_/login-help'
+      path: '/admin/login-help'
+      fullPath: '/admin/login-help'
+      preLoaderRoute: typeof AdminLoginHelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin_/reset-password': {
@@ -1302,7 +1342,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapRoute: SitemapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackRequestRoute: TrackRequestRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminLoginHelpRoute: AdminLoginHelpRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   CrmSplatRoute: CrmSplatRoute,
   DevMotionDebugRoute: DevMotionDebugRoute,
