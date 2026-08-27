@@ -1,6 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Image as ImageIcon, Inbox, ShieldAlert } from "lucide-react";
+import {
+  ArrowRight,
+  Image as ImageIcon,
+  Inbox,
+  ShieldAlert,
+  FileText,
+  Mail,
+  Truck,
+  Megaphone,
+  Users,
+  Layers,
+  Upload,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { georgetownLabel } from "@/lib/georgetown";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +27,7 @@ import {
   timeAgo,
   type DocketCell,
 } from "@/components/admin/Manifest";
+
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
