@@ -134,6 +134,7 @@ function Dashboard() {
   ];
 
   return (
+    <PullToRefresh onRefresh={refreshAll}>
     <CrmPage className="space-y-5 sm:space-y-6">
       <header className="space-y-1">
         <p className="admin-mono truncate" style={{ color: "var(--text-2)" }}>
