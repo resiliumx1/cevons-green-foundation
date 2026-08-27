@@ -279,24 +279,51 @@ function LeadsList() {
     setSearch(""); setStatusFilter(""); setRegionFilter(""); setSourceFilter(""); setDateFilter("");
   };
 
-  const exportCsv = (rows: Lead[]) => {
-    if (rows.length === 0) return;
-    const cols: Array<keyof Lead> = [
-      "reference", "created_at", "name", "email", "phone", "service", "category",
-      "region", "status", "estimated_value", "utm_source", "message",
-    ];
-    const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
-    const csv = [
-      cols.join(","),
-      ...rows.map((r) => cols.map((c) => cell(r[c])).join(",")),
-    ].join("\r\n");
-    const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const exportCsv = async (rows: Lead[], label: string) => {
+    if (exportState.status === "working") return;
+    if (rows.length === 0) {
+      setExportState({ status: "error", progress: 0, message: "Nothing to export — no requests match the current filters." });
+      toast.error("Nothing to export", { description: "No requests match the current filters." });
+      return;
+    }
+    setExportState({ status: "working", progress: 0, message: `Preparing ${rows.length} ${label}…` });
+    try {
+      const cols: Array<keyof Lead> = [
+        "reference", "created_at", "name", "email", "phone", "service", "category",
+        "region", "status", "estimated_value", "utm_source", "message",
+      ];
+      const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+      const lines: string[] = [cols.join(",")];
+      const CHUNK = 200;
+      for (let i = 0; i < rows.length; i += CHUNK) {
+        rows.slice(i, i + CHUNK).forEach((r) => lines.push(cols.map((c) => cell(r[c])).join(",")));
+        const pct = Math.min(99, Math.round(((i + CHUNK) / rows.length) * 100));
+        setExportState({ status: "working", progress: pct, message: `Building CSV… ${pct}%` });
+        // yield so the progress bar can paint on large exports
+        await new Promise((res) => setTimeout(res, 0));
+      }
+      const csv = lines.join("\r\n");
+      const url = URL.createObjectURL(new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }));
+      const fileName = `cevons-requests-${new Date().toISOString().slice(0, 10)}.csv`;
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+      setExportState({
+        status: "done",
+        progress: 100,
+        message: `Exported ${rows.length} ${label} to ${fileName}.`,
+      });
+      toast.success(`Exported ${rows.length} ${label}`, { description: fileName });
+      window.setTimeout(() => setExportState((s) => (s.status === "done" ? { status: "idle", progress: 0, message: "" } : s)), 6000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "The export could not be created.";
+      setExportState({ status: "error", progress: 0, message: `Export failed. ${message}` });
+      toast.error("Export failed", { description: message });
+    }
   };
+
 
   const toggleAll = () => {
     const next = new Set(selected);
