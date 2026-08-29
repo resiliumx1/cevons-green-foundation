@@ -825,7 +825,8 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 /* Re-map legacy dark CRM page utility classes to themed surfaces */
 [data-crm-theme] .bg-\[\#101820\],
 [data-crm-theme] .bg-\[\#0a1218\],
-[data-crm-theme] .bg-\[\#0a1414\] {
+[data-crm-theme] .bg-\[\#0a1414\],
+[data-crm-theme] .bg-\[\#0a1414\]\/95 {
   background-color: var(--crm-surface) !important;
   box-shadow: var(--crm-card-shadow);
 }
