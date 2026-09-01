@@ -37,9 +37,11 @@ export function PushDevicesCard() {
     try {
       const result = await enablePush();
       if (result.status !== "registered" || !result.token) {
-        toast.error(PUSH_MESSAGE[result.status]);
+        const status = result.status as Exclude<typeof result.status, "registered">;
+        toast.error(PUSH_MESSAGE[status]);
         return;
       }
+
       await registerPushToken({
         data: { token: result.token, userAgent: navigator.userAgent },
       });
