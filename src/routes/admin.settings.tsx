@@ -8,7 +8,9 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { PushDevicesCard } from "@/components/admin/PushDevicesCard";
 import { supabase } from "@/integrations/supabase/client";
+
 import {
   DEFAULT_NOTIFICATION_RECIPIENTS,
   EMAIL_FROM_ADDRESS,
@@ -543,9 +545,12 @@ function NotificationsSection({
   };
 
   return (
+    <div className="space-y-5">
+    <PushDevicesCard />
     <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
       <h2 className="font-semibold text-white">Notification Preferences</h2>
-      <p className="text-xs text-white/50">Choose which alerts your team receives. These are placeholders until integrations are connected.</p>
+      <p className="text-xs text-white/50">Choose which alerts your team receives. These apply to the bell, email and phone alerts.</p>
+
       <div className="mt-4 divide-y divide-white/[0.04]">
         {prefs.map((n, i) => (
           <div key={n.label} className="flex items-center justify-between py-3">
@@ -573,7 +578,9 @@ function NotificationsSection({
         )}
       </div>
     </section>
+    </div>
   );
+
 }
 
 /* ─── email notifications section ───────────────────────────────────────── */
