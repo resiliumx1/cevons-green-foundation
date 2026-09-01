@@ -8,7 +8,9 @@ import {
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { PushDevicesCard } from "@/components/admin/PushDevicesCard";
 import { supabase } from "@/integrations/supabase/client";
+
 import {
   DEFAULT_NOTIFICATION_RECIPIENTS,
   EMAIL_FROM_ADDRESS,
