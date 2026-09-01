@@ -64,8 +64,17 @@ export const Route = createFileRoute("/admin")({
     meta: [
       { title: "CEVONS Website Admin" },
       { name: "robots", content: "noindex,nofollow" },
+      { name: "theme-color", content: "#000080" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "CEVONS Admin" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+    ],
+    links: [
+      { rel: "manifest", href: "/admin.webmanifest" },
+      { rel: "apple-touch-icon", href: "/assets/brand/admin-apple-touch-icon.png" },
     ],
   }),
+
   component: CrmRoot,
 });
 
