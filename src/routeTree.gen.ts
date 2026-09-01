@@ -69,6 +69,7 @@ import { Route as ServicesWastewaterRouteImport } from './routes/services.wastew
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
+import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify/push'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -384,6 +385,11 @@ const ApiPublicNotifyDispatchRoute = ApiPublicNotifyDispatchRouteImport.update({
   path: '/api/public/notify/dispatch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicNotifyPushRoute = ApiPublicNotifyPushRouteImport.update({
+  id: '/api/public/notify/push',
+  path: '/api/public/notify/push',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailQueueProcessRoute =
   LovableEmailQueueProcessRouteImport.update({
     id: '/lovable/email/queue/process',
@@ -452,6 +458,7 @@ export interface FileRoutesByFullPath {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
+  '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
@@ -513,6 +520,7 @@ export interface FileRoutesByTo {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
+  '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
@@ -577,6 +585,7 @@ export interface FileRoutesById {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
+  '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
@@ -642,6 +651,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/notify/dispatch'
+    | '/api/public/notify/push'
     | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -703,6 +713,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/notify/dispatch'
+    | '/api/public/notify/push'
     | '/lovable/email/queue/process'
   id:
     | '__root__'
@@ -766,6 +777,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
     | '/api/public/notify/dispatch'
+    | '/api/public/notify/push'
     | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
@@ -795,6 +807,7 @@ export interface RootRouteChildren {
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
   ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
+  ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
@@ -1220,6 +1233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicNotifyDispatchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/notify/push': {
+      id: '/api/public/notify/push'
+      path: '/api/public/notify/push'
+      fullPath: '/api/public/notify/push'
+      preLoaderRoute: typeof ApiPublicNotifyPushRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/queue/process': {
       id: '/lovable/email/queue/process'
       path: '/lovable/email/queue/process'
@@ -1354,6 +1374,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
   ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
+  ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
