@@ -576,7 +576,9 @@ function NotificationsSection({
         )}
       </div>
     </section>
+    </div>
   );
+
 }
 
 /* ─── email notifications section ───────────────────────────────────────── */
