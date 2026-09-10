@@ -474,22 +474,45 @@ export function Header() {
 
                       {isOpen && item.key === "partners" && (
                         <div className="pl-3 pr-1 pb-2 flex flex-col">
-                          {partnersMenu.map((partner) => (
-                            <a
-                              key={partner.label}
-                              href={partner.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
-                              onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
-                            >
-                              <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                              <span className="flex flex-col">
-                                <span className="font-semibold">{partner.label}</span>
-                                <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                          {partnersMenu.map((partner) => {
+                            const content = (
+                              <span className="flex items-center gap-3">
+                                {partner.logo && (
+                                  <img
+                                    src={partner.logo}
+                                    alt={partner.logoAlt || partner.label}
+                                    className="h-9 w-auto max-w-[80px] object-contain rounded"
+                                    loading="lazy"
+                                  />
+                                )}
+                                <span className="flex flex-col">
+                                  <span className="font-semibold">{partner.label}</span>
+                                  <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                                </span>
                               </span>
-                            </a>
-                          ))}
+                            );
+                            return partner.href ? (
+                              <a
+                                key={partner.label}
+                                href={partner.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
+                                onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                              >
+                                <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                                {content}
+                              </a>
+                            ) : (
+                              <span
+                                key={partner.label}
+                                className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg select-none"
+                              >
+                                <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                                {content}
+                              </span>
+                            );
+                          })}
                           <span
                             aria-disabled="true"
                             className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg opacity-50 cursor-default select-none"
