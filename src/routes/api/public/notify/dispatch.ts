@@ -2,9 +2,8 @@
  * Internal notification dispatcher.
  *
  * Called server-to-server by the public submit Edge Functions right after a
- * lead row is written. It renders the staff notification email and pushes one
- * message per recipient onto the `transactional_emails` pgmq queue, which the
- * queue processor drains.
+ * lead row is written. It renders the staff notification email and sends one
+ * message per recipient through Lovable's managed email API.
  *
  * Auth: caller must present the project service-role key as a bearer token.
  * It is never callable from a browser.
@@ -14,6 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
+import { EmailAPIError, sendLovableEmail } from "@lovable.dev/email-js";
 
 import { renderServiceRequestEmail } from "@/lib/email-templates/service-request";
 import { renderContactMessageEmail } from "@/lib/email-templates/contact-message";
@@ -27,6 +27,7 @@ import {
 } from "@/lib/notify/config";
 import { sendWhatsAppNotification } from "@/lib/notify/whatsapp";
 
+
 type Kind = "service_request" | "contact_message";
 
 export const Route = createFileRoute("/api/public/notify/dispatch")({
@@ -35,11 +36,13 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
       POST: async ({ request }) => {
         const serviceKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
         const supabaseUrl = process.env["SUPABASE_URL"] ?? import.meta.env["VITE_SUPABASE_URL"];
+        const apiKey = process.env["LOVABLE_API_KEY"];
 
-        if (!serviceKey || !supabaseUrl) {
+        if (!serviceKey || !supabaseUrl || !apiKey) {
           console.error("notify/dispatch: missing server configuration");
           return Response.json({ ok: false, reason: "server_misconfigured" }, { status: 500 });
         }
+
 
         const dispatchSecret = process.env["NOTIFY_DISPATCH_SECRET"];
         const auth = request.headers.get("Authorization") ?? "";
@@ -143,76 +146,73 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
                   crmUrl: `${SITE_URL}/admin/messages?q=${encodeURIComponent(reference)}`,
                 });
 
-          const queuedAt = new Date().toISOString();
           const attempt = Date.now().toString(36);
-          const queued: number[] = [];
+          const label =
+            kind === "service_request"
+              ? "service-request-notification"
+              : "contact-message-notification";
+          let sentCount = 0;
 
-          /** One stable unsubscribe token per address; the send API requires it. */
-          const unsubscribeTokenFor = async (email: string): Promise<string> => {
-            const { data: existing } = await supabase
-              .from("email_unsubscribe_tokens")
-              .select("token")
-              .eq("email", email)
-              .maybeSingle();
-            if (existing?.token) return existing.token;
-
-            const token = crypto.randomUUID().replace(/-/g, "");
-            const { error: insErr } = await supabase
-              .from("email_unsubscribe_tokens")
-              .insert({ email, token });
-            if (insErr) {
-              const { data: raced } = await supabase
-                .from("email_unsubscribe_tokens")
-                .select("token")
-                .eq("email", email)
-                .maybeSingle();
-              if (raced?.token) return raced.token;
-              throw insErr;
+          const logSend = async (
+            messageId: string,
+            to: string,
+            status: "sent" | "suppressed" | "failed",
+            errorMessage?: string
+          ) => {
+            const { error: logError } = await supabase.from("email_send_log").insert({
+              message_id: messageId,
+              template_name: kind,
+              recipient_email: to,
+              status,
+              ...(errorMessage ? { error_message: errorMessage.slice(0, 1000) } : {}),
+            });
+            if (logError) {
+              console.error("Failed to write email send log", { kind, reference, status, logError });
             }
-            return token;
           };
 
           for (const to of recipients) {
-            // Stable per submission + recipient + dispatch attempt: queue retries
-            // reuse it (no double send), while a fresh dispatch is not rejected
-            // by the provider as a previously failed idempotency key.
+            // Stable per submission + recipient + dispatch attempt: a retried
+            // dispatch does not double-send, while a fresh dispatch is not
+            // rejected by the provider as a previously failed idempotency key.
             const idempotencyKey = `${kind}:${reference}:${to}:${attempt}`;
-            const unsubscribeToken = await unsubscribeTokenFor(to);
-            const { data: msgId, error } = await supabase.rpc("enqueue_email", {
-              queue_name: "transactional_emails",
-              payload: {
-                to,
-                from: EMAIL_FROM,
-                reply_to: EMAIL_REPLY_TO,
-                sender_domain: EMAIL_SENDER_DOMAIN,
-                subject: rendered.subject,
-                html: rendered.html,
-                text: rendered.text,
-                purpose: "transactional",
-                label: kind === "service_request" ? "service-request-notification" : "contact-message-notification",
-                idempotency_key: idempotencyKey,
-                unsubscribe_token: unsubscribeToken,
-                message_id: idempotencyKey,
-                queued_at: queuedAt,
-              } as never,
-            });
-
-            if (error) {
-              console.error("Failed to enqueue notification email", { kind, reference, to, error });
-              await supabase.from("email_send_log").insert({
-                message_id: idempotencyKey,
-                template_name: kind,
-                recipient_email: to,
-                status: "failed",
-                error_message: String(error.message ?? error).slice(0, 1000),
-              });
-              continue;
+            try {
+              await sendLovableEmail(
+                {
+                  to,
+                  from: EMAIL_FROM,
+                  reply_to: EMAIL_REPLY_TO,
+                  sender_domain: EMAIL_SENDER_DOMAIN,
+                  subject: rendered.subject,
+                  html: rendered.html,
+                  text: rendered.text,
+                  purpose: "transactional",
+                  label,
+                  idempotency_key: idempotencyKey,
+                },
+                { apiKey, sendUrl: process.env["LOVABLE_SEND_URL"] }
+              );
+              await logSend(idempotencyKey, to, "sent");
+              sentCount++;
+            } catch (sendError) {
+              if (
+                sendError instanceof EmailAPIError &&
+                sendError.code === "recipient_suppressed"
+              ) {
+                console.log("Notification email suppressed", { kind, reference });
+                await logSend(idempotencyKey, to, "suppressed");
+                continue;
+              }
+              const message =
+                sendError instanceof Error ? sendError.message : String(sendError);
+              console.error("Failed to send notification email", { kind, reference, message });
+              await logSend(idempotencyKey, to, "failed", message);
             }
-            queued.push(Number(msgId));
           }
 
-          console.log("Notification emails enqueued", { kind, reference, queued: queued.length });
-          return Response.json({ ok: true, queued: queued.length });
+          console.log("Notification emails sent", { kind, reference, sent: sentCount });
+          return Response.json({ ok: true, sent: sentCount });
+
         } catch (err) {
           // Never propagate: the caller must still return the customer's reference.
           console.error("notify/dispatch failed", err);

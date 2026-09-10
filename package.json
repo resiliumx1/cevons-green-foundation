@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@lovable.dev/email-js": "^0.1.2",
+    "@lovable.dev/email-js": "0.1.0",
     "@lovable.dev/webhooks-js": "^0.0.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -106,5 +106,10 @@
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1",
     "vitest": "^4.1.9"
+  },
+  "pnpm": {
+    "overrides": {
+      "entities": "4.5.0"
+    }
   }
 }
