@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, ExternalLink, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
+import bsRecyclingLogoAsset from "@/assets/bs-recycling-logo.png.asset.json";
 import { SettingsMenu } from "./SettingsMenu";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
@@ -85,9 +86,23 @@ const serviceLabels: Record<ServiceSlug, string> = {
   "compactor-rental": "Compactor Rental",
 };
 
-const partnersMenu = [
+type PartnerItem = {
+  label: string;
+  href?: string;
+  description: string;
+  logo?: string;
+  logoAlt?: string;
+};
+
+const partnersMenu: PartnerItem[] = [
   { label: "Wemco", href: "https://wemcosuriname.com", description: "Suriname" },
   { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
+  {
+    label: "BS Recycling",
+    description: "Recycling partner",
+    logo: bsRecyclingLogoAsset.url,
+    logoAlt: "BS Recycling",
+  },
 ];
 
 function WeBuyBadge() {
@@ -300,22 +315,43 @@ export function Header() {
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                   <div className="bg-white rounded-xl border border-cevons-border shadow-[0_20px_40px_rgba(16,24,32,0.12)] p-4 min-w-[260px]">
                     <ul className="space-y-1">
-                      {partnersMenu.map((partner) => (
-                        <li key={partner.label}>
-                          <a
-                            href={partner.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
-                          >
+                      {partnersMenu.map((partner) => {
+                        const content = (
+                          <span className="flex items-center gap-3">
+                            {partner.logo && (
+                              <img
+                                src={partner.logo}
+                                alt={partner.logoAlt || partner.label}
+                                className="h-8 w-auto max-w-[72px] object-contain rounded"
+                                loading="lazy"
+                              />
+                            )}
                             <span className="flex flex-col">
                               <span className="font-semibold">{partner.label}</span>
                               <span className="text-[11px] text-cevons-muted">{partner.description}</span>
                             </span>
-                            <ExternalLink className="size-3.5 text-cevons-muted shrink-0" />
-                          </a>
-                        </li>
-                      ))}
+                          </span>
+                        );
+                        return (
+                          <li key={partner.label}>
+                            {partner.href ? (
+                              <a
+                                href={partner.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark hover:bg-cevons-cream hover:text-[var(--text-link)] rounded-md transition-colors"
+                              >
+                                {content}
+                                <ExternalLink className="size-3.5 text-cevons-muted shrink-0 ml-2" />
+                              </a>
+                            ) : (
+                              <span className="flex items-center justify-between px-3 py-2 -mx-2 text-[13px] text-cevons-dark rounded-md select-none">
+                                {content}
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
                       <li>
                         <span
                           aria-disabled="true"
@@ -438,22 +474,45 @@ export function Header() {
 
                       {isOpen && item.key === "partners" && (
                         <div className="pl-3 pr-1 pb-2 flex flex-col">
-                          {partnersMenu.map((partner) => (
-                            <a
-                              key={partner.label}
-                              href={partner.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
-                              onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
-                            >
-                              <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
-                              <span className="flex flex-col">
-                                <span className="font-semibold">{partner.label}</span>
-                                <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                          {partnersMenu.map((partner) => {
+                            const content = (
+                              <span className="flex items-center gap-3">
+                                {partner.logo && (
+                                  <img
+                                    src={partner.logo}
+                                    alt={partner.logoAlt || partner.label}
+                                    className="h-9 w-auto max-w-[80px] object-contain rounded"
+                                    loading="lazy"
+                                  />
+                                )}
+                                <span className="flex flex-col">
+                                  <span className="font-semibold">{partner.label}</span>
+                                  <span className="text-[11px] text-cevons-muted">{partner.description}</span>
+                                </span>
                               </span>
-                            </a>
-                          ))}
+                            );
+                            return partner.href ? (
+                              <a
+                                key={partner.label}
+                                href={partner.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg hover:bg-cevons-cream hover:text-[var(--text-link)] transition-colors"
+                                onClick={() => { setMobileOpen(false); setOpenDropdown(null); }}
+                              >
+                                <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                                {content}
+                              </a>
+                            ) : (
+                              <span
+                                key={partner.label}
+                                className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg select-none"
+                              >
+                                <ChevronRight className="size-3.5 text-cevons-muted shrink-0" />
+                                {content}
+                              </span>
+                            );
+                          })}
                           <span
                             aria-disabled="true"
                             className="flex items-center gap-2 px-3 py-2 text-[14px] text-cevons-dark rounded-lg opacity-50 cursor-default select-none"
