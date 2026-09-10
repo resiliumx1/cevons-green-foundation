@@ -36,11 +36,13 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
       POST: async ({ request }) => {
         const serviceKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
         const supabaseUrl = process.env["SUPABASE_URL"] ?? import.meta.env["VITE_SUPABASE_URL"];
+        const apiKey = process.env["LOVABLE_API_KEY"];
 
-        if (!serviceKey || !supabaseUrl) {
+        if (!serviceKey || !supabaseUrl || !apiKey) {
           console.error("notify/dispatch: missing server configuration");
           return Response.json({ ok: false, reason: "server_misconfigured" }, { status: 500 });
         }
+
 
         const dispatchSecret = process.env["NOTIFY_DISPATCH_SECRET"];
         const auth = request.headers.get("Authorization") ?? "";
