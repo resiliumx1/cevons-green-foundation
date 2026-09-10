@@ -86,9 +86,23 @@ const serviceLabels: Record<ServiceSlug, string> = {
   "compactor-rental": "Compactor Rental",
 };
 
-const partnersMenu = [
+type PartnerItem = {
+  label: string;
+  href?: string;
+  description: string;
+  logo?: string;
+  logoAlt?: string;
+};
+
+const partnersMenu: PartnerItem[] = [
   { label: "Wemco", href: "https://wemcosuriname.com", description: "Suriname" },
   { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
+  {
+    label: "BS Recycling",
+    description: "Recycling partner",
+    logo: bsRecyclingLogoAsset.url,
+    logoAlt: "BS Recycling",
+  },
 ];
 
 function WeBuyBadge() {
