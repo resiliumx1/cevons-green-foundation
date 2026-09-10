@@ -99,7 +99,7 @@ const partnersMenu: PartnerItem[] = [
   { label: "SafeLane", href: "https://safelanegy.com", description: "Road Service" },
   {
     label: "BS Recycling",
-    description: "Recycling partner",
+    description: "Barbados",
     logo: bsRecyclingLogoAsset.url,
     logoAlt: "BS Recycling",
   },
