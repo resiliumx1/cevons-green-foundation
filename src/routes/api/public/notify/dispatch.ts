@@ -2,9 +2,8 @@
  * Internal notification dispatcher.
  *
  * Called server-to-server by the public submit Edge Functions right after a
- * lead row is written. It renders the staff notification email and pushes one
- * message per recipient onto the `transactional_emails` pgmq queue, which the
- * queue processor drains.
+ * lead row is written. It renders the staff notification email and sends one
+ * message per recipient through Lovable's managed email API.
  *
  * Auth: caller must present the project service-role key as a bearer token.
  * It is never callable from a browser.
@@ -14,6 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
+import { EmailAPIError, sendLovableEmail } from "@lovable.dev/email-js";
 
 import { renderServiceRequestEmail } from "@/lib/email-templates/service-request";
 import { renderContactMessageEmail } from "@/lib/email-templates/contact-message";
@@ -26,6 +26,7 @@ import {
   normalizeRecipients,
 } from "@/lib/notify/config";
 import { sendWhatsAppNotification } from "@/lib/notify/whatsapp";
+
 
 type Kind = "service_request" | "contact_message";
 
