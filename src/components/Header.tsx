@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, ExternalLink, Menu, PackageSearch, X } from "lucide-react";
 import logo from "@/assets/cevons-logo-transparent.png";
+import bsRecyclingLogoAsset from "@/assets/bs-recycling-logo.png.asset.json";
 import { SettingsMenu } from "./SettingsMenu";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
