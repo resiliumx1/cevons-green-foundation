@@ -10,4 +10,4 @@
 
 - [x] Improve dashboard sparklines with color, area fills, and endpoint emphasis
 - [x] Redesign Traffic ranked bars and daily activity charts
-- [ ] Verify desktop/mobile chart presentation, tests, and build
+- [x] Verify desktop/mobile chart presentation, tests, and build
