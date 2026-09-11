@@ -95,102 +95,131 @@ async function loadRecord(
   return { ...(data as Record<string, unknown>), entity_type: entityType } as CesSourceRecord;
 }
 
-export type DrainResult = {
-  attempted: number;
-  sent: number;
-  duplicates: number;
-  failed: number;
-  skipped: number;
-  configured: boolean;
-  failures: Array<{ reference: string | null; error: string }>;
-};
-
 /**
- * Send up to `limit` due rows. Safe to call repeatedly and concurrently:
- * every send carries a stable delivery id, so CES treats replays as duplicates.
+ * Send up to `limit` due rows. Safe to call repeatedly and concurrently: rows
+ * are claimed atomically with a lease (SKIP LOCKED), the body is frozen before
+ * any send, and every completion is conditional on still holding the lease.
  */
 export async function drainCesOutbox(limit = 25): Promise<DrainResult> {
-  const result: DrainResult = {
-    attempted: 0,
-    sent: 0,
-    duplicates: 0,
-    failed: 0,
-    skipped: 0,
-    configured: !!readCesConfig(),
-    failures: [],
-  };
-  if (!result.configured) return result;
+  return runDrain(
+    {
+      configured: () => !!readCesConfig(),
 
-  const { data: rows } = await supabaseAdmin
-    .from("ces_outbox")
-    .select("*")
-    .in("status", ["pending", "failed"])
-    .lte("next_attempt_at", new Date().toISOString())
-    .order("created_at", { ascending: true })
-    .limit(limit);
+      claim: async (n) => {
+        const { data, error } = await supabaseAdmin.rpc("ces_outbox_claim", {
+          _limit: n,
+          _lease_seconds: LEASE_SECONDS,
+        } as never);
+        if (error) {
+          console.error("ces outbox claim failed: db_claim_failed");
+          return [];
+        }
+        return ((data ?? []) as Array<Record<string, unknown>>).map((r) => ({
+          id: String(r["id"]),
+          event_id: String(r["event_id"]),
+          delivery_event_id: String(r["delivery_event_id"]),
+          entity_type: r["entity_type"] as CesEntityType,
+          entity_id: String(r["entity_id"]),
+          reference: (r["reference"] as string | null) ?? null,
+          mode: r["mode"] as CesMode,
+          attempts: Number(r["attempts"] ?? 0),
+          request_body: (r["request_body"] as string | null) ?? null,
+          lease_token: String(r["lease_token"] ?? ""),
+        })) satisfies ClaimedRow[];
+      },
 
-  for (const row of rows ?? []) {
-    result.attempted++;
+      loadRecord,
 
-    // Retries must repeat the exact body; only the first attempt builds it.
-    let rawBody = typeof row.request_body === "string" ? row.request_body : null;
-    let issues: Array<{ field: string; reason: string }> = [];
+      freezeBody: async (row, rawBody, issues) => {
+        try {
+          const { data, error } = await supabaseAdmin
+            .from("ces_outbox")
+            .update({ request_body: rawBody as never, issues: issues as never })
+            .eq("id", row.id)
+            .eq("lease_token", row.lease_token as never)
+            .select("id");
+          if (error) {
+            console.error("ces outbox freeze failed: db_write_failed");
+            return false;
+          }
+          return (data?.length ?? 0) > 0;
+        } catch (err) {
+          console.error(`ces outbox freeze failed: ${safeCode(err)}`);
+          return false;
+        }
+      },
 
-    if (!rawBody) {
-      const record = await loadRecord(row.entity_type as CesEntityType, row.entity_id);
-      if (!record) {
-        result.skipped++;
-        await supabaseAdmin
-          .from("ces_outbox")
-          .update({ status: "dead", last_error: "Website record no longer exists." })
-          .eq("id", row.id);
-        continue;
-      }
-      const built = buildCesBody(record, row.mode as CesMode);
-      rawBody = JSON.stringify(built.body);
-      issues = built.issues;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({ request_body: rawBody as never, issues: issues as never })
-        .eq("id", row.id);
-    }
+      deliver: async (rawBody, deliveryEventId) => {
+        const outcome = await deliverToCes(rawBody, { eventId: deliveryEventId });
+        return {
+          ok: outcome.ok,
+          status: outcome.status,
+          duplicate: !!outcome.duplicate,
+          error: outcome.error,
+          retryable: !!outcome.retryable,
+        };
+      },
 
-    const outcome = await deliverToCes(rawBody, { eventId: row.delivery_event_id });
-    const attempts = row.attempts + 1;
+      complete: (row, completion) => applyCompletion(row, completion),
+    },
+    limit,
+  );
+}
 
-    if (outcome.ok) {
-      result.sent++;
-      if (outcome.duplicate) result.duplicates++;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({
-          status: "sent",
-          attempts,
-          sent_at: new Date().toISOString(),
-          last_error: null,
-          last_status_code: outcome.status,
-        })
-        .eq("id", row.id);
-      continue;
-    }
+/** Conditional write: only the worker still holding the lease may finish a row. */
+async function applyCompletion(row: ClaimedRow, completion: Completion): Promise<boolean> {
+  const patch: Record<string, unknown> = { lease_token: null, lease_expires_at: null };
 
-    result.failed++;
-    result.failures.push({ reference: row.reference, error: outcome.error ?? "Unknown error" });
-    const dead = !outcome.retryable || attempts >= MAX_ATTEMPTS;
-    await supabaseAdmin
-      .from("ces_outbox")
-      .update({
-        status: dead ? "dead" : "failed",
-        attempts,
-        last_error: (outcome.error ?? "Unknown error").slice(0, 500),
-        last_status_code: outcome.status,
-        next_attempt_at: new Date(Date.now() + backoffSeconds(attempts) * 1000).toISOString(),
-      })
-      .eq("id", row.id);
+  if (completion.kind === "sent") {
+    Object.assign(patch, {
+      status: "sent",
+      attempts: completion.attempts,
+      sent_at: new Date().toISOString(),
+      last_error: null,
+      last_status_code: completion.statusCode,
+    });
+  } else if (completion.kind === "failed") {
+    Object.assign(patch, {
+      status: "failed",
+      attempts: completion.attempts,
+      last_error: completion.error,
+      last_status_code: completion.statusCode,
+      next_attempt_at: completion.nextAttemptAt,
+    });
+  } else if (completion.kind === "dead") {
+    Object.assign(patch, {
+      status: "dead",
+      attempts: completion.attempts,
+      last_error: completion.error,
+      last_status_code: completion.statusCode,
+    });
+  } else {
+    // Freeze failed: put the row back in line untouched apart from the retry time.
+    Object.assign(patch, {
+      status: "pending",
+      last_error: completion.error,
+      next_attempt_at: completion.nextAttemptAt,
+    });
   }
 
-  return result;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("ces_outbox")
+      .update(patch as never)
+      .eq("id", row.id)
+      .eq("lease_token", row.lease_token as never)
+      .select("id");
+    if (error) {
+      console.error("ces outbox completion failed: db_write_failed");
+      return false;
+    }
+    return (data?.length ?? 0) > 0;
+  } catch (err) {
+    console.error(`ces outbox completion failed: ${safeCode(err)}`);
+    return false;
+  }
 }
+
 
 /**
  * Deliberate resend: fresh delivery event id, unchanged externalId, rebuilt
