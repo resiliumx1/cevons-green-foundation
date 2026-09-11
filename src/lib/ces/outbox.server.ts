@@ -272,17 +272,27 @@ export async function enqueueBackfillPage(
 
   const { count } = await supabaseAdmin.from(table).select("id", { count: "exact", head: true });
 
+  // Stable keyset order: created_at then id, so records sharing a timestamp
+  // are never skipped at a page boundary.
   let query = supabaseAdmin
     .from(table)
     .select("id, reference, created_at")
     .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
     .limit(pageSize);
-  if (after) query = query.gt("created_at", after);
+  const cursor = decodeCursor(after);
+  if (cursor) {
+    query = query.or(
+      cursor.id
+        ? `created_at.gt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.gt.${cursor.id})`
+        : `created_at.gt.${cursor.createdAt}`,
+    );
+  }
 
   const { data: rows, error } = await query;
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("backfill_page_read_failed");
 
-  const list = (rows ?? []) as Array<{ id: string; reference: string | null; created_at: string }>;
+  const list = ((rows ?? []) as SourceRow[]).slice().sort(compareKeyset);
   let queued = 0;
   let alreadyQueued = 0;
 
@@ -290,7 +300,7 @@ export async function enqueueBackfillPage(
     const eventId = cesEventId(entityType, row.id);
     const { data: existing } = await supabaseAdmin
       .from("ces_outbox")
-      .select("id, mode, status")
+      .select("id")
       .eq("event_id", eventId)
       .maybeSingle();
     if (existing) {
@@ -306,70 +316,128 @@ export async function enqueueBackfillPage(
     if (res.queued) queued++;
   }
 
+  const last = list[list.length - 1];
   return {
     scanned: list.length,
     queued,
     alreadyQueued,
-    nextCursor: list.length === pageSize ? (list[list.length - 1]?.created_at ?? null) : null,
+    nextCursor: list.length === pageSize && last ? encodeCursor(last) : null,
     totalRetained: count ?? 0,
   };
 }
 
 export type ReconcileReport = {
+  /** Number of queue rows compared against CES in this run. */
   checked: number;
   matched: number;
+  /** Sent locally but unknown to CES — needs a resend. */
   missing: Array<{ externalId: string; reference: string | null }>;
+  /** Never delivered yet (pending/failed/dead) — needs a drain or repair. */
+  unsent: Array<{ externalId: string; reference: string | null; status: string; lastError: string | null }>;
   requeued: number;
+  /** True when the whole queue was compared; false when the scan hit its cap. */
+  complete: boolean;
+  totalQueued: number;
   error?: string;
 };
 
+const RECONCILE_PAGE = 200;
+
 /**
- * Ask CES what it holds for our recently sent items and requeue anything it
- * does not have. Read-mostly: the only local write is putting a missing item
- * back in line for delivery.
+ * Compare the WHOLE queue with CES, page by page (200 external ids per call),
+ * and report both what CES is missing and what never left this site.
  */
-export async function reconcileCes(opts: { limit?: number; requeueMissing?: boolean } = {}): Promise<ReconcileReport> {
-  const limit = Math.min(Math.max(opts.limit ?? 200, 1), 200);
-  const report: ReconcileReport = { checked: 0, matched: 0, missing: [], requeued: 0 };
+export async function reconcileCes(
+  opts: { maxRows?: number; requeueMissing?: boolean } = {},
+): Promise<ReconcileReport> {
+  const maxRows = Math.min(Math.max(opts.maxRows ?? 5000, 1), 20000);
+  const report: ReconcileReport = {
+    checked: 0,
+    matched: 0,
+    missing: [],
+    unsent: [],
+    requeued: 0,
+    complete: true,
+    totalQueued: 0,
+  };
 
-  const { data: rows } = await supabaseAdmin
+  const { count } = await supabaseAdmin
     .from("ces_outbox")
-    .select("id, entity_id, reference, status")
-    .eq("status", "sent")
-    .order("sent_at", { ascending: false })
-    .limit(limit);
+    .select("id", { count: "exact", head: true });
+  report.totalQueued = count ?? 0;
 
-  const list = rows ?? [];
-  if (list.length === 0) return report;
-  report.checked = list.length;
+  let from = 0;
+  for (;;) {
+    if (from >= maxRows) {
+      report.complete = false;
+      break;
+    }
+    const { data: rows, error } = await supabaseAdmin
+      .from("ces_outbox")
+      .select("id, entity_id, reference, status, last_error")
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
+      .range(from, from + RECONCILE_PAGE - 1);
+    if (error) {
+      report.error = "queue_read_failed";
+      report.complete = false;
+      break;
+    }
+    const list = rows ?? [];
+    if (list.length === 0) break;
 
-  const res = await reconcileWithCes({ externalIds: list.map((r) => r.entity_id), limit: 500 });
-  if (!res.ok || !res.data) {
-    report.error = res.error ?? "Reconcile call failed.";
-    return report;
+    const sent = list.filter((r) => r.status === "sent");
+    for (const r of list) {
+      if (r.status !== "sent") {
+        report.unsent.push({
+          externalId: r.entity_id,
+          reference: r.reference,
+          status: r.status,
+          lastError: r.last_error ?? null,
+        });
+      }
+    }
+
+    if (sent.length > 0) {
+      const res = await reconcileWithCes({ externalIds: sent.map((r) => r.entity_id), limit: 500 });
+      if (!res.ok || !res.data) {
+        report.error = res.error ?? "Reconcile call failed.";
+        report.complete = false;
+        break;
+      }
+      report.checked += sent.length;
+      const known = new Map(res.data.enquiries.map((e) => [e.externalId, e]));
+      const missingIds = new Set(res.data.missing ?? []);
+
+      for (const row of sent) {
+        const hit = known.get(row.entity_id);
+        if (hit && !missingIds.has(row.entity_id)) {
+          report.matched++;
+          await supabaseAdmin
+            .from("ces_outbox")
+            .update({
+              reconciled_at: new Date().toISOString(),
+              remote_stage: hit.stage ?? null,
+              remote_lead_id: hit.leadId ?? null,
+            })
+            .eq("id", row.id);
+          continue;
+        }
+        report.missing.push({ externalId: row.entity_id, reference: row.reference });
+        if (opts.requeueMissing) {
+          const r = await resendCesEvent(row.id);
+          if (r.ok) report.requeued++;
+        }
+      }
+    }
+
+    if (list.length < RECONCILE_PAGE) break;
+    from += RECONCILE_PAGE;
   }
 
-  const known = new Map(res.data.enquiries.map((e) => [e.externalId, e]));
-  const missingIds = new Set(res.data.missing ?? []);
+  return report;
+}
 
-  for (const row of list) {
-    const hit = known.get(row.entity_id);
-    if (hit && !missingIds.has(row.entity_id)) {
-      report.matched++;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({
-          reconciled_at: new Date().toISOString(),
-          remote_stage: hit.stage ?? null,
-          remote_lead_id: hit.leadId ?? null,
-        })
-        .eq("id", row.id);
-      continue;
-    }
-    report.missing.push({ externalId: row.entity_id, reference: row.reference });
-    if (opts.requeueMissing) {
-      const r = await resendCesEvent(row.id);
-      if (r.ok) report.requeued++;
     }
   }
 
