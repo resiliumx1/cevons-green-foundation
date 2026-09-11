@@ -272,3 +272,88 @@ export async function runSearchConsoleReport(days: number) {
     pages: mapRows(pages),
   };
 }
+
+/* ── Search Console diagnostics ──────────────────────────────────────── */
+
+/**
+ * Distinguishes the four reasons the Search Console cards can be empty:
+ * true zero data, no permission, wrong/absent property, or a request bug.
+ * Reads the API directly; no credential is returned or logged.
+ */
+export type SearchConsoleDiagnostics = {
+  configuredProperty: string | null;
+  propertyFound: boolean;
+  permissionLevel: string | null;
+  availableProperties: string[];
+  windows: Array<{ days: number; status: number; rowCount: number }>;
+  verdict: "no-data" | "no-permission" | "property-missing" | "unconfigured" | "request-error";
+};
+
+export async function runSearchConsoleDiagnostics(): Promise<SearchConsoleDiagnostics> {
+  const configuredProperty = (process.env["SEARCH_CONSOLE_SITE_URL"] ?? "").trim() || null;
+  const out: SearchConsoleDiagnostics = {
+    configuredProperty,
+    propertyFound: false,
+    permissionLevel: null,
+    availableProperties: [],
+    windows: [],
+    verdict: "unconfigured",
+  };
+  if (!configuredProperty) return out;
+
+  const token = await getAccessToken();
+  const sitesRes = await fetch("https://searchconsole.googleapis.com/webmasters/v3/sites", {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  if (sitesRes.status === 401 || sitesRes.status === 403) {
+    out.verdict = "no-permission";
+    return out;
+  }
+  if (!sitesRes.ok) {
+    out.verdict = "request-error";
+    return out;
+  }
+  const sitesJson = (await sitesRes.json()) as {
+    siteEntry?: Array<{ siteUrl: string; permissionLevel?: string }>;
+  };
+  const entries = sitesJson.siteEntry ?? [];
+  out.availableProperties = entries.map((e) => e.siteUrl);
+  const match = entries.find((e) => e.siteUrl === configuredProperty);
+  if (!match) {
+    out.verdict = "property-missing";
+    return out;
+  }
+  out.propertyFound = true;
+  out.permissionLevel = match.permissionLevel ?? null;
+  if (match.permissionLevel === "siteUnverifiedUser") {
+    out.verdict = "no-permission";
+    return out;
+  }
+
+  const base = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(configuredProperty)}/searchAnalytics/query`;
+  // 28 days, 90 days, and the maximum history Search Console retains (~16 months).
+  for (const days of [28, 90, 480]) {
+    const res = await fetch(base, {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        startDate: isoDaysAgo(days + 2),
+        endDate: isoDaysAgo(2),
+        dimensions: ["date"],
+        rowLimit: 1,
+      }),
+    });
+    let rowCount = 0;
+    if (res.ok) {
+      const json = (await res.json()) as { rows?: unknown[] };
+      rowCount = (json.rows ?? []).length;
+    }
+    out.windows.push({ days, status: res.status, rowCount });
+  }
+
+  const anyRows = out.windows.some((w) => w.rowCount > 0);
+  const allOk = out.windows.every((w) => w.status === 200);
+  out.verdict = anyRows ? "no-data" : allOk ? "no-data" : "request-error";
+  if (anyRows) out.verdict = "no-data";
+  return out;
+}
