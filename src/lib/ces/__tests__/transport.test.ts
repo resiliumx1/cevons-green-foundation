@@ -142,7 +142,9 @@ describe("deliverToCes transport", () => {
 
   it("does not follow redirects", async () => {
     configure();
-    const fetchMock = vi.fn(async () => reply(302, "text/html", "", { location: "https://login.test" }));
+    const fetchMock = vi.fn(async (_url: unknown, _init?: RequestInit) =>
+      reply(302, "text/html", "", { location: "https://login.test" }),
+    );
     vi.stubGlobal("fetch", fetchMock);
     const res = await deliverToCes(BODY, { eventId: "ev-1" });
     expect(res).toMatchObject({ ok: false, status: 302, error: "redirect_blocked", retryable: false });
