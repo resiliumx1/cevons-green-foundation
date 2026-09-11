@@ -25,7 +25,7 @@ export function GoogleTag() {
     function gtag(...args: unknown[]) {
       window.dataLayer!.push(args);
     }
-    window.gtag = window.gtag ?? (gtag as typeof window.gtag);
+    if (!window.gtag) window.gtag = gtag;
     window.gtag?.("js", new Date());
     window.gtag?.("config", MEASUREMENT_ID, { send_page_view: true });
 

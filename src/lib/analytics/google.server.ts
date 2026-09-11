@@ -247,7 +247,8 @@ export async function runSearchConsoleReport(days: number) {
     googleFetch(base, { ...range, dimensions: ["page"], rowLimit: 10 }),
   ]);
 
-  const mapRows = (json: any) =>
+  type ScRow = { key: string; clicks: number; impressions: number; ctr: number; position: number };
+  const mapRows = (json: any): ScRow[] =>
     (json.rows ?? []).map((r: any) => ({
       key: String(r.keys?.[0] ?? ""),
       clicks: Number(r.clicks ?? 0),
