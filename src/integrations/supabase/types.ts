@@ -1268,15 +1268,6 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
-      delete_email: {
-        Args: { message_id: number; queue_name: string }
-        Returns: boolean
-      }
-      email_queue_dispatch: { Args: never; Returns: undefined }
-      enqueue_email: {
-        Args: { payload: Json; queue_name: string }
-        Returns: number
-      }
       generate_contact_message_reference: { Args: never; Returns: string }
       generate_request_reference: { Args: never; Returns: string }
       get_request_status: {
@@ -1308,26 +1299,9 @@ export type Database = {
           user_id: string
         }[]
       }
-      move_to_dlq: {
-        Args: {
-          dlq_name: string
-          message_id: number
-          payload: Json
-          source_queue: string
-        }
-        Returns: number
-      }
       notif_pref_enabled: {
         Args: { _type: Database["public"]["Enums"]["notification_type"] }
         Returns: boolean
-      }
-      read_email_batch: {
-        Args: { batch_size: number; queue_name: string; vt: number }
-        Returns: {
-          message: Json
-          msg_id: number
-          read_ct: number
-        }[]
       }
       submit_contact_message: { Args: { payload: Json }; Returns: undefined }
       submit_service_request: { Args: { payload: Json }; Returns: string }

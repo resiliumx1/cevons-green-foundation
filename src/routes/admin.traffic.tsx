@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { BarChart3, Globe2, MonitorSmartphone, LineChart, Plug } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
+import { BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
-import { Panel, PanelEmpty, PanelError, PanelSkeleton } from "@/components/admin/Manifest";
+import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
+import { getSiteAnalytics, type ReportState } from "@/lib/siteAnalytics.functions";
 
 export const Route = createFileRoute("/admin/traffic")({
   head: () => ({
@@ -19,16 +22,14 @@ export const Route = createFileRoute("/admin/traffic")({
 /**
  * Traffic.
  *
- * There is NO analytics provider connected to this website. Nothing on this
- * screen may invent a visitor number. The three analytics sections render an
- * honest "not connected" state describing what connecting will enable.
- *
- * The two panels that DO show figures read first-party rows from
- * `service_requests` — real outcomes of the website, not page views — and say
- * so in their own copy.
+ * Visitor figures come from Google Analytics and Google Search Console, read
+ * server-side with a reporting account — the browser never sees a credential.
+ * The two request panels read first-party rows from `service_requests`, real
+ * outcomes of the website rather than page views, and say so in their copy.
  */
 
-const DAYS = 30;
+const FORM_DAYS = 30;
+const PERIODS = [7, 28, 90] as const;
 
 type RequestRow = {
   created_at: string;
@@ -39,9 +40,9 @@ type RequestRow = {
 
 function useRequestActivity() {
   return useQuery({
-    queryKey: ["admin-traffic-requests", DAYS],
+    queryKey: ["admin-traffic-requests", FORM_DAYS],
     queryFn: async (): Promise<RequestRow[]> => {
-      const since = new Date(Date.now() - DAYS * 86_400_000).toISOString();
+      const since = new Date(Date.now() - FORM_DAYS * 86_400_000).toISOString();
       const { data, error } = await supabase
         .from("service_requests")
         .select("created_at, landing_page, referrer, utm_source")
@@ -69,44 +70,61 @@ function tally(rows: RequestRow[], pick: (r: RequestRow) => string | null) {
   return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
 }
 
-function NotConnected({ what, enables }: { what: string; enables: string }) {
+function ReportNotice({ state, message }: { state: ReportState; message?: string }) {
+  const headline =
+    state === "unconfigured"
+      ? "This report isn't set up yet."
+      : state === "permission"
+        ? "The reporting account can't read this property yet."
+        : "This report is temporarily unavailable.";
   return (
-    <div className="admin-state admin-state-empty items-start">
-      <Plug className="h-4 w-4 shrink-0" aria-hidden style={{ marginTop: 3, color: "var(--admin-orange)" }} />
+    <div role="status" className="admin-state admin-state-empty items-start">
       <div>
-        <p className="font-semibold">No analytics provider is connected yet.</p>
-        <p className="admin-state-detail">
-          {what} needs a page-analytics provider on the public website. Once one is connected, {enables}
-        </p>
+        <p className="font-semibold">{headline}</p>
+        {message && <p className="admin-state-detail">{message}</p>}
       </div>
     </div>
   );
 }
 
-function BarRow({ label, value, max }: { label: string; value: number; max: number }) {
-  const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+function BarRow({ label, value, max, note }: { label: string; value: string | number; max: number; note?: string }) {
+  const numeric = typeof value === "number" ? value : Number(value) || 0;
+  const pct = max > 0 ? Math.round((numeric / max) * 100) : 0;
   return (
     <li className="flex items-center gap-3">
       <span className="min-w-0 flex-1 truncate text-sm" style={{ color: "var(--text)" }} title={label}>
         {label}
+        {note && <span className="ml-2 text-xs" style={{ color: "var(--text-2)" }}>{note}</span>}
       </span>
       <span aria-hidden className="hidden h-2 w-32 overflow-hidden rounded-full sm:block" style={{ background: "var(--track)" }}>
         <span className="block h-full rounded-full" style={{ width: `${pct}%`, background: "var(--admin-orange)" }} />
       </span>
-      <span className="admin-mono w-8 text-right" style={{ color: "var(--text-2)" }}>
+      <span className="admin-mono w-12 text-right" style={{ color: "var(--text-2)" }}>
         {value}
       </span>
     </li>
   );
 }
 
+const nf = new Intl.NumberFormat("en-US");
+const pct1 = (v: number) => `${(v * 100).toFixed(1)}%`;
+
 function TrafficPage() {
+  const [days, setDays] = useState<(typeof PERIODS)[number]>(28);
+  const fetchAnalytics = useServerFn(getSiteAnalytics);
+
+  const analytics = useQuery({
+    queryKey: ["admin-site-analytics", days],
+    queryFn: () => fetchAnalytics({ data: { days } }),
+    staleTime: 5 * 60_000,
+  });
+
   const { data: rows, isLoading, isError, error } = useRequestActivity();
 
   const byDay = (() => {
     if (!rows) return [] as Array<[string, number]>;
     const map = new Map<string, number>();
-    for (let i = DAYS - 1; i >= 0; i--) {
+    for (let i = FORM_DAYS - 1; i >= 0; i--) {
       map.set(georgetownDayKey(new Date(Date.now() - i * 86_400_000).toISOString()), 0);
     }
     for (const r of rows) {
@@ -122,6 +140,13 @@ function TrafficPage() {
   const landing = rows ? tally(rows, (r) => r.landing_page) : [];
   const sources = rows ? tally(rows, (r) => r.utm_source ?? r.referrer) : [];
 
+  const ga = analytics.data?.ga;
+  const gsc = analytics.data?.search;
+  const gaOk = ga?.state === "ok" && ga.data;
+  const gscOk = gsc?.state === "ok" && gsc.data;
+
+  const gaPeak = Math.max(1, ...(gaOk ? ga.data!.daily.map((d) => d.value) : [0]));
+
   return (
     <CrmPage>
       <div className="admin-stack-lg">
@@ -129,21 +154,178 @@ function TrafficPage() {
           <span className="admin-mono" style={{ color: "var(--text-2)" }}>Overview / Traffic</span>
           <h1 className="admin-display admin-h1">Traffic</h1>
           <p className="admin-lede">
-            Page analytics are not connected. Everything shown below with a figure comes from forms submitted
-            on the website, in Georgetown time (UTC−4).
+            Visitor figures come from Google Analytics and Google Search. Request figures come from
+            forms submitted on the website, in Georgetown time (UTC−4).
           </p>
+          <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Reporting period">
+            {PERIODS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setDays(p)}
+                aria-pressed={days === p}
+                className="admin-link-btn"
+                style={
+                  days === p
+                    ? { background: "var(--admin-orange)", color: "#fff", borderColor: "var(--admin-orange)" }
+                    : undefined
+                }
+              >
+                Last {p} days
+              </button>
+            ))}
+          </div>
         </header>
 
-        <Panel title="Visitors over time" code="TRF-01">
-          <NotConnected
-            what="A visitors-over-time chart"
-            enables="this panel will show sessions and unique visitors per day, with period comparison."
-          />
+        <Panel title="Visitors" code="TRF-01">
+          {analytics.isLoading ? (
+            <PanelSkeleton rows={3} />
+          ) : analytics.isError ? (
+            <PanelError what="website analytics" error={analytics.error} />
+          ) : !gaOk ? (
+            <ReportNotice state={ga?.state ?? "error"} message={ga?.message} />
+          ) : (
+            <>
+              <DocketStrip
+                cells={[
+                  { code: "SES", label: "Sessions", value: nf.format(ga.data!.totals.sessions) },
+                  { code: "USR", label: "Visitors", value: nf.format(ga.data!.totals.users) },
+                  { code: "PVW", label: "Page views", value: nf.format(ga.data!.totals.pageViews) },
+                  { code: "BNC", label: "Bounce rate", value: pct1(ga.data!.totals.bounceRate) },
+                ]}
+              />
+              {ga.data!.totals.sessions === 0 ? (
+                <PanelEmpty headline={`Google Analytics recorded no visits in the last ${days} days.`} />
+              ) : (
+                <>
+                  <p className="admin-note">
+                    <Users className="h-4 w-4" aria-hidden /> Sessions per day, last {days} days.
+                  </p>
+                  <div className="admin-spark" role="img" aria-label={`${ga.data!.totals.sessions} sessions over the last ${days} days`}>
+                    {ga.data!.daily.map((d) => (
+                      <span
+                        key={d.key}
+                        className="admin-spark-bar"
+                        style={{ height: `${Math.max(3, Math.round((d.value / gaPeak) * 100))}%` }}
+                        title={`${d.key}: ${d.value}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </Panel>
+
+        <div className="admin-grid-2">
+          <Panel title="Where visitors come from" code="TRF-02">
+            <div className="admin-subhead">
+              <Globe2 className="h-4 w-4" aria-hidden /> Sessions by channel
+            </div>
+            {analytics.isLoading ? (
+              <PanelSkeleton rows={3} />
+            ) : !gaOk ? (
+              <ReportNotice state={ga?.state ?? "error"} message={ga?.message} />
+            ) : ga.data!.channels.length === 0 ? (
+              <PanelEmpty headline="No traffic sources were recorded for this period." />
+            ) : (
+              <ul className="admin-bars">
+                {ga.data!.channels.map((c) => (
+                  <BarRow key={c.key} label={c.key} value={c.value} max={ga.data!.channels[0].value} />
+                ))}
+              </ul>
+            )}
+          </Panel>
+
+          <Panel title="Most-viewed pages" code="TRF-03">
+            <div className="admin-subhead">
+              <BarChart3 className="h-4 w-4" aria-hidden /> Page views
+            </div>
+            {analytics.isLoading ? (
+              <PanelSkeleton rows={3} />
+            ) : !gaOk ? (
+              <ReportNotice state={ga?.state ?? "error"} message={ga?.message} />
+            ) : ga.data!.pages.length === 0 ? (
+              <PanelEmpty headline="No page views were recorded for this period." />
+            ) : (
+              <ul className="admin-bars">
+                {ga.data!.pages.map((p) => (
+                  <BarRow
+                    key={p.key}
+                    label={p.key}
+                    value={p.value}
+                    max={ga.data!.pages[0].value}
+                    note={p.secondary ? `${Math.round(p.secondary)}s avg` : undefined}
+                  />
+                ))}
+              </ul>
+            )}
+          </Panel>
+        </div>
+
+        <Panel title="Google Search" code="TRF-04">
+          {analytics.isLoading ? (
+            <PanelSkeleton rows={3} />
+          ) : !gscOk ? (
+            <ReportNotice state={gsc?.state ?? "error"} message={gsc?.message} />
+          ) : (
+            <>
+              <DocketStrip
+                cells={[
+                  { code: "CLK", label: "Clicks", value: nf.format(gsc.data!.totals.clicks) },
+                  { code: "IMP", label: "Impressions", value: nf.format(gsc.data!.totals.impressions) },
+                  { code: "CTR", label: "Click rate", value: pct1(gsc.data!.totals.ctr) },
+                  { code: "POS", label: "Avg. position", value: gsc.data!.totals.position.toFixed(1) },
+                ]}
+              />
+              <p className="admin-note">
+                <Search className="h-4 w-4" aria-hidden /> {gsc.data!.range.startDate} to {gsc.data!.range.endDate}.
+                Google Search data is always a couple of days behind.
+              </p>
+              {gsc.data!.queries.length === 0 ? (
+                <PanelEmpty headline="Google Search reported no searches for this period." />
+              ) : (
+                <>
+                  <div className="admin-subhead">Top searches</div>
+                  <ul className="admin-bars">
+                    {gsc.data!.queries.map((q) => (
+                      <BarRow
+                        key={q.key}
+                        label={q.key}
+                        value={q.clicks}
+                        max={Math.max(1, gsc.data!.queries[0].clicks)}
+                        note={`${nf.format(q.impressions)} shown · pos ${q.position.toFixed(1)}`}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
+        </Panel>
+
+        <Panel title="Devices" code="TRF-05">
+          <div className="admin-subhead">
+            <MonitorSmartphone className="h-4 w-4" aria-hidden /> Desktop, tablet and mobile split
+          </div>
+          {analytics.isLoading ? (
+            <PanelSkeleton rows={3} />
+          ) : !gaOk ? (
+            <ReportNotice state={ga?.state ?? "error"} message={ga?.message} />
+          ) : ga.data!.devices.length === 0 ? (
+            <PanelEmpty headline="No device information was recorded for this period." />
+          ) : (
+            <ul className="admin-bars">
+              {ga.data!.devices.map((d) => (
+                <BarRow key={d.key} label={d.key} value={d.value} max={ga.data!.devices[0].value} />
+              ))}
+            </ul>
+          )}
         </Panel>
 
         <Panel
           title="Form submissions over time"
-          code="TRF-02"
+          code="TRF-06"
           action={<Link to="/admin/leads" className="admin-link-btn">Open Requests</Link>}
         >
           {isLoading ? (
@@ -176,14 +358,7 @@ function TrafficPage() {
         </Panel>
 
         <div className="admin-grid-2">
-          <Panel title="Top pages" code="TRF-03">
-            <NotConnected
-              what="Ranking your most-viewed pages"
-              enables="this panel will list pages by views, average time and exit rate."
-            />
-            <div className="admin-subhead">
-              <BarChart3 className="h-4 w-4" aria-hidden /> Landing pages of submitted requests
-            </div>
+          <Panel title="Landing pages of requests" code="TRF-07">
             {isLoading ? (
               <PanelSkeleton rows={3} />
             ) : isError ? (
@@ -199,14 +374,7 @@ function TrafficPage() {
             )}
           </Panel>
 
-          <Panel title="Referrers" code="TRF-04">
-            <NotConnected
-              what="A full referrer breakdown"
-              enables="this panel will show which search engines, social platforms and sites send visitors."
-            />
-            <div className="admin-subhead">
-              <Globe2 className="h-4 w-4" aria-hidden /> Sources recorded on submitted requests
-            </div>
+          <Panel title="Sources of requests" code="TRF-08">
             {isLoading ? (
               <PanelSkeleton rows={3} />
             ) : isError ? (
@@ -222,16 +390,6 @@ function TrafficPage() {
             )}
           </Panel>
         </div>
-
-        <Panel title="Devices" code="TRF-05">
-          <div className="admin-subhead">
-            <MonitorSmartphone className="h-4 w-4" aria-hidden /> Desktop, tablet and mobile split
-          </div>
-          <NotConnected
-            what="A device breakdown"
-            enables="this panel will show the desktop, tablet and mobile split, plus browser and screen widths."
-          />
-        </Panel>
       </div>
     </CrmPage>
   );

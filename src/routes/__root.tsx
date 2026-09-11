@@ -19,6 +19,7 @@ import { CurrencyProvider } from "../contexts/CurrencyContext";
 import { SettingsProvider } from "../contexts/SettingsContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
 import { ServiceAssistant } from "../components/chat/ServiceAssistant";
+import { GoogleTag } from "../components/analytics/GoogleTag";
 
 
 function NotFoundComponent() {
@@ -178,6 +179,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoveryLinkRedirect />
+      {!isCrm && <GoogleTag />}
       <AttributionCapture />
       <SettingsProvider>
 
