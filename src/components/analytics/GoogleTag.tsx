@@ -11,28 +11,49 @@ import { useRouterState } from "@tanstack/react-router";
  */
 const MEASUREMENT_ID = "G-RCKQCLT300";
 
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+/** Initializes window.dataLayer + window.gtag exactly once (survives remounts). */
+function ensureTagInitialized() {
+  if (typeof window === "undefined") return;
+
+  window.dataLayer = Array.isArray(window.dataLayer) ? window.dataLayer : [];
+  if (typeof window.gtag !== "function") {
+    window.gtag = function gtag(...args: unknown[]) {
+      window.dataLayer!.push(args);
+    };
+  }
+
+  if (window.__cevonsGtagLoaded) return;
+  window.__cevonsGtagLoaded = true;
+
+  window.gtag("js", new Date());
+  window.gtag("config", MEASUREMENT_ID, { send_page_view: true });
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+}
+
+declare global {
+  interface Window {
+    __cevonsGtagLoaded?: boolean;
+  }
+}
+
 export function GoogleTag() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const search = useRouterState({ select: (s) => s.location.searchStr });
-  const loaded = useRef(false);
   const firstView = useRef(true);
 
   useEffect(() => {
-    if (loaded.current || typeof window === "undefined") return;
-    loaded.current = true;
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args: unknown[]) {
-      window.dataLayer!.push(args);
-    }
-    if (!window.gtag) window.gtag = gtag;
-    window.gtag?.("js", new Date());
-    window.gtag?.("config", MEASUREMENT_ID, { send_page_view: true });
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
-    document.head.appendChild(script);
+    ensureTagInitialized();
   }, []);
 
   useEffect(() => {
