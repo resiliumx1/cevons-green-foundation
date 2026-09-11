@@ -93,6 +93,27 @@ function IntegrationsPage() {
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not retry."),
   });
 
+  const checkCes = useMutation({
+    mutationFn: () => reconcile({ data: { limit: 200, requeueMissing: false } }),
+    onSuccess: (r) => {
+      if (r.error) {
+        toast.error(r.error);
+        return;
+      }
+      toast.success(`Checked ${r.checked}: ${r.matched} confirmed by CES.`);
+      setProgress(
+        r.missing.length
+          ? `CES is missing ${r.missing.length}: ${r.missing
+              .slice(0, 10)
+              .map((m) => m.reference ?? m.externalId)
+              .join(", ")}. Use “Retry failures” or resend to send them again.`
+          : `All ${r.matched} checked requests are present in CES.`,
+      );
+      void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
+    },
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not check CES."),
+  });
+
   return (
     <CrmPage>
       <div className="admin-stack">
