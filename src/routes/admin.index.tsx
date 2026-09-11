@@ -19,6 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { georgetownLabel } from "@/lib/georgetown";
 import { supabase } from "@/integrations/supabase/client";
+import { SERVICE_PAGES } from "@/lib/servicePages";
 import {
   DocketStrip,
   Panel,
@@ -29,7 +30,6 @@ import {
   timeAgo,
   type DocketCell,
 } from "@/components/admin/Manifest";
-
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -42,6 +42,15 @@ export const Route = createFileRoute("/admin/")({
 });
 
 const DAY = 24 * 60 * 60 * 1000;
+const SERVICE_LABELS = new Map(SERVICE_PAGES.map((service) => [service.slug, service.label]));
+
+function serviceLabel(value: string | null | undefined): string {
+  if (!value) return "a service";
+  return (
+    SERVICE_LABELS.get(value) ??
+    value.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase())
+  );
+}
 
 /* ── Real queries only. No analytics provider is connected, so anything
       about traffic, visitors, conversion or load time is reported as
@@ -57,22 +66,57 @@ async function fetchDocketData() {
     return q.count ?? 0;
   };
 
-  const [req30, reqPrev, open, msg30, msgPrev, mediaPub] = await Promise.all([
-    supabase.from("service_requests").select("id", { count: "exact", head: true }).gte("created_at", since30),
-    supabase
-      .from("service_requests")
-      .select("id", { count: "exact", head: true })
-      .gte("created_at", since60)
-      .lt("created_at", since30),
-    supabase.from("service_requests").select("id", { count: "exact", head: true }).eq("status", "new"),
-    supabase.from("contact_messages").select("id", { count: "exact", head: true }).gte("created_at", since30),
-    supabase
-      .from("contact_messages")
-      .select("id", { count: "exact", head: true })
-      .gte("created_at", since60)
-      .lt("created_at", since30),
-    supabase.from("media_posts").select("id", { count: "exact", head: true }).eq("published", true),
-  ]);
+  const [req30, reqPrev, open, msg30, msgPrev, mediaPub, requestTrendRows, messageTrendRows] =
+    await Promise.all([
+      supabase
+        .from("service_requests")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", since30),
+      supabase
+        .from("service_requests")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", since60)
+        .lt("created_at", since30),
+      supabase
+        .from("service_requests")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "new"),
+      supabase
+        .from("contact_messages")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", since30),
+      supabase
+        .from("contact_messages")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", since60)
+        .lt("created_at", since30),
+      supabase
+        .from("media_posts")
+        .select("id", { count: "exact", head: true })
+        .eq("published", true),
+      supabase
+        .from("service_requests")
+        .select("created_at")
+        .gte("created_at", since30)
+        .order("created_at"),
+      supabase
+        .from("contact_messages")
+        .select("created_at")
+        .gte("created_at", since30)
+        .order("created_at"),
+    ]);
+
+  if (requestTrendRows.error) throw requestTrendRows.error;
+  if (messageTrendRows.error) throw messageTrendRows.error;
+  const weeklyTrend = (rows: Array<{ created_at: string }>) => {
+    const buckets = Array.from({ length: 8 }, () => 0);
+    for (const row of rows) {
+      const age = Math.max(0, now - new Date(row.created_at).getTime());
+      const index = Math.min(7, Math.floor(age / (DAY * 4)));
+      buckets[7 - index] += 1;
+    }
+    return buckets;
+  };
 
   return {
     requests30: count(req30),
@@ -81,6 +125,8 @@ async function fetchDocketData() {
     messages30: count(msg30),
     messagesPrev30: count(msgPrev),
     mediaPublished: count(mediaPub),
+    requestTrend: weeklyTrend((requestTrendRows.data ?? []) as Array<{ created_at: string }>),
+    messageTrend: weeklyTrend((messageTrendRows.data ?? []) as Array<{ created_at: string }>),
   };
 }
 
@@ -110,12 +156,14 @@ function Dashboard() {
       label: "Requests · 30 days",
       value: d?.requests30,
       ...(d ? delta(d.requests30, d.requestsPrev30, "requests") : {}),
+      trend: d?.requestTrend,
     },
     {
       code: "D-02",
       label: "Messages · 30 days",
       value: d?.messages30,
       ...(d ? delta(d.messages30, d.messagesPrev30, "messages") : {}),
+      trend: d?.messageTrend,
     },
     {
       code: "D-03",
@@ -135,46 +183,37 @@ function Dashboard() {
 
   return (
     <PullToRefresh onRefresh={refreshAll}>
-    <CrmPage className="space-y-5 sm:space-y-6">
-      <header className="space-y-1">
-        <p className="admin-mono truncate" style={{ color: "var(--text-2)" }}>
-          {georgetownStamp(new Date())} · Georgetown, UTC−4
-        </p>
-        <h1
-          className="admin-display text-[24px] sm:text-[30px]"
-          style={{ fontWeight: 800, color: "var(--text)" }}
-        >
-          Dashboard
-        </h1>
-        <p className="text-[13px] sm:text-sm" style={{ color: "var(--text-2)" }}>
-          Everything you can change on cevons.com, in one place. Start with a shortcut below.
-        </p>
-      </header>
+      <CrmPage className="space-y-5 sm:space-y-6">
+        <header className="admin-page-header">
+          <div>
+            <h1 className="admin-display text-[24px] sm:text-[30px]">Dashboard</h1>
+            <p className="text-[13px] sm:text-sm text-[var(--text-2)]">
+              Manage the website, respond to enquiries, and monitor activity.
+            </p>
+          </div>
+          <p className="admin-page-meta truncate">{georgetownStamp(new Date())} · Georgetown</p>
+        </header>
 
-      <Shortcuts openRequests={d?.openRequests} />
+        <Shortcuts openRequests={d?.openRequests} />
 
-      {docket.isError ? (
-        <PanelError what="the key figures" error={docket.error} />
-      ) : (
-        <DocketStrip cells={cells} loading={docket.isLoading} />
-      )}
+        {docket.isError ? (
+          <PanelError what="the key figures" error={docket.error} />
+        ) : (
+          <DocketStrip cells={cells} loading={docket.isLoading} />
+        )}
 
-      <p className="admin-mono" style={{ color: "var(--text-2)" }}>
-        Website traffic, visitors and conversion are not shown — no analytics provider is connected yet.
-      </p>
+        <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
+          <RecentActivity />
+          <LatestRequests />
+        </div>
 
-      <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
-        <RecentActivity />
-        <LatestRequests />
-      </div>
+        <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
+          <MediaAtAGlance />
+          <GoingLiveNext />
+        </div>
 
-      <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
-        <MediaAtAGlance />
-        <GoingLiveNext />
-      </div>
-
-      <NeedsAttention />
-    </CrmPage>
+        <NeedsAttention />
+      </CrmPage>
     </PullToRefresh>
   );
 }
@@ -203,8 +242,18 @@ function Shortcuts({ openRequests }: { openRequests?: number }) {
   });
 
   const items: Shortcut[] = [
-    { to: "/admin/pages", icon: FileText, title: "Edit a page", sub: "Change wording on any public page" },
-    { to: "/admin/images", icon: ImageIcon, title: "Replace a photo", sub: "Swap any image on the site" },
+    {
+      to: "/admin/pages",
+      icon: FileText,
+      title: "Edit a page",
+      sub: "Change wording on any public page",
+    },
+    {
+      to: "/admin/images",
+      icon: ImageIcon,
+      title: "Replace a photo",
+      sub: "Swap any image on the site",
+    },
     {
       to: "/admin/leads",
       icon: Truck,
@@ -219,8 +268,18 @@ function Shortcuts({ openRequests }: { openRequests?: number }) {
       sub: "Contact-form enquiries",
       ...(unread.data ? { count: unread.data } : {}),
     },
-    { to: "/admin/media", icon: Upload, title: "Media library", sub: "Slides, gallery and announcements" },
-    { to: "/admin/promotions", icon: Megaphone, title: "Promotions", sub: "Schedule an offer or notice" },
+    {
+      to: "/admin/media",
+      icon: Upload,
+      title: "Media library",
+      sub: "Slides, gallery and announcements",
+    },
+    {
+      to: "/admin/promotions",
+      icon: Megaphone,
+      title: "Promotions",
+      sub: "Schedule an offer or notice",
+    },
     { to: "/admin/people", icon: Users, title: "People", sub: "Invite teammates and set roles" },
     { to: "/admin/audit", icon: Layers, title: "Activity log", sub: "Who changed what, and when" },
   ];
@@ -292,7 +351,7 @@ function RecentActivity() {
         ...(requests.data ?? []).map((r) => ({
           id: `r-${r.id}`,
           at: r.created_at as string,
-          text: `${r.name ?? "Someone"} requested ${r.service ?? "a service"}`,
+          text: `${r.name ?? "Someone"} requested ${serviceLabel(r.service)}`,
           meta: `Request ${r.reference ?? ""} · ${r.status}`,
           icon: Truck,
           to: { path: "/admin/leads/$id" as const, id: r.id },
@@ -383,7 +442,6 @@ function RecentActivity() {
   );
 }
 
-
 /* ── Latest requests ───────────────────────────────────────────────────── */
 
 function LatestRequests() {
@@ -439,11 +497,15 @@ function LatestRequests() {
             {rows.map((r) => (
               <tr key={r.id}>
                 <td data-label="Reference">
-                  <Link to="/admin/leads/$id" params={{ id: r.id }} className="admin-mono admin-link">
+                  <Link
+                    to="/admin/leads/$id"
+                    params={{ id: r.id }}
+                    className="admin-mono admin-link"
+                  >
                     {r.reference}
                   </Link>
                 </td>
-                <td data-label="Service">{r.service ?? r.category ?? "—"}</td>
+                <td data-label="Service">{serviceLabel(r.service ?? r.category) || "—"}</td>
                 <td data-label="Branch">{r.region ?? "Not stated"}</td>
                 <td data-label="Received" title={georgetownStamp(r.created_at)}>
                   {timeAgo(r.created_at)}
@@ -553,7 +615,10 @@ function NeedsAttention() {
       issues.push({ id: `${r.id}-title`, text: `A ${r.kind} has no title.` });
     }
     if (r.kind === "announcement" && !r.caption?.trim()) {
-      issues.push({ id: `${r.id}-caption`, text: `Announcement “${r.title || "untitled"}” has no caption, so it renders as a heading with nothing under it.` });
+      issues.push({
+        id: `${r.id}-caption`,
+        text: `Announcement “${r.title || "untitled"}” has no caption, so it renders as a heading with nothing under it.`,
+      });
     }
     if (r.kind === "slide" && r.published && r.image_w && r.image_h && r.image_h > r.image_w) {
       issues.push({
@@ -591,12 +656,12 @@ function NeedsAttention() {
       )}
       <p className="admin-mono mt-4" style={{ color: "var(--text-2)" }}>
         <Inbox className="mr-1 inline h-3 w-3" aria-hidden />
-        Checks run against media_posts only. Traffic and performance checks need an analytics provider.
+        Checks run against media_posts only. Traffic and performance checks need an analytics
+        provider.
       </p>
     </Panel>
   );
 }
-
 
 /* ── Going live next — genuinely scheduled items only ──────────────────── */
 
@@ -681,7 +746,9 @@ function GoingLiveNext() {
               <tr key={r.id}>
                 <td data-label="Item">{r.label}</td>
                 <td data-label="Type">{r.kind}</td>
-                <td data-label="Goes live" className="admin-mono">{georgetownLabel(r.at)}</td>
+                <td data-label="Goes live" className="admin-mono">
+                  {georgetownLabel(r.at)}
+                </td>
               </tr>
             ))}
           </tbody>

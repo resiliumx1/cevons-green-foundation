@@ -5,11 +5,17 @@ import { socialLinksList } from "@/data/socialLinks";
 
 // Mock router Link → plain <a> so we can render Footer without RouterProvider.
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, ...rest }: { to: string; children: React.ReactNode } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  Link: ({
+    to,
+    children,
+    ...rest
+  }: { to: string; children: React.ReactNode } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a href={typeof to === "string" ? to : "#"} {...rest}>
       {children}
     </a>
   ),
+  useRouterState: ({ select }: { select: (state: { location: { pathname: string } }) => string }) =>
+    select({ location: { pathname: "/" } }),
 }));
 
 // Mock the settings context so useT is a simple identity translator.
@@ -48,10 +54,7 @@ async function runAxe(container: HTMLElement) {
   return results.violations;
 }
 
-const focusRingClasses = [
-  "focus-visible:ring-2",
-  "focus-visible:ring-cevons-yellow",
-];
+const focusRingClasses = ["focus-visible:ring-2", "focus-visible:ring-cevons-yellow"];
 
 describe("Footer social icons — accessibility", () => {
   afterEach(() => cleanup());
@@ -59,9 +62,8 @@ describe("Footer social icons — accessibility", () => {
   it("every social control has an accessible name in both enabled and disabled states", () => {
     render(<Footer />);
     for (const s of socialLinksList) {
-      const expected = s.enabled && s.url
-        ? `Follow CEVONS on ${s.name}`
-        : `${s.name} — Coming soon`;
+      const expected =
+        s.enabled && s.url ? `Follow CEVONS on ${s.name}` : `${s.name} — Coming soon`;
       // Either an <a> (enabled) or a role="img" <span> (disabled).
       const el = screen.getByLabelText(expected);
       expect(el).toBeInTheDocument();

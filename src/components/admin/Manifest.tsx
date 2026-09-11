@@ -16,7 +16,44 @@ export type DocketCell = {
   deltaDirection?: "up" | "down" | "flat";
   /** When set, the tile renders this honest explanation instead of a number. */
   unavailable?: string;
+  /** Real chronological values used for a compact decorative trend line. */
+  trend?: number[];
 };
+
+function MetricSparkline({ values, label }: { values: number[]; label: string }) {
+  const width = 112;
+  const height = 34;
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const span = Math.max(max - min, 1);
+  const points = values
+    .map((value, index) => {
+      const x = values.length <= 1 ? width : (index / (values.length - 1)) * width;
+      const y = height - 3 - ((value - min) / span) * (height - 8);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+
+  return (
+    <svg
+      className="admin-metric-sparkline"
+      viewBox={`0 0 ${width} ${height}`}
+      role="img"
+      aria-label={`${label} trend from real data`}
+    >
+      <polyline
+        className="admin-metric-sparkline-track"
+        points={points}
+        vectorEffect="non-scaling-stroke"
+      />
+      <polyline
+        className="admin-metric-sparkline-line"
+        points={points}
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
 
 export function DocketStrip({ cells, loading }: { cells: DocketCell[]; loading?: boolean }) {
   return (
@@ -31,11 +68,18 @@ export function DocketStrip({ cells, loading }: { cells: DocketCell[]; loading?:
             <p className="docket-unavailable">{c.unavailable}</p>
           ) : (
             <>
-              <div className="admin-display docket-figure">
-                {loading ? <span className="docket-skeleton" aria-hidden /> : (c.value ?? "—")}
+              <div className="docket-value-row">
+                <div className="admin-display docket-figure">
+                  {loading ? <span className="docket-skeleton" aria-hidden /> : (c.value ?? "—")}
+                </div>
+                {!loading && c.trend && c.trend.length > 1 ? (
+                  <MetricSparkline values={c.trend} label={c.label} />
+                ) : null}
               </div>
               {c.delta && (
-                <p className={`docket-delta docket-delta-${c.deltaDirection ?? "flat"}`}>{c.delta}</p>
+                <p className={`docket-delta docket-delta-${c.deltaDirection ?? "flat"}`}>
+                  {c.delta}
+                </p>
               )}
             </>
           )}
@@ -109,7 +153,7 @@ export function PanelEmpty({ headline, action }: { headline: string; action?: Re
 
 export function PanelBusy() {
   return (
-    <span className="inline-flex items-center gap-2 text-sm" style={{ color: "var(--text-2)" }}>
+    <span className="inline-flex items-center gap-2 text-sm text-[var(--text-2)]">
       <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Working…
     </span>
   );
