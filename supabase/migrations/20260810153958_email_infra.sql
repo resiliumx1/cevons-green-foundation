@@ -300,3 +300,36 @@ CREATE INDEX IF NOT EXISTS idx_unsubscribe_tokens_token ON public.email_unsubscr
 --    If conditions are met, it calls the process-email-queue Edge Function
 --    via net.http_post using the vault-stored service_role key.
 --    To revert: SELECT cron.unschedule('process-email-queue');
+
+-- Queue wake/dispatch helpers referenced by migration 20260812122947
+-- (REVOKE/GRANT on public.email_queue_dispatch() / email_queue_wake()).
+-- Originally created by dynamic post-migration steps; defined here so a
+-- fresh replay of the migration chain does not fail on a missing function.
+-- The transactional path now sends email directly (notify/dispatch route),
+-- so dispatch is intentionally a no-op.
+CREATE OR REPLACE FUNCTION public.email_queue_dispatch()
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  RETURN;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.email_queue_wake()
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  PERFORM public.email_queue_dispatch();
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION public.email_queue_dispatch() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.email_queue_wake() FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.email_queue_dispatch() TO service_role;
+GRANT EXECUTE ON FUNCTION public.email_queue_wake() TO service_role;
