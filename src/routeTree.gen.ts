@@ -69,6 +69,7 @@ import { Route as ServicesUsedWasteOilRouteImport } from './routes/services.used
 import { Route as ServicesWastewaterRouteImport } from './routes/services.wastewater'
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
+import { Route as ApiPublicCesDrainRouteImport } from './routes/api/public/ces/drain'
 import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
 import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify/push'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -386,6 +387,11 @@ const AdminPreviewPageRoute = AdminPreviewPageRouteImport.update({
   path: '/admin/preview/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCesDrainRoute = ApiPublicCesDrainRouteImport.update({
+  id: '/api/public/ces/drain',
+  path: '/api/public/ces/drain',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicNotifyDispatchRoute = ApiPublicNotifyDispatchRouteImport.update({
   id: '/api/public/notify/dispatch',
   path: '/api/public/notify/dispatch',
@@ -464,6 +470,7 @@ export interface FileRoutesByFullPath {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -527,6 +534,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -593,6 +601,7 @@ export interface FileRoutesById {
   '/services/': typeof ServicesIndexRoute
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
+  '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -660,6 +669,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/transactional/preview'
@@ -723,6 +733,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/admin/leads/$id'
     | '/admin/preview/$page'
+    | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/transactional/preview'
@@ -788,6 +799,7 @@ export interface FileRouteTypes {
     | '/services/'
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
+    | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/transactional/preview'
@@ -818,6 +830,7 @@ export interface RootRouteChildren {
   CrmIndexRoute: typeof CrmIndexRoute
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
+  ApiPublicCesDrainRoute: typeof ApiPublicCesDrainRoute
   ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -1245,6 +1258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPreviewPageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ces/drain': {
+      id: '/api/public/ces/drain'
+      path: '/api/public/ces/drain'
+      fullPath: '/api/public/ces/drain'
+      preLoaderRoute: typeof ApiPublicCesDrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/notify/dispatch': {
       id: '/api/public/notify/dispatch'
       path: '/api/public/notify/dispatch'
@@ -1394,6 +1414,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmIndexRoute: CrmIndexRoute,
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
+  ApiPublicCesDrainRoute: ApiPublicCesDrainRoute,
   ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
