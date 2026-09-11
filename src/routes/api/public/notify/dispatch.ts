@@ -73,6 +73,30 @@ export const Route = createFileRoute("/api/public/notify/dispatch")({
             auth: { persistSession: false },
           });
 
+          // ── CES Marketing Inbox hand-off ────────────────────────────────
+          // The website row is already committed by the caller. Queueing is
+          // best-effort and isolated: a CES outage or misconfiguration can
+          // never fail, delay or lose the customer's submission.
+          try {
+            const table = kind === "service_request" ? "service_requests" : "contact_messages";
+            const { data: row } = await supabase
+              .from(table)
+              .select("id")
+              .eq("reference", reference)
+              .maybeSingle();
+            if (row?.id) {
+              const { enqueueCesEvent } = await import("@/lib/ces/outbox.server");
+              await enqueueCesEvent({
+                entityType: kind,
+                entityId: row.id as string,
+                reference,
+                mode: "live",
+              });
+            }
+          } catch (cesErr) {
+            console.error("CES queueing failed (submission unaffected)", cesErr);
+          }
+
           const { data: settingRow } = await supabase
             .from("crm_settings")
             .select("value")

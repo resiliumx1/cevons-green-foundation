@@ -125,6 +125,7 @@ async function googleFetch(url: string, body: unknown): Promise<any> {
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
     body: JSON.stringify(body),
   });
+  void 0;
   if (res.status === 401 || res.status === 403) {
     throw new AnalyticsPermissionError(
       "The reporting account does not have access to this Google property yet.",
