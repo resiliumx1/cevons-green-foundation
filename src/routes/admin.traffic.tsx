@@ -7,7 +7,8 @@ import { BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
-import { getSiteAnalytics, type ReportState } from "@/lib/siteAnalytics.functions";
+import { getSiteAnalytics, type ReportState, type SiteAnalytics } from "@/lib/siteAnalytics.functions";
+import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
   head: () => ({
@@ -87,6 +88,47 @@ function ReportNotice({ state, message }: { state: ReportState; message?: string
   );
 }
 
+/** Plain-language explanation of why Google Search shows nothing. */
+function SearchDiagnostics({ d }: { d: NonNullable<SiteAnalytics["search"]["diagnostics"]> }) {
+  const lines: string[] = [];
+  if (d.verdict === "unconfigured") {
+    lines.push("No Google Search property is set up for this site yet.");
+  } else if (d.verdict === "property-missing") {
+    lines.push(
+      `The reporting account cannot see ${d.configuredProperty ?? "the configured property"}. It can see: ${
+        d.availableProperties.join(", ") || "no properties at all"
+      }.`,
+    );
+  } else if (d.verdict === "no-permission") {
+    lines.push("The reporting account is not approved to read this property in Google Search Console.");
+  } else if (d.verdict === "request-error") {
+    lines.push("Google Search did not answer the request properly. This is a temporary problem on the connection.");
+  } else {
+    lines.push(
+      `Google confirms the property ${d.configuredProperty ?? ""} and accepts the request, but returns no search rows at all.`,
+    );
+    lines.push("That means Google has recorded no clicks or appearances for this site yet — nothing was deleted.");
+  }
+  return (
+    <div role="status" className="admin-state admin-state-empty items-start">
+      <div>
+        <p className="font-semibold">Why this is empty</p>
+        {lines.map((l) => (
+          <p key={l} className="admin-state-detail">{l}</p>
+        ))}
+        {d.windows.length > 0 && (
+          <p className="admin-state-detail admin-mono">
+            Checked:{" "}
+            {d.windows
+              .map((w) => `${w.days === 480 ? "16 months" : `${w.days} days`} → ${w.rowCount} rows (${w.status})`)
+              .join(" · ")}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function BarRow({ label, value, max, note }: { label: string; value: string | number; max: number; note?: string }) {
   const numeric = typeof value === "number" ? value : Number(value) || 0;
   const pct = max > 0 ? Math.round((numeric / max) * 100) : 0;
@@ -137,7 +179,9 @@ function TrafficPage() {
   const peak = Math.max(1, ...byDay.map(([, n]) => n));
   const total = byDay.reduce((a, [, n]) => a + n, 0);
 
-  const landing = rows ? tally(rows, (r) => r.landing_page) : [];
+  // Query strings and ad click ids stay stored on each request for
+  // attribution; this summary groups them by page path only.
+  const landing = rows ? tally(rows, (r) => landingPathname(r.landing_page)) : [];
   const sources = rows ? tally(rows, (r) => r.utm_source ?? r.referrer) : [];
 
   const ga = analytics.data?.ga;
@@ -200,6 +244,8 @@ function TrafficPage() {
                 <>
                   <p className="admin-note">
                     <Users className="h-4 w-4" aria-hidden /> Sessions per day, last {days} days.
+                    Visitor counting started when the Google tag was installed, so earlier
+                    periods show nothing because they were never measured.
                   </p>
                   <div className="admin-spark" role="img" aria-label={`${ga.data!.totals.sessions} sessions over the last ${days} days`}>
                     {ga.data!.daily.map((d) => (
@@ -267,7 +313,10 @@ function TrafficPage() {
           {analytics.isLoading ? (
             <PanelSkeleton rows={3} />
           ) : !gscOk ? (
-            <ReportNotice state={gsc?.state ?? "error"} message={gsc?.message} />
+            <>
+              <ReportNotice state={gsc?.state ?? "error"} message={gsc?.message} />
+              {gsc?.diagnostics && <SearchDiagnostics d={gsc.diagnostics} />}
+            </>
           ) : (
             <>
               <DocketStrip
@@ -283,7 +332,10 @@ function TrafficPage() {
                 Google Search data is always a couple of days behind.
               </p>
               {gsc.data!.queries.length === 0 ? (
-                <PanelEmpty headline="Google Search reported no searches for this period." />
+                <>
+                  <PanelEmpty headline="Google Search reported no searches for this period." />
+                  {gsc?.diagnostics && <SearchDiagnostics d={gsc.diagnostics} />}
+                </>
               ) : (
                 <>
                   <div className="admin-subhead">Top searches</div>

@@ -24,6 +24,10 @@ export type SiteAnalytics = {
     data?: Awaited<
       ReturnType<typeof import("./analytics/google.server").runSearchConsoleReport>
     >;
+    /** Only present when Search Console returned nothing, to explain why. */
+    diagnostics?: Awaited<
+      ReturnType<typeof import("./analytics/google.server").runSearchConsoleDiagnostics>
+    >;
   };
 };
 
@@ -67,5 +71,16 @@ export const getSiteAnalytics = createServerFn({ method: "POST" })
         .catch(describe),
     ]);
 
-    return { days: data.days, ga, search } as SiteAnalytics;
+    // When Search Console comes back empty (or fails), run the diagnostic so
+    // the screen can tell zero data apart from a permission or property
+    // problem instead of guessing. Never fabricates figures.
+    let diagnostics: SiteAnalytics["search"]["diagnostics"];
+    const searchEmpty =
+      search.state !== "ok" ||
+      !(search as { data?: { totals: { impressions: number } } }).data?.totals.impressions;
+    if (searchEmpty) {
+      diagnostics = await mod.runSearchConsoleDiagnostics().catch(() => undefined);
+    }
+
+    return { days: data.days, ga, search: { ...search, diagnostics } } as SiteAnalytics;
   });
