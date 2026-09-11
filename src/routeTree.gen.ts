@@ -25,6 +25,7 @@ import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminImagesRouteImport } from './routes/admin.images'
+import { Route as AdminIntegrationsRouteImport } from './routes/admin.integrations'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
@@ -150,6 +151,11 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
 const AdminImagesRoute = AdminImagesRouteImport.update({
   id: '/images',
   path: '/images',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminIntegrationsRoute = AdminIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLeadsRoute = AdminLeadsRouteImport.update({
@@ -413,6 +419,7 @@ export interface FileRoutesByFullPath {
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -475,6 +482,7 @@ export interface FileRoutesByTo {
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -540,6 +548,7 @@ export interface FileRoutesById {
   '/track-request': typeof TrackRequestRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/leads': typeof AdminLeadsRouteWithChildren
   '/admin/media': typeof AdminMediaRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -606,6 +615,7 @@ export interface FileRouteTypes {
     | '/track-request'
     | '/admin/audit'
     | '/admin/images'
+    | '/admin/integrations'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/messages'
@@ -668,6 +678,7 @@ export interface FileRouteTypes {
     | '/track-request'
     | '/admin/audit'
     | '/admin/images'
+    | '/admin/integrations'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/messages'
@@ -732,6 +743,7 @@ export interface FileRouteTypes {
     | '/track-request'
     | '/admin/audit'
     | '/admin/images'
+    | '/admin/integrations'
     | '/admin/leads'
     | '/admin/media'
     | '/admin/messages'
@@ -923,6 +935,13 @@ declare module '@tanstack/react-router' {
       path: '/images'
       fullPath: '/admin/images'
       preLoaderRoute: typeof AdminImagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/integrations': {
+      id: '/admin/integrations'
+      path: '/integrations'
+      fullPath: '/admin/integrations'
+      preLoaderRoute: typeof AdminIntegrationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/leads': {
@@ -1265,6 +1284,7 @@ const AdminLeadsRouteWithChildren = AdminLeadsRoute._addFileChildren(
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminImagesRoute: typeof AdminImagesRoute
+  AdminIntegrationsRoute: typeof AdminIntegrationsRoute
   AdminLeadsRoute: typeof AdminLeadsRouteWithChildren
   AdminMediaRoute: typeof AdminMediaRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
@@ -1279,6 +1299,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminImagesRoute: AdminImagesRoute,
+  AdminIntegrationsRoute: AdminIntegrationsRoute,
   AdminLeadsRoute: AdminLeadsRouteWithChildren,
   AdminMediaRoute: AdminMediaRoute,
   AdminMessagesRoute: AdminMessagesRoute,
