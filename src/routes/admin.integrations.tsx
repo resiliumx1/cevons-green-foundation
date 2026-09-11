@@ -38,6 +38,7 @@ function IntegrationsPage() {
   const backfill = useServerFn(runCesBackfillPage);
   const drain = useServerFn(runCesDrain);
   const retry = useServerFn(retryCesFailures);
+  const reconcile = useServerFn(runCesReconcile);
 
   const [cursor, setCursor] = useState<string | null>(null);
   const [progress, setProgress] = useState<string | null>(null);
