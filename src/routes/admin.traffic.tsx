@@ -179,7 +179,9 @@ function TrafficPage() {
   const peak = Math.max(1, ...byDay.map(([, n]) => n));
   const total = byDay.reduce((a, [, n]) => a + n, 0);
 
-  const landing = rows ? tally(rows, (r) => r.landing_page) : [];
+  // Query strings and ad click ids stay stored on each request for
+  // attribution; this summary groups them by page path only.
+  const landing = rows ? tally(rows, (r) => landingPathname(r.landing_page)) : [];
   const sources = rows ? tally(rows, (r) => r.utm_source ?? r.referrer) : [];
 
   const ga = analytics.data?.ga;
@@ -242,6 +244,8 @@ function TrafficPage() {
                 <>
                   <p className="admin-note">
                     <Users className="h-4 w-4" aria-hidden /> Sessions per day, last {days} days.
+                    Visitor counting started when the Google tag was installed, so earlier
+                    periods show nothing because they were never measured.
                   </p>
                   <div className="admin-spark" role="img" aria-label={`${ga.data!.totals.sessions} sessions over the last ${days} days`}>
                     {ga.data!.daily.map((d) => (
@@ -309,7 +313,10 @@ function TrafficPage() {
           {analytics.isLoading ? (
             <PanelSkeleton rows={3} />
           ) : !gscOk ? (
-            <ReportNotice state={gsc?.state ?? "error"} message={gsc?.message} />
+            <>
+              <ReportNotice state={gsc?.state ?? "error"} message={gsc?.message} />
+              {gsc?.diagnostics && <SearchDiagnostics d={gsc.diagnostics} />}
+            </>
           ) : (
             <>
               <DocketStrip
@@ -325,7 +332,10 @@ function TrafficPage() {
                 Google Search data is always a couple of days behind.
               </p>
               {gsc.data!.queries.length === 0 ? (
-                <PanelEmpty headline="Google Search reported no searches for this period." />
+                <>
+                  <PanelEmpty headline="Google Search reported no searches for this period." />
+                  {gsc?.diagnostics && <SearchDiagnostics d={gsc.diagnostics} />}
+                </>
               ) : (
                 <>
                   <div className="admin-subhead">Top searches</div>
