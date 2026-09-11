@@ -13,15 +13,28 @@
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
-  buildCesBody,
   cesEventId,
   type CesEntityType,
   type CesMode,
   type CesSourceRecord,
 } from "./contract";
-import { backoffSeconds, deliverToCes, readCesConfig, reconcileWithCes } from "./delivery.server";
+import { deliverToCes, readCesConfig, reconcileWithCes } from "./delivery.server";
+import {
+  MAX_ATTEMPTS,
+  compareKeyset,
+  decodeCursor,
+  encodeCursor,
+  runDrain,
+  type ClaimedRow,
+  type Completion,
+  type DrainResult,
+  type SourceRow,
+} from "./engine";
 
-const MAX_ATTEMPTS = 8;
+export type { DrainResult } from "./engine";
+export { MAX_ATTEMPTS } from "./engine";
+
+const LEASE_SECONDS = 180;
 
 export type EnqueueInput = {
   entityType: CesEntityType;
@@ -32,6 +45,12 @@ export type EnqueueInput = {
 
 export function newDeliveryEventId(): string {
   return crypto.randomUUID().replace(/-/g, "");
+}
+
+/** Short, safe error code — raw exception objects are never logged or stored. */
+function safeCode(err: unknown): string {
+  if (err instanceof Error && /abort|timeout/i.test(err.name)) return "timeout";
+  return "unexpected_error";
 }
 
 /**
@@ -53,13 +72,17 @@ export async function enqueueCesEvent(input: EnqueueInput): Promise<{ queued: bo
       },
       { onConflict: "event_id", ignoreDuplicates: true },
     );
-    if (error) return { queued: false, reason: error.message };
+    if (error) {
+      console.error("ces outbox enqueue rejected (submission unaffected): db_write_failed");
+      return { queued: false, reason: "db_write_failed" };
+    }
     return { queued: true };
   } catch (err) {
-    console.error("ces outbox enqueue failed (submission unaffected)", err);
+    console.error(`ces outbox enqueue failed (submission unaffected): ${safeCode(err)}`);
     return { queued: false, reason: "enqueue_error" };
   }
 }
+
 
 /** Re-read the live row so the first attempt always carries current data. */
 async function loadRecord(
