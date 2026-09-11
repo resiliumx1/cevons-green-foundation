@@ -393,15 +393,12 @@ export function NotificationsBell() {
           setOpen((v) => !v);
           setArrivals([]);
         }}
-        className="admin-icon-button relative"
-        style={{
-          background: "var(--crm-surface-muted)",
-          borderColor: "var(--crm-border)",
-          color: "var(--crm-text)",
-        }}
+        className="admin-icon-button admin-bell-button relative"
         aria-label="Notifications"
       >
-        <Bell className="h-4 w-4" />
+        <span className="grid place-items-center">
+          <Bell className="h-[18px] w-[18px]" />
+        </span>
         {pulse && !reduceMotion && (
           <motion.span
             aria-hidden="true"
@@ -419,8 +416,8 @@ export function NotificationsBell() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 500, damping: 25 }}
-              className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full text-[10px] font-bold"
-              style={{ background: "var(--crm-red, #ef4444)", color: "#fff" }}
+              className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full text-[10px] font-bold ring-2"
+              style={{ background: "var(--admin-red)", color: "#fff", ["--tw-ring-color" as never]: "var(--panel)" }}
             >
               {n.unreadCount > 99 ? "99+" : n.unreadCount}
             </motion.span>
