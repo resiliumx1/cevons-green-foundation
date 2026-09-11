@@ -481,7 +481,7 @@ export function NotificationsBell() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.16, ease: "easeOut" }}
-              className="admin-notification-drawer fixed top-16 right-4 md:right-6 z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
+              className="admin-notification-drawer fixed z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
               style={{
                 background: "var(--crm-surface)",
                 borderColor: "var(--crm-border)",

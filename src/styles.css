@@ -5673,9 +5673,17 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: color-mix(in oklab, var(--panel) 94%, transparent) !important;
-  backdrop-filter: blur(16px);
+  background: var(--panel) !important;
   min-height: 72px;
+}
+[data-crm-theme] .admin-command-bar {
+  isolation: isolate;
+}
+[data-crm-theme] .admin-command-search {
+  min-height: 44px;
+}
+[data-crm-theme] .admin-header-actions {
+  min-width: 0;
 }
 [data-crm-theme] .crm-main {
   min-width: 0;
@@ -5811,6 +5819,11 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   border-radius: var(--admin-radius-card);
   box-shadow: 0 18px 50px color-mix(in oklab, var(--admin-navy) 22%, transparent);
 }
+[data-crm-theme] .admin-notification-drawer {
+  top: 112px;
+  right: 24px;
+  max-height: min(640px, calc(100dvh - 128px)) !important;
+}
 [data-crm-theme] .admin-filter-chip {
   min-height: 32px;
   padding: 0 11px;
@@ -5832,11 +5845,22 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 
 @media (max-width: 767px) {
   [data-crm-theme] .admin-notification-drawer {
-    inset: 46px 8px 8px 8px !important;
+    inset: 8px !important;
     width: auto !important;
     max-width: none !important;
     max-height: none !important;
     border-radius: 16px;
+  }
+  [data-crm-theme] .admin-command-bar {
+    min-height: 64px;
+  }
+  [data-crm-theme] .admin-command-search {
+    min-height: 44px;
+  }
+  [data-crm-theme] .admin-header-actions > :is(button, a),
+  [data-crm-theme] .admin-header-actions > div > button {
+    min-width: 44px;
+    min-height: 44px;
   }
   [data-crm-theme] .admin-page-header {
     align-items: flex-start;
@@ -5848,6 +5872,19 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   }
   [data-crm-theme] .crm-header {
     min-height: 64px;
+  }
+}
+
+@media (max-width: 359px) {
+  [data-crm-theme] .admin-command-bar {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+  [data-crm-theme] .admin-command-search {
+    padding-inline: 32px 8px;
+  }
+  [data-crm-theme] .admin-command-search > span {
+    display: none;
   }
 }
 

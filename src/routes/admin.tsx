@@ -504,7 +504,7 @@ function CrmLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         <StatusTape />
 
-        <header className="crm-header min-h-16 flex items-center gap-2 px-3 sm:gap-3 sm:px-4 md:px-6">
+        <header className="crm-header admin-command-bar min-h-16 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 sm:gap-3 sm:px-4 md:px-6">
           <button
             onClick={() => setMobileOpen(true)}
             className="lg:hidden h-11 w-11 shrink-0 grid place-items-center rounded-lg border"
@@ -522,7 +522,7 @@ function CrmLayout() {
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
-            className="relative flex min-w-0 flex-1 max-w-md items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
+            className="admin-command-search relative flex min-w-0 w-full md:max-w-md items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
             style={{
               background: "var(--crm-surface-muted)",
               borderColor: "var(--crm-border)",
@@ -548,7 +548,7 @@ function CrmLayout() {
             </kbd>
           </button>
 
-          <div className="flex shrink-0 items-center gap-1 sm:gap-2 ml-auto">
+          <div className="admin-header-actions flex min-w-0 shrink-0 items-center gap-1 sm:gap-2 ml-auto">
             <CrmAssistant />
             <NotificationsBell />
             <Link
