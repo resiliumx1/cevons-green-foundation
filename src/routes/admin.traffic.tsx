@@ -2,12 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
+import { Archive, BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
 import { getSiteAnalytics, type ReportState, type SiteAnalytics } from "@/lib/siteAnalytics.functions";
+import { getHistoricalSnapshot } from "@/lib/historicalSnapshot.functions";
 import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
@@ -150,6 +151,125 @@ function BarRow({ label, value, max, note }: { label: string; value: string | nu
 
 const nf = new Intl.NumberFormat("en-US");
 const pct1 = (v: number) => `${(v * 100).toFixed(1)}%`;
+
+const dayLabel = (raw: string) => raw.slice(0, 10);
+
+/**
+ * Historical traffic — Lovable hosting snapshot.
+ *
+ * A fixed set of figures captured once on 11 September 2026 from the Lovable
+ * hosting analytics for this project, kept so the earlier months are not lost.
+ * It is a separate record: it is not live, it is not Google Analytics and it is
+ * not Google Search, and its counts must never be added to those.
+ */
+function HistoricalSnapshotPanels() {
+  const fetchSnapshot = useServerFn(getHistoricalSnapshot);
+  const snap = useQuery({
+    queryKey: ["admin-historical-snapshot"],
+    queryFn: () => fetchSnapshot({ data: undefined as never }),
+    staleTime: 60 * 60_000,
+  });
+
+  if (snap.isLoading) {
+    return (
+      <Panel title="Historical traffic — Lovable hosting snapshot" code="HST-01">
+        <PanelSkeleton rows={3} />
+      </Panel>
+    );
+  }
+  if (snap.isError) {
+    return (
+      <Panel title="Historical traffic — Lovable hosting snapshot" code="HST-01">
+        <PanelError what="the stored historical snapshot" error={snap.error} />
+      </Panel>
+    );
+  }
+  if (!snap.data) {
+    return (
+      <Panel title="Historical traffic — Lovable hosting snapshot" code="HST-01">
+        <PanelEmpty headline="No historical snapshot has been stored for this website." />
+      </Panel>
+    );
+  }
+
+  const s = snap.data;
+  const p = s.payload;
+  const peakVisitors = Math.max(1, ...p.dailyVisitors.map((d) => d.value));
+  const groups: Array<{ key: string; title: string; code: string }> = [
+    { key: "page", title: "Snapshot — most-viewed pages", code: "HST-02" },
+    { key: "source", title: "Snapshot — where visits came from", code: "HST-03" },
+    { key: "device", title: "Snapshot — devices", code: "HST-04" },
+    { key: "country", title: "Snapshot — countries", code: "HST-05" },
+  ];
+
+  return (
+    <>
+      <Panel title="Historical traffic — Lovable hosting snapshot" code="HST-01">
+        <DocketStrip
+          cells={[
+            { code: "VIS", label: "Visits", value: nf.format(p.totals.visitors) },
+            { code: "PVW", label: "Page views", value: nf.format(p.totals.pageviews) },
+            { code: "PPV", label: "Views per visit", value: p.totals.pageviewsPerVisit.toFixed(2) },
+            { code: "BNC", label: "Bounce rate", value: `${p.totals.bounceRate}%` },
+          ]}
+        />
+        <p className="admin-note">
+          <Archive className="h-4 w-4" aria-hidden />
+          Source: {p.source}. Period asked for: {dayLabel(s.requestedStart)} to {dayLabel(s.requestedEnd)}.
+          Captured once on {dayLabel(s.fetchedAt)} — these figures are fixed and do not update.
+        </p>
+        <p className="admin-note">
+          Days actually returned: {s.coverage.buckets} between {dayLabel(s.coverage.firstBucket ?? "")} and{" "}
+          {dayLabel(s.coverage.lastBucket ?? "")}. The provider included an 11 September day even though the
+          period was asked to end at midnight on 11 September, so that day is partial.
+        </p>
+        <p className="admin-note">
+          These counts are a separate record from Google Analytics and Google Search on this page. Do not add
+          them together, and do not read the daily figures as separate people — the same person visiting on
+          two days is counted on both.
+        </p>
+        <div className="admin-subhead">Visits per day (snapshot)</div>
+        <div
+          className="admin-spark"
+          role="img"
+          aria-label={`${p.totals.visitors} visits recorded across ${s.coverage.buckets} days in the stored snapshot`}
+        >
+          {p.dailyVisitors.map((d) => (
+            <span
+              key={d.date}
+              className="admin-spark-bar"
+              style={{ height: `${Math.max(3, Math.round((d.value / peakVisitors) * 100))}%` }}
+              title={`${dayLabel(d.date)}: ${d.value} visits`}
+            />
+          ))}
+        </div>
+        <p className="admin-note">
+          Average time on the site in this snapshot: {Math.round(p.totals.sessionDuration / 60)} min{" "}
+          {p.totals.sessionDuration % 60}s.
+        </p>
+      </Panel>
+
+      <div className="admin-grid-2">
+        {groups.map((g) => {
+          const b = p.breakdowns[g.key];
+          return (
+            <Panel key={g.key} title={g.title} code={g.code}>
+              {!b || b.data.length === 0 ? (
+                <PanelEmpty headline="This snapshot holds no figures for this breakdown." />
+              ) : (
+                <ul className="admin-bars">
+                  {b.data.map((row) => (
+                    <BarRow key={row.label} label={row.label} value={row.value} max={b.data[0].value} />
+                  ))}
+                </ul>
+              )}
+            </Panel>
+          );
+        })}
+      </div>
+    </>
+  );
+}
 
 function TrafficPage() {
   const [days, setDays] = useState<(typeof PERIODS)[number]>(28);
@@ -442,6 +562,8 @@ function TrafficPage() {
             )}
           </Panel>
         </div>
+
+        <HistoricalSnapshotPanels />
       </div>
     </CrmPage>
   );
