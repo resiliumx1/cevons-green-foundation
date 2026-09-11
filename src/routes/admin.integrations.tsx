@@ -12,6 +12,7 @@ import {
   runCesBackfillPage,
   runCesDrain,
   retryCesFailures,
+  runCesReconcile,
 } from "@/lib/cesOutbox.functions";
 
 export const Route = createFileRoute("/admin/integrations")({
@@ -37,6 +38,7 @@ function IntegrationsPage() {
   const backfill = useServerFn(runCesBackfillPage);
   const drain = useServerFn(runCesDrain);
   const retry = useServerFn(retryCesFailures);
+  const reconcile = useServerFn(runCesReconcile);
 
   const [cursor, setCursor] = useState<string | null>(null);
   const [progress, setProgress] = useState<string | null>(null);
@@ -89,6 +91,27 @@ function IntegrationsPage() {
       void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not retry."),
+  });
+
+  const checkCes = useMutation({
+    mutationFn: () => reconcile({ data: { limit: 200, requeueMissing: false } }),
+    onSuccess: (r) => {
+      if (r.error) {
+        toast.error(r.error);
+        return;
+      }
+      toast.success(`Checked ${r.checked}: ${r.matched} confirmed by CES.`);
+      setProgress(
+        r.missing.length
+          ? `CES is missing ${r.missing.length}: ${r.missing
+              .slice(0, 10)
+              .map((m) => m.reference ?? m.externalId)
+              .join(", ")}. Use “Retry failures” or resend to send them again.`
+          : `All ${r.matched} checked requests are present in CES.`,
+      );
+      void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
+    },
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not check CES."),
   });
 
   return (
@@ -151,6 +174,15 @@ function IntegrationsPage() {
               onClick={() => retryAll.mutate()}
             >
               <RefreshCw className="h-4 w-4" aria-hidden /> Retry failures
+            </button>
+            <button
+              type="button"
+              className="admin-link-btn"
+              disabled={!ready || checkCes.isPending}
+              onClick={() => checkCes.mutate()}
+            >
+              <History className="h-4 w-4" aria-hidden />{" "}
+              {checkCes.isPending ? "Checking…" : "Check CES has everything"}
             </button>
           </div>
           {!ready && (

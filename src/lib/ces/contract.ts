@@ -1,22 +1,15 @@
 /**
- * CES Marketing Inbox — contract adapter (ISOLATED).
+ * CES Marketing Inbox — contract adapter (ISOLATED, pure).
  *
- * This is the ONLY place that knows the shape CES expects. It is pure: no
- * secrets, no network, no environment reads, so it is safe to unit test and
- * safe to read from anywhere. When CES publishes its final schema, change
- * this file and nothing else.
+ * Implements the published CES intake contract exactly:
+ *   POST {CES_INTAKE_URL}
+ *   headers: x-cevons-timestamp (unix seconds), x-cevons-event-id,
+ *            x-cevons-signature: sha256=<hex HMAC-SHA256>
+ *   signing base: `${timestamp}.${eventId}.${rawBody}`
  *
- * ── Fields that must be aligned once CES reports ──────────────────────────
- *  1. Endpoint path + HTTP method (currently: POST to CES_INTAKE_URL as-is).
- *  2. Signature header names and the exact signing base string
- *     (see delivery.server.ts — currently `X-Cevons-Signature`,
- *     `X-Cevons-Timestamp`, base = `${timestamp}.${rawBody}`).
- *  3. Field names below: external_id / event_id / occurred_at / source.
- *  4. Whether CES wants ISO timestamps or epoch seconds.
- *  5. The enum values for `type` (service_request | contact_message).
- *  6. Whether `backfill: true` is the agreed flag that suppresses CES
- *     notifications, or a header/`mode` field instead.
- *  7. Success criteria: which HTTP codes mean "accepted" vs "retry".
+ * Body is strict camelCase with NO unknown keys. Oversized values are
+ * truncated for transport only and reported as issues — the website record
+ * itself is never modified.
  */
 
 export type CesEntityType = "service_request" | "contact_message";
@@ -31,7 +24,7 @@ export type CesSourceRecord = {
   [key: string]: unknown;
 };
 
-/** Stable, deterministic id — reruns and retries never create a duplicate. */
+/** Deterministic dedupe key for the outbox — one queue row per website record. */
 export function cesEventId(entityType: CesEntityType, entityId: string): string {
   return `${entityType}:${entityId}`;
 }
@@ -69,79 +62,204 @@ export function clickIds(raw: string | null | undefined): Record<string, string>
   }
 }
 
-export type CesPayload = Record<string, unknown>;
+export type CesUtm = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  content?: string;
+  term?: string;
+};
+
+export type CesPipeline = "residential" | "commercial" | "industrial" | "specialty";
+
+/** Exactly the keys CES accepts. Unknown keys are rejected by CES with 422. */
+export type CesBody = {
+  externalId: string;
+  name: string;
+  submittedAt: string;
+  reference?: string;
+  email?: string;
+  phone?: string;
+  service?: string;
+  region?: string;
+  address?: string;
+  message?: string;
+  landingPage?: string;
+  referrer?: string;
+  sourceUrl?: string;
+  status?: string;
+  utm?: CesUtm;
+  pipeline?: CesPipeline;
+  branchCode?: string;
+  backfill?: boolean;
+};
+
+export const MAX_BODY_BYTES = 64 * 1024;
+
+const LIMITS = {
+  externalId: 200,
+  name: 200,
+  reference: 100,
+  email: 320,
+  phone: 50,
+  service: 200,
+  region: 200,
+  address: 500,
+  message: 5000,
+  landingPage: 1000,
+  referrer: 1000,
+  sourceUrl: 1000,
+  status: 100,
+  utm: 200,
+} as const;
+
+export type BuildIssue = { field: string; reason: string };
+
+export type BuildResult = {
+  body: CesBody;
+  issues: BuildIssue[];
+  /** Byte length of JSON.stringify(body). */
+  bytes: number;
+};
+
+function text(value: unknown): string | undefined {
+  if (value === null || value === undefined) return undefined;
+  const s = String(value).trim();
+  return s === "" ? undefined : s;
+}
+
+function clamp(
+  value: unknown,
+  field: string,
+  max: number,
+  issues: BuildIssue[],
+): string | undefined {
+  const s = text(value);
+  if (s === undefined) return undefined;
+  if (s.length <= max) return s;
+  issues.push({ field, reason: `truncated from ${s.length} to ${max} characters for delivery` });
+  return s.slice(0, max);
+}
+
+function httpUrl(value: unknown, field: string, issues: BuildIssue[]): string | undefined {
+  const s = clamp(value, field, LIMITS.sourceUrl, issues);
+  if (!s) return undefined;
+  try {
+    const u = new URL(s);
+    if (u.protocol !== "http:" && u.protocol !== "https:") {
+      issues.push({ field, reason: "omitted: not an http/https URL" });
+      return undefined;
+    }
+    return s;
+  } catch {
+    issues.push({ field, reason: "omitted: not an absolute URL" });
+    return undefined;
+  }
+}
+
+export function toIsoOffset(value: unknown): string {
+  const d = value ? new Date(String(value)) : new Date();
+  return (Number.isNaN(d.getTime()) ? new Date() : d).toISOString();
+}
+
+const PIPELINES: CesPipeline[] = ["residential", "commercial", "industrial", "specialty"];
+
+/** Map the website's customer type / category onto the CES pipeline enum. */
+export function toPipeline(...candidates: unknown[]): CesPipeline | undefined {
+  for (const c of candidates) {
+    const s = text(c)?.toLowerCase();
+    if (!s) continue;
+    const hit = PIPELINES.find((p) => s.includes(p));
+    if (hit) return hit;
+    if (s.includes("home") || s.includes("household")) return "residential";
+    if (s.includes("business") || s.includes("office") || s.includes("retail")) return "commercial";
+    if (s.includes("factory") || s.includes("plant") || s.includes("mining")) return "industrial";
+  }
+  return undefined;
+}
+
+/** CES accepts /^[A-Z]{2,8}$/ only; anything else is dropped and reported. */
+export function toBranchCode(value: unknown, issues: BuildIssue[] = []): string | undefined {
+  const s = text(value);
+  if (!s) return undefined;
+  const code = s.toUpperCase().replace(/[^A-Z]/g, "");
+  if (/^[A-Z]{2,8}$/.test(code)) return code;
+  issues.push({ field: "branchCode", reason: `omitted: "${s}" is not a 2-8 letter code` });
+  return undefined;
+}
+
+export function byteLength(value: string): number {
+  return new TextEncoder().encode(value).length;
+}
 
 /**
- * Map a website record to the CES intake payload.
- * Marked `backfill` for historical sends so CES does not notify for them.
+ * Map a committed website record to the CES intake body.
+ * `backfill: true` tells CES not to raise alerts or email the customer.
  */
-export function buildCesPayload(record: CesSourceRecord, mode: CesMode): CesPayload {
+export function buildCesBody(record: CesSourceRecord, mode: CesMode): BuildResult {
   const r = record as Record<string, any>;
-  const landing = (r["landing_page"] ?? null) as string | null;
+  const issues: BuildIssue[] = [];
 
-  const attribution = {
-    utm_source: r["utm_source"] ?? null,
-    utm_medium: r["utm_medium"] ?? null,
-    utm_campaign: r["utm_campaign"] ?? null,
-    utm_term: r["utm_term"] ?? null,
-    utm_content: r["utm_content"] ?? null,
-    referrer: r["referrer"] ?? null,
-    // Full landing URL retained (query string + click ids intact).
-    landing_page: landing,
-    landing_path: landingPathname(landing),
-    click_ids: clickIds(landing),
-  };
-
-  const base = {
-    source: "cevons.com",
-    event_id: cesEventId(record.entity_type, record.id),
-    external_id: record.reference ?? record.id,
-    type: record.entity_type,
-    occurred_at: record.created_at,
-    backfill: mode === "backfill",
-    attribution,
-  };
-
-  if (record.entity_type === "service_request") {
-    return {
-      ...base,
-      request: {
-        reference: r["reference"] ?? null,
-        category: r["category"] ?? null,
-        service: r["service"] ?? null,
-        customer_type: r["customer_type"] ?? null,
-        details: r["details"] ?? {},
-        preferred_date: r["preferred_date"] ?? null,
-        preferred_time: r["preferred_time"] ?? null,
-        region: r["region"] ?? null,
-        service_branch: r["service_branch"] ?? null,
-        status: r["status"] ?? null,
-        message: r["message"] ?? null,
-        file_urls: Array.isArray(r["file_urls"]) ? r["file_urls"] : [],
-      },
-      contact: {
-        name: r["name"] ?? null,
-        email: r["email"] ?? null,
-        phone: r["phone"] ?? null,
-        company: r["company"] ?? null,
-        contact_method: r["contact_method"] ?? null,
-      },
-    };
+  const utmEntries: Array<[keyof CesUtm, unknown]> = [
+    ["source", r["utm_source"]],
+    ["medium", r["utm_medium"]],
+    ["campaign", r["utm_campaign"]],
+    ["content", r["utm_content"]],
+    ["term", r["utm_term"]],
+  ];
+  const utm: CesUtm = {};
+  for (const [key, value] of utmEntries) {
+    const v = clamp(value, `utm.${key}`, LIMITS.utm, issues);
+    if (v) utm[key] = v;
   }
 
-  return {
-    ...base,
-    message: {
-      reference: r["reference"] ?? null,
-      subject: r["subject"] ?? null,
-      body: r["message"] ?? null,
-      status: r["status"] ?? null,
-      attachment_url: r["attachment_url"] ?? null,
-    },
-    contact: {
-      name: r["name"] ?? null,
-      email: r["email"] ?? null,
-      phone: r["phone"] ?? null,
-    },
+  const landing = clamp(r["landing_page"], "landingPage", LIMITS.landingPage, issues);
+
+  const body: CesBody = {
+    externalId: clamp(record.id, "externalId", LIMITS.externalId, issues) ?? String(record.id),
+    name: clamp(r["name"], "name", LIMITS.name, issues) ?? "Website enquiry",
+    submittedAt: toIsoOffset(record.created_at),
   };
+
+  const optional: Array<[keyof CesBody, string | undefined]> = [
+    ["reference", clamp(record.reference, "reference", LIMITS.reference, issues)],
+    ["email", clamp(r["email"], "email", LIMITS.email, issues)],
+    ["phone", clamp(r["phone"], "phone", LIMITS.phone, issues)],
+    [
+      "service",
+      clamp(r["service"] ?? r["subject"] ?? r["category"], "service", LIMITS.service, issues),
+    ],
+    ["region", clamp(r["region"], "region", LIMITS.region, issues)],
+    ["address", clamp(r["address"], "address", LIMITS.address, issues)],
+    ["message", clamp(r["message"], "message", LIMITS.message, issues)],
+    ["landingPage", landing],
+    ["referrer", clamp(r["referrer"], "referrer", LIMITS.referrer, issues)],
+    ["sourceUrl", httpUrl(r["landing_page"], "sourceUrl", issues)],
+    ["status", clamp(r["status"], "status", LIMITS.status, issues)],
+  ];
+  for (const [key, value] of optional) {
+    if (value !== undefined) (body as Record<string, unknown>)[key] = value;
+  }
+
+  if (Object.keys(utm).length > 0) body.utm = utm;
+
+  const pipeline = toPipeline(r["customer_type"], r["category"]);
+  if (pipeline) body.pipeline = pipeline;
+
+  const branchCode = toBranchCode(r["service_branch"], issues);
+  if (branchCode) body.branchCode = branchCode;
+
+  if (mode === "backfill") body.backfill = true;
+
+  // Hard transport ceiling: shrink the free-text field rather than fail.
+  let bytes = byteLength(JSON.stringify(body));
+  if (bytes > MAX_BODY_BYTES && body.message) {
+    const overflow = bytes - MAX_BODY_BYTES;
+    const keep = Math.max(0, body.message.length - overflow - 64);
+    body.message = body.message.slice(0, keep);
+    issues.push({ field: "message", reason: "shortened to keep the delivery under 64 kB" });
+    bytes = byteLength(JSON.stringify(body));
+  }
+
+  return { body, issues, bytes };
 }

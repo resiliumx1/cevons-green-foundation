@@ -2,23 +2,24 @@
  * CES delivery outbox — SERVER ONLY.
  *
  * Design contract:
- *  - The website submission is committed FIRST. Enqueueing is a separate,
- *    best-effort write; if it fails, the customer's request is untouched.
- *  - `event_id` is deterministic (`type:id`), so enqueueing twice, retrying,
- *    or rerunning the backfill can never create a duplicate CES event.
- *  - Delivery attempts are recorded on the row: status, attempts, last error,
- *    last HTTP status and the next retry time (exponential backoff).
+ *  - Queue rows are written by a database trigger in the SAME transaction as
+ *    the website record, so a request can never be saved without being queued.
+ *  - `event_id` is deterministic (`type:id`), so a repeated submission path,
+ *    a retry, or a rerun of the backfill consolidates onto one queue row.
+ *  - `delivery_event_id` is the CES delivery id: identical across retries
+ *    (same body too — the body is frozen on first attempt); regenerated only
+ *    for a deliberate resend, which keeps the same `externalId`.
  *  - Nothing in this module is reachable from the browser.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
-  buildCesPayload,
+  buildCesBody,
   cesEventId,
   type CesEntityType,
   type CesMode,
   type CesSourceRecord,
 } from "./contract";
-import { backoffSeconds, deliverToCes, readCesConfig } from "./delivery.server";
+import { backoffSeconds, deliverToCes, readCesConfig, reconcileWithCes } from "./delivery.server";
 
 const MAX_ATTEMPTS = 8;
 
@@ -27,27 +28,31 @@ export type EnqueueInput = {
   entityId: string;
   reference?: string | null;
   mode?: CesMode;
-  /** The committed row; the payload is rebuilt from it at send time if absent. */
-  record?: Record<string, unknown> | null;
 };
 
-/** Insert (or leave alone) one queue row. Never throws. */
+export function newDeliveryEventId(): string {
+  return crypto.randomUUID().replace(/-/g, "");
+}
+
+/**
+ * Insert (or consolidate onto) one queue row. Never throws.
+ * The database trigger already does this for new rows; this stays as a safe
+ * belt-and-braces path for the notify dispatcher and the backfill.
+ */
 export async function enqueueCesEvent(input: EnqueueInput): Promise<{ queued: boolean; reason?: string }> {
   try {
     const mode = input.mode ?? "live";
-    const { error } = await supabaseAdmin
-      .from("ces_outbox")
-      .upsert(
-        {
-          event_id: cesEventId(input.entityType, input.entityId),
-          entity_type: input.entityType,
-          entity_id: input.entityId,
-          reference: input.reference ?? null,
-          mode,
-          payload: (input.record ?? {}) as never,
-        },
-        { onConflict: "event_id", ignoreDuplicates: true },
-      );
+    const { error } = await supabaseAdmin.from("ces_outbox").upsert(
+      {
+        event_id: cesEventId(input.entityType, input.entityId),
+        entity_type: input.entityType,
+        entity_id: input.entityId,
+        reference: input.reference ?? null,
+        mode,
+        payload: {} as never,
+      },
+      { onConflict: "event_id", ignoreDuplicates: true },
+    );
     if (error) return { queued: false, reason: error.message };
     return { queued: true };
   } catch (err) {
@@ -56,7 +61,7 @@ export async function enqueueCesEvent(input: EnqueueInput): Promise<{ queued: bo
   }
 }
 
-/** Re-read the live row so a send always carries current data. */
+/** Re-read the live row so the first attempt always carries current data. */
 async function loadRecord(
   entityType: CesEntityType,
   entityId: string,
@@ -70,6 +75,7 @@ async function loadRecord(
 export type DrainResult = {
   attempted: number;
   sent: number;
+  duplicates: number;
   failed: number;
   skipped: number;
   configured: boolean;
@@ -78,12 +84,13 @@ export type DrainResult = {
 
 /**
  * Send up to `limit` due rows. Safe to call repeatedly and concurrently:
- * every send is idempotent on CES's side through the stable event id.
+ * every send carries a stable delivery id, so CES treats replays as duplicates.
  */
 export async function drainCesOutbox(limit = 25): Promise<DrainResult> {
   const result: DrainResult = {
     attempted: 0,
     sent: 0,
+    duplicates: 0,
     failed: 0,
     skipped: 0,
     configured: !!readCesConfig(),
@@ -101,23 +108,36 @@ export async function drainCesOutbox(limit = 25): Promise<DrainResult> {
 
   for (const row of rows ?? []) {
     result.attempted++;
-    const record =
-      (await loadRecord(row.entity_type as CesEntityType, row.entity_id)) ??
-      ({ ...(row.payload as Record<string, unknown>), entity_type: row.entity_type } as CesSourceRecord);
 
-    const payload = buildCesPayload(
-      { ...record, id: row.entity_id, reference: row.reference, entity_type: row.entity_type as CesEntityType },
-      row.mode as CesMode,
-    );
+    // Retries must repeat the exact body; only the first attempt builds it.
+    let rawBody = typeof row.request_body === "string" ? row.request_body : null;
+    let issues: Array<{ field: string; reason: string }> = [];
 
-    const outcome = await deliverToCes(payload, {
-      eventId: row.event_id,
-      mode: row.mode as CesMode,
-    });
+    if (!rawBody) {
+      const record = await loadRecord(row.entity_type as CesEntityType, row.entity_id);
+      if (!record) {
+        result.skipped++;
+        await supabaseAdmin
+          .from("ces_outbox")
+          .update({ status: "dead", last_error: "Website record no longer exists." })
+          .eq("id", row.id);
+        continue;
+      }
+      const built = buildCesBody(record, row.mode as CesMode);
+      rawBody = JSON.stringify(built.body);
+      issues = built.issues;
+      await supabaseAdmin
+        .from("ces_outbox")
+        .update({ request_body: rawBody as never, issues: issues as never })
+        .eq("id", row.id);
+    }
+
+    const outcome = await deliverToCes(rawBody, { eventId: row.delivery_event_id });
     const attempts = row.attempts + 1;
 
     if (outcome.ok) {
       result.sent++;
+      if (outcome.duplicate) result.duplicates++;
       await supabaseAdmin
         .from("ces_outbox")
         .update({
@@ -149,6 +169,35 @@ export async function drainCesOutbox(limit = 25): Promise<DrainResult> {
   return result;
 }
 
+/**
+ * Deliberate resend: fresh delivery event id, unchanged externalId, rebuilt
+ * body from the current record. CES records it as a new delivery event.
+ */
+export async function resendCesEvent(outboxId: string): Promise<{ ok: boolean; error?: string }> {
+  const { data: row } = await supabaseAdmin
+    .from("ces_outbox")
+    .select("id")
+    .eq("id", outboxId)
+    .maybeSingle();
+  if (!row) return { ok: false, error: "Queue item not found." };
+
+  const { error } = await supabaseAdmin
+    .from("ces_outbox")
+    .update({
+      delivery_event_id: newDeliveryEventId(),
+      request_body: null,
+      status: "pending",
+      attempts: 0,
+      last_error: null,
+      last_status_code: null,
+      sent_at: null,
+      next_attempt_at: new Date().toISOString(),
+    })
+    .eq("id", outboxId);
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
 export type BackfillPage = {
   scanned: number;
   queued: number;
@@ -159,8 +208,8 @@ export type BackfillPage = {
 };
 
 /**
- * Queue historical requests in pages, marked `backfill` so CES stays quiet.
- * Rerunnable: existing event ids are left untouched.
+ * Queue historical requests in pages, marked `backfill` so CES raises no alert
+ * and sends no customer email. Rerunnable: existing event ids are left alone.
  */
 export async function enqueueBackfillPage(
   entityType: CesEntityType,
@@ -189,7 +238,7 @@ export async function enqueueBackfillPage(
     const eventId = cesEventId(entityType, row.id);
     const { data: existing } = await supabaseAdmin
       .from("ces_outbox")
-      .select("id")
+      .select("id, mode, status")
       .eq("event_id", eventId)
       .maybeSingle();
     if (existing) {
@@ -212,4 +261,65 @@ export async function enqueueBackfillPage(
     nextCursor: list.length === pageSize ? (list[list.length - 1]?.created_at ?? null) : null,
     totalRetained: count ?? 0,
   };
+}
+
+export type ReconcileReport = {
+  checked: number;
+  matched: number;
+  missing: Array<{ externalId: string; reference: string | null }>;
+  requeued: number;
+  error?: string;
+};
+
+/**
+ * Ask CES what it holds for our recently sent items and requeue anything it
+ * does not have. Read-mostly: the only local write is putting a missing item
+ * back in line for delivery.
+ */
+export async function reconcileCes(opts: { limit?: number; requeueMissing?: boolean } = {}): Promise<ReconcileReport> {
+  const limit = Math.min(Math.max(opts.limit ?? 200, 1), 200);
+  const report: ReconcileReport = { checked: 0, matched: 0, missing: [], requeued: 0 };
+
+  const { data: rows } = await supabaseAdmin
+    .from("ces_outbox")
+    .select("id, entity_id, reference, status")
+    .eq("status", "sent")
+    .order("sent_at", { ascending: false })
+    .limit(limit);
+
+  const list = rows ?? [];
+  if (list.length === 0) return report;
+  report.checked = list.length;
+
+  const res = await reconcileWithCes({ externalIds: list.map((r) => r.entity_id), limit: 500 });
+  if (!res.ok || !res.data) {
+    report.error = res.error ?? "Reconcile call failed.";
+    return report;
+  }
+
+  const known = new Map(res.data.enquiries.map((e) => [e.externalId, e]));
+  const missingIds = new Set(res.data.missing ?? []);
+
+  for (const row of list) {
+    const hit = known.get(row.entity_id);
+    if (hit && !missingIds.has(row.entity_id)) {
+      report.matched++;
+      await supabaseAdmin
+        .from("ces_outbox")
+        .update({
+          reconciled_at: new Date().toISOString(),
+          remote_stage: hit.stage ?? null,
+          remote_lead_id: hit.leadId ?? null,
+        })
+        .eq("id", row.id);
+      continue;
+    }
+    report.missing.push({ externalId: row.entity_id, reference: row.reference });
+    if (opts.requeueMissing) {
+      const r = await resendCesEvent(row.id);
+      if (r.ok) report.requeued++;
+    }
+  }
+
+  return report;
 }

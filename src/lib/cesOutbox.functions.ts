@@ -127,3 +127,26 @@ export const retryCesFailures = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { reset: (data ?? []).length };
   });
+
+/** Compare what CES holds against what we have marked as sent. */
+export const runCesReconcile = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { limit?: number; requeueMissing?: boolean }) => ({
+    limit: Math.min(Math.max(Number(input?.limit ?? 200), 1), 200),
+    requeueMissing: !!input?.requeueMissing,
+  }))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context as never);
+    const { reconcileCes } = await import("./ces/outbox.server");
+    return reconcileCes(data);
+  });
+
+/** Deliberate resend of one item: new delivery id, same website request id. */
+export const resendCesItem = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { outboxId: string }) => ({ outboxId: String(input?.outboxId ?? "") }))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context as never);
+    const { resendCesEvent } = await import("./ces/outbox.server");
+    return resendCesEvent(data.outboxId);
+  });
