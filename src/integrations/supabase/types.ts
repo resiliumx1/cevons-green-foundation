@@ -1268,6 +1268,8 @@ export type Database = {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
+      email_queue_dispatch: { Args: never; Returns: undefined }
+      email_queue_wake: { Args: never; Returns: undefined }
       generate_contact_message_reference: { Args: never; Returns: string }
       generate_request_reference: { Args: never; Returns: string }
       get_request_status: {
