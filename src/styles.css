@@ -5823,6 +5823,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   top: 112px;
   right: 24px;
   max-height: min(640px, calc(100dvh - 128px)) !important;
+  font-family: "Inter", system-ui, sans-serif;
+  overscroll-behavior: contain;
+}
+[data-crm-theme] .admin-notification-drawer h3 {
+  font-family: inherit;
+  letter-spacing: 0;
 }
 [data-crm-theme] .admin-filter-chip {
   min-height: 32px;

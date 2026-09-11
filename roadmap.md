@@ -16,4 +16,4 @@
 
 - [x] Diagnose the mobile notification panel collapse
 - [x] Stabilize the header command layout at compact widths
-- [ ] Verify notification display and header alignment on desktop/mobile
+- [x] Verify notification display and header alignment on desktop/mobile
