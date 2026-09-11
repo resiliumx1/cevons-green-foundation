@@ -2,12 +2,30 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, type CSSProperties } from "react";
-import { Archive, BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
+import {
+  Archive,
+  BarChart3,
+  Globe2,
+  MonitorSmartphone,
+  LineChart,
+  Search,
+  Users,
+} from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
-import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
-import { getSiteAnalytics, type ReportState, type SiteAnalytics } from "@/lib/siteAnalytics.functions";
+import {
+  Panel,
+  PanelEmpty,
+  PanelError,
+  PanelSkeleton,
+  DocketStrip,
+} from "@/components/admin/Manifest";
+import {
+  getSiteAnalytics,
+  type ReportState,
+  type SiteAnalytics,
+} from "@/lib/siteAnalytics.functions";
 import { getHistoricalSnapshot } from "@/lib/historicalSnapshot.functions";
 import { landingPathname } from "@/lib/ces/contract";
 
@@ -101,27 +119,38 @@ function SearchDiagnostics({ d }: { d: NonNullable<SiteAnalytics["search"]["diag
       }.`,
     );
   } else if (d.verdict === "no-permission") {
-    lines.push("The reporting account is not approved to read this property in Google Search Console.");
+    lines.push(
+      "The reporting account is not approved to read this property in Google Search Console.",
+    );
   } else if (d.verdict === "request-error") {
-    lines.push("Google Search did not answer the request properly. This is a temporary problem on the connection.");
+    lines.push(
+      "Google Search did not answer the request properly. This is a temporary problem on the connection.",
+    );
   } else {
     lines.push(
       `Google confirms the property ${d.configuredProperty ?? ""} and accepts the request, but returns no search rows at all.`,
     );
-    lines.push("That means Google has recorded no clicks or appearances for this site yet — nothing was deleted.");
+    lines.push(
+      "That means Google has recorded no clicks or appearances for this site yet — nothing was deleted.",
+    );
   }
   return (
     <div role="status" className="admin-state admin-state-empty items-start">
       <div>
         <p className="font-semibold">Why this is empty</p>
         {lines.map((l) => (
-          <p key={l} className="admin-state-detail">{l}</p>
+          <p key={l} className="admin-state-detail">
+            {l}
+          </p>
         ))}
         {d.windows.length > 0 && (
           <p className="admin-state-detail admin-mono">
             Checked:{" "}
             {d.windows
-              .map((w) => `${w.days === 480 ? "16 months" : `${w.days} days`} → ${w.rowCount} rows (${w.status})`)
+              .map(
+                (w) =>
+                  `${w.days === 480 ? "16 months" : `${w.days} days`} → ${w.rowCount} rows (${w.status})`,
+              )
               .join(" · ")}
           </p>
         )}
@@ -130,18 +159,37 @@ function SearchDiagnostics({ d }: { d: NonNullable<SiteAnalytics["search"]["diag
   );
 }
 
-function BarRow({ label, value, max, note, rank = 0 }: { label: string; value: string | number; max: number; note?: string; rank?: number }) {
+function BarRow({
+  label,
+  value,
+  max,
+  note,
+  rank = 0,
+}: {
+  label: string;
+  value: string | number;
+  max: number;
+  note?: string;
+  rank?: number;
+}) {
   const numeric = typeof value === "number" ? value : Number(value) || 0;
   const pct = max > 0 ? Math.round((numeric / max) * 100) : 0;
   return (
     <li className="admin-bar-row" style={{ "--chart-index": rank } as CSSProperties}>
       <div className="admin-bar-copy">
-        <span className="admin-bar-rank" aria-hidden>{String(rank + 1).padStart(2, "0")}</span>
-        <span className="admin-bar-label" title={label}>{label}</span>
+        <span className="admin-bar-rank" aria-hidden>
+          {String(rank + 1).padStart(2, "0")}
+        </span>
+        <span className="admin-bar-label" title={label}>
+          {label}
+        </span>
         <strong className="admin-bar-value">{value}</strong>
       </div>
       <div className="admin-bar-track" aria-hidden>
-        <span className="admin-bar-fill" style={{ width: `${Math.max(pct, numeric > 0 ? 3 : 0)}%` }} />
+        <span
+          className="admin-bar-fill"
+          style={{ width: `${Math.max(pct, numeric > 0 ? 3 : 0)}%` }}
+        />
       </div>
       <div className="admin-bar-meta">
         <span>{note ?? "Share of highest value"}</span>
@@ -153,14 +201,26 @@ function BarRow({ label, value, max, note, rank = 0 }: { label: string; value: s
 
 type DailyPoint = { key: string; value: number };
 
-function DailyBars({ points, label, tone = "orange" }: { points: DailyPoint[]; label: string; tone?: "orange" | "green" | "blue" }) {
+function DailyBars({
+  points,
+  label,
+  tone = "orange",
+}: {
+  points: DailyPoint[];
+  label: string;
+  tone?: "orange" | "green" | "blue";
+}) {
   const peak = Math.max(1, ...points.map((point) => point.value));
   const total = points.reduce((sum, point) => sum + point.value, 0);
   return (
     <div className={`admin-chart admin-chart-${tone}`}>
       <div className="admin-chart-summary" aria-hidden>
-        <span><strong>{nf.format(total)}</strong> total</span>
-        <span><strong>{nf.format(peak)}</strong> peak day</span>
+        <span>
+          <strong>{nf.format(total)}</strong> total
+        </span>
+        <span>
+          <strong>{nf.format(peak)}</strong> peak day
+        </span>
       </div>
       <div className="admin-spark" role="img" aria-label={label}>
         <span className="admin-chart-grid admin-chart-grid-top" aria-hidden />
@@ -169,7 +229,12 @@ function DailyBars({ points, label, tone = "orange" }: { points: DailyPoint[]; l
           <span className="admin-chart-column" key={point.key}>
             <span
               className="admin-spark-bar"
-              style={{ height: `${Math.max(4, Math.round((point.value / peak) * 100))}%`, "--bar-order": index } as CSSProperties}
+              style={
+                {
+                  height: `${Math.max(4, Math.round((point.value / peak) * 100))}%`,
+                  "--bar-order": index,
+                } as CSSProperties
+              }
               title={`${point.key}: ${nf.format(point.value)}`}
             />
           </span>
@@ -248,18 +313,20 @@ function HistoricalSnapshotPanels() {
         />
         <p className="admin-note">
           <Archive className="h-4 w-4" aria-hidden />
-          Source: {p.source}. Period asked for: {dayLabel(s.requestedStart)} to {dayLabel(s.requestedEnd)}.
-          Captured once on {dayLabel(s.fetchedAt)} — these figures are fixed and do not update.
+          Source: {p.source}. Period asked for: {dayLabel(s.requestedStart)} to{" "}
+          {dayLabel(s.requestedEnd)}. Captured once on {dayLabel(s.fetchedAt)} — these figures are
+          fixed and do not update.
         </p>
         <p className="admin-note">
-          Days actually returned: {s.coverage.buckets} between {dayLabel(s.coverage.firstBucket ?? "")} and{" "}
-          {dayLabel(s.coverage.lastBucket ?? "")}. The provider included an 11 September day even though the
-          period was asked to end at midnight on 11 September, so that day is partial.
+          Days actually returned: {s.coverage.buckets} between{" "}
+          {dayLabel(s.coverage.firstBucket ?? "")} and {dayLabel(s.coverage.lastBucket ?? "")}. The
+          provider included an 11 September day even though the period was asked to end at midnight
+          on 11 September, so that day is partial.
         </p>
         <p className="admin-note">
-          These counts are a separate record from Google Analytics and Google Search on this page. Do not add
-          them together, and do not read the daily figures as separate people — the same person visiting on
-          two days is counted on both.
+          These counts are a separate record from Google Analytics and Google Search on this page.
+          Do not add them together, and do not read the daily figures as separate people — the same
+          person visiting on two days is counted on both.
         </p>
         <div className="admin-subhead">Visits per day (snapshot)</div>
         <DailyBars
@@ -283,7 +350,13 @@ function HistoricalSnapshotPanels() {
               ) : (
                 <ul className="admin-bars">
                   {b.data.map((row, index) => (
-                    <BarRow key={row.label} label={row.label} value={row.value} max={b.data[0].value} rank={index} />
+                    <BarRow
+                      key={row.label}
+                      label={row.label}
+                      value={row.value}
+                      max={b.data[0].value}
+                      rank={index}
+                    />
                   ))}
                 </ul>
               )}
@@ -336,7 +409,9 @@ function TrafficPage() {
     <CrmPage>
       <div className="admin-stack-lg">
         <header>
-          <span className="admin-mono" style={{ color: "var(--text-2)" }}>Overview / Traffic</span>
+          <span className="admin-mono" style={{ color: "var(--text-2)" }}>
+            Overview / Traffic
+          </span>
           <h1 className="admin-display admin-h1">Traffic</h1>
           <p className="admin-lede">
             Visitor figures come from Google Analytics and Google Search. Request figures come from
@@ -376,13 +451,15 @@ function TrafficPage() {
                 ]}
               />
               {ga.data!.totals.sessions === 0 ? (
-                <PanelEmpty headline={`Google Analytics recorded no visits in the last ${days} days.`} />
+                <PanelEmpty
+                  headline={`Google Analytics recorded no visits in the last ${days} days.`}
+                />
               ) : (
                 <>
                   <p className="admin-note">
                     <Users className="h-4 w-4" aria-hidden /> Sessions per day, last {days} days.
-                    Visitor counting started when the Google tag was installed, so earlier
-                    periods show nothing because they were never measured.
+                    Visitor counting started when the Google tag was installed, so earlier periods
+                    show nothing because they were never measured.
                   </p>
                   <DailyBars
                     points={ga.data!.daily}
@@ -409,7 +486,13 @@ function TrafficPage() {
             ) : (
               <ul className="admin-bars">
                 {ga.data!.channels.map((c, index) => (
-                  <BarRow key={c.key} label={c.key} value={c.value} max={ga.data!.channels[0].value} rank={index} />
+                  <BarRow
+                    key={c.key}
+                    label={c.key}
+                    value={c.value}
+                    max={ga.data!.channels[0].value}
+                    rank={index}
+                  />
                 ))}
               </ul>
             )}
@@ -455,14 +538,22 @@ function TrafficPage() {
               <DocketStrip
                 cells={[
                   { code: "CLK", label: "Clicks", value: nf.format(gsc.data!.totals.clicks) },
-                  { code: "IMP", label: "Impressions", value: nf.format(gsc.data!.totals.impressions) },
+                  {
+                    code: "IMP",
+                    label: "Impressions",
+                    value: nf.format(gsc.data!.totals.impressions),
+                  },
                   { code: "CTR", label: "Click rate", value: pct1(gsc.data!.totals.ctr) },
-                  { code: "POS", label: "Avg. position", value: gsc.data!.totals.position.toFixed(1) },
+                  {
+                    code: "POS",
+                    label: "Avg. position",
+                    value: gsc.data!.totals.position.toFixed(1),
+                  },
                 ]}
               />
               <p className="admin-note">
-                <Search className="h-4 w-4" aria-hidden /> {gsc.data!.range.startDate} to {gsc.data!.range.endDate}.
-                Google Search data is always a couple of days behind.
+                <Search className="h-4 w-4" aria-hidden /> {gsc.data!.range.startDate} to{" "}
+                {gsc.data!.range.endDate}. Google Search data is always a couple of days behind.
               </p>
               {gsc.data!.queries.length === 0 ? (
                 <>
@@ -503,7 +594,13 @@ function TrafficPage() {
           ) : (
             <ul className="admin-bars">
               {ga.data!.devices.map((d, index) => (
-                <BarRow key={d.key} label={d.key} value={d.value} max={ga.data!.devices[0].value} rank={index} />
+                <BarRow
+                  key={d.key}
+                  label={d.key}
+                  value={d.value}
+                  max={ga.data!.devices[0].value}
+                  rank={index}
+                />
               ))}
             </ul>
           )}
@@ -512,7 +609,11 @@ function TrafficPage() {
         <Panel
           title="Form submissions over time"
           code="TRF-06"
-          action={<Link to="/admin/leads" className="admin-link-btn">Open Requests</Link>}
+          action={
+            <Link to="/admin/leads" className="admin-link-btn">
+              Open Requests
+            </Link>
+          }
         >
           {isLoading ? (
             <PanelSkeleton rows={4} />
@@ -521,13 +622,18 @@ function TrafficPage() {
           ) : total === 0 ? (
             <PanelEmpty
               headline="No requests have come in during the last 30 days. Share the request form to start collecting them."
-              action={<Link to="/admin/promotions" className="admin-link-btn">Run a promotion</Link>}
+              action={
+                <Link to="/admin/promotions" className="admin-link-btn">
+                  Run a promotion
+                </Link>
+              }
             />
           ) : (
             <>
               <p className="admin-note">
-                <LineChart className="h-4 w-4" aria-hidden /> {total} request{total === 1 ? "" : "s"} in the last 30 days.
-                First-party form data, not page analytics.
+                <LineChart className="h-4 w-4" aria-hidden /> {total} request
+                {total === 1 ? "" : "s"} in the last 30 days. First-party form data, not page
+                analytics.
               </p>
               <DailyBars
                 points={byDay.map(([key, value]) => ({ key, value }))}

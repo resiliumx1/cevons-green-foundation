@@ -50,7 +50,11 @@ function MetricSparkline({ values, label }: { values: number[]; label: string })
           <stop offset="1" stopColor="currentColor" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <polygon className="admin-metric-sparkline-area" points={areaPoints} fill={`url(#${gradientId})`} />
+      <polygon
+        className="admin-metric-sparkline-area"
+        points={areaPoints}
+        fill={`url(#${gradientId})`}
+      />
       <polyline
         className="admin-metric-sparkline-track"
         points={points}
