@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { formatGeorgetown } from "@/components/admin/theme";
 
@@ -21,6 +21,7 @@ export type DocketCell = {
 };
 
 function MetricSparkline({ values, label }: { values: number[]; label: string }) {
+  const gradientId = useId().replaceAll(":", "");
   const width = 112;
   const height = 34;
   const max = Math.max(...values, 1);
@@ -33,6 +34,8 @@ function MetricSparkline({ values, label }: { values: number[]; label: string })
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(" ");
+  const areaPoints = `0,${height} ${points} ${width},${height}`;
+  const lastPoint = points.split(" ").at(-1)?.split(",").map(Number);
 
   return (
     <svg
@@ -41,6 +44,17 @@ function MetricSparkline({ values, label }: { values: number[]; label: string })
       role="img"
       aria-label={`${label} trend from real data`}
     >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="currentColor" stopOpacity="0.28" />
+          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon
+        className="admin-metric-sparkline-area"
+        points={areaPoints}
+        fill={`url(#${gradientId})`}
+      />
       <polyline
         className="admin-metric-sparkline-track"
         points={points}
@@ -51,6 +65,15 @@ function MetricSparkline({ values, label }: { values: number[]; label: string })
         points={points}
         vectorEffect="non-scaling-stroke"
       />
+      {lastPoint ? (
+        <circle
+          className="admin-metric-sparkline-point"
+          cx={lastPoint[0]}
+          cy={lastPoint[1]}
+          r="2.8"
+          vectorEffect="non-scaling-stroke"
+        />
+      ) : null}
     </svg>
   );
 }
