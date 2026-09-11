@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Archive, BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -134,7 +134,7 @@ function BarRow({ label, value, max, note, rank = 0 }: { label: string; value: s
   const numeric = typeof value === "number" ? value : Number(value) || 0;
   const pct = max > 0 ? Math.round((numeric / max) * 100) : 0;
   return (
-    <li className="admin-bar-row" style={{ "--chart-index": rank } as React.CSSProperties}>
+    <li className="admin-bar-row" style={{ "--chart-index": rank } as CSSProperties}>
       <div className="admin-bar-copy">
         <span className="admin-bar-rank" aria-hidden>{String(rank + 1).padStart(2, "0")}</span>
         <span className="admin-bar-label" title={label}>{label}</span>
@@ -169,7 +169,7 @@ function DailyBars({ points, label, tone = "orange" }: { points: DailyPoint[]; l
           <span className="admin-chart-column" key={point.key}>
             <span
               className="admin-spark-bar"
-              style={{ height: `${Math.max(4, Math.round((point.value / peak) * 100))}%`, "--bar-order": index } as React.CSSProperties}
+              style={{ height: `${Math.max(4, Math.round((point.value / peak) * 100))}%`, "--bar-order": index } as CSSProperties}
               title={`${point.key}: ${nf.format(point.value)}`}
             />
           </span>
