@@ -128,11 +128,11 @@ export const retryCesFailures = createServerFn({ method: "POST" })
     return { reset: (data ?? []).length };
   });
 
-/** Compare what CES holds against what we have marked as sent. */
+/** Compare the whole queue against CES, in pages. */
 export const runCesReconcile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { limit?: number; requeueMissing?: boolean }) => ({
-    limit: Math.min(Math.max(Number(input?.limit ?? 200), 1), 200),
+  .inputValidator((input: { maxRows?: number; requeueMissing?: boolean }) => ({
+    maxRows: Math.min(Math.max(Number(input?.maxRows ?? 5000), 1), 20000),
     requeueMissing: !!input?.requeueMissing,
   }))
   .handler(async ({ data, context }) => {
@@ -140,6 +140,7 @@ export const runCesReconcile = createServerFn({ method: "POST" })
     const { reconcileCes } = await import("./ces/outbox.server");
     return reconcileCes(data);
   });
+
 
 /** Deliberate resend of one item: new delivery id, same website request id. */
 export const resendCesItem = createServerFn({ method: "POST" })
