@@ -358,7 +358,9 @@ export function validateReconcileResponse(input: {
 
   const top = parsed as Record<string, unknown>;
   if (!Array.isArray(top["enquiries"])) return { ok: false, code: "response.enquiries:not_array" };
-  if (top["missing"] !== undefined && !Array.isArray(top["missing"])) {
+  // CES sends `missing: null` when the optional field is empty; treat null and
+  // undefined alike as "nothing missing".
+  if (top["missing"] != null && !Array.isArray(top["missing"])) {
     return { ok: false, code: "response.missing:not_array" };
   }
   if (top["count"] !== undefined && typeof top["count"] !== "number") {
