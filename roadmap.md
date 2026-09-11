@@ -1,7 +1,7 @@
 # Admin visual-system redesign
 
-- [ ] Establish semantic admin tokens and shared primitives
-- [ ] Redesign shell, navigation, command bar, and notifications
-- [ ] Rework dashboard hierarchy, cards, real-data sparklines, and activity panels
-- [ ] Apply shared table, form, state, and responsive styling across admin routes
+- [x] Establish semantic admin tokens and shared primitives
+- [x] Redesign shell, navigation, command bar, and notifications
+- [x] Rework dashboard hierarchy, cards, real-data sparklines, and activity panels
+- [x] Apply shared table, form, state, and responsive styling across admin routes
 - [ ] Verify desktop/mobile interactions, tests, typecheck, lint, and build
