@@ -175,6 +175,15 @@ function IntegrationsPage() {
             >
               <RefreshCw className="h-4 w-4" aria-hidden /> Retry failures
             </button>
+            <button
+              type="button"
+              className="admin-link-btn"
+              disabled={!ready || checkCes.isPending}
+              onClick={() => checkCes.mutate()}
+            >
+              <History className="h-4 w-4" aria-hidden />{" "}
+              {checkCes.isPending ? "Checking…" : "Check CES has everything"}
+            </button>
           </div>
           {!ready && (
             <p className="admin-note">
