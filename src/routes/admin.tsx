@@ -129,6 +129,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     heading: "Admin",
     items: [
       { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
+      { to: "/admin/integrations", label: "Connections", icon: Activity, adminOnly: true },
       { to: "/admin/audit", label: "Activity log", short: "Activity", icon: FileClock },
       { to: "/admin/settings", label: "Settings", icon: Settings },
     ],
