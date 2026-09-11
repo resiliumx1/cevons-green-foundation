@@ -153,7 +153,7 @@ describe("deliverToCes transport", () => {
 
   it("bounds the request and reports a timeout as a safe retryable code", async () => {
     configure();
-    const fetchMock = vi.fn(async () => {
+    const fetchMock = vi.fn(async (_url: unknown, _init?: RequestInit): Promise<Response> => {
       const err = new Error("The operation was aborted due to timeout");
       err.name = "TimeoutError";
       throw err;
