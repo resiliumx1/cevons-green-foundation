@@ -13,15 +13,28 @@
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
-  buildCesBody,
   cesEventId,
   type CesEntityType,
   type CesMode,
   type CesSourceRecord,
 } from "./contract";
-import { backoffSeconds, deliverToCes, readCesConfig, reconcileWithCes } from "./delivery.server";
+import { deliverToCes, readCesConfig, reconcileWithCes } from "./delivery.server";
+import {
+  MAX_ATTEMPTS,
+  compareKeyset,
+  decodeCursor,
+  encodeCursor,
+  runDrain,
+  type ClaimedRow,
+  type Completion,
+  type DrainResult,
+  type SourceRow,
+} from "./engine";
 
-const MAX_ATTEMPTS = 8;
+export type { DrainResult } from "./engine";
+export { MAX_ATTEMPTS } from "./engine";
+
+const LEASE_SECONDS = 180;
 
 export type EnqueueInput = {
   entityType: CesEntityType;
@@ -32,6 +45,12 @@ export type EnqueueInput = {
 
 export function newDeliveryEventId(): string {
   return crypto.randomUUID().replace(/-/g, "");
+}
+
+/** Short, safe error code — raw exception objects are never logged or stored. */
+function safeCode(err: unknown): string {
+  if (err instanceof Error && /abort|timeout/i.test(err.name)) return "timeout";
+  return "unexpected_error";
 }
 
 /**
@@ -53,13 +72,17 @@ export async function enqueueCesEvent(input: EnqueueInput): Promise<{ queued: bo
       },
       { onConflict: "event_id", ignoreDuplicates: true },
     );
-    if (error) return { queued: false, reason: error.message };
+    if (error) {
+      console.error("ces outbox enqueue rejected (submission unaffected): db_write_failed");
+      return { queued: false, reason: "db_write_failed" };
+    }
     return { queued: true };
   } catch (err) {
-    console.error("ces outbox enqueue failed (submission unaffected)", err);
+    console.error(`ces outbox enqueue failed (submission unaffected): ${safeCode(err)}`);
     return { queued: false, reason: "enqueue_error" };
   }
 }
+
 
 /** Re-read the live row so the first attempt always carries current data. */
 async function loadRecord(
@@ -72,102 +95,131 @@ async function loadRecord(
   return { ...(data as Record<string, unknown>), entity_type: entityType } as CesSourceRecord;
 }
 
-export type DrainResult = {
-  attempted: number;
-  sent: number;
-  duplicates: number;
-  failed: number;
-  skipped: number;
-  configured: boolean;
-  failures: Array<{ reference: string | null; error: string }>;
-};
-
 /**
- * Send up to `limit` due rows. Safe to call repeatedly and concurrently:
- * every send carries a stable delivery id, so CES treats replays as duplicates.
+ * Send up to `limit` due rows. Safe to call repeatedly and concurrently: rows
+ * are claimed atomically with a lease (SKIP LOCKED), the body is frozen before
+ * any send, and every completion is conditional on still holding the lease.
  */
 export async function drainCesOutbox(limit = 25): Promise<DrainResult> {
-  const result: DrainResult = {
-    attempted: 0,
-    sent: 0,
-    duplicates: 0,
-    failed: 0,
-    skipped: 0,
-    configured: !!readCesConfig(),
-    failures: [],
-  };
-  if (!result.configured) return result;
+  return runDrain(
+    {
+      configured: () => !!readCesConfig(),
 
-  const { data: rows } = await supabaseAdmin
-    .from("ces_outbox")
-    .select("*")
-    .in("status", ["pending", "failed"])
-    .lte("next_attempt_at", new Date().toISOString())
-    .order("created_at", { ascending: true })
-    .limit(limit);
+      claim: async (n) => {
+        const { data, error } = await supabaseAdmin.rpc("ces_outbox_claim", {
+          _limit: n,
+          _lease_seconds: LEASE_SECONDS,
+        } as never);
+        if (error) {
+          console.error("ces outbox claim failed: db_claim_failed");
+          return [];
+        }
+        return ((data ?? []) as Array<Record<string, unknown>>).map((r) => ({
+          id: String(r["id"]),
+          event_id: String(r["event_id"]),
+          delivery_event_id: String(r["delivery_event_id"]),
+          entity_type: r["entity_type"] as CesEntityType,
+          entity_id: String(r["entity_id"]),
+          reference: (r["reference"] as string | null) ?? null,
+          mode: r["mode"] as CesMode,
+          attempts: Number(r["attempts"] ?? 0),
+          request_body: (r["request_body"] as string | null) ?? null,
+          lease_token: String(r["lease_token"] ?? ""),
+        })) satisfies ClaimedRow[];
+      },
 
-  for (const row of rows ?? []) {
-    result.attempted++;
+      loadRecord,
 
-    // Retries must repeat the exact body; only the first attempt builds it.
-    let rawBody = typeof row.request_body === "string" ? row.request_body : null;
-    let issues: Array<{ field: string; reason: string }> = [];
+      freezeBody: async (row, rawBody, issues) => {
+        try {
+          const { data, error } = await supabaseAdmin
+            .from("ces_outbox")
+            .update({ request_body: rawBody as never, issues: issues as never })
+            .eq("id", row.id)
+            .eq("lease_token", row.lease_token as never)
+            .select("id");
+          if (error) {
+            console.error("ces outbox freeze failed: db_write_failed");
+            return false;
+          }
+          return (data?.length ?? 0) > 0;
+        } catch (err) {
+          console.error(`ces outbox freeze failed: ${safeCode(err)}`);
+          return false;
+        }
+      },
 
-    if (!rawBody) {
-      const record = await loadRecord(row.entity_type as CesEntityType, row.entity_id);
-      if (!record) {
-        result.skipped++;
-        await supabaseAdmin
-          .from("ces_outbox")
-          .update({ status: "dead", last_error: "Website record no longer exists." })
-          .eq("id", row.id);
-        continue;
-      }
-      const built = buildCesBody(record, row.mode as CesMode);
-      rawBody = JSON.stringify(built.body);
-      issues = built.issues;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({ request_body: rawBody as never, issues: issues as never })
-        .eq("id", row.id);
-    }
+      deliver: async (rawBody, deliveryEventId) => {
+        const outcome = await deliverToCes(rawBody, { eventId: deliveryEventId });
+        return {
+          ok: outcome.ok,
+          status: outcome.status,
+          duplicate: !!outcome.duplicate,
+          error: outcome.error,
+          retryable: !!outcome.retryable,
+        };
+      },
 
-    const outcome = await deliverToCes(rawBody, { eventId: row.delivery_event_id });
-    const attempts = row.attempts + 1;
+      complete: (row, completion) => applyCompletion(row, completion),
+    },
+    limit,
+  );
+}
 
-    if (outcome.ok) {
-      result.sent++;
-      if (outcome.duplicate) result.duplicates++;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({
-          status: "sent",
-          attempts,
-          sent_at: new Date().toISOString(),
-          last_error: null,
-          last_status_code: outcome.status,
-        })
-        .eq("id", row.id);
-      continue;
-    }
+/** Conditional write: only the worker still holding the lease may finish a row. */
+async function applyCompletion(row: ClaimedRow, completion: Completion): Promise<boolean> {
+  const patch: Record<string, unknown> = { lease_token: null, lease_expires_at: null };
 
-    result.failed++;
-    result.failures.push({ reference: row.reference, error: outcome.error ?? "Unknown error" });
-    const dead = !outcome.retryable || attempts >= MAX_ATTEMPTS;
-    await supabaseAdmin
-      .from("ces_outbox")
-      .update({
-        status: dead ? "dead" : "failed",
-        attempts,
-        last_error: (outcome.error ?? "Unknown error").slice(0, 500),
-        last_status_code: outcome.status,
-        next_attempt_at: new Date(Date.now() + backoffSeconds(attempts) * 1000).toISOString(),
-      })
-      .eq("id", row.id);
+  if (completion.kind === "sent") {
+    Object.assign(patch, {
+      status: "sent",
+      attempts: completion.attempts,
+      sent_at: new Date().toISOString(),
+      last_error: null,
+      last_status_code: completion.statusCode,
+    });
+  } else if (completion.kind === "failed") {
+    Object.assign(patch, {
+      status: "failed",
+      attempts: completion.attempts,
+      last_error: completion.error,
+      last_status_code: completion.statusCode,
+      next_attempt_at: completion.nextAttemptAt,
+    });
+  } else if (completion.kind === "dead") {
+    Object.assign(patch, {
+      status: "dead",
+      attempts: completion.attempts,
+      last_error: completion.error,
+      last_status_code: completion.statusCode,
+    });
+  } else {
+    // Freeze failed: put the row back in line untouched apart from the retry time.
+    Object.assign(patch, {
+      status: "pending",
+      last_error: completion.error,
+      next_attempt_at: completion.nextAttemptAt,
+    });
   }
 
-  return result;
+  try {
+    const { data, error } = await supabaseAdmin
+      .from("ces_outbox")
+      .update(patch as never)
+      .eq("id", row.id)
+      .eq("lease_token", row.lease_token as never)
+      .select("id");
+    if (error) {
+      console.error("ces outbox completion failed: db_write_failed");
+      return false;
+    }
+    return (data?.length ?? 0) > 0;
+  } catch (err) {
+    console.error(`ces outbox completion failed: ${safeCode(err)}`);
+    return false;
+  }
 }
+
 
 /**
  * Deliberate resend: fresh delivery event id, unchanged externalId, rebuilt
@@ -220,17 +272,27 @@ export async function enqueueBackfillPage(
 
   const { count } = await supabaseAdmin.from(table).select("id", { count: "exact", head: true });
 
+  // Stable keyset order: created_at then id, so records sharing a timestamp
+  // are never skipped at a page boundary.
   let query = supabaseAdmin
     .from(table)
     .select("id, reference, created_at")
     .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
     .limit(pageSize);
-  if (after) query = query.gt("created_at", after);
+  const cursor = decodeCursor(after);
+  if (cursor) {
+    query = query.or(
+      cursor.id
+        ? `created_at.gt.${cursor.createdAt},and(created_at.eq.${cursor.createdAt},id.gt.${cursor.id})`
+        : `created_at.gt.${cursor.createdAt}`,
+    );
+  }
 
   const { data: rows, error } = await query;
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("backfill_page_read_failed");
 
-  const list = (rows ?? []) as Array<{ id: string; reference: string | null; created_at: string }>;
+  const list = ((rows ?? []) as SourceRow[]).slice().sort(compareKeyset);
   let queued = 0;
   let alreadyQueued = 0;
 
@@ -238,7 +300,7 @@ export async function enqueueBackfillPage(
     const eventId = cesEventId(entityType, row.id);
     const { data: existing } = await supabaseAdmin
       .from("ces_outbox")
-      .select("id, mode, status")
+      .select("id")
       .eq("event_id", eventId)
       .maybeSingle();
     if (existing) {
@@ -254,72 +316,125 @@ export async function enqueueBackfillPage(
     if (res.queued) queued++;
   }
 
+  const last = list[list.length - 1];
   return {
     scanned: list.length,
     queued,
     alreadyQueued,
-    nextCursor: list.length === pageSize ? (list[list.length - 1]?.created_at ?? null) : null,
+    nextCursor: list.length === pageSize && last ? encodeCursor(last) : null,
     totalRetained: count ?? 0,
   };
 }
 
 export type ReconcileReport = {
+  /** Number of queue rows compared against CES in this run. */
   checked: number;
   matched: number;
+  /** Sent locally but unknown to CES — needs a resend. */
   missing: Array<{ externalId: string; reference: string | null }>;
+  /** Never delivered yet (pending/failed/dead) — needs a drain or repair. */
+  unsent: Array<{ externalId: string; reference: string | null; status: string; lastError: string | null }>;
   requeued: number;
+  /** True when the whole queue was compared; false when the scan hit its cap. */
+  complete: boolean;
+  totalQueued: number;
   error?: string;
 };
 
+const RECONCILE_PAGE = 200;
+
 /**
- * Ask CES what it holds for our recently sent items and requeue anything it
- * does not have. Read-mostly: the only local write is putting a missing item
- * back in line for delivery.
+ * Compare the WHOLE queue with CES, page by page (200 external ids per call),
+ * and report both what CES is missing and what never left this site.
  */
-export async function reconcileCes(opts: { limit?: number; requeueMissing?: boolean } = {}): Promise<ReconcileReport> {
-  const limit = Math.min(Math.max(opts.limit ?? 200, 1), 200);
-  const report: ReconcileReport = { checked: 0, matched: 0, missing: [], requeued: 0 };
+export async function reconcileCes(
+  opts: { maxRows?: number; requeueMissing?: boolean } = {},
+): Promise<ReconcileReport> {
+  const maxRows = Math.min(Math.max(opts.maxRows ?? 5000, 1), 20000);
+  const report: ReconcileReport = {
+    checked: 0,
+    matched: 0,
+    missing: [],
+    unsent: [],
+    requeued: 0,
+    complete: true,
+    totalQueued: 0,
+  };
 
-  const { data: rows } = await supabaseAdmin
+  const { count } = await supabaseAdmin
     .from("ces_outbox")
-    .select("id, entity_id, reference, status")
-    .eq("status", "sent")
-    .order("sent_at", { ascending: false })
-    .limit(limit);
+    .select("id", { count: "exact", head: true });
+  report.totalQueued = count ?? 0;
 
-  const list = rows ?? [];
-  if (list.length === 0) return report;
-  report.checked = list.length;
-
-  const res = await reconcileWithCes({ externalIds: list.map((r) => r.entity_id), limit: 500 });
-  if (!res.ok || !res.data) {
-    report.error = res.error ?? "Reconcile call failed.";
-    return report;
-  }
-
-  const known = new Map(res.data.enquiries.map((e) => [e.externalId, e]));
-  const missingIds = new Set(res.data.missing ?? []);
-
-  for (const row of list) {
-    const hit = known.get(row.entity_id);
-    if (hit && !missingIds.has(row.entity_id)) {
-      report.matched++;
-      await supabaseAdmin
-        .from("ces_outbox")
-        .update({
-          reconciled_at: new Date().toISOString(),
-          remote_stage: hit.stage ?? null,
-          remote_lead_id: hit.leadId ?? null,
-        })
-        .eq("id", row.id);
-      continue;
+  let from = 0;
+  for (;;) {
+    if (from >= maxRows) {
+      report.complete = false;
+      break;
     }
-    report.missing.push({ externalId: row.entity_id, reference: row.reference });
-    if (opts.requeueMissing) {
-      const r = await resendCesEvent(row.id);
-      if (r.ok) report.requeued++;
+    const { data: rows, error } = await supabaseAdmin
+      .from("ces_outbox")
+      .select("id, entity_id, reference, status, last_error")
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
+      .range(from, from + RECONCILE_PAGE - 1);
+    if (error) {
+      report.error = "queue_read_failed";
+      report.complete = false;
+      break;
     }
+    const list = rows ?? [];
+    if (list.length === 0) break;
+
+    const sent = list.filter((r) => r.status === "sent");
+    for (const r of list) {
+      if (r.status !== "sent") {
+        report.unsent.push({
+          externalId: r.entity_id,
+          reference: r.reference,
+          status: r.status,
+          lastError: r.last_error ?? null,
+        });
+      }
+    }
+
+    if (sent.length > 0) {
+      const res = await reconcileWithCes({ externalIds: sent.map((r) => r.entity_id), limit: 500 });
+      if (!res.ok || !res.data) {
+        report.error = res.error ?? "Reconcile call failed.";
+        report.complete = false;
+        break;
+      }
+      report.checked += sent.length;
+      const known = new Map(res.data.enquiries.map((e) => [e.externalId, e]));
+      const missingIds = new Set(res.data.missing ?? []);
+
+      for (const row of sent) {
+        const hit = known.get(row.entity_id);
+        if (hit && !missingIds.has(row.entity_id)) {
+          report.matched++;
+          await supabaseAdmin
+            .from("ces_outbox")
+            .update({
+              reconciled_at: new Date().toISOString(),
+              remote_stage: hit.stage ?? null,
+              remote_lead_id: hit.leadId ?? null,
+            })
+            .eq("id", row.id);
+          continue;
+        }
+        report.missing.push({ externalId: row.entity_id, reference: row.reference });
+        if (opts.requeueMissing) {
+          const r = await resendCesEvent(row.id);
+          if (r.ok) report.requeued++;
+        }
+      }
+    }
+
+    if (list.length < RECONCILE_PAGE) break;
+    from += RECONCILE_PAGE;
   }
 
   return report;
 }
+

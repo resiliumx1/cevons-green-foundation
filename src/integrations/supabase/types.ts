@@ -200,6 +200,8 @@ export type Database = {
           issues: Json
           last_error: string | null
           last_status_code: number | null
+          lease_expires_at: string | null
+          lease_token: string | null
           mode: string
           next_attempt_at: string
           payload: Json
@@ -223,6 +225,8 @@ export type Database = {
           issues?: Json
           last_error?: string | null
           last_status_code?: number | null
+          lease_expires_at?: string | null
+          lease_token?: string | null
           mode?: string
           next_attempt_at?: string
           payload?: Json
@@ -246,6 +250,8 @@ export type Database = {
           issues?: Json
           last_error?: string | null
           last_status_code?: number | null
+          lease_expires_at?: string | null
+          lease_token?: string | null
           mode?: string
           next_attempt_at?: string
           payload?: Json
@@ -1369,6 +1375,40 @@ export type Database = {
         Returns: undefined
       }
       can_publish: { Args: { _user_id: string }; Returns: boolean }
+      ces_outbox_claim: {
+        Args: { _lease_seconds?: number; _limit?: number }
+        Returns: {
+          attempts: number
+          created_at: string
+          delivery_event_id: string
+          entity_id: string
+          entity_type: string
+          event_id: string
+          id: string
+          issues: Json
+          last_error: string | null
+          last_status_code: number | null
+          lease_expires_at: string | null
+          lease_token: string | null
+          mode: string
+          next_attempt_at: string
+          payload: Json
+          reconciled_at: string | null
+          reference: string | null
+          remote_lead_id: string | null
+          remote_stage: string | null
+          request_body: Json | null
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "ces_outbox"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       ces_outbox_dispatch: { Args: never; Returns: undefined }
       claim_invitation: {
         Args: never
