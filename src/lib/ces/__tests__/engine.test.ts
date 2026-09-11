@@ -13,7 +13,7 @@ import {
 
 /* ── A tiny in-memory stand-in for the queue table ────────────────────────── */
 
-type Row = ClaimedRow & { status: string; lease_token: string | null };
+type Row = Omit<ClaimedRow, "lease_token"> & { status: string; lease_token: string | null };
 
 class FakeQueue {
   rows: Row[] = [];
