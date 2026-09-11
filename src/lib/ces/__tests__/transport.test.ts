@@ -193,6 +193,22 @@ describe("reconcile response validation", () => {
     }
   });
 
+  it("treats a null `missing` field as nothing missing (live CES shape)", () => {
+    const v = validateReconcileResponse({
+      status: 200,
+      contentType: "application/json",
+      text: JSON.stringify({
+        sourceSystem: "ces",
+        count: 0,
+        enquiries: [],
+        missing: null,
+        nextCursor: null,
+      }),
+    });
+    expect(v.ok).toBe(true);
+    if (v.ok) expect(v.data.missing).toEqual([]);
+  });
+
   it("rejects malformed reconciliation payloads with a field path", () => {
     expect(
       validateReconcileResponse({ status: 200, contentType: "text/html", text: "<html></html>" }),
