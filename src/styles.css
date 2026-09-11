@@ -656,6 +656,9 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   --admin-green: oklch(0.62 0.15 145);
   --admin-yellow: oklch(0.91 0.17 100);
   --admin-red: oklch(0.56 0.2 28);
+  --admin-blue: oklch(0.62 0.16 245);
+  --admin-cyan: oklch(0.72 0.13 205);
+  --admin-chart-purple: oklch(0.64 0.16 305);
   --admin-radius-card: 16px;
   --admin-radius-control: 11px;
   --admin-shadow-card: 0 1px 2px color-mix(in oklab, var(--admin-navy) 7%, transparent), 0 10px 28px color-mix(in oklab, var(--admin-navy) 7%, transparent);
@@ -3485,10 +3488,16 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .docket-code { color: var(--docket-muted); opacity: 0.9; }
 .docket-figure { margin-top: 10px; font-size: 40px; line-height: 1; font-weight: 800; color: var(--docket-fg); }
 .docket-value-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.admin-metric-sparkline { width: 112px; height: 34px; overflow: visible; color: var(--admin-orange); }
+.docket-cell:nth-child(4n + 1) { --metric-color: var(--admin-orange); }
+.docket-cell:nth-child(4n + 2) { --metric-color: var(--admin-blue); }
+.docket-cell:nth-child(4n + 3) { --metric-color: var(--admin-green); }
+.docket-cell:nth-child(4n + 4) { --metric-color: var(--admin-chart-purple); }
+.admin-metric-sparkline { width: 112px; height: 40px; overflow: visible; color: var(--metric-color); }
 .admin-metric-sparkline-track, .admin-metric-sparkline-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.admin-metric-sparkline-track { stroke: color-mix(in oklab, currentColor 18%, transparent); stroke-width: 5; }
-.admin-metric-sparkline-line { stroke: currentColor; stroke-width: 2; stroke-dasharray: 180; animation: adminSparkDraw 700ms var(--motion-ease) both; }
+.admin-metric-sparkline-track { stroke: color-mix(in oklab, currentColor 16%, transparent); stroke-width: 6; }
+.admin-metric-sparkline-line { stroke: currentColor; stroke-width: 2.4; stroke-dasharray: 180; animation: adminSparkDraw 700ms var(--motion-ease) both; }
+.admin-metric-sparkline-area { color: inherit; }
+.admin-metric-sparkline-point { fill: var(--panel); stroke: currentColor; stroke-width: 2; }
 @keyframes adminSparkDraw { from { stroke-dashoffset: 180; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
 .docket-delta { margin-top: 8px; font-size: 12.5px; color: var(--docket-muted); }
 .docket-delta-up { color: var(--docket-up); }
@@ -3667,12 +3676,39 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 [data-crm-theme] .admin-subhead svg { color: var(--admin-orange); }
 [data-crm-theme] .admin-grid-2 { display: grid; gap: 20px; grid-template-columns: 1fr; }
 @media (min-width: 1100px) { [data-crm-theme] .admin-grid-2 { grid-template-columns: 1fr 1fr; } }
-[data-crm-theme] .admin-bars { display: flex; flex-direction: column; gap: 10px; }
+[data-crm-theme] .admin-bars { display: flex; flex-direction: column; gap: 14px; }
+[data-crm-theme] .admin-bar-row { --chart-color: var(--admin-orange); display: grid; gap: 7px; padding: 4px 0; }
+[data-crm-theme] .admin-bar-row:nth-child(5n + 2) { --chart-color: var(--admin-blue); }
+[data-crm-theme] .admin-bar-row:nth-child(5n + 3) { --chart-color: var(--admin-green); }
+[data-crm-theme] .admin-bar-row:nth-child(5n + 4) { --chart-color: var(--admin-chart-purple); }
+[data-crm-theme] .admin-bar-row:nth-child(5n + 5) { --chart-color: var(--admin-cyan); }
+[data-crm-theme] .admin-bar-copy { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: baseline; gap: 9px; }
+[data-crm-theme] .admin-bar-rank { color: var(--chart-color); font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; }
+[data-crm-theme] .admin-bar-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-size: 13.5px; font-weight: 650; }
+[data-crm-theme] .admin-bar-value { color: var(--text); font-size: 15px; font-variant-numeric: tabular-nums; }
+[data-crm-theme] .admin-bar-track { height: 10px; margin-left: 33px; overflow: hidden; border-radius: 999px; background: var(--track); }
+[data-crm-theme] .admin-bar-fill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, color-mix(in oklab, var(--chart-color) 72%, var(--panel)), var(--chart-color)); box-shadow: 0 0 12px color-mix(in oklab, var(--chart-color) 25%, transparent); transform-origin: left; animation: adminBarGrow 600ms var(--motion-ease) both; }
+[data-crm-theme] .admin-bar-meta { display: flex; justify-content: space-between; gap: 12px; margin-left: 33px; color: var(--text-2); font-size: 10.5px; }
 [data-crm-theme] .admin-spark {
-  display: flex; align-items: flex-end; gap: 3px; height: 96px; margin-top: 14px;
-  padding: 8px; border-radius: 12px; background: var(--panel-2);
+  position: relative; display: flex; align-items: stretch; gap: 3px; height: 154px; margin-top: 8px;
+  padding: 14px 10px 10px; border: 1px solid var(--hairline); border-radius: 12px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--chart-color) 7%, var(--panel)), var(--panel-2)); overflow: hidden;
 }
-[data-crm-theme] .admin-spark-bar { flex: 1 1 0; min-width: 3px; border-radius: 3px 3px 0 0; background: var(--admin-orange); }
+[data-crm-theme] .admin-chart { --chart-color: var(--admin-orange); margin-top: 14px; }
+[data-crm-theme] .admin-chart-green { --chart-color: var(--admin-green); }
+[data-crm-theme] .admin-chart-blue { --chart-color: var(--admin-blue); }
+[data-crm-theme] .admin-chart-summary { display: flex; flex-wrap: wrap; gap: 18px; color: var(--text-2); font-size: 11.5px; }
+[data-crm-theme] .admin-chart-summary strong { color: var(--chart-color); font-size: 15px; }
+[data-crm-theme] .admin-chart-column { position: relative; z-index: 1; display: flex; flex: 1 1 0; min-width: 2px; align-items: flex-end; }
+[data-crm-theme] .admin-spark-bar { display: block; width: 100%; min-height: 4px; border-radius: 4px 4px 1px 1px; background: linear-gradient(180deg, color-mix(in oklab, var(--chart-color) 72%, white), var(--chart-color)); box-shadow: 0 -3px 12px color-mix(in oklab, var(--chart-color) 18%, transparent); transform-origin: bottom; animation: adminChartRise 560ms var(--motion-ease) both; animation-delay: calc(var(--bar-order, 0) * 12ms); }
+[data-crm-theme] .admin-spark-bar:hover { filter: saturate(1.15) brightness(1.06); }
+[data-crm-theme] .admin-chart-grid { position: absolute; z-index: 0; left: 10px; right: 10px; border-top: 1px dashed color-mix(in oklab, var(--text-2) 18%, transparent); }
+[data-crm-theme] .admin-chart-grid-top { top: 33%; }
+[data-crm-theme] .admin-chart-grid-mid { top: 66%; }
+[data-crm-theme] .admin-chart-axis { display: flex; justify-content: space-between; padding: 6px 3px 0; color: var(--text-2); font-size: 10px; font-variant-numeric: tabular-nums; }
+[data-crm-theme] .admin-link-btn[data-active="true"] { background: var(--admin-orange); color: var(--admin-charcoal); border-color: var(--admin-orange); box-shadow: 0 5px 14px color-mix(in oklab, var(--admin-orange) 24%, transparent); }
+@keyframes adminBarGrow { from { transform: scaleX(0); opacity: 0.55; } to { transform: scaleX(1); opacity: 1; } }
+@keyframes adminChartRise { from { transform: scaleY(0.08); opacity: 0.35; } to { transform: scaleY(1); opacity: 1; } }
 
 /* ── Legacy admin screens: map dark-only utility colours onto Manifest ───
    Requests, Activity log and Settings were built before the design system.
@@ -4069,7 +4105,7 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-crm-theme] .admin-metric-sparkline-line { animation: none; }
+  [data-crm-theme] :is(.admin-metric-sparkline-line, .admin-spark-bar, .admin-bar-fill) { animation: none; }
 }
 .admin-toaster .admin-toast-desc {
   font-size: 12.5px;
