@@ -2,7 +2,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  Bell, Check, Settings as SettingsIcon, X, Info, Inbox, MessageSquare, Star, Megaphone,
+  Bell,
+  Check,
+  Settings as SettingsIcon,
+  X,
+  Info,
+  Inbox,
+  MessageSquare,
+  Star,
+  Megaphone,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,7 +39,11 @@ export interface NotifPrefs {
 }
 
 const DEFAULT_PREFS: NotifPrefs = {
-  leads: true, reviews: true, messages: true, campaigns: true, system: true,
+  leads: true,
+  reviews: true,
+  messages: true,
+  campaigns: true,
+  system: true,
 };
 
 const PREF_KEY: Record<NotifType, keyof NotifPrefs> = {
@@ -54,7 +66,6 @@ const TYPE_META: Record<NotifType, { label: string; icon: typeof Inbox; color: s
 
 const FALLBACK_META = { label: "System", icon: Info, color: "var(--crm-text-muted)" };
 const KNOWN_TYPES: NotifType[] = ["lead", "message", "review", "campaign", "system"];
-
 
 function relTime(iso: string): string {
   const d = new Date(iso).getTime();
@@ -81,44 +92,73 @@ export function useNotifications(opts?: { onArrive?: (row: NotificationRow) => v
     let cancelled = false;
     (async () => {
       const [{ data: n }, { data: p }] = await Promise.all([
-        supabase.from("notifications").select("*").order("created_at", { ascending: false }).limit(100),
+        supabase
+          .from("notifications")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(100),
         supabase.from("notification_preferences").select("*").eq("id", "default").maybeSingle(),
       ]);
       if (cancelled) return;
       if (n) setItems(n as NotificationRow[]);
-      if (p) setPrefs({
-        leads: p.leads, reviews: p.reviews, messages: p.messages,
-        campaigns: p.campaigns, system: p.system,
-      });
+      if (p)
+        setPrefs({
+          leads: p.leads,
+          reviews: p.reviews,
+          messages: p.messages,
+          campaigns: p.campaigns,
+          system: p.system,
+        });
     })();
 
     const ch = supabase
       .channel(`crm-notifications-${Math.random().toString(36).slice(2)}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "notifications" }, (payload) => {
-        if (payload.eventType === "INSERT") {
-          const row = payload.new as NotificationRow;
-          setItems((cur) => (cur.some((x) => x.id === row.id) ? cur : [row, ...cur].slice(0, 200)));
-          // Only announce kinds we render, and only when the category is enabled.
-          const prefKey = PREF_KEY[row.type];
-          if (KNOWN_TYPES.includes(row.type) && prefKey && prefsRef.current[prefKey]) {
-            onArriveRef.current?.(row);
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "notifications" },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            const row = payload.new as NotificationRow;
+            setItems((cur) =>
+              cur.some((x) => x.id === row.id) ? cur : [row, ...cur].slice(0, 200),
+            );
+            // Only announce kinds we render, and only when the category is enabled.
+            const prefKey = PREF_KEY[row.type];
+            if (KNOWN_TYPES.includes(row.type) && prefKey && prefsRef.current[prefKey]) {
+              onArriveRef.current?.(row);
+            }
+          } else if (payload.eventType === "UPDATE") {
+            setItems((cur) =>
+              cur.map((x) =>
+                x.id === (payload.new as NotificationRow).id ? (payload.new as NotificationRow) : x,
+              ),
+            );
+          } else if (payload.eventType === "DELETE") {
+            setItems((cur) => cur.filter((x) => x.id !== (payload.old as NotificationRow).id));
           }
-        } else if (payload.eventType === "UPDATE") {
-          setItems((cur) => cur.map((x) => x.id === (payload.new as NotificationRow).id ? (payload.new as NotificationRow) : x));
-        } else if (payload.eventType === "DELETE") {
-          setItems((cur) => cur.filter((x) => x.id !== (payload.old as NotificationRow).id));
-        }
-      })
-      .on("postgres_changes", { event: "*", schema: "public", table: "notification_preferences" }, (payload) => {
-        const p = payload.new as NotifPrefs | undefined;
-        if (p) setPrefs({
-          leads: p.leads, reviews: p.reviews, messages: p.messages,
-          campaigns: p.campaigns, system: p.system,
-        });
-      })
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "notification_preferences" },
+        (payload) => {
+          const p = payload.new as NotifPrefs | undefined;
+          if (p)
+            setPrefs({
+              leads: p.leads,
+              reviews: p.reviews,
+              messages: p.messages,
+              campaigns: p.campaigns,
+              system: p.system,
+            });
+        },
+      )
       .subscribe();
 
-    return () => { cancelled = true; supabase.removeChannel(ch); };
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(ch);
+    };
   }, []);
 
   const visible = useMemo(
@@ -129,15 +169,17 @@ export function useNotifications(opts?: { onArrive?: (row: NotificationRow) => v
   const unreadCount = useMemo(() => visible.filter((n) => !n.read).length, [visible]);
 
   const unreadByType = useMemo(() => {
-    const m = { lead: 0, message: 0, review: 0, campaign: 0, system: 0 } as Record<NotifType, number>;
+    const m = { lead: 0, message: 0, review: 0, campaign: 0, system: 0 } as Record<
+      NotifType,
+      number
+    >;
     for (const n of visible) if (!n.read) m[n.type]++;
     return m;
   }, [visible]);
 
-
   const markRead = useCallback(async (ids: string[]) => {
     if (!ids.length) return;
-    setItems((cur) => cur.map((x) => ids.includes(x.id) ? { ...x, read: true } : x));
+    setItems((cur) => cur.map((x) => (ids.includes(x.id) ? { ...x, read: true } : x)));
     await supabase.from("notifications").update({ read: true }).in("id", ids);
   }, []);
 
@@ -146,19 +188,36 @@ export function useNotifications(opts?: { onArrive?: (row: NotificationRow) => v
     await markRead(ids);
   }, [visible, markRead]);
 
-  const markTypeRead = useCallback(async (type: NotifType) => {
-    const ids = items.filter((n) => n.type === type && !n.read).map((n) => n.id);
-    await markRead(ids);
-  }, [items, markRead]);
+  const markTypeRead = useCallback(
+    async (type: NotifType) => {
+      const ids = items.filter((n) => n.type === type && !n.read).map((n) => n.id);
+      await markRead(ids);
+    },
+    [items, markRead],
+  );
 
   const savePrefs = useCallback(async (next: NotifPrefs) => {
     setPrefs(next);
-    await supabase.from("notification_preferences").update({
-      ...next, updated_at: new Date().toISOString(),
-    }).eq("id", "default");
+    await supabase
+      .from("notification_preferences")
+      .update({
+        ...next,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", "default");
   }, []);
 
-  return { items: visible, allItems: items, prefs, unreadCount, unreadByType, markRead, markAllRead, markTypeRead, savePrefs };
+  return {
+    items: visible,
+    allItems: items,
+    prefs,
+    unreadCount,
+    unreadByType,
+    markRead,
+    markAllRead,
+    markTypeRead,
+    savePrefs,
+  };
 }
 
 // ---------- Bell + Panel ----------
@@ -173,7 +232,10 @@ const ARRIVAL_TIMEOUT_MS = 6000;
  * focusing one card does not affect the others.
  */
 function ArrivalCard({
-  item, onOpen, onDismiss, reduceMotion,
+  item,
+  onOpen,
+  onDismiss,
+  reduceMotion,
 }: {
   item: NotificationRow;
   onOpen: (item: NotificationRow) => void;
@@ -220,14 +282,23 @@ function ArrivalCard({
           <Icon className="h-4 w-4" />
         </span>
         <span className="min-w-0 flex-1 block">
-          <span className="block text-[11px] uppercase tracking-wide font-semibold" style={{ color: "var(--crm-text-muted)" }}>
+          <span
+            className="block text-[11px] uppercase tracking-wide font-semibold"
+            style={{ color: "var(--crm-text-muted)" }}
+          >
             {meta.label}
           </span>
-          <span className="block text-sm font-semibold leading-6 mt-0.5 line-clamp-2 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text)" }}>
+          <span
+            className="block text-sm font-semibold leading-6 mt-0.5 line-clamp-2 break-words [overflow-wrap:anywhere]"
+            style={{ color: "var(--crm-text)" }}
+          >
             {item.title}
           </span>
           {item.body && (
-            <span className="block text-[12.5px] leading-5 mt-1 line-clamp-2 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text-muted)" }}>
+            <span
+              className="block text-[12.5px] leading-5 mt-1 line-clamp-2 break-words [overflow-wrap:anywhere]"
+              style={{ color: "var(--crm-text-muted)" }}
+            >
               {item.body}
             </span>
           )}
@@ -278,7 +349,9 @@ export function NotificationsBell() {
   // close on escape
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -297,11 +370,14 @@ export function NotificationsBell() {
     }
   };
 
-  const handleArrivalOpen = useCallback(async (item: NotificationRow) => {
-    setArrivals([]);
-    await n.markRead([item.id]);
-    if (item.link) navigate({ to: item.link });
-  }, [n, navigate]);
+  const handleArrivalOpen = useCallback(
+    async (item: NotificationRow) => {
+      setArrivals([]);
+      await n.markRead([item.id]);
+      if (item.link) navigate({ to: item.link });
+    },
+    [n, navigate],
+  );
 
   const visibleArrivals = arrivals.slice(0, MAX_ARRIVAL_CARDS);
   const overflowArrivals = arrivals.length - visibleArrivals.length;
@@ -309,11 +385,20 @@ export function NotificationsBell() {
 
   return (
     <div className="relative">
-      <span aria-live="polite" className="sr-only">{announcement}</span>
+      <span aria-live="polite" className="sr-only">
+        {announcement}
+      </span>
       <button
-        onClick={() => { setOpen((v) => !v); setArrivals([]); }}
+        onClick={() => {
+          setOpen((v) => !v);
+          setArrivals([]);
+        }}
         className="admin-icon-button relative"
-        style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+        style={{
+          background: "var(--crm-surface-muted)",
+          borderColor: "var(--crm-border)",
+          color: "var(--crm-text)",
+        }}
         aria-label="Notifications"
       >
         <Bell className="h-4 w-4" />
@@ -346,16 +431,17 @@ export function NotificationsBell() {
       {/* Arrival previews, anchored under the bell */}
       <div className="absolute right-0 top-full mt-2 z-[60] w-[320px] max-w-[calc(100vw-1.5rem)] flex flex-col gap-2 pointer-events-none">
         <AnimatePresence initial={false}>
-          {showArrivals && visibleArrivals.map((item) => (
-            <div key={item.id} className="pointer-events-auto">
-              <ArrivalCard
-                item={item}
-                onOpen={handleArrivalOpen}
-                onDismiss={dismissArrival}
-                reduceMotion={reduceMotion}
-              />
-            </div>
-          ))}
+          {showArrivals &&
+            visibleArrivals.map((item) => (
+              <div key={item.id} className="pointer-events-auto">
+                <ArrivalCard
+                  item={item}
+                  onOpen={handleArrivalOpen}
+                  onDismiss={dismissArrival}
+                  reduceMotion={reduceMotion}
+                />
+              </div>
+            ))}
           {showArrivals && overflowArrivals > 0 && (
             <motion.button
               key="more"
@@ -363,7 +449,10 @@ export function NotificationsBell() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => { setArrivals([]); setOpen(true); }}
+              onClick={() => {
+                setArrivals([]);
+                setOpen(true);
+              }}
               className="pointer-events-auto rounded-lg border px-3 py-1.5 text-xs font-semibold shadow-lg"
               style={{
                 background: "var(--crm-surface-muted)",
@@ -377,13 +466,14 @@ export function NotificationsBell() {
         </AnimatePresence>
       </div>
 
-
       <AnimatePresence>
         {open && (
           <>
             <motion.div
               className="fixed inset-0 z-40"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
             />
             <motion.div
@@ -391,7 +481,7 @@ export function NotificationsBell() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.16, ease: "easeOut" }}
-               className="admin-notification-drawer fixed top-16 right-4 md:right-6 z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
+              className="admin-notification-drawer fixed top-16 right-4 md:right-6 z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
               style={{
                 background: "var(--crm-surface)",
                 borderColor: "var(--crm-border)",
@@ -400,13 +490,21 @@ export function NotificationsBell() {
               }}
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--crm-border)" }}>
+              <div
+                className="flex items-center justify-between px-4 py-3 border-b"
+                style={{ borderColor: "var(--crm-border)" }}
+              >
                 <div className="flex items-center gap-2">
                   <Bell className="h-4 w-4" />
                   <h3 className="font-semibold text-sm">Notifications</h3>
                   {n.unreadCount > 0 && (
-                    <span className="text-[11px] px-1.5 py-0.5 rounded-full font-medium"
-                      style={{ background: "var(--crm-surface-muted)", color: "var(--crm-text-muted)" }}>
+                    <span
+                      className="text-[11px] px-1.5 py-0.5 rounded-full font-medium"
+                      style={{
+                        background: "var(--crm-surface-muted)",
+                        color: "var(--crm-text-muted)",
+                      }}
+                    >
                       {n.unreadCount} new
                     </span>
                   )}
@@ -414,7 +512,7 @@ export function NotificationsBell() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setShowPrefs((v) => !v)}
-                     className="admin-icon-button admin-icon-button-sm"
+                    className="admin-icon-button admin-icon-button-sm"
                     style={{ color: "var(--crm-text-muted)" }}
                     aria-label="Preferences"
                     title="Notification preferences"
@@ -423,7 +521,7 @@ export function NotificationsBell() {
                   </button>
                   <button
                     onClick={() => setOpen(false)}
-                     className="admin-icon-button admin-icon-button-sm"
+                    className="admin-icon-button admin-icon-button-sm"
                     style={{ color: "var(--crm-text-muted)" }}
                     aria-label="Close"
                   >
@@ -440,10 +538,16 @@ export function NotificationsBell() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden border-b"
-                    style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)" }}
+                    style={{
+                      borderColor: "var(--crm-border)",
+                      background: "var(--crm-surface-muted)",
+                    }}
                   >
                     <div className="px-4 py-3 space-y-2">
-                      <div className="text-[11px] uppercase tracking-wider font-semibold mb-1" style={{ color: "var(--crm-text-muted)" }}>
+                      <div
+                        className="text-[11px] uppercase tracking-wider font-semibold mb-1"
+                        style={{ color: "var(--crm-text-muted)" }}
+                      >
                         Which notifications to show
                       </div>
                       {(Object.keys(TYPE_META) as NotifType[]).map((t) => {
@@ -452,10 +556,15 @@ export function NotificationsBell() {
                         const key = PREF_KEY[t];
                         const on = n.prefs[key];
                         return (
-                          <label key={t} className="flex items-center justify-between gap-2 cursor-pointer py-1">
+                          <label
+                            key={t}
+                            className="flex items-center justify-between gap-2 cursor-pointer py-1"
+                          >
                             <span className="flex items-center gap-2 text-sm">
                               <Icon className="h-4 w-4" style={{ color: meta.color }} />
-                              <span style={{ color: "var(--crm-text)" }}>New {meta.label.toLowerCase()}</span>
+                              <span style={{ color: "var(--crm-text)" }}>
+                                New {meta.label.toLowerCase()}
+                              </span>
                             </span>
                             <button
                               type="button"
@@ -463,7 +572,11 @@ export function NotificationsBell() {
                               aria-checked={on}
                               onClick={() => n.savePrefs({ ...n.prefs, [key]: !on })}
                               className="relative w-9 h-5 rounded-full transition-colors"
-                              style={{ background: on ? "var(--crm-primary, #c89b3c)" : "var(--crm-border)" }}
+                              style={{
+                                background: on
+                                  ? "var(--crm-primary, #c89b3c)"
+                                  : "var(--crm-border)",
+                              }}
                             >
                               <motion.span
                                 layout
@@ -480,10 +593,18 @@ export function NotificationsBell() {
               </AnimatePresence>
 
               {/* Filters + actions */}
-              <div className="flex items-center gap-1.5 px-3 py-2 border-b overflow-x-auto [scrollbar-width:none]" style={{ borderColor: "var(--crm-border)" }}>
+              <div
+                className="flex items-center gap-1.5 px-3 py-2 border-b overflow-x-auto [scrollbar-width:none]"
+                style={{ borderColor: "var(--crm-border)" }}
+              >
                 {(["all", "unread", ...KNOWN_TYPES] as FilterKey[]).map((k) => {
                   const active = filter === k;
-                  const label = k === "all" ? "All" : k === "unread" ? "Unread" : (TYPE_META[k as NotifType]?.label ?? "System");
+                  const label =
+                    k === "all"
+                      ? "All"
+                      : k === "unread"
+                        ? "Unread"
+                        : (TYPE_META[k as NotifType]?.label ?? "System");
                   return (
                     <button
                       key={k}
@@ -513,8 +634,12 @@ export function NotificationsBell() {
                 {filtered.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 px-6 text-center gap-2">
                     <Inbox className="h-8 w-8" style={{ color: "var(--crm-text-faint)" }} />
-                    <p className="text-sm font-medium" style={{ color: "var(--crm-text)" }}>You're all caught up</p>
-                    <p className="text-xs" style={{ color: "var(--crm-text-muted)" }}>No notifications to show.</p>
+                    <p className="text-sm font-medium" style={{ color: "var(--crm-text)" }}>
+                      You're all caught up
+                    </p>
+                    <p className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+                      No notifications to show.
+                    </p>
                   </div>
                 ) : (
                   <ul>
@@ -535,28 +660,48 @@ export function NotificationsBell() {
                               className="w-full text-left px-4 py-3.5 flex gap-3.5 border-b transition-colors hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--crm-primary,#c89b3c)]"
                               style={{
                                 borderColor: "var(--crm-border)",
-                                background: item.read ? "transparent" : "color-mix(in srgb, var(--crm-primary, #c89b3c) 8%, transparent)",
+                                background: item.read
+                                  ? "transparent"
+                                  : "color-mix(in srgb, var(--crm-primary, #c89b3c) 8%, transparent)",
                               }}
                             >
-                              <div className="h-9 w-9 shrink-0 rounded-lg grid place-items-center"
-                                style={{ background: "var(--crm-surface-muted)", color: meta.color }}>
+                              <div
+                                className="h-9 w-9 shrink-0 rounded-lg grid place-items-center"
+                                style={{
+                                  background: "var(--crm-surface-muted)",
+                                  color: meta.color,
+                                }}
+                              >
                                 <Icon className="h-4.5 w-4.5" />
                               </div>
                               <div className="min-w-0 flex-1">
                                 <div className="flex items-start gap-2">
-                                  <p className="text-sm font-semibold leading-6 flex-1 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text)" }}>
+                                  <p
+                                    className="text-sm font-semibold leading-6 flex-1 break-words [overflow-wrap:anywhere]"
+                                    style={{ color: "var(--crm-text)" }}
+                                  >
                                     {item.title}
                                   </p>
                                   {!item.read && (
-                                    <span aria-label="Unread" className="mt-2 h-2 w-2 rounded-full shrink-0" style={{ background: "var(--crm-primary, #c89b3c)" }} />
+                                    <span
+                                      aria-label="Unread"
+                                      className="mt-2 h-2 w-2 rounded-full shrink-0"
+                                      style={{ background: "var(--crm-primary, #c89b3c)" }}
+                                    />
                                   )}
                                 </div>
                                 {item.body && (
-                                  <p className="text-[12.5px] leading-5 mt-1 line-clamp-3 break-words [overflow-wrap:anywhere]" style={{ color: "var(--crm-text-muted)" }}>
+                                  <p
+                                    className="text-[12.5px] leading-5 mt-1 line-clamp-3 break-words [overflow-wrap:anywhere]"
+                                    style={{ color: "var(--crm-text-muted)" }}
+                                  >
                                     {item.body}
                                   </p>
                                 )}
-                                <p className="text-[11px] mt-1.5 font-medium" style={{ color: "var(--crm-text-muted)" }}>
+                                <p
+                                  className="text-[11px] mt-1.5 font-medium"
+                                  style={{ color: "var(--crm-text-muted)" }}
+                                >
                                   {relTime(item.created_at)}
                                 </p>
                               </div>
@@ -573,6 +718,5 @@ export function NotificationsBell() {
         )}
       </AnimatePresence>
     </div>
-
   );
 }
