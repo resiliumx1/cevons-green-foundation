@@ -5699,6 +5699,7 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 }
 [data-crm-theme] .admin-command-button,
 [data-crm-theme] .admin-icon-button {
+  display: inline-flex;
   min-height: 40px;
   min-width: 40px;
   align-items: center;
@@ -5725,6 +5726,19 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 [data-crm-theme] .admin-icon-button:active,
 [data-crm-theme] .admin-command-button:active {
   transform: scale(0.97);
+}
+/* Phone-style notification bell: warm tinted frame, centered icon, crisp badge. */
+[data-crm-theme] .admin-bell-button {
+  background: var(--admin-accent-soft);
+  border-color: color-mix(in oklab, var(--admin-orange) 28%, var(--rule));
+  color: var(--admin-orange-strong);
+}
+[data-crm-theme] .admin-bell-button:hover {
+  background: color-mix(in oklab, var(--admin-accent-soft) 80%, var(--admin-orange) 20%);
+  border-color: color-mix(in oklab, var(--admin-orange) 45%, var(--rule));
+}
+[data-crm-theme] .admin-bell-button:active {
+  transform: scale(0.96);
 }
 [data-crm-theme] .admin-icon-button-sm {
   min-height: 32px;
