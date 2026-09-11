@@ -7,7 +7,8 @@ import { BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
-import { getSiteAnalytics, type ReportState } from "@/lib/siteAnalytics.functions";
+import { getSiteAnalytics, type ReportState, type SiteAnalytics } from "@/lib/siteAnalytics.functions";
+import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
   head: () => ({
@@ -82,6 +83,47 @@ function ReportNotice({ state, message }: { state: ReportState; message?: string
       <div>
         <p className="font-semibold">{headline}</p>
         {message && <p className="admin-state-detail">{message}</p>}
+      </div>
+    </div>
+  );
+}
+
+/** Plain-language explanation of why Google Search shows nothing. */
+function SearchDiagnostics({ d }: { d: NonNullable<SiteAnalytics["search"]["diagnostics"]> }) {
+  const lines: string[] = [];
+  if (d.verdict === "unconfigured") {
+    lines.push("No Google Search property is set up for this site yet.");
+  } else if (d.verdict === "property-missing") {
+    lines.push(
+      `The reporting account cannot see ${d.configuredProperty ?? "the configured property"}. It can see: ${
+        d.availableProperties.join(", ") || "no properties at all"
+      }.`,
+    );
+  } else if (d.verdict === "no-permission") {
+    lines.push("The reporting account is not approved to read this property in Google Search Console.");
+  } else if (d.verdict === "request-error") {
+    lines.push("Google Search did not answer the request properly. This is a temporary problem on the connection.");
+  } else {
+    lines.push(
+      `Google confirms the property ${d.configuredProperty ?? ""} and accepts the request, but returns no search rows at all.`,
+    );
+    lines.push("That means Google has recorded no clicks or appearances for this site yet — nothing was deleted.");
+  }
+  return (
+    <div role="status" className="admin-state admin-state-empty items-start">
+      <div>
+        <p className="font-semibold">Why this is empty</p>
+        {lines.map((l) => (
+          <p key={l} className="admin-state-detail">{l}</p>
+        ))}
+        {d.windows.length > 0 && (
+          <p className="admin-state-detail admin-mono">
+            Checked:{" "}
+            {d.windows
+              .map((w) => `${w.days === 480 ? "16 months" : `${w.days} days`} → ${w.rowCount} rows (${w.status})`)
+              .join(" · ")}
+          </p>
+        )}
       </div>
     </div>
   );
