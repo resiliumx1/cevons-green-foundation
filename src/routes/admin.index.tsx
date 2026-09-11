@@ -19,6 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { georgetownLabel } from "@/lib/georgetown";
 import { supabase } from "@/integrations/supabase/client";
+import { SERVICE_PAGES } from "@/lib/servicePages";
 import {
   DocketStrip,
   Panel,
@@ -42,6 +43,12 @@ export const Route = createFileRoute("/admin/")({
 });
 
 const DAY = 24 * 60 * 60 * 1000;
+const SERVICE_LABELS = new Map(SERVICE_PAGES.map((service) => [service.slug, service.label]));
+
+function serviceLabel(value: string | null | undefined): string {
+  if (!value) return "a service";
+  return SERVICE_LABELS.get(value) ?? value.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
 
 /* ── Real queries only. No analytics provider is connected, so anything
       about traffic, visitors, conversion or load time is reported as
@@ -307,7 +314,7 @@ function RecentActivity() {
         ...(requests.data ?? []).map((r) => ({
           id: `r-${r.id}`,
           at: r.created_at as string,
-          text: `${r.name ?? "Someone"} requested ${r.service ?? "a service"}`,
+          text: `${r.name ?? "Someone"} requested ${serviceLabel(r.service)}`,
           meta: `Request ${r.reference ?? ""} · ${r.status}`,
           icon: Truck,
           to: { path: "/admin/leads/$id" as const, id: r.id },
@@ -458,7 +465,7 @@ function LatestRequests() {
                     {r.reference}
                   </Link>
                 </td>
-                <td data-label="Service">{r.service ?? r.category ?? "—"}</td>
+                <td data-label="Service">{serviceLabel(r.service ?? r.category) || "—"}</td>
                 <td data-label="Branch">{r.region ?? "Not stated"}</td>
                 <td data-label="Received" title={georgetownStamp(r.created_at)}>
                   {timeAgo(r.created_at)}

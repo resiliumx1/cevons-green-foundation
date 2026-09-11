@@ -10,6 +10,8 @@ vi.mock("@tanstack/react-router", () => ({
       {children}
     </a>
   ),
+  useRouterState: ({ select }: { select: (state: { location: { pathname: string } }) => string }) =>
+    select({ location: { pathname: "/" } }),
 }));
 
 // Mock the settings context so useT is a simple identity translator.

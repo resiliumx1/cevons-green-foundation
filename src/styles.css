@@ -4010,6 +4010,8 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   padding-bottom: 4px;
 }
 [data-crm-theme] .admin-page-header .admin-display { color: var(--text); font-weight: 800; letter-spacing: 0; }
+[data-crm-theme] .admin-display { font-family: "Inter", system-ui, sans-serif; letter-spacing: 0; }
+[data-crm-theme] .admin-mono { font-family: "Inter", system-ui, sans-serif; letter-spacing: 0; }
 [data-crm-theme] .admin-page-meta {
   color: var(--text-2);
   font-size: 12px;

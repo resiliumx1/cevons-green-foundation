@@ -4,4 +4,4 @@
 - [x] Redesign shell, navigation, command bar, and notifications
 - [x] Rework dashboard hierarchy, cards, real-data sparklines, and activity panels
 - [x] Apply shared table, form, state, and responsive styling across admin routes
-- [ ] Verify desktop/mobile interactions, tests, typecheck, lint, and build
+- [x] Verify desktop/mobile interactions, tests, typecheck, lint, and build
