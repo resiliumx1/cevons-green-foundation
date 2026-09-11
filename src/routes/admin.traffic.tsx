@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
+import { Archive, BarChart3, Globe2, MonitorSmartphone, LineChart, Search, Users } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -562,6 +562,8 @@ function TrafficPage() {
             )}
           </Panel>
         </div>
+
+        <HistoricalSnapshotPanels />
       </div>
     </CrmPage>
   );
