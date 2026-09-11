@@ -304,17 +304,17 @@ function CrmLayout() {
       </div>
       <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(245,197,24,0.35), transparent)" }} />
 
+      {!collapsed && (
+        <div className="admin-brand-panel">
+          <span>Cleaner</span><span aria-hidden>•</span><span>Greener</span><span aria-hidden>•</span><span>Guyana</span>
+        </div>
+      )}
+
       {/* Nav */}
       <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 ${collapsed ? "px-2" : "px-3"}`}>
         {visibleGroups.map((group, gi) => (
           <div key={group.heading} className={gi > 0 ? "mt-5" : ""}>
-        {!collapsed && (
-          <div className="admin-brand-panel">
-            <span>Cleaner</span><span aria-hidden>•</span><span>Greener</span><span aria-hidden>•</span><span>Guyana</span>
-          </div>
-        )}
-
-        {!collapsed && (
+            {!collapsed && (
               <div className="admin-nav-heading px-3 pb-2">{group.heading}</div>
             )}
             {collapsed && gi > 0 && (
@@ -340,7 +340,6 @@ function CrmLayout() {
                       <motion.span
                         layoutId="crm-nav-active"
                         transition={reduce ? { duration: 0 } : { duration: MOTION.base, ease: EASE }}
-                        className="absolute inset-0 rounded-xl -z-0"
                         className="absolute inset-0 rounded-xl -z-0 crm-nav-active-indicator"
                       />
                     )}
