@@ -155,6 +155,60 @@ export type Database = {
         }
         Relationships: []
       }
+      ces_outbox: {
+        Row: {
+          attempts: number
+          created_at: string
+          entity_id: string
+          entity_type: string
+          event_id: string
+          id: string
+          last_error: string | null
+          last_status_code: number | null
+          mode: string
+          next_attempt_at: string
+          payload: Json
+          reference: string | null
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          event_id: string
+          id?: string
+          last_error?: string | null
+          last_status_code?: number | null
+          mode?: string
+          next_attempt_at?: string
+          payload?: Json
+          reference?: string | null
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          event_id?: string
+          id?: string
+          last_error?: string | null
+          last_status_code?: number | null
+          mode?: string
+          next_attempt_at?: string
+          payload?: Json
+          reference?: string | null
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           attachment_url: string | null
