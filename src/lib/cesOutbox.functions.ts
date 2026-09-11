@@ -10,7 +10,13 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type CesQueueStatus = {
-  config: { urlConfigured: boolean; secretConfigured: boolean; host: string | null; ready: boolean };
+  config: {
+    urlConfigured: boolean;
+    secretConfigured: boolean;
+    host: string | null;
+    secureOrigin: boolean;
+    ready: boolean;
+  };
   counts: { pending: number; failed: number; sent: number; dead: number; total: number };
   retained: { serviceRequests: number; contactMessages: number };
   recentFailures: Array<{
