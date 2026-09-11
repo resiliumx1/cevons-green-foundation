@@ -94,25 +94,39 @@ function IntegrationsPage() {
   });
 
   const checkCes = useMutation({
-    mutationFn: () => reconcile({ data: { limit: 200, requeueMissing: false } }),
+    mutationFn: () => reconcile({ data: { maxRows: 5000, requeueMissing: false } }),
     onSuccess: (r) => {
       if (r.error) {
         toast.error(r.error);
         return;
       }
-      toast.success(`Checked ${r.checked}: ${r.matched} confirmed by CES.`);
-      setProgress(
+      const scope = r.complete
+        ? `all ${r.totalQueued} queued requests`
+        : `the first ${r.checked + r.unsent.length} of ${r.totalQueued} queued requests`;
+      toast.success(`Checked ${r.checked} sent of ${scope}: ${r.matched} confirmed by CES.`);
+      const parts: string[] = [`Compared ${scope}.`];
+      parts.push(
         r.missing.length
-          ? `CES is missing ${r.missing.length}: ${r.missing
+          ? `CES is missing ${r.missing.length} already-sent request(s): ${r.missing
               .slice(0, 10)
               .map((m) => m.reference ?? m.externalId)
-              .join(", ")}. Use “Retry failures” or resend to send them again.`
-          : `All ${r.matched} checked requests are present in CES.`,
+              .join(", ")}. Resend those items to deliver them again.`
+          : `All ${r.matched} sent requests are present in CES.`,
       );
+      if (r.unsent.length) {
+        parts.push(
+          `${r.unsent.length} request(s) have never been delivered (${r.unsent
+            .slice(0, 10)
+            .map((m) => `${m.reference ?? m.externalId}: ${m.status}`)
+            .join(", ")}). Use “Send waiting items” or “Retry failures”.`,
+        );
+      }
+      setProgress(parts.join(" "));
       void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
     },
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not check CES."),
   });
+
 
   return (
     <CrmPage>
