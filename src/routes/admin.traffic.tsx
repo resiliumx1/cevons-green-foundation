@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
 import { getSiteAnalytics, type ReportState, type SiteAnalytics } from "@/lib/siteAnalytics.functions";
+import { getHistoricalSnapshot } from "@/lib/historicalSnapshot.functions";
 import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
