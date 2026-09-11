@@ -74,6 +74,39 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_snapshots: {
+        Row: {
+          created_at: string
+          fetched_at: string
+          id: string
+          payload: Json
+          project_id: string
+          requested_end: string
+          requested_start: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          fetched_at: string
+          id?: string
+          payload: Json
+          project_id: string
+          requested_end: string
+          requested_start: string
+          source: string
+        }
+        Update: {
+          created_at?: string
+          fetched_at?: string
+          id?: string
+          payload?: Json
+          project_id?: string
+          requested_end?: string
+          requested_start?: string
+          source?: string
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           action: string
