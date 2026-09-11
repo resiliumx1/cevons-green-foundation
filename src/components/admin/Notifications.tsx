@@ -201,7 +201,7 @@ function ArrivalCard({
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
-      className="relative rounded-xl border shadow-2xl overflow-hidden"
+      className="admin-arrival-card relative border overflow-hidden"
       style={{
         background: "var(--crm-surface)",
         borderColor: "var(--crm-border)",
@@ -312,7 +312,7 @@ export function NotificationsBell() {
       <span aria-live="polite" className="sr-only">{announcement}</span>
       <button
         onClick={() => { setOpen((v) => !v); setArrivals([]); }}
-        className="relative h-9 w-9 grid place-items-center rounded-lg border"
+        className="admin-icon-button relative"
         style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
         aria-label="Notifications"
       >
@@ -391,7 +391,7 @@ export function NotificationsBell() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.16, ease: "easeOut" }}
-              className="fixed top-16 right-4 md:right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-xl border shadow-2xl flex flex-col overflow-hidden"
+               className="admin-notification-drawer fixed top-16 right-4 md:right-6 z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
               style={{
                 background: "var(--crm-surface)",
                 borderColor: "var(--crm-border)",
@@ -414,7 +414,7 @@ export function NotificationsBell() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setShowPrefs((v) => !v)}
-                    className="h-7 w-7 grid place-items-center rounded hover:opacity-80"
+                     className="admin-icon-button admin-icon-button-sm"
                     style={{ color: "var(--crm-text-muted)" }}
                     aria-label="Preferences"
                     title="Notification preferences"
@@ -423,7 +423,7 @@ export function NotificationsBell() {
                   </button>
                   <button
                     onClick={() => setOpen(false)}
-                    className="h-7 w-7 grid place-items-center rounded hover:opacity-80"
+                     className="admin-icon-button admin-icon-button-sm"
                     style={{ color: "var(--crm-text-muted)" }}
                     aria-label="Close"
                   >
@@ -488,10 +488,10 @@ export function NotificationsBell() {
                     <button
                       key={k}
                       onClick={() => setFilter(k)}
-                      className="shrink-0 text-[11px] px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors"
+                      className={`admin-filter-chip shrink-0 whitespace-nowrap ${active ? "is-active" : ""}`}
                       style={{
-                        background: active ? "var(--crm-primary, #c89b3c)" : "transparent",
-                        color: active ? "#1a1a1a" : "var(--crm-text-muted)",
+                        background: active ? "var(--admin-accent-soft)" : "transparent",
+                        color: active ? "var(--admin-orange-strong)" : "var(--crm-text-muted)",
                       }}
                     >
                       {label}

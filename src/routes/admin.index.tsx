@@ -57,7 +57,7 @@ async function fetchDocketData() {
     return q.count ?? 0;
   };
 
-  const [req30, reqPrev, open, msg30, msgPrev, mediaPub] = await Promise.all([
+  const [req30, reqPrev, open, msg30, msgPrev, mediaPub, requestTrendRows, messageTrendRows] = await Promise.all([
     supabase.from("service_requests").select("id", { count: "exact", head: true }).gte("created_at", since30),
     supabase
       .from("service_requests")
@@ -72,7 +72,21 @@ async function fetchDocketData() {
       .gte("created_at", since60)
       .lt("created_at", since30),
     supabase.from("media_posts").select("id", { count: "exact", head: true }).eq("published", true),
+    supabase.from("service_requests").select("created_at").gte("created_at", since30).order("created_at"),
+    supabase.from("contact_messages").select("created_at").gte("created_at", since30).order("created_at"),
   ]);
+
+  if (requestTrendRows.error) throw requestTrendRows.error;
+  if (messageTrendRows.error) throw messageTrendRows.error;
+  const weeklyTrend = (rows: Array<{ created_at: string }>) => {
+    const buckets = Array.from({ length: 8 }, () => 0);
+    for (const row of rows) {
+      const age = Math.max(0, now - new Date(row.created_at).getTime());
+      const index = Math.min(7, Math.floor(age / (DAY * 4)));
+      buckets[7 - index] += 1;
+    }
+    return buckets;
+  };
 
   return {
     requests30: count(req30),
@@ -81,6 +95,8 @@ async function fetchDocketData() {
     messages30: count(msg30),
     messagesPrev30: count(msgPrev),
     mediaPublished: count(mediaPub),
+    requestTrend: weeklyTrend((requestTrendRows.data ?? []) as Array<{ created_at: string }>),
+    messageTrend: weeklyTrend((messageTrendRows.data ?? []) as Array<{ created_at: string }>),
   };
 }
 
@@ -110,12 +126,14 @@ function Dashboard() {
       label: "Requests · 30 days",
       value: d?.requests30,
       ...(d ? delta(d.requests30, d.requestsPrev30, "requests") : {}),
+      trend: d?.requestTrend,
     },
     {
       code: "D-02",
       label: "Messages · 30 days",
       value: d?.messages30,
       ...(d ? delta(d.messages30, d.messagesPrev30, "messages") : {}),
+      trend: d?.messageTrend,
     },
     {
       code: "D-03",
@@ -136,18 +154,19 @@ function Dashboard() {
   return (
     <PullToRefresh onRefresh={refreshAll}>
     <CrmPage className="space-y-5 sm:space-y-6">
-      <header className="space-y-1">
-        <p className="admin-mono truncate" style={{ color: "var(--text-2)" }}>
-          {georgetownStamp(new Date())} · Georgetown, UTC−4
-        </p>
+      <header className="admin-page-header">
+        <div>
         <h1
           className="admin-display text-[24px] sm:text-[30px]"
-          style={{ fontWeight: 800, color: "var(--text)" }}
         >
           Dashboard
         </h1>
-        <p className="text-[13px] sm:text-sm" style={{ color: "var(--text-2)" }}>
-          Everything you can change on cevons.com, in one place. Start with a shortcut below.
+        <p className="text-[13px] sm:text-sm text-[var(--text-2)]">
+          Manage the website, respond to enquiries, and monitor activity.
+        </p>
+        </div>
+        <p className="admin-page-meta truncate">
+          {georgetownStamp(new Date())} · Georgetown
         </p>
       </header>
 
@@ -158,10 +177,6 @@ function Dashboard() {
       ) : (
         <DocketStrip cells={cells} loading={docket.isLoading} />
       )}
-
-      <p className="admin-mono" style={{ color: "var(--text-2)" }}>
-        Website traffic, visitors and conversion are not shown — no analytics provider is connected yet.
-      </p>
 
       <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
         <RecentActivity />

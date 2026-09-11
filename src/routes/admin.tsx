@@ -159,7 +159,7 @@ function CrmRoot() {
 
   if (identity.loading) {
     return (
-      <div className="grid min-h-screen place-items-center bg-slate-950 text-sm text-white/70">
+      <div className="admin-access-screen grid min-h-screen place-items-center text-sm">
         Checking your access…
       </div>
     );
@@ -179,10 +179,10 @@ function CrmRoot() {
 function NoAccessScreen({ email }: { email: string | null }) {
   const navigate = useNavigate();
   return (
-    <div className="grid min-h-screen place-items-center bg-slate-950 px-6 text-center text-white">
+    <div className="admin-access-screen grid min-h-screen place-items-center px-6 text-center">
       <div className="max-w-md space-y-4">
         <h1 className="text-2xl font-semibold">This account has no access yet</h1>
-        <p className="text-sm text-white/70">
+        <p className="text-sm opacity-70">
           {email ? `${email} is signed in, but ` : ""}no role has been assigned to this account. Contact your
           administrator to be granted access to CEVONS Website Admin.
         </p>
@@ -192,7 +192,7 @@ function NoAccessScreen({ email }: { email: string | null }) {
             await signOutAdmin();
             navigate({ to: "/admin/login", replace: true });
           }}
-          className="mx-auto flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20"
+          className="admin-btn-quiet mx-auto"
         >
           <LogOut className="h-4 w-4" />
           Sign out
@@ -293,10 +293,10 @@ function CrmLayout() {
         </div>
         {!collapsed && (
           <div className="leading-tight min-w-0">
-            <div className="admin-display text-[16px] font-extrabold tracking-[0.02em]" style={{ color: "#FFFFFF" }}>
+            <div className="admin-display text-[16px] font-extrabold">
               CEVONS
             </div>
-            <div className="admin-mono mt-0.5" style={{ color: "#FCE722" }}>
+            <div className="admin-brand-subtitle mt-0.5">
               Website Admin
             </div>
           </div>
@@ -308,7 +308,13 @@ function CrmLayout() {
       <nav className={`crm-sidebar-scroll flex-1 overflow-y-auto py-4 ${collapsed ? "px-2" : "px-3"}`}>
         {visibleGroups.map((group, gi) => (
           <div key={group.heading} className={gi > 0 ? "mt-5" : ""}>
-            {!collapsed && (
+        {!collapsed && (
+          <div className="admin-brand-panel">
+            <span>Cleaner</span><span aria-hidden>•</span><span>Greener</span><span aria-hidden>•</span><span>Guyana</span>
+          </div>
+        )}
+
+        {!collapsed && (
               <div className="admin-nav-heading px-3 pb-2">{group.heading}</div>
             )}
             {collapsed && gi > 0 && (
@@ -329,14 +335,13 @@ function CrmLayout() {
                     className={`crm-nav-item group relative flex items-center gap-3 rounded-xl text-[13.5px] ${
                       collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
                     } ${active ? "is-active" : ""}`}
-                    style={{ color: active ? "#1A1A1A" : "#FFFFFF" }}
                   >
                     {active && (
                       <motion.span
                         layoutId="crm-nav-active"
                         transition={reduce ? { duration: 0 } : { duration: MOTION.base, ease: EASE }}
                         className="absolute inset-0 rounded-xl -z-0"
-                        style={{ background: "#EF7700", boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.20)" }}
+                        className="absolute inset-0 rounded-xl -z-0 crm-nav-active-indicator"
                       />
                     )}
 
@@ -446,8 +451,8 @@ function CrmLayout() {
       {/* Phone / tablet drawer — always fully labelled, never icon-only. */}
       {mobileOpen && (
         <>
-          <div
-            className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+            <div
+              className="admin-drawer-backdrop fixed inset-0 z-40 lg:hidden"
             onClick={() => setMobileOpen(false)}
             aria-hidden
           />
@@ -515,7 +520,7 @@ function CrmLayout() {
             <NotificationsBell />
             <Link
               to="/"
-              className="hidden lg:grid h-11 place-items-center rounded-lg border px-3 text-xs font-medium transition-colors hover:opacity-90"
+              className="admin-command-button hidden lg:flex"
               style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               title="Back to website"
             >
@@ -557,7 +562,7 @@ function ProfileMenu() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="flex items-center gap-3 lg:pl-3 lg:ml-1 lg:border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
+          className="admin-profile-button flex items-center gap-3 lg:pl-3 lg:ml-1 lg:border-l rounded-r-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 transition-opacity hover:opacity-90"
           style={{ borderColor: "var(--crm-border)", ["--tw-ring-color" as never]: "var(--crm-primary)" }}
           aria-label="Open account menu"
         >
@@ -565,10 +570,7 @@ function ProfileMenu() {
             <div className="text-sm font-semibold max-w-[180px] truncate" style={{ color: "var(--crm-text)" }}>{label}</div>
             <div className="text-[11px] capitalize" style={{ color: "var(--crm-text-muted)" }}>{roleLabel}</div>
           </div>
-          <div
-            className="h-11 w-11 rounded-full grid place-items-center text-sm font-semibold text-white"
-            style={{ background: "linear-gradient(135deg, var(--crm-primary-bright), var(--crm-primary))" }}
-          >
+          <div className="admin-avatar h-11 w-11 rounded-full grid place-items-center text-sm font-semibold">
             {initial}
           </div>
         </button>

@@ -617,22 +617,20 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
    so individual page files don't need to be rewritten.
    ============================================================ */
 
-/* ── Manifest token layer (dark is the default) ───────────────────────────
-   New Manifest names are the source of truth; the legacy --crm-* variables
-   are aliased onto them so existing admin pages inherit the new system. */
+/* ── CEVONS admin semantic token layer ─────────────────────────────────── */
 [data-crm-theme] {
-  --ink: #060A28;
-  --panel: #0C1240;
-  --panel-2: #111a55;
-  --text: #FFFFFF;
-  --text-2: #B9BFDC;
-  --rule: rgba(255, 255, 255, 0.16);
-  --rule-strong: rgba(255, 255, 255, 0.30);
-  --hover: rgba(255, 255, 255, 0.10);
-  --track: rgba(255, 255, 255, 0.10);
-  --hairline: rgba(255, 255, 255, 0.09);
-  --focus: #FCE722;
-  --emph: #FCE722;
+  --ink: oklch(0.17 0.06 274);
+  --panel: oklch(0.22 0.055 274);
+  --panel-2: oklch(0.26 0.05 274);
+  --text: oklch(0.98 0.008 255);
+  --text-2: oklch(0.76 0.025 270);
+  --rule: color-mix(in oklab, var(--text) 15%, transparent);
+  --rule-strong: color-mix(in oklab, var(--text) 28%, transparent);
+  --hover: color-mix(in oklab, var(--text) 8%, transparent);
+  --track: color-mix(in oklab, var(--text) 10%, transparent);
+  --hairline: color-mix(in oklab, var(--text) 9%, transparent);
+  --focus: oklch(0.72 0.18 54);
+  --emph: oklch(0.78 0.16 74);
   --range-on-bg: #FFFFFF;
   --range-on-fg: #1A1A1A;
   --chip-draft-bg: #33385F;
@@ -648,13 +646,19 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
   --spark-neutral: #1A1A1A;
 
   /* Fixed brand constants — identical in both modes */
-  --admin-navy: #000080;
-  --admin-on-navy: #FFFFFF;
-  --admin-orange: #EF7700;
-  --admin-charcoal: #1A1A1A;
-  --admin-green: #2DA339;
-  --admin-yellow: #FCE722;
-  --admin-red: #D42229;
+  --admin-navy: oklch(0.27 0.15 275);
+  --admin-navy-strong: oklch(0.22 0.14 275);
+  --admin-on-navy: oklch(0.99 0 0);
+  --admin-orange: oklch(0.68 0.18 52);
+  --admin-orange-strong: oklch(0.55 0.17 48);
+  --admin-accent-soft: oklch(0.95 0.045 62);
+  --admin-charcoal: oklch(0.2 0.015 265);
+  --admin-green: oklch(0.62 0.15 145);
+  --admin-yellow: oklch(0.91 0.17 100);
+  --admin-red: oklch(0.56 0.2 28);
+  --admin-radius-card: 16px;
+  --admin-radius-control: 11px;
+  --admin-shadow-card: 0 1px 2px color-mix(in oklab, var(--admin-navy) 7%, transparent), 0 10px 28px color-mix(in oklab, var(--admin-navy) 7%, transparent);
 
   /* Legacy --crm-* mapping */
   --crm-bg: var(--ink);
@@ -681,45 +685,45 @@ html.reduce-motion .hero-slide-settle { animation: none !important; transform: n
 }
 
 [data-crm-theme][data-theme="light"] {
-  --ink: #E9ECF6;
-  --panel: #FFFFFF;
-  --panel-2: #F1F3FA;
-  --text: #12163A;
-  --text-2: #4A4A4A;
-  --rule: rgba(6, 10, 40, 0.16);
-  --rule-strong: rgba(6, 10, 40, 0.34);
-  --hover: rgba(6, 10, 40, 0.07);
-  --track: rgba(6, 10, 40, 0.12);
-  --hairline: rgba(6, 10, 40, 0.11);
-  --focus: #000080;
-  --emph: #8A5200;
+  --ink: oklch(0.965 0.009 255);
+  --panel: oklch(1 0 0);
+  --panel-2: oklch(0.978 0.007 255);
+  --text: oklch(0.24 0.05 274);
+  --text-2: oklch(0.49 0.03 270);
+  --rule: oklch(0.88 0.018 260);
+  --rule-strong: oklch(0.76 0.03 265);
+  --hover: oklch(0.95 0.015 260);
+  --track: oklch(0.92 0.014 260);
+  --hairline: oklch(0.91 0.013 260);
+  --focus: var(--admin-orange-strong);
+  --emph: var(--admin-orange-strong);
   --range-on-bg: #000080;
   --range-on-fg: #FFFFFF;
   --chip-draft-bg: #DFE3F1;
   --chip-draft-fg: #12163A;
   --chip-ended-bg: #E9EBF3;
   --chip-ended-fg: #4A4A4A;
-  --docket-bg: #000080;
-  --docket-fg: #FFFFFF;
-  --docket-muted: #C9CEEA;
-  --docket-tear: rgba(255, 255, 255, 0.38);
-  --docket-up: #7DE08A;
-  --docket-down: #FF8E92;
-  --spark-neutral: #C9CEEA;
-  --crm-card-shadow: 0 10px 30px rgba(6, 10, 40, 0.10);
+  --docket-bg: var(--panel);
+  --docket-fg: var(--text);
+  --docket-muted: var(--text-2);
+  --docket-tear: var(--rule);
+  --docket-up: oklch(0.48 0.14 145);
+  --docket-down: var(--admin-red);
+  --spark-neutral: var(--admin-orange);
+  --crm-card-shadow: var(--admin-shadow-card);
 }
 
 /* Typography utilities for the admin */
-[data-crm-theme] { font-family: "Open Sans", system-ui, sans-serif; }
+[data-crm-theme] { font-family: "Inter", system-ui, sans-serif; letter-spacing: 0; }
 .admin-display {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 .admin-mono {
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  font-family: "Inter", system-ui, sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   font-size: 10.5px;
   font-weight: 500;
 }
@@ -3374,9 +3378,9 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   font-feature-settings: "tnum" 1;
 }
 .admin-mono {
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: "Inter", system-ui, sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   font-size: 10.5px;
   font-weight: 500;
 }
@@ -3461,13 +3465,13 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
   grid-template-columns: repeat(4, minmax(0, 1fr));
   background: var(--docket-bg);
   color: var(--docket-fg);
-  border-radius: 14px;
+  border-radius: var(--admin-radius-card);
   border: 1px solid var(--docket-tear);
   overflow: hidden;
 }
 @media (max-width: 900px) { .docket { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .docket { grid-template-columns: 1fr; } }
-.docket-cell { padding: 16px 18px 18px; min-width: 0; }
+.docket-cell { padding: 18px 20px; min-width: 0; }
 .docket-cell-divided { border-left: 1px dashed var(--docket-tear); }
 @media (max-width: 900px) {
   .docket-cell-divided { border-left: none; }
@@ -3480,6 +3484,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .docket-label { color: var(--docket-muted); }
 .docket-code { color: var(--docket-muted); opacity: 0.9; }
 .docket-figure { margin-top: 10px; font-size: 40px; line-height: 1; font-weight: 800; color: var(--docket-fg); }
+.docket-value-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.admin-metric-sparkline { width: 112px; height: 34px; overflow: visible; color: var(--admin-orange); }
+.admin-metric-sparkline-track, .admin-metric-sparkline-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.admin-metric-sparkline-track { stroke: color-mix(in oklab, currentColor 18%, transparent); stroke-width: 5; }
+.admin-metric-sparkline-line { stroke: currentColor; stroke-width: 2; stroke-dasharray: 180; animation: adminSparkDraw 700ms var(--motion-ease) both; }
+@keyframes adminSparkDraw { from { stroke-dashoffset: 180; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
 .docket-delta { margin-top: 8px; font-size: 12.5px; color: var(--docket-muted); }
 .docket-delta-up { color: var(--docket-up); }
 .docket-delta-down { color: var(--docket-down); }
@@ -3496,16 +3506,17 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .admin-panel {
   background: var(--panel);
   border: 1px solid var(--hairline);
-  border-radius: 14px;
+  border-radius: var(--admin-radius-card);
+  box-shadow: var(--admin-shadow-card);
   overflow: hidden;
 }
 .admin-panel-head {
   display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
-  padding: 14px 18px; border-bottom: 1px solid var(--hairline); background: var(--panel-2);
+  padding: 16px 20px; border-bottom: 1px solid var(--hairline); background: var(--panel);
 }
 .admin-panel-code { color: var(--text-2); }
 .admin-panel-title { margin-top: 2px; font-size: 19px; font-weight: 800; color: var(--text); }
-.admin-panel-body { padding: 18px; color: var(--text); }
+.admin-panel-body { padding: 20px; color: var(--text); }
 .admin-skel { height: 14px; border-radius: 6px; background: var(--track); animation: adminPulse 1.4s ease-in-out infinite; }
 .admin-state { display: flex; gap: 10px; padding: 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
 .admin-state-error { background: color-mix(in srgb, var(--admin-red) 14%, transparent); border: 1px solid color-mix(in srgb, var(--admin-red) 45%, transparent); color: var(--text); }
@@ -3518,10 +3529,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] { color: #5A5A5A !imp
 .admin-table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--text); }
 .admin-table th {
   text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule);
-  font-family: "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase;
-  letter-spacing: 0.14em; font-size: 10.5px; color: var(--text-2); font-weight: 500;
+  font-family: "Inter", system-ui, sans-serif; text-transform: uppercase;
+  letter-spacing: 0; font-size: 11px; color: var(--text-2); font-weight: 700;
 }
-.admin-table td { padding: 12px 10px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.admin-table td { height: 56px; padding: 12px 10px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.admin-table tbody tr { transition: background-color var(--motion-fast) var(--motion-ease); }
+.admin-table tbody tr:hover { background: var(--hover); }
 .admin-table tr:last-child td { border-bottom: none; }
 .admin-link { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
 .admin-link-btn {
