@@ -11,3 +11,9 @@
 - [x] Improve dashboard sparklines with color, area fills, and endpoint emphasis
 - [x] Redesign Traffic ranked bars and daily activity charts
 - [x] Verify desktop/mobile chart presentation, tests, and build
+
+# Admin header and notifications repair
+
+- [x] Diagnose the mobile notification panel collapse
+- [x] Stabilize the header command layout at compact widths
+- [x] Verify notification display and header alignment on desktop/mobile
