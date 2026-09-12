@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 import { getMediaUrl } from "@/lib/mediaUrl";
 import { useImageEditing } from "@/lib/imageEditing";
 
@@ -385,7 +385,7 @@ export function useSiteImageOverrides(preview = false) {
     queryFn: async (): Promise<SiteImageRow[]> => {
       // The column list is chosen at runtime, so the generated select-string
       // types cannot narrow it; the row shape is asserted instead.
-      const { data, error } = await supabase
+      const { data, error } = await (await getSupabase())
         .from("site_images")
         .select(preview ? STAFF_COLUMNS : (PUBLIC_COLUMNS as never));
       if (error) throw error;

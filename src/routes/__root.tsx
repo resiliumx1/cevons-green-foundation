@@ -12,13 +12,16 @@ import { useEffect, type ReactNode } from "react";
 import { captureFirstTouch } from "@/lib/attribution";
 
 import appCss from "../styles.css?url";
+
+/** Origin serving published copy, image slots and promos (public URL, no secret). */
+const BACKEND_ORIGIN = (import.meta.env.VITE_SUPABASE_URL as string | undefined) ?? "";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { NotFoundPage } from "../components/NotFoundPage";
 import { SmoothScrollProvider } from "../components/motion/SmoothScroll";
 import { CurrencyProvider } from "../contexts/CurrencyContext";
 import { SettingsProvider } from "../contexts/SettingsContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
-import { ServiceAssistant } from "../components/chat/ServiceAssistant";
+import { ServiceAssistantLoader } from "../components/chat/ServiceAssistantLoader";
 import { GoogleTag } from "../components/analytics/GoogleTag";
 
 
@@ -98,7 +101,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&family=Open+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" },
+      // Warm the connection used for published copy, image slots and promos.
+      { rel: "preconnect", href: BACKEND_ORIGIN, crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&family=Open+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" },
       // (LCP hero preload lives on the home route so other pages don't pay for it.)
     ],
 
@@ -186,7 +191,7 @@ function RootComponent() {
         <CurrencyProvider>
           <SmoothScrollProvider enabled={!isCrm}>
             <Outlet />
-            {!isCrm && <ServiceAssistant />}
+            {!isCrm && <ServiceAssistantLoader />}
           </SmoothScrollProvider>
         </CurrencyProvider>
       </SettingsProvider>

@@ -1,7 +1,19 @@
 import { createStart, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
-import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+
+/**
+ * Same behaviour as the generated `attachSupabaseAuth` middleware (attach the
+ * signed-in user's bearer token to every server-function call), but the auth
+ * library is imported on demand instead of inside the first script the browser
+ * downloads. That keeps public pages light without changing what is sent.
+ */
+const attachSupabaseAuth = createMiddleware({ type: "function" }).client(async ({ next }) => {
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  return next({ headers: token ? { Authorization: `Bearer ${token}` } : {} });
+});
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {

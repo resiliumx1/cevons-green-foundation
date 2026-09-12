@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 import { PALETTE_STYLES, type Palette } from "@/lib/pageSections";
 
 /**
@@ -42,7 +42,7 @@ export function useLivePromotions(placement: Placement, serviceSlug?: string) {
     queryKey: ["promotions", placement, serviceSlug ?? "*"],
     queryFn: async (): Promise<Promotion[]> => {
       const nowIso = new Date().toISOString();
-      const { data, error } = await supabase
+      const { data, error } = await (await getSupabase())
         .from("promotions")
         .select("*")
         .eq("placement", placement)
@@ -66,7 +66,7 @@ export function useLivePromotions(placement: Placement, serviceSlug?: string) {
 /** Fire-and-forget click count. The function can only touch click_count. */
 export async function recordPromotionClick(id: string) {
   try {
-    await supabase.rpc("increment_promotion_click", { _id: id });
+    await (await getSupabase()).rpc("increment_promotion_click", { _id: id });
   } catch {
     // A missed count must never block the navigation.
   }

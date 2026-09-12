@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 
 /**
  * Single source of truth for turning a `media_posts.image_path` into a
@@ -23,7 +23,7 @@ const cache = new Map<string, CacheEntry>();
 const inflight = new Map<string, Promise<string | null>>();
 
 async function resolve(path: string): Promise<string | null> {
-  const { data, error } = await supabase.storage
+  const { data, error } = await (await getSupabase()).storage
     .from(MEDIA_BUCKET)
     .createSignedUrl(path, SIGNED_URL_TTL);
   if (error || !data?.signedUrl) return null;
