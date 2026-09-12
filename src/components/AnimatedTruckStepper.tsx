@@ -256,7 +256,7 @@ export function AnimatedTruckStepper({
                       )}
                       style={{
                         color: isActive
-                          ? COLORS.charcoal
+                          ? "var(--brand-navy)"
                           : isDone
                           ? COLORS.green
                           : COLORS.muted,
@@ -281,7 +281,7 @@ export function AnimatedTruckStepper({
                     className="text-[10px] leading-tight text-center"
                     style={{
                       color: isActive
-                        ? COLORS.charcoal
+                          ? "var(--brand-navy)"
                         : isDone
                         ? COLORS.green
                         : COLORS.muted,
