@@ -613,6 +613,46 @@ function TrafficPage() {
           )}
         </Panel>
 
+        <Panel title="Request form conversion" code="TRF-05B">
+          {isLoading || analytics.isLoading ? (
+            <PanelSkeleton rows={2} />
+          ) : isError ? (
+            <PanelError what="form submissions" error={error} />
+          ) : (
+            <>
+              <DocketStrip
+                cells={[
+                  {
+                    code: "SES",
+                    label: "Visits",
+                    value: gaOk ? nf.format(ga.data!.totals.sessions) : "—",
+                  },
+                  { code: "REQ", label: "Requests sent", value: nf.format(convRequests) },
+                  {
+                    code: "CVR",
+                    label: "Conversion rate",
+                    value:
+                      gaOk && ga.data!.totals.sessions > 0
+                        ? pct1(convRequests / ga.data!.totals.sessions)
+                        : "—",
+                  },
+                ]}
+              />
+              <p className="admin-note">
+                {gaOk
+                  ? ga.data!.totals.sessions > 0
+                    ? `Of ${nf.format(ga.data!.totals.sessions)} visits in the last ${convWindowDays} days, ${convRequests} ended in a submitted request.`
+                    : `Google Analytics recorded no visits in this period, so a rate can't be worked out yet. ${convRequests} request${convRequests === 1 ? " was" : "s were"} submitted.`
+                  : `${convRequests} request${convRequests === 1 ? "" : "s"} submitted in the last ${convWindowDays} days. Visit figures aren't available, so no rate is shown.`}
+                {days > FORM_DAYS
+                  ? ` Stored request history covers ${FORM_DAYS} days, so this compares the last ${convWindowDays} days only.`
+                  : ""}
+              </p>
+            </>
+          )}
+        </Panel>
+
+
         <Panel
           title="Form submissions over time"
           code="TRF-06"
