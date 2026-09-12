@@ -472,7 +472,7 @@ function RequestServicePage() {
                 <Button
                   onClick={next}
                   disabled={!canContinue}
-                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                  className="h-12 tap-haptic bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
                   <Editable id="request-service.nav.continue" label="Continue button label" as="span">Continue</Editable> <ChevronRight className="size-4 ml-1" />
                 </Button>

@@ -174,8 +174,13 @@ export function AnimatedTruckStepper({
             {/* Track */}
             <div
               ref={trackRef}
-              className="relative mx-auto"
-              style={{ height: 20 }}
+              className="relative mx-auto rounded-full"
+              style={{
+                height: 20,
+                background: "color-mix(in oklab, var(--brand-white) 55%, transparent)",
+                backdropFilter: "blur(6px)",
+                boxShadow: "inset 0 1px 3px rgba(0,0,128,0.08), 0 1px 0 rgba(255,255,255,0.6)",
+              }}
             >
               {/* Future (dotted gray) line */}
               <div
@@ -193,7 +198,7 @@ export function AnimatedTruckStepper({
                 style={{
                   height: 4,
                   background: `linear-gradient(90deg, ${COLORS.green} 0%, ${COLORS.orange} 100%)`,
-                  boxShadow: `0 0 0 1px rgba(249,115,22,0.08)`,
+                  boxShadow: `0 0 10px 1px rgba(239,119,0,0.55), 0 2px 6px rgba(239,119,0,0.35)`,
                 }}
                 initial={false}
                 animate={{ width: filledWidth }}
