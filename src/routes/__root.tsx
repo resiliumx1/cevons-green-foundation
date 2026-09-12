@@ -100,7 +100,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       // Warm the connection used for published copy, image slots and promos.
       ...(import.meta.env.VITE_SUPABASE_URL
-        ? [{ rel: "preconnect", href: import.meta.env.VITE_SUPABASE_URL as string, crossOrigin: "anonymous" }]
+        ? [
+            {
+              rel: "preconnect",
+              href: import.meta.env.VITE_SUPABASE_URL as string,
+              crossOrigin: "anonymous" as const,
+            },
+          ]
         : []),
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&family=Open+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" },
       // (LCP hero preload lives on the home route so other pages don't pay for it.)
