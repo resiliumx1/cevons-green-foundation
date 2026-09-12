@@ -10,7 +10,7 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-industrial.jpg";
 
 const PAGE_TITLE = "Plastic Recycling for Business in Guyana | CEVONS";
-const PAGE_DESC = "CEVONS plastic recycling programs help businesses raise their recycling rate with a partner network offering verified, transparent end destinations for material.";
+const PAGE_DESC = "CEVONS plastic recycling programs help businesses raise their recycling rate with a partner network offering verified, transparent end destinations for material. — serving clients across Guyana.";
 const PAGE_URL = "/services/plastic-recycling";
 
 export const Route = createFileRoute("/services/plastic-recycling")({

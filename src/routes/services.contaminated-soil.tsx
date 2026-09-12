@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-wastewater.jpg";
 import imgRel2 from "@/assets/svc-landfill.jpg";
 
 const PAGE_TITLE = "Contaminated Soil Services in Guyana | CEVONS";
-const PAGE_DESC = "Profiling, secure transport, and compliant disposal of petroleum-impacted and chemically contaminated soils.";
+const PAGE_DESC = "Profiling, secure transport, and compliant disposal of petroleum-impacted and chemically contaminated soils. — serving clients across Guyana.";
 const PAGE_URL = "/services/contaminated-soil";
 
 export const Route = createFileRoute("/services/contaminated-soil")({

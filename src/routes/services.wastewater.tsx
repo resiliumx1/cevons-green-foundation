@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-tank.jpg";
 import imgRel2 from "@/assets/svc-oil.jpg";
 
 const PAGE_TITLE = "Industrial Wastewater Services in Guyana | CEVONS";
-const PAGE_DESC = "Treatment of metals, acids, bases, organics, cyanide, petroleum-contaminated water, latex, paints, and industrial process wastes.";
+const PAGE_DESC = "Treatment of metals, acids, bases, organics, cyanide, petroleum-contaminated water, latex, paints, and industrial process wastes. — serving clients across Guyana.";
 const PAGE_URL = "/services/wastewater";
 
 export const Route = createFileRoute("/services/wastewater")({

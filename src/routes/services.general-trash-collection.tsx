@@ -10,7 +10,7 @@ import imgRel2 from "@/assets/svc-toilet.jpg";
 import wheelieBinAsset from "@/assets/orange-garbage-truck.webp.asset.json";
 
 const PAGE_TITLE = "General Trash Collection in Guyana | CEVONS";
-const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean.";
+const PAGE_DESC = "Reliable household trash collection across Georgetown, Linden, and Berbice — scheduled pickup that keeps your community clean. — serving clients across Guyana.";
 const PAGE_URL = "/services/general-trash-collection";
 
 export const Route = createFileRoute("/services/general-trash-collection")({

@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-destruction.jpg";
 import imgRel2 from "@/assets/svc-shred.jpg";
 
 const PAGE_TITLE = "Biohazardous Waste Disposal in Guyana | CEVONS";
-const PAGE_DESC = "Safe handling, transport, and compliant treatment of biohazardous waste from hospitals, clinics, health centres, and laboratories.";
+const PAGE_DESC = "Safe handling, transport, and compliant treatment of biohazardous waste from hospitals, clinics, health centres, and laboratories. — serving clients across Guyana.";
 const PAGE_URL = "/services/biohazardous-disposal";
 
 export const Route = createFileRoute("/services/biohazardous-disposal")({

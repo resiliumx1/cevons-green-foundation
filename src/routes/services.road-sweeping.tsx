@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-garbage.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
 const PAGE_TITLE = "Road Sweeping Services in Guyana | CEVONS";
-const PAGE_DESC = "Mechanical road sweeper hire for municipalities, business frontages, and event sites — clean streets protect air, water, and public health.";
+const PAGE_DESC = "Mechanical road sweeper hire for municipalities, business frontages, and event sites — clean streets protect air, water, and public health. — serving clients across Guyana.";
 const PAGE_URL = "/services/road-sweeping";
 
 export const Route = createFileRoute("/services/road-sweeping")({

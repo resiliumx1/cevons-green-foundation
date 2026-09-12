@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-skip.jpg";
 import imgRel2 from "@/assets/svc-soil.jpg";
 
 const PAGE_TITLE = "Landfill Operations | CEVONS Guyana";
-const PAGE_DESC = "Operators of Haag Bosch Sanitary Landfill, Esplanade, and De Kora — non-hazardous landfill managed to strict EPA parameters.";
+const PAGE_DESC = "Operators of Haag Bosch Sanitary Landfill, Esplanade, and De Kora — non-hazardous landfill managed to strict EPA parameters. — serving clients across Guyana.";
 const PAGE_URL = "/services/landfill-operations";
 
 export const Route = createFileRoute("/services/landfill-operations")({
