@@ -821,7 +821,7 @@ function AssistBand({ primaryCtaLabel, primaryCtaHref, serviceSlug }: { primaryC
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a
                 href={primaryCtaHref}
-                className="cta-btn-primary"
+                className="cta-btn-primary btn-inviting"
                 onClick={() => trackCtaClick({ label: primaryCtaLabel, placement: "service_assist_band", service: serviceSlug, destination: primaryCtaHref })}
               >
                 <FileText className="size-5" /> {primaryCtaLabel}

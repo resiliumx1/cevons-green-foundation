@@ -335,7 +335,7 @@ function IndustriesPage() {
         title={indCtaTitle}
         subtitle={indCtaSubtitle}
       >
-        <Link to="/request-service" className="cta-btn-primary">
+        <Link to="/request-service" className="cta-btn-primary btn-inviting">
           <Users className="size-5" /> <Editable id="industries.cta.button" label="CTA button label" as="span">Request a Consultation</Editable> <ArrowRight className="size-5" />
         </Link>
         <a
