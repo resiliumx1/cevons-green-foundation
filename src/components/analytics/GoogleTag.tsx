@@ -35,10 +35,20 @@ function ensureTagInitialized() {
   window.gtag("js", new Date());
   window.gtag("config", MEASUREMENT_ID, { send_page_view: true });
 
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
-  document.head.appendChild(script);
+  // The commands above are already queued on dataLayer, so the loader itself
+  // can wait for an idle moment — it never competes with first paint.
+  const inject = () => {
+    if (document.querySelector(`script[src*="gtag/js?id=${MEASUREMENT_ID}"]`)) return;
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+  };
+
+  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void })
+    .requestIdleCallback;
+  if (typeof ric === "function") ric(inject, { timeout: 4000 });
+  else window.setTimeout(inject, 1500);
 }
 
 declare global {

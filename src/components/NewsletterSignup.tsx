@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Mail, Loader2, CheckCircle2, AlertCircle, Lock } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 
 type Variant = "footer" | "section" | "card";
 
@@ -18,7 +18,7 @@ export async function subscribeEmail(email: string, source: string) {
   if (!value || value.length > 320 || !EMAIL_RE.test(value)) {
     return { ok: false as const, error: "Please enter a valid email address." };
   }
-  const { error } = await (supabase as any)
+  const { error } = await ((await getSupabase()) as any)
     .from("newsletter_subscribers")
     .insert({ email: value, source, consent: true });
   if (error) {

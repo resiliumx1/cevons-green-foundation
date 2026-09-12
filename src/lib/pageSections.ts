@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 
 /**
  * Structured page sections.
@@ -273,7 +273,7 @@ export function usePublishedSections(page: string) {
   return useQuery({
     queryKey: ["page_sections", page],
     queryFn: async (): Promise<PageSection[]> => {
-      const { data, error } = await supabase
+      const { data, error } = await (await getSupabase())
         .from("page_sections")
         .select("id, page, kind, position, payload, published, updated_at, updated_by")
         .eq("page", page)
