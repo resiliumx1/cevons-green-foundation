@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-skip.jpg";
 
 const PAGE_TITLE = "Material Recovery Facility (MRF) | CEVONS Guyana";
-const PAGE_DESC = "The sorting engine behind CEVONS's commercial recycling — cardboard, paper, plastics, and metals returned to productive use.";
+const PAGE_DESC = "The sorting engine behind CEVONS's commercial recycling — cardboard, paper, plastics, and metals returned to productive use. — serving clients across Guyana.";
 const PAGE_URL = "/services/material-recovery-facility";
 
 export const Route = createFileRoute("/services/material-recovery-facility")({

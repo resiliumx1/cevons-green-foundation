@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-hazardous.jpg";
 import imgRel2 from "@/assets/svc-oil.jpg";
 
 const PAGE_TITLE = "Used Waste Oil Collection in Guyana | CEVONS";
-const PAGE_DESC = "Collection of used engine, transmission, and hydraulic oils, plus used oil filter recycling for garages, dealerships, and industry.";
+const PAGE_DESC = "Collection of used engine, transmission, and hydraulic oils, plus used oil filter recycling for garages, dealerships, and industry. — serving clients across Guyana.";
 const PAGE_URL = "/services/used-waste-oil";
 
 export const Route = createFileRoute("/services/used-waste-oil")({

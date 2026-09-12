@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-commercial.jpg";
 import imgRel2 from "@/assets/svc-recovery.jpg";
 
 const PAGE_TITLE = "Commercial Compactor Rental in Guyana | CEVONS";
-const PAGE_DESC = "Stationary waste compactors for high-volume sites — supplied, serviced, and emptied under one CEVONS program.";
+const PAGE_DESC = "Stationary waste compactors for high-volume sites — supplied, serviced, and emptied under one CEVONS program. — serving clients across Guyana.";
 const PAGE_URL = "/services/compactor-rental";
 
 export const Route = createFileRoute("/services/compactor-rental")({

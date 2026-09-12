@@ -9,7 +9,7 @@ import imgRel1 from "@/assets/svc-wastewater.jpg";
 import imgRel2 from "@/assets/svc-hazardous.jpg";
 
 const PAGE_TITLE = "Industrial Tank Cleaning in Guyana | CEVONS";
-const PAGE_DESC = "Professional tank cleaning — inspection, high-pressure washing, and final rinse — delivered safe, compliant, and certified.";
+const PAGE_DESC = "Professional tank cleaning — inspection, high-pressure washing, and final rinse — delivered safe, compliant, and certified. — serving clients across Guyana.";
 const PAGE_URL = "/services/tank-cleaning";
 
 export const Route = createFileRoute("/services/tank-cleaning")({
