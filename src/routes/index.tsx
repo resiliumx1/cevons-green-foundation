@@ -80,7 +80,7 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: absUrl("/") },
       // Warm the first slideshow frame (LCP) before JS hydrates the carousel.
-      { rel: "preload", as: "image", href: heroSlide1Asset.url, type: "image/webp", fetchpriority: "high" },
+      { rel: "preload", as: "image", href: heroSlide1Asset.url, type: "image/webp", fetchPriority: "high" },
     ],
 
     scripts: [
