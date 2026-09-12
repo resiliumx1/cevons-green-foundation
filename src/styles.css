@@ -315,6 +315,100 @@
   }
 }
 
+/* ===== Inviting primary CTA — idle pulse, glow, shine sweep, haptic press =====
+   Layered on top of btn-green / cta-btn-primary for "Request a Service" entry
+   points. All motion respects prefers-reduced-motion. */
+@keyframes cta-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 18px -6px rgba(239, 119, 0, 0.45);
+  }
+  50% {
+    transform: scale(1.025);
+    box-shadow: 0 12px 28px -6px rgba(239, 119, 0, 0.6);
+  }
+}
+@keyframes cta-shine-sweep {
+  0% { transform: translateX(-130%) skewX(-18deg); }
+  45%, 100% { transform: translateX(230%) skewX(-18deg); }
+}
+@utility btn-inviting {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: cta-pulse 3s ease-in-out infinite;
+  box-shadow: 0 6px 18px -6px rgba(239, 119, 0, 0.45);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      transparent 80%
+    );
+    transform: translateX(-130%) skewX(-18deg);
+    animation: cta-shine-sweep 3.6s ease-in-out infinite;
+  }
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+  &:active {
+    animation-play-state: paused;
+    transform: scale(0.96);
+    transition: transform 0.08s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-inviting,
+  .btn-inviting::after {
+    animation: none !important;
+  }
+  .btn-inviting:active {
+    transform: none;
+  }
+}
+
+/* Haptic tap feedback for selectable tiles/cards. */
+@utility tap-haptic {
+  transition:
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  &:active {
+    transform: scale(0.965);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tap-haptic:active {
+    transform: none;
+  }
+}
+
+/* Wizard selection tiles — glassy unselected surface, premium navy-tinted
+   shadow; the 3D Cevons icons keep their fixed light icon-tile surface. */
+@utility wizard-tile {
+  background: color-mix(in oklab, var(--brand-white) 78%, transparent);
+  backdrop-filter: blur(10px) saturate(130%);
+  border: 1.5px solid color-mix(in oklab, var(--brand-navy) 12%, transparent);
+  box-shadow: 0 8px 22px -14px rgba(0, 0, 128, 0.28);
+}
+.wizard-tile:hover {
+  border-color: color-mix(in oklab, var(--brand-orange) 55%, transparent);
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 128, 0.35);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wizard-tile:hover {
+    transform: none;
+  }
+}
+
 /* ===== CTA banner buttons (used inside <OrangeCTABanner>) =====
    Primary: charcoal fill, white text = 15:1. WhatsApp: green fill,
    charcoal text = 5.1:1. Both premium: h-12, generous padding,
