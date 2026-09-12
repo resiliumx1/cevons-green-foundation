@@ -53,7 +53,7 @@ import { useT } from "@/contexts/SettingsContext";
 
 
 
-import { localBusinessGraphJsonLd } from "@/lib/seo/jsonLd";
+import { localBusinessGraphJsonLd, websiteJsonLd, siteNavigationJsonLd } from "@/lib/seo/jsonLd";
 
 export const Route = createFileRoute("/")({
   // `?preview=<token>` is the staff draft-preview switch. The token itself is
@@ -85,6 +85,8 @@ export const Route = createFileRoute("/")({
 
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(localBusinessGraphJsonLd()) },
+      { type: "application/ld+json", children: JSON.stringify(websiteJsonLd()) },
+      { type: "application/ld+json", children: JSON.stringify(siteNavigationJsonLd()) },
     ],
   }),
   component: HomePage,

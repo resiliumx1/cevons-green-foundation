@@ -88,6 +88,55 @@ export function localBusinessGraphJsonLd() {
   };
 }
 
+/**
+ * WebSite node for the homepage. Helps search engines associate the site name
+ * with the domain.
+ */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: cevonsContact.companyName,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "en",
+  };
+}
+
+/**
+ * Primary navigation destinations, in the order we want search engines to
+ * consider them for sitelinks. "Request a Service" leads deliberately.
+ */
+export const PRIMARY_NAV: { name: string; path: string; description: string }[] = [
+  { name: "Request a Service", path: "/request-service", description: "Book waste collection, skip bins, septic and recycling services online." },
+  { name: "Services", path: "/services", description: "Residential, commercial, industrial and facilities waste services." },
+  { name: "Locations", path: "/locations", description: "Georgetown, Linden and Berbice branches and service areas." },
+  { name: "Septic Services", path: "/services/septic-services", description: "Septic tank emptying and maintenance across Guyana." },
+  { name: "Industries", path: "/industries", description: "Sectors CEVONS serves across Guyana." },
+  { name: "Careers", path: "/careers", description: "Open roles at CEVONS Environmental Services." },
+  { name: "About", path: "/about", description: "Who we are and how we work." },
+  { name: "Resources & Insights", path: "/resources", description: "Guides, downloads and useful waste management information." },
+  { name: "Contact", path: "/contact", description: "Phone, WhatsApp and email — talk to the team." },
+];
+
+export function siteNavigationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${SITE_URL}/#site-navigation`,
+    name: "CEVONS site navigation",
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: PRIMARY_NAV.map((item, i) => ({
+      "@type": "SiteNavigationElement",
+      position: i + 1,
+      name: item.name,
+      description: item.description,
+      url: `${SITE_URL}${item.path}`,
+    })),
+  };
+}
+
 export function serviceJsonLd(opts: {
   name: string;
   description: string;

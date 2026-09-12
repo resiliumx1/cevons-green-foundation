@@ -39,6 +39,8 @@ export const Route = createFileRoute("/request-service/")({
       { name: "description", content: "Request waste management, recycling or environmental services from CEVONS across Georgetown, Linden, and Berbice." },
       { property: "og:title", content: "Request a Service | CEVONS Guyana" },
       { property: "og:description", content: "Tell us what you need and we'll take care of the rest." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: absUrl("/request-service") },
     ],
     links: [{ rel: "canonical", href: absUrl("/request-service") }],
