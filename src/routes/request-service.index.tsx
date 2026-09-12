@@ -427,7 +427,7 @@ function RequestServicePage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -16 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="mt-5 rounded-2xl border border-border bg-card shadow-sm p-5 md:p-6"
+              className="mt-5 rounded-3xl border border-[color-mix(in_oklab,var(--brand-navy)_10%,transparent)] bg-card p-5 md:p-7 shadow-[0_24px_50px_-24px_rgba(0,0,128,0.35)]"
             >
             {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
             {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
@@ -481,7 +481,7 @@ function RequestServicePage() {
                 <Button
                   onClick={submit}
                   disabled={!data.confirm || submitting}
-                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                  className="h-12 btn-inviting bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
                   {submitting ? "Submitting…" : <Editable id="request-service.nav.submit" label="Submit button label" as="span">Submit Request</Editable>}
                 </Button>

@@ -375,7 +375,7 @@ export function Header() {
         <div className="hidden lg:flex items-center gap-2 shrink-0">
           <SiteSearch />
           <SettingsMenu />
-          <a href="/request-service" className="btn-base btn-green btn-shine group/sched text-[13.5px] px-4 py-2.5 shrink-0">
+          <a href="/request-service" className="btn-base btn-green btn-inviting group/sched text-[13.5px] px-4 py-2.5 shrink-0">
             <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
             {t("nav.schedule")}
           </a>
@@ -573,7 +573,7 @@ export function Header() {
             <div className="my-4 border-t border-cevons-border" />
 
             <div className="flex flex-col gap-3 px-1">
-              <a href="/request-service" className="btn-base btn-green btn-shine group/sched w-full">
+              <a href="/request-service" className="btn-base btn-green btn-inviting group/sched w-full">
                 <Calendar className="size-4 transition-transform duration-300 group-hover/sched:-rotate-6 group-hover/sched:scale-110" />
                 {t("nav.scheduleService")}
               </a>
