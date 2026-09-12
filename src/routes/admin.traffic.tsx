@@ -401,7 +401,6 @@ function TrafficPage() {
   const convWindowDays = Math.min(days, FORM_DAYS);
   const convSince = Date.now() - convWindowDays * 86_400_000;
   const convRequests = (rows ?? []).filter((r) => new Date(r.created_at).getTime() >= convSince).length;
-  const gaComparable = !!(gaOk && days <= FORM_DAYS);
 
   // Query strings and ad click ids stay stored on each request for
   // attribution; this summary groups them by page path only.
@@ -412,6 +411,7 @@ function TrafficPage() {
   const gsc = analytics.data?.search;
   const gaOk = ga?.state === "ok" && ga.data;
   const gscOk = gsc?.state === "ok" && gsc.data;
+  const gaComparable = !!(gaOk && days <= FORM_DAYS);
 
   return (
     <CrmPage>
