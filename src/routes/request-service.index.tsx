@@ -321,6 +321,14 @@ function RequestServicePage() {
       const ref = fnRes.reference;
       trackWizardStep({ stepIndex: STEPS.length - 1, stepName: STEPS[STEPS.length - 1], method: "submit", service: data.service, category: data.category });
       trackEvent("service_request_submitted", { service: data.service || null, category: data.category || null, reference: ref });
+      // GA4 recommended conversion event — mark this as a Key event in GA4 to
+      // report the request-form conversion rate.
+      trackEvent("generate_lead", {
+        form: "request_service_wizard",
+        service: data.service || null,
+        category: data.category || null,
+        region: regionValue,
+      });
 
       // Persist summary for the confirmation page (refresh-safe via sessionStorage).
       if (typeof window !== "undefined") {
