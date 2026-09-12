@@ -530,7 +530,7 @@ function ServicesPageInner() {
         title={notSureTitle}
         subtitle={notSureSubtitle}
       >
-        <Link to="/request-service" className="cta-btn-primary">
+        <Link to="/request-service" className="cta-btn-primary btn-inviting">
           <ClipboardList className="size-5" /> <Editable id="services.cta.button1" label="CTA button 1 label" as="span">Request a Service</Editable>
         </Link>
         <a

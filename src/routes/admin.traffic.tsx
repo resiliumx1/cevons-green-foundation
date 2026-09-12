@@ -395,6 +395,13 @@ function TrafficPage() {
 
   const total = byDay.reduce((a, [, n]) => a + n, 0);
 
+  // Conversion: requests inside the selected reporting window, compared with
+  // Google Analytics sessions for the same window. Stored request rows only go
+  // back FORM_DAYS, so longer windows are labelled as partial rather than wrong.
+  const convWindowDays = Math.min(days, FORM_DAYS);
+  const convSince = Date.now() - convWindowDays * 86_400_000;
+  const convRequests = (rows ?? []).filter((r) => new Date(r.created_at).getTime() >= convSince).length;
+
   // Query strings and ad click ids stay stored on each request for
   // attribution; this summary groups them by page path only.
   const landing = rows ? tally(rows, (r) => landingPathname(r.landing_page)) : [];
@@ -404,6 +411,7 @@ function TrafficPage() {
   const gsc = analytics.data?.search;
   const gaOk = ga?.state === "ok" && ga.data;
   const gscOk = gsc?.state === "ok" && gsc.data;
+  const gaComparable = !!(gaOk && days <= FORM_DAYS);
 
   return (
     <CrmPage>
@@ -605,6 +613,46 @@ function TrafficPage() {
             </ul>
           )}
         </Panel>
+
+        <Panel title="Request form conversion" code="TRF-05B">
+          {isLoading || analytics.isLoading ? (
+            <PanelSkeleton rows={2} />
+          ) : isError ? (
+            <PanelError what="form submissions" error={error} />
+          ) : (
+            <>
+              <DocketStrip
+                cells={[
+                  {
+                    code: "SES",
+                    label: "Visits",
+                    value: gaComparable ? nf.format(ga.data!.totals.sessions) : "—",
+                  },
+                  { code: "REQ", label: "Requests sent", value: nf.format(convRequests) },
+                  {
+                    code: "CVR",
+                    label: "Conversion rate",
+                    value:
+                      gaComparable && ga.data!.totals.sessions > 0
+                        ? pct1(convRequests / ga.data!.totals.sessions)
+                        : "—",
+                  },
+                ]}
+              />
+              <p className="admin-note">
+                {gaComparable
+                  ? ga.data!.totals.sessions > 0
+                    ? `Of ${nf.format(ga.data!.totals.sessions)} visits in the last ${convWindowDays} days, ${convRequests} ended in a submitted request.`
+                    : `Google Analytics recorded no visits in this period, so a rate can't be worked out yet. ${convRequests} request${convRequests === 1 ? " was" : "s were"} submitted.`
+                  : `${convRequests} request${convRequests === 1 ? "" : "s"} submitted in the last ${convWindowDays} days. Visit figures aren't available, so no rate is shown.`}
+                {days > FORM_DAYS
+                  ? ` Stored request history covers ${FORM_DAYS} days, so this compares the last ${convWindowDays} days only.`
+                  : ""}
+              </p>
+            </>
+          )}
+        </Panel>
+
 
         <Panel
           title="Form submissions over time"

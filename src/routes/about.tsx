@@ -401,7 +401,7 @@ function AboutPageInner() {
         title={ctaTitle}
         subtitle={ctaSubtitle}
       >
-        <Link to="/request-service" className="cta-btn-primary">
+        <Link to="/request-service" className="cta-btn-primary btn-inviting">
           <Editable id="about.cta.button1" label="CTA button 1 label" as="span">Request Service</Editable> <ArrowRight className="size-5" />
         </Link>
         <a

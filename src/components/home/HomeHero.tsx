@@ -151,7 +151,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
                 <span className="hero-cta__sub">{t("home.hero.ctaWhatsappSub")}</span>
               </span>
             </a>
-            <a href="/request-service" className="hero-cta hero-cta--schedule hero-cta--stacked group">
+            <a href="/request-service" className="hero-cta hero-cta--schedule hero-cta--stacked btn-inviting group">
               <Calendar className="size-5 shrink-0 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
               <span className="hero-cta__text">
                 <span className="hero-cta__label">{c("ctaSecondaryLabel", t("home.hero.ctaScheduleLabel"))}</span>

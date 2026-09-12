@@ -320,7 +320,7 @@ function LocationsPage() {
         title={locCtaTitle}
         subtitle={locCtaSubtitle}
       >
-        <Link to="/request-service" className="cta-btn-primary">
+        <Link to="/request-service" className="cta-btn-primary btn-inviting">
           <Editable id="locations.cta.button" label="CTA button label" as="span">Request Service</Editable> <ArrowRight className="w-5 h-5" />
         </Link>
         <a

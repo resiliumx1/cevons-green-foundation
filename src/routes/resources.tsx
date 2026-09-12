@@ -319,7 +319,7 @@ function ResourcesPage() {
         title={resCtaTitle}
         subtitle={resCtaSubtitle}
       >
-        <Link to="/request-service" className="cta-btn-primary">
+        <Link to="/request-service" className="cta-btn-primary btn-inviting">
           <Editable id="resources.cta.button" label="CTA button label" as="span">Request Service</Editable> <ArrowRight className="size-5" />
         </Link>
         <a
