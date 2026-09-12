@@ -427,7 +427,7 @@ function RequestServicePage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -16 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="mt-5 rounded-2xl border border-border bg-card shadow-sm p-5 md:p-6"
+              className="mt-5 rounded-3xl border border-[color-mix(in_oklab,var(--brand-navy)_10%,transparent)] bg-card p-5 md:p-7 shadow-[0_24px_50px_-24px_rgba(0,0,128,0.35)]"
             >
             {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
             {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
@@ -472,7 +472,7 @@ function RequestServicePage() {
                 <Button
                   onClick={next}
                   disabled={!canContinue}
-                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                  className="h-12 tap-haptic bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
                   <Editable id="request-service.nav.continue" label="Continue button label" as="span">Continue</Editable> <ChevronRight className="size-4 ml-1" />
                 </Button>
@@ -481,7 +481,7 @@ function RequestServicePage() {
                 <Button
                   onClick={submit}
                   disabled={!data.confirm || submitting}
-                  className="h-12 bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
+                  className="h-12 btn-inviting bg-[var(--brand-orange)] text-white hover:bg-[var(--brand-orange-dark)] font-semibold disabled:opacity-50"
                 >
                   {submitting ? "Submitting…" : <Editable id="request-service.nav.submit" label="Submit button label" as="span">Submit Request</Editable>}
                 </Button>
@@ -536,10 +536,10 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
               type="button"
               onClick={() => { setData({ ...data, category: c.key, service: null, details: {} }); onAdvance(); }}
               className={cn(
-                "text-left rounded-2xl border-2 p-4 transition-all bg-card group flex items-center gap-4",
+                "text-left rounded-2xl p-4 group flex items-center gap-4 tap-haptic",
                 active
-                  ? "border-[var(--brand-orange)] bg-[var(--brand-orange)]/5 shadow-md"
-                  : "border-border hover:border-[var(--brand-orange)]/60 hover:-translate-y-0.5 hover:shadow-md",
+                  ? "border-2 border-[var(--brand-navy)] bg-[color-mix(in_oklab,var(--brand-navy)_6%,var(--brand-white))] shadow-[0_16px_34px_-16px_rgba(0,0,128,0.45)]"
+                  : "wizard-tile",
               )}
             >
               <div
@@ -553,10 +553,10 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
                 <CevonsIcon group="categories" name={c.iconKey} fill decorative />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-bold">{c.name}</div>
-                <div className="text-sm text-muted-foreground mt-0.5">{c.desc}</div>
+                <div className={cn("text-base font-bold tracking-tight", active ? "text-[var(--brand-navy)]" : "text-[var(--text-heading)]")}>{c.name}</div>
+                <div className={cn("text-sm mt-0.5", active ? "text-[var(--text-body)]" : "text-muted-foreground")}>{c.desc}</div>
               </div>
-              {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" />}
+              {active && <Check className="size-5 shrink-0 text-[var(--brand-orange)]" strokeWidth={3} />}
             </button>
           );
         })}
@@ -585,10 +585,10 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
               type="button"
               onClick={() => { setData({ ...data, service: s.key, details: {} }); onAdvance(); }}
               className={cn(
-                "text-left rounded-xl border-2 p-3 transition-all bg-card group flex items-center gap-3",
+                "text-left rounded-xl p-3 group flex items-center gap-3 tap-haptic",
                 active
-                  ? "border-[var(--brand-orange)] bg-[var(--brand-orange)]/5 shadow-md"
-                  : "border-border hover:border-[var(--brand-orange)]/60 hover:-translate-y-0.5 hover:shadow-md",
+                  ? "border-2 border-[var(--brand-navy)] bg-[color-mix(in_oklab,var(--brand-navy)_6%,var(--brand-white))] shadow-[0_14px_30px_-14px_rgba(0,0,128,0.45)]"
+                  : "wizard-tile",
               )}
             >
               <div
@@ -602,8 +602,8 @@ function StepService({ data, setData, error, onAdvance }: { data: FormData; setD
                 <CevonsIcon group="services" name={s.iconKey} fill decorative />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-sm leading-snug">{s.name}</div>
-                <div className="text-xs text-muted-foreground mt-0.5 leading-snug">{s.desc}</div>
+                <div className={cn("font-semibold text-sm leading-snug", active ? "text-[var(--brand-navy)]" : "text-[var(--text-heading)]")}>{s.name}</div>
+                <div className={cn("text-xs mt-0.5 leading-snug", active ? "text-[var(--text-body)]" : "text-muted-foreground")}>{s.desc}</div>
                 {specialist && (
                   <span
                     className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"

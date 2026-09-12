@@ -243,7 +243,7 @@ function HardcodedHome() {
           title={t("home.cta.title")}
           subtitle={t("home.cta.lead")}
         >
-          <a href="/request-service" className="cta-btn-primary">
+          <a href="/request-service" className="cta-btn-primary btn-inviting">
             {t("home.cta.quote")} <ArrowRight className="size-5" />
           </a>
           <a href="/contact" className="cta-btn-wa">
