@@ -401,6 +401,7 @@ function TrafficPage() {
   const convWindowDays = Math.min(days, FORM_DAYS);
   const convSince = Date.now() - convWindowDays * 86_400_000;
   const convRequests = (rows ?? []).filter((r) => new Date(r.created_at).getTime() >= convSince).length;
+  const gaComparable = !!(gaOk && days <= FORM_DAYS);
 
   // Query strings and ad click ids stay stored on each request for
   // attribution; this summary groups them by page path only.
@@ -625,21 +626,21 @@ function TrafficPage() {
                   {
                     code: "SES",
                     label: "Visits",
-                    value: gaOk ? nf.format(ga.data!.totals.sessions) : "—",
+                    value: gaComparable ? nf.format(ga.data!.totals.sessions) : "—",
                   },
                   { code: "REQ", label: "Requests sent", value: nf.format(convRequests) },
                   {
                     code: "CVR",
                     label: "Conversion rate",
                     value:
-                      gaOk && ga.data!.totals.sessions > 0
+                      gaComparable && ga.data!.totals.sessions > 0
                         ? pct1(convRequests / ga.data!.totals.sessions)
                         : "—",
                   },
                 ]}
               />
               <p className="admin-note">
-                {gaOk
+                {gaComparable
                   ? ga.data!.totals.sessions > 0
                     ? `Of ${nf.format(ga.data!.totals.sessions)} visits in the last ${convWindowDays} days, ${convRequests} ended in a submitted request.`
                     : `Google Analytics recorded no visits in this period, so a rate can't be worked out yet. ${convRequests} request${convRequests === 1 ? " was" : "s were"} submitted.`
