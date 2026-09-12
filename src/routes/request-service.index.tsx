@@ -164,6 +164,13 @@ function RequestServicePage() {
   const latestRef = useRef({ step: 0, data: EMPTY });
   latestRef.current = { step, data };
 
+  // Conversion funnel: one "form view" per visit to the wizard. Paired with the
+  // `generate_lead` event on submit, this gives the view → submit rate in GA4.
+  useEffect(() => {
+    trackEvent("request_form_view", { form: "request_service_wizard" });
+  }, []);
+
+
   // Preselect from ?service=<slug>
   useEffect(() => {
     if (typeof window === "undefined") return;
