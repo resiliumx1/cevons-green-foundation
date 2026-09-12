@@ -38,7 +38,7 @@ No rebuild. Verification only:
 
 ## 5. The report for you
 
-A single document you can hand to Claude, saved as a file you can download, covering:
+A single document you can hand to Claude, saved as a file you can download. It spans from when the site went live on cevons.com to today — not from the first public publish. It covers:
 
 - **Search visibility work** — every page given its own title, description and share preview; structured data for services, FAQs and navigation; Request a Service promoted in search; sitemap and crawlability; the new Guyana location signals.
 - **Security work** — locked-down data access rules, moving submissions behind secure server endpoints, removal of unrestricted writes, vulnerable package updates, and protection of draft/unpublished content.
