@@ -121,6 +121,7 @@ export function Footer() {
   ].map((k) => ({ label: t(`footer.industriesList.${k}`), to: "/industries" }));
 
   const companyList: FooterLink[] = [
+    { label: "Request a Service", to: "/request-service" },
     { label: t("footer.companyList.about"), to: "/about" },
     { label: t("footer.companyList.story"), to: "/about" },
     { label: t("footer.companyList.careers"), to: "/careers" },
