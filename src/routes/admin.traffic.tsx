@@ -395,6 +395,13 @@ function TrafficPage() {
 
   const total = byDay.reduce((a, [, n]) => a + n, 0);
 
+  // Conversion: requests inside the selected reporting window, compared with
+  // Google Analytics sessions for the same window. Stored request rows only go
+  // back FORM_DAYS, so longer windows are labelled as partial rather than wrong.
+  const convWindowDays = Math.min(days, FORM_DAYS);
+  const convSince = Date.now() - convWindowDays * 86_400_000;
+  const convRequests = (rows ?? []).filter((r) => new Date(r.created_at).getTime() >= convSince).length;
+
   // Query strings and ad click ids stay stored on each request for
   // attribution; this summary groups them by page path only.
   const landing = rows ? tally(rows, (r) => landingPathname(r.landing_page)) : [];
