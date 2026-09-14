@@ -45,7 +45,7 @@ const SocialProofStrip = lazy(() => import("@/components/SocialProofStrip"));
 
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
-import { HERO_SLIDE_1_SRC } from "@/components/home/HeroSlideshow";
+import { HERO_SLIDE_1_SRC, HERO_SLIDE_1_SRCSET, HERO_SLIDE_1_SIZES } from "@/components/home/HeroSlideshow";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
@@ -87,7 +87,17 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: absUrl("/") },
       // Warm the first slideshow frame (LCP) before JS hydrates the carousel.
-      { rel: "preload", as: "image", href: HERO_SLIDE_1_SRC, type: "image/webp", fetchPriority: "high" },
+      // Size-aware: the browser picks the same candidate the <img> will pick,
+      // so phones fetch the 640w file and desktops the 1920w — never both.
+      {
+        rel: "preload",
+        as: "image",
+        href: HERO_SLIDE_1_SRC,
+        imageSrcSet: HERO_SLIDE_1_SRCSET,
+        imageSizes: HERO_SLIDE_1_SIZES,
+        type: "image/webp",
+        fetchPriority: "high",
+      },
       // Only the two faces used above the fold: the hero headline (Playfair)
       // and body copy (Open Sans). Other weights load on demand.
       { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/playfair-display-var.woff2", crossOrigin: "anonymous" },
