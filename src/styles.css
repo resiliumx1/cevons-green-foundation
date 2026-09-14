@@ -338,7 +338,32 @@
   isolation: isolate;
   animation: cta-pulse 3s ease-in-out infinite;
   will-change: transform;
-  box-shadow: 0 6px 18px -6px rgba(239, 119, 0, 0.45);
+  /* Glass depth: crisp top light-line, soft inner floor shadow, warm cast.
+     Colour and size are unchanged — this only adds layered gloss. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.16),
+    0 8px 22px -8px rgba(239, 119, 0, 0.5);
+  /* Top gloss sheet — the glass highlight that sits over the fill. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 55% 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0)
+    );
+  }
+  &:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.18),
+      0 14px 30px -10px rgba(239, 119, 0, 0.58);
+  }
   &::after {
     content: "";
     position: absolute;
