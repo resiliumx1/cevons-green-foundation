@@ -86,6 +86,12 @@ export const Route = createFileRoute("/admin")({
     ],
   }),
 
+  // Never hold the old section on screen: show the pending state immediately,
+  // and keep it up long enough not to flicker.
+  pendingMs: 0,
+  pendingMinMs: 200,
+  pendingComponent: AdminSectionSkeleton,
+
   component: CrmRoot,
 });
 

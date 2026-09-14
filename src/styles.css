@@ -6058,3 +6058,16 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
     font-size: 13.5px;
   }
 }
+
+/* Admin section placeholder: composited opacity pulse only. */
+@keyframes admin-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.admin-skeleton-block {
+  animation: admin-skeleton-pulse 1.4s ease-in-out infinite;
+  will-change: opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-skeleton-block { animation: none; }
+}
