@@ -45,8 +45,14 @@ const HERO_VARIANTS = {
   },
 } as const;
 
-/** Absolute URL of the largest slide-1 candidate — preloaded in routes/index.tsx. */
+/**
+ * Slide 1 (LCP) preload inputs, used by routes/index.tsx. The srcset and sizes
+ * must stay identical to what the <img> below renders, otherwise the browser
+ * preloads one candidate and then downloads a second one.
+ */
 export const HERO_SLIDE_1_SRC = HERO_VARIANTS.skip.src;
+export const HERO_SLIDE_1_SRCSET = HERO_VARIANTS.skip.srcSet;
+export const HERO_SLIDE_1_SIZES = "100vw";
 
 /**
  * Permanent fallback: rendered whenever there are zero published `slide` rows
