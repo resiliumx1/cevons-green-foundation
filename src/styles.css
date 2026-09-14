@@ -318,14 +318,14 @@
 /* ===== Inviting primary CTA — idle pulse, glow, shine sweep, haptic press =====
    Layered on top of btn-green / cta-btn-primary for "Request a Service" entry
    points. All motion respects prefers-reduced-motion. */
+/* Composited: transform/opacity only — the resting glow is a static
+   box-shadow on .btn-inviting, never animated. */
 @keyframes cta-pulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 6px 18px -6px rgba(239, 119, 0, 0.45);
   }
   50% {
     transform: scale(1.025);
-    box-shadow: 0 12px 28px -6px rgba(239, 119, 0, 0.6);
   }
 }
 @keyframes cta-shine-sweep {
@@ -337,6 +337,7 @@
   overflow: hidden;
   isolation: isolate;
   animation: cta-pulse 3s ease-in-out infinite;
+  will-change: transform;
   box-shadow: 0 6px 18px -6px rgba(239, 119, 0, 0.45);
   &::after {
     content: "";
@@ -1866,7 +1867,9 @@ html.reduce-motion .hero-slide-settle {
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: ecoGradientFlow 14s ease-in-out infinite;
+  /* Paint-bound (background-position on clipped text): runs a few cycles and
+     settles on its starting state instead of repainting forever. */
+  animation: ecoGradientFlow 14s ease-in-out 3 both;
   filter: drop-shadow(0 0 10px rgba(45, 163, 57, 0.28));
 }
 .eco-word.growth-flow::before {
@@ -2158,7 +2161,7 @@ html.reduce-motion .hero-slide-settle {
   background-clip: text;
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
     drop-shadow(0 0 14px rgba(244, 183, 42, 0.5)) drop-shadow(0 0 28px rgba(255, 211, 77, 0.3));
-  animation: forGuyanaShine 9s ease-in-out infinite;
+  animation: forGuyanaShine 9s ease-in-out 3 both;
 }
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   .hero-subhead-pro .for-amber {
@@ -2192,7 +2195,7 @@ html.reduce-motion .hero-slide-settle {
   padding-bottom: 0.22em;
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
     drop-shadow(0 0 14px rgba(52, 208, 87, 0.55)) drop-shadow(0 0 28px rgba(107, 240, 138, 0.35));
-  animation: forGuyanaShine 9s ease-in-out infinite;
+  animation: forGuyanaShine 9s ease-in-out 3 both;
 }
 
 /* Fallback solid color for browsers that don't clip gradient to text. */
@@ -2854,6 +2857,7 @@ html.reduce-motion .hero-slide-settle {
   background-size: 220% 100%;
   background-repeat: no-repeat;
   background-position: 140% 0;
+  will-change: transform, opacity;
   mix-blend-mode: screen;
   filter: blur(6px);
   opacity: var(--wave-sheen-opacity, 0.8);
@@ -2898,9 +2902,11 @@ html.reduce-motion .hero-slide-settle {
     transform: translate3d(3%, -4px, 0) scaleY(1.025);
   }
 }
+/* Composited: the band travels with transform (the equivalent of the old
+   140% -> -40% background-position sweep at background-size: 220%). */
 @keyframes wave-divider-sheen {
   0% {
-    background-position: 140% 0;
+    transform: translate3d(0, 0, 0);
     opacity: 0;
   }
   20% {
@@ -2910,7 +2916,7 @@ html.reduce-motion .hero-slide-settle {
     opacity: var(--wave-sheen-opacity, 0.8);
   }
   100% {
-    background-position: -40% 0;
+    transform: translate3d(216%, 0, 0);
     opacity: 0;
   }
 }
@@ -4195,8 +4201,20 @@ html.dark span.text-black > svg {
 /* "We Buy" indicator on the Scrap Metal Recycling menu entry */
 .we-buy-badge {
   line-height: 1;
-  box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 60%, transparent);
+  position: relative;
+}
+/* Composited ring: same expanding orange halo, drawn on a pseudo-element that
+   only animates transform + opacity. */
+.we-buy-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 3px solid color-mix(in oklab, var(--brand-orange) 60%, transparent);
+  pointer-events: none;
+  opacity: 0;
   animation: weBuyPulse 2.4s ease-out infinite;
+  will-change: transform, opacity;
 }
 .we-buy-badge .we-buy-dot {
   width: 5px;
@@ -4207,13 +4225,16 @@ html.dark span.text-black > svg {
 }
 @keyframes weBuyPulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 60%, transparent);
+    transform: scale(1);
+    opacity: 1;
   }
   60% {
-    box-shadow: 0 0 0 6px color-mix(in oklab, var(--brand-orange) 0%, transparent);
+    transform: scale(1.35);
+    opacity: 0;
   }
   100% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-orange) 0%, transparent);
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 @keyframes weBuyBlink {
@@ -4226,9 +4247,12 @@ html.dark span.text-black > svg {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .we-buy-badge,
+  .we-buy-badge::after,
   .we-buy-badge .we-buy-dot {
     animation: none;
+  }
+  .we-buy-badge::after {
+    opacity: 0;
   }
 }
 

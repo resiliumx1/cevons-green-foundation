@@ -21,8 +21,8 @@ import {
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal } from "@/components/motion/Reveal";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
-import { LogoCarousel } from "@/components/home/LogoCarousel";
-import SocialProofStrip from "@/components/SocialProofStrip";
+import { lazy } from "react";
+import { LazySection } from "@/components/perf/LazySection";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import type { CevonsCategoryKey } from "@/data/cevonsIconRegistry";
 import { BrandedImageBadge } from "@/components/brand/BrandedImageBadge";
@@ -34,6 +34,13 @@ import { usePublishedSections } from "@/lib/pageSections";
 import { useSiteImage } from "@/lib/siteImages";
 import { ContentProvider, Editable } from "@/components/Editable";
 import { getPageContent } from "@/lib/content.functions";
+
+// Below-the-fold sections: fetched only when they scroll near the viewport so
+// they never compete with the hero for main-thread time.
+const LogoCarousel = lazy(() =>
+  import("@/components/home/LogoCarousel").then((m) => ({ default: m.LogoCarousel })),
+);
+const SocialProofStrip = lazy(() => import("@/components/SocialProofStrip"));
 
 
 
@@ -163,7 +170,9 @@ function HardcodedHome() {
       <CertificationPanel />
 
       {/* SOCIAL PROOF MARQUEE */}
-      <LogoCarousel />
+      <LazySection>
+        <LogoCarousel />
+      </LazySection>
 
       {/* CORE SERVICE PILLARS */}
       <PillarsSection
@@ -210,7 +219,9 @@ function HardcodedHome() {
         }))}
       />
 
-      <SocialProofStrip />
+      <LazySection>
+        <SocialProofStrip />
+      </LazySection>
 
       {/* 6-STEP PROCESS */}
       <section className="section-y bg-cevons-cream">
