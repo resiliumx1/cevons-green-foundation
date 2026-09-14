@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
-
-import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
 import { useSiteImage } from "@/lib/siteImages";
 
 type Slide = {
