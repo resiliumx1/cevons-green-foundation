@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import ReactDOM from "react-dom";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
 import { useSiteImage } from "@/lib/siteImages";
 
