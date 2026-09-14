@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { isAdminRole, useAdminIdentity, signOutAdmin } from "@/lib/adminAuth";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   LayoutGrid,
@@ -54,6 +54,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 import { CrmCommandPalette } from "@/components/admin/CommandPalette";
+import { AdminSectionSkeleton } from "@/components/admin/SectionSkeleton";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -84,6 +85,12 @@ export const Route = createFileRoute("/admin")({
       { rel: "apple-touch-icon", href: "/assets/brand/admin-apple-touch-icon.png" },
     ],
   }),
+
+  // Never hold the old section on screen: show the pending state immediately,
+  // and keep it up long enough not to flicker.
+  pendingMs: 0,
+  pendingMinMs: 200,
+  pendingComponent: AdminSectionSkeleton,
 
   component: CrmRoot,
 });
@@ -571,11 +578,34 @@ function CrmLayout() {
         <main className="crm-main flex-1 p-4 md:p-6 lg:p-8">
           <PasswordChangePrompt />
           <CrmSectionTransition>
-            <Outlet />
+            <AdminSectionContent />
           </CrmSectionTransition>
         </main>
       </div>
     </div>
+  );
+}
+
+/**
+ * The content column. While the router is still fetching the next section
+ * (its code chunk on a slow connection), this swaps straight to a skeleton so
+ * the click is acknowledged instantly instead of leaving the old section up.
+ * The Suspense boundary lives here — inside the content area — so the shell
+ * never suspends.
+ */
+function AdminSectionContent() {
+  const switching = useRouterState({
+    select: (s) =>
+      s.status === "pending" &&
+      (s.resolvedLocation?.pathname ?? s.location.pathname) !== s.location.pathname,
+  });
+
+  if (switching) return <AdminSectionSkeleton />;
+
+  return (
+    <Suspense fallback={<AdminSectionSkeleton />}>
+      <Outlet />
+    </Suspense>
   );
 }
 
