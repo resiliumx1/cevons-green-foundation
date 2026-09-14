@@ -216,6 +216,15 @@ function useSlideshow() {
 }
 
 export function HeroSlideshowBackground() {
+  // Single explicit preload hint for the LCP frame. React merges this with
+  // the hint it would otherwise infer from the slide-1 <img>, producing one
+  // tag that carries href + imagesrcset + fetchpriority.
+  ReactDOM.preload(HERO_SLIDE_1_SRC, {
+    as: "image",
+    imageSrcSet: HERO_SLIDE_1_SRCSET,
+    imageSizes: HERO_SLIDE_1_SIZES,
+    fetchPriority: "high",
+  });
   const { active, reduced, setPaused, slides } = useSlideshow();
   const [loaded, setLoaded] = useState<Record<string, boolean>>({});
 
