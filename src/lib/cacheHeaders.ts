@@ -31,6 +31,8 @@ const IMMUTABLE_PREFIXES = [
 ];
 
 /** Files that keep their name across deploys but rarely change. */
+const VENDOR_PREFIX = "/vendor/"; // third-party CSS/JS copied at a pinned version
+
 const IMAGE_EXT = /\.(webp|avif|png|svg|jpe?g|gif|ico)$/i;
 
 /** A hashed filename such as `main-DtK3p9Qa.js`. */
@@ -77,6 +79,7 @@ export function cacheControlFor(request: Request, response: Response): string | 
   const pathname = url.pathname;
 
   // Static files are safe to cache regardless of method-agnostic handlers.
+  if (pathname.startsWith(VENDOR_PREFIX)) return IMAGES;
   if (IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || HASHED_FILE.test(pathname)) {
     return IMMUTABLE;
   }
