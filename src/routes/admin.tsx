@@ -61,8 +61,11 @@ export const Route = createFileRoute("/admin")({
   // Session lives in localStorage, so the gate must run client-side only.
   ssr: false,
   beforeLoad: async ({ location }) => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) {
+    // Read the stored session (local, instant) rather than a network round
+    // trip: the gate is only for routing. Every read and write behind it is
+    // still enforced server-side by row-level security.
+    const { data, error } = await supabase.auth.getSession();
+    if (error || !data.session?.user) {
       throw redirect({
         to: "/admin/login",
         search: { redirect: location.href },
