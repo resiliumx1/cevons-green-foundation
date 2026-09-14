@@ -1,0 +1,32 @@
+# Static asset cache policy.
+# Applied by the static-asset layer, which can answer these requests before the
+# worker runs; src/lib/cacheHeaders.ts applies the same values for anything that
+# does reach the worker.
+
+/_build/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/__l5e/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=2592000
+/*.png
+  Cache-Control: public, max-age=2592000
+/*.svg
+  Cache-Control: public, max-age=2592000
+/*.jpg
+  Cache-Control: public, max-age=2592000
+/*.jpeg
+  Cache-Control: public, max-age=2592000
+/*.avif
+  Cache-Control: public, max-age=2592000
+/*.ico
+  Cache-Control: public, max-age=2592000
+
+# Staff area is never shared-cached.
+/admin/*
+  Cache-Control: private, no-store
