@@ -7,14 +7,13 @@ const html = (status = 200) =>
 const get = (path: string) => new Request(`https://cevons.com${path}`);
 
 describe("cacheControlFor", () => {
-  it("caches build output and fonts forever", () => {
-    for (const p of ["/_build/assets/main-DtK3p9Qa.js", "/fonts/open-sans-400.woff2", "/__l5e/assets-v1/abc/x.webp"]) {
+  it("caches build output, fonts and hero frames forever", () => {
+    for (const p of ["/_build/assets/main-DtK3p9Qa.js", "/fonts/open-sans-400.woff2", "/hero/hero-skip-640.webp", "/__l5e/assets-v1/abc/x.webp"]) {
       expect(cacheControlFor(get(p), new Response("x"))).toBe("public, max-age=31536000, immutable");
     }
   });
 
   it("caches public images for a month", () => {
-    expect(cacheControlFor(get("/hero/hero-skip-640.webp"), new Response("x"))).toBe("public, max-age=2592000");
     expect(cacheControlFor(get("/partners/saipem.png"), new Response("x"))).toBe("public, max-age=2592000");
     expect(cacheControlFor(get("/favicon.svg"), new Response("x"))).toBe("public, max-age=2592000");
   });

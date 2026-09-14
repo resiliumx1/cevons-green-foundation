@@ -48,6 +48,12 @@ export const IMAGE_DIMS: Record<string, readonly [number, number]> = {
 
   // Brand
   "/assets/brand/cevons-logo-correct.webp": [100, 73],
+
+  // Category icons (pillar tiles)
+  "/assets/cevon-icons/categories/residential.webp": [1024, 1024],
+  "/assets/cevon-icons/categories/commercial.webp": [1024, 1024],
+  "/assets/cevon-icons/categories/industrial.webp": [256, 256],
+  "/assets/cevon-icons/categories/facilities.webp": [256, 256],
 };
 
 /** Spreadable width/height props for a known static image (empty when unknown). */

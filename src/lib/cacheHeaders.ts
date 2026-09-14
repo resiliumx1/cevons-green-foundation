@@ -27,6 +27,7 @@ const IMMUTABLE_PREFIXES = [
   "/_build/", // Vite build output (hashed filenames)
   "/assets/", // hashed bundle assets
   "/fonts/", // self-hosted font files
+  "/hero/", // hero slideshow frames (versioned by filename on change)
   "/__l5e/", // externalised asset store (URL contains a content id)
 ];
 
