@@ -389,7 +389,7 @@ export function HeroSlideshowBackground() {
                         src={s.src}
                         {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
                         alt={s.alt}
-                        loading={i === 0 ? "eager" : "lazy"}
+                        loading="lazy"
                         decoding={i === 0 ? "sync" : "async"}
                         
                         width={s.width}
@@ -407,7 +407,7 @@ export function HeroSlideshowBackground() {
                       src={s.src}
                       {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
                       alt={s.alt}
-                      loading={i === 0 ? "eager" : "lazy"}
+                      loading="lazy"
                       decoding={i === 0 ? "sync" : "async"}
                       
                       width={s.width}
