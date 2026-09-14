@@ -1,8 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import septicAsset from "@/assets/slide-septic.webp.asset.json";
-import skipAsset from "@/assets/slide-skip-hi-landscape.webp.asset.json";
-import shredAsset from "@/assets/slide-shred.webp.asset.json";
-import shredTruckAsset from "@/assets/slide-shred-truck.webp.asset.json";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
 import { useSiteImage } from "@/lib/siteImages";
 
@@ -14,11 +10,43 @@ type Slide = {
   width: number;
   height: number;
   portrait: boolean;
+  /** Responsive candidates for the static slides (omitted for CRM uploads). */
+  srcSet?: string;
   title?: string;
   caption?: string;
   /** Spread onto the rendered <img> so the content editor can target it. */
   editorProps?: Record<string, string>;
 };
+
+/**
+ * Pre-generated responsive WebP variants of the three static hero photos
+ * (public/hero/*). Widths in each srcset are the REAL pixel widths of the
+ * generated files — a photo narrower than 1920px is not upscaled, so the
+ * browser is never told a candidate is bigger than it is.
+ */
+const HERO_VARIANTS = {
+  skip: {
+    src: "/hero/hero-skip-1920.webp",
+    srcSet: "/hero/hero-skip-640.webp 640w, /hero/hero-skip-1024.webp 1024w, /hero/hero-skip-1920.webp 1920w",
+    width: 1920,
+    height: 1080,
+  },
+  septic: {
+    src: "/hero/hero-septic-1920.webp",
+    srcSet: "/hero/hero-septic-640.webp 640w, /hero/hero-septic-1024.webp 1024w, /hero/hero-septic-1920.webp 1800w",
+    width: 1800,
+    height: 1350,
+  },
+  shredTruck: {
+    src: "/hero/hero-shred-truck-1920.webp",
+    srcSet: "/hero/hero-shred-truck-640.webp 640w, /hero/hero-shred-truck-1920.webp 749w",
+    width: 749,
+    height: 500,
+  },
+} as const;
+
+/** Absolute URL of the largest slide-1 candidate — preloaded in routes/index.tsx. */
+export const HERO_SLIDE_1_SRC = HERO_VARIANTS.skip.src;
 
 /**
  * Permanent fallback: rendered whenever there are zero published `slide` rows
@@ -28,10 +56,11 @@ const SLIDES: Slide[] = [
   // Dimensions below are the MEASURED natural sizes of the bundled files, so
   // the width/height attributes prevent layout shift and `portrait` is derived
   // (h > w) rather than assumed — portrait photos need the blurred-fill guard.
-  { src: skipAsset.url, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right", width: 1920, height: 1080, portrait: 1080 > 1920 },
-  { src: septicAsset.url, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left", width: 1800, height: 1350, portrait: 1350 > 1800 },
-  { src: shredTruckAsset.url, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right", width: 749, height: 500, portrait: 500 > 749 },
+  { ...HERO_VARIANTS.skip, alt: "CEVONS red Sinotruk Howo skip bin truck loaded with waste on site in Guyana", position: "center", pan: "right", portrait: 1080 > 1920 },
+  { ...HERO_VARIANTS.septic, alt: "CEVONS red septic service vacuum truck parked at the Georgetown yard", position: "center", pan: "left", portrait: 1350 > 1800 },
+  { ...HERO_VARIANTS.shredTruck, alt: "CEVONS orange and white SHRED secure document destruction truck parked on a Georgetown street", position: "center", pan: "right", portrait: 500 > 749 },
 ];
+
 
 // Per-slide object-position for the framed card layout. Desktop crop favors
 // full-truck composition; mobile crop shifts slightly up to keep the cab and
@@ -73,11 +102,15 @@ function useHeroSlides(): Slide[] {
           ...s,
           src: r.src,
           alt: r.alt,
+          // An editor override replaces the file, so the pre-generated
+          // responsive candidates no longer describe it — drop them.
+          srcSet: r.src === s.src ? s.srcSet : undefined,
           width,
           height,
           portrait: height > width,
           editorProps: r.editorProps,
         };
+
       });
     }
     return rows.map((r, i) => ({
@@ -348,6 +381,7 @@ export function HeroSlideshowBackground() {
                       <img
                         ref={(el) => { imgRefs.current[i] = el; }}
                         src={s.src}
+                        {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
                         alt={s.alt}
                         loading={i === 0 ? "eager" : "lazy"}
                         decoding={i === 0 ? "sync" : "async"}
@@ -365,6 +399,7 @@ export function HeroSlideshowBackground() {
                     <img
                       ref={(el) => { imgRefs.current[i] = el; }}
                       src={s.src}
+                      {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
                       alt={s.alt}
                       loading={i === 0 ? "eager" : "lazy"}
                       decoding={i === 0 ? "sync" : "async"}

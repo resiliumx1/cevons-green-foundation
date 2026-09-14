@@ -1,4 +1,5 @@
 import { motion, type Variants } from "framer-motion";
+import { imgDims } from "@/lib/imageDims";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -53,6 +54,7 @@ export function CertificationPanel() {
                     src={img}
                     alt={`${t} logo`}
                     loading="lazy"
+                    {...imgDims(img)}
                     decoding="async"
                     className={`h-full w-full object-contain ${scale ?? ""}`}
                   />
@@ -73,6 +75,7 @@ export function CertificationPanel() {
                   src={featured.img}
                   alt="Suriname-Guyana Chamber of Commerce"
                   loading="lazy"
+                  {...imgDims(featured.img)}
                   decoding="async"
                   className="h-full w-full object-contain"
                 />
