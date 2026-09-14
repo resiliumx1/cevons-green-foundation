@@ -25,7 +25,7 @@ export function CrmSectionTransition({ children }: { children: ReactNode }) {
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
         animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
         exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-        transition={{ duration: reduce ? 0.12 : 0.18, ease: EASE }}
+        transition={{ duration: reduce ? 0.1 : 0.12, ease: EASE }}
         style={{ willChange: "transform, opacity" }}
       >
         {children}
