@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+
+// Leaflet's stylesheet is fetched only when this (lazy) map module loads, so
+// pages without a map never download it or pay for it in the shared CSS.
+if (typeof document !== "undefined" && !document.getElementById("leaflet-css")) {
+  const link = document.createElement("link");
+  link.id = "leaflet-css";
+  link.rel = "stylesheet";
+  link.href = "/vendor/leaflet.css";
+  document.head.appendChild(link);
+}
 
 export interface BranchPoint {
   id: string;

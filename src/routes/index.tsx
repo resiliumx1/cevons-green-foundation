@@ -88,6 +88,10 @@ export const Route = createFileRoute("/")({
       { rel: "canonical", href: absUrl("/") },
       // Warm the first slideshow frame (LCP) before JS hydrates the carousel.
       { rel: "preload", as: "image", href: HERO_SLIDE_1_SRC, type: "image/webp", fetchPriority: "high" },
+      // Only the two faces used above the fold: the hero headline (Playfair)
+      // and body copy (Open Sans). Other weights load on demand.
+      { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/playfair-display-var.woff2", crossOrigin: "anonymous" },
+      { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/open-sans-var.woff2", crossOrigin: "anonymous" },
     ],
 
     scripts: [

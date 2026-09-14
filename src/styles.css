@@ -4,6 +4,39 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ===== Self-hosted web fonts =====
+   Served from /fonts so no third-party stylesheet blocks the first paint.
+   Same four families and the same weights as before — no visual change.
+   `swap` shows text immediately in the fallback and switches on load. */
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/open-sans-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700 800;
+  font-display: swap;
+  src: url("/fonts/playfair-display-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/inter-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-mono-500.woff2") format("woff2");
+}
+
 /* CEVONS Environmental Services — Design System */
 
 @theme inline {
