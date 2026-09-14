@@ -54,7 +54,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 import { CrmCommandPalette } from "@/components/admin/CommandPalette";
-import { AdminSectionSkeleton } from "@/components/admin/SectionSkeleton";
+import { AdminBootScreen, AdminSectionSkeleton } from "@/components/admin/SectionSkeleton";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -72,7 +72,7 @@ export const Route = createFileRoute("/admin")({
         replace: true,
       });
     }
-    return { user: data.user };
+    return { user: data.session.user };
   },
   head: () => ({
     meta: [
@@ -89,11 +89,12 @@ export const Route = createFileRoute("/admin")({
     ],
   }),
 
-  // Never hold the old section on screen: show the pending state immediately,
-  // and keep it up long enough not to flicker.
+  // Opening the admin shell shows a clear, centred loading indicator — the
+  // sidebar and header are not on screen yet, so card outlines would just
+  // look like a broken page.
   pendingMs: 0,
-  pendingMinMs: 200,
-  pendingComponent: AdminSectionSkeleton,
+  pendingMinMs: 150,
+  pendingComponent: AdminBootScreen,
 
   component: CrmRoot,
 });
