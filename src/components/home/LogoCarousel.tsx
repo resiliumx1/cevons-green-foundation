@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Award, Package } from "lucide-react";
+import { imgDims } from "@/lib/imageDims";
 
 type Logo = { src: string; alt: string };
 
@@ -62,6 +63,7 @@ export function LogoCarousel({ showCta = true }: LogoCarouselProps) {
                   src={l.src}
                   alt={l.alt}
                   loading="lazy"
+                  {...imgDims(l.src)}
                   decoding="async"
                   className="lcm-logo"
                   data-logo={l.src.split("/").pop()?.replace(/\.[^.]+$/, "")}

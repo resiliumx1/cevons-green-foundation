@@ -1,3 +1,4 @@
+import { imgDims } from "@/lib/imageDims";
 const partners = [
   { src: "/partners/saipem.webp", alt: "Saipem" },
   { src: "/partners/ramps-logistics.webp", alt: "Ramps Logistics" },
@@ -51,7 +52,7 @@ export function ConveyorBand({ variant = "default" }: ConveyorBandProps) {
             <div className="conveyor-track conveyor-track--left">
               {[...partners, ...partners].map((p, i) => (
                 <div className="conveyor-chip" key={`p-${i}`}>
-                  <img src={p.src} alt={p.alt} loading="lazy" />
+                  <img src={p.src} alt={p.alt} loading="lazy" decoding="async" {...imgDims(p.src)} />
                 </div>
               ))}
             </div>
@@ -67,7 +68,7 @@ export function ConveyorBand({ variant = "default" }: ConveyorBandProps) {
             <div className="conveyor-track conveyor-track--right">
               {[...services, ...services, ...services, ...services].map((s, i) => (
                 <a className="conveyor-tile" href={s.href} key={`s-${i}`}>
-                  <img src={s.src} alt={s.label} loading="lazy" />
+                  <img src={s.src} alt={s.label} loading="lazy" decoding="async" {...imgDims(s.src)} />
                   <span className="conveyor-tile__caption">{s.label}</span>
                 </a>
               ))}

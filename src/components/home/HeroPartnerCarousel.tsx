@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { imgDims } from "@/lib/imageDims";
 
 const partners = [
   { src: "/partners/saipem.webp", alt: "Saipem" },
@@ -131,6 +132,8 @@ export function HeroPartnerCarousel() {
                   src={p.src}
                   alt={p.alt}
                   loading="lazy"
+                  decoding="async"
+                  {...imgDims(p.src)}
                   className="block h-full w-full object-contain object-center"
                 />
               </div>

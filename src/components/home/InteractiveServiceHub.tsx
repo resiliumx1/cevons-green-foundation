@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { SlotImage } from "@/components/media/SlotImage";
+import { imgDims } from "@/lib/imageDims";
 
 const logo = "/assets/brand/cevons-logo-correct.webp";
 
@@ -105,7 +106,7 @@ export function InteractiveServiceHub() {
               "0 0 0 2px var(--cevons-green), 0 0 40px rgba(15,163,74,.7), inset 0 0 30px rgba(15,163,74,.35)",
           }}
         >
-          <img src={logo} alt="" aria-hidden className="size-12 md:size-14 object-contain" />
+          <img src={logo} alt="" aria-hidden loading="lazy" decoding="async" {...imgDims(logo)} className="size-12 md:size-14 object-contain" />
           <p className="mt-1 text-[11px] md:text-sm font-extrabold tracking-wider text-white leading-none">CEVONS</p>
           <p className="mt-1 text-[8px] md:text-[10px] font-bold tracking-[0.18em] text-cevons-yellow leading-tight text-center">
             ENVIRONMENTAL<br/>SERVICES INC.
