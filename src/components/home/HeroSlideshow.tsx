@@ -102,11 +102,15 @@ function useHeroSlides(): Slide[] {
           ...s,
           src: r.src,
           alt: r.alt,
+          // An editor override replaces the file, so the pre-generated
+          // responsive candidates no longer describe it — drop them.
+          srcSet: r.src === s.src ? s.srcSet : undefined,
           width,
           height,
           portrait: height > width,
           editorProps: r.editorProps,
         };
+
       });
     }
     return rows.map((r, i) => ({
