@@ -3945,13 +3945,20 @@ html.dark span.text-black > svg {
     overflow: hidden;
   }
 
-  /* Right-side circular arrow indicator */
+  /* Right-side circular arrow indicator.
+     `btn-inviting` also styles ::after (shine sweep, inset:0); on mobile the
+     arrow badge is the intended ::after, so pin the conflicting properties
+     back here — the badge keeps its place and never sweeps. */
   [data-hero-scope] .hero-cta::after {
     content: "→";
     position: absolute;
+    inset: auto;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
+    left: auto;
+    bottom: auto;
+    animation: none;
     width: 30px;
     height: 30px;
     border-radius: 999px;
