@@ -387,7 +387,7 @@ export function HeroSlideshowBackground() {
                       <img
                         ref={(el) => { imgRefs.current[i] = el; }}
                         src={s.src}
-                        {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
+                        {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
                         alt={s.alt}
                         loading="lazy"
                         decoding={i === 0 ? "sync" : "async"}
@@ -405,7 +405,7 @@ export function HeroSlideshowBackground() {
                     <img
                       ref={(el) => { imgRefs.current[i] = el; }}
                       src={s.src}
-                      {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
+                      {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
                       alt={s.alt}
                       loading="lazy"
                       decoding={i === 0 ? "sync" : "async"}
