@@ -46,3 +46,31 @@ function Bar({ className = "" }: { className?: string }) {
     />
   );
 }
+
+/**
+ * Shown while the admin shell itself is opening (sign-in check + first load).
+ * Unlike the section placeholder, the shell is not on screen yet, so this is a
+ * centred, clearly-labelled indicator rather than empty card outlines.
+ */
+export function AdminBootScreen() {
+  return (
+    <div
+      className="flex min-h-[100dvh] w-full flex-col items-center justify-center gap-4"
+      style={{ background: "var(--crm-bg, #f4f6fb)" }}
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        className="admin-boot-spinner"
+        role="img"
+        aria-label="Loading admin"
+      />
+      <p
+        className="text-sm font-medium"
+        style={{ color: "var(--crm-text-muted, #5b6780)" }}
+      >
+        Loading admin…
+      </p>
+    </div>
+  );
+}

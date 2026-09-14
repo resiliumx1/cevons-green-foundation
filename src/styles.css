@@ -6071,3 +6071,21 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 @media (prefers-reduced-motion: reduce) {
   .admin-skeleton-block { animation: none; }
 }
+
+/* Admin boot indicator: composited rotation only. */
+@keyframes admin-boot-spin {
+  to { transform: rotate(360deg); }
+}
+.admin-boot-spinner {
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 3px solid rgba(0, 0, 128, 0.15);
+  border-top-color: #f37021;
+  animation: admin-boot-spin 0.8s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-boot-spinner { animation-duration: 2s; }
+}

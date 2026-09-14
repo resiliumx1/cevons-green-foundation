@@ -17,3 +17,9 @@
 - [x] Diagnose the mobile notification panel collapse
 - [x] Stabilize the header command layout at compact widths
 - [x] Verify notification display and header alignment on desktop/mobile
+
+# Admin entry loading state
+
+- [x] Replace blank card outlines on admin entry with a clear loading indicator
+- [x] Use the stored session for the routing gate instead of a network check
+- [ ] Glass button style for wizard + Schedule a Service (awaiting user pick)
