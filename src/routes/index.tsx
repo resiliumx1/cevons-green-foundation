@@ -45,7 +45,7 @@ const SocialProofStrip = lazy(() => import("@/components/SocialProofStrip"));
 
 
 import { CertificationPanel } from "@/components/home/CertificationPanel";
-import { HERO_SLIDE_1_SRC } from "@/components/home/HeroSlideshow";
+import { HERO_SLIDE_1_SRC, HERO_SLIDE_1_SRCSET, HERO_SLIDE_1_SIZES } from "@/components/home/HeroSlideshow";
 import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import residentialWheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
 import svcCommercialAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
