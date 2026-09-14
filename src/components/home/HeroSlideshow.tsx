@@ -389,8 +389,10 @@ export function HeroSlideshowBackground() {
                         src={s.src}
                         {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
                         alt={s.alt}
-                        loading="lazy"
+                        loading={i === 0 ? "eager" : "lazy"}
                         decoding={i === 0 ? "sync" : "async"}
+                        {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+
                         
                         width={s.width}
                         height={s.height}
