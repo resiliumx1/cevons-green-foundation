@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import ReactDOM from "react-dom";
 import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
 import { useSiteImage } from "@/lib/siteImages";
 
@@ -215,17 +214,6 @@ function useSlideshow() {
   return c;
 }
 
-// Single explicit preload hint for the LCP frame. Registered at module scope
-// so it is emitted before — and dedupes — the hint React would otherwise infer
-// from the slide-1 <img>, yielding one tag with href + imagesrcset +
-// fetchpriority.
-ReactDOM.preload(HERO_SLIDE_1_SRC, {
-  as: "image",
-  imageSrcSet: HERO_SLIDE_1_SRCSET,
-  imageSizes: HERO_SLIDE_1_SIZES,
-  fetchPriority: "high",
-});
-
 export function HeroSlideshowBackground() {
   const { active, reduced, setPaused, slides } = useSlideshow();
   const [loaded, setLoaded] = useState<Record<string, boolean>>({});
@@ -399,7 +387,7 @@ export function HeroSlideshowBackground() {
                       <img
                         ref={(el) => { imgRefs.current[i] = el; }}
                         src={s.src}
-                        {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
+                        {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
                         alt={s.alt}
                         loading={i === 0 ? "eager" : "lazy"}
                         decoding={i === 0 ? "sync" : "async"}
@@ -417,7 +405,7 @@ export function HeroSlideshowBackground() {
                     <img
                       ref={(el) => { imgRefs.current[i] = el; }}
                       src={s.src}
-                      {...(s.srcSet ? { srcSet: s.srcSet, sizes: "100vw" } : {})}
+                      {...(s.srcSet ? ({ srcset: s.srcSet, sizes: "100vw" } as Record<string, string>) : {})}
                       alt={s.alt}
                       loading={i === 0 ? "eager" : "lazy"}
                       decoding={i === 0 ? "sync" : "async"}
