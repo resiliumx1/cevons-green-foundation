@@ -40,6 +40,13 @@ async function fetchPage(page: string): Promise<Record<string, string>> {
   return strings;
 }
 
+/**
+ * How long SSR is willing to wait for the copy table before rendering the
+ * hardcoded defaults instead. A slow or unreachable database must never show
+ * up as time-to-first-byte.
+ */
+const READ_TIMEOUT_MS = 700;
+
 /** Cached published strings for a page. Returns `null` on any read failure. */
 export async function getPublishedStrings(page: string): Promise<Record<string, string> | null> {
   const hit = cache.get(page);
@@ -48,12 +55,23 @@ export async function getPublishedStrings(page: string): Promise<Record<string, 
   // Collapse concurrent misses into one query.
   let pending = inflight.get(page);
   if (!pending) {
-    pending = fetchPage(page).finally(() => inflight.delete(page));
+    pending = fetchPage(page)
+      .then((strings) => {
+        // Keep warming the cache even if this request already gave up waiting.
+        cache.set(page, { at: Date.now(), strings });
+        return strings;
+      })
+      .finally(() => inflight.delete(page));
     inflight.set(page, pending);
   }
+  // Never reject: a failed shared promise must not become an unhandled
+  // rejection for the requests that stopped awaiting it.
+  pending.catch(() => {});
+
+  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), READ_TIMEOUT_MS));
   try {
-    const strings = await pending;
-    cache.set(page, { at: Date.now(), strings });
+    const strings = await Promise.race([pending, timeout]);
+    if (strings === null) return hit ? hit.strings : null;
     return strings;
   } catch {
     return hit ? hit.strings : null;
