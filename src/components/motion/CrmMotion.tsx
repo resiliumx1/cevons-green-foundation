@@ -9,6 +9,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * Sidebar/header stay static; only the Outlet swaps with a wait-mode fade.
  */
 export function CrmSectionTransition({ children }: { children: ReactNode }) {
+  // The PENDING location, so the section swaps the moment a nav starts
+  // rather than when its data/code has arrived.
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const reduce = useReducedMotion();
 
@@ -23,7 +25,7 @@ export function CrmSectionTransition({ children }: { children: ReactNode }) {
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
         animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
         exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-        transition={{ duration: reduce ? 0.2 : 0.3, ease: EASE }}
+        transition={{ duration: reduce ? 0.12 : 0.18, ease: EASE }}
         style={{ willChange: "transform, opacity" }}
       >
         {children}
