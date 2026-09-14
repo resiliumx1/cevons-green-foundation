@@ -3,6 +3,7 @@ import {
   cevonsIcons,
   type CevonsIconEntry,
 } from "@/data/cevonsIconRegistry";
+import { imgDims } from "@/lib/imageDims";
 
 type IconGroup = "categories" | "services" | "ui";
 type SizeVariant = "sm" | "md" | "lg" | "xl";
@@ -89,6 +90,7 @@ export function CevonsIcon({
         aria-hidden={decorative || undefined}
         loading={priority ? "eager" : "lazy"}
         decoding="async"
+        {...imgDims(resolved.src)}
         className={`absolute inset-0 w-full h-full object-cover ${className ?? ""}`.trim()}
         draggable={false}
       />
