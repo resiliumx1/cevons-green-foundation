@@ -6,11 +6,19 @@ import {
   useEffect,
   useMemo,
   useState,
+  lazy,
+  Suspense,
   type ElementType,
   type ReactNode,
 } from "react";
 import type { PageContent, SavedString } from "@/lib/content.functions";
-import { ContentEditorOverlay } from "@/components/content/ContentEditorOverlay";
+// Staff-only click-to-edit overlay. It pulls in the whole backend client, so
+// it is fetched on demand — visitors never download it.
+const ContentEditorOverlay = lazy(() =>
+  import("@/components/content/ContentEditorOverlay").then((m) => ({
+    default: m.ContentEditorOverlay,
+  })),
+);
 import { ImageEditContext } from "@/lib/imageEditing";
 
 /**
@@ -85,11 +93,13 @@ export function ContentProvider({
       <ImageEditContext.Provider value={imageEditState}>
         {children}
         {merged.preview && merged.meta && (
-          <ContentEditorOverlay
-            meta={merged.meta}
-            canPublish={merged.canPublish === true}
-            onSaved={onSaved}
-          />
+          <Suspense fallback={null}>
+            <ContentEditorOverlay
+              meta={merged.meta}
+              canPublish={merged.canPublish === true}
+              onSaved={onSaved}
+            />
+          </Suspense>
         )}
       </ImageEditContext.Provider>
     </ContentContext.Provider>

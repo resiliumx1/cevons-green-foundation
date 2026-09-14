@@ -10,13 +10,15 @@ import {
   X,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  groupResults,
-  popularActions,
-  searchSite,
-  type SearchEntry,
-  type SearchGroup,
-} from "@/data/searchIndex";
+import type { SearchEntry, SearchGroup } from "@/data/searchIndex";
+
+/** The suggestion index is only fetched once the field is opened/focused. */
+type SearchIndexModule = typeof import("@/data/searchIndex");
+let searchIndexPromise: Promise<SearchIndexModule> | null = null;
+function loadSearchIndex() {
+  searchIndexPromise ??= import("@/data/searchIndex");
+  return searchIndexPromise;
+}
 
 const GROUP_ICON: Record<SearchGroup, typeof Truck> = {
   Services: Truck,
@@ -68,23 +70,34 @@ export function SiteSearch({
   const [listening, setListening] = useState(false);
   const [micNote, setMicNote] = useState<string | null>(null);
   const [hasSpeech, setHasSpeech] = useState(false);
+  const [index, setIndex] = useState<SearchIndexModule | null>(null);
 
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
 
+  // Nothing search-related is initialised until the visitor opens the field:
+  // no suggestion data download, no Web Speech feature detection.
   useEffect(() => {
+    if (!open) return;
+    let alive = true;
     setHasSpeech(getSpeechCtor() !== null);
-  }, []);
+    loadSearchIndex().then((m) => {
+      if (alive) setIndex(m);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [open]);
 
   const results: SearchEntry[] = useMemo(
-    () => (query.trim() ? searchSite(query, 7) : popularActions),
-    [query],
+    () => (index ? (query.trim() ? index.searchSite(query, 7) : index.popularActions) : []),
+    [index, query],
   );
-  const grouped = useMemo(() => groupResults(results), [results]);
+  const grouped = useMemo(() => (index ? index.groupResults(results) : []), [index, results]);
   const flat = useMemo(() => grouped.flatMap((g) => g.items), [grouped]);
-  const noResults = query.trim().length > 0 && flat.length === 0;
+  const noResults = !!index && query.trim().length > 0 && flat.length === 0;
 
   useEffect(() => setActiveIndex(-1), [query]);
 

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import type { BranchPoint } from "./GuyanaBranchMapInner";
 
 const MapInner = lazy(() => import("./GuyanaBranchMapInner"));
@@ -14,10 +14,32 @@ export type { BranchPoint };
 
 export function GuyanaBranchMap({ branches, selectedId, onSelect, className }: Props) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const hostRef = useRef<HTMLDivElement | null>(null);
+
+  // Leaflet (CSS + library) is only fetched once the map scrolls into view.
+  useEffect(() => {
+    if (mounted) return;
+    const el = hostRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setMounted(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setMounted(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [mounted]);
 
   return (
-    <div className={className} style={{ position: "relative" }}>
+    <div ref={hostRef} className={className} style={{ position: "relative" }}>
       {mounted ? (
         <Suspense
           fallback={

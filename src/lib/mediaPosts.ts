@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabase } from "@/integrations/supabaseLazy";
 import { getMediaUrl } from "@/lib/mediaUrl";
 
 /**
@@ -29,6 +29,7 @@ async function fetchPublished(kind: MediaKind): Promise<ResolvedMediaPost[]> {
   // Scheduling is evaluated at READ TIME, mirroring the anon SELECT policy:
   // published AND inside the publish_at / unpublish_at window.
   const nowIso = new Date().toISOString();
+  const supabase = await getSupabase();
   const { data, error } = await supabase
     .from("media_posts")
     .select("id, kind, title, caption, image_path, image_w, image_h, sort_order")

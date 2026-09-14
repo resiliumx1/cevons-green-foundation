@@ -1,7 +1,7 @@
 import type { ComponentType, ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { serviceJsonLd, breadcrumbListJsonLd, faqPageJsonLd } from "@/lib/seo/jsonLd";
-import { isValidElement } from "react";
+import { isValidElement, lazy } from "react";
 import {
   ArrowRight,
   Calendar,
@@ -16,7 +16,10 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
-import { BrandedVideo } from "@/components/media/BrandedVideo";
+import { LazySection } from "@/components/perf/LazySection";
+const BrandedVideo = lazy(() =>
+  import("@/components/media/BrandedVideo").then((m) => ({ default: m.BrandedVideo })),
+);
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { PromoSlot } from "@/components/promo/PromoSlot";
@@ -690,14 +693,16 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
               style={{ maxWidth: 820 }}
               aria-label={`${section.videoEmbed.title} video`}
             >
-              <BrandedVideo
-                videoId={section.videoEmbed.youtubeId}
-                title={section.videoEmbed.title}
-                poster={
-                  section.videoEmbed.poster ??
-                  `https://i.ytimg.com/vi/${section.videoEmbed.youtubeId}/hqdefault.jpg`
-                }
-              />
+              <LazySection>
+                <BrandedVideo
+                  videoId={section.videoEmbed.youtubeId}
+                  title={section.videoEmbed.title}
+                  poster={
+                    section.videoEmbed.poster ??
+                    `https://i.ytimg.com/vi/${section.videoEmbed.youtubeId}/hqdefault.jpg`
+                  }
+                />
+              </LazySection>
               <figcaption className="sr-only">{section.videoEmbed.title}</figcaption>
             </figure>
           )}
