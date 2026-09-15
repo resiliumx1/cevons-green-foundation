@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { imgDims } from "@/lib/imageDims";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useT } from "@/contexts/SettingsContext";
@@ -75,6 +76,8 @@ export function ServicesCardsSection() {
                       src={c.img}
                       alt={title}
                       loading="lazy"
+                      decoding="async"
+                      {...imgDims(c.img)}
                       className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
