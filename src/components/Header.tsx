@@ -209,7 +209,8 @@ export function Header() {
               alt="CEVONS Environmental Services"
               width={256}
               height={256}
-              fetchPriority="low"
+              loading="eager"
+              decoding="async"
               className="relative h-12 lg:h-14 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
               style={{ filter: "drop-shadow(0 1px 1px rgba(16,24,32,0.08))" }}
             />
