@@ -10,8 +10,10 @@
  *      and no resize was needed, the original file is kept as-is.
  */
 
-export const MAX_EDGE = 2048;
-export const QUALITY = 0.86;
+export const MAX_EDGE = 1920;
+/** Logos and badges never need more than this on their long edge. */
+export const LOGO_MAX_EDGE = 600;
+export const QUALITY = 0.8;
 /** Quality floor when trimming down to the byte budget. */
 export const MIN_QUALITY = 0.62;
 /** Aim for uploads under this size; quality steps down until we get there. */
@@ -108,7 +110,17 @@ function supportsWebp(canvas: HTMLCanvasElement) {
   return canvas.toDataURL("image/webp").startsWith("data:image/webp");
 }
 
-export async function processImage(file: File): Promise<ProcessedImage> {
+export type ProcessOptions = {
+  /** Logos/badges are capped at LOGO_MAX_EDGE instead of MAX_EDGE. */
+  kind?: "photo" | "logo";
+};
+
+/** True when a slot key, label or file name looks like a logo or badge. */
+export function looksLikeLogo(...hints: (string | undefined | null)[]): boolean {
+  return hints.some((h) => !!h && /logo|badge|icon|mark/i.test(h));
+}
+
+export async function processImage(file: File, options: ProcessOptions = {}): Promise<ProcessedImage> {
   if (!file.type.startsWith("image/")) {
     throw new Error("That file isn’t an image. Please choose a JPG, PNG or WebP photo.");
   }
@@ -134,7 +146,8 @@ export async function processImage(file: File): Promise<ProcessedImage> {
 
   const src = await loadSource(file);
   try {
-    const scale = Math.min(1, MAX_EDGE / Math.max(src.width, src.height));
+    const maxEdge = options.kind === "logo" ? LOGO_MAX_EDGE : MAX_EDGE;
+    const scale = Math.min(1, maxEdge / Math.max(src.width, src.height));
     const width = Math.max(1, Math.round(src.width * scale));
     const height = Math.max(1, Math.round(src.height * scale));
     const resized = scale < 1;
