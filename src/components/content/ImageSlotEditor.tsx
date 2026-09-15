@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { compressionSummary, processImage } from "@/lib/imageProcess";
+import { MAX_INPUT_BYTES, compressionSummary, looksLikeLogo, processImage } from "@/lib/imageProcess";
 import {
   RATIO_TOLERANCE,
   ratioDrift,
@@ -34,7 +34,7 @@ const PAPER = "#F5F5F5";
 /** What the picker will accept from a file chooser or a drag-and-drop. */
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif", "image/gif"] as const;
 export const ACCEPT_ATTR = ".jpg,.jpeg,.png,.webp,.avif,.gif,image/jpeg,image/png,image/webp,image/avif,image/gif";
-const MAX_UPLOAD_BYTES = 20 * 1024 * 1024; // 20 MB
+const MAX_UPLOAD_BYTES = MAX_INPUT_BYTES; // 25 MB — same ceiling as the shared processor
 
 function prettyBytes(bytes: number) {
   if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
@@ -325,7 +325,9 @@ export function ImageSlotEditor({
     }
     try {
       setBusy("Optimising photo…");
-      const processed = await processImage(file);
+      const processed = await processImage(file, {
+        kind: looksLikeLogo(activeSlot, def?.label, file.name) ? "logo" : "photo",
+      });
       const savings = compressionSummary(processed);
       setBusy(savings ? `Uploading… ${savings}` : "Uploading…");
       const path = `site-images/${activeSlot}/${crypto.randomUUID()}.${processed.ext}`;

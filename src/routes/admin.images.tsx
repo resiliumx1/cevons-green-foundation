@@ -8,7 +8,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
-import { compressionSummary, processImage } from "@/lib/imageProcess";
+import { compressionSummary, looksLikeLogo, processImage } from "@/lib/imageProcess";
 import { suggestAltFromFileName } from "@/components/content/ImageSlotEditor";
 import { georgetownLabel, GEORGETOWN_LABEL } from "@/lib/georgetown";
 import {
@@ -147,7 +147,9 @@ function ReplaceDialog({
   async function upload(file: File) {
     try {
       setBusy("Optimising photo…");
-      const processed = await processImage(file);
+      const processed = await processImage(file, {
+        kind: looksLikeLogo(slot.key, slot.label, file.name) ? "logo" : "photo",
+      });
       const savings = compressionSummary(processed);
       setBusy(savings ? `Uploading… ${savings}` : "Uploading…");
       const path = `site-images/${slot.key}/${crypto.randomUUID()}.${processed.ext}`;
