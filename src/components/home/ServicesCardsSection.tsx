@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { imgDims } from "@/lib/imageDims";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useT } from "@/contexts/SettingsContext";
 import { SlotImage } from "@/components/media/SlotImage";
-import wheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
-import commercialRedBinAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
+const wheelieBinAsset = { url: "/images/residential-wheelie-bin.webp" };
+const commercialRedBinAsset = { url: "/images/commercial-red-bin.webp" };
 
 type ServiceCard = {
   key: "industrial" | "recyclables" | "residential" | "commercial" | "specialised";
@@ -75,6 +76,8 @@ export function ServicesCardsSection() {
                       src={c.img}
                       alt={title}
                       loading="lazy"
+                      decoding="async"
+                      {...imgDims(c.img)}
                       className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

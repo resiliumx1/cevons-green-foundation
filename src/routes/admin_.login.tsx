@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
-import logo from "@/assets/cevons-logo-transparent.png";
+const logo = "/images/cevons-logo.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { describeAuthError } from "@/lib/adminAuth";
 import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";

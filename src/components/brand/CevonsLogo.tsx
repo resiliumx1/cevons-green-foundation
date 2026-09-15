@@ -1,4 +1,4 @@
-import logoMark from "@/assets/cevons-logo-transparent.png";
+const logoMark = "/images/cevons-logo.webp";
 
 type Variant = "full" | "mark";
 type Size = "sm" | "md" | "lg" | "xl";
@@ -40,8 +40,8 @@ export function CevonsLogo({
       className={`${h} w-auto object-contain shrink-0`}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      width={512}
-      height={512}
+      width={256}
+      height={256}
       draggable={false}
     />
   );

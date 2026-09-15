@@ -1,5 +1,5 @@
 import { Award, Home, MapPin, Recycle, type LucideIcon } from "lucide-react";
-import marketLeaderBadge from "@/assets/market-leader-badge.png.asset.json";
+const marketLeaderBadge = { url: "/images/market-leader-badge.webp" };
 
 export type StatItem = { value: string; label: string; icon?: LucideIcon };
 
@@ -39,8 +39,8 @@ export function StatsBand({ items }: { items: StatItem[] }) {
               alt="Market Leader - Trusted Since 1997"
               loading="lazy"
               decoding="async"
-              width={1920}
-              height={640}
+              width={400}
+              height={133}
               className="h-auto w-[280px] md:w-[320px] rounded-2xl shadow-2xl"
             />
           </div>

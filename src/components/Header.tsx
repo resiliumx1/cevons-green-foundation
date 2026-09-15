@@ -2,8 +2,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Calendar, ChevronDown, ChevronRight, ExternalLink, Menu, PackageSearch, X } from "lucide-react";
-import logo from "@/assets/cevons-logo-transparent.png";
-import bsRecyclingLogoAsset from "@/assets/bs-recycling-logo.png.asset.json";
+const logo = "/images/cevons-logo.webp";
+const bsRecyclingLogoAsset = { url: "/images/bs-recycling-logo.webp" };
 import { SettingsMenu } from "./SettingsMenu";
 import { SiteSearch } from "@/components/search/SiteSearch";
 import { useT } from "@/contexts/SettingsContext";
@@ -207,8 +207,10 @@ export function Header() {
             <img
               src={logo}
               alt="CEVONS Environmental Services"
-              width={1024}
-              height={1024}
+              width={256}
+              height={256}
+              loading="eager"
+              decoding="async"
               className="relative h-12 lg:h-14 w-auto transition-transform duration-300 group-hover:scale-[1.03]"
               style={{ filter: "drop-shadow(0 1px 1px rgba(16,24,32,0.08))" }}
             />
@@ -324,8 +326,8 @@ export function Header() {
                               <img
                                 src={partner.logo}
                                 alt={partner.logoAlt || partner.label}
-                                width={1920}
-                                height={1075}
+                                width={400}
+                                height={224}
                                 className="h-8 w-auto max-w-[72px] object-contain rounded"
                                 loading="lazy"
                               />
@@ -485,8 +487,8 @@ export function Header() {
                                   <img
                                     src={partner.logo}
                                     alt={partner.logoAlt || partner.label}
-                                    width={1920}
-                                    height={1075}
+                                    width={400}
+                                    height={224}
                                     className="h-9 w-auto max-w-[80px] object-contain rounded"
                                     loading="lazy"
                                   />

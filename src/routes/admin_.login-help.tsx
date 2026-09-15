@@ -9,7 +9,7 @@ import {
   Clock,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import logo from "@/assets/cevons-logo-transparent.png";
+const logo = "/images/cevons-logo.webp";
 import { CrmThemeProvider, useCrmTheme } from "@/components/admin/theme";
 
 export const Route = createFileRoute("/admin_/login-help")({

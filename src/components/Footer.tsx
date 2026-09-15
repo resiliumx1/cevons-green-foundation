@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { SocialGlyph } from "./icons/SocialGlyph";
 import { socialLinksList } from "@/data/socialLinks";
-import logo from "@/assets/cevons-logo-transparent.png";
+const logo = "/images/cevons-logo.webp";
 import { WhatsApp } from "./icons/WhatsApp";
 import {
   cevonsContact,
