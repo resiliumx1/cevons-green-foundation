@@ -1,5 +1,5 @@
 import { Award, Home, MapPin, Recycle, type LucideIcon } from "lucide-react";
-import marketLeaderBadge from "@/assets/market-leader-badge.png.asset.json";
+const marketLeaderBadge = { url: "/images/market-leader-badge.webp" };
 
 export type StatItem = { value: string; label: string; icon?: LucideIcon };
 

@@ -3,8 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useT } from "@/contexts/SettingsContext";
 import { SlotImage } from "@/components/media/SlotImage";
-import wheelieBinAsset from "@/assets/residential-wheelie-bin.webp.asset.json";
-import commercialRedBinAsset from "@/assets/commercial-red-bin-v2.png.asset.json";
+const wheelieBinAsset = { url: "/images/residential-wheelie-bin.webp" };
+const commercialRedBinAsset = { url: "/images/commercial-red-bin.webp" };
 
 type ServiceCard = {
   key: "industrial" | "recyclables" | "residential" | "commercial" | "specialised";

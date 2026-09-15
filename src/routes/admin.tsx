@@ -34,7 +34,7 @@ import {
   UserCircle,
 } from "lucide-react";
 
-import logo from "@/assets/cevons-logo-transparent.png";
+const logo = "/images/cevons-logo.webp";
 import {
   NotificationsBell,
   useNotifications,
