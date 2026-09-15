@@ -40,8 +40,8 @@ export function CevonsLogo({
       className={`${h} w-auto object-contain shrink-0`}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      width={512}
-      height={512}
+      width={256}
+      height={256}
       draggable={false}
     />
   );

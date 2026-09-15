@@ -54,6 +54,15 @@ export const IMAGE_DIMS: Record<string, readonly [number, number]> = {
   "/assets/cevon-icons/categories/commercial.webp": [1024, 1024],
   "/assets/cevon-icons/categories/industrial.webp": [256, 256],
   "/assets/cevon-icons/categories/facilities.webp": [256, 256],
+
+  // Editor uploads re-encoded to compact WebP (public/images)
+  "/images/commercial-red-bin.webp": [1200, 1600],
+  "/images/industrial-truck.webp": [1086, 1448],
+  "/images/residential-wheelie-bin.webp": [1086, 1448],
+  "/images/recycling-facility.webp": [1200, 800],
+  "/images/market-leader-badge.webp": [400, 133],
+  "/images/bs-recycling-logo.webp": [400, 224],
+  "/images/cevons-logo.webp": [256, 256],
 };
 
 /** Spreadable width/height props for a known static image (empty when unknown). */
