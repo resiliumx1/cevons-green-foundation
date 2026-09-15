@@ -1,26 +1,29 @@
-# AI chat assistant — credit cost review
+# Fix the "API KEY REQUIRED" watermark on the branch maps
 
-## What we found (measured, this billing period Aug 24 – Sep 14)
+## What is happening
 
-- Both assistants (public "Cev" chat + admin helper) run through the Lovable AI Gateway, so each message uses workspace AI credits.
-- Actual usage: **117 messages, 0.36 credits total** (~0.003 credits/message).
-- Free AI allowance: **4 credits/month** on every plan — current usage is under 10% of it. Effective cost today: **$0**.
+The maps on the Locations and Contact pages are drawn with free background map imagery from CARTO. CARTO has started stamping "API KEY REQUIRED / carto.com/basemaps/apikey" diagonally across the tiles it serves to accounts without a key. Confirmed by fetching a tile directly — it comes back with the watermark baked into the image. Nothing is broken in the site itself: the map, pins, popups and branch data all work.
 
-## Recommendation
+## Fix
 
-Do nothing now — the assistant is effectively free at current volume. Revisit only if chat traffic grows substantially.
+Swap the background imagery to OpenStreetMap's standard tiles, which are free, need no account or key, and carry no watermark. The map keeps its current look, size, pins, popups, scroll behaviour and placement — only the background imagery source changes, along with the required credit line under the map ("© OpenStreetMap contributors").
 
-## Options if volume grows (pick later, no work now)
+Applies to both places the map appears (Locations and Contact) because they share one map component.
 
-1. **Switch model to a cheaper Lovable one** (Gemini Flash Lite class): same setup, ~cheaper per message, no new accounts. Small edit to the assistant's model setting.
-2. **DeepSeek with your own API key**: chat stops using Lovable credits entirely; you pay DeepSeek directly (very low rates). Requires you to create a DeepSeek account and provide an API key, stored securely server-side. Involves rewiring the assistant's backend call and re-testing guardrails (no price quoting, correct branch info, link routing).
+## Verification
 
-## If you want either change now
+Load Locations and Contact in a real browser at both desktop and phone widths, confirm the tiles arrive without the watermark and the pins/popups still work, and check no errors appear.
 
-Say which option and it will be implemented with the existing rate limits, message caps, and guardrail prompt kept intact, then tested end-to-end (a real chat exchange verified before done).
+## If you prefer a different look
+
+OpenStreetMap's standard style is slightly more colourful than the current pale grey. Two alternatives, only if you want them later:
+
+- Create a free CARTO account and supply an API key — keeps today's exact pale style.
+- Use Google Maps instead — a heavier change to the map component and a separate connection setup.
+
+Recommendation: go with OpenStreetMap now, since it removes the watermark today with no accounts or ongoing cost.
 
 ## Technical details
 
-- Code: `supabase/functions/ai-assistant/index.ts` — model + gateway URL are the only lines that change for either option; rate limits (15/session, 30/IP per hour), 1,500-char input cap and 700-token reply cap stay.
-- DeepSeek option adds a server-side secret (their API key) and swaps the gateway endpoint; behaviour and UI unchanged.
-- No impact on GA4 tracking, email notifications, or any other feature.
+- `src/components/GuyanaBranchMapInner.tsx`: change the `TileLayer` `url` from `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png` to `https://tile.openstreetmap.org/{z}/{x}/{y}.png`, update `attribution` to the OpenStreetMap credit, and set `maxZoom` within the provider's supported range.
+- No changes to `GuyanaBranchMap.tsx` lazy-loading, the Leaflet CSS strategy, branch data, or any page layout.
