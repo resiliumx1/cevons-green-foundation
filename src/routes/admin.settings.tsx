@@ -109,6 +109,15 @@ const DEFAULT_NOTIFICATIONS: NotificationPref[] = [
   { label: "Missed call alerts", desc: "Get notified when customer calls are missed.", on: true },
 ];
 
+const PREF_ICONS: Record<string, typeof Bell> = {
+  "New lead alerts": Truck,
+  "Quote reminders": FileText,
+  "Booking reminders": CalendarClock,
+  "Review request alerts": Star,
+  "Missed call alerts": PhoneOff,
+};
+
+
 const DEFAULT_PROFILE: CompanyProfile = {
   name: "CEVONS Waste Management",
   branches: [
