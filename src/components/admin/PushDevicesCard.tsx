@@ -97,8 +97,10 @@ export function PushDevicesCard() {
           <h2 className="font-semibold text-white">Alerts on this device</h2>
           <p className="mt-1 text-xs leading-relaxed text-white/60">
             Get a phone notification the moment a service request, message or review comes in — even
-            when the admin is closed. Install CEVONS Admin to your home screen first for the best
-            experience, then switch alerts on from the installed app.
+            when the admin is closed.
+            {needsIosSteps
+              ? " On iPhone and iPad, alerts only work once CEVONS Admin is added to your home screen — add it above, then open it from there and switch alerts on."
+              : ""}
           </p>
         </div>
       </div>
