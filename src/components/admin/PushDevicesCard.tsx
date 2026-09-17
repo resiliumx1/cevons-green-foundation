@@ -63,6 +63,7 @@ export function PushDevicesCard() {
         data: { token: result.token, userAgent: navigator.userAgent },
       });
       setEnabled(true);
+      await refreshDevices();
       toast.success("Alerts are on for this device.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not switch alerts on.");
@@ -77,6 +78,7 @@ export function PushDevicesCard() {
       const token = await disablePush();
       if (token) await unregisterPushToken({ data: { token } });
       setEnabled(false);
+      await refreshDevices();
       toast.success("Alerts are off for this device.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not switch alerts off.");
