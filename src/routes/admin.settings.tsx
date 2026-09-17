@@ -204,16 +204,18 @@ function SettingsPage() {
   );
 
   const SECTIONS = [
-    { id: "profile", label: "Company Profile", icon: Building2 },
-    { id: "team", label: "Team Members", icon: Users },
-    { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "email", label: "Email notifications", icon: Mail },
+    { id: "profile", label: "Company Profile", icon: Building2, tone: "tone-navy" },
+    { id: "team", label: "Team Members", icon: Users, tone: "tone-blue" },
+    { id: "notifications", label: "Notifications", icon: Bell, tone: "tone-orange" },
+    { id: "email", label: "Email notifications", icon: Mail, tone: "tone-green" },
 
-    { id: "pipeline", label: "Pipeline", icon: GitBranch },
-    { id: "services", label: "Service Catalog", icon: Award },
-    { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
-    { id: "security", label: "Password & Security", icon: Lock },
+    { id: "pipeline", label: "Pipeline", icon: GitBranch, tone: "tone-purple" },
+    { id: "services", label: "Service Catalog", icon: Award, tone: "tone-cyan" },
+    { id: "appearance", label: "Appearance & Theme", icon: Sparkles, tone: "tone-amber" },
+    { id: "security", label: "Password & Security", icon: Lock, tone: "tone-red" },
   ];
+
+  const activeSection = SECTIONS.find((s) => s.id === active);
 
   return (
     <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
@@ -232,41 +234,32 @@ function SettingsPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[220px_1fr]">
-        {/* Sidebar / mobile tab strip */}
-        <aside className="rounded-xl border border-white/[0.08] bg-[#101820] p-1.5 lg:p-2 -mx-4 lg:mx-0 rounded-none lg:rounded-xl border-x-0 lg:border-x sticky top-16 z-20 lg:static backdrop-blur supports-[backdrop-filter]:bg-[#101820]/95">
-          <nav
-            className="flex gap-1 overflow-x-auto lg:flex-col px-2 lg:px-0"
-            style={{ scrollSnapType: "x proximity", scrollbarWidth: "none" }}
-            aria-label="Settings sections"
-          >
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[248px_1fr]">
+        {/* Section picker — a full grid on phones (nothing hidden off-screen), a list on desktop */}
+        <aside>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/50">Settings sections</p>
+          <nav className="set-nav" aria-label="Settings sections">
             {SECTIONS.map((s) => {
               const Icon = s.icon;
               const isActive = active === s.id;
               return (
                 <button
                   key={s.id}
-                  onClick={(e) => {
-                    setActive(s.id);
-                    e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-                  }}
-                  className={`relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm whitespace-nowrap transition snap-start lg:w-full ${
-                    isActive
-                      ? "bg-[#FFD200]/12 text-[#FFD200] font-semibold"
-                      : "text-white/70 hover:bg-white/[0.04] hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={() => setActive(s.id)}
+                  className="set-nav-item"
                   aria-current={isActive ? "page" : undefined}
                 >
-                  <Icon className="h-4 w-4" />
-                  {s.label}
-                  {isActive && (
-                    <span className="lg:hidden absolute -bottom-1 left-3 right-3 h-[2px] rounded-full bg-[#FFD200]" />
-                  )}
+                  <span className={`set-ico ${s.tone}`} aria-hidden>
+                    <Icon className="h-[18px] w-[18px]" />
+                  </span>
+                  <span className="min-w-0">{s.label}</span>
                 </button>
               );
             })}
           </nav>
         </aside>
+
 
         {/* Content */}
         <div className="space-y-6">
