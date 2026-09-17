@@ -6157,8 +6157,12 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   z-index: 40;
   display: none; /* flex below lg — must not outrank Tailwind's lg:hidden */
   align-items: stretch;
-  background: var(--panel);
-  border-top: 1px solid var(--crm-border);
+  /* Deep navy glass bar — labels read white against it, tiles glow on top. */
+  background: linear-gradient(180deg, #0a1440 0%, #060b28 100%);
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+  box-shadow: 0 -6px 24px rgb(6 11 40 / 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -6177,18 +6181,16 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   gap: 3px;
   min-height: 58px;
   padding: 6px 2px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  /* Near-full-strength text (not muted) so labels read at a glance on phones. */
-  color: var(--crm-text);
-  text-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 0.82);
   -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s ease;
 }
 
 [data-crm-theme] .admin-tabbar-item.is-active {
-  color: var(--crm-primary);
-  text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
+  color: #fff;
 }
 
 [data-crm-theme] .admin-tabbar-item:active {
@@ -6239,18 +6241,18 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   width: 38px;
   height: 30px;
   border-radius: 9px;
-  color: var(--tabbar-tone, var(--crm-text-muted));
-  background: color-mix(in srgb, var(--tabbar-tone, var(--crm-border)) 14%, transparent);
+  color: color-mix(in srgb, var(--tabbar-tone, #93c5fd) 45%, #fff);
+  background: rgb(255 255 255 / 0.10);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.55),
-    inset 0 -1px 0 rgb(0 0 0 / 0.06),
-    0 2px 4px rgb(15 23 42 / 0.12);
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25),
+    0 2px 6px rgb(0 0 0 / 0.35);
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 [data-crm-theme] .admin-tabbar-ico svg {
-  filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.35));
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.35));
 }
 
 [data-crm-theme] .admin-tabbar-item.is-active .admin-tabbar-ico,
@@ -6265,7 +6267,7 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   box-shadow:
     inset 0 1.5px 0 rgb(255 255 255 / 0.45),
     inset 0 -2px 0 rgb(0 0 0 / 0.18),
-    0 3px 8px color-mix(in srgb, var(--tabbar-tone) 45%, transparent);
+    0 4px 14px color-mix(in srgb, var(--tabbar-tone) 70%, transparent);
   transform: translateY(-1px);
 }
 
