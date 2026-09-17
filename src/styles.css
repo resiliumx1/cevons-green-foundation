@@ -6390,3 +6390,15 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   [data-crm-theme] .set-switch,
   [data-crm-theme] .set-switch > span { transition: none; }
 }
+@media (max-width: 480px) {
+  [data-crm-theme] .set-row {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  [data-crm-theme] .set-row > :last-child {
+    margin-left: auto;
+  }
+  [data-crm-theme] .set-row .ico-soft + div {
+    flex: 1 1 60%;
+  }
+}
