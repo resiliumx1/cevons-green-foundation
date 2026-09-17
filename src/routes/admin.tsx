@@ -54,6 +54,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 import { CrmCommandPalette } from "@/components/admin/CommandPalette";
+import { MobileTabBar } from "@/components/admin/MobileTabBar";
 import { AdminBootScreen, AdminSectionSkeleton } from "@/components/admin/SectionSkeleton";
 import { toast } from "sonner";
 
@@ -262,7 +263,7 @@ function CrmLayout() {
   }, [mobileOpen]);
 
   const reduce = useReducedMotion();
-  const { unreadByType, markTypeRead } = useNotifications();
+  const { unreadCount, unreadByType, markTypeRead } = useNotifications();
   // People is owner/admin only — hide the nav entry for everyone else. The
   // screen itself and RLS both enforce this independently.
   const layoutIdentity = useAdminIdentity();
