@@ -135,6 +135,12 @@ export function PushDevicesCard() {
             : pushIsConfigured()
               ? "Alerts are off for this device."
               : PUSH_MESSAGE["not-configured"]}
+          {devices !== null ? (
+            <>
+              {" "}
+              You receive alerts on {devices} {devices === 1 ? "device" : "devices"}.
+            </>
+          ) : null}
         </span>
       </div>
     </section>
