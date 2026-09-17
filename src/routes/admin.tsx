@@ -431,12 +431,12 @@ function CrmLayout() {
           to="/"
           onClick={() => setMobileOpen(false)}
           className={`crm-nav-item lg:hidden mb-1 flex items-center gap-3 rounded-xl text-[13.5px] ${
-            collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
+            collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-3 min-h-11"
           }`}
           style={{ color: "#FFFFFF" }}
         >
           <Globe size={20} strokeWidth={1.75} />
-          {!collapsed && <span>Back to site</span>}
+          {!collapsed && <span>View website</span>}
         </Link>
         <button
           onClick={() => setCollapsed((c) => !c)}
@@ -684,6 +684,21 @@ function ProfileMenu() {
         <DropdownMenuItem onSelect={() => navigate({ to: "/admin/settings" })}>
           <Settings className="h-4 w-4 mr-2" />
           Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {/* The quiet way back to cevons.com. Inside the installed app this
+            opens in the browser so the app itself stays put. */}
+        <DropdownMenuItem
+          onSelect={() => {
+            const standalone =
+              window.matchMedia?.("(display-mode: standalone)").matches === true ||
+              (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
+            if (standalone) window.open("/", "_blank", "noopener");
+            else navigate({ to: "/" });
+          }}
+        >
+          <Globe className="h-4 w-4 mr-2" />
+          View website
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
