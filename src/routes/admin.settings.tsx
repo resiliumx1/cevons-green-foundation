@@ -9,6 +9,7 @@ import {
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { PushDevicesCard } from "@/components/admin/PushDevicesCard";
+import { InstallAppCard } from "@/components/admin/InstallAppCard";
 import { supabase } from "@/integrations/supabase/client";
 
 import {
@@ -546,6 +547,7 @@ function NotificationsSection({
 
   return (
     <div className="space-y-5">
+    <InstallAppCard />
     <PushDevicesCard />
     <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
       <h2 className="font-semibold text-white">Notification Preferences</h2>

@@ -8,7 +8,12 @@ import {
   enablePush,
   pushIsConfigured,
 } from "@/lib/push/enablePush";
-import { registerPushToken, unregisterPushToken } from "@/lib/push.functions";
+import {
+  countMyPushDevices,
+  registerPushToken,
+  unregisterPushToken,
+} from "@/lib/push.functions";
+import { useInstallPrompt } from "@/hooks/useInstallPrompt";
 
 /**
  * Lets an admin switch phone/desktop push alerts on for the device they are
@@ -19,6 +24,17 @@ export function PushDevicesCard() {
   const [busy, setBusy] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [devices, setDevices] = useState<number | null>(null);
+  const { needsIosSteps } = useInstallPrompt();
+
+  const refreshDevices = useCallback(async () => {
+    try {
+      const result = await countMyPushDevices();
+      setDevices(result.devices);
+    } catch {
+      setDevices(null);
+    }
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -27,10 +43,11 @@ export function PushDevicesCard() {
       setEnabled(Boolean(token));
       setChecking(false);
     });
+    void refreshDevices();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [refreshDevices]);
 
   const turnOn = useCallback(async () => {
     setBusy(true);
@@ -46,13 +63,14 @@ export function PushDevicesCard() {
         data: { token: result.token, userAgent: navigator.userAgent },
       });
       setEnabled(true);
+      await refreshDevices();
       toast.success("Alerts are on for this device.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not switch alerts on.");
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [refreshDevices]);
 
   const turnOff = useCallback(async () => {
     setBusy(true);
@@ -60,13 +78,14 @@ export function PushDevicesCard() {
       const token = await disablePush();
       if (token) await unregisterPushToken({ data: { token } });
       setEnabled(false);
+      await refreshDevices();
       toast.success("Alerts are off for this device.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Could not switch alerts off.");
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [refreshDevices]);
 
   return (
     <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
@@ -78,8 +97,10 @@ export function PushDevicesCard() {
           <h2 className="font-semibold text-white">Alerts on this device</h2>
           <p className="mt-1 text-xs leading-relaxed text-white/60">
             Get a phone notification the moment a service request, message or review comes in — even
-            when the admin is closed. Install CEVONS Admin to your home screen first for the best
-            experience, then switch alerts on from the installed app.
+            when the admin is closed.
+            {needsIosSteps
+              ? " On iPhone and iPad, alerts only work once CEVONS Admin is added to your home screen — add it above, then open it from there and switch alerts on."
+              : ""}
           </p>
         </div>
       </div>
@@ -114,6 +135,12 @@ export function PushDevicesCard() {
             : pushIsConfigured()
               ? "Alerts are off for this device."
               : PUSH_MESSAGE["not-configured"]}
+          {devices !== null ? (
+            <>
+              {" "}
+              You receive alerts on {devices} {devices === 1 ? "device" : "devices"}.
+            </>
+          ) : null}
         </span>
       </div>
     </section>

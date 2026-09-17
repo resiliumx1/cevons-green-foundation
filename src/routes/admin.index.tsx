@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { PullToRefresh } from "@/components/admin/PullToRefresh";
+import { InstallAppCard } from "@/components/admin/InstallAppCard";
 import {
   ArrowRight,
   Image as ImageIcon,
@@ -193,6 +194,8 @@ function Dashboard() {
           </div>
           <p className="admin-page-meta truncate">{georgetownStamp(new Date())} · Georgetown</p>
         </header>
+
+        <InstallAppCard variant="banner" />
 
         <Shortcuts openRequests={d?.openRequests} />
 
