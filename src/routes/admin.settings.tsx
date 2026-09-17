@@ -1197,16 +1197,27 @@ function Field({
   );
 }
 
-function Toggle({ active, onChange }: { active: boolean; onChange: () => void }) {
+function Toggle({ active, onChange, label }: { active: boolean; onChange: () => void; label?: string }) {
   return (
-    <button
-      onClick={onChange}
-      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#EF7700]" : "bg-white/[0.1]"}`}
-    >
-      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${active ? "left-[18px]" : "left-0.5"}`} />
-    </button>
+    <span className="flex items-center gap-2">
+      <span className="set-state" data-on={active} aria-hidden>
+        {active ? "On" : "Off"}
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={active}
+        aria-label={label ? `${label} — ${active ? "on" : "off"}` : active ? "On" : "Off"}
+        onClick={onChange}
+        className="set-switch"
+        data-on={active}
+      >
+        <span />
+      </button>
+    </span>
   );
 }
+
 
 /* ─── security: change your password ────────────────────────────────────── */
 
