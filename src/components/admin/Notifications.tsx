@@ -11,6 +11,8 @@ import {
   MessageSquare,
   Star,
   Megaphone,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -323,6 +325,8 @@ function ArrivalCard({
 export function NotificationsBell() {
   const [open, setOpen] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
+  // On phones the panel opens as a partial bottom sheet; expand fills the screen.
+  const [expanded, setExpanded] = useState(false);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [arrivals, setArrivals] = useState<NotificationRow[]>([]);
   const [announcement, setAnnouncement] = useState("");
@@ -485,14 +489,17 @@ export function NotificationsBell() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                setExpanded(false);
+              }}
             />
             <motion.div
               initial={{ opacity: 0, y: -8, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.16, ease: "easeOut" }}
-              className="admin-notification-drawer fixed z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden"
+              className={`admin-notification-drawer ${expanded ? "is-expanded" : ""} fixed z-50 w-[440px] max-w-[calc(100vw-2rem)] border flex flex-col overflow-hidden`}
               style={{
                 background: "var(--crm-surface)",
                 borderColor: "var(--crm-border)",
@@ -521,6 +528,19 @@ export function NotificationsBell() {
                   )}
                 </div>
                 <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setExpanded((v) => !v)}
+                    className="admin-icon-button admin-icon-button-sm md:hidden"
+                    style={{ color: "var(--crm-text-muted)" }}
+                    aria-label={expanded ? "Shrink panel" : "Expand panel"}
+                    title={expanded ? "Shrink" : "Expand"}
+                  >
+                    {expanded ? (
+                      <ChevronDown className="h-4 w-4" />
+                    ) : (
+                      <ChevronUp className="h-4 w-4" />
+                    )}
+                  </button>
                   <button
                     onClick={() => setShowPrefs((v) => !v)}
                     className="admin-icon-button admin-icon-button-sm"
