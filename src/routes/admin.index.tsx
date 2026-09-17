@@ -321,9 +321,12 @@ type ActivityItem = {
   at: string;
   text: string;
   meta: string;
+  status?: string;
+  tone: "soft-orange" | "soft-blue" | "soft-purple";
   icon: LucideIcon;
   to?: { path: "/admin/leads/$id"; id: string } | { path: "/admin/messages" | "/admin/media" };
 };
+
 
 function RecentActivity() {
   const q = useQuery({
