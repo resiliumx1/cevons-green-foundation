@@ -4679,6 +4679,38 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 [data-crm-theme] .admin-glass-page {
   color: var(--text);
 }
+[data-crm-theme][data-theme="light"] .admin-glass-page {
+  --ink: oklch(0.18 0.075 274);
+  --panel: oklch(0.235 0.075 274);
+  --panel-2: oklch(0.28 0.065 274);
+  --text: oklch(0.98 0.008 255);
+  --text-2: oklch(0.78 0.025 270);
+  --rule: color-mix(in oklab, var(--text) 15%, transparent);
+  --rule-strong: color-mix(in oklab, var(--text) 28%, transparent);
+  --hover: color-mix(in oklab, var(--text) 8%, transparent);
+  --track: color-mix(in oklab, var(--text) 10%, transparent);
+  --hairline: color-mix(in oklab, var(--text) 11%, transparent);
+  margin: -16px;
+  padding: 16px;
+  min-height: calc(100dvh - 120px);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, color-mix(in oklab, var(--admin-navy) 74%, transparent), transparent 52%),
+    var(--ink);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 7%, transparent);
+}
+@media (min-width: 768px) {
+  [data-crm-theme][data-theme="light"] .admin-glass-page { margin: -24px; padding: 24px; }
+}
+@media (min-width: 1024px) {
+  [data-crm-theme][data-theme="light"] .admin-glass-page { margin: -32px; padding: 32px; }
+}
+[data-crm-theme] .admin-glass-page .admin-toolbar,
+[data-crm-theme] .admin-glass-page .admin-panel {
+  background: color-mix(in oklab, var(--panel) 90%, transparent);
+  box-shadow: var(--admin-shadow-card), inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+  backdrop-filter: blur(12px);
+}
 [data-crm-theme] .admin-message-card,
 [data-crm-theme] .admin-review-card {
   border: 1px solid var(--hairline);
