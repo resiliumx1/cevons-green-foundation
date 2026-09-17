@@ -418,15 +418,29 @@ function RecentActivity() {
             const Icon = i.icon;
             const body = (
               <>
-                <span className="admin-feed-icon">
+                <span className={`admin-feed-icon ${i.tone}`}>
                   <Icon className="h-4 w-4" aria-hidden />
                 </span>
                 <span className="min-w-0">
                   <span className="admin-feed-text block">{i.text}</span>
                   <span className="admin-feed-meta block" title={georgetownStamp(i.at)}>
+                    {i.status && (
+                      <span
+                        className={`feed-chip ${
+                          ["new", "draft"].includes(i.status)
+                            ? "is-new"
+                            : ["closed", "completed", "published", "resolved", "replied"].includes(i.status)
+                              ? "is-done"
+                              : ""
+                        }`}
+                      >
+                        {i.status}
+                      </span>
+                    )}{" "}
                     {i.meta} · {timeAgo(i.at)}
                   </span>
                 </span>
+
               </>
             );
             return (
