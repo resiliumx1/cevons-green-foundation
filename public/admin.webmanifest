@@ -6,6 +6,8 @@
   "start_url": "/admin",
   "scope": "/admin",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "categories": ["business", "productivity"],
   "orientation": "portrait-primary",
   "background_color": "#000080",
   "theme_color": "#000080",
