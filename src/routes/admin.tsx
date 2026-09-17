@@ -54,6 +54,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CrmSectionTransition } from "@/components/motion/CrmMotion";
 import { CrmCommandPalette } from "@/components/admin/CommandPalette";
+import { MobileTabBar } from "@/components/admin/MobileTabBar";
 import { AdminBootScreen, AdminSectionSkeleton } from "@/components/admin/SectionSkeleton";
 import { toast } from "sonner";
 
@@ -262,12 +263,14 @@ function CrmLayout() {
   }, [mobileOpen]);
 
   const reduce = useReducedMotion();
-  const { unreadByType, markTypeRead } = useNotifications();
+  const { unreadCount, unreadByType, markTypeRead } = useNotifications();
   // People is owner/admin only — hide the nav entry for everyone else. The
   // screen itself and RLS both enforce this independently.
   const layoutIdentity = useAdminIdentity();
   const canSee = (item: NavItem) => !item.adminOnly || isAdminRole(layoutIdentity.roles);
   const visibleNav = nav.filter(canSee);
+  // Name of the section on screen — shown in the phone top bar.
+  const currentLabel = visibleNav.find((i) => isActivePath(pathname, i))?.label ?? "Admin";
   const visibleGroups = NAV_GROUPS.map((g) => ({
     heading: g.heading,
     items: g.items.filter(canSee),
@@ -428,12 +431,12 @@ function CrmLayout() {
           to="/"
           onClick={() => setMobileOpen(false)}
           className={`crm-nav-item lg:hidden mb-1 flex items-center gap-3 rounded-xl text-[13.5px] ${
-            collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-2.5"
+            collapsed ? "justify-center h-11 w-11 mx-auto" : "px-3 py-3 min-h-11"
           }`}
           style={{ color: "#FFFFFF" }}
         >
           <Globe size={20} strokeWidth={1.75} />
-          {!collapsed && <span>Back to site</span>}
+          {!collapsed && <span>View website</span>}
         </Link>
         <button
           onClick={() => setCollapsed((c) => !c)}
@@ -495,7 +498,7 @@ function CrmLayout() {
             role="dialog"
             aria-modal="true"
             aria-label="Admin sections"
-            className="crm-sidebar fixed left-0 top-0 bottom-0 w-[86vw] max-w-[320px] z-50 lg:hidden flex flex-col overflow-y-auto overscroll-contain"
+            className="crm-sidebar admin-drawer fixed left-0 top-0 bottom-0 w-[86vw] max-w-[320px] z-50 lg:hidden flex flex-col overflow-y-auto overscroll-contain"
           >
             <button
               ref={drawerCloseRef}
@@ -530,51 +533,58 @@ function CrmLayout() {
             <Menu className="h-5 w-5" />
           </button>
 
-          <button
-            type="button"
-            onClick={() => setPaletteOpen(true)}
-            className="admin-command-search relative flex min-w-0 w-full md:max-w-md items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
-            style={{
-              background: "var(--crm-surface-muted)",
-              borderColor: "var(--crm-border)",
-              color: "var(--crm-text-faint)",
-              ["--tw-ring-color" as never]: "var(--crm-primary)",
-            }}
-            aria-label="Open search"
-          >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 shrink-0" />
-            <span className="truncate sm:hidden">Search</span>
-            <span className="truncate hidden sm:inline">
-              Search pages, media, requests, settings…
-            </span>
-            <kbd
-              className="ml-auto hidden lg:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[11px] font-mono"
-              style={{
-                borderColor: "var(--crm-border)",
-                color: "var(--crm-text-muted)",
-                background: "var(--crm-surface)",
-              }}
+          {/* Phones: section name + a search icon that opens the same panel.
+              Desktop: the full search pill. */}
+          <div className="flex min-w-0 items-center gap-2">
+            <span
+              className="md:hidden truncate text-[15px] font-semibold"
+              style={{ color: "var(--crm-text)" }}
             >
-              ⌘K
-            </kbd>
-          </button>
+              {currentLabel}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              className="admin-command-search relative hidden min-w-0 w-full md:flex md:max-w-md items-center rounded-lg border pl-9 pr-3 py-2 text-sm text-left transition-colors hover:opacity-90 focus:outline-none focus-visible:ring-2"
+              style={{
+                background: "var(--crm-surface-muted)",
+                borderColor: "var(--crm-border)",
+                color: "var(--crm-text-faint)",
+                ["--tw-ring-color" as never]: "var(--crm-primary)",
+              }}
+              aria-label="Open search"
+            >
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 shrink-0" />
+              <span className="truncate">Search pages, media, requests, settings…</span>
+              <kbd
+                className="ml-auto hidden lg:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[11px] font-mono"
+                style={{
+                  borderColor: "var(--crm-border)",
+                  color: "var(--crm-text-muted)",
+                  background: "var(--crm-surface)",
+                }}
+              >
+                ⌘K
+              </kbd>
+            </button>
+          </div>
 
           <div className="admin-header-actions flex min-w-0 shrink-0 items-center gap-1 sm:gap-2 ml-auto">
-            <CrmAssistant />
-            <NotificationsBell />
-            <Link
-              to="/"
-              className="admin-command-button hidden lg:flex"
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              className="md:hidden h-11 w-11 grid place-items-center rounded-lg border"
               style={{
                 background: "var(--crm-surface-muted)",
                 borderColor: "var(--crm-border)",
                 color: "var(--crm-text)",
               }}
-              title="Back to website"
+              aria-label="Search"
             >
-              <Globe className="h-4 w-4 mr-1.5" />
-              <span>Back to site</span>
-            </Link>
+              <Search className="h-5 w-5" />
+            </button>
+            <CrmAssistant />
+            <NotificationsBell />
             <ProfileMenu />
           </div>
         </header>
@@ -585,6 +595,12 @@ function CrmLayout() {
             <AdminSectionContent />
           </CrmSectionTransition>
         </main>
+
+        <MobileTabBar
+          unreadTotal={unreadCount}
+          unreadByType={unreadByType}
+          onOpenMenu={() => setMobileOpen(true)}
+        />
       </div>
     </div>
   );
@@ -668,6 +684,21 @@ function ProfileMenu() {
         <DropdownMenuItem onSelect={() => navigate({ to: "/admin/settings" })}>
           <Settings className="h-4 w-4 mr-2" />
           Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {/* The quiet way back to cevons.com. Inside the installed app this
+            opens in the browser so the app itself stays put. */}
+        <DropdownMenuItem
+          onSelect={() => {
+            const standalone =
+              window.matchMedia?.("(display-mode: standalone)").matches === true ||
+              (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
+            if (standalone) window.open("/", "_blank", "noopener");
+            else navigate({ to: "/" });
+          }}
+        >
+          <Globe className="h-4 w-4 mr-2" />
+          View website
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
