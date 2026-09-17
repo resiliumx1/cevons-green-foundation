@@ -269,6 +269,8 @@ function CrmLayout() {
   const layoutIdentity = useAdminIdentity();
   const canSee = (item: NavItem) => !item.adminOnly || isAdminRole(layoutIdentity.roles);
   const visibleNav = nav.filter(canSee);
+  // Name of the section on screen — shown in the phone top bar.
+  const currentLabel = visibleNav.find((i) => isActivePath(pathname, i))?.label ?? "Admin";
   const visibleGroups = NAV_GROUPS.map((g) => ({
     heading: g.heading,
     items: g.items.filter(canSee),
@@ -496,7 +498,7 @@ function CrmLayout() {
             role="dialog"
             aria-modal="true"
             aria-label="Admin sections"
-            className="crm-sidebar fixed left-0 top-0 bottom-0 w-[86vw] max-w-[320px] z-50 lg:hidden flex flex-col overflow-y-auto overscroll-contain"
+            className="crm-sidebar admin-drawer fixed left-0 top-0 bottom-0 w-[86vw] max-w-[320px] z-50 lg:hidden flex flex-col overflow-y-auto overscroll-contain"
           >
             <button
               ref={drawerCloseRef}
