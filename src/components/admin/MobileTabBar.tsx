@@ -28,6 +28,7 @@ export function MobileTabBar({
     Icon: typeof LayoutGrid,
     active: boolean,
     count: number,
+    tone: string,
   ) => (
     <Link
       key={to}
@@ -37,7 +38,9 @@ export function MobileTabBar({
       className={`admin-tabbar-item ${active ? "is-active" : ""}`}
     >
       <span className="relative grid place-items-center">
-        <Icon className="h-[22px] w-[22px]" strokeWidth={1.9} aria-hidden />
+        <span className={`admin-tabbar-ico admin-tabbar-ico-${tone}`}>
+          <Icon className="h-[19px] w-[19px]" strokeWidth={2.1} aria-hidden />
+        </span>
         {count > 0 && (
           <span className="admin-tabbar-badge">{count > 99 ? "99+" : count}</span>
         )}
@@ -52,6 +55,7 @@ export function MobileTabBar({
     Icon: typeof LayoutGrid,
     onClick: () => void,
     count = 0,
+    tone = "slate",
   ) => (
     <button
       key={key}
@@ -61,7 +65,9 @@ export function MobileTabBar({
       className="admin-tabbar-item"
     >
       <span className="relative grid place-items-center">
-        <Icon className="h-[22px] w-[22px]" strokeWidth={1.9} aria-hidden />
+        <span className={`admin-tabbar-ico admin-tabbar-ico-${tone}`}>
+          <Icon className="h-[19px] w-[19px]" strokeWidth={2.1} aria-hidden />
+        </span>
         {count > 0 && (
           <span className="admin-tabbar-badge">{count > 99 ? "99+" : count}</span>
         )}
