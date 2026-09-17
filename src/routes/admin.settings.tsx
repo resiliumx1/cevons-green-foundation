@@ -555,17 +555,24 @@ function NotificationsSection({
       <h2 className="font-semibold text-white">Notification Preferences</h2>
       <p className="text-xs text-white/50">Choose which alerts your team receives. These apply to the bell, email and phone alerts.</p>
 
-      <div className="mt-4 divide-y divide-white/[0.04]">
-        {prefs.map((n, i) => (
-          <div key={n.label} className="flex items-center justify-between py-3">
-            <div>
-              <p className="text-sm font-medium text-white">{n.label}</p>
-              <p className="text-xs text-white/50">{n.desc}</p>
+      <div className="mt-4">
+        {prefs.map((n, i) => {
+          const Icon = PREF_ICONS[n.label] ?? Bell;
+          return (
+            <div key={n.label} className="set-row" data-on={n.on}>
+              <span className={`ico-soft ${n.on ? "soft-green" : ""}`} aria-hidden>
+                <Icon className="h-[18px] w-[18px]" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-white">{n.label}</p>
+                <p className="text-xs text-white/60">{n.desc}</p>
+              </div>
+              <Toggle active={n.on} onChange={() => toggle(i)} label={n.label} />
             </div>
-            <Toggle active={n.on} onChange={() => toggle(i)} />
-          </div>
-        ))}
+          );
+        })}
       </div>
+
       <div className="mt-4 flex items-center gap-3">
         <button
           onClick={() => onSave({ preferences: prefs })}
