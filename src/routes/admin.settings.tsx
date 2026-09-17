@@ -5,6 +5,7 @@ import {
   Building2, Users, Bell, GitBranch, Palette, Sparkles, Sun,
   Check, Save, RefreshCw, AlertCircle, Plus, X, Trash2,
   Phone, MapPin, Clock, Award, MessageCircle, Lock, Mail,
+  Truck, FileText, CalendarClock, Star, PhoneOff, ShieldCheck,
 } from "lucide-react";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -108,6 +109,15 @@ const DEFAULT_NOTIFICATIONS: NotificationPref[] = [
   { label: "Missed call alerts", desc: "Get notified when customer calls are missed.", on: true },
 ];
 
+const PREF_ICONS: Record<string, typeof Bell> = {
+  "New lead alerts": Truck,
+  "Quote reminders": FileText,
+  "Booking reminders": CalendarClock,
+  "Review request alerts": Star,
+  "Missed call alerts": PhoneOff,
+};
+
+
 const DEFAULT_PROFILE: CompanyProfile = {
   name: "CEVONS Waste Management",
   branches: [
@@ -204,16 +214,18 @@ function SettingsPage() {
   );
 
   const SECTIONS = [
-    { id: "profile", label: "Company Profile", icon: Building2 },
-    { id: "team", label: "Team Members", icon: Users },
-    { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "email", label: "Email notifications", icon: Mail },
+    { id: "profile", label: "Company Profile", icon: Building2, tone: "tone-navy" },
+    { id: "team", label: "Team Members", icon: Users, tone: "tone-blue" },
+    { id: "notifications", label: "Notifications", icon: Bell, tone: "tone-orange" },
+    { id: "email", label: "Email notifications", icon: Mail, tone: "tone-green" },
 
-    { id: "pipeline", label: "Pipeline", icon: GitBranch },
-    { id: "services", label: "Service Catalog", icon: Award },
-    { id: "appearance", label: "Appearance & Theme", icon: Sparkles },
-    { id: "security", label: "Password & Security", icon: Lock },
+    { id: "pipeline", label: "Pipeline", icon: GitBranch, tone: "tone-purple" },
+    { id: "services", label: "Service Catalog", icon: Award, tone: "tone-cyan" },
+    { id: "appearance", label: "Appearance & Theme", icon: Sparkles, tone: "tone-amber" },
+    { id: "security", label: "Password & Security", icon: Lock, tone: "tone-red" },
   ];
+
+  const activeSection = SECTIONS.find((s) => s.id === active);
 
   return (
     <CrmPage className="flex flex-col gap-6 p-4 md:p-6">
@@ -232,44 +244,44 @@ function SettingsPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[220px_1fr]">
-        {/* Sidebar / mobile tab strip */}
-        <aside className="rounded-xl border border-white/[0.08] bg-[#101820] p-1.5 lg:p-2 -mx-4 lg:mx-0 rounded-none lg:rounded-xl border-x-0 lg:border-x sticky top-16 z-20 lg:static backdrop-blur supports-[backdrop-filter]:bg-[#101820]/95">
-          <nav
-            className="flex gap-1 overflow-x-auto lg:flex-col px-2 lg:px-0"
-            style={{ scrollSnapType: "x proximity", scrollbarWidth: "none" }}
-            aria-label="Settings sections"
-          >
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[248px_1fr]">
+        {/* Section picker — a full grid on phones (nothing hidden off-screen), a list on desktop */}
+        <aside>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/50">Settings sections</p>
+          <nav className="set-nav" aria-label="Settings sections">
             {SECTIONS.map((s) => {
               const Icon = s.icon;
               const isActive = active === s.id;
               return (
                 <button
                   key={s.id}
-                  onClick={(e) => {
-                    setActive(s.id);
-                    e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-                  }}
-                  className={`relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2.5 text-sm whitespace-nowrap transition snap-start lg:w-full ${
-                    isActive
-                      ? "bg-[#FFD200]/12 text-[#FFD200] font-semibold"
-                      : "text-white/70 hover:bg-white/[0.04] hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={() => setActive(s.id)}
+                  className="set-nav-item"
                   aria-current={isActive ? "page" : undefined}
                 >
-                  <Icon className="h-4 w-4" />
-                  {s.label}
-                  {isActive && (
-                    <span className="lg:hidden absolute -bottom-1 left-3 right-3 h-[2px] rounded-full bg-[#FFD200]" />
-                  )}
+                  <span className={`set-ico ${s.tone}`} aria-hidden>
+                    <Icon className="h-[18px] w-[18px]" />
+                  </span>
+                  <span className="min-w-0">{s.label}</span>
                 </button>
               );
             })}
           </nav>
         </aside>
 
+
         {/* Content */}
         <div className="space-y-6">
+          {activeSection && (
+            <div className="flex items-center gap-2.5 lg:hidden">
+              <span className={`set-ico ${activeSection.tone}`} aria-hidden>
+                <activeSection.icon className="h-[18px] w-[18px]" />
+              </span>
+              <h2 className="text-base font-semibold text-white">{activeSection.label}</h2>
+            </div>
+          )}
+
           {isLoading ? (
             <SettingsSkeleton />
           ) : (
@@ -553,17 +565,24 @@ function NotificationsSection({
       <h2 className="font-semibold text-white">Notification Preferences</h2>
       <p className="text-xs text-white/50">Choose which alerts your team receives. These apply to the bell, email and phone alerts.</p>
 
-      <div className="mt-4 divide-y divide-white/[0.04]">
-        {prefs.map((n, i) => (
-          <div key={n.label} className="flex items-center justify-between py-3">
-            <div>
-              <p className="text-sm font-medium text-white">{n.label}</p>
-              <p className="text-xs text-white/50">{n.desc}</p>
+      <div className="mt-4">
+        {prefs.map((n, i) => {
+          const Icon = PREF_ICONS[n.label] ?? Bell;
+          return (
+            <div key={n.label} className="set-row" data-on={n.on}>
+              <span className={`ico-soft ${n.on ? "soft-green" : ""}`} aria-hidden>
+                <Icon className="h-[18px] w-[18px]" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-white">{n.label}</p>
+                <p className="text-xs text-white/60">{n.desc}</p>
+              </div>
+              <Toggle active={n.on} onChange={() => toggle(i)} label={n.label} />
             </div>
-            <Toggle active={n.on} onChange={() => toggle(i)} />
-          </div>
-        ))}
+          );
+        })}
       </div>
+
       <div className="mt-4 flex items-center gap-3">
         <button
           onClick={() => onSave({ preferences: prefs })}
@@ -704,18 +723,23 @@ function EmailNotificationsSection({
           Who gets alerted when a new request or message comes in from the website.
         </p>
 
-        <div className="mt-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
-          <div>
-            <p className="text-sm font-medium text-white">Send email notifications</p>
-            <p className="text-xs text-white/50">
+        <div className="mt-4 set-row" data-on={value.enabled}>
+          <span className={`ico-soft ${value.enabled ? "soft-green" : ""}`} aria-hidden>
+            <Mail className="h-[18px] w-[18px]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-white">Send email notifications</p>
+            <p className="text-xs text-white/60">
               Turn off to stop all staff notification emails without losing the recipient lists.
             </p>
           </div>
           <Toggle
             active={value.enabled}
+            label="Send email notifications"
             onChange={() => setValue((p) => ({ ...p, enabled: !p.enabled }))}
           />
         </div>
+
 
         <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
           <RecipientList
@@ -763,17 +787,19 @@ function EmailNotificationsSection({
       </div>
 
       <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="flex items-center gap-2 font-semibold text-white">
-              <MessageCircle className="h-4 w-4" /> WhatsApp notifications
-            </h2>
-            <p className="text-xs text-white/50">
+        <div className="set-row" data-on={value.whatsapp.enabled}>
+          <span className={`ico-soft ${value.whatsapp.enabled ? "soft-green" : ""}`} aria-hidden>
+            <MessageCircle className="h-[18px] w-[18px]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-sm font-semibold text-white">WhatsApp notifications</h2>
+            <p className="text-xs text-white/60">
               Not connected yet. Turning this on has no effect until a WhatsApp provider is set up.
             </p>
           </div>
           <Toggle
             active={value.whatsapp.enabled}
+            label="WhatsApp notifications"
             onChange={() =>
               setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, enabled: !p.whatsapp.enabled } }))
             }
@@ -783,6 +809,7 @@ function EmailNotificationsSection({
         <div className="mt-4">
           <RecipientList
             label="WhatsApp numbers"
+
             hint="International format, e.g. +5926255211."
             values={value.whatsapp.numbers}
             onChange={(next) => setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, numbers: next } }))}
@@ -963,29 +990,45 @@ function ServicesSection({
       <p className="text-xs text-white/50">Services offered and which require specialist review before quoting</p>
       <div className="mt-4 space-y-2">
         {services.map((s, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+          <div
+            key={i}
+            className="flex flex-wrap items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+          >
             <input
               value={s.name}
               onChange={(e) => updateName(i, e.target.value)}
               placeholder="Service name"
-              className="flex-1 rounded border border-transparent bg-transparent px-2 py-1 text-sm text-white placeholder:text-white/30 focus:border-[#FFD200]/40 focus:outline-none"
+              className="min-w-[10rem] flex-1 rounded-lg border px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none"
+              style={{ borderColor: "var(--crm-border)" }}
             />
-            <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-white/60">
-              <input
-                type="checkbox"
-                checked={s.specialistReview}
-                onChange={() => toggleSpecialist(i)}
-                className="h-3.5 w-3.5 accent-[#FFD200]"
-              />
-              Specialist review
-            </label>
+            <button
+              type="button"
+              onClick={() => toggleSpecialist(i)}
+              aria-pressed={s.specialistReview}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
+              style={
+                s.specialistReview
+                  ? {
+                      borderColor: "color-mix(in oklab, var(--admin-green) 45%, var(--rule))",
+                      background: "color-mix(in oklab, var(--admin-green) 14%, var(--panel))",
+                      color: "var(--admin-green)",
+                    }
+                  : { borderColor: "var(--crm-border)", background: "var(--panel-2)", color: "var(--crm-text-muted)" }
+              }
+              title="Requires a specialist to review before quoting"
+            >
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Specialist review{s.specialistReview ? " · on" : ""}
+            </button>
             <button
               onClick={() => removeService(i)}
-              className="rounded p-1 text-white/30 hover:bg-red-500/10 hover:text-red-300"
+              aria-label="Remove service"
+              className="rounded-lg p-2 text-white/50 hover:bg-red-500/10 hover:text-red-300"
             >
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash2 className="h-4 w-4" />
             </button>
           </div>
+
         ))}
       </div>
       <button
@@ -1195,16 +1238,27 @@ function Field({
   );
 }
 
-function Toggle({ active, onChange }: { active: boolean; onChange: () => void }) {
+function Toggle({ active, onChange, label }: { active: boolean; onChange: () => void; label?: string }) {
   return (
-    <button
-      onClick={onChange}
-      className={`relative h-5 w-9 rounded-full transition ${active ? "bg-[#EF7700]" : "bg-white/[0.1]"}`}
-    >
-      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition ${active ? "left-[18px]" : "left-0.5"}`} />
-    </button>
+    <span className="flex items-center gap-2">
+      <span className="set-state" data-on={active} aria-hidden>
+        {active ? "On" : "Off"}
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={active}
+        aria-label={label ? `${label} — ${active ? "on" : "off"}` : active ? "On" : "Off"}
+        onClick={onChange}
+        className="set-switch"
+        data-on={active}
+      >
+        <span />
+      </button>
+    </span>
   );
 }
+
 
 /* ─── security: change your password ────────────────────────────────────── */
 

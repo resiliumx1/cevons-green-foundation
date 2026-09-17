@@ -321,9 +321,12 @@ type ActivityItem = {
   at: string;
   text: string;
   meta: string;
+  status?: string;
+  tone: "soft-orange" | "soft-blue" | "soft-purple";
   icon: LucideIcon;
   to?: { path: "/admin/leads/$id"; id: string } | { path: "/admin/messages" | "/admin/media" };
 };
+
 
 function RecentActivity() {
   const q = useQuery({
@@ -355,7 +358,9 @@ function RecentActivity() {
           id: `r-${r.id}`,
           at: r.created_at as string,
           text: `${r.name ?? "Someone"} requested ${serviceLabel(r.service)}`,
-          meta: `Request ${r.reference ?? ""} · ${r.status}`,
+          meta: `Request ${r.reference ?? ""}`,
+          status: r.status as string,
+          tone: "soft-orange" as const,
           icon: Truck,
           to: { path: "/admin/leads/$id" as const, id: r.id },
         })),
@@ -363,7 +368,9 @@ function RecentActivity() {
           id: `m-${m.id}`,
           at: m.created_at as string,
           text: `${m.name} sent a message${m.subject ? `: ${m.subject}` : ""}`,
-          meta: `Contact form · ${m.status}`,
+          meta: "Contact form",
+          status: m.status as string,
+          tone: "soft-blue" as const,
           icon: Mail,
           to: { path: "/admin/messages" as const },
         })),
@@ -372,10 +379,13 @@ function RecentActivity() {
           at: p.created_at as string,
           text: `${p.published ? "Published" : "Drafted"} “${p.title || "untitled"}”`,
           meta: `Media · ${p.kind}`,
+          status: p.published ? "published" : "draft",
+          tone: "soft-purple" as const,
           icon: ImageIcon,
           to: { path: "/admin/media" as const },
         })),
       ];
+
 
       return items
         .filter((i) => !!i.at)
@@ -408,15 +418,29 @@ function RecentActivity() {
             const Icon = i.icon;
             const body = (
               <>
-                <span className="admin-feed-icon">
+                <span className={`admin-feed-icon ${i.tone}`}>
                   <Icon className="h-4 w-4" aria-hidden />
                 </span>
                 <span className="min-w-0">
                   <span className="admin-feed-text block">{i.text}</span>
                   <span className="admin-feed-meta block" title={georgetownStamp(i.at)}>
+                    {i.status && (
+                      <span
+                        className={`feed-chip ${
+                          ["new", "draft"].includes(i.status)
+                            ? "is-new"
+                            : ["closed", "completed", "published", "resolved", "replied"].includes(i.status)
+                              ? "is-done"
+                              : ""
+                        }`}
+                      >
+                        {i.status}
+                      </span>
+                    )}{" "}
                     {i.meta} · {timeAgo(i.at)}
                   </span>
                 </span>
+
               </>
             );
             return (
