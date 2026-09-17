@@ -723,18 +723,23 @@ function EmailNotificationsSection({
           Who gets alerted when a new request or message comes in from the website.
         </p>
 
-        <div className="mt-4 flex items-center justify-between border-b border-white/[0.06] pb-4">
-          <div>
-            <p className="text-sm font-medium text-white">Send email notifications</p>
-            <p className="text-xs text-white/50">
+        <div className="mt-4 set-row" data-on={value.enabled}>
+          <span className={`ico-soft ${value.enabled ? "soft-green" : ""}`} aria-hidden>
+            <Mail className="h-[18px] w-[18px]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-white">Send email notifications</p>
+            <p className="text-xs text-white/60">
               Turn off to stop all staff notification emails without losing the recipient lists.
             </p>
           </div>
           <Toggle
             active={value.enabled}
+            label="Send email notifications"
             onChange={() => setValue((p) => ({ ...p, enabled: !p.enabled }))}
           />
         </div>
+
 
         <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
           <RecipientList
@@ -782,17 +787,19 @@ function EmailNotificationsSection({
       </div>
 
       <div className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="flex items-center gap-2 font-semibold text-white">
-              <MessageCircle className="h-4 w-4" /> WhatsApp notifications
-            </h2>
-            <p className="text-xs text-white/50">
+        <div className="set-row" data-on={value.whatsapp.enabled}>
+          <span className={`ico-soft ${value.whatsapp.enabled ? "soft-green" : ""}`} aria-hidden>
+            <MessageCircle className="h-[18px] w-[18px]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-sm font-semibold text-white">WhatsApp notifications</h2>
+            <p className="text-xs text-white/60">
               Not connected yet. Turning this on has no effect until a WhatsApp provider is set up.
             </p>
           </div>
           <Toggle
             active={value.whatsapp.enabled}
+            label="WhatsApp notifications"
             onChange={() =>
               setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, enabled: !p.whatsapp.enabled } }))
             }
@@ -802,6 +809,7 @@ function EmailNotificationsSection({
         <div className="mt-4">
           <RecipientList
             label="WhatsApp numbers"
+
             hint="International format, e.g. +5926255211."
             values={value.whatsapp.numbers}
             onChange={(next) => setValue((p) => ({ ...p, whatsapp: { ...p.whatsapp, numbers: next } }))}
@@ -982,29 +990,45 @@ function ServicesSection({
       <p className="text-xs text-white/50">Services offered and which require specialist review before quoting</p>
       <div className="mt-4 space-y-2">
         {services.map((s, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+          <div
+            key={i}
+            className="flex flex-wrap items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+          >
             <input
               value={s.name}
               onChange={(e) => updateName(i, e.target.value)}
               placeholder="Service name"
-              className="flex-1 rounded border border-transparent bg-transparent px-2 py-1 text-sm text-white placeholder:text-white/30 focus:border-[#FFD200]/40 focus:outline-none"
+              className="min-w-[10rem] flex-1 rounded-lg border px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none"
+              style={{ borderColor: "var(--crm-border)" }}
             />
-            <label className="flex shrink-0 cursor-pointer items-center gap-1.5 text-xs text-white/60">
-              <input
-                type="checkbox"
-                checked={s.specialistReview}
-                onChange={() => toggleSpecialist(i)}
-                className="h-3.5 w-3.5 accent-[#FFD200]"
-              />
-              Specialist review
-            </label>
+            <button
+              type="button"
+              onClick={() => toggleSpecialist(i)}
+              aria-pressed={s.specialistReview}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold"
+              style={
+                s.specialistReview
+                  ? {
+                      borderColor: "color-mix(in oklab, var(--admin-green) 45%, var(--rule))",
+                      background: "color-mix(in oklab, var(--admin-green) 14%, var(--panel))",
+                      color: "var(--admin-green)",
+                    }
+                  : { borderColor: "var(--crm-border)", background: "var(--panel-2)", color: "var(--crm-text-muted)" }
+              }
+              title="Requires a specialist to review before quoting"
+            >
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Specialist review{s.specialistReview ? " · on" : ""}
+            </button>
             <button
               onClick={() => removeService(i)}
-              className="rounded p-1 text-white/30 hover:bg-red-500/10 hover:text-red-300"
+              aria-label="Remove service"
+              className="rounded-lg p-2 text-white/50 hover:bg-red-500/10 hover:text-red-300"
             >
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash2 className="h-4 w-4" />
             </button>
           </div>
+
         ))}
       </div>
       <button
