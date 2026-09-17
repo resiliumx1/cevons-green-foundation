@@ -32,7 +32,6 @@ import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
-import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
@@ -190,11 +189,6 @@ const AdminPeopleRoute = AdminPeopleRouteImport.update({
 const AdminPromotionsRoute = AdminPromotionsRouteImport.update({
   id: '/promotions',
   path: '/promotions',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminReviewsRoute = AdminReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -450,7 +444,6 @@ export interface FileRoutesByFullPath {
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
@@ -517,7 +510,6 @@ export interface FileRoutesByTo {
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
@@ -587,7 +579,6 @@ export interface FileRoutesById {
   '/admin/pages': typeof AdminPagesRoute
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
-  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin_/forgot-password': typeof AdminForgotPasswordRoute
@@ -658,7 +649,6 @@ export interface FileRouteTypes {
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/traffic'
     | '/admin/forgot-password'
@@ -725,7 +715,6 @@ export interface FileRouteTypes {
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/traffic'
     | '/admin/forgot-password'
@@ -794,7 +783,6 @@ export interface FileRouteTypes {
     | '/admin/pages'
     | '/admin/people'
     | '/admin/promotions'
-    | '/admin/reviews'
     | '/admin/settings'
     | '/admin/traffic'
     | '/admin_/forgot-password'
@@ -1035,13 +1023,6 @@ declare module '@tanstack/react-router' {
       path: '/promotions'
       fullPath: '/admin/promotions'
       preLoaderRoute: typeof AdminPromotionsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reviews': {
-      id: '/admin/reviews'
-      path: '/reviews'
-      fullPath: '/admin/reviews'
-      preLoaderRoute: typeof AdminReviewsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/settings': {
@@ -1370,7 +1351,6 @@ interface AdminRouteChildren {
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPromotionsRoute: typeof AdminPromotionsRoute
-  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminTrafficRoute: typeof AdminTrafficRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -1386,7 +1366,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPagesRoute: AdminPagesRoute,
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPromotionsRoute: AdminPromotionsRoute,
-  AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminTrafficRoute: AdminTrafficRoute,
   AdminIndexRoute: AdminIndexRoute,

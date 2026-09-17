@@ -14,11 +14,6 @@ export const Route = createFileRoute("/admin/messages")({
   head: () => ({
     meta: [
       { title: "Messages | CEVONS Website Admin" },
-      { name: "description", content: "Manage enquiries sent to CEVONS from the public website." },
-      { property: "og:title", content: "Messages | CEVONS Website Admin" },
-      { property: "og:description", content: "Manage enquiries sent to CEVONS from the public website." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -51,8 +46,18 @@ const DAY = 24 * 60 * 60 * 1000;
 type RangeFilter = "all" | "7" | "30" | "90";
 
 function StatusChip({ status }: { status: string }) {
+  const isNew = status === "new";
   return (
-    <span className={`admin-status-chip is-${status} shrink-0`}>
+    <span
+      className="text-[10px] font-bold uppercase tracking-wide rounded px-2 py-0.5 shrink-0"
+      style={
+        isNew
+          ? { background: "#EF7700", color: "#1A1A1A" }
+          : status === "handled"
+            ? { background: "#2DA339", color: "#1A1A1A" }
+            : { background: "var(--crm-surface-muted)", color: "var(--crm-text-muted)" }
+      }
+    >
       {STATUS_LABEL[status] ?? status}
     </span>
   );
@@ -155,13 +160,13 @@ function MessagesPage() {
   };
 
   return (
-    <CrmPage className="admin-glass-page space-y-4">
-      <header className="admin-page-header">
+    <CrmPage className="space-y-4">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="admin-display text-[24px] sm:text-[30px]">
+          <h1 className="text-2xl font-extrabold" style={{ color: "var(--crm-text)" }}>
             Messages
           </h1>
-          <p className="text-sm mt-1 text-[var(--text-2)]">
+          <p className="text-sm mt-1" style={{ color: "var(--crm-text-muted)" }}>
             Contact-form submissions from the public website
             {unread > 0 ? ` — ${unread} unread` : ""}. Times are {GEORGETOWN_LABEL}.
           </p>
@@ -175,7 +180,7 @@ function MessagesPage() {
           <RefreshCw className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`} aria-hidden />
           Refresh
         </button>
-      </header>
+      </div>
 
       {/* Toolbar: search, filter, sort */}
       <div className="admin-toolbar">
@@ -225,7 +230,7 @@ function MessagesPage() {
         </select>
         <label
           className="inline-flex min-h-11 items-center gap-2 px-2 text-sm"
-          style={{ color: "var(--text)" }}
+          style={{ color: "var(--crm-text)" }}
         >
           <input
             type="checkbox"
@@ -261,7 +266,7 @@ function MessagesPage() {
       )}
 
       {rows.length > 0 && (
-        <label className="inline-flex items-center gap-2 text-sm text-[var(--text-2)]">
+        <label className="inline-flex items-center gap-2 text-sm" style={{ color: "var(--crm-text-muted)" }}>
           <input type="checkbox" checked={allChecked} onChange={toggleAll} />
           Select all {rows.length} shown
         </label>
@@ -269,16 +274,17 @@ function MessagesPage() {
 
       {isLoading ? (
         <div
-          className="admin-panel p-4"
+          className="rounded-xl border p-4"
+          style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface)" }}
         >
           <PanelSkeleton rows={6} />
         </div>
       ) : isError ? (
-        <div className="admin-panel p-4">
-          <p className="text-sm mb-1 text-[var(--text)]">
+        <div className="rounded-lg border p-4" style={{ borderColor: "var(--crm-border)" }}>
+          <p className="text-sm mb-1" style={{ color: "var(--crm-text)" }}>
             Messages could not be loaded.
           </p>
-          <p className="text-xs mb-3 text-[var(--text-2)]">
+          <p className="text-xs mb-3" style={{ color: "var(--crm-text-muted)" }}>
             {error instanceof Error ? error.message : "Unknown error"}
           </p>
           <Button className="min-h-11" onClick={() => void refetch()}>
@@ -287,10 +293,11 @@ function MessagesPage() {
         </div>
       ) : rows.length === 0 ? (
         <div
-          className="admin-panel p-8 text-center"
+          className="rounded-xl border p-8 text-center"
+          style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface)" }}
         >
-          <Mail className="size-6 mx-auto mb-2 text-[var(--text-2)]" />
-          <p className="text-sm text-[var(--text-2)]">
+          <Mail className="size-6 mx-auto mb-2" style={{ color: "var(--crm-text-faint)" }} />
+          <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
             {filtersActive
               ? "No messages match these filters."
               : "No messages have come in yet. Enquiries from the website contact form land here."}
@@ -308,7 +315,8 @@ function MessagesPage() {
             return (
               <article
                 key={m.id}
-                className={`admin-message-card ${isOpen ? "is-open" : ""}`}
+                className="rounded-xl border"
+                style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
               >
                 <div className="flex items-start gap-2 p-3">
                   <input
@@ -329,30 +337,30 @@ function MessagesPage() {
                   >
                     <span className="flex items-center gap-2 min-w-0 flex-1">
                       <StatusChip status={m.status} />
-                      <span className="font-semibold truncate text-[var(--text)]">
+                      <span className="font-semibold truncate" style={{ color: "var(--crm-text)" }}>
                         {m.name}
                       </span>
-                      <span className="text-xs truncate text-[var(--text-2)]">
+                      <span className="text-xs truncate" style={{ color: "var(--crm-text-muted)" }}>
                         {m.subject || "No subject"}
                       </span>
                       {m.attachment_url && (
-                        <Paperclip className="size-3.5 shrink-0 text-[var(--text-2)]" />
+                        <Paperclip className="size-3.5 shrink-0" style={{ color: "var(--crm-text-faint)" }} />
                       )}
                     </span>
-                    <span className="text-xs shrink-0 text-[var(--text-2)]">
+                    <span className="text-xs shrink-0" style={{ color: "var(--crm-text-muted)" }}>
                       {georgetownLabel(m.created_at)}
                     </span>
                   </button>
                 </div>
 
                 {isOpen && (
-                  <div className="px-3 pb-3 pt-3 border-t border-[var(--hairline)]">
-                    <p className="text-xs mb-2 text-[var(--text-2)]">
+                  <div className="px-3 pb-3 pt-1 border-t" style={{ borderColor: "var(--crm-border)" }}>
+                    <p className="text-xs mb-2" style={{ color: "var(--crm-text-muted)" }}>
                       {m.email}
                       {m.phone ? ` · ${m.phone}` : ""}
                       {m.reference ? ` · ${m.reference}` : ""}
                     </p>
-                    <p className="text-sm whitespace-pre-wrap text-[var(--text)]">
+                    <p className="text-sm whitespace-pre-wrap" style={{ color: "var(--crm-text)" }}>
                       {m.message}
                     </p>
                     {m.attachment_url && (

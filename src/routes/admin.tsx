@@ -21,7 +21,6 @@ import {
   Image as ImageIcon,
   Images,
   Mail,
-  Star,
   Settings,
   Search,
   PanelLeftClose,
@@ -145,7 +144,6 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     items: [
       { to: "/admin/leads", label: "Requests", icon: Inbox, notifType: "lead" as NotifType },
       { to: "/admin/messages", label: "Messages", icon: Mail },
-      { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
     ],
   },
 

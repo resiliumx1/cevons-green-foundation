@@ -36,11 +36,6 @@ export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
       { title: "Dashboard | CEVONS Website Admin" },
-      { name: "description", content: "Manage CEVONS website content, enquiries, and activity." },
-      { property: "og:title", content: "Dashboard | CEVONS Website Admin" },
-      { property: "og:description", content: "Manage CEVONS website content, enquiries, and activity." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -189,7 +184,7 @@ function Dashboard() {
 
   return (
     <PullToRefresh onRefresh={refreshAll}>
-      <CrmPage className="admin-glass-page space-y-5 sm:space-y-6">
+      <CrmPage className="space-y-5 sm:space-y-6">
         <header className="admin-page-header">
           <div>
             <h1 className="admin-display text-[24px] sm:text-[30px]">Dashboard</h1>

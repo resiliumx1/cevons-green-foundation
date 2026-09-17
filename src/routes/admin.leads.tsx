@@ -15,17 +15,6 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 export const Route = createFileRoute("/admin/leads")({
-  head: () => ({
-    meta: [
-      { title: "Requests | CEVONS Website Admin" },
-      { name: "description", content: "Manage CEVONS service requests and follow-ups." },
-      { property: "og:title", content: "Requests | CEVONS Website Admin" },
-      { property: "og:description", content: "Manage CEVONS service requests and follow-ups." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
-  }),
   component: LeadsLayout,
 });
 
@@ -171,12 +160,12 @@ function Select({ value, onChange, options, placeholder }: { value: string; onCh
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="admin-select appearance-none pl-3 pr-8 py-2 text-sm rounded-lg"
+        className="appearance-none pl-3 pr-8 py-2 text-sm rounded-lg bg-[#101820] border border-white/[0.08] text-slate-200 hover:border-white/20 focus:outline-none focus:border-emerald-500/50"
       >
         <option value="">{placeholder}</option>
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
-      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-2)] pointer-events-none" />
+      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 pointer-events-none" />
     </div>
   );
 }
@@ -363,12 +352,12 @@ function LeadsList() {
 
   return (
     <PullToRefresh onRefresh={refresh}>
-    <CrmPage className="admin-glass-page admin-requests-page space-y-5">
+    <CrmPage className="space-y-5">
       {/* Header */}
-      <header className="admin-page-header animate-fade-in">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 animate-fade-in">
         <div>
-          <h1 className="admin-display text-[24px] sm:text-[30px]">Requests</h1>
-          <p className="text-sm text-[var(--text-2)] mt-1">Manage customer inquiries, service requests, quotes, and follow-ups.</p>
+          <h1 className="text-2xl md:text-[28px] font-bold text-white tracking-tight">Requests</h1>
+          <p className="text-sm text-slate-400 mt-1">Manage customer inquiries, service requests, quotes, and follow-ups.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="inline-flex p-1 bg-[#101820] border border-white/[0.08] rounded-lg">
@@ -403,7 +392,7 @@ function LeadsList() {
             <Plus className="h-4 w-4" /> Add Lead
           </button>
         </div>
-      </header>
+      </div>
 
       {/* CSV export status */}
       <div aria-live="polite" role="status" className={exportState.status === "idle" ? "sr-only" : ""}>
@@ -451,7 +440,7 @@ function LeadsList() {
 
 
       {/* Pipeline segment tabs */}
-      <div className="admin-panel p-2 animate-fade-in">
+      <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-2 animate-fade-in">
         <div className="flex flex-wrap gap-1.5">
           {(["all", ...SEGMENTS] as SegmentFilter[]).map((seg) => {
             const active = segment === seg;
@@ -485,7 +474,7 @@ function LeadsList() {
       </div>
 
       {/* Filter bar */}
-      <div className="admin-toolbar animate-fade-in">
+      <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-3 md:p-4 animate-fade-in">
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[240px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -494,7 +483,7 @@ function LeadsList() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, email, phone, service, ref..."
-              className="admin-input w-full pl-9 pr-3 py-2 text-sm"
+              className="w-full rounded-lg bg-[#071111] border border-white/[0.08] pl-9 pr-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-emerald-500/50"
             />
           </div>
           <Select value={statusFilter} onChange={setStatusFilter} placeholder="All Status"
@@ -555,7 +544,7 @@ function LeadsList() {
 
       {/* Body */}
       {isLoading ? (
-        <div className="admin-panel p-4" aria-busy="true">
+        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-4" aria-busy="true">
           <span className="sr-only">Loading requests…</span>
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="flex items-center gap-3 border-b border-white/[0.05] py-3 last:border-0">
@@ -569,7 +558,7 @@ function LeadsList() {
         </div>
 
       ) : isError ? (
-        <div className="admin-panel p-8 text-center">
+        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-8 text-center">
           <AlertTriangle className="h-6 w-6 text-red-400 mx-auto mb-2" />
           <p className="text-sm text-white font-semibold">Couldn't load leads</p>
           <button onClick={() => refetch()} className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200 hover:text-white px-3 py-1.5 border border-white/10 rounded-lg">
@@ -577,7 +566,7 @@ function LeadsList() {
           </button>
         </div>
       ) : visible.length === 0 ? (
-        <div className="admin-panel p-12 text-center">
+        <div className="bg-[#101820] border border-white/[0.08] rounded-xl p-12 text-center">
           <Inbox className="h-8 w-8 text-slate-400 mx-auto mb-3" />
           <p className="text-sm text-white font-semibold">
             {filtersActive || segment !== "all" ? "No requests match these filters" : "No service requests yet"}
@@ -602,7 +591,7 @@ function LeadsList() {
       ) : (
         <>
           {/* Table (desktop) */}
-          <div className="admin-panel hidden lg:block overflow-hidden animate-fade-in">
+          <div className="hidden lg:block bg-[#101820] border border-white/[0.08] rounded-xl overflow-hidden animate-fade-in">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
