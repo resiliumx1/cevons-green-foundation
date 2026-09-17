@@ -78,13 +78,14 @@ export function MobileTabBar({
 
   return (
     <nav className="admin-tabbar lg:hidden" aria-label="Quick sections">
-      {linkTab("/admin", "Home", LayoutGrid, pathname === "/admin", 0)}
+      {linkTab("/admin", "Home", LayoutGrid, pathname === "/admin", 0, "navy")}
       {linkTab(
         "/admin/leads",
         "Requests",
         Inbox,
         pathname.startsWith("/admin/leads"),
         unreadByType.lead,
+        "orange",
       )}
       {linkTab(
         "/admin/messages",
@@ -92,11 +93,12 @@ export function MobileTabBar({
         Mail,
         pathname.startsWith("/admin/messages"),
         unreadByType.message,
+        "blue",
       )}
       {buttonTab("alerts", "Alerts", Bell, () => {
         window.dispatchEvent(new Event("admin:open-notifications"));
-      }, unreadTotal)}
-      {buttonTab("menu", "Menu", Menu, onOpenMenu)}
+      }, unreadTotal, "amber")}
+      {buttonTab("menu", "Menu", Menu, onOpenMenu, 0, "slate")}
     </nav>
   );
 }
