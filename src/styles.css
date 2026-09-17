@@ -6177,14 +6177,18 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   gap: 3px;
   min-height: 58px;
   padding: 6px 2px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--crm-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  /* Near-full-strength text (not muted) so labels read at a glance on phones. */
+  color: var(--crm-text);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
   -webkit-tap-highlight-color: transparent;
 }
 
 [data-crm-theme] .admin-tabbar-item.is-active {
   color: var(--crm-primary);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
 }
 
 [data-crm-theme] .admin-tabbar-item:active {
