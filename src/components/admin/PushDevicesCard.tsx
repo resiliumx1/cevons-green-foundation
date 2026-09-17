@@ -8,7 +8,12 @@ import {
   enablePush,
   pushIsConfigured,
 } from "@/lib/push/enablePush";
-import { registerPushToken, unregisterPushToken } from "@/lib/push.functions";
+import {
+  countMyPushDevices,
+  registerPushToken,
+  unregisterPushToken,
+} from "@/lib/push.functions";
+import { useInstallPrompt } from "@/hooks/useInstallPrompt";
 
 /**
  * Lets an admin switch phone/desktop push alerts on for the device they are
