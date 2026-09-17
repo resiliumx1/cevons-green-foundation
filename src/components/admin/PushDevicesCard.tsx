@@ -70,7 +70,7 @@ export function PushDevicesCard() {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [refreshDevices]);
 
   const turnOff = useCallback(async () => {
     setBusy(true);
@@ -85,7 +85,7 @@ export function PushDevicesCard() {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [refreshDevices]);
 
   return (
     <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
