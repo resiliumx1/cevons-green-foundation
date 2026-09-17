@@ -962,9 +962,11 @@ html.reduce-motion .hero-slide-settle {
 
 /* Fixed navy surfaces: rail + mobile tab bar. Foreground is FIXED white in
    BOTH modes — never var(--text), which flips to near-black in light mode. */
-.admin-rail,
-.admin-tabbar {
+.admin-rail {
   background-color: #000080 !important;
+  color: #ffffff !important;
+}
+.admin-tabbar {
   color: #ffffff !important;
 }
 .admin-rail a,
@@ -4599,9 +4601,7 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 
 /* Fixed navy tab bar — foreground values are fixed white in BOTH modes. */
 [data-crm-theme] .admin-tabbar {
-  background: #000080 !important;
   color: #ffffff !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 /* Visible focus rings across the admin */
@@ -6279,59 +6279,6 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   [data-crm-theme] .admin-drawer-backdrop {
     animation: admin-fade-in 0.15s ease-out;
   }
-}
-
-/* Raised app-icon tiles: a tinted gradient face with a top light edge and a
-   drop shadow, so every tab reads as a small 3D button. Active turns vivid. */
-[data-crm-theme] .admin-tabbar-ico {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 30px;
-  border-radius: 9px;
-  color: color-mix(in srgb, var(--tabbar-tone, #93c5fd) 45%, #fff);
-  background: rgb(255 255 255 / 0.10);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.22),
-    inset 0 -1px 0 rgb(0 0 0 / 0.25),
-    0 2px 6px rgb(0 0 0 / 0.35);
-  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-[data-crm-theme] .admin-tabbar-ico svg {
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.35));
-}
-
-[data-crm-theme] .admin-tabbar-item.is-active .admin-tabbar-ico,
-[data-crm-theme] .admin-tabbar-item:active .admin-tabbar-ico {
-  color: #fff;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--tabbar-tone) 82%, #fff) 0%,
-    var(--tabbar-tone) 55%,
-    color-mix(in srgb, var(--tabbar-tone) 88%, #000) 100%
-  );
-  box-shadow:
-    inset 0 1.5px 0 rgb(255 255 255 / 0.45),
-    inset 0 -2px 0 rgb(0 0 0 / 0.18),
-    0 4px 14px color-mix(in srgb, var(--tabbar-tone) 70%, transparent);
-  transform: translateY(-1px);
-}
-
-[data-crm-theme] .admin-tabbar-item.is-active .admin-tabbar-ico svg,
-[data-crm-theme] .admin-tabbar-item:active .admin-tabbar-ico svg {
-  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
-}
-
-[data-crm-theme] .admin-tabbar-ico-navy { --tabbar-tone: #1d4ed8; }
-[data-crm-theme] .admin-tabbar-ico-orange { --tabbar-tone: #ea6a00; }
-[data-crm-theme] .admin-tabbar-ico-blue { --tabbar-tone: #2563eb; }
-[data-crm-theme] .admin-tabbar-ico-amber { --tabbar-tone: #d97706; }
-[data-crm-theme] .admin-tabbar-ico-slate { --tabbar-tone: #475569; }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-crm-theme] .admin-tabbar-ico { transition: none; }
 }
 
 @media (max-width: 1023px) {
