@@ -6155,11 +6155,17 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   right: 0;
   bottom: 0;
   z-index: 40;
-  display: flex;
+  display: none; /* flex below lg — must not outrank Tailwind's lg:hidden */
   align-items: stretch;
   background: var(--panel);
   border-top: 1px solid var(--crm-border);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (max-width: 1023px) {
+  [data-crm-theme] .admin-tabbar {
+    display: flex;
+  }
 }
 
 [data-crm-theme] .admin-tabbar-item {
