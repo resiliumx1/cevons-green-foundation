@@ -263,6 +263,15 @@ function SettingsPage() {
 
         {/* Content */}
         <div className="space-y-6">
+          {activeSection && (
+            <div className="flex items-center gap-2.5 lg:hidden">
+              <span className={`set-ico ${activeSection.tone}`} aria-hidden>
+                <activeSection.icon className="h-[18px] w-[18px]" />
+              </span>
+              <h2 className="text-base font-semibold text-white">{activeSection.label}</h2>
+            </div>
+          )}
+
           {isLoading ? (
             <SettingsSkeleton />
           ) : (
