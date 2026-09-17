@@ -6147,3 +6147,92 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 @media (prefers-reduced-motion: reduce) {
   .admin-boot-spinner { animation-duration: 2s; }
 }
+
+/* ---- Phone app chrome: bottom tab bar, drawer motion, breathing room ---- */
+[data-crm-theme] .admin-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  align-items: stretch;
+  background: var(--panel);
+  border-top: 1px solid var(--crm-border);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+[data-crm-theme] .admin-tabbar-item {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 58px;
+  padding: 6px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--crm-text-muted);
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-crm-theme] .admin-tabbar-item.is-active {
+  color: var(--crm-primary);
+}
+
+[data-crm-theme] .admin-tabbar-item:active {
+  color: var(--crm-primary);
+}
+
+[data-crm-theme] .admin-tabbar-badge {
+  position: absolute;
+  top: -6px;
+  right: -12px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--admin-red, #dc2626);
+  color: #fff;
+}
+
+[data-crm-theme] .admin-drawer-backdrop {
+  background: rgb(10 14 20 / 0.45);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes admin-drawer-in {
+    from { transform: translateX(-24px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  @keyframes admin-fade-in {
+    from { opacity: 0; }
+  }
+  [data-crm-theme] .admin-drawer {
+    animation: admin-drawer-in 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+  [data-crm-theme] .admin-drawer-backdrop {
+    animation: admin-fade-in 0.15s ease-out;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* Room for the fixed tab bar + the phone's home indicator. */
+  [data-crm-theme] .crm-main {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Full-finger rows in the slide-out menu. */
+  [data-crm-theme] .crm-sidebar .crm-nav-item {
+    min-height: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  [data-crm-theme] .admin-nav-heading {
+    padding-top: 4px;
+  }
+}

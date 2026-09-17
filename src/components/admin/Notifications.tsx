@@ -356,6 +356,16 @@ export function NotificationsBell() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // The phone tab bar's Alerts tab asks the bell to open its panel.
+  useEffect(() => {
+    const openPanel = () => {
+      setOpen(true);
+      setArrivals([]);
+    };
+    window.addEventListener("admin:open-notifications", openPanel);
+    return () => window.removeEventListener("admin:open-notifications", openPanel);
+  }, []);
+
   const filtered = useMemo(() => {
     if (filter === "all") return n.items;
     if (filter === "unread") return n.items.filter((x) => !x.read);
