@@ -6242,3 +6242,151 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
     padding-top: 4px;
   }
 }
+
+/* ===== Admin settings: navigation, switches, tone chips ===== */
+[data-crm-theme] .set-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (min-width: 1024px) {
+  [data-crm-theme] .set-nav {
+    grid-template-columns: 1fr;
+  }
+}
+[data-crm-theme] .set-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+[data-crm-theme] .set-nav-item:hover {
+  background: var(--hover);
+}
+[data-crm-theme] .set-nav-item[aria-current="page"] {
+  border-color: var(--admin-orange);
+  background: color-mix(in oklab, var(--admin-orange) 14%, var(--panel));
+  box-shadow: inset 3px 0 0 var(--admin-orange);
+}
+
+[data-crm-theme] .set-ico {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  width: 34px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  color: #fff;
+}
+[data-crm-theme] .tone-navy { background: var(--admin-navy); }
+[data-crm-theme] .tone-orange { background: var(--admin-orange-strong); }
+[data-crm-theme] .tone-green { background: var(--admin-green); }
+[data-crm-theme] .tone-blue { background: var(--admin-blue); }
+[data-crm-theme] .tone-cyan { background: var(--admin-cyan); }
+[data-crm-theme] .tone-purple { background: var(--admin-chart-purple); }
+[data-crm-theme] .tone-red { background: var(--admin-red); }
+[data-crm-theme] .tone-amber { background: var(--admin-orange); }
+
+/* Soft tinted icon chips (feeds, list rows) */
+[data-crm-theme] .admin-feed-icon.soft-green,
+[data-crm-theme] .ico-soft.soft-green { background: color-mix(in oklab, var(--admin-green) 16%, var(--panel)); border-color: color-mix(in oklab, var(--admin-green) 35%, var(--rule)); color: var(--admin-green); }
+[data-crm-theme] .admin-feed-icon.soft-blue,
+[data-crm-theme] .ico-soft.soft-blue { background: color-mix(in oklab, var(--admin-blue) 16%, var(--panel)); border-color: color-mix(in oklab, var(--admin-blue) 35%, var(--rule)); color: var(--admin-blue); }
+[data-crm-theme] .admin-feed-icon.soft-orange,
+[data-crm-theme] .ico-soft.soft-orange { background: color-mix(in oklab, var(--admin-orange) 20%, var(--panel)); border-color: color-mix(in oklab, var(--admin-orange) 40%, var(--rule)); color: var(--admin-orange-strong); }
+[data-crm-theme] .admin-feed-icon.soft-purple,
+[data-crm-theme] .ico-soft.soft-purple { background: color-mix(in oklab, var(--admin-chart-purple) 16%, var(--panel)); border-color: color-mix(in oklab, var(--admin-chart-purple) 35%, var(--rule)); color: var(--admin-chart-purple); }
+[data-crm-theme] .ico-soft {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  width: 34px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+/* Status words inside feed meta */
+[data-crm-theme] .feed-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  background: var(--panel-2);
+  color: var(--text-2);
+  border: 1px solid var(--rule);
+}
+[data-crm-theme] .feed-chip.is-new { background: color-mix(in oklab, var(--admin-orange) 18%, var(--panel)); color: var(--admin-orange-strong); border-color: color-mix(in oklab, var(--admin-orange) 40%, var(--rule)); }
+[data-crm-theme] .feed-chip.is-done { background: color-mix(in oklab, var(--admin-green) 16%, var(--panel)); color: var(--admin-green); border-color: color-mix(in oklab, var(--admin-green) 35%, var(--rule)); }
+
+/* Settings switch rows */
+[data-crm-theme] .set-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+}
+[data-crm-theme] .set-row + .set-row { margin-top: 8px; }
+[data-crm-theme] .set-row[data-on="true"] {
+  border-color: color-mix(in oklab, var(--admin-green) 45%, var(--rule));
+  background: color-mix(in oklab, var(--admin-green) 7%, var(--panel));
+}
+[data-crm-theme] .set-switch {
+  position: relative;
+  height: 30px;
+  width: 54px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--panel-2);
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+[data-crm-theme] .set-switch[data-on="true"] {
+  background: var(--admin-green);
+  border-color: var(--admin-green);
+}
+[data-crm-theme] .set-switch > span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 24px;
+  width: 24px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.28);
+  transition: transform 0.18s ease;
+}
+[data-crm-theme] .set-switch[data-on="true"] > span { transform: translateX(24px); }
+[data-crm-theme] .set-state {
+  min-width: 34px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+[data-crm-theme] .set-state[data-on="true"] { color: var(--admin-green); }
+@media (prefers-reduced-motion: reduce) {
+  [data-crm-theme] .set-switch,
+  [data-crm-theme] .set-switch > span { transition: none; }
+}
