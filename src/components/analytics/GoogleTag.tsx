@@ -24,10 +24,15 @@ function ensureTagInitialized() {
 
   window.dataLayer = Array.isArray(window.dataLayer) ? window.dataLayer : [];
   if (typeof window.gtag !== "function") {
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer!.push(args);
+    // Must push the raw `arguments` object: Google only treats pushes whose
+    // internal class is Arguments as gtag commands. Pushing a real Array is
+    // silently ignored, which means no page_view is ever sent.
+    window.gtag = function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer!.push(arguments);
     };
   }
+
 
   if (window.__cevonsGtagLoaded) return;
   window.__cevonsGtagLoaded = true;
