@@ -359,14 +359,15 @@ export function NotificationsBell() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // The phone tab bar's Alerts tab asks the bell to open its panel.
+  // The phone tab bar's Alerts tab toggles the bell's panel: first tap opens,
+  // a second tap on the same tab closes it again.
   useEffect(() => {
-    const openPanel = () => {
-      setOpen(true);
+    const togglePanel = () => {
+      setOpen((v) => !v);
       setArrivals([]);
     };
-    window.addEventListener("admin:open-notifications", openPanel);
-    return () => window.removeEventListener("admin:open-notifications", openPanel);
+    window.addEventListener("admin:open-notifications", togglePanel);
+    return () => window.removeEventListener("admin:open-notifications", togglePanel);
   }, []);
 
   const filtered = useMemo(() => {
