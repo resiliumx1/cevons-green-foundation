@@ -54,17 +54,17 @@ const PREF_KEY: Record<NotifType, keyof NotifPrefs> = {
   system: "system",
 };
 
-/* Icon colours must read in BOTH admin themes: --emph is bright yellow on dark
-   panels and a deep amber on light tiles (≥3:1 for non-text contrast). */
+/* Each kind gets its own colour so the list can be scanned at a glance.
+   Hues stay saturated enough to read on both light and dark admin themes. */
 const TYPE_META: Record<NotifType, { label: string; icon: typeof Inbox; color: string }> = {
-  lead: { label: "Requests", icon: Inbox, color: "var(--emph)" },
-  message: { label: "Messages", icon: MessageSquare, color: "var(--emph)" },
-  review: { label: "Reviews", icon: Star, color: "var(--emph)" },
-  campaign: { label: "Campaigns", icon: Megaphone, color: "var(--emph)" },
-  system: { label: "System", icon: Info, color: "var(--crm-text-muted)" },
+  lead: { label: "Requests", icon: Inbox, color: "#EA6A00" },
+  message: { label: "Messages", icon: MessageSquare, color: "#2563EB" },
+  review: { label: "Reviews", icon: Star, color: "#D97706" },
+  campaign: { label: "Campaigns", icon: Megaphone, color: "#7C3AED" },
+  system: { label: "System", icon: Info, color: "#64748B" },
 };
 
-const FALLBACK_META = { label: "System", icon: Info, color: "var(--crm-text-muted)" };
+const FALLBACK_META = { label: "System", icon: Info, color: "#64748B" };
 const KNOWN_TYPES: NotifType[] = ["lead", "message", "review", "campaign", "system"];
 
 function relTime(iso: string): string {
@@ -277,7 +277,10 @@ function ArrivalCard({
       >
         <span
           className="h-8 w-8 shrink-0 rounded-lg grid place-items-center"
-          style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }}
+          style={{
+            background: `color-mix(in srgb, ${meta.color} 16%, transparent)`,
+            color: meta.color,
+          }}
         >
           <Icon className="h-4 w-4" />
         </span>
@@ -675,7 +678,7 @@ export function NotificationsBell() {
                               <div
                                 className="h-9 w-9 shrink-0 rounded-lg grid place-items-center"
                                 style={{
-                                  background: "var(--crm-surface-muted)",
+                                  background: `color-mix(in srgb, ${meta.color} 14%, transparent)`,
                                   color: meta.color,
                                 }}
                               >
