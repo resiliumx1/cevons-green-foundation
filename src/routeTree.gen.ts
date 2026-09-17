@@ -72,6 +72,8 @@ import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$p
 import { Route as ApiPublicCesDrainRouteImport } from './routes/api/public/ces/drain'
 import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
 import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify/push'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
@@ -402,6 +404,16 @@ const ApiPublicNotifyPushRoute = ApiPublicNotifyPushRouteImport.update({
   path: '/api/public/notify/push',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalPreviewRoute =
   LovableEmailTransactionalPreviewRouteImport.update({
     id: '/lovable/email/transactional/preview',
@@ -473,6 +485,8 @@ export interface FileRoutesByFullPath {
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
@@ -537,6 +551,8 @@ export interface FileRoutesByTo {
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
@@ -604,6 +620,8 @@ export interface FileRoutesById {
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
@@ -672,6 +690,8 @@ export interface FileRouteTypes {
     | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -736,6 +756,8 @@ export interface FileRouteTypes {
     | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
   id:
     | '__root__'
@@ -802,6 +824,8 @@ export interface FileRouteTypes {
     | '/api/public/ces/drain'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
@@ -833,6 +857,8 @@ export interface RootRouteChildren {
   ApiPublicCesDrainRoute: typeof ApiPublicCesDrainRoute
   ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
+  LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
+  LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
@@ -1279,6 +1305,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicNotifyPushRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/preview': {
       id: '/lovable/email/transactional/preview'
       path: '/lovable/email/transactional/preview'
@@ -1417,6 +1457,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicCesDrainRoute: ApiPublicCesDrainRoute,
   ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
+  LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
+  LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
