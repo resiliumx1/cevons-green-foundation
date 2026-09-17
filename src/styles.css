@@ -6227,6 +6227,59 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   }
 }
 
+/* Raised app-icon tiles: a tinted gradient face with a top light edge and a
+   drop shadow, so every tab reads as a small 3D button. Active turns vivid. */
+[data-crm-theme] .admin-tabbar-ico {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--tabbar-tone, var(--crm-text-muted));
+  background: color-mix(in srgb, var(--tabbar-tone, var(--crm-border)) 14%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(0 0 0 / 0.06),
+    0 2px 4px rgb(15 23 42 / 0.12);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+[data-crm-theme] .admin-tabbar-ico svg {
+  filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.35));
+}
+
+[data-crm-theme] .admin-tabbar-item.is-active .admin-tabbar-ico,
+[data-crm-theme] .admin-tabbar-item:active .admin-tabbar-ico {
+  color: #fff;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--tabbar-tone) 82%, #fff) 0%,
+    var(--tabbar-tone) 55%,
+    color-mix(in srgb, var(--tabbar-tone) 88%, #000) 100%
+  );
+  box-shadow:
+    inset 0 1.5px 0 rgb(255 255 255 / 0.45),
+    inset 0 -2px 0 rgb(0 0 0 / 0.18),
+    0 3px 8px color-mix(in srgb, var(--tabbar-tone) 45%, transparent);
+  transform: translateY(-1px);
+}
+
+[data-crm-theme] .admin-tabbar-item.is-active .admin-tabbar-ico svg,
+[data-crm-theme] .admin-tabbar-item:active .admin-tabbar-ico svg {
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
+}
+
+[data-crm-theme] .admin-tabbar-ico-navy { --tabbar-tone: #1d4ed8; }
+[data-crm-theme] .admin-tabbar-ico-orange { --tabbar-tone: #ea6a00; }
+[data-crm-theme] .admin-tabbar-ico-blue { --tabbar-tone: #2563eb; }
+[data-crm-theme] .admin-tabbar-ico-amber { --tabbar-tone: #d97706; }
+[data-crm-theme] .admin-tabbar-ico-slate { --tabbar-tone: #475569; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-crm-theme] .admin-tabbar-ico { transition: none; }
+}
+
 @media (max-width: 1023px) {
   /* Room for the fixed tab bar + the phone's home indicator. */
   [data-crm-theme] .crm-main {
