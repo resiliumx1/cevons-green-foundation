@@ -14,6 +14,11 @@ export const Route = createFileRoute("/admin/messages")({
   head: () => ({
     meta: [
       { title: "Messages | CEVONS Website Admin" },
+      { name: "description", content: "Manage enquiries sent to CEVONS from the public website." },
+      { property: "og:title", content: "Messages | CEVONS Website Admin" },
+      { property: "og:description", content: "Manage enquiries sent to CEVONS from the public website." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
