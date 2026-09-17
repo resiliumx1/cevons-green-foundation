@@ -6052,16 +6052,16 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
     top: auto !important;
     left: 8px !important;
     right: 8px !important;
-    bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
     width: auto !important;
     max-width: none !important;
-    height: 58dvh !important;
-    max-height: calc(100dvh - 80px) !important;
+    height: 52dvh !important;
+    max-height: calc(100dvh - 150px) !important;
     border-radius: 20px;
     transition: height 0.22s cubic-bezier(0.2, 0, 0, 1);
   }
   [data-crm-theme] .admin-notification-drawer.is-expanded {
-    height: calc(100dvh - 80px) !important;
+    height: calc(100dvh - 150px) !important;
   }
   [data-crm-theme] .admin-command-bar {
     min-height: 64px;
