@@ -24,6 +24,17 @@ export function PushDevicesCard() {
   const [busy, setBusy] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [devices, setDevices] = useState<number | null>(null);
+  const { needsIosSteps } = useInstallPrompt();
+
+  const refreshDevices = useCallback(async () => {
+    try {
+      const result = await countMyPushDevices();
+      setDevices(result.devices);
+    } catch {
+      setDevices(null);
+    }
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -32,10 +43,11 @@ export function PushDevicesCard() {
       setEnabled(Boolean(token));
       setChecking(false);
     });
+    void refreshDevices();
     return () => {
       alive = false;
     };
-  }, []);
+  }, [refreshDevices]);
 
   const turnOn = useCallback(async () => {
     setBusy(true);
