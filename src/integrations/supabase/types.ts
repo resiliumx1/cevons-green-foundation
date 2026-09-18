@@ -1382,6 +1382,51 @@ export type Database = {
         }
         Relationships: []
       }
+      social_daily_stats: {
+        Row: {
+          created_at: string
+          day: string
+          followers: number | null
+          id: string
+          likes: number | null
+          note: string | null
+          platform: string
+          posts: number | null
+          profile_views: number | null
+          recorded_by: string | null
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          followers?: number | null
+          id?: string
+          likes?: number | null
+          note?: string | null
+          platform: string
+          posts?: number | null
+          profile_views?: number | null
+          recorded_by?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          followers?: number | null
+          id?: string
+          likes?: number | null
+          note?: string | null
+          platform?: string
+          posts?: number | null
+          profile_views?: number | null
+          recorded_by?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       social_posts: {
         Row: {
           caption: string
