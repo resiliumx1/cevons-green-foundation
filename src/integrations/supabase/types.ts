@@ -1039,6 +1039,128 @@ export type Database = {
         }
         Relationships: []
       }
+      report_templates: {
+        Row: {
+          accent_color: string
+          cover_page: boolean
+          created_at: string
+          created_by: string | null
+          font_family: string
+          footer_text: string
+          header_text: string
+          heading_color: string
+          id: string
+          is_default: boolean
+          letterhead_mode: string
+          letterhead_path: string | null
+          logo_path: string | null
+          name: string
+          page_size: string
+          show_page_numbers: boolean
+          subheader_text: string
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string
+          cover_page?: boolean
+          created_at?: string
+          created_by?: string | null
+          font_family?: string
+          footer_text?: string
+          header_text?: string
+          heading_color?: string
+          id?: string
+          is_default?: boolean
+          letterhead_mode?: string
+          letterhead_path?: string | null
+          logo_path?: string | null
+          name: string
+          page_size?: string
+          show_page_numbers?: boolean
+          subheader_text?: string
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string
+          cover_page?: boolean
+          created_at?: string
+          created_by?: string | null
+          font_family?: string
+          footer_text?: string
+          header_text?: string
+          heading_color?: string
+          id?: string
+          is_default?: boolean
+          letterhead_mode?: string
+          letterhead_path?: string | null
+          logo_path?: string | null
+          name?: string
+          page_size?: string
+          show_page_numbers?: boolean
+          subheader_text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          brief: string
+          content: Json
+          created_at: string
+          created_by: string | null
+          facts: Json
+          id: string
+          pdf_path: string | null
+          period_end: string
+          period_start: string
+          sources: string[]
+          status: string
+          template_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          brief?: string
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          facts?: Json
+          id?: string
+          pdf_path?: string | null
+          period_end: string
+          period_start: string
+          sources?: string[]
+          status?: string
+          template_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          brief?: string
+          content?: Json
+          created_at?: string
+          created_by?: string | null
+          facts?: Json
+          id?: string
+          pdf_path?: string | null
+          period_end?: string
+          period_start?: string
+          sources?: string[]
+          status?: string
+          template_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "report_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       request_status_events: {
         Row: {
           created_at: string
