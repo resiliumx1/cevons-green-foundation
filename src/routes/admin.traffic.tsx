@@ -27,6 +27,7 @@ import {
   type SiteAnalytics,
 } from "@/lib/siteAnalytics.functions";
 import { getHistoricalSnapshot } from "@/lib/historicalSnapshot.functions";
+import { SocialPanels } from "@/components/admin/SocialPanels";
 import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
