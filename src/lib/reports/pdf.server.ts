@@ -303,20 +303,26 @@ export async function renderReportPdf(options: {
 
   /* Footer on every page */
   pages.forEach((p, index) => {
+    if (!usingStationery) {
+      p.drawRectangle({ x: margin, y: margin - 12, width: contentWidth, height: 1, color: rgb(0.85, 0.87, 0.9) });
+    }
     if (template.footer_text && !usingStationery) {
-      p.drawText(safe(template.footer_text).slice(0, 120), {
-        x: margin,
-        y: margin - 24,
-        size: 8.5,
-        font: regular,
-        color: rgb(0.45, 0.48, 0.52),
+      const lines = safe(template.footer_text).split("\n").slice(0, 2);
+      lines.forEach((line, i) => {
+        p.drawText(line.slice(0, 140), {
+          x: margin,
+          y: margin - 26 - i * 11,
+          size: 8,
+          font: regular,
+          color: rgb(0.45, 0.48, 0.52),
+        });
       });
     }
     if (template.show_page_numbers) {
       const label = `${index + 1} / ${pages.length}`;
       p.drawText(label, {
         x: pageWidth - margin - regular.widthOfTextAtSize(label, 8.5),
-        y: margin - 24,
+        y: margin - 26,
         size: 8.5,
         font: regular,
         color: rgb(0.45, 0.48, 0.52),
