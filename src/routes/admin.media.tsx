@@ -499,6 +499,45 @@ function MediaRow({
   const mayPublish = canPublish(roles);
 
 
+  // Swap the photo on an existing item, keeping its title, caption,
+  // schedule and position. The old file is removed only after the row
+  // points at the new one, so a failure never leaves the item photoless.
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [busyPhoto, setBusyPhoto] = useState(false);
+
+  async function replacePhoto(file: File) {
+    setBusyPhoto(true);
+    try {
+      const processed = await processImage(file);
+      const path = `${post.kind}/${crypto.randomUUID()}.${processed.ext}`;
+      const { error: upErr } = await supabase.storage
+        .from(MEDIA_BUCKET)
+        .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+      if (upErr) throw upErr;
+
+      const { error: dbErr } = await supabase
+        .from("media_posts")
+        .update({ image_path: path, image_w: processed.width, image_h: processed.height })
+        .eq("id", post.id);
+      if (dbErr) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+        throw dbErr;
+      }
+
+      const old = post.image_path;
+      if (old && old !== path) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([old]);
+        invalidateMediaUrl(old);
+      }
+      toast.success("Photo updated.");
+      onPatch({});
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update that photo.");
+    } finally {
+      setBusyPhoto(false);
+    }
+  }
+
   useEffect(() => setTitle(post.title), [post.title]);
   useEffect(() => setCaption(post.caption ?? ""), [post.caption]);
 
