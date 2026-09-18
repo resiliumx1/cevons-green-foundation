@@ -123,6 +123,50 @@ function endExclusive(periodEnd: string): string {
   return d.toISOString();
 }
 
+/**
+ * Follower growth from our own daily record. Returns the growth when at least
+ * two days were recorded inside the period, otherwise a plain reason.
+ */
+async function readFollowerGrowth(
+  supabase: SupabaseClient,
+  platform: "tiktok" | "facebook" | "instagram",
+  periodStart: string,
+  periodEnd: string,
+): Promise<{ growth?: FollowerGrowth; note?: string }> {
+  const { data, error } = await supabase
+    .from("social_daily_stats")
+    .select("day, followers")
+    .eq("platform", platform)
+    .gte("day", periodStart)
+    .lte("day", periodEnd)
+    .not("followers", "is", null)
+    .order("day", { ascending: true });
+  if (error) return { note: "The daily follower record could not be read." };
+  const rows = (data ?? []) as Array<{ day: string; followers: number }>;
+  if (rows.length < 2) {
+    return {
+      note:
+        rows.length === 0
+          ? "No follower figures were recorded for these dates. Daily recording began recently, so earlier dates cannot be shown."
+          : "Only one day's follower figure was recorded in this period, so growth cannot be measured yet.",
+    };
+  }
+  const first = rows[0]!;
+  const last = rows[rows.length - 1]!;
+  return {
+    growth: {
+      firstDay: first.day,
+      firstFollowers: first.followers,
+      lastDay: last.day,
+      lastFollowers: last.followers,
+      change: last.followers - first.followers,
+      daysRecorded: rows.length,
+      series: rows.map((r) => ({ key: r.day, value: r.followers })),
+    },
+  };
+}
+
+
 export async function collectFacts(
   supabase: SupabaseClient,
   sources: readonly string[],
