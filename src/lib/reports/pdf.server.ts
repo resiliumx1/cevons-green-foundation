@@ -152,6 +152,48 @@ export async function renderReportPdf(options: {
   const usingStationery = Boolean(coverStationery);
   let pageIndex = 0;
 
+  /* Built-in letterhead: a navy band with the logo and the company lines,
+     an accent rule below it, and a matching rule above the footer. */
+  const BAND = 86;
+  const bodyTop = pageHeight - (usingStationery ? 130 : BAND + 34);
+
+  const drawLetterhead = (target: PDFPage) => {
+    target.drawRectangle({ x: 0, y: pageHeight - BAND, width: pageWidth, height: BAND, color: heading });
+    target.drawRectangle({ x: 0, y: pageHeight - BAND - 4, width: pageWidth, height: 4, color: accent });
+
+    let textX = margin;
+    if (logoImage) {
+      const scaled = logoImage.scaleToFit(120, 44);
+      target.drawImage(logoImage, {
+        x: margin,
+        y: pageHeight - BAND / 2 - scaled.height / 2,
+        width: scaled.width,
+        height: scaled.height,
+      });
+      textX = margin + scaled.width + 16;
+    }
+    const head = safe(template.header_text || "");
+    const sub = safe(template.subheader_text || "");
+    if (head) {
+      target.drawText(head.slice(0, 60), {
+        x: textX,
+        y: pageHeight - BAND / 2 + (sub ? 2 : -4),
+        size: 13,
+        font: bold,
+        color: rgb(1, 1, 1),
+      });
+    }
+    if (sub) {
+      target.drawText(sub.slice(0, 80), {
+        x: textX,
+        y: pageHeight - BAND / 2 - 13,
+        size: 9,
+        font: regular,
+        color: rgb(0.85, 0.88, 0.92),
+      });
+    }
+  };
+
   const drawBanner = (target: PDFPage) => {
     const stationery = pageIndex === 0 ? coverStationery : bodyStationery;
     pageIndex += 1;
@@ -159,19 +201,18 @@ export async function renderReportPdf(options: {
       target.drawPage(stationery, { x: 0, y: 0, width: pageWidth, height: pageHeight });
       return;
     }
-    target.drawRectangle({ x: 0, y: pageHeight - 8, width: pageWidth, height: 8, color: accent });
+    drawLetterhead(target);
   };
 
   const newPage = () => {
     page = pdf.addPage(size);
     pages.push(page);
     drawBanner(page);
-    // Leave room for a letterhead's own printed header when one is in use.
-    y = pageHeight - (usingStationery ? 130 : margin);
+    y = bodyTop;
   };
 
   const need = (space: number) => {
-    if (y - space < margin + (usingStationery ? 90 : 40)) newPage();
+    if (y - space < margin + (usingStationery ? 90 : 46)) newPage();
   };
 
   const drawText = (text: string, opts: { font: PDFFont; size: number; color: ReturnType<typeof rgb>; gap?: number; indent?: number }) => {
@@ -187,25 +228,14 @@ export async function renderReportPdf(options: {
   /* Cover */
   drawBanner(page);
   if (template.cover_page) {
-    y = pageHeight - (usingStationery ? 230 : 150);
-    if (logoImage && !usingStationery) {
-      const scaled = logoImage.scaleToFit(170, 80);
-      page.drawImage(logoImage, { x: margin, y: y - scaled.height, width: scaled.width, height: scaled.height });
-      y -= scaled.height + 30;
-    }
-    if (template.header_text && !usingStationery) drawText(template.header_text, { font: bold, size: 16, color: heading });
-    if (template.subheader_text && !usingStationery) drawText(template.subheader_text, { font: regular, size: 11, color: bodyColor, gap: 24 });
+    y = pageHeight - (usingStationery ? 230 : 280);
+    page.drawRectangle({ x: margin, y: y + 26, width: 64, height: 4, color: accent });
     drawText(title, { font: bold, size: 26, color: heading, gap: 8 });
     drawText(`${periodStart} to ${periodEnd}`, { font: regular, size: 12, color: accent, gap: 12 });
-    page.drawRectangle({ x: margin, y: y - 6, width: contentWidth, height: 2, color: accent });
+    page.drawRectangle({ x: margin, y: y - 6, width: contentWidth, height: 1, color: rgb(0.82, 0.85, 0.88) });
     newPage();
   } else {
-    if (logoImage && !usingStationery) {
-      const scaled = logoImage.scaleToFit(130, 54);
-      page.drawImage(logoImage, { x: margin, y: y - scaled.height, width: scaled.width, height: scaled.height });
-      y -= scaled.height + 16;
-    }
-    if (template.header_text && !usingStationery) drawText(template.header_text, { font: bold, size: 13, color: heading });
+    y = bodyTop;
     drawText(title, { font: bold, size: 20, color: heading });
     drawText(`${periodStart} to ${periodEnd}`, { font: regular, size: 11, color: accent, gap: 12 });
   }
@@ -273,20 +303,26 @@ export async function renderReportPdf(options: {
 
   /* Footer on every page */
   pages.forEach((p, index) => {
+    if (!usingStationery) {
+      p.drawRectangle({ x: margin, y: margin - 12, width: contentWidth, height: 1, color: rgb(0.85, 0.87, 0.9) });
+    }
     if (template.footer_text && !usingStationery) {
-      p.drawText(safe(template.footer_text).slice(0, 120), {
-        x: margin,
-        y: margin - 24,
-        size: 8.5,
-        font: regular,
-        color: rgb(0.45, 0.48, 0.52),
+      const lines = safe(template.footer_text).split("\n").slice(0, 2);
+      lines.forEach((line, i) => {
+        p.drawText(line.slice(0, 140), {
+          x: margin,
+          y: margin - 26 - i * 11,
+          size: 8,
+          font: regular,
+          color: rgb(0.45, 0.48, 0.52),
+        });
       });
     }
     if (template.show_page_numbers) {
       const label = `${index + 1} / ${pages.length}`;
       p.drawText(label, {
         x: pageWidth - margin - regular.widthOfTextAtSize(label, 8.5),
-        y: margin - 24,
+        y: margin - 26,
         size: 8.5,
         font: regular,
         color: rgb(0.45, 0.48, 0.52),
