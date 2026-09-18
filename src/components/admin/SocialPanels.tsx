@@ -290,6 +290,10 @@ export function SocialPanels() {
               </>
             )}
           </Panel>
+          {key === "tiktok" && profile?.insights ? (
+            <TikTokSections insights={profile.insights} />
+          ) : null}
+          </Fragment>
         );
       })}
     </div>
