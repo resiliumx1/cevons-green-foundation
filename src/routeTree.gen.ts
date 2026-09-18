@@ -33,7 +33,9 @@ import { Route as AdminPagesRouteImport } from './routes/admin.pages'
 import { Route as AdminPeopleRouteImport } from './routes/admin.people'
 import { Route as AdminPromotionsRouteImport } from './routes/admin.promotions'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminSocialRouteImport } from './routes/admin.social'
 import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
@@ -197,9 +199,19 @@ const AdminReportsRoute = AdminReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSocialRoute = AdminSocialRouteImport.update({
+  id: '/social',
+  path: '/social',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTrafficRoute = AdminTrafficRouteImport.update({
@@ -451,7 +463,9 @@ export interface FileRoutesByFullPath {
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/social': typeof AdminSocialRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -518,7 +532,9 @@ export interface FileRoutesByTo {
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/social': typeof AdminSocialRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -588,7 +604,9 @@ export interface FileRoutesById {
   '/admin/people': typeof AdminPeopleRoute
   '/admin/promotions': typeof AdminPromotionsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/social': typeof AdminSocialRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin_/forgot-password': typeof AdminForgotPasswordRoute
   '/admin_/login': typeof AdminLoginRoute
@@ -659,7 +677,9 @@ export interface FileRouteTypes {
     | '/admin/people'
     | '/admin/promotions'
     | '/admin/reports'
+    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/social'
     | '/admin/traffic'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -726,7 +746,9 @@ export interface FileRouteTypes {
     | '/admin/people'
     | '/admin/promotions'
     | '/admin/reports'
+    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/social'
     | '/admin/traffic'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -795,7 +817,9 @@ export interface FileRouteTypes {
     | '/admin/people'
     | '/admin/promotions'
     | '/admin/reports'
+    | '/admin/reviews'
     | '/admin/settings'
+    | '/admin/social'
     | '/admin/traffic'
     | '/admin_/forgot-password'
     | '/admin_/login'
@@ -1044,11 +1068,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/social': {
+      id: '/admin/social'
+      path: '/social'
+      fullPath: '/admin/social'
+      preLoaderRoute: typeof AdminSocialRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/traffic': {
@@ -1371,7 +1409,9 @@ interface AdminRouteChildren {
   AdminPeopleRoute: typeof AdminPeopleRoute
   AdminPromotionsRoute: typeof AdminPromotionsRoute
   AdminReportsRoute: typeof AdminReportsRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSocialRoute: typeof AdminSocialRoute
   AdminTrafficRoute: typeof AdminTrafficRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -1387,7 +1427,9 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPeopleRoute: AdminPeopleRoute,
   AdminPromotionsRoute: AdminPromotionsRoute,
   AdminReportsRoute: AdminReportsRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminSocialRoute: AdminSocialRoute,
   AdminTrafficRoute: AdminTrafficRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

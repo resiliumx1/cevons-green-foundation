@@ -33,6 +33,8 @@ import {
   Moon,
   LogOut,
   UserCircle,
+  Share2,
+  Star,
 } from "lucide-react";
 
 const logo = "/images/cevons-logo.webp";
@@ -139,6 +141,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
       { to: "/admin/images", label: "Images", icon: Images },
       { to: "/admin/media", label: "Media", icon: ImageIcon },
       { to: "/admin/promotions", label: "Promotions", short: "Promos", icon: Tag },
+      { to: "/admin/social", label: "Social posts", short: "Social", icon: Share2 },
     ],
   },
   {
@@ -146,6 +149,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     items: [
       { to: "/admin/leads", label: "Requests", icon: Inbox, notifType: "lead" as NotifType },
       { to: "/admin/messages", label: "Messages", icon: Mail },
+      { to: "/admin/reviews", label: "Reviews", icon: Star, notifType: "review" as NotifType },
     ],
   },
 

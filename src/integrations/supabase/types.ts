@@ -1382,6 +1382,57 @@ export type Database = {
         }
         Relationships: []
       }
+      social_posts: {
+        Row: {
+          caption: string
+          created_at: string
+          created_by: string | null
+          id: string
+          image_h: number | null
+          image_path: string | null
+          image_w: number | null
+          link_url: string | null
+          notes: string | null
+          platforms: string[]
+          posted_at: string | null
+          scheduled_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_h?: number | null
+          image_path?: string | null
+          image_w?: number | null
+          link_url?: string | null
+          notes?: string | null
+          platforms?: string[]
+          posted_at?: string | null
+          scheduled_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_h?: number | null
+          image_path?: string | null
+          image_w?: number | null
+          link_url?: string | null
+          notes?: string | null
+          platforms?: string[]
+          posted_at?: string | null
+          scheduled_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
