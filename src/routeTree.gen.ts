@@ -36,6 +36,7 @@ import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSocialRouteImport } from './routes/admin.social'
+import { Route as AdminTiktokRouteImport } from './routes/admin.tiktok'
 import { Route as AdminTrafficRouteImport } from './routes/admin.traffic'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
@@ -212,6 +213,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
 const AdminSocialRoute = AdminSocialRouteImport.update({
   id: '/social',
   path: '/social',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTiktokRoute = AdminTiktokRouteImport.update({
+  id: '/tiktok',
+  path: '/tiktok',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTrafficRoute = AdminTrafficRouteImport.update({
@@ -466,6 +472,7 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social': typeof AdminSocialRoute
+  '/admin/tiktok': typeof AdminTiktokRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -535,6 +542,7 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social': typeof AdminSocialRoute
+  '/admin/tiktok': typeof AdminTiktokRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -607,6 +615,7 @@ export interface FileRoutesById {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social': typeof AdminSocialRoute
+  '/admin/tiktok': typeof AdminTiktokRoute
   '/admin/traffic': typeof AdminTrafficRoute
   '/admin_/forgot-password': typeof AdminForgotPasswordRoute
   '/admin_/login': typeof AdminLoginRoute
@@ -680,6 +689,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/social'
+    | '/admin/tiktok'
     | '/admin/traffic'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -749,6 +759,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/social'
+    | '/admin/tiktok'
     | '/admin/traffic'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -820,6 +831,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/admin/social'
+    | '/admin/tiktok'
     | '/admin/traffic'
     | '/admin_/forgot-password'
     | '/admin_/login'
@@ -1087,6 +1099,13 @@ declare module '@tanstack/react-router' {
       path: '/social'
       fullPath: '/admin/social'
       preLoaderRoute: typeof AdminSocialRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tiktok': {
+      id: '/admin/tiktok'
+      path: '/tiktok'
+      fullPath: '/admin/tiktok'
+      preLoaderRoute: typeof AdminTiktokRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/traffic': {
@@ -1412,6 +1431,7 @@ interface AdminRouteChildren {
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialRoute: typeof AdminSocialRoute
+  AdminTiktokRoute: typeof AdminTiktokRoute
   AdminTrafficRoute: typeof AdminTrafficRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -1430,6 +1450,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialRoute: AdminSocialRoute,
+  AdminTiktokRoute: AdminTiktokRoute,
   AdminTrafficRoute: AdminTrafficRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

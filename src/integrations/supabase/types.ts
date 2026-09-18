@@ -1397,6 +1397,7 @@ export type Database = {
           posted_at: string | null
           scheduled_at: string | null
           status: string
+          tiktok_video_id: string | null
           updated_at: string
         }
         Insert: {
@@ -1413,6 +1414,7 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           status?: string
+          tiktok_video_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -1429,6 +1431,7 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           status?: string
+          tiktok_video_id?: string | null
           updated_at?: string
         }
         Relationships: []

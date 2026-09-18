@@ -1,0 +1,2 @@
+ALTER TABLE public.social_posts ADD COLUMN tiktok_video_id text;
+COMMENT ON COLUMN public.social_posts.tiktok_video_id IS 'Links a planned post to the published TikTok video so its live figures can be shown beside the plan.';
