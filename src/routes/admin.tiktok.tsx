@@ -15,6 +15,8 @@ import { toast } from "sonner";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
+import { FollowerRecord } from "@/components/admin/FollowerRecord";
+
 import { supabase } from "@/integrations/supabase/client";
 import { GEORGETOWN_LABEL } from "@/lib/georgetown";
 import { getSocialAnalytics } from "@/lib/socialAnalytics.functions";
@@ -179,7 +181,15 @@ function TikTokPage() {
         </div>
       )}
 
+      <FollowerRecord
+        platform="tiktok"
+        label="TikTok"
+        code="TT-R"
+        liveFollowers={profile?.followers ?? null}
+      />
+
       <Calendar posts={posts} videos={videos} />
+
 
       <Panel title="Scheduling queue" code="TT-Q">
         {planned.isLoading ? (

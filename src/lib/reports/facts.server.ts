@@ -38,6 +38,20 @@ export type TrafficFacts = {
   devices: Pair[];
 };
 
+/**
+ * Growth measured from our own daily record of what the platform reported.
+ * It only covers days on which a figure was recorded — never estimated.
+ */
+export type FollowerGrowth = {
+  firstDay: string;
+  firstFollowers: number;
+  lastDay: string;
+  lastFollowers: number;
+  change: number;
+  daysRecorded: number;
+  series: Pair[];
+};
+
 export type TikTokFacts = {
   followers: number | null;
   posts: number | null;
@@ -50,13 +64,18 @@ export type TikTokFacts = {
   averageViews: number;
   engagementRate: number | null;
   topByViews: Array<{ caption: string; views: number | null }>;
+  followerGrowth?: FollowerGrowth;
+  followerGrowthNote?: string;
 };
 
 export type PageFacts = {
   followers: number | null;
   posts: number | null;
   likes: number | null;
+  followerGrowth?: FollowerGrowth;
+  followerGrowthNote?: string;
 };
+
 
 export type ReportFacts = {
   periodStart: string;
@@ -103,6 +122,50 @@ function endExclusive(periodEnd: string): string {
   d.setUTCDate(d.getUTCDate() + 1);
   return d.toISOString();
 }
+
+/**
+ * Follower growth from our own daily record. Returns the growth when at least
+ * two days were recorded inside the period, otherwise a plain reason.
+ */
+async function readFollowerGrowth(
+  supabase: SupabaseClient,
+  platform: "tiktok" | "facebook" | "instagram",
+  periodStart: string,
+  periodEnd: string,
+): Promise<{ growth?: FollowerGrowth; note?: string }> {
+  const { data, error } = await supabase
+    .from("social_daily_stats")
+    .select("day, followers")
+    .eq("platform", platform)
+    .gte("day", periodStart)
+    .lte("day", periodEnd)
+    .not("followers", "is", null)
+    .order("day", { ascending: true });
+  if (error) return { note: "The daily follower record could not be read." };
+  const rows = (data ?? []) as Array<{ day: string; followers: number }>;
+  if (rows.length < 2) {
+    return {
+      note:
+        rows.length === 0
+          ? "No follower figures were recorded for these dates. Daily recording began recently, so earlier dates cannot be shown."
+          : "Only one day's follower figure was recorded in this period, so growth cannot be measured yet.",
+    };
+  }
+  const first = rows[0]!;
+  const last = rows[rows.length - 1]!;
+  return {
+    growth: {
+      firstDay: first.day,
+      firstFollowers: first.followers,
+      lastDay: last.day,
+      lastFollowers: last.followers,
+      change: last.followers - first.followers,
+      daysRecorded: rows.length,
+      series: rows.map((r) => ({ key: r.day, value: r.followers })),
+    },
+  };
+}
+
 
 export async function collectFacts(
   supabase: SupabaseClient,
@@ -190,6 +253,7 @@ export async function collectFacts(
       const { runTikTokReport } = await import("@/lib/analytics/social.server");
       const profile = await runTikTokReport();
       const i = profile.insights;
+      const g = await readFollowerGrowth(supabase, "tiktok", periodStart, periodEnd);
       facts.tiktok = i
         ? {
             available: true,
@@ -208,6 +272,8 @@ export async function collectFacts(
                 caption: p.caption ?? "Untitled",
                 views: p.views ?? null,
               })),
+              ...(g.growth ? { followerGrowth: g.growth } : {}),
+              ...(g.note ? { followerGrowthNote: g.note } : {}),
             },
           }
         : { available: false, note: "TikTok returned no video figures." };
@@ -222,17 +288,21 @@ export async function collectFacts(
       const mod = await import("@/lib/analytics/social.server");
       const run = platform === "facebook" ? mod.runFacebookReport : mod.runInstagramReport;
       const profile = await run();
+      const g = await readFollowerGrowth(supabase, platform, periodStart, periodEnd);
       facts[platform] = {
         available: true,
         data: {
           followers: profile.followers ?? null,
           posts: profile.posts ?? null,
           likes: profile.likes ?? null,
+          ...(g.growth ? { followerGrowth: g.growth } : {}),
+          ...(g.note ? { followerGrowthNote: g.note } : {}),
         },
       };
     } catch (err) {
       facts[platform] = { available: false, note: describe(err) };
     }
+
   }
 
   return facts;

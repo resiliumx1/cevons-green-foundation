@@ -29,3 +29,9 @@
 - [x] Social panel on admin Traffic: TikTok, Facebook, Instagram
 - [x] TikTok connected and showing live figures
 - [ ] Facebook/Instagram: blocked — needs a Meta app (App ID/secret + review)
+
+# TikTok follower tracking
+
+- [x] Daily follower recorder (automatic + manual entry form on the TikTok page)
+- [x] Real growth figures in reports from recorded days onward
+- [ ] TikTok Studio CSV import for history (awaiting user choice)
