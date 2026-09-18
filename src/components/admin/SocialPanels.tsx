@@ -144,12 +144,11 @@ function TikTokSections({ insights }: { insights: TikTokInsights }) {
                   <span className="admin-bar-label">{monthLabel(m.key)}</span>
                   <strong className="admin-bar-value">{nf.format(m.views)} views</strong>
                 </div>
-                <div
-                  className="admin-bar-track"
-                  role="presentation"
-                  style={{ ["--admin-bar-fill" as string]: `${Math.round((m.views / peak) * 100)}%` }}
-                >
-                  <span className="admin-bar-fill" style={{ width: `${Math.round((m.views / peak) * 100)}%` }} />
+                <div className="admin-bar-track" aria-hidden>
+                  <span
+                    className="admin-bar-fill"
+                    style={{ width: `${Math.max(Math.round((m.views / peak) * 100), m.views > 0 ? 3 : 0)}%` }}
+                  />
                 </div>
                 <div className="admin-bar-meta">
                   <span>
