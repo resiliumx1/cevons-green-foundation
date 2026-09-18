@@ -510,7 +510,35 @@ function MediaRow({
       className="rounded-xl border p-3 flex flex-col sm:flex-row gap-3"
       style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
     >
-      <Thumb path={post.image_path} alt={post.title || "Media item"} />
+      <div className="shrink-0 space-y-2">
+        <Thumb path={post.image_path} alt={post.title || "Media item"} />
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            e.target.value = "";
+            if (f) void replacePhoto(f);
+          }}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-full min-h-9"
+          disabled={busyPhoto}
+          onClick={() => fileRef.current?.click()}
+        >
+          {busyPhoto ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Upload className="size-4" />
+          )}
+          {busyPhoto ? "Saving…" : post.image_path ? "Change photo" : "Add photo"}
+        </Button>
+      </div>
 
       <div className="flex-1 min-w-0 space-y-2">
         <Input
