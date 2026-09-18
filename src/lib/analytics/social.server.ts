@@ -26,6 +26,24 @@ export type SocialPost = {
   shares: number | null;
 };
 
+async function readJson(res: Response, what: string): Promise<unknown> {
+  const text = await res.text();
+  if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
+      throw new SocialPermissionError(
+        `${what} refused the request (${res.status}). The connected account may not have permission any more.`,
+      );
+    }
+    throw new Error(`${what} request failed [${res.status}]: ${text.slice(0, 300)}`);
+  }
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`${what} returned an unreadable response.`);
+  }
+}
+
+
 /** Month-by-month totals worked out from the videos the account returns. */
 export type SocialMonth = {
   key: string;
