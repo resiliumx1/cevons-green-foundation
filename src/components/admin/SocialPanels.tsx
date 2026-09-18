@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ExternalLink } from "lucide-react";
+import { Fragment } from "react";
 
 import { Panel, PanelEmpty, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
 import { SocialGlyph } from "@/components/icons/SocialGlyph";
+import type { SocialPost, TikTokInsights } from "@/lib/analytics/social.server";
 import {
   getSocialAnalytics,
   type SocialReport,
