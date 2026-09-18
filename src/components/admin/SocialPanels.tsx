@@ -337,13 +337,37 @@ export function SocialPanels() {
     staleTime: 10 * 60_000,
   });
 
+  const scrollTo = (key: string) => {
+    const el = document.getElementById(`social-section-${key}`);
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  };
+
   return (
     <div className="admin-stack-lg">
+      <nav className="admin-social-jump" aria-label="Jump to a social account section">
+        {PLATFORMS.map(({ key, title }) => (
+          <button
+            key={key}
+            type="button"
+            className="admin-social-jump-btn"
+            onClick={() => scrollTo(key)}
+            aria-label={`Jump to ${title} analytics`}
+          >
+            <span className="admin-social-jump-icon">
+              <SocialGlyph platform={key} className="h-5 w-5" />
+            </span>
+            <span className="admin-social-jump-label">{title}</span>
+          </button>
+        ))}
+      </nav>
       {PLATFORMS.map(({ key, title, code }) => {
         const report = social.data?.[key];
         const profile = report?.state === "ok" ? report.data : undefined;
         return (
           <Fragment key={key}>
+          <div id={`social-section-${key}`} className="admin-social-anchor">
           <Panel
             title={title}
             code={code}
