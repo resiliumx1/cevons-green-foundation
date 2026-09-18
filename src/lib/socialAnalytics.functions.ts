@@ -53,5 +53,39 @@ export const getSocialAnalytics = createServerFn({ method: "POST" })
       mod.runInstagramReport().then(ok).catch(describe),
     ]);
 
+    // Keep a daily record of what each platform reports today, so reports can
+    // show real growth from now on. A hand-typed entry is never overwritten.
+    const today = new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    await Promise.all(
+      ([["tiktok", tiktok], ["facebook", facebook], ["instagram", instagram]] as const).map(
+        async ([platform, report]) => {
+          const p = report.state === "ok" ? report.data : undefined;
+          if (!p || p.followers === null || p.followers === undefined) return;
+          const values = {
+            platform,
+            day: today,
+            followers: p.followers,
+            posts: p.posts,
+            likes: p.likes,
+            source: "auto" as const,
+          };
+          const { data: existing } = await context.supabase
+            .from("social_daily_stats")
+            .select("id, source")
+            .eq("platform", platform)
+            .eq("day", today)
+            .maybeSingle();
+          if (!existing) {
+            await context.supabase.from("social_daily_stats").insert(values);
+          } else if (existing.source === "auto") {
+            await context.supabase.from("social_daily_stats").update(values).eq("id", existing.id);
+          }
+        },
+      ),
+    ).catch(() => {
+      // Recording is a background courtesy; never block the figures on it.
+    });
+
     return { tiktok, facebook, instagram };
   });
+
