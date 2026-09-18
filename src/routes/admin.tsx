@@ -18,6 +18,7 @@ import {
   Inbox,
   Activity,
   FileClock,
+  FileText,
   Image as ImageIcon,
   Images,
   Mail,
@@ -128,6 +129,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
     items: [
       { to: "/admin", label: "Dashboard", icon: LayoutGrid, exact: true },
       { to: "/admin/traffic", label: "Traffic", icon: Activity },
+      { to: "/admin/reports", label: "Reports", icon: FileText },
     ],
   },
   {
