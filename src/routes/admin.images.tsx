@@ -5,6 +5,7 @@ import { AlertTriangle, ImageIcon, Loader2, RotateCcw, Upload, X } from "lucide-
 import { toast } from "sonner";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
+import { Portal } from "@/components/admin/Portal";
 import { supabase } from "@/integrations/supabase/client";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { getMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
@@ -219,6 +220,7 @@ function ReplaceDialog({
   }
 
   return (
+    <Portal>
     <div
       className="fixed inset-0 z-50 grid place-items-center p-4"
       style={{ background: "rgba(0,0,0,0.55)" }}
@@ -371,6 +373,7 @@ function ReplaceDialog({
         </div>
       </div>
     </div>
+    </Portal>
   );
 }
 
