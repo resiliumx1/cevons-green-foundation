@@ -33,6 +33,8 @@ import {
   Moon,
   LogOut,
   UserCircle,
+  Share2,
+  Star,
 } from "lucide-react";
 
 const logo = "/images/cevons-logo.webp";
