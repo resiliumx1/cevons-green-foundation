@@ -179,7 +179,15 @@ function TikTokPage() {
         </div>
       )}
 
+      <FollowerRecord
+        platform="tiktok"
+        label="TikTok"
+        code="TT-R"
+        liveFollowers={profile?.followers ?? null}
+      />
+
       <Calendar posts={posts} videos={videos} />
+
 
       <Panel title="Scheduling queue" code="TT-Q">
         {planned.isLoading ? (
