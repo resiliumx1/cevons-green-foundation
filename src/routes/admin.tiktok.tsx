@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { Panel, PanelError, PanelSkeleton, DocketStrip } from "@/components/admin/Manifest";
 import { FollowerRecord } from "@/components/admin/FollowerRecord";
+import { DailyStatsImport } from "@/components/admin/DailyStatsImport";
 
 import { supabase } from "@/integrations/supabase/client";
 import { GEORGETOWN_LABEL } from "@/lib/georgetown";

@@ -50,6 +50,9 @@ export type FollowerGrowth = {
   change: number;
   daysRecorded: number;
   series: Pair[];
+  /** Profile views, only for days where a figure was recorded or imported. */
+  profileViewsTotal?: number;
+  profileViewsDays?: number;
 };
 
 export type TikTokFacts = {
