@@ -35,6 +35,7 @@ import {
   UserCircle,
   Share2,
   Star,
+  Music2,
 } from "lucide-react";
 
 const logo = "/images/cevons-logo.webp";
