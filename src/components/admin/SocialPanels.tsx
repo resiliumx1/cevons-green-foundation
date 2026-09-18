@@ -236,7 +236,7 @@ function TikTokSections({ insights }: { insights: TikTokInsights }) {
                     onClick={() => setDetail({ kind: "month", key: m.key })}
                     aria-label={`See the ${monthLabel(m.key)} videos`}
                   >
-                    <div className="admin-bar-copy">
+                    <div className="admin-bar-copy admin-bar-copy--wide">
                       <span className="admin-bar-label">{monthLabel(m.key)}</span>
                       <strong className="admin-bar-value">{nf.format(m.views)} views</strong>
                     </div>
