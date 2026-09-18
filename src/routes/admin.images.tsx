@@ -219,6 +219,7 @@ function ReplaceDialog({
   }
 
   return (
+    <Portal>
     <div
       className="fixed inset-0 z-50 grid place-items-center p-4"
       style={{ background: "rgba(0,0,0,0.55)" }}
