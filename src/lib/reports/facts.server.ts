@@ -253,6 +253,7 @@ export async function collectFacts(
       const { runTikTokReport } = await import("@/lib/analytics/social.server");
       const profile = await runTikTokReport();
       const i = profile.insights;
+      const g = await readFollowerGrowth(supabase, "tiktok", periodStart, periodEnd);
       facts.tiktok = i
         ? {
             available: true,
@@ -271,6 +272,8 @@ export async function collectFacts(
                 caption: p.caption ?? "Untitled",
                 views: p.views ?? null,
               })),
+              ...(g.growth ? { followerGrowth: g.growth } : {}),
+              ...(g.note ? { followerGrowthNote: g.note } : {}),
             },
           }
         : { available: false, note: "TikTok returned no video figures." };
@@ -285,17 +288,21 @@ export async function collectFacts(
       const mod = await import("@/lib/analytics/social.server");
       const run = platform === "facebook" ? mod.runFacebookReport : mod.runInstagramReport;
       const profile = await run();
+      const g = await readFollowerGrowth(supabase, platform, periodStart, periodEnd);
       facts[platform] = {
         available: true,
         data: {
           followers: profile.followers ?? null,
           posts: profile.posts ?? null,
           likes: profile.likes ?? null,
+          ...(g.growth ? { followerGrowth: g.growth } : {}),
+          ...(g.note ? { followerGrowthNote: g.note } : {}),
         },
       };
     } catch (err) {
       facts[platform] = { available: false, note: describe(err) };
     }
+
   }
 
   return facts;
