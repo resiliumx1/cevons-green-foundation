@@ -26,6 +26,6 @@
 
 # Social analytics (Traffic page)
 
-- [ ] Social panel on admin Traffic: TikTok, Facebook, Instagram
-- [ ] TikTok connector link (user obtaining TikTok admin access)
+- [x] Social panel on admin Traffic: TikTok, Facebook, Instagram
+- [x] TikTok connected and showing live figures
 - [ ] Facebook/Instagram: blocked — needs a Meta app (App ID/secret + review)
