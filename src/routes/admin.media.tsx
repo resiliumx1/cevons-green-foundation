@@ -499,6 +499,46 @@ function MediaRow({
   const mayPublish = canPublish(roles);
 
 
+  // Swap the photo on an existing item, keeping its title, caption,
+  // schedule and position. The old file is removed only after the row
+  // points at the new one, so a failure never leaves the item photoless.
+  const qcRow = useQueryClient();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [busyPhoto, setBusyPhoto] = useState(false);
+
+  async function replacePhoto(file: File) {
+    setBusyPhoto(true);
+    try {
+      const processed = await processImage(file);
+      const path = `${post.kind}/${crypto.randomUUID()}.${processed.ext}`;
+      const { error: upErr } = await supabase.storage
+        .from(MEDIA_BUCKET)
+        .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+      if (upErr) throw upErr;
+
+      const { error: dbErr } = await supabase
+        .from("media_posts")
+        .update({ image_path: path, image_w: processed.width, image_h: processed.height })
+        .eq("id", post.id);
+      if (dbErr) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+        throw dbErr;
+      }
+
+      const old = post.image_path;
+      if (old && old !== path) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([old]);
+        invalidateMediaUrl(old);
+      }
+      toast.success("Photo updated.");
+      void qcRow.invalidateQueries({ queryKey: ["crm-media-posts"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update that photo.");
+    } finally {
+      setBusyPhoto(false);
+    }
+  }
+
   useEffect(() => setTitle(post.title), [post.title]);
   useEffect(() => setCaption(post.caption ?? ""), [post.caption]);
 
@@ -510,7 +550,35 @@ function MediaRow({
       className="rounded-xl border p-3 flex flex-col sm:flex-row gap-3"
       style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
     >
-      <Thumb path={post.image_path} alt={post.title || "Media item"} />
+      <div className="shrink-0 space-y-2">
+        <Thumb path={post.image_path} alt={post.title || "Media item"} />
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            e.target.value = "";
+            if (f) void replacePhoto(f);
+          }}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-full min-h-9"
+          disabled={busyPhoto}
+          onClick={() => fileRef.current?.click()}
+        >
+          {busyPhoto ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Upload className="size-4" />
+          )}
+          {busyPhoto ? "Saving…" : post.image_path ? "Change photo" : "Add photo"}
+        </Button>
+      </div>
 
       <div className="flex-1 min-w-0 space-y-2">
         <Input
