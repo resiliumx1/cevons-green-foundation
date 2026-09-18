@@ -5236,6 +5236,10 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   align-items: baseline;
   gap: 9px;
 }
+/* Rows without a leading code column (social video lists). */
+[data-crm-theme] .admin-bar-copy--wide {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
 [data-crm-theme] .admin-bar-rank {
   color: var(--chart-color);
   font-size: 10px;
