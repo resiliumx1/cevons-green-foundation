@@ -69,6 +69,8 @@ export type TikTokInsights = {
   firstPublished: string | null;
   lastPublished: string | null;
   monthly: SocialMonth[];
+  /** Every analysed video, newest first — used by the detail views. */
+  videos: SocialPost[];
   topByViews: SocialPost[];
   topByEngagement: SocialPost[];
 };
@@ -131,6 +133,7 @@ function buildTikTokInsights(videos: SocialPost[]): TikTokInsights | undefined {
     firstPublished: dated[0]?.publishedAt ?? null,
     lastPublished: dated.at(-1)?.publishedAt ?? null,
     monthly: [...months.values()].sort((a, b) => (a.key < b.key ? -1 : 1)),
+    videos: [...videos].sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? "")),
     topByViews: [...viewed].sort((a, b) => b.views - a.views).slice(0, 5),
     topByEngagement: [...videos].sort((a, b) => engagementOf(b) - engagementOf(a)).slice(0, 5),
   };
