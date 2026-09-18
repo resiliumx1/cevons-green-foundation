@@ -411,7 +411,7 @@ export function SocialPanels() {
                     <ul className="admin-bars">
                       {profile.recent.map((post) => (
                         <li key={post.id} className="admin-bar-row">
-                          <div className="admin-bar-copy">
+                          <div className="admin-bar-copy admin-bar-copy--wide">
                             <span className="admin-bar-label" title={post.caption}>
                               {post.url ? (
                                 <a href={post.url} target="_blank" rel="noreferrer noopener">
