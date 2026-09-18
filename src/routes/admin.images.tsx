@@ -389,6 +389,58 @@ function SiteImagesPage() {
   const { data: rows = [], isLoading, isError, refetch } = useOverrides();
   const [editing, setEditing] = useState<SlotDef | null>(null);
   const [search, setSearch] = useState("");
+  const [libBusy, setLibBusy] = useState<string | null>(null);
+  const libFileRef = useRef<HTMLInputElement>(null);
+
+  async function addToLibrary(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (images.length < files.length) {
+      toast.error("Some files were skipped — only image files can be added.");
+    }
+    if (!images.length) return;
+    let done = 0;
+    for (const file of images) {
+      try {
+        setLibBusy(`Optimising ${file.name}…`);
+        const processed = await processImage(file, {
+          kind: looksLikeLogo("library", "Library", file.name) ? "logo" : "photo",
+        });
+        setLibBusy(`Uploading ${file.name}…`);
+        const path = `library/${crypto.randomUUID()}.${processed.ext}`;
+        const { error: upErr } = await supabase.storage
+          .from(MEDIA_BUCKET)
+          .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+        if (upErr) throw upErr;
+        const { error: insErr } = await supabase.from("media_posts").insert({
+          kind: "gallery",
+          title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
+          caption: "",
+          image_path: path,
+          image_w: processed.width,
+          image_h: processed.height,
+          published: false,
+          sort_order: 0,
+        });
+        if (insErr) {
+          await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+          throw insErr;
+        }
+        done++;
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : `Could not add ${file.name}.`);
+      }
+    }
+    setLibBusy(null);
+    if (done > 0) {
+      toast.success(
+        done === 1
+          ? "Photo added to the media library."
+          : `${done} photos added to the media library.`,
+      );
+      void qc.invalidateQueries({ queryKey: ["admin-site-images-library"] });
+      void qc.invalidateQueries({ queryKey: ["crm-media-posts"] });
+    }
+  }
 
   const byslot = useMemo(() => {
     const m = new Map<string, SiteImageRow>();
