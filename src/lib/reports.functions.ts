@@ -301,7 +301,7 @@ export const deleteReport = createServerFn({ method: "POST" })
 
 /* ── Templates ───────────────────────────────────────────────────────── */
 
-export type SaveTemplateInput = Partial<ReportTemplateRow> & {
+export type SaveTemplateInput = Omit<Partial<ReportTemplateRow>, "id"> & {
   id?: string | null;
   name: string;
   /** Optional uploads, sent as base64 without the data: prefix. */
