@@ -372,6 +372,7 @@ function ReplaceDialog({
         </div>
       </div>
     </div>
+    </Portal>
   );
 }
 
