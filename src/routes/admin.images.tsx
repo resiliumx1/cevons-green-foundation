@@ -126,6 +126,7 @@ function ReplaceDialog({
   );
   const [busy, setBusy] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const qc = useQueryClient();
 
   const { data: library = [], isLoading, isError } = useQuery({
     queryKey: ["admin-site-images-library"],
@@ -170,6 +171,8 @@ function ReplaceDialog({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
+      void qc.invalidateQueries({ queryKey: ["admin-site-images-library"] });
+      void qc.invalidateQueries({ queryKey: ["crm-media-posts"] });
       const suggestion = suggestAltFromFileName(file.name, slot.label);
       let filled = false;
       if (suggestion && alt.trim().length === 0) {
