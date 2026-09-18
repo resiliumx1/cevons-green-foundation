@@ -5237,6 +5237,63 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
   gap: 9px;
 }
 /* Rows without a leading code column (social video lists). */
+[data-crm-theme] .admin-social-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+[data-crm-theme] .admin-social-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.9rem 0.45rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--crm-line, 220 20% 88%) / 0.9);
+  background: hsl(var(--crm-card, 0 0% 100%));
+  box-shadow: 0 1px 2px rgb(11 37 69 / 0.06);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: hsl(var(--crm-ink, 222 47% 18%));
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+[data-crm-theme] .admin-social-jump-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(11 37 69 / 0.12);
+}
+
+[data-crm-theme] .admin-social-jump-btn:focus-visible {
+  outline: 2px solid #ea6a00;
+  outline-offset: 2px;
+}
+
+[data-crm-theme] .admin-social-jump-btn:active {
+  transform: translateY(0);
+}
+
+[data-crm-theme] .admin-social-jump-icon {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid hsl(var(--crm-line, 220 20% 88%) / 0.9);
+}
+
+[data-crm-theme] .admin-social-anchor {
+  scroll-margin-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-crm-theme] .admin-social-jump-btn {
+    transition: none;
+  }
+}
+
 [data-crm-theme] .admin-bar-copy--wide {
   grid-template-columns: minmax(0, 1fr) auto;
 }
