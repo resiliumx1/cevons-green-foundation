@@ -60,7 +60,7 @@ function VideoList({ posts, metric }: { posts: SocialPost[]; metric: "views" | "
         const engagement = post.likes + post.comments + (post.shares ?? 0);
         return (
           <li key={`${metric}-${post.id}`} className="admin-bar-row">
-            <div className="admin-bar-copy">
+            <div className="admin-bar-copy admin-bar-copy--wide">
               <span className="admin-bar-label" title={post.caption}>
                 {post.url ? (
                   <a href={post.url} target="_blank" rel="noreferrer noopener">
