@@ -152,7 +152,8 @@ function TikTokSections({ insights }: { insights: TikTokInsights }) {
                 </div>
                 <div className="admin-bar-meta">
                   <span>
-                    {nf.format(m.videos)} videos · {nf.format(m.likes)} likes ·{" "}
+                    {nf.format(m.videos)} {m.videos === 1 ? "video" : "videos"} ·{" "}
+                    {nf.format(m.likes)} likes ·{" "}
                     {nf.format(m.comments)} comments · {nf.format(m.shares)} shares
                   </span>
                 </div>
