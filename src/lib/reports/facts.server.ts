@@ -138,19 +138,30 @@ async function readFollowerGrowth(
 ): Promise<{ growth?: FollowerGrowth; note?: string }> {
   const { data, error } = await supabase
     .from("social_daily_stats")
-    .select("day, followers")
+    .select("day, followers, profile_views")
     .eq("platform", platform)
     .gte("day", periodStart)
     .lte("day", periodEnd)
-    .not("followers", "is", null)
     .order("day", { ascending: true });
   if (error) return { note: "The daily follower record could not be read." };
-  const rows = (data ?? []) as Array<{ day: string; followers: number }>;
+  const all = (data ?? []) as Array<{ day: string; followers: number | null; profile_views: number | null }>;
+  const views = all.filter((r) => typeof r.profile_views === "number");
+  const viewFacts =
+    views.length > 0
+      ? {
+          profileViewsTotal: views.reduce((sum, r) => sum + (r.profile_views ?? 0), 0),
+          profileViewsDays: views.length,
+        }
+      : {};
+  const rows = all.filter((r) => typeof r.followers === "number") as Array<{
+    day: string;
+    followers: number;
+  }>;
   if (rows.length < 2) {
     return {
       note:
         rows.length === 0
-          ? "No follower figures were recorded for these dates. Daily recording began recently, so earlier dates cannot be shown."
+          ? "No follower figures were recorded for these dates. Daily recording began recently, and no analytics export covering these dates has been imported."
           : "Only one day's follower figure was recorded in this period, so growth cannot be measured yet.",
     };
   }
@@ -165,6 +176,7 @@ async function readFollowerGrowth(
       change: last.followers - first.followers,
       daysRecorded: rows.length,
       series: rows.map((r) => ({ key: r.day, value: r.followers })),
+      ...viewFacts,
     },
   };
 }
