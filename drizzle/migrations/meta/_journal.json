@@ -43,6 +43,13 @@
       "when": 1789742776006,
       "tag": "0005_social_daily_stats",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789742967552,
+      "tag": "0006_restrict_anon_content_strings_columns",
+      "breakpoints": true
     }
   ]
 }
