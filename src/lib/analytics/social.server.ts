@@ -69,6 +69,8 @@ export type TikTokInsights = {
   firstPublished: string | null;
   lastPublished: string | null;
   monthly: SocialMonth[];
+  /** Every analysed video, newest first — used by the detail views. */
+  videos: SocialPost[];
   topByViews: SocialPost[];
   topByEngagement: SocialPost[];
 };
