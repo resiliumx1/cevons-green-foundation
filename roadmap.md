@@ -23,3 +23,9 @@
 - [x] Replace blank card outlines on admin entry with a clear loading indicator
 - [x] Use the stored session for the routing gate instead of a network check
 - [ ] Glass button style for wizard + Schedule a Service (awaiting user pick)
+
+# Social analytics (Traffic page)
+
+- [ ] Social panel on admin Traffic: TikTok, Facebook, Instagram
+- [ ] TikTok connector link (user obtaining TikTok admin access)
+- [ ] Facebook/Instagram: blocked — needs a Meta app (App ID/secret + review)

@@ -27,6 +27,7 @@ import {
   type SiteAnalytics,
 } from "@/lib/siteAnalytics.functions";
 import { getHistoricalSnapshot } from "@/lib/historicalSnapshot.functions";
+import { SocialPanels } from "@/components/admin/SocialPanels";
 import { landingPathname } from "@/lib/ces/contract";
 
 export const Route = createFileRoute("/admin/traffic")({
@@ -725,6 +726,17 @@ function TrafficPage() {
             )}
           </Panel>
         </div>
+
+        <div>
+          <h2 className="admin-display admin-h1" style={{ fontSize: "1.35rem" }}>
+            Social accounts
+          </h2>
+          <p className="admin-lede">
+            Figures come straight from Facebook, Instagram and TikTok. They are separate from
+            website visits above and should never be added together.
+          </p>
+        </div>
+        <SocialPanels />
 
         <HistoricalSnapshotPanels />
       </div>
