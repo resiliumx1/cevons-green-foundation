@@ -5208,6 +5208,28 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 [data-crm-theme] .admin-bar-row:nth-child(5n + 5) {
   --chart-color: var(--admin-cyan);
 }
+/* A bar row that can be opened for more detail. */
+[data-crm-theme] .admin-bar-button {
+  display: grid;
+  gap: 7px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  margin: -8px -10px;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+[data-crm-theme] .admin-bar-button:hover,
+[data-crm-theme] .admin-bar-button:focus-visible {
+  background: color-mix(in srgb, var(--chart-color) 10%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-crm-theme] .admin-bar-button {
+    transition: none;
+  }
+}
 [data-crm-theme] .admin-bar-copy {
   display: grid;
   grid-template-columns: 24px minmax(0, 1fr) auto;
