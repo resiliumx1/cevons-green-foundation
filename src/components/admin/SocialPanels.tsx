@@ -191,8 +191,6 @@ export function SocialPanels() {
         return (
           <Fragment key={key}>
           <Panel
-
-            key={key}
             title={title}
             code={code}
             action={
