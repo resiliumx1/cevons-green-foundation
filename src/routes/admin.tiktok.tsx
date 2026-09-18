@@ -188,6 +188,8 @@ function TikTokPage() {
         liveFollowers={profile?.followers ?? null}
       />
 
+      <DailyStatsImport platform="tiktok" label="TikTok" code="TT-I" />
+
       <Calendar posts={posts} videos={videos} />
 
 
