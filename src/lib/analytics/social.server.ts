@@ -26,6 +26,35 @@ export type SocialPost = {
   shares: number | null;
 };
 
+/** Month-by-month totals worked out from the videos the account returns. */
+export type SocialMonth = {
+  key: string;
+  videos: number;
+  views: number;
+  likes: number;
+  comments: number;
+  shares: number;
+};
+
+export type TikTokInsights = {
+  /** How many videos these figures were worked out from. */
+  videosAnalyzed: number;
+  totalViews: number;
+  totalLikes: number;
+  totalComments: number;
+  totalShares: number;
+  averageViews: number;
+  medianViews: number;
+  bestViews: number;
+  /** (likes + comments + shares) ÷ views, across the analysed videos. */
+  engagementRate: number | null;
+  firstPublished: string | null;
+  lastPublished: string | null;
+  monthly: SocialMonth[];
+  topByViews: SocialPost[];
+  topByEngagement: SocialPost[];
+};
+
 export type SocialProfile = {
   platform: "tiktok" | "facebook" | "instagram";
   handle: string;
@@ -35,26 +64,97 @@ export type SocialProfile = {
   /** Total likes on the account, when the platform reports it. */
   likes: number | null;
   recent: SocialPost[];
+  /** Only present for TikTok, and only when videos could be read. */
+  insights?: TikTokInsights;
 };
 
-async function readJson(res: Response, what: string): Promise<unknown> {
-  const text = await res.text();
-  if (!res.ok) {
-    if (res.status === 401 || res.status === 403) {
-      throw new SocialPermissionError(
-        `${what} refused the request (${res.status}). The connected account may not have permission any more.`,
-      );
-    }
-    throw new Error(`${what} request failed [${res.status}]: ${text.slice(0, 300)}`);
-  }
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error(`${what} returned an unreadable response.`);
-  }
+function engagementOf(p: SocialPost): number {
+  return p.likes + p.comments + (p.shares ?? 0);
 }
 
-/* ── TikTok ─────────────────────────────────────────────────────────────── */
+function buildTikTokInsights(videos: SocialPost[]): TikTokInsights | undefined {
+  if (videos.length === 0) return undefined;
+  const viewed = videos.filter((v) => typeof v.views === "number") as Array<
+    SocialPost & { views: number }
+  >;
+  const views = viewed.map((v) => v.views).sort((a, b) => a - b);
+  const totalViews = views.reduce((a, b) => a + b, 0);
+  const totalLikes = videos.reduce((a, v) => a + v.likes, 0);
+  const totalComments = videos.reduce((a, v) => a + v.comments, 0);
+  const totalShares = videos.reduce((a, v) => a + (v.shares ?? 0), 0);
+
+  const months = new Map<string, SocialMonth>();
+  for (const v of videos) {
+    if (!v.publishedAt) continue;
+    const key = v.publishedAt.slice(0, 7);
+    const m = months.get(key) ?? { key, videos: 0, views: 0, likes: 0, comments: 0, shares: 0 };
+    m.videos += 1;
+    m.views += v.views ?? 0;
+    m.likes += v.likes;
+    m.comments += v.comments;
+    m.shares += v.shares ?? 0;
+    months.set(key, m);
+  }
+
+  const dated = videos
+    .filter((v) => v.publishedAt)
+    .sort((a, b) => (a.publishedAt! < b.publishedAt! ? -1 : 1));
+
+  return {
+    videosAnalyzed: videos.length,
+    totalViews,
+    totalLikes,
+    totalComments,
+    totalShares,
+    averageViews: views.length ? Math.round(totalViews / views.length) : 0,
+    medianViews: views.length ? views[Math.floor(views.length / 2)] : 0,
+    bestViews: views.length ? views[views.length - 1] : 0,
+    engagementRate: totalViews > 0 ? (totalLikes + totalComments + totalShares) / totalViews : null,
+    firstPublished: dated[0]?.publishedAt ?? null,
+    lastPublished: dated.at(-1)?.publishedAt ?? null,
+    monthly: [...months.values()].sort((a, b) => (a.key < b.key ? -1 : 1)),
+    topByViews: [...viewed].sort((a, b) => b.views - a.views).slice(0, 5),
+    topByEngagement: [...videos].sort((a, b) => engagementOf(b) - engagementOf(a)).slice(0, 5),
+  };
+}
+
+async function fetchTikTokVideos(headers: Record<string, string>): Promise<SocialPost[]> {
+  const videoFields =
+    "id,title,video_description,share_url,create_time,view_count,like_count,comment_count,share_count";
+  const all: SocialPost[] = [];
+  let cursor: number | undefined;
+
+  // The library is paged; walk it until TikTok says there is no more, with a
+  // hard stop so a runaway response can never loop.
+  for (let page = 0; page < 10; page++) {
+    const body: Record<string, unknown> = { max_count: 20 };
+    if (cursor) body.cursor = cursor;
+    const res = await fetch(`${GATEWAY}/tiktok/video/list/?fields=${videoFields}`, {
+      method: "POST",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const json = (await readJson(res, "TikTok")) as {
+      data?: { videos?: Array<Record<string, unknown>>; has_more?: boolean; cursor?: number };
+    };
+    const batch = json.data?.videos ?? [];
+    for (const v of batch) {
+      all.push({
+        id: String(v.id ?? ""),
+        caption: String(v.title || v.video_description || "Untitled video"),
+        url: (v.share_url as string) ?? null,
+        publishedAt: v.create_time ? new Date(Number(v.create_time) * 1000).toISOString() : null,
+        views: typeof v.view_count === "number" ? v.view_count : null,
+        likes: Number(v.like_count ?? 0),
+        comments: Number(v.comment_count ?? 0),
+        shares: typeof v.share_count === "number" ? v.share_count : null,
+      });
+    }
+    if (!json.data?.has_more || !json.data.cursor || batch.length === 0) break;
+    cursor = json.data.cursor;
+  }
+  return all;
+}
 
 export async function runTikTokReport(): Promise<SocialProfile> {
   const lovableKey = process.env["LOVABLE_API_KEY"];
@@ -79,32 +179,16 @@ export async function runTikTokReport(): Promise<SocialProfile> {
   }
   const u = user.data?.user ?? {};
 
-  let recent: SocialPost[] = [];
+  let videos: SocialPost[] = [];
   try {
-    const videoFields =
-      "id,title,video_description,share_url,create_time,view_count,like_count,comment_count,share_count";
-    const listRes = await fetch(`${GATEWAY}/tiktok/video/list/?fields=${videoFields}`, {
-      method: "POST",
-      headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({ max_count: 10 }),
-    });
-    const list = (await readJson(listRes, "TikTok")) as {
-      data?: { videos?: Array<Record<string, unknown>> };
-    };
-    recent = (list.data?.videos ?? []).map((v) => ({
-      id: String(v.id ?? ""),
-      caption: String(v.title || v.video_description || "Untitled video"),
-      url: (v.share_url as string) ?? null,
-      publishedAt: v.create_time ? new Date(Number(v.create_time) * 1000).toISOString() : null,
-      views: typeof v.view_count === "number" ? v.view_count : null,
-      likes: Number(v.like_count ?? 0),
-      comments: Number(v.comment_count ?? 0),
-      shares: typeof v.share_count === "number" ? v.share_count : null,
-    }));
+    videos = await fetchTikTokVideos(headers);
   } catch {
     // Video listing needs its own permission; profile figures still stand.
-    recent = [];
+    videos = [];
   }
+  const recent = [...videos]
+    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""))
+    .slice(0, 10);
 
   return {
     platform: "tiktok",
@@ -114,6 +198,7 @@ export async function runTikTokReport(): Promise<SocialProfile> {
     posts: typeof u.video_count === "number" ? u.video_count : null,
     likes: typeof u.likes_count === "number" ? u.likes_count : null,
     recent,
+    insights: buildTikTokInsights(videos),
   };
 }
 
