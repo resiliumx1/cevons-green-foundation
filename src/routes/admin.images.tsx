@@ -494,13 +494,44 @@ function SiteImagesPage() {
         </div>
       )}
 
-      <Input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search slots…"
-        className="mb-5 max-w-sm min-h-11"
-        aria-label="Search image slots"
-      />
+      <div className="flex flex-wrap items-center gap-3 mb-5">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search slots…"
+          className="max-w-sm min-h-11 flex-1"
+          aria-label="Search image slots"
+        />
+        {mayPublish && (
+          <>
+            <input
+              ref={libFileRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              onChange={(e) => {
+                void addToLibrary(Array.from(e.target.files ?? []));
+                e.target.value = "";
+              }}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="min-h-11"
+              disabled={!!libBusy}
+              onClick={() => libFileRef.current?.click()}
+            >
+              {libBusy ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Upload className="size-4 mr-2" />
+              )}
+              {libBusy ?? "Add to library"}
+            </Button>
+          </>
+        )}
+      </div>
 
       {isLoading ? (
         <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
