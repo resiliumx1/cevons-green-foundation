@@ -502,6 +502,7 @@ function MediaRow({
   // Swap the photo on an existing item, keeping its title, caption,
   // schedule and position. The old file is removed only after the row
   // points at the new one, so a failure never leaves the item photoless.
+  const qcRow = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [busyPhoto, setBusyPhoto] = useState(false);
 
@@ -530,7 +531,7 @@ function MediaRow({
         invalidateMediaUrl(old);
       }
       toast.success("Photo updated.");
-      onPatch({});
+      void qcRow.invalidateQueries({ queryKey: ["crm-media-posts"] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not update that photo.");
     } finally {
