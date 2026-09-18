@@ -126,6 +126,7 @@ function ReplaceDialog({
   );
   const [busy, setBusy] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const qc = useQueryClient();
 
   const { data: library = [], isLoading, isError } = useQuery({
     queryKey: ["admin-site-images-library"],
@@ -170,6 +171,8 @@ function ReplaceDialog({
         sort_order: 0,
       });
       setPicked({ path, w: processed.width, h: processed.height });
+      void qc.invalidateQueries({ queryKey: ["admin-site-images-library"] });
+      void qc.invalidateQueries({ queryKey: ["crm-media-posts"] });
       const suggestion = suggestAltFromFileName(file.name, slot.label);
       let filled = false;
       if (suggestion && alt.trim().length === 0) {
@@ -386,6 +389,58 @@ function SiteImagesPage() {
   const { data: rows = [], isLoading, isError, refetch } = useOverrides();
   const [editing, setEditing] = useState<SlotDef | null>(null);
   const [search, setSearch] = useState("");
+  const [libBusy, setLibBusy] = useState<string | null>(null);
+  const libFileRef = useRef<HTMLInputElement>(null);
+
+  async function addToLibrary(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (images.length < files.length) {
+      toast.error("Some files were skipped — only image files can be added.");
+    }
+    if (!images.length) return;
+    let done = 0;
+    for (const file of images) {
+      try {
+        setLibBusy(`Optimising ${file.name}…`);
+        const processed = await processImage(file, {
+          kind: looksLikeLogo("library", "Library", file.name) ? "logo" : "photo",
+        });
+        setLibBusy(`Uploading ${file.name}…`);
+        const path = `library/${crypto.randomUUID()}.${processed.ext}`;
+        const { error: upErr } = await supabase.storage
+          .from(MEDIA_BUCKET)
+          .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+        if (upErr) throw upErr;
+        const { error: insErr } = await supabase.from("media_posts").insert({
+          kind: "gallery",
+          title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
+          caption: "",
+          image_path: path,
+          image_w: processed.width,
+          image_h: processed.height,
+          published: false,
+          sort_order: 0,
+        });
+        if (insErr) {
+          await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+          throw insErr;
+        }
+        done++;
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : `Could not add ${file.name}.`);
+      }
+    }
+    setLibBusy(null);
+    if (done > 0) {
+      toast.success(
+        done === 1
+          ? "Photo added to the media library."
+          : `${done} photos added to the media library.`,
+      );
+      void qc.invalidateQueries({ queryKey: ["admin-site-images-library"] });
+      void qc.invalidateQueries({ queryKey: ["crm-media-posts"] });
+    }
+  }
 
   const byslot = useMemo(() => {
     const m = new Map<string, SiteImageRow>();
@@ -439,13 +494,44 @@ function SiteImagesPage() {
         </div>
       )}
 
-      <Input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search slots…"
-        className="mb-5 max-w-sm min-h-11"
-        aria-label="Search image slots"
-      />
+      <div className="flex flex-wrap items-center gap-3 mb-5">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search slots…"
+          className="max-w-sm min-h-11 flex-1"
+          aria-label="Search image slots"
+        />
+        {mayPublish && (
+          <>
+            <input
+              ref={libFileRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              onChange={(e) => {
+                void addToLibrary(Array.from(e.target.files ?? []));
+                e.target.value = "";
+              }}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="min-h-11"
+              disabled={!!libBusy}
+              onClick={() => libFileRef.current?.click()}
+            >
+              {libBusy ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Upload className="size-4 mr-2" />
+              )}
+              {libBusy ?? "Add to library"}
+            </Button>
+          </>
+        )}
+      </div>
 
       {isLoading ? (
         <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
