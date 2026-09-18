@@ -142,6 +142,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
       { to: "/admin/media", label: "Media", icon: ImageIcon },
       { to: "/admin/promotions", label: "Promotions", short: "Promos", icon: Tag },
       { to: "/admin/social", label: "Social posts", short: "Social", icon: Share2 },
+      { to: "/admin/tiktok", label: "TikTok", icon: Music2 },
     ],
   },
   {
