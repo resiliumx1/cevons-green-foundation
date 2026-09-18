@@ -38,6 +38,20 @@ export type TrafficFacts = {
   devices: Pair[];
 };
 
+/**
+ * Growth measured from our own daily record of what the platform reported.
+ * It only covers days on which a figure was recorded — never estimated.
+ */
+export type FollowerGrowth = {
+  firstDay: string;
+  firstFollowers: number;
+  lastDay: string;
+  lastFollowers: number;
+  change: number;
+  daysRecorded: number;
+  series: Pair[];
+};
+
 export type TikTokFacts = {
   followers: number | null;
   posts: number | null;
@@ -50,13 +64,18 @@ export type TikTokFacts = {
   averageViews: number;
   engagementRate: number | null;
   topByViews: Array<{ caption: string; views: number | null }>;
+  followerGrowth?: FollowerGrowth;
+  followerGrowthNote?: string;
 };
 
 export type PageFacts = {
   followers: number | null;
   posts: number | null;
   likes: number | null;
+  followerGrowth?: FollowerGrowth;
+  followerGrowthNote?: string;
 };
+
 
 export type ReportFacts = {
   periodStart: string;
