@@ -21,6 +21,11 @@ import {
   normalizeRecipients,
   type NotificationRecipients,
 } from "@/lib/notify/config";
+import {
+  DEFAULT_REVIEW_FOLLOWUP,
+  normalizeReviewFollowup,
+  type ReviewFollowupSettings,
+} from "@/lib/reviews/config";
 
 
 export const Route = createFileRoute("/admin/settings")({
@@ -73,7 +78,7 @@ type SettingsMap = {
   pipeline_stages?: PipelineConfig;
   notifications?: NotificationsConfig;
   notification_recipients?: NotificationRecipients;
-
+  review_followup?: ReviewFollowupSettings;
 };
 
 /* ─── default data ──────────────────────────────────────────────────────── */
@@ -213,11 +218,21 @@ function SettingsPage() {
     [settings?.notification_recipients]
   );
 
+  const reviewFollowup: ReviewFollowupSettings = useMemo(
+    () =>
+      settings?.review_followup
+        ? normalizeReviewFollowup(settings.review_followup)
+        : DEFAULT_REVIEW_FOLLOWUP,
+    [settings?.review_followup]
+  );
+
   const SECTIONS = [
     { id: "profile", label: "Company Profile", icon: Building2, tone: "tone-navy" },
     { id: "team", label: "Team Members", icon: Users, tone: "tone-blue" },
     { id: "notifications", label: "Notifications", icon: Bell, tone: "tone-orange" },
     { id: "email", label: "Email notifications", icon: Mail, tone: "tone-green" },
+    { id: "reviews", label: "Review follow-ups", icon: Star, tone: "tone-amber" },
+
 
     { id: "pipeline", label: "Pipeline", icon: GitBranch, tone: "tone-purple" },
     { id: "services", label: "Service Catalog", icon: Award, tone: "tone-cyan" },
@@ -324,6 +339,20 @@ function SettingsPage() {
                 />
               )}
 
+              {active === "reviews" && (
+                <ReviewFollowupSection
+                  data={reviewFollowup}
+                  onSave={async (v) => {
+                    await upsert.mutateAsync({
+                      key: "review_followup",
+                      value: v as unknown as Record<string, unknown>,
+                    });
+                    showSaved("review_followup");
+                  }}
+                  saving={upsert.isPending}
+                  saved={savedKey === "review_followup"}
+                />
+              )}
               {active === "pipeline" && (
                 <PipelineSection
                   data={pipeline}
