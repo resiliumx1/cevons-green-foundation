@@ -14,6 +14,8 @@ type Slide = {
   srcSet?: string;
   title?: string;
   caption?: string;
+  /** True for a photo managed in the Media section. */
+  managed?: boolean;
   /** Spread onto the rendered <img> so the content editor can target it. */
   editorProps?: Record<string, string>;
 };
@@ -129,6 +131,7 @@ function useHeroSlides(): Slide[] {
       portrait: isPortrait(r.image_w, r.image_h),
       title: r.title || undefined,
       caption: r.caption || undefined,
+      managed: true,
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, srcKey, editorKey]);
@@ -418,7 +421,7 @@ export function HeroSlideshowBackground() {
                       onError={() => markLoaded(s.src)}
                       className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
-                      {...(data?.length ? { "data-focal": "true" } : {})}
+                      {...(s.managed ? { "data-focal": "true" } : {})}
                       style={{ objectPosition: s.position }}
                       {...(s.editorProps ?? {})}
                     />
