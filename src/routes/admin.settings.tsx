@@ -340,18 +340,32 @@ function SettingsPage() {
               )}
 
               {active === "reviews" && (
-                <ReviewFollowupSection
-                  data={reviewFollowup}
-                  onSave={async (v) => {
-                    await upsert.mutateAsync({
-                      key: "review_followup",
-                      value: v as unknown as Record<string, unknown>,
-                    });
-                    showSaved("review_followup");
-                  }}
-                  saving={upsert.isPending}
-                  saved={savedKey === "review_followup"}
-                />
+                <div className="space-y-5">
+                  <ReviewFollowupSection
+                    data={reviewFollowup}
+                    onSave={async (v) => {
+                      await upsert.mutateAsync({
+                        key: "review_followup",
+                        value: v as unknown as Record<string, unknown>,
+                      });
+                      showSaved("review_followup");
+                    }}
+                    saving={upsert.isPending}
+                    saved={savedKey === "review_followup"}
+                  />
+                  <ManyChatSection
+                    data={manychat}
+                    onSave={async (v) => {
+                      await upsert.mutateAsync({
+                        key: "manychat",
+                        value: v as unknown as Record<string, unknown>,
+                      });
+                      showSaved("manychat");
+                    }}
+                    saving={upsert.isPending}
+                    saved={savedKey === "manychat"}
+                  />
+                </div>
               )}
               {active === "pipeline" && (
                 <PipelineSection
