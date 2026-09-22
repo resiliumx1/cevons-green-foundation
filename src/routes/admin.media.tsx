@@ -868,7 +868,7 @@ function FocalCropDialog({
           <Button
             type="button"
             className="font-bold"
-            style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }}
+            style={{ background: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
             onClick={() => {
               onSave(x, y);
               onOpenChange(false);
