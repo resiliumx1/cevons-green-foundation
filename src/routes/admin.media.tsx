@@ -21,7 +21,6 @@ import {
   CalendarClock,
   Clock3,
   X,
-  Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -804,7 +803,7 @@ function FocalCropDialog({
   return (
     <ImagePresentationDialog
       title="Adjust website photo"
-      source={{ path: post.image_path ?? "" }}
+      source={post.image_path ?? ""}
       kind={post.kind as Kind}
       initial={{ focal_x: post.focal_x ?? 50, focal_y: post.focal_y ?? 50, image_fit: post.image_fit ?? "cover", image_zoom: post.image_zoom ?? 100 }}
       open={open}
@@ -825,7 +824,7 @@ function ImagePresentationDialog({
   onSave,
 }: {
   title: string;
-  source: File | { path: string };
+  source: File | string;
   kind: Kind;
   initial?: ImagePresentation;
   open: boolean;
@@ -852,7 +851,7 @@ function ImagePresentationDialog({
       objectUrl = URL.createObjectURL(source);
       setUrl(objectUrl);
     } else {
-      void getMediaUrl(source.path).then((next) => { if (alive) setUrl(next); });
+      void getMediaUrl(source).then((next) => { if (alive) setUrl(next); });
     }
     return () => {
       alive = false;
