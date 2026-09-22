@@ -550,7 +550,7 @@ function RequestServicePage() {
 
 /* ---------------- Step 1: Category ---------------- */
 
-function StepCategory({ data, setData, error, onAdvance }: { data: FormData; setData: (f: FormData) => void; error?: string; onAdvance: () => void }) {
+function StepCategory({ data, setData, error }: { data: FormData; setData: (f: FormData) => void; error?: string }) {
   return (
     <div>
       <Editable id="request-service.stepCategory.title" label="Category step heading" as="h2" className="text-2xl font-bold">What type of service do you need?</Editable>
@@ -564,7 +564,7 @@ function StepCategory({ data, setData, error, onAdvance }: { data: FormData; set
             <button
               key={c.key}
               type="button"
-              onClick={() => { setData({ ...data, category: c.key, service: null, details: {} }); onAdvance(); }}
+              onClick={() => setData({ ...data, category: c.key, service: null, details: {} })}
               className={cn(
                 "text-left rounded-2xl p-4 group flex items-center gap-4 tap-haptic",
                 active
