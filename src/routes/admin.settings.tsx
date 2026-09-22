@@ -26,6 +26,11 @@ import {
   normalizeReviewFollowup,
   type ReviewFollowupSettings,
 } from "@/lib/reviews/config";
+import {
+  DEFAULT_MANYCHAT_SETTINGS,
+  normalizeManyChatSettings,
+  type ManyChatSettings,
+} from "@/lib/manychat/config";
 
 
 export const Route = createFileRoute("/admin/settings")({
@@ -79,6 +84,7 @@ type SettingsMap = {
   notifications?: NotificationsConfig;
   notification_recipients?: NotificationRecipients;
   review_followup?: ReviewFollowupSettings;
+  manychat?: ManyChatSettings;
 };
 
 /* ─── default data ──────────────────────────────────────────────────────── */
@@ -224,6 +230,14 @@ function SettingsPage() {
         ? normalizeReviewFollowup(settings.review_followup)
         : DEFAULT_REVIEW_FOLLOWUP,
     [settings?.review_followup]
+  );
+
+  const manychat: ManyChatSettings = useMemo(
+    () =>
+      settings?.manychat
+        ? normalizeManyChatSettings(settings.manychat)
+        : DEFAULT_MANYCHAT_SETTINGS,
+    [settings?.manychat]
   );
 
   const SECTIONS = [
