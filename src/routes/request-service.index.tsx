@@ -390,9 +390,8 @@ function RequestServicePage() {
 
   // Continue-button enablement
   const canContinue = useMemo(() => {
-    if (step === 0) return !!data.category;
-    if (step === 1) return !!data.service;
-    if (step === 4) {
+    if (step === 0) return !!data.category && !!data.service;
+    if (step === 2) {
       return (
         data.info.fullName.trim() &&
         /^[+\d\s\-()]{7,}$/.test(data.info.phone) &&
