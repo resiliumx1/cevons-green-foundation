@@ -78,6 +78,13 @@
       "when": 1790105416868,
       "tag": "0010_media_image_fit_and_zoom",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790116850298,
+      "tag": "0011_manychat_bridge_and_whatsapp_followups",
+      "breakpoints": true
     }
   ]
 }

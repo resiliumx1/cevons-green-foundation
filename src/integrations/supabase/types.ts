@@ -683,6 +683,106 @@ export type Database = {
         }
         Relationships: []
       }
+      manychat_events: {
+        Row: {
+          attempts: number
+          delivery_id: string
+          event: string
+          id: string
+          payload: Json
+          phone: string | null
+          processed_at: string | null
+          processing_error: string | null
+          received_at: string
+          service_request_id: string | null
+          subscriber_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          delivery_id: string
+          event: string
+          id?: string
+          payload: Json
+          phone?: string | null
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+          service_request_id?: string | null
+          subscriber_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          delivery_id?: string
+          event?: string
+          id?: string
+          payload?: Json
+          phone?: string | null
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+          service_request_id?: string | null
+          subscriber_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manychat_events_service_request_id_fkey"
+            columns: ["service_request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manychat_messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          direction: string
+          error: string | null
+          external_id: string | null
+          id: string
+          kind: string | null
+          phone: string | null
+          service_request_id: string | null
+          status: string
+          subscriber_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          direction: string
+          error?: string | null
+          external_id?: string | null
+          id?: string
+          kind?: string | null
+          phone?: string | null
+          service_request_id?: string | null
+          status?: string
+          subscriber_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          direction?: string
+          error?: string | null
+          external_id?: string | null
+          id?: string
+          kind?: string | null
+          phone?: string | null
+          service_request_id?: string | null
+          status?: string
+          subscriber_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manychat_messages_service_request_id_fkey"
+            columns: ["service_request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media_items: {
         Row: {
           body: string | null
@@ -1212,14 +1312,20 @@ export type Database = {
           due_at: string
           id: string
           last_error: string | null
+          manychat_subscriber_id: string | null
           recipient_email: string | null
           recipient_name: string | null
+          recipient_phone: string | null
           reference: string | null
           sent_at: string | null
           service: string | null
           service_request_id: string
           status: string
           updated_at: string
+          whatsapp_attempts: number
+          whatsapp_error: string | null
+          whatsapp_sent_at: string | null
+          whatsapp_status: string
         }
         Insert: {
           attempts?: number
@@ -1227,14 +1333,20 @@ export type Database = {
           due_at?: string
           id?: string
           last_error?: string | null
+          manychat_subscriber_id?: string | null
           recipient_email?: string | null
           recipient_name?: string | null
+          recipient_phone?: string | null
           reference?: string | null
           sent_at?: string | null
           service?: string | null
           service_request_id: string
           status?: string
           updated_at?: string
+          whatsapp_attempts?: number
+          whatsapp_error?: string | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
         }
         Update: {
           attempts?: number
@@ -1242,14 +1354,20 @@ export type Database = {
           due_at?: string
           id?: string
           last_error?: string | null
+          manychat_subscriber_id?: string | null
           recipient_email?: string | null
           recipient_name?: string | null
+          recipient_phone?: string | null
           reference?: string | null
           sent_at?: string | null
           service?: string | null
           service_request_id?: string
           status?: string
           updated_at?: string
+          whatsapp_attempts?: number
+          whatsapp_error?: string | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
         }
         Relationships: [
           {
@@ -1320,6 +1438,7 @@ export type Database = {
           landing_page: string | null
           last_contacted_at: string | null
           lost_reason: string | null
+          manychat_subscriber_id: string | null
           message: string | null
           name: string | null
           phone: string | null
@@ -1330,6 +1449,7 @@ export type Database = {
           region: string | null
           service: string | null
           service_branch: string | null
+          source_channel: string | null
           status: string
           updated_at: string
           utm_campaign: string | null
@@ -1354,6 +1474,7 @@ export type Database = {
           landing_page?: string | null
           last_contacted_at?: string | null
           lost_reason?: string | null
+          manychat_subscriber_id?: string | null
           message?: string | null
           name?: string | null
           phone?: string | null
@@ -1364,6 +1485,7 @@ export type Database = {
           region?: string | null
           service?: string | null
           service_branch?: string | null
+          source_channel?: string | null
           status?: string
           updated_at?: string
           utm_campaign?: string | null
@@ -1388,6 +1510,7 @@ export type Database = {
           landing_page?: string | null
           last_contacted_at?: string | null
           lost_reason?: string | null
+          manychat_subscriber_id?: string | null
           message?: string | null
           name?: string | null
           phone?: string | null
@@ -1398,6 +1521,7 @@ export type Database = {
           region?: string | null
           service?: string | null
           service_branch?: string | null
+          source_channel?: string | null
           status?: string
           updated_at?: string
           utm_campaign?: string | null
