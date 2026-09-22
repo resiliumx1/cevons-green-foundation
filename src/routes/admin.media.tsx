@@ -1,6 +1,6 @@
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Upload,
@@ -924,9 +924,7 @@ function ImagePresentationDialog({
   );
 }
 
-import { forwardRef } from "react";
-
-const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: React.CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
+const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
   return (
     <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
       {url ? <img src={url} alt="" className="size-full pointer-events-none" style={imageStyle} /> : <div className="grid size-full place-items-center"><Loader2 className="size-5 animate-spin" /></div>}
@@ -960,43 +958,42 @@ function Scheduling({
     post.published &&
     (!post.publish_at || new Date(post.publish_at).getTime() <= now) &&
     (!post.unpublish_at || new Date(post.unpublish_at).getTime() > now);
+  const startsLater = !!post.publish_at && new Date(post.publish_at).getTime() > now;
+  const ended = !!post.unpublish_at && new Date(post.unpublish_at).getTime() <= now;
+  const invalidWindow = !!post.publish_at && !!post.unpublish_at && new Date(post.unpublish_at).getTime() <= new Date(post.publish_at).getTime();
+  const status = !post.published
+    ? { label: "Draft", detail: "Not visible until Publish is selected.", color: "var(--crm-text-muted)", bg: "var(--crm-surface-muted)", icon: ImageIcon }
+    : invalidWindow
+      ? { label: "Fix schedule", detail: "The end must be later than the start.", color: "var(--admin-red)", bg: "color-mix(in oklab, var(--admin-red) 12%, var(--crm-surface))", icon: AlertTriangle }
+      : live
+        ? { label: "Live now", detail: post.unpublish_at ? `Comes down ${georgetownLabel(post.unpublish_at)}.` : "No end date is set.", color: "var(--admin-green)", bg: "color-mix(in oklab, var(--admin-green) 12%, var(--crm-surface))", icon: CheckCircle2 }
+        : startsLater
+          ? { label: "Scheduled", detail: `Goes live ${georgetownLabel(post.publish_at)}.`, color: "var(--admin-blue)", bg: "color-mix(in oklab, var(--admin-blue) 12%, var(--crm-surface))", icon: CalendarClock }
+          : ended
+            ? { label: "Ended", detail: `Came down ${georgetownLabel(post.unpublish_at)}.`, color: "var(--admin-orange-strong)", bg: "var(--admin-accent-soft)", icon: Clock3 }
+            : { label: "Outside schedule", detail: "This item is published but is not currently visible.", color: "var(--admin-orange-strong)", bg: "var(--admin-accent-soft)", icon: Clock3 };
+  const StatusIcon = status.icon;
 
   return (
-    <div className="rounded-lg border p-2 space-y-2" style={{ borderColor: "var(--crm-border)" }}>
-      <p className="admin-mono" style={{ color: "var(--crm-text-muted)" }}>
-        Scheduling — {GEORGETOWN_LABEL}, stored as UTC and checked each time a visitor loads the page.
+    <div className="rounded-lg border p-3 space-y-3" style={{ borderColor: invalidWindow ? "var(--admin-red)" : "var(--crm-border)" }}>
+      <div className="flex items-start gap-2 rounded-md border px-3 py-2" style={{ background: status.bg, borderColor: status.color }}>
+        <StatusIcon className="mt-0.5 size-4 shrink-0" style={{ color: status.color }} />
+        <div><p className="text-xs font-extrabold" style={{ color: status.color }}>{status.label}</p><p className="text-[11px] leading-snug" style={{ color: "var(--crm-text)" }}>{status.detail}</p></div>
+      </div>
+      <p className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "var(--crm-text)" }}>
+        <CalendarClock className="size-4" style={{ color: "var(--admin-orange-strong)" }} /> Publishing schedule <span className="font-normal" style={{ color: "var(--crm-text-muted)" }}>({GEORGETOWN_LABEL})</span>
       </p>
       <div className="grid gap-2 sm:grid-cols-2">
         <label className="space-y-1 block">
-          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Goes live</span>
-          <Input
-            type="datetime-local"
-            disabled={disabled}
-            value={utcToGeorgetownInput(post.publish_at)}
-            onChange={(e) => onPatch({ publish_at: georgetownInputToUtc(e.target.value) })}
-            style={inputStyle}
-          />
+          <span className="text-xs font-bold" style={{ color: "var(--crm-text)" }}>Goes live</span>
+          <div className="flex gap-1"><Input type="datetime-local" disabled={disabled} value={utcToGeorgetownInput(post.publish_at)} onChange={(e) => onPatch({ publish_at: georgetownInputToUtc(e.target.value) })} style={inputStyle} />{post.publish_at && <Button type="button" variant="outline" size="icon" disabled={disabled} onClick={() => onPatch({ publish_at: null })} aria-label="Clear go-live date"><X className="size-4" /></Button>}</div>
         </label>
         <label className="space-y-1 block">
-          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Comes down</span>
-          <Input
-            type="datetime-local"
-            disabled={disabled}
-            value={utcToGeorgetownInput(post.unpublish_at)}
-            onChange={(e) => onPatch({ unpublish_at: georgetownInputToUtc(e.target.value) })}
-            style={inputStyle}
-          />
+          <span className="text-xs font-bold" style={{ color: "var(--crm-text)" }}>Comes down <span className="font-normal" style={{ color: "var(--crm-text-muted)" }}>(optional)</span></span>
+          <div className="flex gap-1"><Input type="datetime-local" disabled={disabled} value={utcToGeorgetownInput(post.unpublish_at)} onChange={(e) => onPatch({ unpublish_at: georgetownInputToUtc(e.target.value) })} style={inputStyle} />{post.unpublish_at && <Button type="button" variant="outline" size="icon" disabled={disabled} onClick={() => onPatch({ unpublish_at: null })} aria-label="Clear end date"><X className="size-4" /></Button>}</div>
         </label>
       </div>
-      <p className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>
-        {post.published
-          ? live
-            ? "Showing on the public site now."
-            : post.publish_at && new Date(post.publish_at).getTime() > now
-              ? `Scheduled for ${georgetownLabel(post.publish_at)}.`
-              : "Outside its window, so it is not showing."
-          : "Draft — it will not show even inside the window."}
-      </p>
+      <p className="text-[11px]" style={{ color: invalidWindow ? "var(--admin-red)" : "var(--crm-text-muted)" }}>{invalidWindow ? "Choose an end date later than the go-live date." : "Dates do not publish a draft automatically. Select Publish when it is ready."}</p>
     </div>
   );
 }
