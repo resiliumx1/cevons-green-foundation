@@ -127,7 +127,7 @@ const SPECIALIST_KEYS: Set<ServiceKey> = new Set([
 
 import { trackWizardStep, trackEvent } from "@/lib/analytics";
 
-const STEPS = ["Category", "Service", "Details", "Schedule", "Your Info", "Review"];
+const STEPS = ["Service", "Details & Timing", "Contact & Submit"];
 
 type FormData = {
   category: CategoryKey | null;
@@ -180,7 +180,7 @@ function RequestServicePage() {
     const match = SERVICES.find((s) => s.key === svcParam);
     if (!match) return;
     setData((d) => (d.service ? d : { ...d, category: match.categories[0], service: match.key }));
-    setStep((s) => (s === 0 ? 2 : s));
+    setStep((s) => (s === 0 ? 1 : s));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -199,9 +199,11 @@ function RequestServicePage() {
 
   function validate(): boolean {
     const e: Record<string, string> = {};
-    if (step === 0 && !data.category) e.category = "Please choose a category.";
-    if (step === 1 && !data.service) e.service = "Please choose a service.";
-    if (step === 4) {
+    if (step === 0) {
+      if (!data.category) e.category = "Please choose a category.";
+      else if (!data.service) e.service = "Please choose a service.";
+    }
+    if (step === 2) {
       if (!data.info.fullName.trim()) e.fullName = "Name is required.";
       if (!data.info.phone.trim()) e.phone = "Phone is required.";
       else if (!/^[+\d\s\-()]{7,}$/.test(data.info.phone)) e.phone = "Enter a valid phone number.";
