@@ -765,10 +765,17 @@ function FocalCropDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl" style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}>
+      <DialogContent
+        className="max-w-2xl"
+        style={{
+          background: "var(--crm-surface, #ffffff)",
+          borderColor: "var(--crm-border, #d9dde3)",
+          color: "var(--crm-text, #1a1a1a)",
+        }}
+      >
         <DialogHeader>
-          <DialogTitle style={{ color: "var(--crm-text)" }}>Adjust website crop</DialogTitle>
-          <DialogDescription style={{ color: "var(--crm-text-muted)" }}>
+          <DialogTitle style={{ color: "var(--crm-text, #1a1a1a)" }}>Adjust website crop</DialogTitle>
+          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>
             Drag the focus marker onto the most important part of the photo. The original file is unchanged.
           </DialogDescription>
         </DialogHeader>
