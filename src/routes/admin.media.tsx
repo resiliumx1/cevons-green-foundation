@@ -1,6 +1,6 @@
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
-import { forwardRef, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { forwardRef, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Upload,
@@ -18,7 +18,6 @@ import {
   Globe,
   Crop,
   RotateCcw,
-  Minus,
   CalendarClock,
   Clock3,
   X,
@@ -29,7 +28,6 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, invalidateMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
 import { processImage } from "@/lib/imageProcess";
-import { mediaImageStyle } from "@/lib/mediaPosts";
 import {
   GEORGETOWN_LABEL,
   georgetownInputToUtc,
@@ -98,10 +96,6 @@ type MediaPost = {
 type ImageFit = "cover" | "contain" | "custom";
 type ImagePresentation = { focal_x: number; focal_y: number; image_fit: ImageFit; image_zoom: number };
 
-function haptic(pattern: number | number[] = 8) {
-  if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(pattern);
-}
-
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
   { value: "slide", label: "Slides", icon: MonitorPlay, hint: "Full-width slideshow photos. Landscape works best." },
   { value: "gallery", label: "Gallery", icon: Images, hint: "Photo grid images." },
@@ -112,7 +106,7 @@ const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: stri
 /* Thumbnail                                                           */
 /* ------------------------------------------------------------------ */
 
-function Thumb({ path, alt, presentation }: { path: string | null; alt: string; presentation?: ImagePresentation }) {
+function Thumb({ path, alt }: { path: string | null; alt: string }) {
   const [url, setUrl] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -141,13 +135,7 @@ function Thumb({ path, alt, presentation }: { path: string | null; alt: string; 
           Text only
         </span>
       ) : url ? (
-        <img
-          src={url}
-          alt={alt}
-          className="h-full w-full"
-          style={presentation ? mediaImageStyle(presentation) : undefined}
-          loading="lazy"
-        />
+        <img src={url} alt={alt} className="h-full w-full object-cover" loading="lazy" />
       ) : failed ? (
         <ImageIcon className="size-5" style={{ color: "var(--crm-text-faint)" }} />
       ) : (
@@ -207,7 +195,6 @@ function CrmMediaPage() {
       toast.error(`${rejected} file${rejected > 1 ? "s" : ""} skipped — only image files can be uploaded.`);
     }
     if (!images.length) return;
-    haptic();
     uploadOrderRef.current = nextSortOrder(kind);
     setUploadQueue(images);
   }
@@ -389,8 +376,8 @@ function CrmMediaPage() {
         </p>
         <Button
           type="button"
-          onClick={() => { haptic(); fileRef.current?.click(); }}
-          className="tap-haptic mt-3 bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
+          onClick={() => fileRef.current?.click()}
+          className="mt-3 bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
         >
           Choose photos
         </Button>
@@ -512,10 +499,10 @@ function CrmMediaPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-        <AlertDialogCancel className="tap-haptic" onClick={() => haptic()}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => { haptic([10, 35, 10]); if (confirmDelete) deleteMutation.mutate(confirmDelete); }}
-              className="tap-haptic bg-red-600 hover:bg-red-700"
+              onClick={() => confirmDelete && deleteMutation.mutate(confirmDelete)}
+              className="bg-red-600 hover:bg-red-700"
             >
               Delete
             </AlertDialogAction>
@@ -609,11 +596,7 @@ function MediaRow({
     >
       <div className="shrink-0 space-y-2 sm:w-48">
         <div className="flex items-center gap-3 sm:block">
-          <Thumb
-            path={post.image_path}
-            alt={post.title || "Media item"}
-            presentation={{ focal_x: post.focal_x, focal_y: post.focal_y, image_fit: post.image_fit, image_zoom: post.image_zoom }}
-          />
+          <Thumb path={post.image_path} alt={post.title || "Media item"} />
           <div className="min-w-0 sm:mt-2">
             <p className="text-sm font-bold" style={{ color: "var(--crm-text)" }}>Photo controls</p>
             <p className="mt-0.5 text-xs leading-snug" style={{ color: "var(--crm-text-muted)" }}>
@@ -635,14 +618,14 @@ function MediaRow({
         <Button
           type="button"
           size="sm"
-           className="tap-haptic w-full min-h-11 border font-bold shadow-sm"
+          className="w-full min-h-11 border font-bold shadow-sm"
           style={{
             background: "var(--admin-orange)",
             borderColor: "var(--admin-orange-strong)",
             color: "var(--admin-charcoal)",
           }}
           disabled={busyPhoto}
-          onClick={() => { haptic(); fileRef.current?.click(); }}
+          onClick={() => fileRef.current?.click()}
         >
           {busyPhoto ? (
             <Loader2 className="size-4 animate-spin" />
@@ -655,13 +638,13 @@ function MediaRow({
           <Button
             type="button"
             size="sm"
-            className="tap-haptic w-full min-h-11 border font-bold shadow-sm"
+            className="w-full min-h-11 border font-bold shadow-sm"
             style={{
               background: "var(--admin-navy)",
               borderColor: "var(--admin-navy-strong)",
               color: "var(--admin-on-navy)",
             }}
-            onClick={() => { haptic(); setCropOpen(true); }}
+            onClick={() => setCropOpen(true)}
           >
             <Crop className="size-4" /> Adjust website crop
           </Button>
@@ -721,7 +704,7 @@ function MediaRow({
           <Button
             type="button"
             disabled={!mayPublish}
-            onClick={() => { haptic(post.published ? [8, 25, 8] : 12); onPatch({ published: !post.published }); }}
+            onClick={() => onPatch({ published: !post.published })}
             aria-label={post.published ? "Switch back to draft" : "Publish this item"}
             title={
               post.published
@@ -729,7 +712,7 @@ function MediaRow({
                 : "Make this item live on the public site"
             }
             className={
-              "tap-haptic w-full min-h-11 text-sm font-bold rounded-lg " +
+              "w-full min-h-11 text-sm font-bold rounded-lg transition-transform active:scale-[0.98] " +
               (post.published
                 ? "bg-[#15803D] hover:bg-[#15803D]/90 text-white"
                 : "bg-[#EF7700] hover:bg-[#EF7700]/90 text-white shadow-[0_4px_14px_rgba(239,119,0,0.4)]")
@@ -755,9 +738,9 @@ function MediaRow({
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => { haptic(); onMove(-1); }}
+            onClick={() => onMove(-1)}
             disabled={isFirst}
-            className="tap-haptic p-2.5 rounded hover:bg-white/5 disabled:opacity-30"
+            className="p-1.5 rounded hover:bg-white/5 disabled:opacity-30"
             title="Move up"
             aria-label="Move up"
             style={{ color: "var(--crm-text-muted)" }}
@@ -765,9 +748,9 @@ function MediaRow({
             <ArrowUp className="size-4" />
           </button>
           <button
-            onClick={() => { haptic(); onMove(1); }}
+            onClick={() => onMove(1)}
             disabled={isLast}
-            className="tap-haptic p-2.5 rounded hover:bg-white/5 disabled:opacity-30"
+            className="p-1.5 rounded hover:bg-white/5 disabled:opacity-30"
             title="Move down"
             aria-label="Move down"
             style={{ color: "var(--crm-text-muted)" }}
@@ -775,8 +758,8 @@ function MediaRow({
             <ArrowDown className="size-4" />
           </button>
           <button
-            onClick={() => { haptic([8, 25, 8]); onDelete(); }}
-            className="tap-haptic p-2.5 rounded hover:bg-red-500/10 hover:text-red-400"
+            onClick={onDelete}
+            className="p-1.5 rounded hover:bg-red-500/10 hover:text-red-400"
             title="Delete"
             aria-label="Delete"
             style={{ color: "var(--crm-text-muted)" }}
@@ -897,34 +880,22 @@ function ImagePresentationDialog({
           <DialogTitle className="flex items-center gap-2"><Crop className="size-5" /> {title}</DialogTitle>
           <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>Choose how the photo fits, then move the focus onto the important area. The original photo stays intact.</DialogDescription>
         </DialogHeader>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3" role="radiogroup" aria-label="Photo fit">
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Photo fit">
           {([
             ["cover", "Fill box", "Best automatic fit"],
             ["contain", "Fit whole photo", "No cropping"],
             ["custom", "Custom crop", "Position and zoom"],
           ] as const).map(([value, label, hint]) => (
-            <Button key={value} type="button" variant="outline" role="radio" aria-checked={fit === value} onClick={() => { haptic(); setFit(value); if (value !== "custom") setZoom(100); }} className="tap-haptic min-h-16 h-auto rounded-lg border px-2 py-2 text-center whitespace-normal" style={{ borderColor: fit === value ? "var(--admin-orange-strong, #c45f00)" : "var(--crm-border, #d9dde3)", background: fit === value ? "var(--admin-accent-soft, #fff1df)" : "var(--crm-surface-muted, #f4f6f8)", color: "var(--crm-text, #1a1a1a)", boxShadow: fit === value ? "inset 0 0 0 1px var(--admin-orange-strong, #c45f00)" : "none" }}>
-              <span className="block">
+            <button key={value} type="button" role="radio" aria-checked={fit === value} onClick={() => { setFit(value); if (value !== "custom") setZoom(100); }} className="min-h-16 rounded-lg border px-2 py-2 text-center transition-colors" style={{ borderColor: fit === value ? "var(--admin-orange-strong, #c45f00)" : "var(--crm-border, #d9dde3)", background: fit === value ? "var(--admin-accent-soft, #fff1df)" : "var(--crm-surface-muted, #f4f6f8)", color: "var(--crm-text, #1a1a1a)" }}>
               <span className="block text-xs font-extrabold sm:text-sm">{label}</span>
               <span className="mt-0.5 block text-[10px]" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{hint}</span>
-              </span>
-            </Button>
+            </button>
           ))}
         </div>
         <div className={kind === "slide" ? "grid gap-3 sm:grid-cols-[1fr_10rem]" : "grid gap-3"}>
           <div>
             <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{kind === "slide" ? "Desktop preview" : "Website preview"}</p>
-            <CropPreview
-              ref={previewRef}
-              url={url}
-              className={kind === "slide" ? "aspect-video" : "aspect-[4/3]"}
-              imageStyle={imageStyle}
-              interactive={fit !== "contain"}
-              onMove={moveFocus}
-              onNudge={(nextX, nextY) => { setX(nextX); setY(nextY); }}
-              x={x}
-              y={y}
-            />
+            <CropPreview ref={previewRef} url={url} className={kind === "slide" ? "aspect-video" : "aspect-[4/3]"} imageStyle={imageStyle} interactive={fit !== "contain"} onMove={moveFocus} x={x} y={y} />
           </div>
           {kind === "slide" && (
             <div>
@@ -934,23 +905,16 @@ function ImagePresentationDialog({
           )}
         </div>
         {fit === "custom" && (
-          <div className="space-y-2 rounded-lg border p-3" style={{ borderColor: "var(--crm-border, #d9dde3)", background: "var(--crm-surface-muted, #f4f6f8)" }}>
-            <Label htmlFor="crop-zoom" className="flex items-center justify-between"><span>Zoom</span><strong>{zoom}%</strong></Label>
-            <div className="grid grid-cols-[2.75rem_1fr_2.75rem] items-center gap-2">
-              <Button type="button" variant="outline" size="icon" className="tap-haptic size-11" disabled={zoom <= 100} aria-label="Zoom out" onClick={() => { haptic(); setZoom((value) => Math.max(100, value - 5)); }}><Minus className="size-4" /></Button>
-              <input id="crop-zoom" className="w-full accent-[var(--admin-orange)]" type="range" min="100" max="200" step="1" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} onPointerUp={() => haptic()} aria-valuetext={`${zoom} percent`} />
-              <Button type="button" variant="outline" size="icon" className="tap-haptic size-11" disabled={zoom >= 200} aria-label="Zoom in" onClick={() => { haptic(); setZoom((value) => Math.min(200, value + 5)); }}><Plus className="size-4" /></Button>
-            </div>
-          </div>
+          <Label className="space-y-2">
+            <span className="flex items-center justify-between"><span>Zoom</span><strong>{zoom}%</strong></span>
+            <input className="w-full accent-[var(--admin-orange)]" type="range" min="100" max="200" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} />
+          </Label>
         )}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs" style={{ color: "var(--crm-text-muted, #5f6670)" }}>
-          <p>{fit === "contain" ? "The full photo remains visible. Empty space may appear around it." : "Drag the large preview to set the focus. Arrow keys make precise adjustments."}</p>
-          {fit !== "contain" && <output aria-live="polite" className="font-bold tabular-nums">Focus: {x}% × {y}%</output>}
-        </div>
+        <p className="text-xs" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{fit === "contain" ? "The full photo will always remain visible. Empty space may appear around it." : "Drag across the large preview to reposition the photo’s focus."}</p>
         <DialogFooter className="gap-2 sm:gap-2">
-          <Button type="button" variant="ghost" disabled={busy} className="tap-haptic" onClick={() => { haptic(); setFit("cover"); setX(50); setY(50); setZoom(100); }}><RotateCcw className="size-4" /> Reset</Button>
-          <Button type="button" variant="outline" disabled={busy} className="tap-haptic" onClick={() => { haptic(); onOpenChange(false); }}>Cancel</Button>
-          <Button type="button" disabled={busy} className="tap-haptic font-bold" style={{ background: "var(--admin-orange, #ef7700)", color: "var(--admin-charcoal, #1a1a1a)" }} onClick={() => { haptic(12); onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 }); }}>
+          <Button type="button" variant="outline" disabled={busy} onClick={() => { setFit("cover"); setX(50); setY(50); setZoom(100); }}><RotateCcw className="size-4" /> Reset</Button>
+          <Button type="button" variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button type="button" disabled={busy} className="font-bold" style={{ background: "var(--admin-orange, #ef7700)", color: "var(--admin-charcoal, #1a1a1a)" }} onClick={() => onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 })}>
             {busy ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} {busy ? "Saving…" : "Use this photo"}
           </Button>
         </DialogFooter>
@@ -959,41 +923,9 @@ function ImagePresentationDialog({
   );
 }
 
-const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; onNudge?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, onNudge, x = 50, y = 50 }, ref) {
-  const [dragging, setDragging] = useState(false);
-  const nudge = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!interactive) return;
-    const amount = event.shiftKey ? 5 : 1;
-    let nextX = x;
-    let nextY = y;
-    if (event.key === "ArrowLeft") nextX -= amount;
-    else if (event.key === "ArrowRight") nextX += amount;
-    else if (event.key === "ArrowUp") nextY -= amount;
-    else if (event.key === "ArrowDown") nextY += amount;
-    else return;
-    event.preventDefault();
-    onNudge?.(Math.max(0, Math.min(100, nextX)), Math.max(0, Math.min(100, nextY)));
-    haptic();
-  };
+const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
   return (
-    <div
-      ref={ref}
-      className={`relative w-full overflow-hidden rounded-lg border touch-none select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-orange)] focus-visible:ring-offset-2 ${className}`}
-      style={{ borderColor: "var(--crm-border, #d9dde3)", background: "var(--crm-surface-muted, #f4f6f8)", cursor: interactive ? (dragging ? "grabbing" : "grab") : "default" }}
-      tabIndex={interactive ? 0 : undefined}
-      role={interactive ? "slider" : "img"}
-      aria-label={interactive ? "Photo crop position" : "Photo preview"}
-      aria-roledescription={interactive ? "image cropper" : undefined}
-      aria-valuemin={interactive ? 0 : undefined}
-      aria-valuemax={interactive ? 100 : undefined}
-      aria-valuenow={interactive ? x : undefined}
-      aria-valuetext={interactive ? `Focus at ${x} percent horizontal and ${y} percent vertical` : undefined}
-      onKeyDown={nudge}
-      onPointerDown={(event) => { if (!interactive) return; setDragging(true); event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }}
-      onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }}
-      onPointerUp={(event) => { if (!interactive) return; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); setDragging(false); haptic(); }}
-      onPointerCancel={() => setDragging(false)}
-    >
+    <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border, #d9dde3)", background: "var(--crm-surface-muted, #f4f6f8)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
       {url ? <img src={url} alt="" className="size-full pointer-events-none" style={imageStyle} /> : <div className="grid size-full place-items-center"><Loader2 className="size-5 animate-spin" /></div>}
       {interactive && <><div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>{Array.from({ length: 9 }).map((_, index) => <span key={index} className="border border-white/30" />)}</div><span className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]" style={{ left: `${x}%`, top: `${y}%` }}><span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "var(--admin-orange, #ef7700)" }} /></span></>}
     </div>
