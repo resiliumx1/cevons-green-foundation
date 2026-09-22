@@ -57,6 +57,13 @@
       "when": 1789748399484,
       "tag": "0007_report_default_letterhead",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790088881329,
+      "tag": "0008_media_focal_crop_and_private_drafts",
+      "breakpoints": true
     }
   ]
 }
