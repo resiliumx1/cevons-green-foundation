@@ -161,14 +161,37 @@ export function DailyStatsImport({
   const save = useMutation({
     mutationFn: async () => {
       if (!parsed) return 0;
-      const payload = parsed.rows.map((r) => ({
-        platform,
-        day: r.day,
-        followers: r.followers,
-        profile_views: r.profileViews,
-        source: "manual",
-        note: `${label} export: ${fileName}`.slice(0, 200),
-      }));
+
+      // Keep figures already recorded for these days: a file that only carries
+      // profile views must never blank out follower counts (and the reverse).
+      const days = parsed.rows.map((r) => r.day);
+      const existing = new Map<string, { followers: number | null; profile_views: number | null }>();
+      for (let i = 0; i < days.length; i += 200) {
+        const { data, error: readErr } = await supabase
+          .from("social_daily_stats")
+          .select("day, followers, profile_views")
+          .eq("platform", platform)
+          .in("day", days.slice(i, i + 200));
+        if (readErr) throw readErr;
+        for (const row of data ?? []) {
+          existing.set(row.day as string, {
+            followers: (row.followers as number | null) ?? null,
+            profile_views: (row.profile_views as number | null) ?? null,
+          });
+        }
+      }
+
+      const payload = parsed.rows.map((r) => {
+        const prev = existing.get(r.day);
+        return {
+          platform,
+          day: r.day,
+          followers: r.followers ?? prev?.followers ?? null,
+          profile_views: r.profileViews ?? prev?.profile_views ?? null,
+          source: "manual",
+          note: `${label} export: ${fileName}`.slice(0, 200),
+        };
+      });
       for (let i = 0; i < payload.length; i += 200) {
         const { error: err } = await supabase
           .from("social_daily_stats")
@@ -193,7 +216,8 @@ export function DailyStatsImport({
       <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
         Download the analytics export from {label} Studio (a .csv file) and upload it here. Only the
         dates and figures inside the file are saved, so reports can show real history from before
-        daily recording started. Figures typed in by hand for the same day are replaced by the file.
+        daily recording started. Only the figures the file actually contains are updated — anything
+        already recorded for those days is kept.
       </p>
 
       <div className="admin-toolbar mt-3 flex-wrap items-center gap-2">
