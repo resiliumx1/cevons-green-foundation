@@ -1,6 +1,6 @@
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Upload,
@@ -18,6 +18,9 @@ import {
   Globe,
   Crop,
   RotateCcw,
+  CalendarClock,
+  Clock3,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -86,7 +89,12 @@ type MediaPost = {
   unpublish_at: string | null;
   focal_x: number;
   focal_y: number;
+  image_fit: ImageFit;
+  image_zoom: number;
 };
+
+type ImageFit = "cover" | "contain" | "custom";
+type ImagePresentation = { focal_x: number; focal_y: number; image_fit: ImageFit; image_zoom: number };
 
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
   { value: "slide", label: "Slides", icon: MonitorPlay, hint: "Full-width slideshow photos. Landscape works best." },
@@ -147,6 +155,9 @@ function CrmMediaPage() {
   const [dragOver, setDragOver] = useState(false);
   const [progress, setProgress] = useState<{ label: string; pct: number } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<MediaPost | null>(null);
+  const [uploadQueue, setUploadQueue] = useState<File[]>([]);
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const uploadOrderRef = useRef(0);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Text-only announcement composer
@@ -177,56 +188,54 @@ function CrmMediaPage() {
     return existing.length ? Math.max(...existing) + 1 : 0;
   };
 
-  async function uploadFiles(files: File[]) {
+  function chooseFiles(files: File[]) {
     const images = files.filter((f) => f.type.startsWith("image/"));
     const rejected = files.length - images.length;
     if (rejected > 0) {
       toast.error(`${rejected} file${rejected > 1 ? "s" : ""} skipped — only image files can be uploaded.`);
     }
     if (!images.length) return;
+    uploadOrderRef.current = nextSortOrder(kind);
+    setUploadQueue(images);
+  }
 
-    let order = nextSortOrder(kind);
-
-    for (let i = 0; i < images.length; i++) {
-      const file = images[i];
-      const label = `${file.name} (${i + 1}/${images.length})`;
-      try {
-        setProgress({ label: `Optimising ${label}…`, pct: 15 });
-        const processed = await processImage(file);
-
-        setProgress({ label: `Uploading ${label}…`, pct: 55 });
-        const path = `${kind}/${crypto.randomUUID()}.${processed.ext}`;
-        const { error: upErr } = await supabase.storage
-          .from(MEDIA_BUCKET)
-          .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
-        if (upErr) throw upErr;
-
-        setProgress({ label: `Saving ${label}…`, pct: 85 });
-        const { error: insErr } = await supabase.from("media_posts").insert({
-          kind,
-          title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
-          caption: "",
-          image_path: path,
-          image_w: processed.width,
-          image_h: processed.height,
-          published: false,
-          sort_order: order++,
-        });
-        if (insErr) {
-          await supabase.storage.from(MEDIA_BUCKET).remove([path]);
-          throw insErr;
-        }
-
-        setProgress({ label: `Done — ${label}`, pct: 100 });
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "Upload failed.";
-        toast.error(msg);
+  async function savePreparedUpload(settings: ImagePresentation) {
+    const file = uploadQueue[0];
+    if (!file) return;
+    setUploadBusy(true);
+    try {
+      setProgress({ label: `Optimising ${file.name}…`, pct: 15 });
+      const processed = await processImage(file);
+      setProgress({ label: `Uploading ${file.name}…`, pct: 55 });
+      const path = `${kind}/${crypto.randomUUID()}.${processed.ext}`;
+      const { error: upErr } = await supabase.storage.from(MEDIA_BUCKET).upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+      if (upErr) throw upErr;
+      setProgress({ label: `Saving ${file.name}…`, pct: 85 });
+      const { error: insErr } = await supabase.from("media_posts").insert({
+        kind,
+        title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
+        caption: "",
+        image_path: path,
+        image_w: processed.width,
+        image_h: processed.height,
+        published: false,
+        sort_order: uploadOrderRef.current++,
+        ...settings,
+      });
+      if (insErr) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+        throw insErr;
       }
+      setProgress({ label: `Done — ${file.name}`, pct: 100 });
+      setUploadQueue((queue) => queue.slice(1));
+      toast.success(uploadQueue.length > 1 ? "Photo saved. Prepare the next photo." : "Photo saved as a draft.");
+      refresh();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Upload failed.");
+    } finally {
+      setProgress(null);
+      setUploadBusy(false);
     }
-
-    setProgress(null);
-    toast.success("Upload complete — new items are saved as drafts.");
-    refresh();
   }
 
   /* ---------------- mutations ---------------- */
@@ -353,7 +362,7 @@ function CrmMediaPage() {
         onDrop={(e) => {
           e.preventDefault();
           setDragOver(false);
-          void uploadFiles(Array.from(e.dataTransfer.files));
+          chooseFiles(Array.from(e.dataTransfer.files));
         }}
         className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4"
         style={{
@@ -379,7 +388,7 @@ function CrmMediaPage() {
           multiple
           className="sr-only"
           onChange={(e) => {
-            void uploadFiles(Array.from(e.target.files ?? []));
+             chooseFiles(Array.from(e.target.files ?? []));
             e.target.value = "";
           }}
         />
@@ -401,6 +410,17 @@ function CrmMediaPage() {
           </div>
         )}
       </div>
+      {uploadQueue[0] && (
+        <ImagePresentationDialog
+          title={uploadQueue.length > 1 ? `Prepare photo 1 of ${uploadQueue.length}` : "Prepare photo before upload"}
+          source={uploadQueue[0]}
+          kind={kind}
+          open
+          busy={uploadBusy}
+          onOpenChange={(next) => { if (!next && !uploadBusy) setUploadQueue((queue) => queue.slice(1)); }}
+          onSave={(settings) => void savePreparedUpload(settings)}
+        />
+      )}
 
       {/* Text-only announcement composer */}
       {kind === "announcement" && (
@@ -527,8 +547,9 @@ function MediaRow({
   const fileRef = useRef<HTMLInputElement>(null);
   const [busyPhoto, setBusyPhoto] = useState(false);
   const [cropOpen, setCropOpen] = useState(false);
+  const [replacement, setReplacement] = useState<File | null>(null);
 
-  async function replacePhoto(file: File) {
+  async function replacePhoto(file: File, settings: ImagePresentation) {
     setBusyPhoto(true);
     try {
       const processed = await processImage(file);
@@ -540,7 +561,7 @@ function MediaRow({
 
       const { error: dbErr } = await supabase
         .from("media_posts")
-        .update({ image_path: path, image_w: processed.width, image_h: processed.height })
+        .update({ image_path: path, image_w: processed.width, image_h: processed.height, ...settings })
         .eq("id", post.id);
       if (dbErr) {
         await supabase.storage.from(MEDIA_BUCKET).remove([path]);
@@ -553,6 +574,7 @@ function MediaRow({
         invalidateMediaUrl(old);
       }
       toast.success("Photo updated.");
+      setReplacement(null);
       void qcRow.invalidateQueries({ queryKey: ["crm-media-posts"] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not update that photo.");
@@ -590,7 +612,7 @@ function MediaRow({
           onChange={(e) => {
             const f = e.target.files?.[0];
             e.target.value = "";
-            if (f) void replacePhoto(f);
+            if (f) setReplacement(f);
           }}
         />
         <Button
@@ -750,8 +772,19 @@ function MediaRow({
         post={post}
         open={cropOpen}
         onOpenChange={setCropOpen}
-        onSave={(focal_x, focal_y) => onPatch({ focal_x, focal_y })}
+        onSave={(settings) => onPatch(settings)}
       />
+      {replacement && (
+        <ImagePresentationDialog
+          title="Prepare replacement photo"
+          source={replacement}
+          kind={post.kind as Kind}
+          open
+          busy={busyPhoto}
+          onOpenChange={(next) => { if (!next && !busyPhoto) setReplacement(null); }}
+          onSave={(settings) => void replacePhoto(replacement, settings)}
+        />
+      )}
     </div>
   );
 }
@@ -765,122 +798,139 @@ function FocalCropDialog({
   post: MediaPost;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (focalX: number, focalY: number) => void;
+  onSave: (settings: ImagePresentation) => void;
+}) {
+  return (
+    <ImagePresentationDialog
+      title="Adjust website photo"
+      source={post.image_path ?? ""}
+      kind={post.kind as Kind}
+      initial={{ focal_x: post.focal_x ?? 50, focal_y: post.focal_y ?? 50, image_fit: post.image_fit ?? "cover", image_zoom: post.image_zoom ?? 100 }}
+      open={open}
+      onOpenChange={onOpenChange}
+      onSave={(settings) => { onSave(settings); onOpenChange(false); }}
+    />
+  );
+}
+
+function ImagePresentationDialog({
+  title,
+  source,
+  kind,
+  initial = { focal_x: 50, focal_y: 50, image_fit: "cover", image_zoom: 100 },
+  open,
+  busy = false,
+  onOpenChange,
+  onSave,
+}: {
+  title: string;
+  source: File | string;
+  kind: Kind;
+  initial?: ImagePresentation;
+  open: boolean;
+  busy?: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSave: (settings: ImagePresentation) => void;
 }) {
   const [url, setUrl] = useState<string | null>(null);
-  const [x, setX] = useState(post.focal_x ?? 50);
-  const [y, setY] = useState(post.focal_y ?? 50);
+  const [fit, setFit] = useState<ImageFit>(initial.image_fit);
+  const [x, setX] = useState(initial.focal_x);
+  const [y, setY] = useState(initial.focal_y);
+  const [zoom, setZoom] = useState(initial.image_zoom);
   const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    setX(post.focal_x ?? 50);
-    setY(post.focal_y ?? 50);
+    setFit(initial.image_fit);
+    setX(initial.focal_x);
+    setY(initial.focal_y);
+    setZoom(initial.image_zoom);
     let alive = true;
-    void getMediaUrl(post.image_path).then((next) => {
-      if (alive) setUrl(next);
-    });
+    let objectUrl: string | null = null;
+    if (source instanceof File) {
+      objectUrl = URL.createObjectURL(source);
+      setUrl(objectUrl);
+    } else {
+      void getMediaUrl(source).then((next) => { if (alive) setUrl(next); });
+    }
     return () => {
       alive = false;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [open, post.focal_x, post.focal_y, post.image_path]);
+  }, [open, source, initial.image_fit, initial.focal_x, initial.focal_y, initial.image_zoom]);
 
   const moveFocus = (clientX: number, clientY: number) => {
+    if (fit === "contain") return;
     const box = previewRef.current?.getBoundingClientRect();
     if (!box) return;
     setX(Math.round(Math.max(0, Math.min(100, ((clientX - box.left) / box.width) * 100))));
     setY(Math.round(Math.max(0, Math.min(100, ((clientY - box.top) / box.height) * 100))));
   };
+  const imageStyle = {
+    objectFit: fit === "contain" ? "contain" : "cover",
+    objectPosition: `${x}% ${y}%`,
+    transform: `scale(${fit === "custom" ? zoom / 100 : 1})`,
+    transformOrigin: `${x}% ${y}%`,
+  } as const;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="max-h-[calc(100dvh-2rem)] max-w-2xl overflow-y-auto"
-        style={{
-          background: "var(--crm-surface, #ffffff)",
-          borderColor: "var(--crm-border, #d9dde3)",
-          color: "var(--crm-text, #1a1a1a)",
-        }}
-      >
+    <Dialog open={open} onOpenChange={(next) => { if (!busy) onOpenChange(next); }}>
+      <DialogContent className="max-h-[calc(100dvh-1rem)] max-w-3xl overflow-y-auto" style={{ background: "var(--crm-surface, #ffffff)", borderColor: "var(--crm-border, #d9dde3)", color: "var(--crm-text, #1a1a1a)" }}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2" style={{ color: "var(--crm-text, #1a1a1a)" }}>
-            <Crop className="size-5" /> Adjust website crop
-          </DialogTitle>
-          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>
-            Drag the focus marker onto the most important part of the photo. The original file is unchanged.
-          </DialogDescription>
+          <DialogTitle className="flex items-center gap-2"><Crop className="size-5" /> {title}</DialogTitle>
+          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>Choose how the photo fits, then move the focus onto the important area. The original photo stays intact.</DialogDescription>
         </DialogHeader>
-
-        <div
-          ref={previewRef}
-          className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${post.kind === "slide" ? "aspect-video" : "aspect-[4/3]"}`}
-          style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: "crosshair" }}
-          onPointerDown={(event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            moveFocus(event.clientX, event.clientY);
-          }}
-          onPointerMove={(event) => {
-            if (event.currentTarget.hasPointerCapture(event.pointerId)) moveFocus(event.clientX, event.clientY);
-          }}
-          aria-label="Photo crop preview"
-        >
-          {url ? (
-            <img
-              src={url}
-              alt=""
-              className="size-full object-cover pointer-events-none"
-              style={{ objectPosition: `${x}% ${y}%` }}
-            />
-          ) : (
-            <div className="grid size-full place-items-center">
-              <Loader2 className="size-5 animate-spin" style={{ color: "var(--crm-text-muted)" }} />
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Photo fit">
+          {([
+            ["cover", "Fill box", "Best automatic fit"],
+            ["contain", "Fit whole photo", "No cropping"],
+            ["custom", "Custom crop", "Position and zoom"],
+          ] as const).map(([value, label, hint]) => (
+            <button key={value} type="button" role="radio" aria-checked={fit === value} onClick={() => { setFit(value); if (value !== "custom") setZoom(100); }} className="min-h-16 rounded-lg border px-2 py-2 text-center transition-colors" style={{ borderColor: fit === value ? "var(--admin-orange-strong, #c45f00)" : "var(--crm-border, #d9dde3)", background: fit === value ? "var(--admin-accent-soft, #fff1df)" : "var(--crm-surface-muted, #f4f6f8)", color: "var(--crm-text, #1a1a1a)" }}>
+              <span className="block text-xs font-extrabold sm:text-sm">{label}</span>
+              <span className="mt-0.5 block text-[10px]" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{hint}</span>
+            </button>
+          ))}
+        </div>
+        <div className={kind === "slide" ? "grid gap-3 sm:grid-cols-[1fr_10rem]" : "grid gap-3"}>
+          <div>
+            <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{kind === "slide" ? "Desktop preview" : "Website preview"}</p>
+            <CropPreview ref={previewRef} url={url} className={kind === "slide" ? "aspect-video" : "aspect-[4/3]"} imageStyle={imageStyle} interactive={fit !== "contain"} onMove={moveFocus} x={x} y={y} />
+          </div>
+          {kind === "slide" && (
+            <div>
+              <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted, #5f6670)" }}>Phone preview</p>
+              <CropPreview url={url} className="mx-auto aspect-[9/16] max-h-72" imageStyle={imageStyle} />
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>
-            {Array.from({ length: 9 }).map((_, index) => (
-              <span key={index} className="border border-white/30" />
-            ))}
-          </div>
-          <span
-            className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]"
-            style={{ left: `${x}%`, top: `${y}%` }}
-            aria-hidden
-          >
-            <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#EF7700]" />
-          </span>
         </div>
-
-        <div className="grid gap-3 sm:grid-cols-2">
+        {fit === "custom" && (
           <Label className="space-y-2">
-            <span>Left to right</span>
-            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={x} onChange={(e) => setX(Number(e.target.value))} />
+            <span className="flex items-center justify-between"><span>Zoom</span><strong>{zoom}%</strong></span>
+            <input className="w-full accent-[var(--admin-orange)]" type="range" min="100" max="200" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} />
           </Label>
-          <Label className="space-y-2">
-            <span>Top to bottom</span>
-            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={y} onChange={(e) => setY(Number(e.target.value))} />
-          </Label>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button type="button" variant="outline" onClick={() => { setX(50); setY(50); }}>
-            <RotateCcw className="size-4" /> Reset
-          </Button>
-          <Button
-            type="button"
-            className="font-bold"
-            style={{ background: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
-            onClick={() => {
-              onSave(x, y);
-              onOpenChange(false);
-            }}
-          >
-            Save crop
+        )}
+        <p className="text-xs" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{fit === "contain" ? "The full photo will always remain visible. Empty space may appear around it." : "Drag across the large preview to reposition the photo’s focus."}</p>
+        <DialogFooter className="gap-2 sm:gap-2">
+          <Button type="button" variant="outline" disabled={busy} onClick={() => { setFit("cover"); setX(50); setY(50); setZoom(100); }}><RotateCcw className="size-4" /> Reset</Button>
+          <Button type="button" variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button type="button" disabled={busy} className="font-bold" style={{ background: "var(--admin-orange, #ef7700)", color: "var(--admin-charcoal, #1a1a1a)" }} onClick={() => onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 })}>
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} {busy ? "Saving…" : "Use this photo"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
+  return (
+    <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border, #d9dde3)", background: "var(--crm-surface-muted, #f4f6f8)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
+      {url ? <img src={url} alt="" className="size-full pointer-events-none" style={imageStyle} /> : <div className="grid size-full place-items-center"><Loader2 className="size-5 animate-spin" /></div>}
+      {interactive && <><div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>{Array.from({ length: 9 }).map((_, index) => <span key={index} className="border border-white/30" />)}</div><span className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]" style={{ left: `${x}%`, top: `${y}%` }}><span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "var(--admin-orange, #ef7700)" }} /></span></>}
+    </div>
+  );
+});
 
 
 /* ------------------------------------------------------------------ */
@@ -907,43 +957,42 @@ function Scheduling({
     post.published &&
     (!post.publish_at || new Date(post.publish_at).getTime() <= now) &&
     (!post.unpublish_at || new Date(post.unpublish_at).getTime() > now);
+  const startsLater = !!post.publish_at && new Date(post.publish_at).getTime() > now;
+  const ended = !!post.unpublish_at && new Date(post.unpublish_at).getTime() <= now;
+  const invalidWindow = !!post.publish_at && !!post.unpublish_at && new Date(post.unpublish_at).getTime() <= new Date(post.publish_at).getTime();
+  const status = !post.published
+    ? { label: "Draft", detail: "Not visible until Publish is selected.", color: "var(--crm-text-muted)", bg: "var(--crm-surface-muted)", icon: ImageIcon }
+    : invalidWindow
+      ? { label: "Fix schedule", detail: "The end must be later than the start.", color: "var(--admin-red)", bg: "color-mix(in oklab, var(--admin-red) 12%, var(--crm-surface))", icon: AlertTriangle }
+      : live
+        ? { label: "Live now", detail: post.unpublish_at ? `Comes down ${georgetownLabel(post.unpublish_at)}.` : "No end date is set.", color: "var(--admin-green)", bg: "color-mix(in oklab, var(--admin-green) 12%, var(--crm-surface))", icon: CheckCircle2 }
+        : startsLater
+          ? { label: "Scheduled", detail: `Goes live ${georgetownLabel(post.publish_at)}.`, color: "var(--admin-blue)", bg: "color-mix(in oklab, var(--admin-blue) 12%, var(--crm-surface))", icon: CalendarClock }
+          : ended
+            ? { label: "Ended", detail: `Came down ${georgetownLabel(post.unpublish_at)}.`, color: "var(--admin-orange-strong)", bg: "var(--admin-accent-soft)", icon: Clock3 }
+            : { label: "Outside schedule", detail: "This item is published but is not currently visible.", color: "var(--admin-orange-strong)", bg: "var(--admin-accent-soft)", icon: Clock3 };
+  const StatusIcon = status.icon;
 
   return (
-    <div className="rounded-lg border p-2 space-y-2" style={{ borderColor: "var(--crm-border)" }}>
-      <p className="admin-mono" style={{ color: "var(--crm-text-muted)" }}>
-        Scheduling — {GEORGETOWN_LABEL}, stored as UTC and checked each time a visitor loads the page.
+    <div className="rounded-lg border p-3 space-y-3" style={{ borderColor: invalidWindow ? "var(--admin-red)" : "var(--crm-border)" }}>
+      <div className="flex items-start gap-2 rounded-md border px-3 py-2" style={{ background: status.bg, borderColor: status.color }}>
+        <StatusIcon className="mt-0.5 size-4 shrink-0" style={{ color: status.color }} />
+        <div><p className="text-xs font-extrabold" style={{ color: status.color }}>{status.label}</p><p className="text-[11px] leading-snug" style={{ color: "var(--crm-text)" }}>{status.detail}</p></div>
+      </div>
+      <p className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "var(--crm-text)" }}>
+        <CalendarClock className="size-4" style={{ color: "var(--admin-orange-strong)" }} /> Publishing schedule <span className="font-normal" style={{ color: "var(--crm-text-muted)" }}>({GEORGETOWN_LABEL})</span>
       </p>
       <div className="grid gap-2 sm:grid-cols-2">
         <label className="space-y-1 block">
-          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Goes live</span>
-          <Input
-            type="datetime-local"
-            disabled={disabled}
-            value={utcToGeorgetownInput(post.publish_at)}
-            onChange={(e) => onPatch({ publish_at: georgetownInputToUtc(e.target.value) })}
-            style={inputStyle}
-          />
+          <span className="text-xs font-bold" style={{ color: "var(--crm-text)" }}>Goes live</span>
+          <div className="flex gap-1"><Input type="datetime-local" disabled={disabled} value={utcToGeorgetownInput(post.publish_at)} onChange={(e) => onPatch({ publish_at: georgetownInputToUtc(e.target.value) })} style={inputStyle} />{post.publish_at && <Button type="button" variant="outline" size="icon" disabled={disabled} onClick={() => onPatch({ publish_at: null })} aria-label="Clear go-live date"><X className="size-4" /></Button>}</div>
         </label>
         <label className="space-y-1 block">
-          <span className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>Comes down</span>
-          <Input
-            type="datetime-local"
-            disabled={disabled}
-            value={utcToGeorgetownInput(post.unpublish_at)}
-            onChange={(e) => onPatch({ unpublish_at: georgetownInputToUtc(e.target.value) })}
-            style={inputStyle}
-          />
+          <span className="text-xs font-bold" style={{ color: "var(--crm-text)" }}>Comes down <span className="font-normal" style={{ color: "var(--crm-text-muted)" }}>(optional)</span></span>
+          <div className="flex gap-1"><Input type="datetime-local" disabled={disabled} value={utcToGeorgetownInput(post.unpublish_at)} onChange={(e) => onPatch({ unpublish_at: georgetownInputToUtc(e.target.value) })} style={inputStyle} />{post.unpublish_at && <Button type="button" variant="outline" size="icon" disabled={disabled} onClick={() => onPatch({ unpublish_at: null })} aria-label="Clear end date"><X className="size-4" /></Button>}</div>
         </label>
       </div>
-      <p className="text-[11px]" style={{ color: "var(--crm-text-muted)" }}>
-        {post.published
-          ? live
-            ? "Showing on the public site now."
-            : post.publish_at && new Date(post.publish_at).getTime() > now
-              ? `Scheduled for ${georgetownLabel(post.publish_at)}.`
-              : "Outside its window, so it is not showing."
-          : "Draft — it will not show even inside the window."}
-      </p>
+      <p className="text-[11px]" style={{ color: invalidWindow ? "var(--admin-red)" : "var(--crm-text-muted)" }}>{invalidWindow ? "Choose an end date later than the go-live date." : "Dates do not publish a draft automatically. Select Publish when it is ready."}</p>
     </div>
   );
 }

@@ -21,6 +21,8 @@ export type MediaPost = {
   image_h: number | null;
   focal_x: number;
   focal_y: number;
+  image_fit: "cover" | "contain" | "custom";
+  image_zoom: number;
   sort_order: number;
 };
 
@@ -34,7 +36,7 @@ async function fetchPublished(kind: MediaKind): Promise<ResolvedMediaPost[]> {
   const supabase = await getSupabase();
   const { data, error } = await supabase
     .from("media_posts")
-    .select("id, kind, title, caption, image_path, image_w, image_h, focal_x, focal_y, sort_order")
+    .select("id, kind, title, caption, image_path, image_w, image_h, focal_x, focal_y, image_fit, image_zoom, sort_order")
     .eq("kind", kind)
     .eq("published", true)
     .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
@@ -71,4 +73,15 @@ export function aspectRatio(w: number | null, h: number | null, fallback = "4 / 
 
 export function focalPosition(x: number | null | undefined, y: number | null | undefined) {
   return `${x ?? 50}% ${y ?? 50}%`;
+}
+
+export function mediaImageStyle(item: Pick<MediaPost, "focal_x" | "focal_y" | "image_fit" | "image_zoom">) {
+  const fit = item.image_fit === "contain" ? "contain" : "cover";
+  const zoom = item.image_fit === "custom" ? Math.max(100, Math.min(200, item.image_zoom ?? 100)) : 100;
+  return {
+    objectFit: fit,
+    objectPosition: focalPosition(item.focal_x, item.focal_y),
+    transform: `scale(${zoom / 100})`,
+    transformOrigin: focalPosition(item.focal_x, item.focal_y),
+  } as const;
 }

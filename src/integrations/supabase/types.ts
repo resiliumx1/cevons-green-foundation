@@ -738,9 +738,11 @@ export type Database = {
           focal_x: number
           focal_y: number
           id: string
+          image_fit: string
           image_h: number | null
           image_path: string | null
           image_w: number | null
+          image_zoom: number
           kind: string
           publish_at: string | null
           published: boolean
@@ -754,9 +756,11 @@ export type Database = {
           focal_x?: number
           focal_y?: number
           id?: string
+          image_fit?: string
           image_h?: number | null
           image_path?: string | null
           image_w?: number | null
+          image_zoom?: number
           kind: string
           publish_at?: string | null
           published?: boolean
@@ -770,9 +774,11 @@ export type Database = {
           focal_x?: number
           focal_y?: number
           id?: string
+          image_fit?: string
           image_h?: number | null
           image_path?: string | null
           image_w?: number | null
+          image_zoom?: number
           kind?: string
           publish_at?: string | null
           published?: boolean
