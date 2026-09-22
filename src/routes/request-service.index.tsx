@@ -445,37 +445,51 @@ function RequestServicePage() {
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="mt-5 rounded-3xl border border-[color-mix(in_oklab,var(--brand-navy)_10%,transparent)] bg-card p-5 md:p-7 shadow-[0_24px_50px_-24px_rgba(0,0,128,0.35)]"
             >
-            {step === 0 && <StepCategory data={data} setData={setData} error={errors.category} onAdvance={scheduleAdvance} />}
-            {step === 1 && <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />}
+            {step === 0 && (
+              <div className="space-y-8">
+                <StepCategory data={data} setData={setData} error={errors.category} />
+                {data.category && (
+                  <div className="border-t border-border pt-8">
+                    <StepService data={data} setData={setData} error={errors.service} onAdvance={scheduleAdvance} />
+                  </div>
+                )}
+              </div>
+            )}
+            {step === 1 && (
+              <div className="space-y-8">
+                <StepDetails
+                  service={selected}
+                  details={data.details}
+                  setDetail={setDetail}
+                  files={data.files}
+                  onFiles={onFiles}
+                  removeFile={removeFile}
+                />
+                <div className="border-t border-border pt-8">
+                  <StepSchedule
+                    isSpecialist={isSpecialist}
+                    schedule={data.schedule}
+                    setSchedule={setSchedule}
+                  />
+                </div>
+              </div>
+            )}
             {step === 2 && (
-              <StepDetails
-                service={selected}
-                details={data.details}
-                setDetail={setDetail}
-                files={data.files}
-                onFiles={onFiles}
-                removeFile={removeFile}
-              />
-            )}
-            {step === 3 && (
-              <StepSchedule
-                isSpecialist={isSpecialist}
-                schedule={data.schedule}
-                setSchedule={setSchedule}
-              />
-            )}
-            {step === 4 && <StepInfo info={data.info} setInfo={setInfo} errors={errors} />}
-            {step === 5 && (
-              <StepReview
-                data={data}
-                selected={selected}
-                isSpecialist={isSpecialist}
-                confirm={data.confirm}
-                setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
-                newsletterOptIn={data.newsletterOptIn}
-                setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
-                error={errors.confirm}
-              />
+              <div className="space-y-8">
+                <StepInfo info={data.info} setInfo={setInfo} errors={errors} />
+                <div className="border-t border-border pt-8">
+                  <StepReview
+                    data={data}
+                    selected={selected}
+                    isSpecialist={isSpecialist}
+                    confirm={data.confirm}
+                    setConfirm={(v) => setData((d) => ({ ...d, confirm: v }))}
+                    newsletterOptIn={data.newsletterOptIn}
+                    setNewsletterOptIn={(v) => setData((d) => ({ ...d, newsletterOptIn: v }))}
+                    error={errors.confirm}
+                  />
+                </div>
+              </div>
             )}
 
             {/* Nav */}
@@ -483,8 +497,8 @@ function RequestServicePage() {
               <Button variant="outline" onClick={back} disabled={step === 0} className="h-12">
                 <ChevronLeft className="size-4 mr-1" /> <Editable id="request-service.nav.back" label="Back button label" as="span">Back</Editable>
               </Button>
-              {/* Steps 0 and 1 auto-advance on selection — Continue would be redundant. */}
-              {step >= 2 && step < STEPS.length - 1 && (
+              {/* Step 1 auto-advances once a service is picked; Continue stays as a fallback. */}
+              {step < STEPS.length - 1 && (
                 <Button
                   onClick={next}
                   disabled={!canContinue}
