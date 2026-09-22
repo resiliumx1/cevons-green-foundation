@@ -424,7 +424,7 @@ export function HeroSlideshowBackground() {
                       height={s.height}
                       onLoad={() => markLoaded(s.src)}
                       onError={() => markLoaded(s.src)}
-                      className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
+                      className={`hero-slide-img size-full object-cover ${animate && s.fit !== "custom" ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
                       {...(s.managed ? { "data-focal": "true" } : {})}
                       style={{

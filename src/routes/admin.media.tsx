@@ -548,8 +548,9 @@ function MediaRow({
   const fileRef = useRef<HTMLInputElement>(null);
   const [busyPhoto, setBusyPhoto] = useState(false);
   const [cropOpen, setCropOpen] = useState(false);
+  const [replacement, setReplacement] = useState<File | null>(null);
 
-  async function replacePhoto(file: File) {
+  async function replacePhoto(file: File, settings: ImagePresentation) {
     setBusyPhoto(true);
     try {
       const processed = await processImage(file);
@@ -561,7 +562,7 @@ function MediaRow({
 
       const { error: dbErr } = await supabase
         .from("media_posts")
-        .update({ image_path: path, image_w: processed.width, image_h: processed.height })
+        .update({ image_path: path, image_w: processed.width, image_h: processed.height, ...settings })
         .eq("id", post.id);
       if (dbErr) {
         await supabase.storage.from(MEDIA_BUCKET).remove([path]);
@@ -574,6 +575,7 @@ function MediaRow({
         invalidateMediaUrl(old);
       }
       toast.success("Photo updated.");
+      setReplacement(null);
       void qcRow.invalidateQueries({ queryKey: ["crm-media-posts"] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not update that photo.");
@@ -611,7 +613,7 @@ function MediaRow({
           onChange={(e) => {
             const f = e.target.files?.[0];
             e.target.value = "";
-            if (f) void replacePhoto(f);
+            if (f) setReplacement(f);
           }}
         />
         <Button
@@ -771,8 +773,19 @@ function MediaRow({
         post={post}
         open={cropOpen}
         onOpenChange={setCropOpen}
-        onSave={(focal_x, focal_y) => onPatch({ focal_x, focal_y })}
+        onSave={(settings) => onPatch(settings)}
       />
+      {replacement && (
+        <ImagePresentationDialog
+          title="Prepare replacement photo"
+          source={replacement}
+          kind={post.kind as Kind}
+          open
+          busy={busyPhoto}
+          onOpenChange={(next) => { if (!next && !busyPhoto) setReplacement(null); }}
+          onSave={(settings) => void replacePhoto(replacement, settings)}
+        />
+      )}
     </div>
   );
 }
@@ -786,122 +799,141 @@ function FocalCropDialog({
   post: MediaPost;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave: (focalX: number, focalY: number) => void;
+  onSave: (settings: ImagePresentation) => void;
+}) {
+  return (
+    <ImagePresentationDialog
+      title="Adjust website photo"
+      source={{ path: post.image_path ?? "" }}
+      kind={post.kind as Kind}
+      initial={{ focal_x: post.focal_x ?? 50, focal_y: post.focal_y ?? 50, image_fit: post.image_fit ?? "cover", image_zoom: post.image_zoom ?? 100 }}
+      open={open}
+      onOpenChange={onOpenChange}
+      onSave={(settings) => { onSave(settings); onOpenChange(false); }}
+    />
+  );
+}
+
+function ImagePresentationDialog({
+  title,
+  source,
+  kind,
+  initial = { focal_x: 50, focal_y: 50, image_fit: "cover", image_zoom: 100 },
+  open,
+  busy = false,
+  onOpenChange,
+  onSave,
+}: {
+  title: string;
+  source: File | { path: string };
+  kind: Kind;
+  initial?: ImagePresentation;
+  open: boolean;
+  busy?: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSave: (settings: ImagePresentation) => void;
 }) {
   const [url, setUrl] = useState<string | null>(null);
-  const [x, setX] = useState(post.focal_x ?? 50);
-  const [y, setY] = useState(post.focal_y ?? 50);
+  const [fit, setFit] = useState<ImageFit>(initial.image_fit);
+  const [x, setX] = useState(initial.focal_x);
+  const [y, setY] = useState(initial.focal_y);
+  const [zoom, setZoom] = useState(initial.image_zoom);
   const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    setX(post.focal_x ?? 50);
-    setY(post.focal_y ?? 50);
+    setFit(initial.image_fit);
+    setX(initial.focal_x);
+    setY(initial.focal_y);
+    setZoom(initial.image_zoom);
     let alive = true;
-    void getMediaUrl(post.image_path).then((next) => {
-      if (alive) setUrl(next);
-    });
+    let objectUrl: string | null = null;
+    if (source instanceof File) {
+      objectUrl = URL.createObjectURL(source);
+      setUrl(objectUrl);
+    } else {
+      void getMediaUrl(source.path).then((next) => { if (alive) setUrl(next); });
+    }
     return () => {
       alive = false;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [open, post.focal_x, post.focal_y, post.image_path]);
+  }, [open, source, initial.image_fit, initial.focal_x, initial.focal_y, initial.image_zoom]);
 
   const moveFocus = (clientX: number, clientY: number) => {
+    if (fit === "contain") return;
     const box = previewRef.current?.getBoundingClientRect();
     if (!box) return;
     setX(Math.round(Math.max(0, Math.min(100, ((clientX - box.left) / box.width) * 100))));
     setY(Math.round(Math.max(0, Math.min(100, ((clientY - box.top) / box.height) * 100))));
   };
+  const imageStyle = {
+    objectFit: fit === "contain" ? "contain" : "cover",
+    objectPosition: `${x}% ${y}%`,
+    transform: `scale(${fit === "custom" ? zoom / 100 : 1})`,
+    transformOrigin: `${x}% ${y}%`,
+  } as const;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="max-h-[calc(100dvh-2rem)] max-w-2xl overflow-y-auto"
-        style={{
-          background: "var(--crm-surface, #ffffff)",
-          borderColor: "var(--crm-border, #d9dde3)",
-          color: "var(--crm-text, #1a1a1a)",
-        }}
-      >
+    <Dialog open={open} onOpenChange={(next) => { if (!busy) onOpenChange(next); }}>
+      <DialogContent className="max-h-[calc(100dvh-1rem)] max-w-3xl overflow-y-auto" style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2" style={{ color: "var(--crm-text, #1a1a1a)" }}>
-            <Crop className="size-5" /> Adjust website crop
-          </DialogTitle>
-          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>
-            Drag the focus marker onto the most important part of the photo. The original file is unchanged.
-          </DialogDescription>
+          <DialogTitle className="flex items-center gap-2"><Crop className="size-5" /> {title}</DialogTitle>
+          <DialogDescription style={{ color: "var(--crm-text-muted)" }}>Choose how the photo fits, then move the focus onto the important area. The original photo stays intact.</DialogDescription>
         </DialogHeader>
-
-        <div
-          ref={previewRef}
-          className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${post.kind === "slide" ? "aspect-video" : "aspect-[4/3]"}`}
-          style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: "crosshair" }}
-          onPointerDown={(event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            moveFocus(event.clientX, event.clientY);
-          }}
-          onPointerMove={(event) => {
-            if (event.currentTarget.hasPointerCapture(event.pointerId)) moveFocus(event.clientX, event.clientY);
-          }}
-          aria-label="Photo crop preview"
-        >
-          {url ? (
-            <img
-              src={url}
-              alt=""
-              className="size-full object-cover pointer-events-none"
-              style={{ objectPosition: `${x}% ${y}%` }}
-            />
-          ) : (
-            <div className="grid size-full place-items-center">
-              <Loader2 className="size-5 animate-spin" style={{ color: "var(--crm-text-muted)" }} />
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Photo fit">
+          {([
+            ["cover", "Fill box", "Best automatic fit"],
+            ["contain", "Fit whole photo", "No cropping"],
+            ["custom", "Custom crop", "Position and zoom"],
+          ] as const).map(([value, label, hint]) => (
+            <button key={value} type="button" role="radio" aria-checked={fit === value} onClick={() => { setFit(value); if (value !== "custom") setZoom(100); }} className="min-h-16 rounded-lg border px-2 py-2 text-center transition-colors" style={{ borderColor: fit === value ? "var(--admin-orange-strong)" : "var(--crm-border)", background: fit === value ? "var(--admin-accent-soft)" : "var(--crm-surface-muted)", color: "var(--crm-text)" }}>
+              <span className="block text-xs font-extrabold sm:text-sm">{label}</span>
+              <span className="mt-0.5 block text-[10px]" style={{ color: "var(--crm-text-muted)" }}>{hint}</span>
+            </button>
+          ))}
+        </div>
+        <div className={kind === "slide" ? "grid gap-3 sm:grid-cols-[1fr_10rem]" : "grid gap-3"}>
+          <div>
+            <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted)" }}>{kind === "slide" ? "Desktop preview" : "Website preview"}</p>
+            <CropPreview ref={previewRef} url={url} className={kind === "slide" ? "aspect-video" : "aspect-[4/3]"} imageStyle={imageStyle} interactive={fit !== "contain"} onMove={moveFocus} x={x} y={y} />
+          </div>
+          {kind === "slide" && (
+            <div>
+              <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted)" }}>Phone preview</p>
+              <CropPreview url={url} className="mx-auto aspect-[9/16] max-h-72" imageStyle={imageStyle} />
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>
-            {Array.from({ length: 9 }).map((_, index) => (
-              <span key={index} className="border border-white/30" />
-            ))}
-          </div>
-          <span
-            className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]"
-            style={{ left: `${x}%`, top: `${y}%` }}
-            aria-hidden
-          >
-            <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#EF7700]" />
-          </span>
         </div>
-
-        <div className="grid gap-3 sm:grid-cols-2">
+        {fit === "custom" && (
           <Label className="space-y-2">
-            <span>Left to right</span>
-            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={x} onChange={(e) => setX(Number(e.target.value))} />
+            <span className="flex items-center justify-between"><span>Zoom</span><strong>{zoom}%</strong></span>
+            <input className="w-full accent-[var(--admin-orange)]" type="range" min="100" max="200" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} />
           </Label>
-          <Label className="space-y-2">
-            <span>Top to bottom</span>
-            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={y} onChange={(e) => setY(Number(e.target.value))} />
-          </Label>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button type="button" variant="outline" onClick={() => { setX(50); setY(50); }}>
-            <RotateCcw className="size-4" /> Reset
-          </Button>
-          <Button
-            type="button"
-            className="font-bold"
-            style={{ background: "var(--brand-orange)", color: "var(--brand-charcoal)" }}
-            onClick={() => {
-              onSave(x, y);
-              onOpenChange(false);
-            }}
-          >
-            Save crop
+        )}
+        <p className="text-xs" style={{ color: "var(--crm-text-muted)" }}>{fit === "contain" ? "The full photo will always remain visible. Empty space may appear around it." : "Drag across the large preview to reposition the photo’s focus."}</p>
+        <DialogFooter className="gap-2 sm:gap-2">
+          <Button type="button" variant="outline" disabled={busy} onClick={() => { setFit("cover"); setX(50); setY(50); setZoom(100); }}><RotateCcw className="size-4" /> Reset</Button>
+          <Button type="button" variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button type="button" disabled={busy} className="font-bold" style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }} onClick={() => onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 })}>
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} {busy ? "Saving…" : "Use this photo"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+import { forwardRef } from "react";
+
+const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: React.CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
+  return (
+    <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
+      {url ? <img src={url} alt="" className="size-full pointer-events-none" style={imageStyle} /> : <div className="grid size-full place-items-center"><Loader2 className="size-5 animate-spin" /></div>}
+      {interactive && <><div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>{Array.from({ length: 9 }).map((_, index) => <span key={index} className="border border-white/30" />)}</div><span className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]" style={{ left: `${x}%`, top: `${y}%` }}><span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "var(--admin-orange)" }} /></span></>}
+    </div>
+  );
+});
 
 
 /* ------------------------------------------------------------------ */
