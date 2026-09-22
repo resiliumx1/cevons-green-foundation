@@ -18,6 +18,7 @@ import {
   Globe,
   Crop,
   RotateCcw,
+  Minus,
   CalendarClock,
   Clock3,
   X,
@@ -28,6 +29,7 @@ import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { getMediaUrl, invalidateMediaUrl, MEDIA_BUCKET } from "@/lib/mediaUrl";
 import { processImage } from "@/lib/imageProcess";
+import { mediaImageStyle } from "@/lib/mediaPosts";
 import {
   GEORGETOWN_LABEL,
   georgetownInputToUtc,
@@ -96,6 +98,10 @@ type MediaPost = {
 type ImageFit = "cover" | "contain" | "custom";
 type ImagePresentation = { focal_x: number; focal_y: number; image_fit: ImageFit; image_zoom: number };
 
+function haptic(pattern: number | number[] = 8) {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(pattern);
+}
+
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
   { value: "slide", label: "Slides", icon: MonitorPlay, hint: "Full-width slideshow photos. Landscape works best." },
   { value: "gallery", label: "Gallery", icon: Images, hint: "Photo grid images." },
@@ -106,7 +112,7 @@ const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: stri
 /* Thumbnail                                                           */
 /* ------------------------------------------------------------------ */
 
-function Thumb({ path, alt }: { path: string | null; alt: string }) {
+function Thumb({ path, alt, presentation }: { path: string | null; alt: string; presentation?: ImagePresentation }) {
   const [url, setUrl] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -135,7 +141,13 @@ function Thumb({ path, alt }: { path: string | null; alt: string }) {
           Text only
         </span>
       ) : url ? (
-        <img src={url} alt={alt} className="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={url}
+          alt={alt}
+          className="h-full w-full"
+          style={presentation ? mediaImageStyle(presentation) : undefined}
+          loading="lazy"
+        />
       ) : failed ? (
         <ImageIcon className="size-5" style={{ color: "var(--crm-text-faint)" }} />
       ) : (
@@ -195,6 +207,7 @@ function CrmMediaPage() {
       toast.error(`${rejected} file${rejected > 1 ? "s" : ""} skipped — only image files can be uploaded.`);
     }
     if (!images.length) return;
+    haptic();
     uploadOrderRef.current = nextSortOrder(kind);
     setUploadQueue(images);
   }
@@ -376,8 +389,8 @@ function CrmMediaPage() {
         </p>
         <Button
           type="button"
-          onClick={() => fileRef.current?.click()}
-          className="mt-3 bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
+          onClick={() => { haptic(); fileRef.current?.click(); }}
+          className="tap-haptic mt-3 bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
         >
           Choose photos
         </Button>
@@ -499,10 +512,10 @@ function CrmMediaPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel className="tap-haptic" onClick={() => haptic()}>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => confirmDelete && deleteMutation.mutate(confirmDelete)}
-              className="bg-red-600 hover:bg-red-700"
+              onClick={() => { haptic([10, 35, 10]); if (confirmDelete) deleteMutation.mutate(confirmDelete); }}
+              className="tap-haptic bg-red-600 hover:bg-red-700"
             >
               Delete
             </AlertDialogAction>
@@ -596,7 +609,11 @@ function MediaRow({
     >
       <div className="shrink-0 space-y-2 sm:w-48">
         <div className="flex items-center gap-3 sm:block">
-          <Thumb path={post.image_path} alt={post.title || "Media item"} />
+          <Thumb
+            path={post.image_path}
+            alt={post.title || "Media item"}
+            presentation={{ focal_x: post.focal_x, focal_y: post.focal_y, image_fit: post.image_fit, image_zoom: post.image_zoom }}
+          />
           <div className="min-w-0 sm:mt-2">
             <p className="text-sm font-bold" style={{ color: "var(--crm-text)" }}>Photo controls</p>
             <p className="mt-0.5 text-xs leading-snug" style={{ color: "var(--crm-text-muted)" }}>
@@ -618,14 +635,14 @@ function MediaRow({
         <Button
           type="button"
           size="sm"
-          className="w-full min-h-11 border font-bold shadow-sm"
+           className="tap-haptic w-full min-h-11 border font-bold shadow-sm"
           style={{
             background: "var(--admin-orange)",
             borderColor: "var(--admin-orange-strong)",
             color: "var(--admin-charcoal)",
           }}
           disabled={busyPhoto}
-          onClick={() => fileRef.current?.click()}
+          onClick={() => { haptic(); fileRef.current?.click(); }}
         >
           {busyPhoto ? (
             <Loader2 className="size-4 animate-spin" />
@@ -638,13 +655,13 @@ function MediaRow({
           <Button
             type="button"
             size="sm"
-            className="w-full min-h-11 border font-bold shadow-sm"
+            className="tap-haptic w-full min-h-11 border font-bold shadow-sm"
             style={{
               background: "var(--admin-navy)",
               borderColor: "var(--admin-navy-strong)",
               color: "var(--admin-on-navy)",
             }}
-            onClick={() => setCropOpen(true)}
+            onClick={() => { haptic(); setCropOpen(true); }}
           >
             <Crop className="size-4" /> Adjust website crop
           </Button>
@@ -704,7 +721,7 @@ function MediaRow({
           <Button
             type="button"
             disabled={!mayPublish}
-            onClick={() => onPatch({ published: !post.published })}
+            onClick={() => { haptic(post.published ? [8, 25, 8] : 12); onPatch({ published: !post.published }); }}
             aria-label={post.published ? "Switch back to draft" : "Publish this item"}
             title={
               post.published
@@ -712,7 +729,7 @@ function MediaRow({
                 : "Make this item live on the public site"
             }
             className={
-              "w-full min-h-11 text-sm font-bold rounded-lg transition-transform active:scale-[0.98] " +
+              "tap-haptic w-full min-h-11 text-sm font-bold rounded-lg " +
               (post.published
                 ? "bg-[#15803D] hover:bg-[#15803D]/90 text-white"
                 : "bg-[#EF7700] hover:bg-[#EF7700]/90 text-white shadow-[0_4px_14px_rgba(239,119,0,0.4)]")
@@ -738,9 +755,9 @@ function MediaRow({
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => onMove(-1)}
+            onClick={() => { haptic(); onMove(-1); }}
             disabled={isFirst}
-            className="p-1.5 rounded hover:bg-white/5 disabled:opacity-30"
+            className="tap-haptic p-2.5 rounded hover:bg-white/5 disabled:opacity-30"
             title="Move up"
             aria-label="Move up"
             style={{ color: "var(--crm-text-muted)" }}
@@ -748,9 +765,9 @@ function MediaRow({
             <ArrowUp className="size-4" />
           </button>
           <button
-            onClick={() => onMove(1)}
+            onClick={() => { haptic(); onMove(1); }}
             disabled={isLast}
-            className="p-1.5 rounded hover:bg-white/5 disabled:opacity-30"
+            className="tap-haptic p-2.5 rounded hover:bg-white/5 disabled:opacity-30"
             title="Move down"
             aria-label="Move down"
             style={{ color: "var(--crm-text-muted)" }}
@@ -758,8 +775,8 @@ function MediaRow({
             <ArrowDown className="size-4" />
           </button>
           <button
-            onClick={onDelete}
-            className="p-1.5 rounded hover:bg-red-500/10 hover:text-red-400"
+            onClick={() => { haptic([8, 25, 8]); onDelete(); }}
+            className="tap-haptic p-2.5 rounded hover:bg-red-500/10 hover:text-red-400"
             title="Delete"
             aria-label="Delete"
             style={{ color: "var(--crm-text-muted)" }}
