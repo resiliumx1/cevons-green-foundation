@@ -1,6 +1,6 @@
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
-import { forwardRef, useEffect, useRef, useState, type CSSProperties } from "react";
+import { forwardRef, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Upload,
@@ -961,7 +961,7 @@ function ImagePresentationDialog({
 
 const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; onNudge?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, onNudge, x = 50, y = 50 }, ref) {
   const [dragging, setDragging] = useState(false);
-  const nudge = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const nudge = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!interactive) return;
     const amount = event.shiftKey ? 5 : 1;
     let nextX = x;
