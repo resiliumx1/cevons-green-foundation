@@ -14,6 +14,8 @@ import {
   Images,
   MonitorPlay,
   Plus,
+  CheckCircle2,
+  Globe,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -31,7 +33,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -624,23 +625,41 @@ function MediaRow({
       </div>
 
       <div className="flex sm:flex-col items-center justify-between sm:justify-start gap-2 sm:w-40 shrink-0">
-        <div className="flex flex-col items-center gap-1">
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={post.published}
-              disabled={!mayPublish}
-              onCheckedChange={(v) => onPatch({ published: v })}
-              aria-label="Published"
-            />
-            <span className="text-[12px] font-semibold" style={{ color: "var(--crm-text)" }}>
-              {post.published ? "Published" : "Draft"}
-            </span>
-          </div>
-          {!mayPublish && (
-            <span className="admin-mono text-center" style={{ color: "var(--crm-text-muted)" }}>
-              Contributors can't publish
-            </span>
-          )}
+        <div className="w-full space-y-1.5">
+          <Button
+            type="button"
+            disabled={!mayPublish}
+            onClick={() => onPatch({ published: !post.published })}
+            aria-label={post.published ? "Switch back to draft" : "Publish this item"}
+            title={
+              post.published
+                ? "Showing on the public site — click to switch back to draft"
+                : "Make this item live on the public site"
+            }
+            className={
+              "w-full min-h-11 text-sm font-bold rounded-lg transition-transform active:scale-[0.98] " +
+              (post.published
+                ? "bg-[#15803D] hover:bg-[#15803D]/90 text-white"
+                : "bg-[#EF7700] hover:bg-[#EF7700]/90 text-white shadow-[0_4px_14px_rgba(239,119,0,0.4)]")
+            }
+          >
+            {post.published ? (
+              <>
+                <CheckCircle2 className="size-4 mr-1.5 shrink-0" /> Published
+              </>
+            ) : (
+              <>
+                <Globe className="size-4 mr-1.5 shrink-0" /> Publish
+              </>
+            )}
+          </Button>
+          <p className="text-[11px] text-center leading-tight" style={{ color: "var(--crm-text-muted)" }}>
+            {mayPublish
+              ? post.published
+                ? "Live on the site — click to unpublish"
+                : "Not on the site yet — click to publish"
+              : "Contributors can't publish"}
+          </p>
         </div>
         <div className="flex items-center gap-1">
           <button
