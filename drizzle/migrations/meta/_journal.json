@@ -71,6 +71,13 @@
       "when": 1790090251911,
       "tag": "0009_review_followups",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790105416868,
+      "tag": "0010_media_image_fit_and_zoom",
+      "breakpoints": true
     }
   ]
 }
