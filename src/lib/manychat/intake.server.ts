@@ -117,9 +117,13 @@ export async function intakeManyChatContact(
   let created = false;
 
   if (existingId) {
-    const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
-    if (payload.subscriberId) patch["manychat_subscriber_id"] = payload.subscriberId;
-    await supabaseAdmin.from("service_requests").update(patch).eq("id", existingId);
+    await supabaseAdmin
+      .from("service_requests")
+      .update({
+        updated_at: new Date().toISOString(),
+        ...(payload.subscriberId ? { manychat_subscriber_id: payload.subscriberId } : {}),
+      })
+      .eq("id", existingId);
   } else {
     const { data, error } = await supabaseAdmin
       .from("service_requests")
