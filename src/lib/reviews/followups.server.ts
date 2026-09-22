@@ -10,30 +10,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { renderReviewRequestEmail } from "@/lib/email-templates/review-request";
 import { sendRawEmail } from "@/lib/email-templates/send-email";
 import { EMAIL_REPLY_TO } from "@/lib/notify/config";
-
-export interface ReviewFollowupSettings {
-  enabled: boolean;
-  reviewUrl: string;
-  delayHours: number;
-}
-
-export const DEFAULT_REVIEW_FOLLOWUP: ReviewFollowupSettings = {
-  enabled: false,
-  reviewUrl: "",
-  delayHours: 24,
-};
-
-export function normalizeReviewFollowup(value: unknown): ReviewFollowupSettings {
-  const v = (value ?? {}) as Partial<ReviewFollowupSettings>;
-  const url = String(v.reviewUrl ?? "").trim();
-  const secure = /^https:\/\//i.test(url);
-  const hours = Number(v.delayHours);
-  return {
-    enabled: Boolean(v.enabled),
-    reviewUrl: secure ? url : "",
-    delayHours: Number.isFinite(hours) ? Math.min(720, Math.max(0, hours)) : 24,
-  };
-}
+import { normalizeReviewFollowup, type ReviewFollowupSettings } from "@/lib/reviews/config";
 
 export async function loadReviewFollowupSettings(): Promise<ReviewFollowupSettings> {
   const { data } = await supabaseAdmin

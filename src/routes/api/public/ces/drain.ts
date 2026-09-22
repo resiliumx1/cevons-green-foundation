@@ -35,6 +35,16 @@ export const Route = createFileRoute("/api/public/ces/drain")({
         try {
           const { drainCesOutbox } = await import("@/lib/ces/outbox.server");
           const result = await drainCesOutbox(limit);
+
+          // Same schedule also releases any due Google review follow-ups.
+          let reviewFollowups = { configured: false, attempted: 0, sent: 0, skipped: 0, failed: 0 };
+          try {
+            const { drainReviewFollowups } = await import("@/lib/reviews/followups.server");
+            reviewFollowups = await drainReviewFollowups(25);
+          } catch (err) {
+            console.error("review followup drain failed", err);
+          }
+
           return Response.json({
             ok: true,
             configured: result.configured,
@@ -42,6 +52,7 @@ export const Route = createFileRoute("/api/public/ces/drain")({
             sent: result.sent,
             duplicates: result.duplicates,
             failed: result.failed,
+            reviewFollowups,
           });
         } catch (err) {
           console.error("ces drain failed", err);
