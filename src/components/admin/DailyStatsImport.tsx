@@ -216,7 +216,8 @@ export function DailyStatsImport({
       <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
         Download the analytics export from {label} Studio (a .csv file) and upload it here. Only the
         dates and figures inside the file are saved, so reports can show real history from before
-        daily recording started. Figures typed in by hand for the same day are replaced by the file.
+        daily recording started. Only the figures the file actually contains are updated — anything
+        already recorded for those days is kept.
       </p>
 
       <div className="admin-toolbar mt-3 flex-wrap items-center gap-2">
