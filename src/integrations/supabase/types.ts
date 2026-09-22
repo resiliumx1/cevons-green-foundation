@@ -1199,6 +1199,62 @@ export type Database = {
           },
         ]
       }
+      review_followups: {
+        Row: {
+          attempts: number
+          created_at: string
+          due_at: string
+          id: string
+          last_error: string | null
+          recipient_email: string | null
+          recipient_name: string | null
+          reference: string | null
+          sent_at: string | null
+          service: string | null
+          service_request_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          due_at?: string
+          id?: string
+          last_error?: string | null
+          recipient_email?: string | null
+          recipient_name?: string | null
+          reference?: string | null
+          sent_at?: string | null
+          service?: string | null
+          service_request_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          due_at?: string
+          id?: string
+          last_error?: string | null
+          recipient_email?: string | null
+          recipient_name?: string | null
+          reference?: string | null
+          sent_at?: string | null
+          service?: string | null
+          service_request_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_followups_service_request_id_fkey"
+            columns: ["service_request_id"]
+            isOneToOne: true
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           body: string | null
