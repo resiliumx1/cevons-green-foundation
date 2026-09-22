@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { RefreshCw, Search, Star, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { RefreshCw, Search, Send, Star, X } from "lucide-react";
+import { runReviewFollowups, sendReviewFollowup } from "@/lib/reviewFollowups.functions";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
@@ -149,6 +151,8 @@ function ReviewsPage() {
         ]}
       />
 
+      <FollowupsPanel />
+
       <div className="admin-toolbar">
         <div className="admin-search">
           <Search aria-hidden />
@@ -290,5 +294,160 @@ function ReviewsPage() {
         </div>
       )}
     </CrmPage>
+  );
+}
+
+/* ─── review follow-ups ─────────────────────────────────────────────────── */
+
+type Followup = {
+  id: string;
+  reference: string | null;
+  recipient_name: string | null;
+  recipient_email: string | null;
+  service: string | null;
+  status: string;
+  due_at: string;
+  sent_at: string | null;
+  last_error: string | null;
+};
+
+const FOLLOWUP_TONE: Record<string, string> = {
+  pending: "#D97706",
+  sent: "#15803D",
+  skipped: "#64748B",
+  failed: "#DC2626",
+  cancelled: "#64748B",
+};
+
+function FollowupsPanel() {
+  const qc = useQueryClient();
+  const drain = useServerFn(runReviewFollowups);
+  const sendOne = useServerFn(sendReviewFollowup);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
+  const drained = useRef(false);
+
+  const { data = [], isLoading } = useQuery({
+    queryKey: ["review-followups"],
+    queryFn: async (): Promise<Followup[]> => {
+      const { data, error } = await supabase
+        .from("review_followups")
+        .select(
+          "id, reference, recipient_name, recipient_email, service, status, due_at, sent_at, last_error",
+        )
+        .order("due_at", { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      return (data ?? []) as Followup[];
+    },
+  });
+
+  // Release anything already due while a staff member has the page open.
+  useEffect(() => {
+    if (drained.current) return;
+    drained.current = true;
+    void drain({ data: undefined })
+      .then((r) => {
+        if (r && r.sent > 0) qc.invalidateQueries({ queryKey: ["review-followups"] });
+      })
+      .catch(() => {
+        /* nothing due, or the automation is off */
+      });
+  }, [drain, qc]);
+
+  const pending = data.filter((f) => f.status === "pending").length;
+  const sent = data.filter((f) => f.status === "sent").length;
+
+  return (
+    <section className="admin-card p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 className="text-sm font-bold" style={{ color: "var(--crm-text)" }}>
+            Google review follow-ups
+          </h2>
+          <p className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+            Queued automatically when a request is marked Won. Turn the automation on and add your
+            Google review link in Settings → Review follow-ups.
+          </p>
+        </div>
+        <span className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+          {pending} waiting · {sent} sent
+        </span>
+      </div>
+
+      {note && (
+        <p className="mt-2 text-xs" style={{ color: "var(--crm-text-muted)" }}>
+          {note}
+        </p>
+      )}
+
+      {isLoading ? (
+        <p className="mt-3 text-xs" style={{ color: "var(--crm-text-muted)" }}>
+          Loading follow-ups…
+        </p>
+      ) : data.length === 0 ? (
+        <p className="mt-3 text-xs" style={{ color: "var(--crm-text-muted)" }}>
+          No follow-ups yet. The first one is created when a request is marked Won.
+        </p>
+      ) : (
+        <ul className="mt-3 space-y-2">
+          {data.slice(0, 15).map((f) => (
+            <li
+              key={f.id}
+              className="flex flex-wrap items-center gap-3 rounded-lg border p-3"
+              style={{ borderColor: "var(--crm-border)" }}
+            >
+              <span
+                className="text-[11px] font-bold uppercase tracking-wide"
+                style={{ color: FOLLOWUP_TONE[f.status] ?? "#64748B" }}
+              >
+                {f.status}
+              </span>
+              <span className="text-sm font-semibold" style={{ color: "var(--crm-text)" }}>
+                {f.recipient_name || f.recipient_email || f.reference || "Customer"}
+              </span>
+              <span className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+                {f.service || "Service"} ·{" "}
+                {f.sent_at
+                  ? `sent ${georgetownLabel(f.sent_at)}`
+                  : `due ${georgetownLabel(f.due_at)}`}
+              </span>
+              {f.last_error && (
+                <span className="text-xs" style={{ color: "#DC2626" }}>
+                  {f.last_error}
+                </span>
+              )}
+              {f.status !== "sent" && (
+                <button
+                  type="button"
+                  className="admin-btn-quiet ml-auto"
+                  disabled={busyId === f.id}
+                  onClick={async () => {
+                    setBusyId(f.id);
+                    setNote(null);
+                    try {
+                      const r = await sendOne({ data: { followupId: f.id } });
+                      setNote(
+                        r.status === "sent"
+                          ? "Follow-up sent."
+                          : r.reason || `Not sent (${r.status}).`,
+                      );
+                      qc.invalidateQueries({ queryKey: ["review-followups"] });
+                    } catch (e) {
+                      setNote((e as Error).message);
+                    } finally {
+                      setBusyId(null);
+                    }
+                  }}
+                >
+                  <Send className="h-4 w-4" aria-hidden />
+                  {busyId === f.id ? "Sending…" : "Send now"}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }

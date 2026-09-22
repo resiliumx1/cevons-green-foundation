@@ -21,6 +21,11 @@ import {
   normalizeRecipients,
   type NotificationRecipients,
 } from "@/lib/notify/config";
+import {
+  DEFAULT_REVIEW_FOLLOWUP,
+  normalizeReviewFollowup,
+  type ReviewFollowupSettings,
+} from "@/lib/reviews/config";
 
 
 export const Route = createFileRoute("/admin/settings")({
@@ -73,7 +78,7 @@ type SettingsMap = {
   pipeline_stages?: PipelineConfig;
   notifications?: NotificationsConfig;
   notification_recipients?: NotificationRecipients;
-
+  review_followup?: ReviewFollowupSettings;
 };
 
 /* ─── default data ──────────────────────────────────────────────────────── */
@@ -213,11 +218,21 @@ function SettingsPage() {
     [settings?.notification_recipients]
   );
 
+  const reviewFollowup: ReviewFollowupSettings = useMemo(
+    () =>
+      settings?.review_followup
+        ? normalizeReviewFollowup(settings.review_followup)
+        : DEFAULT_REVIEW_FOLLOWUP,
+    [settings?.review_followup]
+  );
+
   const SECTIONS = [
     { id: "profile", label: "Company Profile", icon: Building2, tone: "tone-navy" },
     { id: "team", label: "Team Members", icon: Users, tone: "tone-blue" },
     { id: "notifications", label: "Notifications", icon: Bell, tone: "tone-orange" },
     { id: "email", label: "Email notifications", icon: Mail, tone: "tone-green" },
+    { id: "reviews", label: "Review follow-ups", icon: Star, tone: "tone-amber" },
+
 
     { id: "pipeline", label: "Pipeline", icon: GitBranch, tone: "tone-purple" },
     { id: "services", label: "Service Catalog", icon: Award, tone: "tone-cyan" },
@@ -324,6 +339,20 @@ function SettingsPage() {
                 />
               )}
 
+              {active === "reviews" && (
+                <ReviewFollowupSection
+                  data={reviewFollowup}
+                  onSave={async (v) => {
+                    await upsert.mutateAsync({
+                      key: "review_followup",
+                      value: v as unknown as Record<string, unknown>,
+                    });
+                    showSaved("review_followup");
+                  }}
+                  saving={upsert.isPending}
+                  saved={savedKey === "review_followup"}
+                />
+              )}
               {active === "pipeline" && (
                 <PipelineSection
                   data={pipeline}
@@ -1359,5 +1388,118 @@ function SecuritySection() {
         </div>
       </form>
     </div>
+  );
+}
+
+/* ─── review follow-ups section ─────────────────────────────────────────── */
+
+function ReviewFollowupSection({
+  data,
+  onSave,
+  saving,
+  saved,
+}: {
+  data: ReviewFollowupSettings;
+  onSave: (v: ReviewFollowupSettings) => void;
+  saving: boolean;
+  saved: boolean;
+}) {
+  const [enabled, setEnabled] = useState(data.enabled);
+  const [url, setUrl] = useState(data.reviewUrl);
+  const [hours, setHours] = useState(String(data.delayHours));
+
+  useEffect(() => {
+    setEnabled(data.enabled);
+    setUrl(data.reviewUrl);
+    setHours(String(data.delayHours));
+  }, [data]);
+
+  const urlOk = /^https:\/\//i.test(url.trim());
+  const canSave = !enabled || urlOk;
+
+  return (
+    <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+      <h2 className="font-semibold text-white">Google review follow-ups</h2>
+      <p className="text-xs text-white/50">
+        When a request is marked Won, we wait the time you choose and then email that customer a
+        polite thank-you with your Google review link. One message per request, never repeated.
+      </p>
+
+      <div className="mt-4 set-row" data-on={enabled}>
+        <span className={`ico-soft ${enabled ? "soft-green" : ""}`} aria-hidden>
+          <Star className="h-[18px] w-[18px]" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-white">Send follow-ups automatically</p>
+          <p className="text-xs text-white/60">
+            {enabled ? "ON — follow-ups go out once they are due." : "OFF — nothing is sent."}
+          </p>
+        </div>
+        <Toggle active={enabled} onChange={() => setEnabled((v) => !v)} label="Send follow-ups automatically" />
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <label className="text-xs font-medium text-white/70" htmlFor="review-url">
+            Google review link
+          </label>
+          <input
+            id="review-url"
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://g.page/r/..."
+            className="mt-1 w-full rounded-lg border border-white/10 bg-[#0B1219] px-3 py-2 text-sm text-white placeholder:text-white/30"
+          />
+          <p className="mt-1 text-xs text-white/40">
+            Paste the “Ask for reviews” link from your Google Business Profile. Must start with https.
+          </p>
+          {enabled && !urlOk && (
+            <p className="mt-1 text-xs text-red-300">Add a valid https link before turning this on.</p>
+          )}
+        </div>
+        <div>
+          <label className="text-xs font-medium text-white/70" htmlFor="review-delay">
+            Wait before sending (hours)
+          </label>
+          <input
+            id="review-delay"
+            type="number"
+            min={0}
+            max={720}
+            value={hours}
+            onChange={(e) => setHours(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-white/10 bg-[#0B1219] px-3 py-2 text-sm text-white"
+          />
+          <p className="mt-1 text-xs text-white/40">
+            Counted from the moment the request is marked Won. Applies to new follow-ups.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 flex items-center gap-3">
+        <button
+          onClick={() =>
+            onSave(
+              normalizeReviewFollowup({
+                enabled,
+                reviewUrl: url.trim(),
+                delayHours: Number(hours),
+              })
+            )
+          }
+          disabled={saving || !canSave}
+          className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
+        >
+          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? "Saving..." : "Save Changes"}
+        </button>
+        {saved && (
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
+            <Check className="h-3.5 w-3.5" /> Saved
+          </span>
+        )}
+      </div>
+    </section>
   );
 }
