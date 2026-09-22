@@ -213,7 +213,7 @@ function RequestServicePage() {
       else if (data.info.region === OTHER_AREA_VALUE && !data.info.regionOther.trim())
         e.region = "Please type your location.";
     }
-    if (step === 5 && !data.confirm) e.confirm = "Please confirm before submitting.";
+    if (step === 2 && !data.confirm) e.confirm = "Please confirm before submitting.";
     setErrors(e);
     return Object.keys(e).length === 0;
   }
