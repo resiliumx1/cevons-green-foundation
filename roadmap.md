@@ -41,4 +41,5 @@
 - [x] Add draggable focal crop adjustment to Media items
 - [x] Apply saved focal positions to public slides, gallery photos, and announcements
 - [x] Protect draft media files while keeping live website photos accessible
-- [ ] Verify crop controls and public rendering on desktop and mobile
+- [x] Make Media photo and crop controls clearly readable on light and dark admin themes
+- [x] Verify crop controls and public rendering on desktop and mobile
