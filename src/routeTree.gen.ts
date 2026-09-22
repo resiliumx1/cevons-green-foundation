@@ -74,6 +74,7 @@ import { Route as ServicesWastewaterRouteImport } from './routes/services.wastew
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as ApiPublicCesDrainRouteImport } from './routes/api/public/ces/drain'
+import { Route as ApiPublicManychatWebhookRouteImport } from './routes/api/public/manychat/webhook'
 import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
 import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify/push'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
@@ -418,6 +419,12 @@ const ApiPublicCesDrainRoute = ApiPublicCesDrainRouteImport.update({
   path: '/api/public/ces/drain',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicManychatWebhookRoute =
+  ApiPublicManychatWebhookRouteImport.update({
+    id: '/api/public/manychat/webhook',
+    path: '/api/public/manychat/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicNotifyDispatchRoute = ApiPublicNotifyDispatchRouteImport.update({
   id: '/api/public/notify/dispatch',
   path: '/api/public/notify/dispatch',
@@ -511,6 +518,7 @@ export interface FileRoutesByFullPath {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -581,6 +589,7 @@ export interface FileRoutesByTo {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -654,6 +663,7 @@ export interface FileRoutesById {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -728,6 +738,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/auth/preview'
@@ -798,6 +809,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/auth/preview'
@@ -870,6 +882,7 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
     | '/lovable/email/auth/preview'
@@ -903,6 +916,7 @@ export interface RootRouteChildren {
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
   ApiPublicCesDrainRoute: typeof ApiPublicCesDrainRoute
+  ApiPublicManychatWebhookRoute: typeof ApiPublicManychatWebhookRoute
   ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -1367,6 +1381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCesDrainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/manychat/webhook': {
+      id: '/api/public/manychat/webhook'
+      path: '/api/public/manychat/webhook'
+      fullPath: '/api/public/manychat/webhook'
+      preLoaderRoute: typeof ApiPublicManychatWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/notify/dispatch': {
       id: '/api/public/notify/dispatch'
       path: '/api/public/notify/dispatch'
@@ -1539,6 +1560,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
   ApiPublicCesDrainRoute: ApiPublicCesDrainRoute,
+  ApiPublicManychatWebhookRoute: ApiPublicManychatWebhookRoute,
   ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
