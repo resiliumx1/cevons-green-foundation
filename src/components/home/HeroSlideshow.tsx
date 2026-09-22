@@ -16,6 +16,8 @@ type Slide = {
   caption?: string;
   /** True for a photo managed in the Media section. */
   managed?: boolean;
+  fit?: "cover" | "contain" | "custom";
+  zoom?: number;
   /** Spread onto the rendered <img> so the content editor can target it. */
   editorProps?: Record<string, string>;
 };
@@ -132,6 +134,8 @@ function useHeroSlides(): Slide[] {
       title: r.title || undefined,
       caption: r.caption || undefined,
       managed: true,
+      fit: r.image_fit,
+      zoom: r.image_zoom,
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, srcKey, editorKey]);
@@ -373,7 +377,7 @@ export function HeroSlideshowBackground() {
                   key={settleKey}
                   className={animate && !s.portrait ? "size-full hero-slide-settle" : "size-full"}
                 >
-                  {s.portrait ? (
+                  {s.portrait || s.fit === "contain" ? (
                     // Portrait upload: never cover-crop (that decapitates the
                     // subject). Contain it, centred, over a blurred copy of
                     // the same image filling the space either side.
@@ -402,6 +406,7 @@ export function HeroSlideshowBackground() {
                         onLoad={() => markLoaded(s.src)}
                         onError={() => markLoaded(s.src)}
                         className="relative size-full object-contain"
+                        style={{ objectPosition: s.position }}
                         data-slide={i}
                         {...(s.editorProps ?? {})}
                       />
@@ -422,7 +427,11 @@ export function HeroSlideshowBackground() {
                       className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
                       {...(s.managed ? { "data-focal": "true" } : {})}
-                      style={{ objectPosition: s.position }}
+                      style={{
+                        objectPosition: s.position,
+                        transform: s.fit === "custom" ? `scale(${Math.max(100, Math.min(200, s.zoom ?? 100)) / 100})` : undefined,
+                        transformOrigin: s.position,
+                      }}
                       {...(s.editorProps ?? {})}
                     />
                   )}

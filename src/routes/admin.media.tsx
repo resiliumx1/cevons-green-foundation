@@ -18,6 +18,10 @@ import {
   Globe,
   Crop,
   RotateCcw,
+  CalendarClock,
+  Clock3,
+  X,
+  Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -86,7 +90,12 @@ type MediaPost = {
   unpublish_at: string | null;
   focal_x: number;
   focal_y: number;
+  image_fit: ImageFit;
+  image_zoom: number;
 };
+
+type ImageFit = "cover" | "contain" | "custom";
+type ImagePresentation = { focal_x: number; focal_y: number; image_fit: ImageFit; image_zoom: number };
 
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
   { value: "slide", label: "Slides", icon: MonitorPlay, hint: "Full-width slideshow photos. Landscape works best." },
@@ -147,6 +156,9 @@ function CrmMediaPage() {
   const [dragOver, setDragOver] = useState(false);
   const [progress, setProgress] = useState<{ label: string; pct: number } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<MediaPost | null>(null);
+  const [uploadQueue, setUploadQueue] = useState<File[]>([]);
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const uploadOrderRef = useRef(0);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Text-only announcement composer
@@ -177,56 +189,54 @@ function CrmMediaPage() {
     return existing.length ? Math.max(...existing) + 1 : 0;
   };
 
-  async function uploadFiles(files: File[]) {
+  function chooseFiles(files: File[]) {
     const images = files.filter((f) => f.type.startsWith("image/"));
     const rejected = files.length - images.length;
     if (rejected > 0) {
       toast.error(`${rejected} file${rejected > 1 ? "s" : ""} skipped — only image files can be uploaded.`);
     }
     if (!images.length) return;
+    uploadOrderRef.current = nextSortOrder(kind);
+    setUploadQueue(images);
+  }
 
-    let order = nextSortOrder(kind);
-
-    for (let i = 0; i < images.length; i++) {
-      const file = images[i];
-      const label = `${file.name} (${i + 1}/${images.length})`;
-      try {
-        setProgress({ label: `Optimising ${label}…`, pct: 15 });
-        const processed = await processImage(file);
-
-        setProgress({ label: `Uploading ${label}…`, pct: 55 });
-        const path = `${kind}/${crypto.randomUUID()}.${processed.ext}`;
-        const { error: upErr } = await supabase.storage
-          .from(MEDIA_BUCKET)
-          .upload(path, processed.blob, { contentType: processed.mime, upsert: false });
-        if (upErr) throw upErr;
-
-        setProgress({ label: `Saving ${label}…`, pct: 85 });
-        const { error: insErr } = await supabase.from("media_posts").insert({
-          kind,
-          title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
-          caption: "",
-          image_path: path,
-          image_w: processed.width,
-          image_h: processed.height,
-          published: false,
-          sort_order: order++,
-        });
-        if (insErr) {
-          await supabase.storage.from(MEDIA_BUCKET).remove([path]);
-          throw insErr;
-        }
-
-        setProgress({ label: `Done — ${label}`, pct: 100 });
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "Upload failed.";
-        toast.error(msg);
+  async function savePreparedUpload(settings: ImagePresentation) {
+    const file = uploadQueue[0];
+    if (!file) return;
+    setUploadBusy(true);
+    try {
+      setProgress({ label: `Optimising ${file.name}…`, pct: 15 });
+      const processed = await processImage(file);
+      setProgress({ label: `Uploading ${file.name}…`, pct: 55 });
+      const path = `${kind}/${crypto.randomUUID()}.${processed.ext}`;
+      const { error: upErr } = await supabase.storage.from(MEDIA_BUCKET).upload(path, processed.blob, { contentType: processed.mime, upsert: false });
+      if (upErr) throw upErr;
+      setProgress({ label: `Saving ${file.name}…`, pct: 85 });
+      const { error: insErr } = await supabase.from("media_posts").insert({
+        kind,
+        title: file.name.replace(/\.[^.]+$/, "").slice(0, 120),
+        caption: "",
+        image_path: path,
+        image_w: processed.width,
+        image_h: processed.height,
+        published: false,
+        sort_order: uploadOrderRef.current++,
+        ...settings,
+      });
+      if (insErr) {
+        await supabase.storage.from(MEDIA_BUCKET).remove([path]);
+        throw insErr;
       }
+      setProgress({ label: `Done — ${file.name}`, pct: 100 });
+      setUploadQueue((queue) => queue.slice(1));
+      toast.success(uploadQueue.length > 1 ? "Photo saved. Prepare the next photo." : "Photo saved as a draft.");
+      refresh();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Upload failed.");
+    } finally {
+      setProgress(null);
+      setUploadBusy(false);
     }
-
-    setProgress(null);
-    toast.success("Upload complete — new items are saved as drafts.");
-    refresh();
   }
 
   /* ---------------- mutations ---------------- */
@@ -353,7 +363,7 @@ function CrmMediaPage() {
         onDrop={(e) => {
           e.preventDefault();
           setDragOver(false);
-          void uploadFiles(Array.from(e.dataTransfer.files));
+          chooseFiles(Array.from(e.dataTransfer.files));
         }}
         className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4"
         style={{
@@ -379,7 +389,7 @@ function CrmMediaPage() {
           multiple
           className="sr-only"
           onChange={(e) => {
-            void uploadFiles(Array.from(e.target.files ?? []));
+             chooseFiles(Array.from(e.target.files ?? []));
             e.target.value = "";
           }}
         />
@@ -401,6 +411,17 @@ function CrmMediaPage() {
           </div>
         )}
       </div>
+      {uploadQueue[0] && (
+        <ImagePresentationDialog
+          title={uploadQueue.length > 1 ? `Prepare photo 1 of ${uploadQueue.length}` : "Prepare photo before upload"}
+          source={uploadQueue[0]}
+          kind={kind}
+          open
+          busy={uploadBusy}
+          onOpenChange={(next) => { if (!next && !uploadBusy) setUploadQueue((queue) => queue.slice(1)); }}
+          onSave={(settings) => void savePreparedUpload(settings)}
+        />
+      )}
 
       {/* Text-only announcement composer */}
       {kind === "announcement" && (
