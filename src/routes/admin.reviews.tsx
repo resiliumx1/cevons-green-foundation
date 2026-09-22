@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { RefreshCw, Search, Star, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { RefreshCw, Search, Send, Star, X } from "lucide-react";
+import { runReviewFollowups, sendReviewFollowup } from "@/lib/reviewFollowups.functions";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
@@ -148,6 +150,8 @@ function ReviewsPage() {
           { code: "REV-D", label: "Without a reply", value: unanswered },
         ]}
       />
+
+      <FollowupsPanel />
 
       <div className="admin-toolbar">
         <div className="admin-search">
