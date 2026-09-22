@@ -1531,3 +1531,130 @@ function ReviewFollowupSection({
     </section>
   );
 }
+
+/* ─── ManyChat / WhatsApp follow-ups ────────────────────────────────────── */
+
+function ManyChatSection({
+  data,
+  onSave,
+  saving,
+  saved,
+}: {
+  data: ManyChatSettings;
+  onSave: (v: ManyChatSettings) => void;
+  saving: boolean;
+  saved: boolean;
+}) {
+  const [inbound, setInbound] = useState(data.inboundEnabled);
+  const [whatsapp, setWhatsapp] = useState(data.reviewWhatsappEnabled);
+  const [flowNs, setFlowNs] = useState(data.reviewFlowNs);
+  const [service, setService] = useState(data.defaultService);
+
+  useEffect(() => {
+    setInbound(data.inboundEnabled);
+    setWhatsapp(data.reviewWhatsappEnabled);
+    setFlowNs(data.reviewFlowNs);
+    setService(data.defaultService);
+  }, [data]);
+
+  return (
+    <section className="rounded-xl border border-white/[0.08] bg-[#101820] p-5">
+      <h2 className="font-semibold text-white">WhatsApp chats (ManyChat)</h2>
+      <p className="text-xs text-white/50">
+        Your team keeps chatting in ManyChat. This connection copies those chats into the Requests
+        table and lets CEVONS send the review message over WhatsApp too.
+      </p>
+
+      <div className="mt-4 set-row" data-on={inbound}>
+        <span className={`ico-soft ${inbound ? "soft-green" : ""}`} aria-hidden>
+          <MessageCircle className="h-[18px] w-[18px]" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-white">Chats arrive in Requests</p>
+          <p className="text-xs text-white/60">
+            {inbound ? "ON — new WhatsApp chats create or update a request." : "OFF — chats are logged only."}
+          </p>
+        </div>
+        <Toggle active={inbound} onChange={() => setInbound((v) => !v)} label="Chats arrive in Requests" />
+      </div>
+
+      <div className="mt-3 set-row" data-on={whatsapp}>
+        <span className={`ico-soft ${whatsapp ? "soft-green" : ""}`} aria-hidden>
+          <Star className="h-[18px] w-[18px]" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-white">Send the review message on WhatsApp</p>
+          <p className="text-xs text-white/60">
+            {whatsapp
+              ? "ON — the review follow-up also goes out as a WhatsApp message."
+              : "OFF — the review follow-up is emailed only."}
+          </p>
+        </div>
+        <Toggle
+          active={whatsapp}
+          onChange={() => setWhatsapp((v) => !v)}
+          label="Send the review message on WhatsApp"
+        />
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <label className="text-xs font-medium text-white/70" htmlFor="mc-flow">
+            ManyChat flow ID for the review message (optional)
+          </label>
+          <input
+            id="mc-flow"
+            value={flowNs}
+            onChange={(e) => setFlowNs(e.target.value)}
+            placeholder="content20240101000000_000000"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-[#0B1219] px-3 py-2 text-sm text-white placeholder:text-white/30"
+          />
+          <p className="mt-1 text-xs text-white/40">
+            Use an approved ManyChat flow when the customer last wrote more than 24 hours ago. Leave
+            empty to send a plain message instead.
+          </p>
+        </div>
+        <div>
+          <label className="text-xs font-medium text-white/70" htmlFor="mc-service">
+            Service to record on chat requests (optional)
+          </label>
+          <input
+            id="mc-service"
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            placeholder="Leave empty to record no service"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-[#0B1219] px-3 py-2 text-sm text-white placeholder:text-white/30"
+          />
+          <p className="mt-1 text-xs text-white/40">
+            Used only when the chat itself does not say which service is wanted.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 flex items-center gap-3">
+        <button
+          onClick={() =>
+            onSave(
+              normalizeManyChatSettings({
+                inboundEnabled: inbound,
+                reviewWhatsappEnabled: whatsapp,
+                reviewFlowNs: flowNs.trim(),
+                defaultService: service.trim(),
+              })
+            )
+          }
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
+        >
+          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? "Saving..." : "Save Changes"}
+        </button>
+        {saved && (
+          <span className="flex items-center gap-1 text-xs font-medium text-[#EF7700]">
+            <Check className="h-3.5 w-3.5" /> Saved
+          </span>
+        )}
+      </div>
+    </section>
+  );
+}
