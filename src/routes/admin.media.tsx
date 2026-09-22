@@ -875,10 +875,10 @@ function ImagePresentationDialog({
 
   return (
     <Dialog open={open} onOpenChange={(next) => { if (!busy) onOpenChange(next); }}>
-      <DialogContent className="max-h-[calc(100dvh-1rem)] max-w-3xl overflow-y-auto" style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)", color: "var(--crm-text)" }}>
+      <DialogContent className="max-h-[calc(100dvh-1rem)] max-w-3xl overflow-y-auto" style={{ background: "var(--crm-surface, #ffffff)", borderColor: "var(--crm-border, #d9dde3)", color: "var(--crm-text, #1a1a1a)" }}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2"><Crop className="size-5" /> {title}</DialogTitle>
-          <DialogDescription style={{ color: "var(--crm-text-muted)" }}>Choose how the photo fits, then move the focus onto the important area. The original photo stays intact.</DialogDescription>
+          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>Choose how the photo fits, then move the focus onto the important area. The original photo stays intact.</DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Photo fit">
           {([
@@ -886,20 +886,20 @@ function ImagePresentationDialog({
             ["contain", "Fit whole photo", "No cropping"],
             ["custom", "Custom crop", "Position and zoom"],
           ] as const).map(([value, label, hint]) => (
-            <button key={value} type="button" role="radio" aria-checked={fit === value} onClick={() => { setFit(value); if (value !== "custom") setZoom(100); }} className="min-h-16 rounded-lg border px-2 py-2 text-center transition-colors" style={{ borderColor: fit === value ? "var(--admin-orange-strong)" : "var(--crm-border)", background: fit === value ? "var(--admin-accent-soft)" : "var(--crm-surface-muted)", color: "var(--crm-text)" }}>
+            <button key={value} type="button" role="radio" aria-checked={fit === value} onClick={() => { setFit(value); if (value !== "custom") setZoom(100); }} className="min-h-16 rounded-lg border px-2 py-2 text-center transition-colors" style={{ borderColor: fit === value ? "var(--admin-orange-strong, #c45f00)" : "var(--crm-border, #d9dde3)", background: fit === value ? "var(--admin-accent-soft, #fff1df)" : "var(--crm-surface-muted, #f4f6f8)", color: "var(--crm-text, #1a1a1a)" }}>
               <span className="block text-xs font-extrabold sm:text-sm">{label}</span>
-              <span className="mt-0.5 block text-[10px]" style={{ color: "var(--crm-text-muted)" }}>{hint}</span>
+              <span className="mt-0.5 block text-[10px]" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{hint}</span>
             </button>
           ))}
         </div>
         <div className={kind === "slide" ? "grid gap-3 sm:grid-cols-[1fr_10rem]" : "grid gap-3"}>
           <div>
-            <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted)" }}>{kind === "slide" ? "Desktop preview" : "Website preview"}</p>
+            <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{kind === "slide" ? "Desktop preview" : "Website preview"}</p>
             <CropPreview ref={previewRef} url={url} className={kind === "slide" ? "aspect-video" : "aspect-[4/3]"} imageStyle={imageStyle} interactive={fit !== "contain"} onMove={moveFocus} x={x} y={y} />
           </div>
           {kind === "slide" && (
             <div>
-              <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted)" }}>Phone preview</p>
+              <p className="mb-1.5 text-xs font-bold" style={{ color: "var(--crm-text-muted, #5f6670)" }}>Phone preview</p>
               <CropPreview url={url} className="mx-auto aspect-[9/16] max-h-72" imageStyle={imageStyle} />
             </div>
           )}
@@ -910,11 +910,11 @@ function ImagePresentationDialog({
             <input className="w-full accent-[var(--admin-orange)]" type="range" min="100" max="200" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} />
           </Label>
         )}
-        <p className="text-xs" style={{ color: "var(--crm-text-muted)" }}>{fit === "contain" ? "The full photo will always remain visible. Empty space may appear around it." : "Drag across the large preview to reposition the photo’s focus."}</p>
+        <p className="text-xs" style={{ color: "var(--crm-text-muted, #5f6670)" }}>{fit === "contain" ? "The full photo will always remain visible. Empty space may appear around it." : "Drag across the large preview to reposition the photo’s focus."}</p>
         <DialogFooter className="gap-2 sm:gap-2">
           <Button type="button" variant="outline" disabled={busy} onClick={() => { setFit("cover"); setX(50); setY(50); setZoom(100); }}><RotateCcw className="size-4" /> Reset</Button>
           <Button type="button" variant="outline" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button type="button" disabled={busy} className="font-bold" style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }} onClick={() => onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 })}>
+          <Button type="button" disabled={busy} className="font-bold" style={{ background: "var(--admin-orange, #ef7700)", color: "var(--admin-charcoal, #1a1a1a)" }} onClick={() => onSave({ focal_x: x, focal_y: y, image_fit: fit, image_zoom: fit === "custom" ? zoom : 100 })}>
             {busy ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />} {busy ? "Saving…" : "Use this photo"}
           </Button>
         </DialogFooter>
@@ -925,9 +925,9 @@ function ImagePresentationDialog({
 
 const CropPreview = forwardRef<HTMLDivElement, { url: string | null; className: string; imageStyle: CSSProperties; interactive?: boolean; onMove?: (x: number, y: number) => void; x?: number; y?: number }>(function CropPreview({ url, className, imageStyle, interactive = false, onMove, x = 50, y = 50 }, ref) {
   return (
-    <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
+    <div ref={ref} className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${className}`} style={{ borderColor: "var(--crm-border, #d9dde3)", background: "var(--crm-surface-muted, #f4f6f8)", cursor: interactive ? "crosshair" : "default" }} onPointerDown={(event) => { if (!interactive) return; event.currentTarget.setPointerCapture(event.pointerId); onMove?.(event.clientX, event.clientY); }} onPointerMove={(event) => { if (interactive && event.currentTarget.hasPointerCapture(event.pointerId)) onMove?.(event.clientX, event.clientY); }} aria-label="Photo crop preview">
       {url ? <img src={url} alt="" className="size-full pointer-events-none" style={imageStyle} /> : <div className="grid size-full place-items-center"><Loader2 className="size-5 animate-spin" /></div>}
-      {interactive && <><div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>{Array.from({ length: 9 }).map((_, index) => <span key={index} className="border border-white/30" />)}</div><span className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]" style={{ left: `${x}%`, top: `${y}%` }}><span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "var(--admin-orange)" }} /></span></>}
+      {interactive && <><div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>{Array.from({ length: 9 }).map((_, index) => <span key={index} className="border border-white/30" />)}</div><span className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]" style={{ left: `${x}%`, top: `${y}%` }}><span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "var(--admin-orange, #ef7700)" }} /></span></>}
     </div>
   );
 });
