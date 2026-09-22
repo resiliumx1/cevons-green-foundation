@@ -3829,13 +3829,13 @@ html.dark span.text-black > svg {
    is taller/narrower than the source landscape photos. Desktop keeps the inline
    objectPosition from the component (center by default). */
 @media (max-width: 767px) {
-  .hero-slide-img[data-slide="0"] {
+  .hero-slide-img[data-slide="0"]:not([data-focal="true"]) {
     object-position: 50% 50% !important;
   }
-  .hero-slide-img[data-slide="1"] {
+  .hero-slide-img[data-slide="1"]:not([data-focal="true"]) {
     object-position: 55% 50% !important;
   }
-  .hero-slide-img[data-slide="2"] {
+  .hero-slide-img[data-slide="2"]:not([data-focal="true"]) {
     object-position: 50% 50% !important;
   }
 }

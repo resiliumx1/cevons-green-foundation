@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo/site";
 import { SiteLayout } from "@/components/SiteLayout";
 import { breadcrumbListJsonLd } from "@/lib/seo/jsonLd";
-import { usePublishedMedia, aspectRatio, type ResolvedMediaPost } from "@/lib/mediaPosts";
+import { usePublishedMedia, aspectRatio, focalPosition, type ResolvedMediaPost } from "@/lib/mediaPosts";
 import { ContentProvider, Editable } from "@/components/Editable";
 import { getPageContent } from "@/lib/content.functions";
 
@@ -49,7 +49,7 @@ function GalleryFigure({ item, index }: { item: ResolvedMediaPost; index: number
         loading={index < 2 ? "eager" : "lazy"}
         decoding="async"
         className="block w-full"
-        style={{ aspectRatio: aspectRatio(item.image_w, item.image_h), objectFit: "cover" }}
+        style={{ aspectRatio: aspectRatio(item.image_w, item.image_h), objectFit: "cover", objectPosition: focalPosition(item.focal_x, item.focal_y) }}
       />
       {(item.title || item.caption) && (
         <figcaption className="px-4 py-3">
@@ -129,6 +129,7 @@ function NewsMediaPage() {
                           style={{
                             aspectRatio: aspectRatio(a.image_w, a.image_h, "16 / 9"),
                             objectFit: "cover",
+                            objectPosition: focalPosition(a.focal_x, a.focal_y),
                           }}
                         />
                       )}

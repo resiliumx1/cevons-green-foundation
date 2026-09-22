@@ -19,6 +19,8 @@ export type MediaPost = {
   image_path: string | null;
   image_w: number | null;
   image_h: number | null;
+  focal_x: number;
+  focal_y: number;
   sort_order: number;
 };
 
@@ -32,7 +34,7 @@ async function fetchPublished(kind: MediaKind): Promise<ResolvedMediaPost[]> {
   const supabase = await getSupabase();
   const { data, error } = await supabase
     .from("media_posts")
-    .select("id, kind, title, caption, image_path, image_w, image_h, sort_order")
+    .select("id, kind, title, caption, image_path, image_w, image_h, focal_x, focal_y, sort_order")
     .eq("kind", kind)
     .eq("published", true)
     .or(`publish_at.is.null,publish_at.lte.${nowIso}`)
@@ -65,4 +67,8 @@ export function isPortrait(w: number | null, h: number | null) {
 /** Aspect ratio string for a CSS `aspect-ratio` box, with a safe default. */
 export function aspectRatio(w: number | null, h: number | null, fallback = "4 / 3") {
   return w && h ? `${w} / ${h}` : fallback;
+}
+
+export function focalPosition(x: number | null | undefined, y: number | null | undefined) {
+  return `${x ?? 50}% ${y ?? 50}%`;
 }

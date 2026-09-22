@@ -735,6 +735,8 @@ export type Database = {
         Row: {
           caption: string | null
           created_at: string
+          focal_x: number
+          focal_y: number
           id: string
           image_h: number | null
           image_path: string | null
@@ -749,6 +751,8 @@ export type Database = {
         Insert: {
           caption?: string | null
           created_at?: string
+          focal_x?: number
+          focal_y?: number
           id?: string
           image_h?: number | null
           image_path?: string | null
@@ -763,6 +767,8 @@ export type Database = {
         Update: {
           caption?: string | null
           created_at?: string
+          focal_x?: number
+          focal_y?: number
           id?: string
           image_h?: number | null
           image_path?: string | null

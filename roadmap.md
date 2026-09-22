@@ -34,4 +34,11 @@
 
 - [x] Daily follower recorder (automatic + manual entry form on the TikTok page)
 - [x] Real growth figures in reports from recorded days onward
-- [ ] TikTok Studio CSV import for history (awaiting user choice)
+- [x] TikTok Studio CSV import for history
+
+# Website photo crop controls
+
+- [x] Add draggable focal crop adjustment to Media items
+- [x] Apply saved focal positions to public slides, gallery photos, and announcements
+- [x] Protect draft media files while keeping live website photos accessible
+- [ ] Verify crop controls and public rendering on desktop and mobile

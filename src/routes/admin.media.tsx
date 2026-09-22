@@ -16,6 +16,8 @@ import {
   Plus,
   CheckCircle2,
   Globe,
+  Crop,
+  RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -43,6 +45,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/admin/media")({
   head: () => ({
@@ -66,6 +76,8 @@ type MediaPost = {
   sort_order: number;
   publish_at: string | null;
   unpublish_at: string | null;
+  focal_x: number;
+  focal_y: number;
 };
 
 const KINDS: Array<{ value: Kind; label: string; icon: typeof Images; hint: string }> = [
@@ -506,6 +518,7 @@ function MediaRow({
   const qcRow = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
   const [busyPhoto, setBusyPhoto] = useState(false);
+  const [cropOpen, setCropOpen] = useState(false);
 
   async function replacePhoto(file: File) {
     setBusyPhoto(true);
@@ -579,6 +592,17 @@ function MediaRow({
           )}
           {busyPhoto ? "Saving…" : post.image_path ? "Change photo" : "Add photo"}
         </Button>
+        {post.image_path && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full min-h-9"
+            onClick={() => setCropOpen(true)}
+          >
+            <Crop className="size-4" /> Adjust website crop
+          </Button>
+        )}
       </div>
 
       <div className="flex-1 min-w-0 space-y-2">
@@ -693,7 +717,136 @@ function MediaRow({
           </button>
         </div>
       </div>
+      <FocalCropDialog
+        post={post}
+        open={cropOpen}
+        onOpenChange={setCropOpen}
+        onSave={(focal_x, focal_y) => onPatch({ focal_x, focal_y })}
+      />
     </div>
+  );
+}
+
+function FocalCropDialog({
+  post,
+  open,
+  onOpenChange,
+  onSave,
+}: {
+  post: MediaPost;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSave: (focalX: number, focalY: number) => void;
+}) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [x, setX] = useState(post.focal_x ?? 50);
+  const [y, setY] = useState(post.focal_y ?? 50);
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    setX(post.focal_x ?? 50);
+    setY(post.focal_y ?? 50);
+    let alive = true;
+    void getMediaUrl(post.image_path).then((next) => {
+      if (alive) setUrl(next);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [open, post.focal_x, post.focal_y, post.image_path]);
+
+  const moveFocus = (clientX: number, clientY: number) => {
+    const box = previewRef.current?.getBoundingClientRect();
+    if (!box) return;
+    setX(Math.round(Math.max(0, Math.min(100, ((clientX - box.left) / box.width) * 100))));
+    setY(Math.round(Math.max(0, Math.min(100, ((clientY - box.top) / box.height) * 100))));
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="max-w-2xl"
+        style={{
+          background: "var(--crm-surface, #ffffff)",
+          borderColor: "var(--crm-border, #d9dde3)",
+          color: "var(--crm-text, #1a1a1a)",
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle style={{ color: "var(--crm-text, #1a1a1a)" }}>Adjust website crop</DialogTitle>
+          <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>
+            Drag the focus marker onto the most important part of the photo. The original file is unchanged.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div
+          ref={previewRef}
+          className={`relative w-full overflow-hidden rounded-lg border touch-none select-none ${post.kind === "slide" ? "aspect-video" : "aspect-[4/3]"}`}
+          style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface-muted)", cursor: "crosshair" }}
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId);
+            moveFocus(event.clientX, event.clientY);
+          }}
+          onPointerMove={(event) => {
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) moveFocus(event.clientX, event.clientY);
+          }}
+          aria-label="Photo crop preview"
+        >
+          {url ? (
+            <img
+              src={url}
+              alt=""
+              className="size-full object-cover pointer-events-none"
+              style={{ objectPosition: `${x}% ${y}%` }}
+            />
+          ) : (
+            <div className="grid size-full place-items-center">
+              <Loader2 className="size-5 animate-spin" style={{ color: "var(--crm-text-muted)" }} />
+            </div>
+          )}
+          <div className="pointer-events-none absolute inset-0 grid grid-cols-3 grid-rows-3 opacity-60" aria-hidden>
+            {Array.from({ length: 9 }).map((_, index) => (
+              <span key={index} className="border border-white/30" />
+            ))}
+          </div>
+          <span
+            className="pointer-events-none absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_1px_5px_rgba(0,0,0,0.8)]"
+            style={{ left: `${x}%`, top: `${y}%` }}
+            aria-hidden
+          >
+            <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#EF7700]" />
+          </span>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Label className="space-y-2">
+            <span>Left to right</span>
+            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={x} onChange={(e) => setX(Number(e.target.value))} />
+          </Label>
+          <Label className="space-y-2">
+            <span>Top to bottom</span>
+            <input className="w-full accent-[#EF7700]" type="range" min="0" max="100" value={y} onChange={(e) => setY(Number(e.target.value))} />
+          </Label>
+        </div>
+
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button type="button" variant="outline" onClick={() => { setX(50); setY(50); }}>
+            <RotateCcw className="size-4" /> Reset
+          </Button>
+          <Button
+            type="button"
+            className="bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
+            onClick={() => {
+              onSave(x, y);
+              onOpenChange(false);
+            }}
+          >
+            Save crop
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

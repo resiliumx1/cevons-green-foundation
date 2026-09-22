@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { usePublishedMedia, isPortrait } from "@/lib/mediaPosts";
+import { usePublishedMedia, focalPosition, isPortrait } from "@/lib/mediaPosts";
 import { useSiteImage } from "@/lib/siteImages";
 
 type Slide = {
@@ -14,6 +14,8 @@ type Slide = {
   srcSet?: string;
   title?: string;
   caption?: string;
+  /** True for a photo managed in the Media section. */
+  managed?: boolean;
   /** Spread onto the rendered <img> so the content editor can target it. */
   editorProps?: Record<string, string>;
 };
@@ -122,13 +124,14 @@ function useHeroSlides(): Slide[] {
     return rows.map((r, i) => ({
       src: r.url as string,
       alt: r.title || "CEVONS environmental services in Guyana",
-      position: "center",
+      position: focalPosition(r.focal_x, r.focal_y),
       pan: (i % 2 === 0 ? "right" : "left") as Slide["pan"],
       width: r.image_w ?? 1920,
       height: r.image_h ?? 1080,
       portrait: isPortrait(r.image_w, r.image_h),
       title: r.title || undefined,
       caption: r.caption || undefined,
+      managed: true,
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, srcKey, editorKey]);
@@ -418,6 +421,7 @@ export function HeroSlideshowBackground() {
                       onError={() => markLoaded(s.src)}
                       className={`hero-slide-img size-full object-cover ${animate ? `hero-kenburns hero-kenburns-${s.pan}` : ""}`}
                       data-slide={i}
+                      {...(s.managed ? { "data-focal": "true" } : {})}
                       style={{ objectPosition: s.position }}
                       {...(s.editorProps ?? {})}
                     />
