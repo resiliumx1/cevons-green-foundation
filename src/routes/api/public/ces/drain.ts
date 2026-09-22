@@ -37,7 +37,14 @@ export const Route = createFileRoute("/api/public/ces/drain")({
           const result = await drainCesOutbox(limit);
 
           // Same schedule also releases any due Google review follow-ups.
-          let reviewFollowups = { configured: false, attempted: 0, sent: 0, skipped: 0, failed: 0 };
+          let reviewFollowups = {
+            configured: false,
+            attempted: 0,
+            sent: 0,
+            skipped: 0,
+            failed: 0,
+            whatsappSent: 0,
+          };
           try {
             const { drainReviewFollowups } = await import("@/lib/reviews/followups.server");
             reviewFollowups = await drainReviewFollowups(25);
