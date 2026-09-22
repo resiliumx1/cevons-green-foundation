@@ -56,7 +56,15 @@ import {
 
 export const Route = createFileRoute("/admin/media")({
   head: () => ({
-    meta: [{ title: "Media | CEVONS Website Admin" }, { name: "robots", content: "noindex,nofollow" }],
+    meta: [
+      { title: "Media | CEVONS Website Admin" },
+      { name: "description", content: "Manage CEVONS website slides, gallery photos, announcements, publishing, and photo crops." },
+      { property: "og:title", content: "Media | CEVONS Website Admin" },
+      { property: "og:description", content: "Manage CEVONS website slides, gallery photos, announcements, publishing, and photo crops." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "robots", content: "noindex,nofollow" },
+    ],
   }),
   component: CrmMediaPage,
 });
@@ -292,7 +300,7 @@ function CrmMediaPage() {
 
   /* ---------------- render ---------------- */
 
-  const activeKind = KINDS.find((k) => k.value === kind)!;
+  const activeKind = KINDS.find((k) => k.value === kind) ?? KINDS[0];
 
   return (
     <CrmPage>
@@ -564,8 +572,16 @@ function MediaRow({
       className="rounded-xl border p-3 flex flex-col sm:flex-row gap-3"
       style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
     >
-      <div className="shrink-0 space-y-2">
-        <Thumb path={post.image_path} alt={post.title || "Media item"} />
+      <div className="shrink-0 space-y-2 sm:w-48">
+        <div className="flex items-center gap-3 sm:block">
+          <Thumb path={post.image_path} alt={post.title || "Media item"} />
+          <div className="min-w-0 sm:mt-2">
+            <p className="text-sm font-bold" style={{ color: "var(--crm-text)" }}>Photo controls</p>
+            <p className="mt-0.5 text-xs leading-snug" style={{ color: "var(--crm-text-muted)" }}>
+              Replace the photo or adjust how it appears on the website.
+            </p>
+          </div>
+        </div>
         <input
           ref={fileRef}
           type="file"
@@ -579,9 +595,13 @@ function MediaRow({
         />
         <Button
           type="button"
-          variant="outline"
           size="sm"
-          className="w-full min-h-9"
+          className="w-full min-h-11 border font-bold shadow-sm"
+          style={{
+            background: "var(--admin-orange)",
+            borderColor: "var(--admin-orange-strong)",
+            color: "var(--admin-charcoal)",
+          }}
           disabled={busyPhoto}
           onClick={() => fileRef.current?.click()}
         >
@@ -595,13 +615,22 @@ function MediaRow({
         {post.image_path && (
           <Button
             type="button"
-            variant="outline"
             size="sm"
-            className="w-full min-h-9"
+            className="w-full min-h-11 border font-bold shadow-sm"
+            style={{
+              background: "var(--admin-navy)",
+              borderColor: "var(--admin-navy-strong)",
+              color: "var(--admin-on-navy)",
+            }}
             onClick={() => setCropOpen(true)}
           >
             <Crop className="size-4" /> Adjust website crop
           </Button>
+        )}
+        {post.image_path && (
+          <p className="px-1 text-center text-xs leading-snug" style={{ color: "var(--crm-text-muted)" }}>
+            Crop changes the website view only. Your original photo stays intact.
+          </p>
         )}
       </div>
 
@@ -766,7 +795,7 @@ function FocalCropDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-2xl"
+        className="max-h-[calc(100dvh-2rem)] max-w-2xl overflow-y-auto"
         style={{
           background: "var(--crm-surface, #ffffff)",
           borderColor: "var(--crm-border, #d9dde3)",
@@ -774,7 +803,9 @@ function FocalCropDialog({
         }}
       >
         <DialogHeader>
-          <DialogTitle style={{ color: "var(--crm-text, #1a1a1a)" }}>Adjust website crop</DialogTitle>
+          <DialogTitle className="flex items-center gap-2" style={{ color: "var(--crm-text, #1a1a1a)" }}>
+            <Crop className="size-5" /> Adjust website crop
+          </DialogTitle>
           <DialogDescription style={{ color: "var(--crm-text-muted, #5f6670)" }}>
             Drag the focus marker onto the most important part of the photo. The original file is unchanged.
           </DialogDescription>
@@ -836,7 +867,8 @@ function FocalCropDialog({
           </Button>
           <Button
             type="button"
-            className="bg-[#EF7700] hover:bg-[#EF7700]/90 text-white"
+            className="font-bold"
+            style={{ background: "var(--admin-orange)", color: "var(--admin-charcoal)" }}
             onClick={() => {
               onSave(x, y);
               onOpenChange(false);
