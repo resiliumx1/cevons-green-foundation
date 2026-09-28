@@ -581,15 +581,11 @@ function SiteImagesPage() {
             >
               Jump to
             </span>
-            {groups.map((g) => (
+            {otherGroups.map((g) => (
               <button
                 key={g.page}
                 type="button"
-                onClick={() =>
-                  document
-                    .getElementById(`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`)
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
-                }
+                onClick={() => scrollToSection(g.page)}
                 className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
                 style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               >
@@ -599,11 +595,35 @@ function SiteImagesPage() {
                 </span>
               </button>
             ))}
+            {serviceGroups.length > 0 && (
+              <select
+                aria-label="Jump to a service page"
+                className="rounded-full border px-3 py-1.5 text-xs font-semibold min-h-9 cursor-pointer"
+                style={{
+                  borderColor: "var(--crm-border)",
+                  color: "var(--crm-text)",
+                  background: "var(--crm-surface)",
+                }}
+                value=""
+                onChange={(e) => {
+                  if (e.target.value) scrollToSection(e.target.value);
+                }}
+              >
+                <option value="" disabled>
+                  Service pages ({serviceGroups.length})…
+                </option>
+                {serviceGroups.map((g) => (
+                  <option key={g.page} value={g.page}>
+                    {g.page} ({g.slots.length})
+                  </option>
+                ))}
+              </select>
+            )}
           </nav>
           {groups.map((g) => (
             <section
               key={g.page}
-              id={`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+              id={sectionId(g.page)}
               className="scroll-mt-24"
             >
               <h2
