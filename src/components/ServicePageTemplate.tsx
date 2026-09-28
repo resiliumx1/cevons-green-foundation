@@ -32,7 +32,44 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logo from "@/assets/cevons-logo.png";
-import { useSiteImage } from "@/lib/siteImages";
+import { useSiteImage, SLOTS_BY_KEY } from "@/lib/siteImages";
+import type { ImgHTMLAttributes } from "react";
+
+/**
+ * A service-page photo staff can swap from the on-page editor. Slot keys are
+ * derived from the page + position, and registered on first render so the
+ * editor recognises them without a hand-maintained list.
+ */
+function SwapImg({
+  slot,
+  label,
+  ratio = [4, 3],
+  src,
+  alt,
+  ...rest
+}: { slot: string; label: string; ratio?: [number, number]; src: string; alt: string } & Omit<
+  ImgHTMLAttributes<HTMLImageElement>,
+  "src" | "alt"
+>) {
+  if (!SLOTS_BY_KEY[slot]) {
+    SLOTS_BY_KEY[slot] = {
+      key: slot,
+      label,
+      page: "Service pages",
+      ratio,
+      defaultSrc: src,
+      defaultAlt: alt,
+      usedIn: "ServicePageTemplate",
+    } as (typeof SLOTS_BY_KEY)[string];
+  }
+  const img = useSiteImage(slot, src, alt);
+  return <img {...rest} {...img.editorProps} src={img.src} alt={img.alt} />;
+}
+
+function useImgSlot() {
+  const { base, index } = useContext(ServiceKeyContext);
+  return (idx: number) => `${base}.section.${index}.image.${idx}`;
+}
 import { Editable, useEditableText } from "@/components/Editable";
 import { servicePageIdForPath } from "@/lib/servicePages";
 import { createContext, useContext } from "react";
