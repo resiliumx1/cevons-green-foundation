@@ -1,4 +1,4 @@
-import { CevonsLoader } from "@/components/cevons-loader";
+import { CevonsLoader, PageLoader } from "@/components/cevons-loader";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -135,9 +135,7 @@ function PromotionsScreen() {
       </header>
 
       {q.isLoading ? (
-        <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          Loading…
-        </p>
+        <PageLoader label="Loading" minHeight="240px" />
       ) : rows.length === 0 ? (
         <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
           No promotions yet. Nothing extra is rendered on the public site.

@@ -1,4 +1,4 @@
-import { CevonsLoader } from "@/components/cevons-loader";
+import { CevonsLoader, PageLoader } from "@/components/cevons-loader";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
 import { forwardRef, useEffect, useRef, useState, type CSSProperties } from "react";
@@ -501,9 +501,7 @@ function CrmMediaPage() {
       {/* List */}
       <div id="media-items" className="space-y-3 scroll-mt-24">
         {isLoading ? (
-          <div className="text-sm py-8 text-center" style={{ color: "var(--crm-text-muted)" }}>
-            Loading…
-          </div>
+          <PageLoader label="Loading" minHeight="240px" />
         ) : rows.length === 0 ? (
           <div
             className="rounded-xl border p-8 text-center text-sm"
