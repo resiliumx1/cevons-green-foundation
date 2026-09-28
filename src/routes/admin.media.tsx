@@ -388,7 +388,6 @@ function CrmMediaPage() {
       {/* Uploader */}
       <div
         id="media-upload"
-        className="scroll-mt-24"
         onDragOver={(e) => {
           e.preventDefault();
           setDragOver(true);
