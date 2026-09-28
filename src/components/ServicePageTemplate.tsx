@@ -32,7 +32,44 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logo from "@/assets/cevons-logo.png";
-import { useSiteImage } from "@/lib/siteImages";
+import { useSiteImage, SLOTS_BY_KEY } from "@/lib/siteImages";
+import type { ImgHTMLAttributes } from "react";
+
+/**
+ * A service-page photo staff can swap from the on-page editor. Slot keys are
+ * derived from the page + position, and registered on first render so the
+ * editor recognises them without a hand-maintained list.
+ */
+function SwapImg({
+  slot,
+  label,
+  ratio = [4, 3],
+  src,
+  alt,
+  ...rest
+}: { slot: string; label: string; ratio?: [number, number]; src: string; alt: string } & Omit<
+  ImgHTMLAttributes<HTMLImageElement>,
+  "src" | "alt"
+>) {
+  if (!SLOTS_BY_KEY[slot]) {
+    SLOTS_BY_KEY[slot] = {
+      key: slot,
+      label,
+      page: "Service pages",
+      ratio,
+      defaultSrc: src,
+      defaultAlt: alt,
+      usedIn: "ServicePageTemplate",
+    } as (typeof SLOTS_BY_KEY)[string];
+  }
+  const img = useSiteImage(slot, src, alt);
+  return <img {...rest} {...img.editorProps} src={img.src} alt={img.alt} />;
+}
+
+function useImgSlot() {
+  const { base, index } = useContext(ServiceKeyContext);
+  return (idx: number) => `${base}.section.${index}.image.${idx}`;
+}
 import { Editable, useEditableText } from "@/components/Editable";
 import { servicePageIdForPath } from "@/lib/servicePages";
 import { createContext, useContext } from "react";
@@ -473,7 +510,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
               </Link>
             </div>
             <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {related.map(({ title, body, img, to, icon: Icon }) => (
+              {related.map(({ title, body, img, to, icon: Icon }, relIdx) => (
                 <StaggerItem
                   as="article"
                   key={title}
@@ -481,7 +518,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 >
                   <Link to={to} className="flex gap-3 p-3 items-center" aria-label={title}>
                     <div className="relative shrink-0 size-20 rounded-lg overflow-hidden bg-cevons-cream">
-                      <img
+                      <SwapImg
+                        slot={`${keyBase}.related.${relIdx}`}
+                        label={`Related service photo — ${title}`}
+                        ratio={[1, 1]}
                         src={img}
                         alt=""
                         loading="lazy"
@@ -591,6 +631,7 @@ function SectionText({ section }: { section: DetailSection }) {
 }
 
 function SectionImages({ images }: { images: DetailImage[] }) {
+  const imgSlot = useImgSlot();
   if (images.length === 1) {
     const img = images[0];
     const isContain = img.fit === "contain";
@@ -601,7 +642,9 @@ function SectionImages({ images }: { images: DetailImage[] }) {
         className="rounded-2xl overflow-hidden shadow-lift"
         style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
       >
-        <img
+        <SwapImg
+          slot={imgSlot(0)}
+          label="Service page section photo"
           src={img.src}
           alt={img.alt}
           loading="lazy"
@@ -632,7 +675,9 @@ function SectionImages({ images }: { images: DetailImage[] }) {
             className="rounded-xl overflow-hidden shadow-soft"
             style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
           >
-            <img
+            <SwapImg
+              slot={imgSlot(idx)}
+              label="Service page section photo"
               src={img.src}
               alt={img.alt}
               loading="lazy"
@@ -651,6 +696,7 @@ function SectionImages({ images }: { images: DetailImage[] }) {
 
 function DetailSectionRender({ section }: { section: DetailSection }) {
   const k = useSectionKey();
+  const imgSlot = useImgSlot();
   if (section.variant === "band") {
     const emphasis = section.bandEmphasis;
     return (
@@ -722,7 +768,9 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           <Stagger className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto justify-items-center">
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-xl overflow-hidden shadow-soft bg-white border border-cevons-border w-full">
-                <img
+                <SwapImg
+                  slot={imgSlot(idx)}
+                  label="Service page section photo"
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
@@ -749,7 +797,9 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border flex flex-col">
                 <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
-                  <img
+                  <SwapImg
+                    slot={imgSlot(idx)}
+                    label="Service page section photo"
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"

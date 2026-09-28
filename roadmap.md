@@ -43,3 +43,4 @@
 - [x] Protect draft media files while keeping live website photos accessible
 - [x] Make Media photo and crop controls clearly readable on light and dark admin themes
 - [x] Verify crop controls and public rendering on desktop and mobile
+- [x] Make service-page photos (related services, section images, tank gallery) replaceable in admin
