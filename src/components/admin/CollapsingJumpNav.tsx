@@ -36,9 +36,11 @@ export function CollapsingJumpNav({
   }, []);
 
   const [top, setTop] = useState(72);
+  const [theme, setTheme] = useState("light");
   useEffect(() => {
     if (!collapsed) return;
     const h = document.querySelector("header");
+    setTheme(fullRef.current?.closest("[data-theme]")?.getAttribute("data-theme") ?? "light");
     setTop(Math.max(8, (h?.getBoundingClientRect().bottom ?? 64) + 8));
   }, [collapsed]);
 
@@ -66,7 +68,7 @@ export function CollapsingJumpNav({
       </nav>
 
       {collapsed && typeof document !== "undefined" && createPortal(
-        <div data-crm-theme className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top, background: "transparent" }}>
+        <div data-crm-theme="manifest" data-theme={theme} className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top, background: "transparent" }}>
           <div className="pointer-events-auto w-full max-w-xl">
             <div
               className="flex items-center gap-1 rounded-full border p-1 shadow-lg mx-auto w-fit"
