@@ -1572,7 +1572,7 @@ function ManyChatSection({
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-white">Chats arrive in Requests</p>
           <p className="text-xs text-white/60">
-            {inbound ? "ON — new WhatsApp chats create or update a request." : "OFF — chats are logged only."}
+            {inbound ? "ON — new WhatsApp chats create or update a request." : "OFF — chats are saved in the message log but not added to Requests."}
           </p>
         </div>
         <Toggle active={inbound} onChange={() => setInbound((v) => !v)} label="Chats arrive in Requests" />

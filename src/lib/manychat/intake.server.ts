@@ -80,6 +80,17 @@ export async function intakeManyChatContact(
   settings: ManyChatSettings,
 ): Promise<IntakeResult> {
   if (!settings.inboundEnabled) {
+    if (payload.message) {
+      const { error } = await supabaseAdmin.from("manychat_messages").insert({
+        subscriber_id: payload.subscriberId || null,
+        phone: payload.phone || null,
+        direction: "inbound",
+        body: payload.message,
+        kind: "chat",
+        status: "logged",
+      });
+      if (error) throw new Error(error.message);
+    }
     return { serviceRequestId: null, created: false, reason: "inbound_disabled" };
   }
   if (!payload.subscriberId && !payload.phone) {
@@ -124,6 +135,25 @@ export async function intakeManyChatContact(
         ...(payload.subscriberId ? { manychat_subscriber_id: payload.subscriberId } : {}),
       })
       .eq("id", existingId);
+    // Follow-up messages on an open request land in its activity timeline and
+    // the Alerts panel so staff actually see them.
+    if (payload.message) {
+      const { error: actErr } = await supabaseAdmin.from("activities").insert({
+        related_type: "lead",
+        related_id: existingId,
+        type: "whatsapp",
+        direction: "inbound",
+        body: payload.message,
+        created_by: "ManyChat",
+      });
+      if (actErr) throw new Error(actErr.message);
+      await supabaseAdmin.from("notifications").insert({
+        type: "message",
+        title: `New WhatsApp message${payload.name ? ` from ${payload.name}` : ""}`,
+        body: payload.message.slice(0, 200),
+        link: `/admin/leads/${existingId}`,
+      });
+    }
   } else {
     const { data, error } = await supabaseAdmin
       .from("service_requests")
