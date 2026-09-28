@@ -398,7 +398,7 @@ function CrmMediaPage() {
           setDragOver(false);
           chooseFiles(Array.from(e.dataTransfer.files));
         }}
-        className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4"
+        className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4 scroll-mt-24"
         style={{
           borderColor: dragOver ? "#EF7700" : "var(--crm-border)",
           background: dragOver ? "rgba(239,119,0,0.08)" : "var(--crm-surface)",
