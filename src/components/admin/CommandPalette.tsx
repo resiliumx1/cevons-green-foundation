@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -190,7 +191,7 @@ export function CrmCommandPalette({ open, onOpenChange }: { open: boolean; onOpe
           placeholder="Search pages, media, requests, settings…"
         />
         {loading && (
-          <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-[#EF7700]" />
+          <CevonsLoader size={20} label="Working" />
         )}
       </div>
 

@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -560,7 +561,7 @@ function ProfileSection({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
@@ -646,7 +647,7 @@ function NotificationsSection({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
@@ -832,7 +833,7 @@ function EmailNotificationsSection({
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
           >
-            {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
             {saving ? "Saving..." : "Save Changes"}
           </button>
           {saved && (
@@ -882,7 +883,7 @@ function EmailNotificationsSection({
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
           >
-            {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
             {saving ? "Saving..." : "Save Changes"}
           </button>
           {saved && (
@@ -993,7 +994,7 @@ function PipelineSection({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
@@ -1100,7 +1101,7 @@ function ServicesSection({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
@@ -1519,7 +1520,7 @@ function ReviewFollowupSection({
           disabled={saving || !canSave}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (
@@ -1646,7 +1647,7 @@ function ManyChatSection({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-lg bg-[#FFD200] px-4 py-2 text-sm font-semibold text-black hover:bg-[#FFD200]/90 disabled:opacity-50"
         >
-          {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {saving ? <CevonsLoader size={20} label="Working" /> : <Save className="h-4 w-4" />}
           {saving ? "Saving..." : "Save Changes"}
         </button>
         {saved && (

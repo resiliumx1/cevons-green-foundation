@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -79,7 +80,7 @@ function MediaPickerValue({ path }: { path: string }) {
   return url ? (
     <img src={url} alt="" className="h-16 w-24 rounded-lg object-cover" />
   ) : (
-    <Loader2 className="size-4 animate-spin" style={{ color: "var(--crm-text-muted)" }} />
+    <CevonsLoader size={20} label="Working" />
   );
 }
 

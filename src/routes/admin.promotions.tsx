@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -448,7 +449,7 @@ function PromotionForm({
 
       <div className="flex flex-wrap gap-2">
         <Button type="button" disabled={busy} onClick={() => void save()} style={{ backgroundColor: "#EF7700", color: "#1A1A1A" }}>
-          {busy && <Loader2 className="size-4 mr-1.5 animate-spin" />} Save
+          {busy && <CevonsLoader size={20} label="Working" />} Save
         </Button>
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
