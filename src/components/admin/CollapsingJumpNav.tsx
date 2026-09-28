@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
 
 /**
@@ -64,8 +65,8 @@ export function CollapsingJumpNav({
         {children(close)}
       </nav>
 
-      {collapsed && (
-        <div className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top }}>
+      {collapsed && typeof document !== "undefined" && createPortal(
+        <div data-crm-theme className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top }}>
           <div className="pointer-events-auto w-full max-w-xl">
             <div
               className="flex items-center gap-1 rounded-full border p-1 shadow-lg mx-auto w-fit"
@@ -100,7 +101,8 @@ export function CollapsingJumpNav({
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
