@@ -23,6 +23,8 @@ import { SettingsProvider } from "../contexts/SettingsContext";
 import { organizationJsonLd } from "../lib/seo/jsonLd";
 import { ServiceAssistantLoader } from "../components/chat/ServiceAssistantLoader";
 import { GoogleTag } from "../components/analytics/GoogleTag";
+import { SiteImageDataProvider } from "@/lib/siteImages";
+import { getSiteImageData } from "@/lib/siteImages.functions";
 
 
 function NotFoundComponent() {
@@ -78,6 +80,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: async ({ location }) => {
+    if (location.pathname.startsWith("/admin") || location.pathname.startsWith("/api/")) {
+      return { siteImages: { preview: false, rows: [] } };
+    }
+    const search = location.search as Record<string, unknown>;
+    const token = typeof search.preview === "string" ? search.preview : null;
+    return { siteImages: await getSiteImageData({ data: { token } }) };
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -181,6 +191,7 @@ function AttributionCapture() {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { siteImages } = Route.useLoaderData();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isCrm = pathname.startsWith("/admin");
 
@@ -190,15 +201,16 @@ function RootComponent() {
       <RecoveryLinkRedirect />
       {!isCrm && <GoogleTag />}
       <AttributionCapture />
-      <SettingsProvider>
-
-        <CurrencyProvider>
-          <SmoothScrollProvider enabled={!isCrm}>
-            <Outlet />
-            {!isCrm && <ServiceAssistantLoader />}
-          </SmoothScrollProvider>
-        </CurrencyProvider>
-      </SettingsProvider>
+      <SiteImageDataProvider value={siteImages}>
+        <SettingsProvider>
+          <CurrencyProvider>
+            <SmoothScrollProvider enabled={!isCrm}>
+              <Outlet />
+              {!isCrm && <ServiceAssistantLoader />}
+            </SmoothScrollProvider>
+          </CurrencyProvider>
+        </SettingsProvider>
+      </SiteImageDataProvider>
     </QueryClientProvider>
   );
 }

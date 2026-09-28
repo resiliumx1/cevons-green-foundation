@@ -1,5 +1,5 @@
 import { SERVICE_PAGE_SLOTS } from "./serviceImageSlots";
-import { useEffect, useState } from "react";
+import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSupabase } from "@/integrations/supabaseLazy";
 import { getMediaUrl } from "@/lib/mediaUrl";
@@ -369,7 +369,32 @@ export type SiteImageRow = {
   draft_image_w?: number | null;
   draft_image_h?: number | null;
   draft_alt?: string | null;
+  /** Secure URLs can be prepared by the root loader for the first SSR paint. */
+  resolved_url?: string | null;
+  draft_resolved_url?: string | null;
 };
+
+export type SiteImageData = {
+  preview: boolean;
+  rows: SiteImageRow[];
+};
+
+const EMPTY_SITE_IMAGES: SiteImageData = { preview: false, rows: [] };
+const SiteImageDataContext = createContext<SiteImageData>(EMPTY_SITE_IMAGES);
+
+export function SiteImageDataProvider({
+  value,
+  children,
+}: {
+  value: SiteImageData | null | undefined;
+  children: ReactNode;
+}) {
+  return createElement(
+    SiteImageDataContext.Provider,
+    { value: value ?? EMPTY_SITE_IMAGES },
+    children,
+  );
+}
 
 /** Columns a visitor is allowed to read. Must match the anon column grant. */
 const PUBLIC_COLUMNS = "slot, image_path, image_w, image_h, alt, updated_at";
@@ -382,6 +407,7 @@ const STAFF_COLUMNS = `${PUBLIC_COLUMNS}, updated_by, draft_image_path, draft_im
  * can show a staged photo before it is published.
  */
 export function useSiteImageOverrides(preview = false) {
+  const initial = useContext(SiteImageDataContext);
   return useQuery({
     queryKey: ["site_images", preview],
     queryFn: async (): Promise<SiteImageRow[]> => {
@@ -391,9 +417,16 @@ export function useSiteImageOverrides(preview = false) {
         .from("site_images")
         .select(preview ? STAFF_COLUMNS : (PUBLIC_COLUMNS as never));
       if (error) throw error;
-      return (data ?? []) as unknown as SiteImageRow[];
+      const rows = (data ?? []) as unknown as SiteImageRow[];
+      return await Promise.all(
+        rows.map(async (row) => ({
+          ...row,
+          resolved_url: await getMediaUrl(row.image_path),
+          draft_resolved_url: preview ? await getMediaUrl(row.draft_image_path) : null,
+        })),
+      );
     },
-
+    initialData: initial.preview === preview ? initial.rows : undefined,
     staleTime: preview ? 0 : 5 * 60_000,
     retry: 1,
   });
@@ -443,14 +476,27 @@ export function useSiteImage(
   // A draft only ever renders inside a verified staff preview session.
   const useDraft = preview && !!row?.draft_image_path;
   const path = useDraft ? row?.draft_image_path : row?.image_path;
+  const immediateUrl = useDraft ? row?.draft_resolved_url : row?.resolved_url;
   const alt = (useDraft ? row?.draft_alt : row?.alt) ?? base.alt;
   const w = (useDraft ? row?.draft_image_w : row?.image_w) ?? undefined;
   const h = (useDraft ? row?.draft_image_h : row?.image_h) ?? undefined;
-  const [resolved, setResolved] = useState<ResolvedSiteImage | null>(null);
+  const immediate: ResolvedSiteImage | null =
+    path && immediateUrl
+      ? {
+          src: immediateUrl,
+          alt,
+          width: w,
+          height: h,
+          isOverride: true,
+          isDraft: useDraft,
+          editorProps,
+        }
+      : null;
+  const [resolved, setResolved] = useState<ResolvedSiteImage | null>(immediate);
 
   useEffect(() => {
     let alive = true;
-    if (!path) {
+    if (!path || immediateUrl) {
       setResolved(null);
       return;
     }
@@ -470,9 +516,9 @@ export function useSiteImage(
       alive = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path, alt, w, h, useDraft, preview]);
+  }, [path, immediateUrl, alt, w, h, useDraft, preview]);
 
-  return resolved ?? base;
+  return immediate ?? resolved ?? base;
 }
 
 
