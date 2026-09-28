@@ -66,7 +66,7 @@ export function CollapsingJumpNav({
       </nav>
 
       {collapsed && typeof document !== "undefined" && createPortal(
-        <div data-crm-theme className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top }}>
+        <div data-crm-theme className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top, background: "transparent" }}>
           <div className="pointer-events-auto w-full max-w-xl">
             <div
               className="flex items-center gap-1 rounded-full border p-1 shadow-lg mx-auto w-fit"
