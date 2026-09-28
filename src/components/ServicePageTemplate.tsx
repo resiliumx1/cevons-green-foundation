@@ -510,7 +510,7 @@ export function ServicePageTemplate(props: ServicePageProps) {
               </Link>
             </div>
             <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {related.map(({ title, body, img, to, icon: Icon }) => (
+              {related.map(({ title, body, img, to, icon: Icon }, relIdx) => (
                 <StaggerItem
                   as="article"
                   key={title}
@@ -518,7 +518,10 @@ export function ServicePageTemplate(props: ServicePageProps) {
                 >
                   <Link to={to} className="flex gap-3 p-3 items-center" aria-label={title}>
                     <div className="relative shrink-0 size-20 rounded-lg overflow-hidden bg-cevons-cream">
-                      <img
+                      <SwapImg
+                        slot={`${keyBase}.related.${relIdx}`}
+                        label={`Related service photo — ${title}`}
+                        ratio={[1, 1]}
                         src={img}
                         alt=""
                         loading="lazy"
@@ -638,7 +641,9 @@ function SectionImages({ images }: { images: DetailImage[] }) {
         className="rounded-2xl overflow-hidden shadow-lift"
         style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
       >
-        <img
+        <SwapImg
+          slot={imgSlot(IDX)}
+          label="Service page section photo"
           src={img.src}
           alt={img.alt}
           loading="lazy"
@@ -669,7 +674,9 @@ function SectionImages({ images }: { images: DetailImage[] }) {
             className="rounded-xl overflow-hidden shadow-soft"
             style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
           >
-            <img
+            <SwapImg
+              slot={imgSlot(IDX)}
+              label="Service page section photo"
               src={img.src}
               alt={img.alt}
               loading="lazy"
@@ -759,7 +766,9 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
           <Stagger className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto justify-items-center">
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-xl overflow-hidden shadow-soft bg-white border border-cevons-border w-full">
-                <img
+                <SwapImg
+                  slot={imgSlot(IDX)}
+                  label="Service page section photo"
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
@@ -786,7 +795,9 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border flex flex-col">
                 <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
-                  <img
+                  <SwapImg
+                    slot={imgSlot(IDX)}
+                    label="Service page section photo"
                     src={img.src}
                     alt={img.alt}
                     loading="lazy"
