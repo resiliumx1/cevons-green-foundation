@@ -34,6 +34,13 @@ export function CollapsingJumpNav({
     return () => io.disconnect();
   }, []);
 
+  const [top, setTop] = useState(72);
+  useEffect(() => {
+    if (!collapsed) return;
+    const h = document.querySelector("header");
+    setTop(Math.max(8, (h?.getBoundingClientRect().bottom ?? 64) + 8));
+  }, [collapsed]);
+
   const close = () => setOpen(false);
   const backUp = () => {
     setOpen(false);
@@ -58,7 +65,7 @@ export function CollapsingJumpNav({
       </nav>
 
       {collapsed && (
-        <div className="sticky top-2 z-20 flex justify-center pointer-events-none" style={{ height: 0 }}>
+        <div className="fixed inset-x-0 z-40 flex justify-center px-3 pointer-events-none" style={{ top }}>
           <div className="pointer-events-auto w-full max-w-xl">
             <div
               className="flex items-center gap-1 rounded-full border p-1 shadow-lg mx-auto w-fit"
