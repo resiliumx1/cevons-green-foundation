@@ -387,6 +387,8 @@ function CrmMediaPage() {
 
       {/* Uploader */}
       <div
+        id="media-upload"
+        className="scroll-mt-24"
         onDragOver={(e) => {
           e.preventDefault();
           setDragOver(true);
@@ -458,7 +460,8 @@ function CrmMediaPage() {
       {/* Text-only announcement composer */}
       {kind === "announcement" && (
         <div
-          className="rounded-xl border p-4 mb-5"
+          id="media-announcement"
+          className="rounded-xl border p-4 mb-5 scroll-mt-24"
           style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
         >
           <div className="text-sm font-semibold mb-3" style={{ color: "var(--crm-text)" }}>
@@ -496,7 +499,7 @@ function CrmMediaPage() {
       )}
 
       {/* List */}
-      <div className="space-y-3">
+      <div id="media-items" className="space-y-3 scroll-mt-24">
         {isLoading ? (
           <div className="text-sm py-8 text-center" style={{ color: "var(--crm-text-muted)" }}>
             Loading…
