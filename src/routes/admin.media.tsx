@@ -323,9 +323,42 @@ function CrmMediaPage() {
         </p>
       </div>
 
+      {/* Jump-to-section nav */}
+      <nav
+        aria-label="Jump to a section"
+        className="flex flex-wrap gap-2 rounded-xl border p-3 mb-5 sticky top-2 z-10"
+        style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
+      >
+        <span
+          className="text-xs font-bold uppercase tracking-wider self-center mr-1"
+          style={{ color: "var(--crm-text-muted)" }}
+        >
+          Jump to
+        </span>
+        {[
+          { id: "media-type", label: "Media type" },
+          { id: "media-upload", label: "Upload" },
+          ...(kind === "announcement" ? [{ id: "media-announcement", label: "Announcement" }] : []),
+          { id: "media-items", label: "Your items" },
+        ].map((s) => (
+          <button
+            key={s.id}
+            type="button"
+            onClick={() =>
+              document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+            className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
+            style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+          >
+            {s.label}
+          </button>
+        ))}
+      </nav>
+
       {/* Segmented control */}
       <div
-        className="inline-flex rounded-xl border p-1 mb-5"
+        id="media-type"
+        className="inline-flex rounded-xl border p-1 mb-5 scroll-mt-24"
         style={{ background: "var(--crm-surface-muted)", borderColor: "var(--crm-border)" }}
         role="tablist"
         aria-label="Media type"
@@ -354,6 +387,7 @@ function CrmMediaPage() {
 
       {/* Uploader */}
       <div
+        id="media-upload"
         onDragOver={(e) => {
           e.preventDefault();
           setDragOver(true);
@@ -364,7 +398,7 @@ function CrmMediaPage() {
           setDragOver(false);
           chooseFiles(Array.from(e.dataTransfer.files));
         }}
-        className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4"
+        className="rounded-xl border-2 border-dashed p-6 text-center transition-colors mb-4 scroll-mt-24"
         style={{
           borderColor: dragOver ? "#EF7700" : "var(--crm-border)",
           background: dragOver ? "rgba(239,119,0,0.08)" : "var(--crm-surface)",
@@ -425,7 +459,8 @@ function CrmMediaPage() {
       {/* Text-only announcement composer */}
       {kind === "announcement" && (
         <div
-          className="rounded-xl border p-4 mb-5"
+          id="media-announcement"
+          className="rounded-xl border p-4 mb-5 scroll-mt-24"
           style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
         >
           <div className="text-sm font-semibold mb-3" style={{ color: "var(--crm-text)" }}>
@@ -463,7 +498,7 @@ function CrmMediaPage() {
       )}
 
       {/* List */}
-      <div className="space-y-3">
+      <div id="media-items" className="space-y-3 scroll-mt-24">
         {isLoading ? (
           <div className="text-sm py-8 text-center" style={{ color: "var(--crm-text-muted)" }}>
             Loading…
