@@ -461,16 +461,34 @@ function SiteImagesPage() {
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not revert"),
   });
 
-  const groups = slotsByPage()
-    .map((g) => ({
-      ...g,
-      slots: g.slots.filter(
-        (s) =>
-          !search.trim() ||
-          `${s.label} ${s.page} ${s.key}`.toLowerCase().includes(search.trim().toLowerCase()),
-      ),
-    }))
-    .filter((g) => g.slots.length > 0);
+  const groups = slotsByPage().flatMap((g) => {
+    const slots = g.slots.filter(
+      (s) =>
+        !search.trim() ||
+        `${s.label} ${s.page} ${s.key}`.toLowerCase().includes(search.trim().toLowerCase()),
+    );
+    if (slots.length === 0) return [];
+    if (g.page !== "Service pages") return [{ ...g, slots, isService: false }];
+    // Split service slots into one group per individual service page.
+    const byService = new Map<string, typeof slots>();
+    for (const s of slots) {
+      const name = s.label.split(" — ")[0]?.trim() || s.usedIn;
+      const list = byService.get(name) ?? [];
+      list.push(s);
+      byService.set(name, list);
+    }
+    return [...byService.entries()].map(([name, ss]) => ({
+      page: name,
+      slots: ss,
+      isService: true,
+    }));
+  });
+  const serviceGroups = groups.filter((g) => g.isService);
+  const otherGroups = groups.filter((g) => !g.isService);
+  const sectionId = (page: string) =>
+    `img-section-${page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+  const scrollToSection = (page: string) =>
+    document.getElementById(sectionId(page))?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
     <CrmPage>
@@ -563,15 +581,11 @@ function SiteImagesPage() {
             >
               Jump to
             </span>
-            {groups.map((g) => (
+            {otherGroups.map((g) => (
               <button
                 key={g.page}
                 type="button"
-                onClick={() =>
-                  document
-                    .getElementById(`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`)
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
-                }
+                onClick={() => scrollToSection(g.page)}
                 className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
                 style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
               >
@@ -581,11 +595,35 @@ function SiteImagesPage() {
                 </span>
               </button>
             ))}
+            {serviceGroups.length > 0 && (
+              <select
+                aria-label="Jump to a service page"
+                className="rounded-full border px-3 py-1.5 text-xs font-semibold min-h-9 cursor-pointer"
+                style={{
+                  borderColor: "var(--crm-border)",
+                  color: "var(--crm-text)",
+                  background: "var(--crm-surface)",
+                }}
+                value=""
+                onChange={(e) => {
+                  if (e.target.value) scrollToSection(e.target.value);
+                }}
+              >
+                <option value="" disabled>
+                  Service pages ({serviceGroups.length})…
+                </option>
+                {serviceGroups.map((g) => (
+                  <option key={g.page} value={g.page}>
+                    {g.page} ({g.slots.length})
+                  </option>
+                ))}
+              </select>
+            )}
           </nav>
           {groups.map((g) => (
             <section
               key={g.page}
-              id={`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+              id={sectionId(g.page)}
               className="scroll-mt-24"
             >
               <h2
