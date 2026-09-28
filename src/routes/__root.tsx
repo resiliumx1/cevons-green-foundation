@@ -84,7 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     if (location.pathname.startsWith("/admin") || location.pathname.startsWith("/api/")) {
       return { siteImages: { preview: false, rows: [] } };
     }
-    const token = new URLSearchParams(location.search).get("preview");
+    const search = location.search as Record<string, unknown>;
+    const token = typeof search.preview === "string" ? search.preview : null;
     return { siteImages: await getSiteImageData({ data: { token } }) };
   },
   head: () => ({

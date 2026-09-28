@@ -1,5 +1,5 @@
 import { SERVICE_PAGE_SLOTS } from "./serviceImageSlots";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, createElement, useContext, useEffect, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSupabase } from "@/integrations/supabaseLazy";
 import { getMediaUrl } from "@/lib/mediaUrl";
@@ -389,10 +389,10 @@ export function SiteImageDataProvider({
   value: SiteImageData | null | undefined;
   children: ReactNode;
 }) {
-  return (
-    <SiteImageDataContext.Provider value={value ?? EMPTY_SITE_IMAGES}>
-      {children}
-    </SiteImageDataContext.Provider>
+  return createElement(
+    SiteImageDataContext.Provider,
+    { value: value ?? EMPTY_SITE_IMAGES },
+    children,
   );
 }
 
