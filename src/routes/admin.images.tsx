@@ -552,8 +552,42 @@ function SiteImagesPage() {
         </p>
       ) : (
         <div className="space-y-8">
+          <nav
+            aria-label="Jump to a page section"
+            className="flex flex-wrap gap-2 rounded-xl border p-3 sticky top-2 z-10"
+            style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
+          >
+            <span
+              className="text-xs font-bold uppercase tracking-wider self-center mr-1"
+              style={{ color: "var(--crm-text-muted)" }}
+            >
+              Jump to
+            </span>
+            {groups.map((g) => (
+              <button
+                key={g.page}
+                type="button"
+                onClick={() =>
+                  document
+                    .getElementById(`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`)
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+                className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
+                style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+              >
+                {g.page}
+                <span className="ml-1.5" style={{ color: "var(--crm-text-muted)" }}>
+                  {g.slots.length}
+                </span>
+              </button>
+            ))}
+          </nav>
           {groups.map((g) => (
-            <section key={g.page}>
+            <section
+              key={g.page}
+              id={`img-section-${g.page.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+              className="scroll-mt-24"
+            >
               <h2
                 className="text-xs font-bold uppercase tracking-wider mb-3"
                 style={{ color: "var(--crm-text-muted)" }}
