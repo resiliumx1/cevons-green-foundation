@@ -1,3 +1,4 @@
+import { CollapsingJumpNav } from "@/components/admin/CollapsingJumpNav";
 import { CevonsLoader, PageLoader } from "@/components/cevons-loader";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";

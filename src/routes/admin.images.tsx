@@ -1,3 +1,4 @@
+import { CollapsingJumpNav } from "@/components/admin/CollapsingJumpNav";
 import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
