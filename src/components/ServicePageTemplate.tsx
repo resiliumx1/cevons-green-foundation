@@ -631,6 +631,7 @@ function SectionText({ section }: { section: DetailSection }) {
 }
 
 function SectionImages({ images }: { images: DetailImage[] }) {
+  const imgSlot = useImgSlot();
   if (images.length === 1) {
     const img = images[0];
     const isContain = img.fit === "contain";
@@ -642,7 +643,7 @@ function SectionImages({ images }: { images: DetailImage[] }) {
         style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
       >
         <SwapImg
-          slot={imgSlot(IDX)}
+          slot={imgSlot(0)}
           label="Service page section photo"
           src={img.src}
           alt={img.alt}
@@ -675,7 +676,7 @@ function SectionImages({ images }: { images: DetailImage[] }) {
             style={isContain ? { background: img.bg ?? "var(--surface-muted, #F4F4F5)" } : undefined}
           >
             <SwapImg
-              slot={imgSlot(IDX)}
+              slot={imgSlot(idx)}
               label="Service page section photo"
               src={img.src}
               alt={img.alt}
@@ -695,6 +696,7 @@ function SectionImages({ images }: { images: DetailImage[] }) {
 
 function DetailSectionRender({ section }: { section: DetailSection }) {
   const k = useSectionKey();
+  const imgSlot = useImgSlot();
   if (section.variant === "band") {
     const emphasis = section.bandEmphasis;
     return (
@@ -767,7 +769,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
             {section.images.map((img, idx) => (
               <StaggerItem key={idx} className="rounded-xl overflow-hidden shadow-soft bg-white border border-cevons-border w-full">
                 <SwapImg
-                  slot={imgSlot(IDX)}
+                  slot={imgSlot(idx)}
                   label="Service page section photo"
                   src={img.src}
                   alt={img.alt}
@@ -796,7 +798,7 @@ function DetailSectionRender({ section }: { section: DetailSection }) {
               <StaggerItem key={idx} className="rounded-2xl overflow-hidden shadow-soft bg-white border border-cevons-border flex flex-col">
                 <div className="aspect-[4/3] bg-white flex items-center justify-center p-4 sm:p-6">
                   <SwapImg
-                    slot={imgSlot(IDX)}
+                    slot={imgSlot(idx)}
                     label="Service page section photo"
                     src={img.src}
                     alt={img.alt}
