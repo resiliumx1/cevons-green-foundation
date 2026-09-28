@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -316,7 +317,7 @@ export function CrmAssistant() {
                   className="h-10 w-10 grid place-items-center rounded-full text-white disabled:opacity-50 disabled:cursor-not-allowed transition"
                   style={{ background: "var(--crm-primary)" }}
                 >
-                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  {loading ? <CevonsLoader size={20} label="Working" /> : <Send className="h-4 w-4" />}
                 </button>
               </div>
             </motion.aside>

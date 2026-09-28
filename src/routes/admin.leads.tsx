@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -380,7 +381,7 @@ function LeadsList() {
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#101820] border border-white/[0.08] text-sm text-slate-200 hover:border-white/20 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD200] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1414]"
           >
             {exportState.status === "working"
-              ? <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />
+              ? <CevonsLoader size={20} label="Working" />
               : <Download className="h-4 w-4 text-slate-400" />}
             {exportState.status === "working"
               ? "Exporting…"
@@ -407,7 +408,7 @@ function LeadsList() {
             }`}
           >
             <div className="flex items-center gap-2">
-              {exportState.status === "working" && <Loader2 className="h-4 w-4 animate-spin text-[#FFD200]" />}
+              {exportState.status === "working" && <CevonsLoader size={20} label="Working" />}
               {exportState.status === "done" && <Check className="h-4 w-4" />}
               {exportState.status === "error" && <AlertTriangle className="h-4 w-4" />}
               <span>{exportState.message}</span>
@@ -934,7 +935,7 @@ function BulkActionSheet({
                 disabled={pending}
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFD200] px-4 py-3 text-sm font-semibold text-[#101820] disabled:opacity-60"
               >
-                {pending && <Loader2 className="h-4 w-4 animate-spin" />}
+                {pending && <CevonsLoader size={20} label="Working" />}
                 {pending ? "Updating…" : "Confirm"}
               </button>
             </div>

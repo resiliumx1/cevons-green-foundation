@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -165,7 +166,7 @@ function InviteForm() {
         </label>
         <button type="submit" className="admin-btn-primary" disabled={invite.isPending}>
           {invite.isPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+            <CevonsLoader size={20} label="Working" />
           ) : (
             <UserPlus className="h-4 w-4" aria-hidden />
           )}

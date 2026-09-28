@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { useId, type ReactNode } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { formatGeorgetown } from "@/components/admin/theme";
@@ -177,7 +178,7 @@ export function PanelEmpty({ headline, action }: { headline: string; action?: Re
 export function PanelBusy() {
   return (
     <span className="inline-flex items-center gap-2 text-sm text-[var(--text-2)]">
-      <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Working…
+      <CevonsLoader size={20} label="Working" /> Working…
     </span>
   );
 }

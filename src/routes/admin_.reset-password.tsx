@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Lock, Loader2, AlertCircle, CheckCircle2, Circle } from "lucide-react";
@@ -205,7 +206,7 @@ function ResetPasswordScreen() {
               <button type="submit" disabled={saving || !canSubmit} className="admin-auth-submit">
                 {saving ? (
                   <>
-                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+                    <CevonsLoader size={20} label="Working" />
                     <span>Saving your new password…</span>
                   </>
                 ) : (

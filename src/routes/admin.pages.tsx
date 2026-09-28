@@ -1,3 +1,4 @@
+import { CevonsLoader, PageLoader } from "@/components/cevons-loader";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -79,7 +80,7 @@ function MediaPickerValue({ path }: { path: string }) {
   return url ? (
     <img src={url} alt="" className="h-16 w-24 rounded-lg object-cover" />
   ) : (
-    <Loader2 className="size-4 animate-spin" style={{ color: "var(--crm-text-muted)" }} />
+    <CevonsLoader size={20} label="Working" />
   );
 }
 
@@ -408,9 +409,7 @@ function PagesEditor() {
           </div>
 
           {sectionsQuery.isLoading ? (
-            <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
-              Loading…
-            </p>
+            <PageLoader label="Loading" minHeight="240px" />
           ) : rows.length === 0 ? (
             <div className="rounded-xl border p-8 text-sm" style={{ ...surface, color: "var(--crm-text-muted)" }}>
               No sections yet — the public page is rendering its built-in layout. Add a section above to start managing
@@ -689,9 +688,7 @@ function ContentStringsList({ page }: { page: string }) {
       </p>
 
       {isLoading && (
-        <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          Loading…
-        </p>
+        <PageLoader label="Loading" minHeight="240px" />
       )}
       {!isLoading && rows.length === 0 && (
         <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
@@ -978,9 +975,7 @@ function VersionHistory({
         Version history — the live content before each publish
       </h3>
       {q.isLoading ? (
-        <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
-          Loading…
-        </p>
+        <PageLoader label="Loading" minHeight="240px" />
       ) : (q.data ?? []).length === 0 ? (
         <p className="text-sm" style={{ color: "var(--crm-text-muted)" }}>
           Nothing yet — history starts building the second time this section is published.

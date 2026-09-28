@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
@@ -210,7 +211,7 @@ function LoginScreen() {
           <button type="submit" disabled={loading} className="admin-auth-submit">
             {loading ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+                <CevonsLoader size={20} label="Working" />
                 <span>Signing in…</span>
               </>
             ) : (

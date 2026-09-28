@@ -1,3 +1,4 @@
+import { CevonsLoader } from "@/components/cevons-loader";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -99,7 +100,7 @@ function Preview({ path, src, alt }: { path?: string | null; src?: string; alt: 
       ) : failed ? (
         <ImageIcon className="size-5" style={{ color: "var(--crm-text-faint)" }} />
       ) : (
-        <Loader2 className="size-4 animate-spin" style={{ color: "var(--crm-text-faint)" }} />
+        <CevonsLoader size={20} label="Working" />
       )}
     </div>
   );
@@ -541,7 +542,7 @@ function SiteImagesPage() {
               onClick={() => libFileRef.current?.click()}
             >
               {libBusy ? (
-                <Loader2 className="size-4 mr-2 animate-spin" />
+                <CevonsLoader size={20} label="Working" />
               ) : (
                 <Upload className="size-4 mr-2" />
               )}
