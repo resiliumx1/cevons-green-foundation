@@ -1,3 +1,4 @@
+import { CollapsingJumpNav } from "@/components/admin/CollapsingJumpNav";
 import { CevonsLoader, PageLoader } from "@/components/cevons-loader";
 import { canPublish, useAdminIdentity } from "@/lib/adminAuth";
 import { createFileRoute } from "@tanstack/react-router";
@@ -325,36 +326,29 @@ function CrmMediaPage() {
       </div>
 
       {/* Jump-to-section nav */}
-      <nav
-        aria-label="Jump to a section"
-        className="flex flex-wrap gap-2 rounded-xl border p-3 mb-5 sticky top-2 z-10"
-        style={{ background: "var(--crm-surface)", borderColor: "var(--crm-border)" }}
-      >
-        <span
-          className="text-xs font-bold uppercase tracking-wider self-center mr-1"
-          style={{ color: "var(--crm-text-muted)" }}
-        >
-          Jump to
-        </span>
-        {[
-          { id: "media-type", label: "Media type" },
-          { id: "media-upload", label: "Upload" },
-          ...(kind === "announcement" ? [{ id: "media-announcement", label: "Announcement" }] : []),
-          { id: "media-items", label: "Your items" },
-        ].map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            onClick={() =>
-              document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth", block: "start" })
-            }
-            className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
-            style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
-          >
-            {s.label}
-          </button>
-        ))}
-      </nav>
+      <CollapsingJumpNav label="Jump to a section" className="mb-5">
+        {(close) =>
+          [
+            { id: "media-type", label: "Media type" },
+            { id: "media-upload", label: "Upload" },
+            ...(kind === "announcement" ? [{ id: "media-announcement", label: "Announcement" }] : []),
+            { id: "media-items", label: "Your items" },
+          ].map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => {
+                close();
+                document.getElementById(s.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[#EF7700] hover:text-[#EF7700] min-h-9"
+              style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+            >
+              {s.label}
+            </button>
+          ))
+        }
+      </CollapsingJumpNav>
 
       {/* Segmented control */}
       <div
