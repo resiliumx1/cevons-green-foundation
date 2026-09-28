@@ -1,3 +1,4 @@
+import { SERVICE_PAGE_SLOTS } from "./serviceImageSlots";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSupabase } from "@/integrations/supabaseLazy";
@@ -335,6 +336,7 @@ export const SITE_IMAGE_SLOTS: SlotDef[] = [
   m("svc_scrap_gallery_2", "Scrap yard gallery — photo 2", "Service pages", [3, 2], "/assets/services/scrap-metal-yard.webp", "CEVONS crew feeding scrap metal into the baler beside stacked IBC cages at the recycling yard", "src/routes/services.scrap-metal-recycling.tsx gallery"),
   m("svc_scrap_gallery_3", "Scrap yard gallery — photo 3", "Service pages", [2, 3], "/assets/services/scrap-metal-bales.webp", "Compressed scrap metal bales at the CEVONS recycling facility, ready for export", "src/routes/services.scrap-metal-recycling.tsx gallery"),
   m("svc_scrap_gallery_4", "Scrap yard gallery — photo 4", "Service pages", [2, 3], "/assets/services/scrap-metal-shear.webp", "The CEVONS baling press with its jaw raised, being loaded with scrap metal", "src/routes/services.scrap-metal-recycling.tsx gallery"),
+  ...SERVICE_PAGE_SLOTS,
 ];
 
 export const SLOTS_BY_KEY: Record<string, SlotDef> = Object.fromEntries(

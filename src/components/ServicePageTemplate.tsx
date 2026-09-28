@@ -63,7 +63,7 @@ function SwapImg({
     } as (typeof SLOTS_BY_KEY)[string];
   }
   const img = useSiteImage(slot, src, alt);
-  return <img {...rest} {...img.editorProps} src={img.src} alt={img.alt} />;
+  return <img {...rest} {...img.editorProps} data-swap-slot={slot} data-swap-label={label} data-swap-default={src} src={img.src} alt={img.alt} />;
 }
 
 function useImgSlot() {

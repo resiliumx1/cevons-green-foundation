@@ -6548,3 +6548,27 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
     flex: 1 1 60%;
   }
 }
+
+/* Admin: outline/secondary buttons were rendering near-black with navy text.
+   Force a light, high-contrast treatment everywhere in the admin. */
+[data-crm-theme] button[data-variant="outline"],
+[data-crm-theme] a[data-variant="outline"],
+[data-crm-theme] button[data-variant="secondary"],
+[data-crm-theme] a[data-variant="secondary"] {
+  background: #ffffff !important;
+  color: var(--admin-navy-strong, #14146b) !important;
+  border: 1.5px solid color-mix(in oklab, var(--admin-navy, #1c1c80) 35%, transparent) !important;
+  box-shadow: 0 1px 2px rgba(20, 20, 80, 0.08);
+}
+[data-crm-theme] button[data-variant="outline"]:hover:not(:disabled),
+[data-crm-theme] button[data-variant="secondary"]:hover:not(:disabled) {
+  background: var(--admin-accent-soft, #fff1e2) !important;
+  border-color: var(--admin-orange, #ef7700) !important;
+}
+[data-crm-theme] button[data-variant="outline"] svg,
+[data-crm-theme] button[data-variant="secondary"] svg {
+  color: currentColor !important;
+}
+[data-crm-theme] button[data-variant]:disabled {
+  opacity: 0.6;
+}
