@@ -188,6 +188,36 @@ export type Database = {
         }
         Relationships: []
       }
+      ces_dispatch_status: {
+        Row: {
+          id: string
+          last_dispatch_at: string | null
+          last_drain_at: string | null
+          last_drain_result: Json | null
+          last_error: string | null
+          last_error_at: string | null
+          last_request_id: number | null
+        }
+        Insert: {
+          id?: string
+          last_dispatch_at?: string | null
+          last_drain_at?: string | null
+          last_drain_result?: Json | null
+          last_error?: string | null
+          last_error_at?: string | null
+          last_request_id?: number | null
+        }
+        Update: {
+          id?: string
+          last_dispatch_at?: string | null
+          last_drain_at?: string | null
+          last_drain_result?: Json | null
+          last_error?: string | null
+          last_error_at?: string | null
+          last_request_id?: number | null
+        }
+        Relationships: []
+      }
       ces_outbox: {
         Row: {
           attempts: number
@@ -1823,6 +1853,7 @@ export type Database = {
         }
       }
       ces_outbox_dispatch: { Args: never; Returns: undefined }
+      check_ces_drain_token: { Args: { _token: string }; Returns: boolean }
       claim_invitation: {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]

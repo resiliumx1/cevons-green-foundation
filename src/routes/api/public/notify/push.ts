@@ -33,11 +33,10 @@ export const Route = createFileRoute("/api/public/notify/push")({
           return Response.json({ ok: false, reason: "server_misconfigured" }, { status: 500 });
         }
 
-        const dispatchSecret = process.env["NOTIFY_DISPATCH_SECRET"];
-        const auth = request.headers.get("Authorization") ?? "";
-        const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-        const authorized = (!!dispatchSecret && token === dispatchSecret) || token === serviceKey;
-        if (!authorized) return Response.json({ error: "Unauthorized" }, { status: 401 });
+        const { isAuthorizedDispatchCaller } = await import("@/lib/ces/drainAuth.server");
+        if (!(await isAuthorizedDispatchCaller(request))) {
+          return Response.json({ error: "Unauthorized" }, { status: 401 });
+        }
 
         let payload: Payload;
         try {
