@@ -218,6 +218,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ces_feed_queue: {
+        Row: {
+          attempts: number
+          body: Json
+          created_at: string
+          event_id: string
+          id: string
+          last_error: string | null
+          last_status_code: number | null
+          next_attempt_at: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          attempts?: number
+          body: Json
+          created_at?: string
+          event_id: string
+          id?: string
+          last_error?: string | null
+          last_status_code?: number | null
+          next_attempt_at?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          attempts?: number
+          body?: Json
+          created_at?: string
+          event_id?: string
+          id?: string
+          last_error?: string | null
+          last_status_code?: number | null
+          next_attempt_at?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       ces_outbox: {
         Row: {
           attempts: number
@@ -1818,6 +1857,7 @@ export type Database = {
         Returns: undefined
       }
       can_publish: { Args: { _user_id: string }; Returns: boolean }
+      ces_feed_wake: { Args: never; Returns: undefined }
       ces_outbox_claim: {
         Args: { _lease_seconds?: number; _limit?: number }
         Returns: {
@@ -1853,6 +1893,7 @@ export type Database = {
         }
       }
       ces_outbox_dispatch: { Args: never; Returns: undefined }
+      ces_tiktok_daily_dispatch: { Args: never; Returns: undefined }
       check_ces_drain_token: { Args: { _token: string }; Returns: boolean }
       claim_invitation: {
         Args: never
