@@ -36,6 +36,7 @@ const MAIN: NavItem[] = [
   { label: "Locations", to: "/locations" },
   { label: "Industries", to: "/industries" },
   { label: "Resources", to: "/resources" },
+  { label: "Privacy Policy", to: "/privacy" },
   
   { label: "Careers", to: "/careers" },
 ];

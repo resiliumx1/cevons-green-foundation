@@ -45,3 +45,8 @@
 - [x] Verify crop controls and public rendering on desktop and mobile
 - [x] Make service-page photos (related services, section images, tank gallery) replaceable in admin
 - [x] Load saved website photo replacements before first paint so original photos never flash
+
+# Public Privacy Policy
+
+- [x] Add a public, server-rendered Privacy Policy at `/privacy`
+- [x] Link the Privacy Policy from the footer and both sitemaps

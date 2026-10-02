@@ -14,6 +14,7 @@ const paths = [
   "/careers",
   "/news-media",
   "/sitemap",
+  "/privacy",
   "/request-service",
   "/track-request",
   "/services/biohazardous-disposal",
