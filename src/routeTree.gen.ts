@@ -75,6 +75,8 @@ import { Route as ServicesWastewaterRouteImport } from './routes/services.wastew
 import { Route as AdminLeadsIdRouteImport } from './routes/admin.leads.$id'
 import { Route as AdminPreviewPageRouteImport } from './routes/admin_.preview.$page'
 import { Route as ApiPublicCesDrainRouteImport } from './routes/api/public/ces/drain'
+import { Route as ApiPublicCesFeedRouteImport } from './routes/api/public/ces/feed'
+import { Route as ApiPublicCesTiktokDailyRouteImport } from './routes/api/public/ces/tiktok-daily'
 import { Route as ApiPublicManychatWebhookRouteImport } from './routes/api/public/manychat/webhook'
 import { Route as ApiPublicNotifyDispatchRouteImport } from './routes/api/public/notify/dispatch'
 import { Route as ApiPublicNotifyPushRouteImport } from './routes/api/public/notify/push'
@@ -425,6 +427,16 @@ const ApiPublicCesDrainRoute = ApiPublicCesDrainRouteImport.update({
   path: '/api/public/ces/drain',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCesFeedRoute = ApiPublicCesFeedRouteImport.update({
+  id: '/api/public/ces/feed',
+  path: '/api/public/ces/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicCesTiktokDailyRoute = ApiPublicCesTiktokDailyRouteImport.update({
+  id: '/api/public/ces/tiktok-daily',
+  path: '/api/public/ces/tiktok-daily',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicManychatWebhookRoute =
   ApiPublicManychatWebhookRouteImport.update({
     id: '/api/public/manychat/webhook',
@@ -525,6 +537,8 @@ export interface FileRoutesByFullPath {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/ces/feed': typeof ApiPublicCesFeedRoute
+  '/api/public/ces/tiktok-daily': typeof ApiPublicCesTiktokDailyRoute
   '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
@@ -597,6 +611,8 @@ export interface FileRoutesByTo {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/ces/feed': typeof ApiPublicCesFeedRoute
+  '/api/public/ces/tiktok-daily': typeof ApiPublicCesTiktokDailyRoute
   '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
@@ -672,6 +688,8 @@ export interface FileRoutesById {
   '/admin/leads/$id': typeof AdminLeadsIdRoute
   '/admin_/preview/$page': typeof AdminPreviewPageRoute
   '/api/public/ces/drain': typeof ApiPublicCesDrainRoute
+  '/api/public/ces/feed': typeof ApiPublicCesFeedRoute
+  '/api/public/ces/tiktok-daily': typeof ApiPublicCesTiktokDailyRoute
   '/api/public/manychat/webhook': typeof ApiPublicManychatWebhookRoute
   '/api/public/notify/dispatch': typeof ApiPublicNotifyDispatchRoute
   '/api/public/notify/push': typeof ApiPublicNotifyPushRoute
@@ -748,6 +766,8 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/ces/feed'
+    | '/api/public/ces/tiktok-daily'
     | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
@@ -820,6 +840,8 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/ces/feed'
+    | '/api/public/ces/tiktok-daily'
     | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
@@ -894,6 +916,8 @@ export interface FileRouteTypes {
     | '/admin/leads/$id'
     | '/admin_/preview/$page'
     | '/api/public/ces/drain'
+    | '/api/public/ces/feed'
+    | '/api/public/ces/tiktok-daily'
     | '/api/public/manychat/webhook'
     | '/api/public/notify/dispatch'
     | '/api/public/notify/push'
@@ -929,6 +953,8 @@ export interface RootRouteChildren {
   RequestServiceIndexRoute: typeof RequestServiceIndexRoute
   AdminPreviewPageRoute: typeof AdminPreviewPageRoute
   ApiPublicCesDrainRoute: typeof ApiPublicCesDrainRoute
+  ApiPublicCesFeedRoute: typeof ApiPublicCesFeedRoute
+  ApiPublicCesTiktokDailyRoute: typeof ApiPublicCesTiktokDailyRoute
   ApiPublicManychatWebhookRoute: typeof ApiPublicManychatWebhookRoute
   ApiPublicNotifyDispatchRoute: typeof ApiPublicNotifyDispatchRoute
   ApiPublicNotifyPushRoute: typeof ApiPublicNotifyPushRoute
@@ -1401,6 +1427,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCesDrainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ces/feed': {
+      id: '/api/public/ces/feed'
+      path: '/api/public/ces/feed'
+      fullPath: '/api/public/ces/feed'
+      preLoaderRoute: typeof ApiPublicCesFeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ces/tiktok-daily': {
+      id: '/api/public/ces/tiktok-daily'
+      path: '/api/public/ces/tiktok-daily'
+      fullPath: '/api/public/ces/tiktok-daily'
+      preLoaderRoute: typeof ApiPublicCesTiktokDailyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/manychat/webhook': {
       id: '/api/public/manychat/webhook'
       path: '/api/public/manychat/webhook'
@@ -1581,6 +1621,8 @@ const rootRouteChildren: RootRouteChildren = {
   RequestServiceIndexRoute: RequestServiceIndexRoute,
   AdminPreviewPageRoute: AdminPreviewPageRoute,
   ApiPublicCesDrainRoute: ApiPublicCesDrainRoute,
+  ApiPublicCesFeedRoute: ApiPublicCesFeedRoute,
+  ApiPublicCesTiktokDailyRoute: ApiPublicCesTiktokDailyRoute,
   ApiPublicManychatWebhookRoute: ApiPublicManychatWebhookRoute,
   ApiPublicNotifyDispatchRoute: ApiPublicNotifyDispatchRoute,
   ApiPublicNotifyPushRoute: ApiPublicNotifyPushRoute,
