@@ -33,6 +33,12 @@ export type CesQueueStatus = {
     lastStatusCode: number | null;
     nextAttemptAt: string | null;
   }>;
+  feed: {
+    pending: number;
+    sent: number;
+    failed: number;
+    failures: Array<{ kind: string; attempts: number; lastError: string | null; lastStatusCode: number | null }>;
+  };
 };
 
 async function assertAdmin(context: { supabase: any; userId: string }) {
@@ -108,6 +114,28 @@ export const getCesQueueStatus = createServerFn({ method: "POST" })
         lastStatusCode: f.last_status_code,
         nextAttemptAt: f.next_attempt_at,
       })),
+      feed: await (async () => {
+        const c = async (s: string) =>
+          (await supabaseAdmin.from("ces_feed_queue").select("id", { count: "exact", head: true }).eq("status", s)).count ?? 0;
+        const [fp, fs, ff] = await Promise.all([c("pending"), c("sent"), c("failed")]);
+        const { data: ffail } = await supabaseAdmin
+          .from("ces_feed_queue")
+          .select("event_id, attempts, last_error, last_status_code")
+          .eq("status", "failed")
+          .order("created_at", { ascending: false })
+          .limit(5);
+        return {
+          pending: fp,
+          sent: fs,
+          failed: ff,
+          failures: (ffail ?? []).map((r) => ({
+            kind: r.event_id.split(":")[0],
+            attempts: r.attempts,
+            lastError: r.last_error,
+            lastStatusCode: r.last_status_code,
+          })),
+        };
+      })(),
     };
   });
 

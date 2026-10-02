@@ -174,6 +174,17 @@ function IntegrationsPage() {
                   </span>
                 )}
               </p>
+              <p className="admin-note">
+                <Send className="h-4 w-4" aria-hidden />
+                TikTok daily figures &amp; newsletter sign-ups: {status.data!.feed.sent} sent,{" "}
+                {status.data!.feed.pending} waiting, {status.data!.feed.failed} failed.
+              </p>
+              {status.data!.feed.failures.map((f, i) => (
+                <p key={i} className="admin-note" style={{ color: "var(--admin-danger, #b42318)" }}>
+                  {f.kind === "newsletter_signup" ? "Newsletter sign-up" : "TikTok day"} failed after {f.attempts}{" "}
+                  attempt(s){f.lastStatusCode ? ` (HTTP ${f.lastStatusCode})` : ""}: {f.lastError ?? "unknown"}
+                </p>
+              ))}
             </>
           )}
         </Panel>
