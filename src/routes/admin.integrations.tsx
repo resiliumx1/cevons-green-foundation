@@ -158,6 +158,22 @@ function IntegrationsPage() {
                 {status.data!.retained.contactMessages} contact messages are kept on this website. Nothing
                 here removes or changes them.
               </p>
+              <p className="admin-note" role="status">
+                <RefreshCw className="h-4 w-4" aria-hidden />
+                Last automatic send:{" "}
+                {status.data!.dispatch.lastDrainAt
+                  ? new Date(status.data!.dispatch.lastDrainAt).toLocaleString()
+                  : "not yet"}
+                {status.data!.dispatch.lastError && (
+                  <span className="block" style={{ color: "var(--admin-danger, #b42318)" }}>
+                    Last problem
+                    {status.data!.dispatch.lastErrorAt
+                      ? ` (${new Date(status.data!.dispatch.lastErrorAt).toLocaleString()})`
+                      : ""}
+                    : {status.data!.dispatch.lastError}
+                  </span>
+                )}
+              </p>
             </>
           )}
         </Panel>

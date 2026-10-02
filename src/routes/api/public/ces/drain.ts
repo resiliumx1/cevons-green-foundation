@@ -13,16 +13,10 @@ export const Route = createFileRoute("/api/public/ces/drain")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const serviceKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
-        if (!serviceKey) {
-          return Response.json({ ok: false, reason: "server_misconfigured" }, { status: 500 });
+        const { isAuthorizedDispatchCaller } = await import("@/lib/ces/drainAuth.server");
+        if (!(await isAuthorizedDispatchCaller(request))) {
+          return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
-
-        const auth = request.headers.get("Authorization") ?? "";
-        const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-        const dispatchSecret = process.env["NOTIFY_DISPATCH_SECRET"];
-        const authorized = token === serviceKey || (!!dispatchSecret && token === dispatchSecret);
-        if (!authorized) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
         let limit = 25;
         try {
@@ -35,6 +29,29 @@ export const Route = createFileRoute("/api/public/ces/drain")({
         try {
           const { drainCesOutbox } = await import("@/lib/ces/outbox.server");
           const result = await drainCesOutbox(limit);
+          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+          const summary = {
+            configured: result.configured,
+            attempted: result.attempted,
+            sent: result.sent,
+            duplicates: result.duplicates,
+            failed: result.failed,
+          };
+          const drainError = !result.configured
+            ? "CES address or shared key not configured on the server."
+            : result.failed > 0
+              ? `${result.failed} of ${result.attempted} could not be delivered.`
+              : null;
+          await supabaseAdmin
+            .from("ces_dispatch_status")
+            .update({
+              last_drain_at: new Date().toISOString(),
+              last_drain_result: summary,
+              ...(drainError
+                ? { last_error: drainError, last_error_at: new Date().toISOString() }
+                : {}),
+            })
+            .eq("id", "default");
 
           // Same schedule also releases any due Google review follow-ups.
           let reviewFollowups = {
@@ -52,17 +69,18 @@ export const Route = createFileRoute("/api/public/ces/drain")({
             console.error("review followup drain failed", err);
           }
 
-          return Response.json({
-            ok: true,
-            configured: result.configured,
-            attempted: result.attempted,
-            sent: result.sent,
-            duplicates: result.duplicates,
-            failed: result.failed,
-            reviewFollowups,
-          });
+          return Response.json({ ok: true, ...summary, reviewFollowups });
         } catch (err) {
           console.error("ces drain failed", err);
+          try {
+            const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+            await supabaseAdmin
+              .from("ces_dispatch_status")
+              .update({ last_error: "Drain crashed on the server.", last_error_at: new Date().toISOString() })
+              .eq("id", "default");
+          } catch {
+            /* ignore */
+          }
           return Response.json({ ok: false, reason: "drain_error" });
         }
       },

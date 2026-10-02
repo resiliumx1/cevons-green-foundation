@@ -10,6 +10,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type CesQueueStatus = {
+  dispatch: {
+    lastDispatchAt: string | null;
+    lastDrainAt: string | null;
+    lastError: string | null;
+    lastErrorAt: string | null;
+  };
   config: {
     urlConfigured: boolean;
     secretConfigured: boolean;
@@ -72,7 +78,19 @@ export const getCesQueueStatus = createServerFn({ method: "POST" })
       .order("updated_at", { ascending: false })
       .limit(10);
 
+    const { data: disp } = await supabaseAdmin
+      .from("ces_dispatch_status")
+      .select("last_dispatch_at, last_drain_at, last_error, last_error_at")
+      .eq("id", "default")
+      .maybeSingle();
+
     return {
+      dispatch: {
+        lastDispatchAt: disp?.last_dispatch_at ?? null,
+        lastDrainAt: disp?.last_drain_at ?? null,
+        lastError: disp?.last_error ?? null,
+        lastErrorAt: disp?.last_error_at ?? null,
+      },
       config: cesConfigStatus(),
       counts: {
         pending,
