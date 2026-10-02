@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as NewsMediaRouteImport } from './routes/news-media'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapRouteImport } from './routes/sitemap'
@@ -119,6 +120,11 @@ const LocationsRoute = LocationsRouteImport.update({
 const NewsMediaRoute = NewsMediaRouteImport.update({
   id: '/news-media',
   path: '/news-media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -461,6 +467,7 @@ export interface FileRoutesByFullPath {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/news-media': typeof NewsMediaRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -533,6 +540,7 @@ export interface FileRoutesByTo {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/news-media': typeof NewsMediaRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -606,6 +614,7 @@ export interface FileRoutesById {
   '/industries': typeof IndustriesRoute
   '/locations': typeof LocationsRoute
   '/news-media': typeof NewsMediaRoute
+  '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap': typeof SitemapRoute
@@ -681,6 +690,7 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/news-media'
+    | '/privacy'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -753,6 +763,7 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/news-media'
+    | '/privacy'
     | '/resources'
     | '/sitemap'
     | '/sitemap.xml'
@@ -825,6 +836,7 @@ export interface FileRouteTypes {
     | '/industries'
     | '/locations'
     | '/news-media'
+    | '/privacy'
     | '/resources'
     | '/services'
     | '/sitemap'
@@ -899,6 +911,7 @@ export interface RootRouteChildren {
   IndustriesRoute: typeof IndustriesRoute
   LocationsRoute: typeof LocationsRoute
   NewsMediaRoute: typeof NewsMediaRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapRoute: typeof SitemapRoute
@@ -980,6 +993,13 @@ declare module '@tanstack/react-router' {
       path: '/news-media'
       fullPath: '/news-media'
       preLoaderRoute: typeof NewsMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources': {
@@ -1543,6 +1563,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesRoute: IndustriesRoute,
   LocationsRoute: LocationsRoute,
   NewsMediaRoute: NewsMediaRoute,
+  PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapRoute: SitemapRoute,

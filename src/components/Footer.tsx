@@ -280,7 +280,12 @@ export function Footer() {
               © {year} CEVONS Environmental Services Inc. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/75">
-              <span aria-label={`${t("footer.privacy")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/75">{t("footer.privacy")}</span>
+              <Link
+                to="/privacy"
+                className="text-white/85 transition-colors hover:text-white hover:underline focus-visible:text-white focus-visible:underline motion-reduce:transition-none"
+              >
+                Privacy Policy
+              </Link>
               <span aria-hidden="true" className="text-white/50">|</span>
               <span aria-label={`${t("footer.terms")} — Coming soon`} title="Coming soon" className="cursor-not-allowed text-white/75">{t("footer.terms")}</span>
               <span aria-hidden="true" className="text-white/50">|</span>
