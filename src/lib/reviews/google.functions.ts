@@ -24,10 +24,9 @@ const replyInput = z.object({
   comment: z.string().trim().min(1, "Write a reply first.").max(4096, "Keep the reply under 4,096 characters."),
 });
 
-async function requireStaff(context: {
-  supabase: { rpc: (name: string, args: { _user_id: string }) => PromiseLike<{ data: unknown; error: unknown }> };
-  userId: string;
-}) {
+async function requireStaff(
+  context: Parameters<Parameters<typeof requireSupabaseAuth.options.server>[0]>[0]["context"],
+) {
   const { data: isStaff, error } = await context.supabase.rpc("is_staff", {
     _user_id: context.userId,
   });
