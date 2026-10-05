@@ -4,3 +4,4 @@
 
 - Only content-versioned URLs (Vite-hashed filenames, /__l5e/, /_build/) get immutable caching; files from public/ get a short cache, so a changed public image must get a new filename. Why: unversioned names marked immutable would serve stale files for a year.
 - The homepage slideshow advances on a timer with a CSS progress bar and loads only the first slide up front, then each next slide just ahead of use. Why: per-frame React state and eager slide loading hurt load speed and responsiveness.
+- Google Business Profile reads and replies stay in staff-only server functions, and every live reply requires explicit confirmation. Why: connector credentials must remain private and review replies are public actions.
