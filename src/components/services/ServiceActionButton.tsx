@@ -103,7 +103,7 @@ export function ServiceActionButton({
  */
 export function ServiceActionRow({
   learnTo,
-  learnLabel = "Learn more",
+  learnLabel = "View details",
   requestTo = "/request-service",
   requestLabel = "Request",
   ariaTitle,

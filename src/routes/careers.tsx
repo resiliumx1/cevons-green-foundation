@@ -192,6 +192,7 @@ function CareersPage() {
               className="mt-5 text-4xl md:text-6xl lg:text-[68px] font-bold leading-[1.05] tracking-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
+              <span className="sr-only">Careers at CEVONS Environmental Services: </span>
               {intro?.title ? (
                 intro.title
               ) : (

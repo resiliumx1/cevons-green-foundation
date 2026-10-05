@@ -208,7 +208,7 @@ function ServiceCard({
   // In 4-across grids (residential) cards are narrower — use the small button
   // size and shorter "Learn" label so CTAs never overflow their column.
   const actionSize = compact ? "sm" : "md";
-  const learnLabel = compact ? "Learn" : "Learn more";
+  const learnLabel = compact ? "Details" : "View details";
   if (s.comingSoon) return <ComingSoonCard s={s} variant={variant} />;
   if (variant === "industrial") {
     return (
