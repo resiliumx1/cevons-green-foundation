@@ -11,6 +11,9 @@ export { SITE_URL };
 // Exact office coordinates are not confirmed, so no geo pin is emitted;
 // Google resolves the street address instead. Regions are Guyana's
 // administrative regions for each town.
+/** Verified Google Business Profile listing for the Georgetown head office. */
+export const GOOGLE_MAPS_LISTING_URL = "https://maps.google.com/maps?cid=10131709156292350183";
+
 const branchGeo: Record<string, { locality: string; region: string }> = {
   georgetown: { locality: "Georgetown", region: "Demerara-Mahaica" },
   linden:     { locality: "Linden", region: "Upper Demerara-Berbice" },
@@ -39,7 +42,7 @@ export function organizationJsonLd() {
     telephone: cevonsContact.primaryPhone,
     foundingDate: "1997",
     areaServed: ["Georgetown", "Linden", "Berbice", "Guyana"],
-    sameAs: [] as string[],
+    sameAs: [GOOGLE_MAPS_LISTING_URL] as string[],
     contactPoint: [{
       "@type": "ContactPoint",
       contactType: "customer service",
@@ -78,7 +81,7 @@ export function localBusinessGraphJsonLd() {
             addressRegion: geo.region,
             addressCountry: "GY",
           },
-          hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${r.addressLine1}, ${r.addressLine2}`)}`,
+          hasMap: r.id === "georgetown" ? GOOGLE_MAPS_LISTING_URL : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${r.addressLine1}, ${r.addressLine2}`)}`,
           openingHoursSpecification: OPENING_HOURS_SPEC,
           areaServed: { "@type": "City", name: geo.locality },
         };
