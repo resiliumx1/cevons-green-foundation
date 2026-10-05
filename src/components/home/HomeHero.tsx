@@ -88,6 +88,7 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
 
           >
+            <span className="sr-only">CEVONS Waste Management &amp; Environmental Services in Guyana: </span>
             <Editable id="home.hero.lineA" label="Hero headline line 1" as="span" className="hero-heading-line">
               {c("lineA", t("home.hero.lineA"))}
             </Editable>
