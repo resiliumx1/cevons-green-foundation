@@ -99,7 +99,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Location signals: head office in Georgetown, serving all of Guyana.
       { name: "geo.region", content: "GY" },
       { name: "geo.placename", content: "Georgetown, Guyana" },
-      { name: "ICBM", content: "6.8013, -58.1551" },
       { property: "og:site_name", content: "CEVONS Environmental Services" },
       { property: "og:type", content: "website" },
       { name: "theme-color", content: "#FFFFFF", media: "(prefers-color-scheme: light)" },
