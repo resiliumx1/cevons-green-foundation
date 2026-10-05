@@ -50,3 +50,11 @@
 
 - [x] Add a public, server-rendered Privacy Policy at `/privacy`
 - [x] Link the Privacy Policy from the footer and both sitemaps
+
+# Google Business review replies
+
+- [x] Publish the approved website changes
+- [x] Resubmit the live sitemap to the verified Search Console property
+- [ ] Add secure live Google Business review loading to Admin Reviews
+- [ ] Add a confirmed owner-reply form for managed CEVONS reviews
+- [ ] Verify signed-in admin behavior, tests, typecheck, and build
