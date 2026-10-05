@@ -8,6 +8,7 @@ import { runReviewFollowups, sendReviewFollowup } from "@/lib/reviewFollowups.fu
 import {
   listGoogleBusinessReviews,
   postGoogleBusinessReply,
+  type GoogleBusinessReviewDto,
 } from "@/lib/reviews/google.functions";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
@@ -318,7 +319,7 @@ function ReviewsPage() {
 
 /* ─── live Google Business reviews ────────────────────────────────────── */
 
-type GoogleReview = Awaited<ReturnType<typeof listGoogleBusinessReviews>>[number];
+type GoogleReview = GoogleBusinessReviewDto;
 
 function GoogleBusinessReviewsPanel() {
   const listReviews = useServerFn(listGoogleBusinessReviews);
@@ -406,7 +407,7 @@ function GoogleBusinessReviewsPanel() {
                   <div className="flex flex-wrap items-center gap-2">
                     <span
                       className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide"
-                      style={{ background: flag.tone, color: "var(--crm-on-status)" }}
+                      style={{ background: flag.tone, color: "var(--primary-foreground)" }}
                     >
                       {flag.label}
                     </span>

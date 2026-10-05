@@ -2,6 +2,21 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+export type GoogleBusinessReviewDto = {
+  id: string;
+  name: string;
+  reviewerName: string;
+  reviewerPhotoUrl: string | null;
+  rating: number;
+  comment: string | null;
+  createdAt: string;
+  updatedAt: string;
+  reply: string | null;
+  replyUpdatedAt: string | null;
+  locationName: string;
+  locationLocality: string | null;
+};
+
 const replyInput = z.object({
   reviewName: z
     .string()
