@@ -8,10 +8,13 @@ import { SITE_URL } from "@/lib/seo/site";
 
 export { SITE_URL };
 
-const branchGeo: Record<string, { lat: number; lng: number; locality: string }> = {
-  georgetown: { lat: 6.8013, lng: -58.1551, locality: "Georgetown" },
-  linden:     { lat: 6.0064, lng: -58.3018, locality: "Linden" },
-  berbice:    { lat: 6.2485, lng: -57.5170, locality: "New Amsterdam" },
+// Exact office coordinates are not confirmed, so no geo pin is emitted;
+// Google resolves the street address instead. Regions are Guyana's
+// administrative regions for each town.
+const branchGeo: Record<string, { locality: string; region: string }> = {
+  georgetown: { locality: "Georgetown", region: "Demerara-Mahaica" },
+  linden:     { locality: "Linden", region: "Upper Demerara-Berbice" },
+  berbice:    { locality: "New Amsterdam", region: "East Berbice-Corentyne" },
 };
 
 const OPENING_HOURS_SPEC = [
@@ -72,16 +75,12 @@ export function localBusinessGraphJsonLd() {
             "@type": "PostalAddress",
             streetAddress: r.addressLine1,
             addressLocality: geo.locality,
-            addressRegion: r.name,
+            addressRegion: geo.region,
             addressCountry: "GY",
           },
-          geo: {
-            "@type": "GeoCoordinates",
-            latitude: geo.lat,
-            longitude: geo.lng,
-          },
+          hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${r.addressLine1}, ${r.addressLine2}`)}`,
           openingHoursSpecification: OPENING_HOURS_SPEC,
-          areaServed: r.name,
+          areaServed: { "@type": "City", name: geo.locality },
         };
       }),
     ],
