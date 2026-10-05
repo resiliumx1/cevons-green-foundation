@@ -33,9 +33,9 @@ export const IMAGE_DIMS: Record<string, readonly [number, number]> = {
   "/certifications/psc.webp": [190, 265],
 
   // Social proof
-  "/assets/social-proof/gcci-logo.webp": [800, 400],
-  "/assets/social-proof/psc-logo.webp": [190, 265],
-  "/assets/social-proof/suriname-guyana-chamber.webp": [600, 600],
+  "/assets/social-proof/gcci-logo-240w.webp": [240, 120],
+  "/assets/social-proof/psc-logo-120w.webp": [120, 167],
+  "/assets/social-proof/suriname-guyana-chamber-200w.webp": [200, 200],
   "/assets/social-proof/epa-logo.webp": [800, 400],
   "/assets/social-proof/iso-logo.webp": [800, 400],
   "/assets/social-proof/market-leader-trophy.webp": [800, 400],
@@ -50,16 +50,16 @@ export const IMAGE_DIMS: Record<string, readonly [number, number]> = {
   "/assets/brand/cevons-logo-correct.webp": [100, 73],
 
   // Category icons (pillar tiles)
-  "/assets/cevon-icons/categories/residential.webp": [1024, 1024],
-  "/assets/cevon-icons/categories/commercial.webp": [1024, 1024],
+  "/assets/cevon-icons/categories/residential-192.webp": [192, 192],
+  "/assets/cevon-icons/categories/commercial-192.webp": [192, 192],
   "/assets/cevon-icons/categories/industrial.webp": [256, 256],
   "/assets/cevon-icons/categories/facilities.webp": [256, 256],
 
   // Editor uploads re-encoded to compact WebP (public/images)
-  "/images/commercial-red-bin.webp": [900, 1200],
-  "/images/industrial-truck.webp": [900, 1200],
-  "/images/residential-wheelie-bin.webp": [900, 1200],
-  "/images/recycling-facility.webp": [1200, 800],
+  "/images/commercial-red-bin-720w.webp": [720, 960],
+  "/images/industrial-truck-720w.webp": [720, 960],
+  "/images/residential-wheelie-bin-720w.webp": [720, 960],
+  "/images/recycling-facility-960w.webp": [960, 640],
   "/images/market-leader-badge.webp": [400, 133],
   "/images/bs-recycling-logo.webp": [400, 224],
   "/images/cevons-logo.webp": [256, 256],

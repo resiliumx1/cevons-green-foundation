@@ -28,10 +28,10 @@ import heroSlide2Asset from "@/assets/slide-septic.webp.asset.json";
 import heroSlide3Asset from "@/assets/slide-shred-truck.webp.asset.json";
 import skip10DiagramAsset from "@/assets/skip-10yd-diagram.png.asset.json";
 import dumpster20Asset from "@/assets/dumpster-20yd.webp.asset.json";
-const residentialWheelieBinAsset = { url: "/images/residential-wheelie-bin.webp" };
-const svcCommercialAsset = { url: "/images/commercial-red-bin.webp" };
-const svcIndustrialAsset = { url: "/images/industrial-truck.webp" };
-const svcRecoveryAsset = { url: "/images/recycling-facility.webp" };
+const residentialWheelieBinAsset = { url: "/images/residential-wheelie-bin-720w.webp" };
+const svcCommercialAsset = { url: "/images/commercial-red-bin-720w.webp" };
+const svcIndustrialAsset = { url: "/images/industrial-truck-720w.webp" };
+const svcRecoveryAsset = { url: "/images/recycling-facility-960w.webp" };
 
 
 import svcBiohazard from "@/assets/svc-biohazard.jpg";

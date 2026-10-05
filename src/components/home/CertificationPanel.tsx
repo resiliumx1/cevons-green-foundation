@@ -12,16 +12,16 @@ const fadeUp: Variants = {
 
 const items = [
   {
-    img: "/assets/social-proof/gcci-logo.webp",
+    img: "/assets/social-proof/gcci-logo-240w.webp",
     t: "GCCI Member",
     s: "Chamber of Commerce & Industry",
     scale: "scale-[1.28]",
   },
-  { img: "/assets/social-proof/psc-logo.webp", t: "PSC Member", s: "Private Sector Commission" },
+  { img: "/assets/social-proof/psc-logo-120w.webp", t: "PSC Member", s: "Private Sector Commission" },
 ];
 
 const featured = {
-  img: "/assets/social-proof/suriname-guyana-chamber.webp",
+  img: "/assets/social-proof/suriname-guyana-chamber-200w.webp",
   t: "Member of SGCC",
   s: "Suriname-Guyana Chamber of Commerce",
 };

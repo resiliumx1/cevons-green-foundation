@@ -8,12 +8,12 @@ export const cevonsIcons = {
   categories: {
     residential: {
       title: "Residential",
-      src: "/assets/cevon-icons/categories/residential.webp",
+      src: "/assets/cevon-icons/categories/residential-192.webp",
       alt: "Residential waste services icon",
     },
     commercial: {
       title: "Commercial",
-      src: "/assets/cevon-icons/categories/commercial.webp",
+      src: "/assets/cevon-icons/categories/commercial-192.webp",
       alt: "Commercial waste services icon",
     },
     industrial: {

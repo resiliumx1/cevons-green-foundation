@@ -156,7 +156,9 @@ function usePrefersReducedMotion() {
 
 type Ctx = {
   active: number;
-  progress: number;
+  /** Bumps on manual navigation so the progress bar restarts. */
+  cycle: number;
+  paused: boolean;
   reduced: boolean;
   goTo: (i: number) => void;
   setPaused: (v: boolean) => void;
@@ -165,18 +167,21 @@ type Ctx = {
 };
 const SlideshowCtx = createContext<Ctx | null>(null);
 
+/**
+ * Auto-advance runs on a single timeout per slide instead of a per-frame
+ * React state update, so consumers re-render only when the slide or pause
+ * state changes. The progress bar is a CSS animation kept in step with the
+ * timer (paused/resumed together).
+ */
 export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [cycle, setCycle] = useState(0);
   const reduced = usePrefersReducedMotion();
   const slides = useHeroSlides();
   const count = slides.length;
-  const rafRef = useRef<number | null>(null);
-  const startRef = useRef<number>(performance.now());
-  const progressRef = useRef(0);
-
-  useEffect(() => { progressRef.current = progress; }, [progress]);
+  const remainingRef = useRef(DURATION_MS);
+  const startedRef = useRef(0);
 
   // If the CRM slide set changes (or arrives after first paint), keep the
   // active index in range.
@@ -184,33 +189,26 @@ export function HeroSlideshowProvider({ children }: { children: ReactNode }) {
     setActive((a) => (a < count ? a : 0));
   }, [count]);
 
+  // A new slide (or a manual restart) gets the full duration again.
   useEffect(() => {
-    if (reduced) { setProgress(0); return; }
-    startRef.current = performance.now() - progressRef.current * DURATION_MS;
-    const tick = (t: number) => {
-      if (!paused) {
-        const elapsed = t - startRef.current;
-        const p = Math.min(1, elapsed / DURATION_MS);
-        setProgress(p);
-        if (p >= 1) {
-          setActive((a) => (a + 1) % count);
-          startRef.current = performance.now();
-          setProgress(0);
-        }
-      } else {
-        startRef.current = t - progressRef.current * DURATION_MS;
-      }
-      rafRef.current = requestAnimationFrame(tick);
+    remainingRef.current = DURATION_MS;
+  }, [active, cycle]);
+
+  useEffect(() => {
+    if (reduced || paused || count < 2) return;
+    startedRef.current = performance.now();
+    const id = window.setTimeout(() => setActive((a) => (a + 1) % count), remainingRef.current);
+    return () => {
+      window.clearTimeout(id);
+      remainingRef.current = Math.max(0, remainingRef.current - (performance.now() - startedRef.current));
     };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [active, paused, reduced, count]);
+  }, [active, cycle, paused, reduced, count]);
 
   const value = useMemo<Ctx>(() => ({
-    active, progress, reduced, count, slides,
-    goTo: (i) => { setActive(i); setProgress(0); startRef.current = performance.now(); },
+    active, cycle, paused, reduced, count, slides,
+    goTo: (i) => { setActive(i); setCycle((c) => c + 1); },
     setPaused,
-  }), [active, progress, reduced, count, slides]);
+  }), [active, cycle, paused, reduced, count, slides]);
 
   return <SlideshowCtx.Provider value={value}>{children}</SlideshowCtx.Provider>;
 }
@@ -225,13 +223,14 @@ export function HeroSlideshowBackground() {
   const { active, reduced, setPaused, slides } = useSlideshow();
   const [loaded, setLoaded] = useState<Record<string, boolean>>({});
 
-  // Slide 1 starts in the eager set so it loads immediately for LCP. Other
-  // slides are added to this set only after the hero enters the viewport
-  // (IntersectionObserver) or they become the active slide.
+  // Only the first (LCP) slide is requested up front. The next slide is
+  // fetched once the first has loaded and the browser is idle, and from then
+  // on each slide pulls in the one after it just ahead of use. Manual
+  // navigation loads the chosen slide immediately.
   const [eager, setEager] = useState<Set<number>>(() => new Set([0]));
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const parallaxRef = useRef<HTMLDivElement | null>(null);
   const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const [scrollY, setScrollY] = useState(0);
 
   const markLoaded = (src: string) =>
     setLoaded((prev) => (prev[src] ? prev : { ...prev, [src]: true }));
@@ -246,51 +245,43 @@ export function HeroSlideshowBackground() {
     });
   }, [eager, slides]);
 
-  // IntersectionObserver: once the hero is in (or near) the viewport,
-  // warm the remaining slides. Saves bandwidth when a visitor never
-  // scrolls to / sees the hero (or lands deep-linked elsewhere).
-  useEffect(() => {
-    const node = rootRef.current;
-    if (!node) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setEager(new Set(slides.map((_, i) => i)));
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setEager(new Set(slides.map((_, i) => i)));
-            io.disconnect();
-            break;
-          }
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, [slides]);
+  const firstLoaded = !!(slides[0] && loaded[slides[0].src]);
 
-  // Safety net: if the carousel advances to a slide we haven't loaded
-  // yet (e.g. user clicked a dot before IO fired), pull that one in too.
+  useEffect(() => {
+    if (!firstLoaded || slides.length < 2) return;
+    const next = (active + 1) % slides.length;
+    const add = () => setEager((prev) => {
+      if (prev.has(active) && prev.has(next)) return prev;
+      return new Set(prev).add(active).add(next);
+    });
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(add, { timeout: 2000 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(add, 300);
+    return () => window.clearTimeout(id);
+  }, [firstLoaded, active, slides.length]);
+
+  // Safety net: a slide chosen by a dot click is needed now, not at idle.
   useEffect(() => {
     setEager((prev) => (prev.has(active) ? prev : new Set(prev).add(active)));
   }, [active]);
 
   // Scroll parallax: translate the slideshow layer at ~30% of scroll for
-  // a subtle depth effect. Disabled when user prefers reduced motion.
+  // a subtle depth effect, written straight to the element so scrolling
+  // never re-renders React. Disabled when user prefers reduced motion.
   useEffect(() => {
-    if (reduced) return;
+    const el = parallaxRef.current;
+    if (!el) return;
+    if (reduced) { el.style.transform = ""; return; }
     let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        setScrollY(window.scrollY);
-      });
+    const apply = () => {
+      raf = 0;
+      el.style.transform = `translate3d(0, ${window.scrollY * 0.3}px, 0)`;
     };
-    onScroll();
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    apply();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -300,8 +291,6 @@ export function HeroSlideshowBackground() {
 
   const activeSlide = slides[active];
   const showPlaceholder = !activeSlide || !loaded[activeSlide.src];
-
-  const parallaxY = reduced ? 0 : scrollY * 0.3;
 
   return (
     <div
@@ -341,11 +330,9 @@ export function HeroSlideshowBackground() {
       {/* Parallax wrapper — translates the image stack on scroll while the
           tints/placeholder stay fixed to the viewport edge. */}
       <div
+        ref={parallaxRef}
         className="absolute inset-0"
-        style={{
-          transform: `translate3d(0, ${parallaxY}px, 0)`,
-          willChange: reduced ? undefined : "transform",
-        }}
+        style={{ willChange: reduced ? undefined : "transform" }}
       >
         {slides.map((s, i) => {
           const isActive = i === active;
@@ -462,7 +449,7 @@ export function HeroSlideshowBackground() {
 }
 
 export function HeroSlideshowControls({ className = "" }: { className?: string }) {
-  const { active, progress, reduced, count, goTo, setPaused } = useSlideshow();
+  const { active, cycle, paused, reduced, count, goTo, setPaused } = useSlideshow();
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") { e.preventDefault(); goTo((active + 1) % count); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); goTo((active - 1 + count) % count); }
@@ -493,13 +480,19 @@ export function HeroSlideshowControls({ className = "" }: { className?: string }
             >
               {isActive && (
                 <span
+                  key={`${active}-${cycle}`}
                   aria-hidden
-                  className="absolute inset-y-0 left-0"
+                  className="absolute inset-0"
                   style={{
-                    width: `${(reduced ? 1 : progress) * 100}%`,
                     background: "var(--brand-orange)",
-                    transition: reduced ? "none" : "width 80ms linear",
                     boxShadow: "0 0 8px rgba(239,119,0,0.55)",
+                    transformOrigin: "left center",
+                    ...(reduced
+                      ? {}
+                      : {
+                          animation: `hero-progress ${DURATION_MS}ms linear forwards`,
+                          animationPlayState: paused ? "paused" : "running",
+                        }),
                   }}
                 />
               )}

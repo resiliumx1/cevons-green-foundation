@@ -6,10 +6,12 @@
  * `Cache-Control` header attached to it.
  *
  * Rules:
- *  - Build output, bundled assets and fonts are content-hashed / content-keyed,
- *    so they are safe to cache forever (`immutable`).
- *  - Plain images under `public/` keep their filename across deploys, so they
- *    get a month rather than a year.
+ *  - Only content-versioned URLs are cached forever (`immutable`): Vite build
+ *    output with a hash in its filename, and the externalised asset store
+ *    whose URL contains a content id.
+ *  - Files under `public/` (images, fonts, hero frames, /assets/brand…) keep
+ *    their filename across deploys, so they get a week in the browser plus a
+ *    month of stale-while-revalidate. Changing one means giving it a new name.
  *  - Public HTML is cached at the CDN only (`s-maxage`), never in the browser,
  *    with a day of stale-while-revalidate so a slow origin never blocks a
  *    visitor.
@@ -18,26 +20,28 @@
  */
 
 const IMMUTABLE = "public, max-age=31536000, immutable";
-const IMAGES = "public, max-age=2592000";
+const STATIC = "public, max-age=604800, stale-while-revalidate=2592000";
 const PUBLIC_HTML = "public, s-maxage=300, stale-while-revalidate=86400";
 const PRIVATE = "private, no-store";
 
-/** Directories whose contents are content-hashed or content-keyed. */
+/** Directories whose URLs are content-versioned. */
 const IMMUTABLE_PREFIXES = [
   "/_build/", // Vite build output (hashed filenames)
-  "/assets/", // hashed bundle assets
-  "/fonts/", // self-hosted font files
-  "/hero/", // hero slideshow frames (versioned by filename on change)
   "/__l5e/", // externalised asset store (URL contains a content id)
 ];
 
-/** Files that keep their name across deploys but rarely change. */
-const VENDOR_PREFIX = "/vendor/"; // third-party CSS/JS copied at a pinned version
+/** Directories of unversioned static files copied from public/. */
+const STATIC_PREFIXES = ["/vendor/", "/fonts/", "/hero/", "/assets/"];
 
-const IMAGE_EXT = /\.(webp|avif|png|svg|jpe?g|gif|ico)$/i;
+const STATIC_EXT = /\.(webp|avif|png|svg|jpe?g|gif|ico|woff2?|ttf|otf)$/i;
 
-/** A hashed filename such as `main-DtK3p9Qa.js`. */
-const HASHED_FILE = /-[A-Za-z0-9_-]{8,}\.(js|mjs|css|woff2?|ttf|otf)$/i;
+/**
+ * A Vite-hashed filename such as `main-DtK3p9Qa.js`: exactly eight hash
+ * characters, at least one uppercase. Plain names like `open-sans-var.woff2`
+ * or `admin-icon-192.png` never match.
+ */
+export const HASHED_FILE =
+  /-(?=[A-Za-z0-9_-]*[A-Z])[A-Za-z0-9_-]{8}\.(js|mjs|css|woff2?|ttf|otf|webp|avif|png|svg|jpe?g|gif|ico)$/;
 
 /** Public pages that are safe to serve from a shared cache. */
 const PUBLIC_HTML_PATHS = new Set([
@@ -80,11 +84,15 @@ export function cacheControlFor(request: Request, response: Response): string | 
   const pathname = url.pathname;
 
   // Static files are safe to cache regardless of method-agnostic handlers.
-  if (pathname.startsWith(VENDOR_PREFIX)) return IMAGES;
-  if (IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || HASHED_FILE.test(pathname)) {
+  if (
+    IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)) ||
+    HASHED_FILE.test(pathname)
+  ) {
     return IMMUTABLE;
   }
-  if (IMAGE_EXT.test(pathname)) return IMAGES;
+  if (STATIC_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || STATIC_EXT.test(pathname)) {
+    return STATIC;
+  }
 
   // Anything else only gets a policy when it is a public HTML document.
   if (request.method !== "GET" && request.method !== "HEAD") return null;

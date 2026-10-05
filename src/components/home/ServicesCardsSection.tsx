@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useT } from "@/contexts/SettingsContext";
 import { SlotImage } from "@/components/media/SlotImage";
-const wheelieBinAsset = { url: "/images/residential-wheelie-bin.webp" };
-const commercialRedBinAsset = { url: "/images/commercial-red-bin.webp" };
+const wheelieBinAsset = { url: "/images/residential-wheelie-bin-720w.webp" };
+const commercialRedBinAsset = { url: "/images/commercial-red-bin-720w.webp" };
 
 type ServiceCard = {
   key: "industrial" | "recyclables" | "residential" | "commercial" | "specialised";

@@ -10,7 +10,7 @@ const items = [
     subtitle: "Quality Management",
   },
   {
-    logo: "/assets/social-proof/gcci-logo.webp",
+    logo: "/assets/social-proof/gcci-logo-240w.webp",
     title: "GCCI Member",
     subtitle: "Private Sector Commission",
   },

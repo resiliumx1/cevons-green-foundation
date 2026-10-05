@@ -2,34 +2,39 @@
 # Applied by the static-asset layer, which can answer these requests before the
 # worker runs; src/lib/cacheHeaders.ts applies the same values for anything that
 # does reach the worker.
+#
+# Only content-versioned URLs are immutable. Files copied from public/ keep
+# their names across deploys, so they get a week plus revalidation; give a file
+# a new name when its contents change.
 
 /_build/*
   Cache-Control: public, max-age=31536000, immutable
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
-/hero/*
-  Cache-Control: public, max-age=31536000, immutable
 /__l5e/*
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/fonts/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/hero/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /vendor/*
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 
 /*.webp
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.png
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.svg
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.jpg
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.jpeg
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.avif
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 /*.ico
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
 
 # Staff area is never shared-cached.
 /admin/*

@@ -2,30 +2,62 @@ import { describe, expect, it } from "vitest";
 import { cacheControlFor, withCacheHeaders } from "./cacheHeaders";
 
 const html = (status = 200) =>
-  new Response("<html></html>", { status, headers: { "content-type": "text/html; charset=utf-8" } });
+  new Response("<html></html>", {
+    status,
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
 
 const get = (path: string) => new Request(`https://cevons.com${path}`);
 
 describe("cacheControlFor", () => {
-  it("caches build output, fonts and hero frames forever", () => {
-    for (const p of ["/_build/assets/main-DtK3p9Qa.js", "/fonts/open-sans-400.woff2", "/hero/hero-skip-640.webp", "/__l5e/assets-v1/abc/x.webp"]) {
-      expect(cacheControlFor(get(p), new Response("x"))).toBe("public, max-age=31536000, immutable");
+  it("caches only content-versioned files forever", () => {
+    for (const p of [
+      "/_build/assets/main-DtK3p9Qa.js",
+      "/assets/index-BxYz12Ab.css",
+      "/assets/logo-Ck3dP9qA.webp",
+      "/__l5e/assets-v1/abc/x.webp",
+    ]) {
+      expect(cacheControlFor(get(p), new Response("x"))).toBe(
+        "public, max-age=31536000, immutable",
+      );
     }
   });
 
-  it("caches public images for a month", () => {
-    expect(cacheControlFor(get("/partners/saipem.png"), new Response("x"))).toBe("public, max-age=2592000");
-    expect(cacheControlFor(get("/favicon.svg"), new Response("x"))).toBe("public, max-age=2592000");
+  it("gives unversioned public files a week plus revalidation", () => {
+    const STATIC = "public, max-age=604800, stale-while-revalidate=2592000";
+    for (const p of [
+      "/fonts/open-sans-var.woff2",
+      "/hero/hero-skip-640.webp",
+      "/assets/brand/cevons-logo-correct.webp",
+      "/assets/brand/admin-icon-192.png",
+      "/partners/saipem.png",
+      "/favicon.svg",
+      "/vendor/leaflet.css",
+    ]) {
+      expect(cacheControlFor(get(p), new Response("x"))).toBe(STATIC);
+    }
   });
 
   it("caches public pages at the edge only", () => {
-    for (const p of ["/", "/about", "/contact", "/careers", "/news-media", "/request-service", "/services/skip-bin-dumpster-rental"]) {
-      expect(cacheControlFor(get(p), html())).toBe("public, s-maxage=300, stale-while-revalidate=86400");
+    for (const p of [
+      "/",
+      "/about",
+      "/contact",
+      "/careers",
+      "/news-media",
+      "/request-service",
+      "/services/skip-bin-dumpster-rental",
+    ]) {
+      expect(cacheControlFor(get(p), html())).toBe(
+        "public, s-maxage=300, stale-while-revalidate=86400",
+      );
     }
   });
 
   it("caches the 404 page", () => {
-    expect(cacheControlFor(get("/nope"), html(404))).toBe("public, s-maxage=300, stale-while-revalidate=86400");
+    expect(cacheControlFor(get("/nope"), html(404))).toBe(
+      "public, s-maxage=300, stale-while-revalidate=86400",
+    );
   });
 
   it("never caches admin or preview-token responses", () => {
@@ -46,7 +78,9 @@ describe("cacheControlFor", () => {
   it("leaves non-HTML and unlisted responses alone", () => {
     expect(cacheControlFor(get("/api/public/ces/drain"), new Response("{}"))).toBeNull();
     expect(cacheControlFor(get("/some-other-page"), html())).toBeNull();
-    expect(cacheControlFor(new Request("https://cevons.com/", { method: "POST" }), html())).toBeNull();
+    expect(
+      cacheControlFor(new Request("https://cevons.com/", { method: "POST" }), html()),
+    ).toBeNull();
   });
 });
 
@@ -55,14 +89,18 @@ describe("withCacheHeaders", () => {
     const res = new Response("<x/>", {
       headers: { "content-type": "text/html", "cache-control": "public, max-age=3600" },
     });
-    expect(withCacheHeaders(get("/"), res).headers.get("cache-control")).toBe("public, max-age=3600");
+    expect(withCacheHeaders(get("/"), res).headers.get("cache-control")).toBe(
+      "public, max-age=3600",
+    );
   });
 
   it("forces no-store even when the handler set a policy", () => {
     const res = new Response("<x/>", {
       headers: { "content-type": "text/html", "cache-control": "public, max-age=60" },
     });
-    expect(withCacheHeaders(get("/admin"), res).headers.get("cache-control")).toBe("private, no-store");
+    expect(withCacheHeaders(get("/admin"), res).headers.get("cache-control")).toBe(
+      "private, no-store",
+    );
   });
 
   it("preserves the body and status", async () => {
