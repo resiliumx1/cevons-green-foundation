@@ -78,8 +78,8 @@ async function listAccounts() {
   const result = await googleRequest<{ accounts?: GoogleAccount[] }>(
     "/account_management/v1/accounts",
   );
-  return (result.accounts ?? []).filter(
-    (account): account is GoogleAccount & { name: string } => Boolean(account.name),
+  return (result.accounts ?? []).filter((account): account is GoogleAccount & { name: string } =>
+    Boolean(account.name),
   );
 }
 
@@ -131,9 +131,10 @@ async function listLocationReviews(
 
 export async function listManagedGoogleReviews() {
   const accounts = await listAccounts();
-  const locations = (await Promise.all(accounts.map((account) => listLocations(account.name)))).flatMap(
-    (accountLocations, index) =>
-      accountLocations.map((location) => ({ accountName: accounts[index].name, location })),
+  const locations = (
+    await Promise.all(accounts.map((account) => listLocations(account.name)))
+  ).flatMap((accountLocations, index) =>
+    accountLocations.map((location) => ({ accountName: accounts[index].name, location })),
   );
   const reviews = (
     await Promise.all(

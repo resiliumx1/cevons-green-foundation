@@ -18,10 +18,12 @@ export type GoogleBusinessReviewDto = {
 };
 
 const replyInput = z.object({
-  reviewName: z
+  reviewName: z.string().regex(/^accounts\/\d+\/locations\/\d+\/reviews\/[A-Za-z0-9_-]+$/),
+  comment: z
     .string()
-    .regex(/^accounts\/\d+\/locations\/\d+\/reviews\/[A-Za-z0-9_-]+$/),
-  comment: z.string().trim().min(1, "Write a reply first.").max(4096, "Keep the reply under 4,096 characters."),
+    .trim()
+    .min(1, "Write a reply first.")
+    .max(4096, "Keep the reply under 4,096 characters."),
 });
 
 export const listGoogleBusinessReviews = createServerFn({ method: "POST" })
