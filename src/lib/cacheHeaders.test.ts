@@ -7,15 +7,25 @@ const html = (status = 200) =>
 const get = (path: string) => new Request(`https://cevons.com${path}`);
 
 describe("cacheControlFor", () => {
-  it("caches build output, fonts and hero frames forever", () => {
-    for (const p of ["/_build/assets/main-DtK3p9Qa.js", "/fonts/open-sans-400.woff2", "/hero/hero-skip-640.webp", "/__l5e/assets-v1/abc/x.webp"]) {
+  it("caches only content-versioned files forever", () => {
+    for (const p of ["/_build/assets/main-DtK3p9Qa.js", "/assets/index-BxYz12Ab.css", "/assets/logo-Ck3dP9qA.webp", "/__l5e/assets-v1/abc/x.webp"]) {
       expect(cacheControlFor(get(p), new Response("x"))).toBe("public, max-age=31536000, immutable");
     }
   });
 
-  it("caches public images for a month", () => {
-    expect(cacheControlFor(get("/partners/saipem.png"), new Response("x"))).toBe("public, max-age=2592000");
-    expect(cacheControlFor(get("/favicon.svg"), new Response("x"))).toBe("public, max-age=2592000");
+  it("gives unversioned public files a week plus revalidation", () => {
+    const STATIC = "public, max-age=604800, stale-while-revalidate=2592000";
+    for (const p of [
+      "/fonts/open-sans-var.woff2",
+      "/hero/hero-skip-640.webp",
+      "/assets/brand/cevons-logo-correct.webp",
+      "/assets/brand/admin-icon-192.png",
+      "/partners/saipem.png",
+      "/favicon.svg",
+      "/vendor/leaflet.css",
+    ]) {
+      expect(cacheControlFor(get(p), new Response("x"))).toBe(STATIC);
+    }
   });
 
   it("caches public pages at the edge only", () => {

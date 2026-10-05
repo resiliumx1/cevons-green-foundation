@@ -3982,7 +3982,7 @@ html.dark span.text-black > svg {
   }
 
   /* Body copy */
-  [data-hero-scope] [data-hero-content] p:not(.hero-subhead-pro) {
+  [data-hero-scope] [data-hero-content] p:not(.hero-subhead-pro):not(.hero-heading) {
     margin-top: 8px !important;
     font-size: 13.5px !important;
     line-height: 1.4 !important;
@@ -6571,4 +6571,11 @@ html [data-chat-scope] .text-\[10\.5px\].text-\[\#7A7A7A\] {
 }
 [data-crm-theme] button[data-variant]:disabled {
   opacity: 0.6;
+}
+
+/* Hero slideshow progress bar: compositor-only fill, driven by CSS so the
+   slideshow never re-renders per frame. */
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }

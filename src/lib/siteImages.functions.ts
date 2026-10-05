@@ -6,6 +6,16 @@ const STAFF_COLUMNS = `${PUBLIC_COLUMNS}, updated_by, draft_image_path, draft_im
 const SIGNED_URL_TTL = 60 * 60 * 24 * 7;
 
 /**
+ * Signed links for PUBLISHED photos are reused for up to an hour inside a warm
+ * server instance (they stay valid for 7 days), so most page requests skip the
+ * storage round trip. The database read still runs every request, so a newly
+ * published photo appears immediately: a changed path is simply a cache miss.
+ * Draft (preview) links are never cached.
+ */
+const PUBLIC_URL_CACHE_MS = 60 * 60 * 1000;
+const publicSignedUrls = new Map<string, { url: string; expires: number }>();
+
+/**
  * Loads every published replacement before SSR paints the page. Draft columns
  * are included only after the staff preview token has been verified.
  */
@@ -37,14 +47,31 @@ export const getSiteImageData = createServerFn({ method: "GET" })
 
       if (paths.length === 0) return { preview, rows };
 
-      const { data: signed } = await supabaseAdmin.storage
-        .from("media")
-        .createSignedUrls(paths, SIGNED_URL_TTL);
-      const urls = new Map(
-        (signed ?? []).flatMap((item) =>
-          item.path && item.signedUrl ? [[item.path, item.signedUrl] as const] : [],
-        ),
-      );
+      const now = Date.now();
+      const urls = new Map<string, string>();
+      const missing: string[] = [];
+      for (const path of paths) {
+        const hit = preview ? undefined : publicSignedUrls.get(path);
+        if (hit && hit.expires > now) urls.set(path, hit.url);
+        else missing.push(path);
+      }
+
+      if (missing.length > 0) {
+        const { data: signed } = await supabaseAdmin.storage
+          .from("media")
+          .createSignedUrls(missing, SIGNED_URL_TTL);
+        const publishedPaths = new Set(rows.map((row) => row.image_path).filter(Boolean));
+        for (const item of signed ?? []) {
+          if (!item.path || !item.signedUrl) continue;
+          urls.set(item.path, item.signedUrl);
+          if (publishedPaths.has(item.path)) {
+            publicSignedUrls.set(item.path, { url: item.signedUrl, expires: now + PUBLIC_URL_CACHE_MS });
+          }
+        }
+        if (publicSignedUrls.size > 500) {
+          for (const [key, entry] of publicSignedUrls) if (entry.expires <= now) publicSignedUrls.delete(key);
+        }
+      }
 
       return {
         preview,

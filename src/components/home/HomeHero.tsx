@@ -78,17 +78,26 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
       <div ref={heroContentRef} className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-0">
-          <motion.h1
+          {/* The page's single H1: what CEVONS does and where. Rendered
+              visible from the first paint (no entrance opacity) so it can be
+              the first contentful text without waiting for scripts. */}
+          <h1
             id="home-hero-title"
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={1}
-            className="hero-heading"
-            style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04 }}
-
+            className="mb-2 font-bold uppercase text-white/85 md:mb-3"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "clamp(0.6875rem, 0.55rem + 0.45vw, 0.875rem)",
+              lineHeight: 1.4,
+              letterSpacing: "0.16em",
+            }}
           >
-            <span className="sr-only">CEVONS Waste Management &amp; Environmental Services in Guyana: </span>
+            Waste Management &amp; Environmental Services in Guyana
+          </h1>
+          {/* Brand slogan: same large display styling as before, CRM-editable. */}
+          <p
+            className="hero-heading"
+            style={{ fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)", lineHeight: 1.04, fontFamily: "var(--font-display)" }}
+          >
             <Editable id="home.hero.lineA" label="Hero headline line 1" as="span" className="hero-heading-line">
               {c("lineA", t("home.hero.lineA"))}
             </Editable>
@@ -100,17 +109,9 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
                 {c("lineB2", t("home.hero.lineB2"))}
               </Editable>
             </span>
+          </p>
 
-          </motion.h1>
-
-
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={2}
-            className="hero-subhead-pro mt-2"
-          >
+          <p className="hero-subhead-pro mt-2">
             <Editable id="home.hero.subFor" label="Hero subhead part 1" as="span" className="for-amber">
               {t("home.hero.subFor")}
             </Editable>{" "}
@@ -120,21 +121,15 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
             <Editable id="home.hero.subForC" label="Hero subhead part 3" as="span" className="for-guyana">
               {t("home.hero.subForC")}
             </Editable>
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={3}
-            className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base"
-          >
+          <p className="mt-2 md:mt-3 max-w-lg text-sm leading-relaxed text-white/85 md:text-base">
             <Editable id="home.hero.lead" label="Hero paragraph" as="span">
               {c("lead", t("home.hero.lead"))}
             </Editable>{" "}
 
             <strong className="font-bold text-white">{t("home.hero.leadCountry")}</strong>
-          </motion.p>
+          </p>
 
           <motion.div
             variants={fadeUp}
