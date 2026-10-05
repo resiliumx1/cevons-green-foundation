@@ -40,7 +40,8 @@ const STATIC_EXT = /\.(webp|avif|png|svg|jpe?g|gif|ico|woff2?|ttf|otf)$/i;
  * characters, at least one uppercase. Plain names like `open-sans-var.woff2`
  * or `admin-icon-192.png` never match.
  */
-export const HASHED_FILE = /-(?=[A-Za-z0-9_-]*[A-Z])[A-Za-z0-9_-]{8}\.(js|mjs|css|woff2?|ttf|otf|webp|avif|png|svg|jpe?g|gif|ico)$/;
+export const HASHED_FILE =
+  /-(?=[A-Za-z0-9_-]*[A-Z])[A-Za-z0-9_-]{8}\.(js|mjs|css|woff2?|ttf|otf|webp|avif|png|svg|jpe?g|gif|ico)$/;
 
 /** Public pages that are safe to serve from a shared cache. */
 const PUBLIC_HTML_PATHS = new Set([
@@ -83,7 +84,10 @@ export function cacheControlFor(request: Request, response: Response): string | 
   const pathname = url.pathname;
 
   // Static files are safe to cache regardless of method-agnostic handlers.
-  if (IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || HASHED_FILE.test(pathname)) {
+  if (
+    IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)) ||
+    HASHED_FILE.test(pathname)
+  ) {
     return IMMUTABLE;
   }
   if (STATIC_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || STATIC_EXT.test(pathname)) {

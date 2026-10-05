@@ -38,8 +38,8 @@ export const getSiteImageData = createServerFn({ method: "GET" })
       const paths = Array.from(
         new Set(
           rows.flatMap((row) =>
-            [row.image_path, preview ? row.draft_image_path : null].filter(
-              (path): path is string => Boolean(path),
+            [row.image_path, preview ? row.draft_image_path : null].filter((path): path is string =>
+              Boolean(path),
             ),
           ),
         ),
@@ -65,11 +65,15 @@ export const getSiteImageData = createServerFn({ method: "GET" })
           if (!item.path || !item.signedUrl) continue;
           urls.set(item.path, item.signedUrl);
           if (publishedPaths.has(item.path)) {
-            publicSignedUrls.set(item.path, { url: item.signedUrl, expires: now + PUBLIC_URL_CACHE_MS });
+            publicSignedUrls.set(item.path, {
+              url: item.signedUrl,
+              expires: now + PUBLIC_URL_CACHE_MS,
+            });
           }
         }
         if (publicSignedUrls.size > 500) {
-          for (const [key, entry] of publicSignedUrls) if (entry.expires <= now) publicSignedUrls.delete(key);
+          for (const [key, entry] of publicSignedUrls)
+            if (entry.expires <= now) publicSignedUrls.delete(key);
         }
       }
 
@@ -77,9 +81,9 @@ export const getSiteImageData = createServerFn({ method: "GET" })
         preview,
         rows: rows.map((row) => ({
           ...row,
-          resolved_url: row.image_path ? urls.get(row.image_path) ?? null : null,
+          resolved_url: row.image_path ? (urls.get(row.image_path) ?? null) : null,
           draft_resolved_url:
-            preview && row.draft_image_path ? urls.get(row.draft_image_path) ?? null : null,
+            preview && row.draft_image_path ? (urls.get(row.draft_image_path) ?? null) : null,
         })),
       };
     } catch {
