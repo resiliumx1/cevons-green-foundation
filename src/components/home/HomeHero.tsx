@@ -65,8 +65,6 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
     >
       {/* Cinematic 5-slide background slideshow */}
       <HeroSlideshowBackground />
-      {/* Slide indicators + progress */}
-      <HeroSlideshowControls className="absolute left-1/2 -translate-x-1/2 z-30 bottom-6" />
       {/* CRM-managed slide text (renders nothing for the static fallback slides) */}
       <HeroSlideCaption className="absolute right-6 bottom-16 z-30 hidden md:block" />
 
@@ -78,18 +76,11 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
       <div ref={heroContentRef} className="container-cevons relative z-10 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 py-2 md:py-3 lg:grid-cols-12 lg:gap-6 lg:py-4" data-hero-content>
         {/* LEFT — text column */}
         <div className="max-w-2xl lg:col-span-7 pt-0">
-          {/* The page's single H1: what CEVONS does and where. Rendered
-              visible from the first paint (no entrance opacity) so it can be
-              the first contentful text without waiting for scripts. */}
+          {/* The page's single semantic H1. The editable brand slogan keeps
+              its established visible hierarchy immediately below. */}
           <h1
             id="home-hero-title"
-            className="mb-2 font-bold uppercase text-white/85 md:mb-3"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(0.6875rem, 0.55rem + 0.45vw, 0.875rem)",
-              lineHeight: 1.4,
-              letterSpacing: "0.16em",
-            }}
+            className="sr-only"
           >
             Waste Management &amp; Environmental Services in Guyana
           </h1>
@@ -183,6 +174,8 @@ export function HomeHero({ content }: { content?: HeroContent } = {}) {
         {/* RIGHT column intentionally empty — truck photo shows through background */}
         <div className="hidden lg:col-span-5 lg:block" aria-hidden />
       </div>
+      {/* Mobile controls occupy their own row; desktop retains the overlay. */}
+      <HeroSlideshowControls className="relative z-30 flex h-10 shrink-0 items-center justify-center pb-2 md:absolute md:bottom-6 md:left-1/2 md:h-auto md:-translate-x-1/2 md:pb-0" />
     </section>
     </HeroSlideshowProvider>
   );
