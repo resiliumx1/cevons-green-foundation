@@ -46,10 +46,10 @@ export const Route = createFileRoute("/about")({
   loader: ({ deps }) => getPageContent({ data: { page: "about", token: deps.preview ?? null } }),
   head: () => ({
     meta: [
-      { title: "About CEVONS | Waste Management Guyana" },
-      { name: "description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental solutions since 1997." },
-      { property: "og:title", content: "About CEVONS | Waste Management Guyana" },
-      { property: "og:description", content: "Learn about CEVONS Environmental Services Inc., Guyana's trusted partner for waste management, recycling, and environmental services." },
+      { title: "About CEVONS | Guyana Waste Management Since 1997" },
+      { name: "description", content: "EPA-certified CEVONS Environmental Services has handled waste collection, recycling and environmental services for homes, businesses and industry in Guyana since 1997." },
+      { property: "og:title", content: "About CEVONS | Guyana Waste Management Since 1997" },
+      { property: "og:description", content: "EPA-certified CEVONS Environmental Services has handled waste collection, recycling and environmental services for homes, businesses and industry in Guyana since 1997." },
       { property: "og:url", content: absUrl("/about") },
     ],
     links: [{ rel: "canonical", href: absUrl("/about") }],
