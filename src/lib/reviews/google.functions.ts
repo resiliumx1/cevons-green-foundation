@@ -24,20 +24,14 @@ const replyInput = z.object({
   comment: z.string().trim().min(1, "Write a reply first.").max(4096, "Keep the reply under 4,096 characters."),
 });
 
-async function requireStaff(
-  context: Parameters<Parameters<typeof requireSupabaseAuth.options.server>[0]>[0]["context"],
-) {
-  const { data: isStaff, error } = await context.supabase.rpc("is_staff", {
-    _user_id: context.userId,
-  });
-  if (error) throw new Error("Could not verify your access.");
-  if (!isStaff) throw new Error("Only CEVONS staff can manage Google review replies.");
-}
-
 export const listGoogleBusinessReviews = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await requireStaff(context);
+    const { data: isStaff, error } = await context.supabase.rpc("is_staff", {
+      _user_id: context.userId,
+    });
+    if (error) throw new Error("Could not verify your access.");
+    if (!isStaff) throw new Error("Only CEVONS staff can manage Google review replies.");
     const { listManagedGoogleReviews } = await import("./google.server");
     return listManagedGoogleReviews();
   });
@@ -46,7 +40,11 @@ export const postGoogleBusinessReply = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => replyInput.parse(data))
   .handler(async ({ data, context }) => {
-    await requireStaff(context);
+    const { data: isStaff, error } = await context.supabase.rpc("is_staff", {
+      _user_id: context.userId,
+    });
+    if (error) throw new Error("Could not verify your access.");
+    if (!isStaff) throw new Error("Only CEVONS staff can manage Google review replies.");
     const { replyToManagedGoogleReview } = await import("./google.server");
     return replyToManagedGoogleReview(data.reviewName, data.comment);
   });
