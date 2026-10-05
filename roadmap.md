@@ -55,6 +55,6 @@
 
 - [x] Publish the approved website changes
 - [x] Resubmit the live sitemap to the verified Search Console property
-- [ ] Add secure live Google Business review loading to Admin Reviews
-- [ ] Add a confirmed owner-reply form for managed CEVONS reviews
-- [ ] Verify signed-in admin behavior, tests, typecheck, and build
+- [x] Add secure live Google Business review loading to Admin Reviews
+- [x] Add a confirmed owner-reply form for managed CEVONS reviews
+- [x] Verify signed-in admin behavior, tests, typecheck, and build

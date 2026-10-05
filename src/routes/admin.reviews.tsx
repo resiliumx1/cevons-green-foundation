@@ -1,14 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { RefreshCw, Search, Send, Star, X } from "lucide-react";
+import { Building2, MessageSquareReply, RefreshCw, Search, Send, Star, X } from "lucide-react";
+import { toast } from "sonner";
 import { runReviewFollowups, sendReviewFollowup } from "@/lib/reviewFollowups.functions";
+import {
+  listGoogleBusinessReviews,
+  postGoogleBusinessReply,
+  type GoogleBusinessReviewDto,
+} from "@/lib/reviews/google.functions";
 
 import { CrmPage } from "@/components/motion/CrmMotion";
 import { supabase } from "@/integrations/supabase/client";
 import { GEORGETOWN_LABEL, georgetownLabel } from "@/lib/georgetown";
 import { PanelSkeleton, PanelError, DocketStrip } from "@/components/admin/Manifest";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const Route = createFileRoute("/admin/reviews")({
   head: () => ({
@@ -66,7 +84,14 @@ function ReviewsPage() {
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>("all");
   const [source, setSource] = useState("all");
 
-  const { data = [], isLoading, isError, error, refetch, isFetching } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ["admin-reviews"],
     queryFn: async (): Promise<Review[]> => {
       const { data, error } = await supabase
@@ -82,10 +107,7 @@ function ReviewsPage() {
     },
   });
 
-  const sources = useMemo(
-    () => Array.from(new Set(data.map((r) => r.source))).sort(),
-    [data],
-  );
+  const sources = useMemo(() => Array.from(new Set(data.map((r) => r.source))).sort(), [data]);
 
   const rows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -124,19 +146,19 @@ function ReviewsPage() {
             Reviews
           </h1>
           <p className="text-sm mt-1" style={{ color: "var(--crm-text-muted)" }}>
-            Read-only. Every review saved here also appears in Alerts, flagged by its rating.
-            Times are {GEORGETOWN_LABEL}.
+            Read live Google reviews and send public owner replies. Saved reviews also appear in
+            Alerts. Times are {GEORGETOWN_LABEL}.
           </p>
         </div>
-        <button
+        <Button
           type="button"
           onClick={() => void refetch()}
-          className="admin-btn-quiet"
+          variant="outline"
           disabled={isFetching}
         >
           <RefreshCw className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`} aria-hidden />
-          Refresh
-        </button>
+          Refresh saved reviews
+        </Button>
       </div>
 
       <DocketStrip
@@ -150,6 +172,8 @@ function ReviewsPage() {
           { code: "REV-D", label: "Without a reply", value: unanswered },
         ]}
       />
+
+      <GoogleBusinessReviewsPanel />
 
       <FollowupsPanel />
 
@@ -294,6 +318,235 @@ function ReviewsPage() {
         </div>
       )}
     </CrmPage>
+  );
+}
+
+/* ─── live Google Business reviews ────────────────────────────────────── */
+
+type GoogleReview = GoogleBusinessReviewDto;
+
+function GoogleBusinessReviewsPanel() {
+  const listReviews = useServerFn(listGoogleBusinessReviews);
+  const postReply = useServerFn(postGoogleBusinessReply);
+  const queryClient = useQueryClient();
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [confirming, setConfirming] = useState<GoogleReview | null>(null);
+
+  const reviewsQuery = useQuery({
+    queryKey: ["google-business-reviews"],
+    queryFn: () => listReviews({ data: undefined }),
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+
+  const replyMutation = useMutation({
+    mutationFn: async (review: GoogleReview) => {
+      const comment = drafts[review.id]?.trim() ?? "";
+      if (!comment) throw new Error("Write a reply first.");
+      return postReply({ data: { reviewName: review.name, comment } });
+    },
+    onSuccess: async (_, review) => {
+      setConfirming(null);
+      setDrafts((current) => ({ ...current, [review.id]: "" }));
+      await queryClient.invalidateQueries({ queryKey: ["google-business-reviews"] });
+      toast.success(review.reply ? "Google reply updated." : "Reply posted to Google.");
+    },
+    onError: (error: unknown) => {
+      toast.error(error instanceof Error ? error.message : "The reply could not be posted.");
+    },
+  });
+
+  const reviews = reviewsQuery.data ?? [];
+  const unanswered = reviews.filter((review) => !review.reply).length;
+
+  return (
+    <section className="admin-card p-4" aria-labelledby="google-reviews-heading">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <Building2 className="size-4" aria-hidden style={{ color: "var(--crm-accent)" }} />
+            <h2
+              id="google-reviews-heading"
+              className="text-sm font-bold"
+              style={{ color: "var(--crm-text)" }}
+            >
+              Google Business reviews
+            </h2>
+          </div>
+          <p className="mt-1 text-xs" style={{ color: "var(--crm-text-muted)" }}>
+            Live reviews from all managed CEVONS locations. Replies are public on Google.
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={reviewsQuery.isFetching}
+          onClick={() => void reviewsQuery.refetch()}
+        >
+          <RefreshCw className={reviewsQuery.isFetching ? "animate-spin" : ""} aria-hidden />
+          Refresh Google
+        </Button>
+      </div>
+
+      {reviewsQuery.isLoading ? (
+        <div className="mt-4">
+          <PanelSkeleton rows={3} />
+        </div>
+      ) : reviewsQuery.isError ? (
+        <div className="mt-4">
+          <PanelError what="Google reviews" error={reviewsQuery.error} />
+        </div>
+      ) : reviews.length === 0 ? (
+        <p className="mt-4 text-sm" style={{ color: "var(--crm-text-muted)" }}>
+          No reviews are currently returned by the managed Google listings.
+        </p>
+      ) : (
+        <>
+          <p className="mt-3 text-xs font-semibold" style={{ color: "var(--crm-text-muted)" }}>
+            {reviews.length} live review{reviews.length === 1 ? "" : "s"} · {unanswered} without a
+            reply
+          </p>
+          <div className="mt-3 space-y-3">
+            {reviews.map((review) => {
+              const draft = drafts[review.id] ?? "";
+              const flag = ratingFlag(review.rating);
+              return (
+                <article
+                  key={review.id}
+                  className="rounded-lg border p-3 sm:p-4"
+                  style={{
+                    borderColor: "var(--crm-border)",
+                    background: "var(--crm-surface-muted)",
+                  }}
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide"
+                      style={{ background: flag.tone, color: "var(--primary-foreground)" }}
+                    >
+                      {flag.label}
+                    </span>
+                    <Stars rating={review.rating} />
+                    <span className="font-semibold" style={{ color: "var(--crm-text)" }}>
+                      {review.reviewerName}
+                    </span>
+                    <span className="text-xs sm:ml-auto" style={{ color: "var(--crm-text-muted)" }}>
+                      {review.locationLocality || review.locationName} ·{" "}
+                      {georgetownLabel(review.createdAt)}
+                    </span>
+                  </div>
+                  <p
+                    className="mt-2 whitespace-pre-wrap text-sm"
+                    style={{ color: "var(--crm-text)" }}
+                  >
+                    {review.comment || "This reviewer left a rating without written feedback."}
+                  </p>
+
+                  {review.reply && (
+                    <div
+                      className="mt-3 rounded-md border p-3"
+                      style={{ borderColor: "var(--crm-border)", background: "var(--crm-surface)" }}
+                    >
+                      <p
+                        className="text-[10px] font-bold uppercase tracking-wide"
+                        style={{ color: "var(--crm-text-muted)" }}
+                      >
+                        Current public reply
+                      </p>
+                      <p
+                        className="mt-1 whitespace-pre-wrap text-sm"
+                        style={{ color: "var(--crm-text)" }}
+                      >
+                        {review.reply}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="mt-3">
+                    <label
+                      htmlFor={`reply-${review.id}`}
+                      className="text-xs font-bold"
+                      style={{ color: "var(--crm-text)" }}
+                    >
+                      {review.reply ? "Update reply" : "Write a reply"}
+                    </label>
+                    <Textarea
+                      id={`reply-${review.id}`}
+                      value={draft}
+                      maxLength={4096}
+                      rows={3}
+                      className="mt-1 bg-background"
+                      placeholder={
+                        review.reply
+                          ? "Enter the updated public reply…"
+                          : "Enter CEVONS's public reply…"
+                      }
+                      onChange={(event) =>
+                        setDrafts((current) => ({ ...current, [review.id]: event.target.value }))
+                      }
+                    />
+                    <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs" style={{ color: "var(--crm-text-muted)" }}>
+                        {draft.length.toLocaleString()} / 4,096
+                      </span>
+                      <Button
+                        type="button"
+                        size="sm"
+                        disabled={!draft.trim() || replyMutation.isPending}
+                        onClick={() => setConfirming(review)}
+                      >
+                        <MessageSquareReply aria-hidden />
+                        {review.reply ? "Review update" : "Review reply"}
+                      </Button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      <AlertDialog open={Boolean(confirming)} onOpenChange={(open) => !open && setConfirming(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {confirming?.reply
+                ? "Update this public Google reply?"
+                : "Post this reply publicly on Google?"}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will appear under {confirming?.reviewerName ?? "the customer"}’s review for the
+              managed CEVONS listing.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div
+            className="max-h-48 overflow-y-auto rounded-md border p-3 text-sm whitespace-pre-wrap"
+            style={{ borderColor: "var(--crm-border)", color: "var(--crm-text)" }}
+          >
+            {confirming ? drafts[confirming.id]?.trim() : ""}
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={replyMutation.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={!confirming || replyMutation.isPending}
+              onClick={(event) => {
+                event.preventDefault();
+                if (confirming) replyMutation.mutate(confirming);
+              }}
+            >
+              <Send aria-hidden />
+              {replyMutation.isPending
+                ? "Posting…"
+                : confirming?.reply
+                  ? "Update on Google"
+                  : "Post on Google"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </section>
   );
 }
 
