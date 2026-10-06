@@ -39,7 +39,65 @@ export type CesQueueStatus = {
     failed: number;
     failures: Array<{ kind: string; attempts: number; lastError: string | null; lastStatusCode: number | null }>;
   };
+  sales: {
+    counts: { pending: number; sent: number; failed: number; dead: number };
+    lastError: string | null;
+    lastErrorAt: string | null;
+    recentFailures: Array<{
+      reference: string | null;
+      attempts: number;
+      lastStatusCode: number | null;
+      lastError: string | null;
+      status: string;
+    }>;
+  };
 };
+
+async function salesStatus(supabaseAdmin: any): Promise<CesQueueStatus["sales"]> {
+  const c = async (statuses: string[]) =>
+    (
+      await supabaseAdmin
+        .from("ces_outbox")
+        .select("id", { count: "exact", head: true })
+        .eq("entity_type", "service_request")
+        .in("sales_status", statuses)
+    ).count ?? 0;
+  const [pending, sent, failed, dead] = await Promise.all([
+    c(["pending", "sending"]),
+    c(["sent"]),
+    c(["failed"]),
+    c(["dead"]),
+  ]);
+  const { data } = await supabaseAdmin
+    .from("ces_outbox")
+    .select("reference, sales_status, sales_attempts, sales_last_status_code, sales_last_error, updated_at")
+    .eq("entity_type", "service_request")
+    .in("sales_status", ["failed", "dead"])
+    .order("sales_next_attempt_at", { ascending: false })
+    .limit(10);
+  const rows = (data ?? []) as Array<Record<string, any>>;
+  const { data: last } = await supabaseAdmin
+    .from("ces_outbox")
+    .select("sales_last_error, sales_next_attempt_at, updated_at")
+    .eq("entity_type", "service_request")
+    .not("sales_last_error", "is", null)
+    .in("sales_status", ["failed", "dead"])
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return {
+    counts: { pending, sent, failed, dead },
+    lastError: last?.sales_last_error ?? null,
+    lastErrorAt: last?.updated_at ?? null,
+    recentFailures: rows.map((r) => ({
+      reference: r.reference ?? null,
+      attempts: r.sales_attempts ?? 0,
+      lastStatusCode: r.sales_last_status_code ?? null,
+      lastError: r.sales_last_error ?? null,
+      status: r.sales_status,
+    })),
+  };
+}
 
 async function assertAdmin(context: { supabase: any; userId: string }) {
   const { data: isAdmin, error } = await context.supabase.rpc("is_admin", {
