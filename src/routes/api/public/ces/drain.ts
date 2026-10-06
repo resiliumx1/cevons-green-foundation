@@ -69,7 +69,17 @@ export const Route = createFileRoute("/api/public/ces/drain")({
             console.error("review followup drain failed", err);
           }
 
-          return Response.json({ ok: true, ...summary, reviewFollowups });
+          // Independent Sales inbox delivery — its failure never affects Marketing.
+          let sales: unknown = { configured: false, attempted: 0, sent: 0, failed: 0, dead: 0 };
+          try {
+            const { drainSalesOutbox } = await import("@/lib/ces/sales.server");
+            sales = await drainSalesOutbox(limit);
+          } catch (err) {
+            console.error("ces sales drain failed", err instanceof Error ? err.message : "error");
+            sales = { error: "sales_drain_error" };
+          }
+
+          return Response.json({ ok: true, ...summary, reviewFollowups, sales });
         } catch (err) {
           console.error("ces drain failed", err);
           try {
