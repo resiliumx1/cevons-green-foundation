@@ -194,6 +194,7 @@ export const getCesQueueStatus = createServerFn({ method: "POST" })
           })),
         };
       })(),
+      sales: await salesStatus(supabaseAdmin),
     };
   });
 
