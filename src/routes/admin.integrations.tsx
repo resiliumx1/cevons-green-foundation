@@ -13,6 +13,8 @@ import {
   runCesDrain,
   retryCesFailures,
   runCesReconcile,
+  runCesSalesDrain,
+  retryCesSalesFailures,
 } from "@/lib/cesOutbox.functions";
 
 export const Route = createFileRoute("/admin/integrations")({
@@ -39,6 +41,8 @@ function IntegrationsPage() {
   const drain = useServerFn(runCesDrain);
   const retry = useServerFn(retryCesFailures);
   const reconcile = useServerFn(runCesReconcile);
+  const salesDrain = useServerFn(runCesSalesDrain);
+  const salesRetryFn = useServerFn(retryCesSalesFailures);
 
   const [cursor, setCursor] = useState<string | null>(null);
   const [progress, setProgress] = useState<string | null>(null);
@@ -127,6 +131,28 @@ function IntegrationsPage() {
     onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not check CES."),
   });
 
+  const salesSend = useMutation({
+    mutationFn: () => salesDrain({ data: undefined as never }),
+    onSuccess: (r) => {
+      if (!r.configured) {
+        toast.error("The shared key is not available on the server.");
+        return;
+      }
+      toast.success(`Sales: sent ${r.sent} of ${r.attempted}. ${r.failed} retrying, ${r.dead} stopped.`);
+      void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
+    },
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Sending to Sales failed."),
+  });
+
+  const salesRetry = useMutation({
+    mutationFn: () => salesRetryFn({ data: undefined as never }),
+    onSuccess: (r) => {
+      toast.success(`${r.reset} Sales item(s) put back in line.`);
+      void qc.invalidateQueries({ queryKey: ["ces-queue-status"] });
+    },
+    onError: (e: unknown) => toast.error(e instanceof Error ? e.message : "Could not retry Sales."),
+  });
+
 
   return (
     <CrmPage>
@@ -185,6 +211,72 @@ function IntegrationsPage() {
                   attempt(s){f.lastStatusCode ? ` (HTTP ${f.lastStatusCode})` : ""}: {f.lastError ?? "unknown"}
                 </p>
               ))}
+            </>
+          )}
+        </Panel>
+
+        <Panel title="CES Sales Inbox" code="INT-01S">
+          {status.isLoading ? (
+            <PanelSkeleton rows={3} />
+          ) : status.isError || !status.data?.sales ? (
+            <PanelError what="the CES Sales connection" error={status.error} />
+          ) : (
+            <>
+              <DocketStrip
+                cells={[
+                  { code: "WAI", label: "Waiting", value: String(status.data.sales.counts.pending) },
+                  { code: "SNT", label: "Sent", value: String(status.data.sales.counts.sent) },
+                  { code: "RTY", label: "Retrying", value: String(status.data.sales.counts.failed) },
+                  { code: "STP", label: "Stopped", value: String(status.data.sales.counts.dead) },
+                ]}
+              />
+              <p className="admin-note">
+                <PlugZap className="h-4 w-4" aria-hidden />
+                New service requests are also sent to the CES Sales inbox. Past requests are not sent there.
+              </p>
+              {status.data.sales.lastError && (
+                <p className="admin-note" role="status" style={{ color: "var(--admin-danger, #b42318)" }}>
+                  Last Sales problem
+                  {status.data.sales.lastErrorAt
+                    ? ` (${new Date(status.data.sales.lastErrorAt).toLocaleString()})`
+                    : ""}
+                  : {status.data.sales.lastError}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="admin-link-btn"
+                  disabled={salesSend.isPending}
+                  onClick={() => salesSend.mutate()}
+                >
+                  <Send className="h-4 w-4" aria-hidden /> {salesSend.isPending ? "Sending…" : "Send waiting to Sales"}
+                </button>
+                <button
+                  type="button"
+                  className="admin-link-btn"
+                  disabled={salesRetry.isPending}
+                  onClick={() => salesRetry.mutate()}
+                >
+                  <RefreshCw className="h-4 w-4" aria-hidden /> Retry Sales failures
+                </button>
+              </div>
+              {status.data.sales.recentFailures.length === 0 ? (
+                <PanelEmpty headline="No Sales delivery problems recorded." />
+              ) : (
+                <ul className="admin-bars">
+                  {status.data.sales.recentFailures.map((f, i) => (
+                    <li key={`${f.reference}-${i}`} className="text-sm" style={{ color: "var(--text)" }}>
+                      <span className="admin-mono">{f.reference ?? "—"}</span> · attempt {f.attempts}
+                      {f.lastStatusCode ? ` · code ${f.lastStatusCode}` : ""}
+                      {f.status === "dead" ? " · stopped" : ""}
+                      <span className="block text-xs" style={{ color: "var(--text-2)" }}>
+                        {f.lastError}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </>
           )}
         </Panel>
