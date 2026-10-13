@@ -101,7 +101,7 @@ function TrackRequestPage() {
     try {
       const data = await trackRequest({ data: { reference: refInput.trim(), contact: contactInput.trim() } });
       if ("error" in data) {
-        setError(data.error);
+        setError(data.error ?? "not_found");
         return;
       }
       setResult(data as TrackResult);
