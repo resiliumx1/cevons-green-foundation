@@ -18,6 +18,7 @@ import { OrangeCTABanner } from "@/components/cta/OrangeCTABanner";
 import { WhatsApp } from "@/components/icons/WhatsApp";
 import { ContentProvider, Editable, useEditableText } from "@/components/Editable";
 import { getPageContent } from "@/lib/content.functions";
+import { trackRequest } from "@/lib/trackRequest.functions";
 
 const searchSchema = z.object({ ref: z.string().optional(), preview: z.string().optional() });
 
@@ -67,6 +68,8 @@ type TrackResult = {
     preferred_time: string | null;
   };
   events: { status: string; note: string | null; created_at: string }[];
+  visit: { date: string; window: string | null } | null;
+  source: "ces" | "website";
 };
 
 function formatDateTime(iso: string): string {
@@ -96,17 +99,9 @@ function TrackRequestPage() {
     setError(null);
     setResult(null);
     try {
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { data, error: fnErr } = await supabase.functions.invoke("track-request", {
-        body: { reference: refInput.trim(), contact: contactInput.trim() },
-      });
-      if (fnErr || !data) {
-        // supabase-js sets fnErr for non-2xx responses
-        setError("not_found");
-        return;
-      }
-      if ((data as any).error) {
-        setError((data as any).error);
+      const data = await trackRequest({ data: { reference: refInput.trim(), contact: contactInput.trim() } });
+      if ("error" in data) {
+        setError(data.error ?? "not_found");
         return;
       }
       setResult(data as TrackResult);
@@ -317,8 +312,10 @@ function ResultView({ result }: { result: TrackResult }) {
               <DetailTile icon={Calendar} label="Submitted" value={formatDateTime(request.created_at)} />
               <DetailTile
                 icon={Clock}
-                label="Preferred Window"
-                value={request.preferred_date
+                label={result.visit ? "Booked Visit" : "Preferred Window"}
+                value={result.visit
+                  ? `${new Date(`${result.visit.date}T12:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(/^(\w+)/, "$1,").replace(",,", ",")}${result.visit.window ? ` · ${result.visit.window}` : ""}`
+                  : request.preferred_date
                   ? `${request.preferred_date}${request.preferred_time ? ` · ${request.preferred_time}` : ""}`
                   : "To be confirmed"}
               />

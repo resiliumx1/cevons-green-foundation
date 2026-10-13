@@ -39,7 +39,7 @@ async function buildSalesBody(row: Row): Promise<string | null> {
   const { data: r } = await supabaseAdmin
     .from("service_requests")
     .select(
-      "created_at, name, company, email, phone, service, category, message, details, region, preferred_date, landing_page, referrer, source_channel, utm_source, utm_medium, utm_campaign, utm_content, utm_term",
+      "created_at, reference, name, company, email, phone, service, category, message, details, region, preferred_date, landing_page, referrer, source_channel, utm_source, utm_medium, utm_campaign, utm_content, utm_term",
     )
     .eq("id", row.entity_id)
     .maybeSingle();
@@ -48,6 +48,7 @@ async function buildSalesBody(row: Row): Promise<string | null> {
   const body: Record<string, unknown> = {};
   put(body, "externalId", row.id);
   put(body, "submittedAt", r.created_at ? new Date(r.created_at).toISOString() : null);
+  put(body, "reference", r.reference);
   put(body, "name", r.name);
   put(body, "company", r.company);
   put(body, "email", r.email);
