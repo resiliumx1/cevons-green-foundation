@@ -58,3 +58,9 @@
 - [x] Add secure live Google Business review loading to Admin Reviews
 - [x] Add a confirmed owner-reply form for managed CEVONS reviews
 - [x] Verify signed-in admin behavior, tests, typecheck, and build
+
+# October monthly report revision
+
+- [x] Read authenticated Traffic and exact-date Google analytics
+- [x] Add verified traffic, source and improvement charts; visually inspect every PDF page
+- [x] Explain CES Sales delivery separately, excluding it from the PDF
