@@ -62,5 +62,5 @@
 # October monthly report revision
 
 - [x] Read authenticated Traffic and exact-date Google analytics
-- [ ] Add verified traffic, source and improvement charts; visually inspect every PDF page
-- [ ] Explain CES Sales delivery separately, excluding it from the PDF
+- [x] Add verified traffic, source and improvement charts; visually inspect every PDF page
+- [x] Explain CES Sales delivery separately, excluding it from the PDF
