@@ -24,6 +24,7 @@ import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TrackRequestRouteImport } from './routes/track-request'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAssistantRouteImport } from './routes/admin.assistant'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminImagesRouteImport } from './routes/admin.images'
 import { Route as AdminIntegrationsRouteImport } from './routes/admin.integrations'
@@ -157,6 +158,11 @@ const TrackRequestRoute = TrackRequestRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAssistantRoute = AdminAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
@@ -485,6 +491,7 @@ export interface FileRoutesByFullPath {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/admin/assistant': typeof AdminAssistantRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -559,6 +566,7 @@ export interface FileRoutesByTo {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/admin/assistant': typeof AdminAssistantRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -636,6 +644,7 @@ export interface FileRoutesById {
   '/sitemap': typeof SitemapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track-request': typeof TrackRequestRoute
+  '/admin/assistant': typeof AdminAssistantRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/images': typeof AdminImagesRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -714,6 +723,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/admin/assistant'
     | '/admin/audit'
     | '/admin/images'
     | '/admin/integrations'
@@ -788,6 +798,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/admin/assistant'
     | '/admin/audit'
     | '/admin/images'
     | '/admin/integrations'
@@ -864,6 +875,7 @@ export interface FileRouteTypes {
     | '/sitemap'
     | '/sitemap.xml'
     | '/track-request'
+    | '/admin/assistant'
     | '/admin/audit'
     | '/admin/images'
     | '/admin/integrations'
@@ -1068,6 +1080,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/assistant': {
+      id: '/admin/assistant'
+      path: '/assistant'
+      fullPath: '/admin/assistant'
+      preLoaderRoute: typeof AdminAssistantRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/audit': {
@@ -1499,6 +1518,7 @@ const AdminLeadsRouteWithChildren = AdminLeadsRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminAssistantRoute: typeof AdminAssistantRoute
   AdminAuditRoute: typeof AdminAuditRoute
   AdminImagesRoute: typeof AdminImagesRoute
   AdminIntegrationsRoute: typeof AdminIntegrationsRoute
@@ -1518,6 +1538,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAssistantRoute: AdminAssistantRoute,
   AdminAuditRoute: AdminAuditRoute,
   AdminImagesRoute: AdminImagesRoute,
   AdminIntegrationsRoute: AdminIntegrationsRoute,
