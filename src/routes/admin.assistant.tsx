@@ -68,7 +68,11 @@ function AdminAssistantPage() {
   const saveMutation = useMutation({
     mutationFn: async (value: AssistantKnowledge) => {
       const { error } = await supabase.from("crm_settings").upsert(
-        { key: ASSISTANT_KNOWLEDGE_KEY, value, updated_at: new Date().toISOString() },
+        {
+          key: ASSISTANT_KNOWLEDGE_KEY,
+          value: value as unknown as import("@/integrations/supabase/types").Json,
+          updated_at: new Date().toISOString(),
+        },
         { onConflict: "key" },
       );
       if (error) throw error;
