@@ -227,7 +227,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const system = mode === "crm" ? CRM_SYSTEM : PUBLIC_SYSTEM;
+    const system = mode === "crm" ? CRM_SYSTEM : buildPublicSystem(await loadKnowledge());
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
