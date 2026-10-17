@@ -36,6 +36,7 @@ import {
   Share2,
   Star,
   Music2,
+  MessageSquareText,
 } from "lucide-react";
 
 const logo = "/images/cevons-logo.webp";
@@ -161,6 +162,7 @@ const NAV_GROUPS: Array<{ heading: string; items: NavItem[] }> = [
       { to: "/admin/people", label: "People", icon: UsersRound, adminOnly: true },
       { to: "/admin/integrations", label: "Connections", icon: Activity, adminOnly: true },
       { to: "/admin/audit", label: "Activity log", short: "Activity", icon: FileClock },
+      { to: "/admin/assistant", label: "Assistant", icon: MessageSquareText },
       { to: "/admin/settings", label: "Settings", icon: Settings },
     ],
   },
