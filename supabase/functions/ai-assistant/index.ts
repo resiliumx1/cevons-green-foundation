@@ -3,7 +3,7 @@
 //   - "public" → Cev (customer-facing site assistant)
 //   - "crm"    → Website Admin Assistant (internal admin helper)
 //
-// Model: google/gemini-2.5-flash via Lovable AI Gateway.
+// Model: openai/gpt-6-astra via Lovable AI Gateway.
 // LOVABLE_API_KEY is auto-provisioned and must stay server-side.
 
 const corsHeaders = {
@@ -179,8 +179,9 @@ Deno.serve(async (req) => {
         "Lovable-API-Key": key,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        max_tokens: MAX_TOKENS,
+        model: "openai/gpt-6-astra",
+        reasoning_effort: "low",
+        max_completion_tokens: MAX_TOKENS,
         messages: [{ role: "system", content: system }, ...messages],
       }),
     });
