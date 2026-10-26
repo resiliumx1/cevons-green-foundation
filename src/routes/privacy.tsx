@@ -50,7 +50,7 @@ function PrivacyPage() {
                 Your information
               </p>
               <h1 className="font-display text-4xl font-extrabold md:text-6xl">Privacy Policy</h1>
-              <p className="mt-4 text-sm text-white/75">Last updated: October 2, 2026</p>
+              <p className="mt-4 text-sm text-white/75">Last updated: October 26, 2026</p>
             </div>
           </div>
         </div>
@@ -75,13 +75,19 @@ function PrivacyPage() {
 
               <PolicySection title="Google Business Profile integration">
                 <p>
-                  Our internal tool, <strong className="text-[var(--text-heading)]">CEVONS Nexus</strong>, connects to our own Google Business Profile through the Google Business Profile API. We use it only to read customer reviews of our business, post our own replies to those reviews, and publish our own “What&apos;s new” posts.
+                  Our internal tool, <strong className="text-[var(--text-heading)]">CEVONS Environmental Services App (CES)</strong>, connects to our own Google Business Profile through the Google Business Profile API. We use it only to read customer reviews of our business, post our own replies to those reviews, and publish our own “What&apos;s new” posts.
                 </p>
                 <p className="mt-4">
                   The integration accesses only our own business account. It does not collect, sell, share, or transfer Google user data, and Google API data is not used for advertising.
                 </p>
                 <p className="mt-4">
                   Our use of information received from Google APIs adheres to the Google API Services User Data Policy, including the Limited Use requirements.
+                </p>
+              </PolicySection>
+
+              <PolicySection title="Messaging on WhatsApp, Facebook Messenger and Instagram">
+                <p>
+                  When you message us on WhatsApp, Facebook Messenger or Instagram, we receive your name or profile name, phone number or account ID, and the content of your messages, including any photos, voice notes or files you send. We use this only to reply to you, quote and book services, and keep a record of your request in our internal system (CES). Messages reach us through Meta Platforms&apos; business messaging services and, where used, our messaging provider ManyChat. We do not sell this information or use it for advertising outside our own services.
                 </p>
               </PolicySection>
 
@@ -99,6 +105,12 @@ function PrivacyPage() {
                   <a className="font-semibold text-[var(--text-heading)] underline decoration-[var(--brand-orange)] decoration-2 underline-offset-4" href={primaryMailtoHref}>
                     {cevonsContact.email}
                   </a>.
+                </p>
+              </PolicySection>
+
+              <PolicySection id="data-deletion" title="Deleting your data">
+                <p>
+                  To ask us to delete the personal information we hold about you, including your messages from WhatsApp, Facebook Messenger or Instagram, email info@cevons.com with the subject &apos;Data deletion request&apos; and include the phone number or account you contacted us from. We will confirm and complete the deletion within 30 days, except for records we must keep by law (for example, invoices and waste records).
                 </p>
               </PolicySection>
 
@@ -127,8 +139,8 @@ function PrivacyPage() {
   );
 }
 
-function PolicySection({ title, children }: { title: string; children: React.ReactNode }) {
-  const id = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+function PolicySection({ id: idOverride, title, children }: { id?: string; title: string; children: React.ReactNode }) {
+  const id = idOverride ?? title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   return (
     <section aria-labelledby={id} className="border-b border-[var(--border-subtle)] pb-10 last:border-0 last:pb-0">
       <h2 id={id} className="mb-4 text-2xl font-extrabold text-[var(--text-heading)] md:text-3xl">{title}</h2>
