@@ -20,6 +20,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { serviceAreaGroups, branchForArea, OTHER_AREA_VALUE, OTHER_AREA_LABEL } from "@/data/serviceAreas";
 import { getAttribution } from "@/lib/attribution";
+import { HEARD_ABOUT_OPTIONS } from "@/lib/heardAbout";
 import { cn } from "@/lib/utils";
 import { AnimatedTruckStepper } from "@/components/AnimatedTruckStepper";
 import { PromoSlot } from "@/components/promo/PromoSlot";
@@ -138,6 +139,7 @@ type FormData = {
   info: {
     fullName: string; company: string; phone: string; email: string;
     address: string; region: string; regionOther: string; contactMethod: string; notes: string;
+    heardAbout: string;
   };
   confirm: boolean;
   newsletterOptIn: boolean;
@@ -149,7 +151,7 @@ const EMPTY: FormData = {
   details: {},
   files: [],
   schedule: { date: "", window: "", urgency: "", timeframe: "" },
-  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", regionOther: "", contactMethod: "WhatsApp", notes: "" },
+  info: { fullName: "", company: "", phone: "", email: "", address: "", region: "", regionOther: "", contactMethod: "WhatsApp", notes: "", heardAbout: "" },
   confirm: false,
   newsletterOptIn: true,
 };
@@ -209,6 +211,7 @@ function RequestServicePage() {
       else if (!/^[+\d\s\-()]{7,}$/.test(data.info.phone)) e.phone = "Enter a valid phone number.";
       if (data.info.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.info.email)) e.email = "Enter a valid email.";
       if (!data.info.address.trim()) e.address = "Service location is required.";
+      if (!data.info.heardAbout) e.heardAbout = "Please choose an option.";
       if (!data.info.region) e.region = "Please choose your service area.";
       else if (data.info.region === OTHER_AREA_VALUE && !data.info.regionOther.trim())
         e.region = "Please type your location.";
@@ -311,6 +314,7 @@ function RequestServicePage() {
         phone: data.info.phone,
         company: data.info.company || null,
         contact_method: data.info.contactMethod,
+        heard_about: data.info.heardAbout,
         message: [data.info.address && `Address: ${data.info.address}`, data.info.notes].filter(Boolean).join("\n\n"),
         file_urls: fileUrls,
         ...attribution,
@@ -1166,6 +1170,15 @@ function StepInfo({
           )}
           {errors.region && <p className="text-sm text-destructive">{errors.region}</p>}
         </Field>
+        <Field label="How did you hear about us? *">
+          <Select value={info.heardAbout} onValueChange={(v) => setInfo("heardAbout", v)}>
+            <SelectTrigger className="h-12"><SelectValue placeholder="Select an option" /></SelectTrigger>
+            <SelectContent>
+              {HEARD_ABOUT_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          {errors.heardAbout && <p className="text-sm text-destructive">{errors.heardAbout}</p>}
+        </Field>
         <Field label="Preferred contact method">
           <RadioGroup value={info.contactMethod} onValueChange={(v) => setInfo("contactMethod", v)} className="flex gap-4 pt-3">
             {["WhatsApp", "Phone", "Email"].map((m) => (
@@ -1242,6 +1255,7 @@ function StepReview({
             <div><span className="text-muted-foreground">Email:</span> {data.info.email || "—"}</div>
             <div className="md:col-span-2"><span className="text-muted-foreground">Address:</span> {data.info.address}</div>
             <div><span className="text-muted-foreground">Service area:</span> {(data.info.region === OTHER_AREA_VALUE ? data.info.regionOther : data.info.region) || "—"}</div>
+            <div><span className="text-muted-foreground">Heard about us:</span> {HEARD_ABOUT_OPTIONS.find((o) => o.value === data.info.heardAbout)?.label ?? "—"}</div>
             <div><span className="text-muted-foreground">Contact via:</span> {data.info.contactMethod}</div>
             {data.info.notes && <div className="md:col-span-2"><span className="text-muted-foreground">Notes:</span> {data.info.notes}</div>}
           </div>

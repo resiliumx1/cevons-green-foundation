@@ -367,6 +367,7 @@ export type Database = {
           attachment_url: string | null
           created_at: string
           email: string
+          heard_about: string | null
           id: string
           landing_page: string | null
           message: string
@@ -386,6 +387,7 @@ export type Database = {
           attachment_url?: string | null
           created_at?: string
           email: string
+          heard_about?: string | null
           id?: string
           landing_page?: string | null
           message: string
@@ -405,6 +407,7 @@ export type Database = {
           attachment_url?: string | null
           created_at?: string
           email?: string
+          heard_about?: string | null
           id?: string
           landing_page?: string | null
           message?: string
@@ -1530,6 +1533,7 @@ export type Database = {
           email: string | null
           estimated_value: number | null
           file_urls: string[]
+          heard_about: string | null
           id: string
           landing_page: string | null
           last_contacted_at: string | null
@@ -1566,6 +1570,7 @@ export type Database = {
           email?: string | null
           estimated_value?: number | null
           file_urls?: string[]
+          heard_about?: string | null
           id?: string
           landing_page?: string | null
           last_contacted_at?: string | null
@@ -1602,6 +1607,7 @@ export type Database = {
           email?: string | null
           estimated_value?: number | null
           file_urls?: string[]
+          heard_about?: string | null
           id?: string
           landing_page?: string | null
           last_contacted_at?: string | null
