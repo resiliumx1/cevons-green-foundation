@@ -47,9 +47,23 @@ describe("CES body contract", () => {
     const allowed = new Set([
       "externalId", "name", "submittedAt", "reference", "email", "phone", "service",
       "region", "address", "message", "landingPage", "referrer", "sourceUrl", "status",
-      "utm", "pipeline", "branchCode", "backfill",
+      "heardAbout", "utm", "pipeline", "branchCode", "backfill",
     ]);
     for (const key of Object.keys(body)) expect(allowed.has(key)).toBe(true);
+  });
+
+  it("sends heardAbout as the chosen machine value, never the label, and omits it when unset", () => {
+    const withValue = buildCesBody({ ...base, heard_about: "truck_decal" }, "live");
+    expect(withValue.body.heardAbout).toBe("truck_decal");
+
+    // A label accidentally stored as heard_about still travels unchanged so
+    // nothing is silently dropped — the forms only ever store machine values.
+    const labelLike = buildCesBody({ ...base, heard_about: "Saw a CEVONS truck" }, "live");
+    expect(labelLike.body.heardAbout).toBe("Saw a CEVONS truck");
+    expect(Object.keys(labelLike.body)).not.toContain("heardAboutLabel");
+
+    const unset = buildCesBody({ ...base, heard_about: "" }, "live");
+    expect("heardAbout" in unset.body).toBe(false);
   });
 
   it("marks backfill deliveries so CES stays quiet", () => {

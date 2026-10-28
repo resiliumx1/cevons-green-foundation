@@ -30,6 +30,7 @@ interface Payload {
   email?: string;
   phone?: string;
   subject?: string;
+  heard_about?: string;
   message?: string;
   attachment_url?: string | null;
   utm_source?: string;
@@ -59,6 +60,13 @@ Deno.serve(async (req) => {
     return json({ error: "Invalid email" }, 400);
   if (!message || message.length > 5000) return json({ error: "Invalid message" }, 400);
   if (phone && phone.length > 40) return json({ error: "Invalid phone" }, 400);
+
+  const HEARD_ABOUT = new Set([
+    "google", "facebook", "truck_decal", "skip_decal", "signage", "event",
+    "radio", "newspaper", "word_of_mouth", "existing_customer", "other",
+  ]);
+  const heardAbout = (body.heard_about ?? "").trim();
+  if (heardAbout && !HEARD_ABOUT.has(heardAbout)) return json({ error: "Invalid heard_about" }, 400);
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -110,6 +118,7 @@ Deno.serve(async (req) => {
     email,
     phone: phone || null,
     subject,
+    heard_about: heardAbout || null,
     message,
     attachment_url: body.attachment_url || null,
     utm_source: body.utm_source || null,
