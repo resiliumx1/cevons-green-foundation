@@ -16,6 +16,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { whatsappHref } from "@/data/cevonsContact";
 import { getAttribution } from "@/lib/attribution";
+import { HEARD_ABOUT_OPTIONS } from "@/lib/heardAbout";
 
 const subjects = [
   "General Inquiry",
@@ -41,6 +42,7 @@ interface FormState {
   email: string;
   phone: string;
   subject: string;
+  heardAbout: string;
   message: string;
 }
 
@@ -49,6 +51,7 @@ const initialForm: FormState = {
   email: "",
   phone: "",
   subject: "General Inquiry",
+  heardAbout: "",
   message: "",
 };
 
@@ -108,6 +111,7 @@ export function ContactForm() {
     const next: Partial<Record<keyof FormState, string>> = {};
     if (!form.fullName.trim()) next.fullName = "Please enter your name.";
     else if (form.fullName.trim().length > 200) next.fullName = "Name is too long.";
+    if (!form.heardAbout) next.heardAbout = "Please choose an option.";
     if (!form.email.trim()) next.email = "Please enter your email.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) next.email = "Enter a valid email address.";
     if (form.phone.trim()) {
@@ -175,6 +179,7 @@ export function ContactForm() {
         email: form.email.trim(),
         phone: form.phone.trim(),
         subject: form.subject,
+        heard_about: form.heardAbout,
         message: form.message.trim(),
         attachment_url,
         ...getUtm(),
@@ -264,6 +269,7 @@ export function ContactForm() {
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-body,#4A4A4A)] mb-3">What you sent</p>
             <dl className="text-sm space-y-2 text-[var(--cevons-dark,#101820)]">
               <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Subject</dt><dd className="font-medium">{form.subject}</dd></div>
+              <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">How you heard about us</dt><dd className="font-medium">{HEARD_ABOUT_OPTIONS.find((o) => o.value === form.heardAbout)?.label ?? "—"}</dd></div>
               <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Email</dt><dd>{form.email}</dd></div>
               {form.phone && <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Phone</dt><dd>{form.phone}</dd></div>}
               <div className="flex gap-2"><dt className="w-20 shrink-0 text-[var(--text-body,#4A4A4A)]">Message</dt><dd className="whitespace-pre-wrap">{form.message}</dd></div>
@@ -378,6 +384,24 @@ export function ContactForm() {
         </div>
 
         <div>
+          <label htmlFor="heardAbout" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">How did you hear about us?</label>
+          <select
+            id="heardAbout"
+            name="heardAbout"
+            required
+            value={form.heardAbout}
+            onChange={onChange}
+            aria-invalid={!!errors.heardAbout}
+            aria-describedby={errors.heardAbout ? "err-heardAbout" : undefined}
+            className={`${inputClass} appearance-none ${errors.heardAbout ? inputErrClass : ""}`}
+          >
+            <option value="" disabled>Select an option</option>
+            {HEARD_ABOUT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          {errors.heardAbout && <p id="err-heardAbout" className="mt-1 text-xs font-medium text-red-600">{errors.heardAbout}</p>}
+        </div>
+
+        <div>
           <label htmlFor="message" className="block text-sm font-semibold text-[var(--cevons-dark,#101820)] mb-1.5">Message</label>
           <textarea id="message" name="message" rows={5} value={form.message} onChange={onChange} placeholder="How can we help you?"
             aria-invalid={!!errors.message} aria-describedby={errors.message ? "err-message" : undefined}
@@ -437,6 +461,7 @@ export function ContactForm() {
                 <Row label="Email" value={form.email} />
                 {form.phone && <Row label="Phone" value={form.phone} />}
                 <Row label="Subject" value={form.subject} />
+                <Row label="How you heard about us" value={HEARD_ABOUT_OPTIONS.find((o) => o.value === form.heardAbout)?.label ?? "—"} />
                 <div>
                   <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--text-body,#4A4A4A)] mb-1">Message</dt>
                   <dd className="rounded-lg bg-[var(--cevons-cream,#FBF7EE)] px-4 py-3 text-[var(--cevons-dark,#101820)] max-h-44 overflow-y-auto whitespace-pre-wrap">{form.message}</dd>
