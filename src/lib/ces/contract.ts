@@ -88,6 +88,8 @@ export type CesBody = {
   referrer?: string;
   sourceUrl?: string;
   status?: string;
+  /** "How did you hear about us?" — machine value only, e.g. "truck_decal". */
+  heardAbout?: string;
   utm?: CesUtm;
   pipeline?: CesPipeline;
   branchCode?: string;
@@ -110,6 +112,7 @@ const LIMITS = {
   referrer: 1000,
   sourceUrl: 1000,
   status: 100,
+  heardAbout: 40,
   utm: 200,
 } as const;
 
@@ -236,6 +239,7 @@ export function buildCesBody(record: CesSourceRecord, mode: CesMode): BuildResul
     ["referrer", clamp(r["referrer"], "referrer", LIMITS.referrer, issues)],
     ["sourceUrl", httpUrl(r["landing_page"], "sourceUrl", issues)],
     ["status", clamp(r["status"], "status", LIMITS.status, issues)],
+    ["heardAbout", clamp(r["heard_about"], "heardAbout", LIMITS.heardAbout, issues)],
   ];
   for (const [key, value] of optional) {
     if (value !== undefined) (body as Record<string, unknown>)[key] = value;
