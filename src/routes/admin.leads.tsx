@@ -301,7 +301,7 @@ function LeadsList() {
         "reference", "created_at", "name", "email", "phone", "service", "category",
         "region", "status", "estimated_value", "utm_source", "message",
       ];
-      const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+      const cell = (v: unknown) => `"${String(v ?? "").replace(/^[\s]*([=+\-@\t\r|%])/, "'$1").replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
       const lines: string[] = [cols.join(",")];
       const CHUNK = 200;
       for (let i = 0; i < rows.length; i += CHUNK) {

@@ -318,7 +318,20 @@ export const saveReportTemplate = createServerFn({ method: "POST" })
     const input = data;
 
     const upload = async (base64: string, path: string, contentType: string) => {
-      const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+      if (typeof base64 !== "string" || base64.length > 14_000_000) throw new Error("File is too large (max 10 MB).");
+      let bytes: Uint8Array;
+      try { bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)); }
+      catch { throw new Error("The file could not be read."); }
+      if (bytes.length === 0 || bytes.length > 10 * 1024 * 1024) throw new Error("File is too large (max 10 MB).");
+      const b = bytes;
+      const ok = contentType === "image/png"
+        ? b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47
+        : contentType === "image/jpeg"
+          ? b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff
+          : contentType === "application/pdf"
+            ? b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46
+            : false;
+      if (!ok) throw new Error("The file type doesn't match. Use a PNG or JPG logo and a PDF letterhead.");
       const { error } = await context.supabase.storage
         .from(REPORTS_BUCKET)
         .upload(path, bytes, { contentType, upsert: true });

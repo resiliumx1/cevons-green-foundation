@@ -1,6 +1,17 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+/** Only send sign-in links that return to our own sites. */
+function isAllowedRedirect(value: string): boolean {
+  let u: URL;
+  try { u = new URL(value); } catch { return false; }
+  const h = u.hostname.toLowerCase();
+  if (u.protocol === "http:" && (h === "localhost" || h === "127.0.0.1")) return true;
+  if (u.protocol !== "https:") return false;
+  return h === "cevons.com" || h === "www.cevons.com" || h === "cevons.lovable.app"
+    || (h.endsWith(".lovable.app") && h.includes("b37380ed-9ae0-44bc-9cd4-24f76810d45b"));
+}
+
 type InviteInput = { email: string; role: string; redirectTo: string };
 
 const ROLES = ["owner", "admin", "editor", "contributor", "viewer"] as const;
@@ -25,7 +36,7 @@ export const inviteAdminUser = createServerFn({ method: "POST" })
     if (!(ROLES as readonly string[]).includes(role)) {
       throw new Error("Choose a valid role.");
     }
-    if (!/^https?:\/\//.test(redirectTo)) {
+    if (!isAllowedRedirect(redirectTo)) {
       throw new Error("Invalid redirect target.");
     }
     return { email, role, redirectTo };
@@ -114,7 +125,7 @@ export const resendAdminInvite = createServerFn({ method: "POST" })
     const id = String(input?.id ?? "");
     const redirectTo = String(input?.redirectTo ?? "");
     if (!id) throw new Error("Missing invitation.");
-    if (!/^https?:\/\//.test(redirectTo)) throw new Error("Invalid redirect target.");
+    if (!isAllowedRedirect(redirectTo)) throw new Error("Invalid redirect target.");
     return { id, redirectTo };
   })
   .handler(async ({ data, context }) => {
